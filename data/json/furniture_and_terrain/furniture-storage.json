@@ -795,7 +795,7 @@
         { "item": "water_faucet", "prob": 50 },
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "splinter", "count": 1, 20 ] }
+        { "item": "splinter", "count": [ 1, 20 ] }
          ]
         },
     "id": "f_displaycase",

@@ -22,7 +22,7 @@
     "name": "churn"
   },
   {
-    "type": "tool_quality"
+    "type": "tool_quality",
     "id": "LEATHER_AWL",
     "name": "awl"
   },
