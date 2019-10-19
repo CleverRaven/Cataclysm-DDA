@@ -1049,6 +1049,8 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
+    const std::string tracked_scent = type->scent_tracked;
+
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1071,7 +1073,18 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+        const std::string type_scent = g->scent.get_type( dest );
+
+        bool right_scent = false;
+        if( type_scent.empty() ) {
+            if( tracked_scent.empty() ) {
+                right_scent = true;
+            }
+        } else if( !tracked_scent.empty() ) {
+            right_scent = tracked_scent == type_scent;
+        }
+
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
