@@ -1129,6 +1129,16 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
 
+            // Add scent type to the overlay_strings list for every visible tile when displaying scent
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
+                const std::string scent_type = g->scent.get_type( pos );
+                if( !scent_type.empty() ) {
+                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
+                                             formatted_text( scent_type, 8 + catacurses::yellow,
+                                                     NORTH ) );
+                }
+            }
+
             if( g->display_overlay_state( ACTION_DISPLAY_RADIATION ) ) {
                 const auto rad_override = radiation_override.find( pos );
                 const bool rad_overridden = rad_override != radiation_override.end();

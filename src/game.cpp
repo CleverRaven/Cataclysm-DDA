@@ -1496,7 +1496,7 @@ bool game::do_turn()
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
         !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
-        scent.set( u.pos(), u.scent );
+        scent.set( u.pos(), u.scent, u.get_scent_type() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -2367,6 +2367,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -6673,6 +6674,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -6812,7 +6814,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 add_msg( m_info, _( "You can't travel there." ) );
                 continue;
             }
-        } else if( action == "debug_scent" ) {
+        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
             }
