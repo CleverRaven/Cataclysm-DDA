@@ -11,10 +11,7 @@
     "size": 1000,
     "folded_volume": 20,
     "breaks_into": [ { "item": "m240", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "flags": [ "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -29,10 +26,7 @@
     "size": 1000,
     "folded_volume": 20,
     "breaks_into": [ { "item": "m60", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "flags": [ "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -47,10 +41,7 @@
     "size": 40,
     "folded_volume": 14,
     "breaks_into": [ { "item": "m249", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "flags": [ "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -66,10 +57,7 @@
     "size": 1600,
     "folded_volume": 20,
     "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "flags": [ "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -84,9 +72,6 @@
     "size": 2000,
     "range": 12,
     "breaks_into": [ { "item": "m134", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   }
 ]
