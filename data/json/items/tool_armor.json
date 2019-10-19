@@ -1560,7 +1560,8 @@
         "max_volume": "1 L",
         "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
-      "CROWBAR"
+      "CROWBAR",
+      "HAMMER"
     ],
     "qualities": [
       [ "HAMMER", 3 ],

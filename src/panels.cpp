@@ -790,8 +790,17 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
             c_pwr = c_red;
         }
-        s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
-                pgettext( "energy unit: kilojoule", "kJ" );
+
+        if( u.get_power_level() < 1_J ) {
+            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: millijoule", "mJ" );
+        } else if( u.get_power_level() < 1_kJ ) {
+            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: joule", "J" );
+        } else {
+            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: kilojoule", "kJ" );
+        }
     }
     return std::make_pair( c_pwr, s_pwr );
 }
@@ -1081,6 +1090,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 11, 0 ), c_light_gray, _( "Time: ???" ) );
     }
     //display moon
@@ -1349,6 +1359,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else if( g->get_levz() >= 0 ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
@@ -1877,6 +1888,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 

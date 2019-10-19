@@ -179,7 +179,7 @@ static int player_uilist()
                                          _( "Level a spell" ) ) );
     }
 
-    return uilist( _( "Player..." ), uilist_initializer );
+    return uilist( _( "Player…" ), uilist_initializer );
 }
 
 static int info_uilist( bool display_all_entries = true )
@@ -216,7 +216,7 @@ static int info_uilist( bool display_all_entries = true )
                                    debug_only_options.end() );
     }
 
-    return uilist( _( "Info..." ), uilist_initializer );
+    return uilist( _( "Info…" ), uilist_initializer );
 }
 
 static int teleport_uilist()
@@ -227,7 +227,7 @@ static int teleport_uilist()
         { uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
     };
 
-    return uilist( _( "Teleport..." ), uilist_initializer );
+    return uilist( _( "Teleport…" ), uilist_initializer );
 }
 
 static int spawning_uilist()
@@ -241,7 +241,7 @@ static int spawning_uilist()
         { uilist_entry( DEBUG_SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ) },
     };
 
-    return uilist( _( "Spawning..." ), uilist_initializer );
+    return uilist( _( "Spawning…" ), uilist_initializer );
 }
 
 static int map_uilist()
@@ -259,7 +259,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
     };
 
-    return uilist( _( "Map..." ), uilist_initializer );
+    return uilist( _( "Map…" ), uilist_initializer );
 }
 
 /**
@@ -271,16 +271,16 @@ static int map_uilist()
 static int debug_menu_uilist( bool display_all_entries = true )
 {
     std::vector<uilist_entry> menu = {
-        { uilist_entry( 1, true, 'i', _( "Info..." ) ) },
+        { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
     };
 
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
             { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
-            { uilist_entry( 2, true, 's', _( "Spawning..." ) ) },
-            { uilist_entry( 3, true, 'p', _( "Player..." ) ) },
-            { uilist_entry( 4, true, 't', _( "Teleport..." ) ) },
-            { uilist_entry( 5, true, 'm', _( "Map..." ) ) },
+            { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
+            { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
+            { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
+            { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
         };
 
         // insert debug-only menu right after "Info".
@@ -1290,9 +1290,40 @@ void debug()
 
         // Damage Self
         case DEBUG_DAMAGE_SELF: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.query();
+            body_part part;
             int dbg_damage;
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), u.hp_cur[hp_torso] ) ) {
-                u.hp_cur[hp_torso] -= dbg_damage;
+            switch( smenu.ret ) {
+                case 0:
+                    part = bp_torso;
+                    break;
+                case 1:
+                    part = bp_head;
+                    break;
+                case 2:
+                    part = bp_arm_l;
+                    break;
+                case 3:
+                    part = bp_arm_r;
+                    break;
+                case 4:
+                    part = bp_leg_l;
+                    break;
+                case 5:
+                    part = bp_leg_r;
+                    break;
+                default:
+                    break;
+            }
+            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), part ) ) {
+                u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }
         }

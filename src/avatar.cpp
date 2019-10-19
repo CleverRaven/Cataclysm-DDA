@@ -393,7 +393,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( !has_identified( it.typeId() ) ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
         return true;
@@ -554,9 +554,9 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( !continuous || activity.position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         } else if( !learners.empty() || !fun_learners.empty() ) {
-            add_msg( m_info, _( "You read aloud..." ) );
+            add_msg( m_info, _( "You read aloud…" ) );
         }
     }
 
@@ -840,7 +840,7 @@ void avatar::do_read( item &book )
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
                  book.type_name(), names );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
-            add_msg( m_info, _( "Maybe you should find something new to read..." ) );
+            add_msg( m_info, _( "Maybe you should find something new to read…" ) );
         }
     }
 
@@ -917,9 +917,9 @@ void avatar::wake_up()
         }
         if( has_effect( effect_slept_through_alarm ) ) {
             if( has_bionic( bio_watch ) ) {
-                add_msg( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
-                add_msg( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
             }
         }
     }
@@ -945,19 +945,31 @@ void avatar::vomit()
 void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
+
+    int fatigue_penalty = 0;
     if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+        fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
     } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+        fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
     } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+        fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
     } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+        fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
-    morale->display( equilibrium );
+
+    int pain_penalty = 0;
+    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+    }
+
+    morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::calc_focus_equilibrium() const
+int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
@@ -976,7 +988,7 @@ int avatar::calc_focus_equilibrium() const
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
-    if( !has_trait( trait_CENOBITE ) ) {
+    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
         eff_morale = eff_morale - get_perceived_pain();
     }
 
@@ -989,7 +1001,7 @@ int avatar::calc_focus_equilibrium() const
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
         * Each block of 50 takes twice as many morale points as the previous one:
-        * 50 focus at 50 morale (as before)
+        * 150 focus at 50 morale (as before)
         * 200 focus at 150 morale (100 more morale)
         * 250 focus at 350 morale (200 more morale)
         * ...
@@ -1374,7 +1386,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
             break;
         }
         case CMM_RUN: {
-            if( stamina > 0 && !has_effect( effect_winded ) ) {
+            if( can_run() ) {
                 if( is_hauling() ) {
                     stop_hauling();
                 }
@@ -1391,9 +1403,12 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 if( is_mounted() ) {
                     // mounts dont currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else if( get_working_leg_count() < 2 ) {
+                    add_msg( m_bad, _( "You need two functional legs to run." ) );
                 } else {
                     add_msg( m_bad, _( "You're too tired to run." ) );
                 }
+                return;
             }
             break;
         }
@@ -1446,6 +1461,11 @@ void avatar::cycle_move_mode()
     unsigned char as_uchar = static_cast<unsigned char>( move_mode );
     as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
     set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    // if a movemode is disabled then just cycle to the next one
+    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    }
 }
 
 bool avatar::wield( item &target )

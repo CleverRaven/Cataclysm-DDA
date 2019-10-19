@@ -1395,21 +1395,48 @@
   {
     "type": "technique",
     "id": "tec_taichi_disarm",
-    "name": "disarm",
+    "name": "Disarm",
+    "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
     "min_unarmed": 3,
     "unarmed_allowed": true,
-    "disarms": true,
-    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
+    "crit_ok": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_palm",
+    "name": "Palm Strike",
+    "messages": [ "You palm strike %s", "<npcname> palm strikes %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_counter",
+    "name": "Grasp the Sparrow's Tail",
+    "messages": [ "You divert %s's attack and lead them to the ground", "<npcname> diverts %s's attack and lead them to the ground" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.2 ] ]
   },
   {
     "type": "technique",
     "id": "tec_taichi_precise",
-    "name": "precise strike",
+    "name": "Double Palm Strike",
+    "messages": [ "You double-handed palm strike %s", "<npcname> double-handed palm strikes %s" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2,
-    "messages": [ "You strike %s", "<npcname> strikes %s" ]
+    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "knockback_dist": 1,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
   },
   {
     "type": "technique",

@@ -148,6 +148,48 @@
     ]
   },
   {
+    "result": "programmable_autopilot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 5,
+    "time": "1200 m",
+    "autolearn": false,
+    "book_learn": [
+      [ "manual_electronics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "advanced_electronics", 3 ],
+      [ "recipe_lab_elec", 3 ],
+      [ "textbook_anarch", 3 ]
+    ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  },
+  {
     "result": "minifridge",
     "type": "recipe",
     "copy-from": "minifreezer",

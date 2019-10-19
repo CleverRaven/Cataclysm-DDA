@@ -377,6 +377,7 @@ This section describes each json file and their contents. Each json has their ow
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| passive_fuel_efficiency  | (_optional_) Fraction of fuel energy passively converted into power. Only useful for muscle powered CBM (default: `0`)
 | exothermic_power_gen     | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
 | power_gen_emission       | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
@@ -1148,7 +1149,7 @@ See also VEHICLE_JSON.md
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
-"weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
+"weight" : "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume" : "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
 "integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)

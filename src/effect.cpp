@@ -54,7 +54,7 @@ void weed_msg( player &p )
         switch( msg ) {
             case 0: // Freakazoid
                 p.add_msg_if_player(
-                    _( "The scariest thing in the world would be... if all the air in the world turned to WOOD!" ) );
+                    _( "The scariest thing in the world would be… if all the air in the world turned to WOOD!" ) );
                 return;
             case 1: // Simpsons
                 p.add_msg_if_player(
@@ -67,7 +67,7 @@ void weed_msg( player &p )
                 } else if( smarts < 3 ) { // It's Always Sunny in Philadelphia
                     p.add_msg_if_player( _( "Science is a liar sometimes." ) );
                 } else { // Durr
-                    p.add_msg_if_player( _( "Science is... wait, what was I talking about again?" ) );
+                    p.add_msg_if_player( _( "Science is… wait, what was I talking about again?" ) );
                 }
                 return;
             case 3: // Dazed and Confused
@@ -83,7 +83,7 @@ void weed_msg( player &p )
                 return;
             case 4:
                 if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
-                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill... on weed?" ) );
+                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
                     if( one_in( 2 ) ) {
                         p.add_msg_if_player(
                             _( "Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!" ) );
@@ -92,13 +92,13 @@ void weed_msg( player &p )
                         }
                     }
                 } else if( p.has_amount( "holybook_bible", 1 ) ) {
-                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29..." ) );
+                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
                 } else { // Big Lebowski
-                    p.add_msg_if_player( _( "That rug really tied the room together..." ) );
+                    p.add_msg_if_player( _( "That rug really tied the room together…" ) );
                 }
                 return;
             case 5:
-                p.add_msg_if_player( _( "I used to do drugs...  I still do, but I used to, too." ) );
+                p.add_msg_if_player( _( "I used to do drugs…  I still do, but I used to, too." ) );
             default:
                 return;
         }
@@ -110,12 +110,12 @@ void weed_msg( player &p )
                 return;
             case 1: // Freakazoid
                 p.add_msg_if_player(
-                    _( "Okay, like, the scariest thing in the world would be... if like you went to grab something and it wasn't there!" ) );
+                    _( "Okay, like, the scariest thing in the world would be… if like you went to grab something and it wasn't there!" ) );
                 return;
             case 2: // Simpsons
                 p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
                 if( smarts > 2 && one_in( 2 ) ) {
-                    p.add_msg_if_player( _( "...oh, there they go." ) );
+                    p.add_msg_if_player( _( "…oh, there they go." ) );
                 }
                 return;
             case 3: // Bill Hicks
@@ -139,7 +139,7 @@ void weed_msg( player &p )
                     p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "...But never at dusk." ) );
+                    p.add_msg_if_player( _( "…But never at dusk." ) );
                 }
                 return;
             case 5:
@@ -156,9 +156,9 @@ void weed_msg( player &p )
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
                 if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
-                    p.add_msg_if_player( _( "Eh... maybe not." ) );
+                    p.add_msg_if_player( _( "Eh… maybe not." ) );
                 } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
-                    p.add_msg_if_player( _( "I guess, maybe, without the cheese... yeah." ) );
+                    p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;
             case 2: // Dazed and Confused
