@@ -2114,7 +2114,8 @@ int player::attack_speed( const item &weap ) const
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
-    const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() );
+    const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
+                                ( get_stamina_max() );
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
     const float ma_mult = mabuff_attack_cost_mult();

@@ -2827,7 +2827,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
             if( act->values.empty() ) {
                 act->values.push_back( p->get_stamina() );
             }
-            p->set_stamina(act->values[0] - 1);
+            p->set_stamina( act->values[0] - 1 );
             act->values[0] = p->get_stamina();
         }
     } else {
@@ -2933,11 +2933,11 @@ void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
     if( !act->values.empty() ) {
         const int stamina_threshold = act->values[0];
         const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->get_stamina();
-        if( p->get_stamina()< stamina_threshold && p->get_stamina()<= stamina_initial ) {
+        if( p->get_stamina() < stamina_threshold && p->get_stamina() <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
-                      act->values.front(), p->get_stamina());
+                      act->values.front(), p->get_stamina() );
         }
-    } else if( p->get_stamina()< p->get_stamina_max() ) {
+    } else if( p->get_stamina() < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
     } else {
         p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );

@@ -9963,7 +9963,7 @@ void game::on_move_effects()
         if( !u.can_run() ) {
             u.toggle_run_mode();
         }
-        if( u.get_stamina()< u.get_stamina_max() / 5 && one_in( u.get_stamina()) ) {
+        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }
