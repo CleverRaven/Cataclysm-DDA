@@ -1260,47 +1260,76 @@
   },
   {
     "type": "martial_art",
-    "id": "style_tai_chi",
-    "name": "Tai Chi",
-    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
-    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
-    "learn_difficulty": 4,
-    "arm_block": 1,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "tai_chi_block",
-        "name": "Tai Chi",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "block", "per", 1.0 ] ],
-        "description": "+1 Block.  Perception decreases damage when blocking.",
-        "bonus_blocks": 1
-      }
-    ],
-    "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_taekwondo",
     "name": "Taekwondo",
-    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
     "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
-    "arm_block": 2,
+    "arm_block": 1,
     "leg_block": 3,
     "force_unarmed": true,
     "static_buffs": [
       {
-        "id": "taekwondo_static",
-        "name": "Taekwondo",
+        "id": "buff_taekwondo_static",
+        "name": "Taekwondo Stance",
+        "description": "Using your legs to attack allows your hands to be free for better defense.\n\nBlocked damage decreased by 50%% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
-        "description": "Strength decreases damage when blocking."
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      },
+      {
+        "id": "buff_taekwondo_static2",
+        "name": "Unhindered",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "strictly_unarmed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],
-    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+    "techniques": [ "tec_taekwondo_disarm", "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tai_chi",
+    "name": "Tai Chi",
+    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
+    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 0,
+    "static_buffs": [
+      {
+        "id": "buff_tai_chi_static",
+        "name": "Tai Chi Stance",
+        "description": "You are focused of defense and predicting your opponents attacks.\n\n+1 Block attempts, blocked damage reduced by 100%% Perception.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "block", "per", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_tai_chi_ondodge",
+        "name": "Repulse the Monkey",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20%% of Perception, gain bash Armor Pentration equal to 50%% of Perception.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "arpen", "bash", "per", 0.5 ], [ "hit", "per", 0.2 ] ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_tai_chi_onpause",
+        "name": "Cross Hands",
+        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+1.0 Dodge skill, blocked damage reduced by 50%% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "block", "per", 0.5 ], [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_taichi_disarm", "tec_taichi_palm", "tec_taichi_counter", "tec_taichi_precise" ]
   },
   {
     "type": "martial_art",

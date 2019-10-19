@@ -385,7 +385,7 @@ void game::chat()
     if( !available.empty() ) {
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
                         string_format( _( "Talk to %s" ), available.front()->name ) :
-                        _( "Talk to..." )
+                        _( "Talk to…" )
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
@@ -401,13 +401,13 @@ void game::chat()
     if( !guards.empty() ) {
         nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
                         string_format( _( "Tell %s to follow" ), guards.front()->name ) :
-                        _( "Tell someone to follow..." )
+                        _( "Tell someone to follow…" )
                       );
     }
     if( !followers.empty() ) {
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
                         string_format( _( "Tell %s to guard" ), followers.front()->name ) :
-                        _( "Tell someone to guard..." )
+                        _( "Tell someone to guard…" )
                       );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
         nmenu.addentry( NPC_CHAT_MOUNT, true, 'M', _( "Tell everyone on your team to mount up" ) );
@@ -416,7 +416,7 @@ void game::chat()
                         _( "Tell everyone on your team to prepare for danger" ) );
         nmenu.addentry( NPC_CHAT_CLEAR_OVERRIDES, true, 'r',
                         _( "Tell everyone on your team to relax (Clear Overrides)" ) );
-        nmenu.addentry( NPC_CHAT_ORDERS, true, 'o', _( "Tell everyone on your team to temporarily..." ) );
+        nmenu.addentry( NPC_CHAT_ORDERS, true, 'o', _( "Tell everyone on your team to temporarily…" ) );
     }
     std::string message;
     std::string yell_msg;
@@ -900,7 +900,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( trainable.empty() && styles.empty() ) {
             return _( "Sorry, but it doesn't seem I have anything to teach you." );
         } else {
-            return _( "Here's what I can teach you..." );
+            return _( "Here's what I can teach you…" );
         }
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         // TODO: this ignores the z-component
@@ -1211,7 +1211,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
             //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
             std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
-                                              _( "%s: %d (%d%%) -> %d" ),
+                                              _( "%s: %d (%d%%) -> %d (%d%%)" ),
                                               trained.obj().name(), cur_level, cur_level_exercise,
                                               next_level, next_level_exercise, cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
@@ -1485,7 +1485,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
                     phrase.replace( fa, l, pgettext( "punctuation", "." ) );
                     break;
                 case 1:
-                    phrase.replace( fa, l, pgettext( "punctuation", "..." ) );
+                    phrase.replace( fa, l, pgettext( "punctuation", "…" ) );
                     break;
                 case 2:
                     phrase.replace( fa, l, pgettext( "punctuation", "!" ) );
@@ -3099,7 +3099,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( "I don't <swear> trust you enough to eat THIS..." );
+        reason = _( "I don't <swear> trust you enough to eat THIS…" );
         return REFUSED;
     }
 
@@ -3107,7 +3107,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     int amount_used = 1;
     if( to_eat.is_food() ) {
         if( !p.eat( to_eat ) ) {
-            reason = _( "It doesn't look like a good idea to consume this..." );
+            reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         }
     } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
@@ -3184,7 +3184,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             if( given.is_container() ) {
                 given.on_contents_changed();
             }
-            return _( "Here we go..." );
+            return _( "Here we go…" );
         }
     }
 
@@ -3244,7 +3244,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
                 reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason += _( "...or to store anything else for that matter." );
+                reason += _( "…or to store anything else for that matter." );
             }
         }
         if( !p.can_pickWeight( given ) ) {

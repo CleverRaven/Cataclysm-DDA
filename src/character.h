@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "player_activity.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -72,6 +73,20 @@ enum vision_modes {
     VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
+};
+
+enum character_movemode : unsigned char {
+    CMM_WALK = 0,
+    CMM_RUN = 1,
+    CMM_CROUCH = 2,
+    CMM_COUNT
+};
+
+static const std::array< std::string, CMM_COUNT > character_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
 };
 
 enum fatigue_levels {
@@ -354,9 +369,15 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
+        /** Returns true if the player is wearing an active optical cloak */
+        bool is_wearing_active_optcloak() const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
+
+        bool is_invisible() const;
+        /** Checks is_invisible() as well as other factors */
+        int visibility( bool check_color = false, int stillness = 0 ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
         body_part_set exclusive_flag_coverage( const std::string &flag ) const;
@@ -364,6 +385,11 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
+        /** Check against the character's current movement mode */
+        bool movement_mode_is( character_movemode mode ) const;
+
+        virtual void set_movement_mode( character_movemode mode ) = 0;
+
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
@@ -456,7 +482,11 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         bool is_mounted() const;
+        void dismount();
+        void forced_dismount();
 
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
@@ -464,12 +494,14 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled */
+        /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( hp_part limb ) const;
         /** Returns true if the limb is hindered(40% or less hp) */
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** source of truth of whether a Character can run */
+        bool can_run();
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
@@ -872,6 +904,13 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
+        /**
+         * Removes currently wielded item (if any) and replaces it with the target item.
+         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
+        virtual bool wield( item &target ) = 0;
+
         void drop_invalid_inventory();
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
@@ -883,6 +922,16 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+
+
+        // drawing related stuff
+        /**
+         * Returns a list of the IDs of overlays on this character,
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::string> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
@@ -997,6 +1046,10 @@ class Character : public Creature, public visitable<Character>
          */
         void add_traits();
         void add_traits( points_left &points );
+        /** Returns true if the player has crossed a mutation threshold
+         *  Player can only cross one mutation threshold.
+         */
+        bool crossed_threshold() const;
 
         // --------------- Values ---------------
         std::string name;
@@ -1005,7 +1058,12 @@ class Character : public Creature, public visitable<Character>
         std::list<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
+        // Means player sit inside vehicle on the tile he is now
+        bool in_vehicle;
+        bool hauling;
 
+        player_activity activity;
+        std::list<player_activity> backlog;
         inventory inv;
         itype_id last_item;
         item weapon;
@@ -1024,6 +1082,24 @@ class Character : public Creature, public visitable<Character>
         int mounted_creature_id;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
+        /** Legacy activity assignment, should not be used where resuming is important. */
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
+                              int index = -1, int pos = INT_MIN,
+                              const std::string &name = "" );
+        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
+        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Check if player currently has a given activity */
+        bool has_activity( const activity_id &type ) const;
+        /** Check if player currently has any of the given activities */
+        bool has_activity( const std::vector<activity_id> &types ) const;
+        void resume_backlog_activity();
+        void cancel_activity();
 
         void initialize_stomach_contents();
 
@@ -1087,6 +1163,44 @@ class Character : public Creature, public visitable<Character>
 
         void spores();
         void blossoms();
+
+        /** Handles rooting effects */
+        void rooted_message() const;
+        void rooted();
+
+        /** Adds "sleep" to the player */
+        void fall_asleep();
+        void fall_asleep( const time_duration &duration );
+        /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
+        std::string is_snuggling() const;
+
+        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
+        void update_vitamins( const vitamin_id &vit );
+        /**
+         * Check current level of a vitamin
+         *
+         * Accesses level of a given vitamin.  If the vitamin_id specified does not
+         * exist then this function simply returns 0.
+         *
+         * @param vit ID of vitamin to check level for.
+         * @returns current level for specified vitamin
+         */
+        int vitamin_get( const vitamin_id &vit ) const;
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param vit ID of vitamin to modify
+         * @param qty amount by which to adjust vitamin (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if vitamin does not exist
+         */
+        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+
+        /** Returns true if the player is wearing something on the entered body_part */
+        bool wearing_something_on( body_part bp ) const;
+        /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
+        double footwear_factor() const;
+        /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
     protected:
         Character();
         Character( Character && );
@@ -1170,6 +1284,10 @@ class Character : public Creature, public visitable<Character>
         int faction_api_version = 2;  // faction API versioning
         faction_id fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac = nullptr;
+
+        character_movemode move_mode;
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 
     private:
         // a cache of all active enchantment values.

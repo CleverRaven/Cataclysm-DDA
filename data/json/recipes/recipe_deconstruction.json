@@ -1515,13 +1515,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
-    "result": "down_blanket",
-    "type": "uncraft",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
-  },
-  {
     "result": "down_pillow",
     "type": "uncraft",
     "time": "1 m",

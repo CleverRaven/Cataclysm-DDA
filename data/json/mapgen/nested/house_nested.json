@@ -957,6 +957,23 @@
     "type": "mapgen",
     "method": "json",
     "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_E_5",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "T @",
+        "T @",
+        "C @"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_N_6",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -1162,6 +1179,172 @@
         "NKKK  ",
         "  Kcc ",
         "   cZ "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "playset_4x4_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "GG c",
+        "GG c",
+        "  II",
+        "N II"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "playset_4x4_2",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H   ",
+        "H  I",
+        "G  I",
+        " ccI"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "firepit_5x5_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ccc ",
+        "     ",
+        "  i  ",
+        "     ",
+        " ccc "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [ { "item": "stash_wood", "x": 1, "y": 2, "chance": 100, "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "firepit_5x5_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "S   S",
+        "S i S",
+        "S    ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [ { "item": "stash_wood", "x": 2, "y": 1, "chance": 100, "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "reflecting_pool_5x5_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " MMM ",
+        " fMf ",
+        " MMM ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { " ": "t_concrete", "f": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "reflecting_pool_5x5_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " MMM ",
+        " MZM ",
+        " MMM ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { " ": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "PPP",
+        "PPP",
+        "PPP"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [
+        { "item": "farming_tools", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "111",
+        "   ",
+        "111"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [
+        { "item": "farming_tools", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "111",
+        "1Z1",
+        "111"
       ],
       "palettes": [ "house_w_nest_garden_palette" ]
     }

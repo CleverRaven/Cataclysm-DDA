@@ -628,7 +628,7 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
+    popup_status( _( "Please wait while the world data loads…" ), _( "Loading core data" ) );
     loading_ui ui( true );
     load_core_data( ui );
 
@@ -869,6 +869,14 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
+        const character_id &id = temp->getID();
+        const auto found = std::find_if( active_npc.begin(), active_npc.end(),
+        [id]( const std::shared_ptr<npc> &n ) {
+            return n->getID() == id;
+        } );
+        if( found != active_npc.end() ) {
+            continue;
+        }
         if( temp->is_active() ) {
             continue;
         }
@@ -1010,7 +1018,7 @@ bool game::cleanup_at_end()
                 vRip.emplace_back( "              |   _        |" );
                 vRip.emplace_back( "              |__/         |" );
                 vRip.emplace_back( "             % / `--.      |%" );
-                vRip.emplace_back( "         * .%%|          -< @%%%" );
+                vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
                 vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
                 vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
                 vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
@@ -1037,7 +1045,7 @@ bool game::cleanup_at_end()
                 vRip.emplace_back( "|                                         |" );
                 vRip.emplace_back( "|_____.-._______            __/|__________|" );
                 vRip.emplace_back( "             % / `_-.   _  |%" );
-                vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" );
+                vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
                 vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
                 vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
                 vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
@@ -1497,7 +1505,7 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
-    following_vehicles();
+    autopilot_vehicles();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -1560,7 +1568,7 @@ bool game::do_turn()
 
         if( calendar::once_every( 1_minutes ) ) {
             query_popup()
-            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .wait_message( "%s", _( "Wait till you wake up…" ) )
             .on_top( true )
             .show();
 
@@ -1633,12 +1641,14 @@ void game::process_activity()
     }
 }
 
-void game::following_vehicles()
+void game::autopilot_vehicles()
 {
     for( auto &veh : m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->is_following ) {
-            v->drive_to_local_target( u.pos(), true );
+            v->drive_to_local_target( g->m.getabs( u.pos() ), true );
+        } else if( v->is_patrolling ) {
+            v->autopilot_patrol();
         }
     }
 }
@@ -2537,7 +2547,7 @@ bool game::is_game_over()
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
         } else if( get_option<std::string>( "DEATHCAM" ) == "ask" ) {
-            uquit = query_yn( _( "Watch the last moments of your life...?" ) ) ?
+            uquit = query_yn( _( "Watch the last moments of your life…?" ) ) ?
                     QUIT_WATCH : QUIT_DIED;
         } else if( get_option<std::string>( "DEATHCAM" ) == "never" ) {
             uquit = QUIT_DIED;
@@ -3029,21 +3039,21 @@ void game::disp_faction_ends()
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             if( elem.second.name == "Your Followers" ) {
-                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
+                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm…" ) );
                 display_table( w, "", 1, data );
             } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
                 if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
                            "resources in a handful of fortified bases along the coast.  Without the men "
-                           "or material to rebuild, the soldiers that remained lost all hope..." ) );
+                           "or material to rebuild, the soldiers that remained lost all hope…" ) );
                 } else {
                     data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
                                           "the tattered remains of the once glorious union.  Spurred on by small "
                                           "successes, a number of operations to re-secure facilities met with limited "
                                           "success.  Forced to eventually consolidate to large bases, the Old Guard left "
                                           "these facilities in the hands of the few survivors that remained.  As the "
-                                          "years past, little materialized from the hopes of rebuilding civilization..." ) );
+                                          "years past, little materialized from the hopes of rebuilding civilization…" ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
             } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
@@ -3051,13 +3061,13 @@ void game::disp_faction_ends()
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
                                           "destroyed any hope of maintaining a civilized enclave.  The merchants and "
                                           "craftsmen dispersed to found new colonies but most became victims of "
-                                          "marauding bandits.  Those who survived never found a place to call home..." ) );
+                                          "marauding bandits.  Those who survived never found a place to call home…" ) );
                 } else {
                     data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
                                           "once profitable trade routes were plundered by bandits and thugs.  In squalor "
                                           "and filth the first generations born after the cataclysm are told stories of "
                                           "the old days when food was abundant and the children were allowed to play in "
-                                          "the sun..." ) );
+                                          "the sun…" ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
             } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
@@ -3081,7 +3091,7 @@ void game::disp_faction_ends()
                         _( "    The lone bands of survivors who wandered the now alien world dwindled in "
                            "number through the years.  Unable to compete with the growing number of "
                            "monstrosities that had adapted to live in their world, those who did survive "
-                           "lived in dejected poverty and hopelessness..." ) );
+                           "lived in dejected poverty and hopelessness…" ) );
                 } else {
                     data.emplace_back(
                         _( "    The scavengers who flourished in the opening days of the cataclysm found "
@@ -3089,7 +3099,7 @@ void game::disp_faction_ends()
                            "old world.  Enormous hordes made cities impossible to enter while new "
                            "eldritch horrors appeared mysteriously near old research labs.  But on the "
                            "fringes of where civilization once ended, bands of hunter-gatherers began to "
-                           "adopt agrarian lifestyles in fortified enclaves..." ) );
+                           "adopt agrarian lifestyles in fortified enclaves…" ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
@@ -3106,7 +3116,7 @@ void game::disp_faction_ends()
                                           "brought the warlords abundant territory and slaves but little in the way of "
                                           "stability.  Within weeks, infighting led to civil war as tribes vied for "
                                           "leadership of the faction.  When only one warlord finally secured control, "
-                                          "there was nothing left to fight for... just endless cities full of the dead." ) );
+                                          "there was nothing left to fight for… just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
             }
@@ -5293,6 +5303,9 @@ void game::control_vehicle()
             u.clear_memorized_tile( m.getabs( target ) );
         }
         veh->is_following = false;
+        veh->is_patrolling = false;
+        veh->autopilot_on = false;
+        veh->is_autodriving = false;
     }
 }
 
@@ -5854,6 +5867,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+                        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
     }
 
@@ -5992,7 +6006,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         const int max_width = getmaxx( w_look ) - column - 1;
         for( const auto &it : item_names ) {
             if( line >= last_line - 2 ) {
-                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here..." ) );
+                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here…" ) );
                 break;
             }
 
@@ -8324,7 +8338,7 @@ void game::butcher()
     }
     const auto helpers = u.get_crafting_helpers();
     for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task..." ), np->name );
+        add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
     }
     switch( butcher_select ) {
@@ -8457,10 +8471,10 @@ void game::eat( item_location( *menu )( player &p ), int pos )
         u.consume( pos );
 
     } else if( u.consume_item( *it ) ) {
-        if( it->is_food_container() ) {
+        if( it->is_food_container() || !u.can_consume_as_is( *it ) ) {
             it->contents.erase( it->contents.begin() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else if( u.can_consume_as_is( *it ) ) {
+        } else {
             item_loc.remove_item();
         }
     }
@@ -9109,7 +9123,12 @@ bool game::walk_move( const tripoint &dest_loc )
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
+    int multiplier = 1;
+    if( u.is_on_ground() ) {
+        multiplier *= 3;
+    }
+
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9131,11 +9150,11 @@ bool game::walk_move( const tripoint &dest_loc )
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
-        if( u.movement_mode_is( PMM_WALK ) ) {
+        if( u.movement_mode_is( CMM_WALK ) ) {
             crit->use_mech_power( -2 );
-        } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+        } else if( u.movement_mode_is( CMM_CROUCH ) ) {
             crit->use_mech_power( -1 );
-        } else if( u.movement_mode_is( PMM_RUN ) ) {
+        } else if( u.movement_mode_is( CMM_RUN ) ) {
             crit->use_mech_power( -3 );
         }
     } else {
@@ -9205,9 +9224,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.movement_mode_is( PMM_RUN ) ) {
+            if( u.movement_mode_is( CMM_RUN ) ) {
                 volume *= 1.5;
-            } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
                 volume /= 2;
             }
             if( u.is_mounted() ) {
@@ -9922,28 +9941,16 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( one_in( 8 ) ) {// active power gen
-            if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
-            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_active_bionic( bid ) ) {
-                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-                }
+        for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+            if( u.has_active_bionic( bid ) ) {// active power gen
+                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+            } else if( u.has_bionic( bid ) ) {// passive power gen
+                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-        if( one_in( 160 ) ) {//  passive power gen
-            if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
-            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_bionic( bid ) ) {
-                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-                }
-            }
-        }
+
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            if( u.movement_mode_is( PMM_RUN ) ) {
+            if( u.movement_mode_is( CMM_RUN ) ) {
                 u.mod_power_level( -20_kJ );
             } else {
                 u.mod_power_level( -10_kJ );
@@ -9951,8 +9958,9 @@ void game::on_move_effects()
         }
     }
 
-    if( u.movement_mode_is( PMM_RUN ) ) {
-        if( u.stamina <= 0 ) {
+
+    if( u.movement_mode_is( CMM_RUN ) ) {
+        if( !u.can_run() ) {
             u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {
@@ -10378,11 +10386,11 @@ void game::vertical_move( int movez, bool force )
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
             crit->use_mech_power( -1 );
-            if( u.movement_mode_is( PMM_WALK ) ) {
+            if( u.movement_mode_is( CMM_WALK ) ) {
                 crit->use_mech_power( -2 );
-            } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
                 crit->use_mech_power( -1 );
-            } else if( u.movement_mode_is( PMM_RUN ) ) {
+            } else if( u.movement_mode_is( CMM_RUN ) ) {
                 crit->use_mech_power( -3 );
             }
         }
@@ -10568,7 +10576,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     } else if( u.has_trait( trait_VINES2 ) || u.has_trait( trait_VINES3 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Use your vines to descend?" ) ) ) {
             if( u.has_trait( trait_VINES2 ) ) {
-                if( query_yn( _( "Detach a vine?  It'll hurt, but you'll be able to climb back up..." ) ) ) {
+                if( query_yn( _( "Detach a vine?  It'll hurt, but you'll be able to climb back up…" ) ) ) {
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
@@ -11794,7 +11802,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
                 break;
 
             case AEP_EVIL:
-                add_msg( m_warning, _( "You feel an evil presence..." ) );
+                add_msg( m_warning, _( "You feel an evil presence…" ) );
                 break;
 
             case AEP_SCHIZO:
@@ -11810,7 +11818,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
                 break;
 
             case AEP_ATTENTION:
-                add_msg( m_warning, _( "You feel an otherworldly attention upon you..." ) );
+                add_msg( m_warning, _( "You feel an otherworldly attention upon you…" ) );
                 break;
 
             case AEP_FORCE_TELEPORT:
