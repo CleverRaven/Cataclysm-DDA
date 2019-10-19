@@ -28,7 +28,7 @@
     "range": 110,
     "damage": 131,
     "pierce": 28,
-    "dispersion": 30,
+    "dispersion": 150,
     "recoil": 26250,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
@@ -40,6 +40,15 @@
     "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
     "count": 10,
     "relative": { "damage": -10, "pierce": 20 }
+  },
+  {
+    "id": "50_mk211",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": ".50 BMG Raufoss Mk 211",
+    "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge which surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
+    "effects": [ "INCENDIARY", "EXPLOSIVE_SMALL" ],
+    "proportional": { "dispersion": 0.75 }
   },
   {
     "id": "reloaded_50_incendiary",
