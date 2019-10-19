@@ -15,10 +15,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "cangun",
@@ -29,10 +26,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "gattler1",
@@ -43,10 +37,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "lasgun",
@@ -57,10 +48,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "lasgunp",
@@ -71,10 +59,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "lasgunx",
@@ -85,10 +70,7 @@
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "mcutter",
@@ -101,10 +83,7 @@
     "broken_color": "dark_gray",
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -116,10 +95,7 @@
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -131,10 +107,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "needler",
@@ -145,10 +118,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "railturret",
@@ -159,10 +129,7 @@
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "ripper",
@@ -175,10 +142,7 @@
     "broken_color": "dark_gray",
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -190,10 +154,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "scorpion",
@@ -204,10 +165,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "shardgun",
@@ -218,10 +176,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "slauncher",
@@ -232,10 +187,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "teslagun",
@@ -246,10 +198,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "tiharturret",
@@ -260,9 +209,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]

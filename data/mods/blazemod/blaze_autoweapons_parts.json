@@ -15,10 +15,7 @@
     "name": "TDI Vector turret",
     "item": "TDI",
     "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "TDInc",
@@ -27,10 +24,7 @@
     "name": "automated TDI Vector",
     "item": "TDI",
     "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "abolter",
@@ -41,10 +35,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "abolternc",
@@ -55,10 +46,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "acangun",
@@ -69,10 +57,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "acangunnc",
@@ -83,10 +68,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "acr",
@@ -95,10 +77,7 @@
     "name": "Bushmaster ACR turret",
     "item": "acr",
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "acrnc",
@@ -107,10 +86,7 @@
     "name": "automated Bushmaster ACR",
     "item": "acr",
     "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "agattler1",
@@ -119,10 +95,7 @@
     "name": "rotary cannon turret",
     "item": "gattler",
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "agattler1nc",
@@ -131,10 +104,7 @@
     "name": "automated rotary cannon",
     "item": "gattler",
     "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "ak47",
@@ -143,10 +113,7 @@
     "name": "AK47 turret",
     "item": "ak47",
     "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ak74",
@@ -155,10 +122,7 @@
     "name": "AK74 turret",
     "item": "ak74",
     "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "alasgun",
@@ -169,10 +133,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "alasgunp",
@@ -183,10 +144,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "alasgunx",
@@ -197,10 +155,7 @@
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "american_180",
@@ -209,10 +164,7 @@
     "name": "American-180 turret",
     "item": "american_180",
     "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "american_180nc",
@@ -221,10 +173,7 @@
     "name": "automated American-180",
     "item": "american_180",
     "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "an94",
@@ -233,10 +182,7 @@
     "name": "AN94 turret",
     "item": "an94",
     "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "anailer",
@@ -245,10 +191,7 @@
     "name": "perforator turret",
     "item": "nailer",
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "anailernc",
@@ -257,10 +200,7 @@
     "name": "automated perforator",
     "item": "nailer",
     "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "aneedler",
@@ -271,10 +211,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "aneedlernc",
@@ -285,10 +222,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "ar15",
@@ -297,10 +231,7 @@
     "name": "AR-15 turret",
     "item": "ar15",
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ar15nc",
@@ -309,10 +240,7 @@
     "name": "automated AR-15",
     "item": "ar15",
     "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "arailturret",
@@ -323,10 +251,7 @@
     "color": "magenta",
     "broken_color": "magenta",
     "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "aripper",
@@ -339,10 +264,7 @@
     "broken_color": "dark_gray",
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -356,10 +278,7 @@
     "broken_color": "dark_gray",
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -371,10 +290,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "ascorpionnc",
@@ -385,10 +301,7 @@
     "color": "brown",
     "broken_color": "brown",
     "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "ashardgun",
@@ -399,10 +312,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "ashardgunnc",
@@ -413,10 +323,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "ateslagun",
@@ -427,10 +334,7 @@
     "color": "blue",
     "broken_color": "blue",
     "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "atiharturret",
@@ -441,10 +345,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "atiharturretnc",
@@ -455,10 +356,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "bigun",
@@ -467,10 +365,7 @@
     "name": "autoshotgun turret",
     "item": "bigun",
     "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "bigunnc",
@@ -479,10 +374,7 @@
     "name": "automated autoshotgun",
     "item": "bigun",
     "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "blunderbuss",
@@ -491,10 +383,7 @@
     "name": "blunderbuss turret",
     "item": "blunderbuss",
     "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "blunderbussnc",
@@ -503,10 +392,7 @@
     "name": "automated blunderbuss",
     "item": "blunderbuss",
     "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "browning_blr",
@@ -515,10 +401,7 @@
     "name": "Browning BLR turret",
     "item": "browning_blr",
     "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "calico",
@@ -527,10 +410,7 @@
     "name": "Calico M960 turret",
     "item": "calico",
     "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "caliconc",
@@ -539,10 +419,7 @@
     "name": "automated Calico M960",
     "item": "calico",
     "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "carbine_flintlock",
@@ -556,10 +433,7 @@
     "broken_color": "dark_gray",
     "durability": 240,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "carbine_flintlocknc",
@@ -573,10 +447,7 @@
     "broken_color": "dark_gray",
     "durability": 240,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "coilgun",
@@ -585,10 +456,7 @@
     "name": "coilgun turret",
     "item": "coilgun",
     "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "coilgunnc",
@@ -597,10 +465,7 @@
     "name": "automated coilgun",
     "item": "coilgun",
     "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "cutter",
@@ -613,10 +478,7 @@
     "broken_color": "dark_gray",
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -630,10 +492,7 @@
     "broken_color": "dark_gray",
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -643,10 +502,7 @@
     "name": "Cx4 Storm turret",
     "item": "cx4",
     "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "cx4nc",
@@ -655,10 +511,7 @@
     "name": "automated Cx4 Storm",
     "item": "cx4",
     "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "flamethrower1",
@@ -669,10 +522,7 @@
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "flamethrower_simple", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -684,10 +534,7 @@
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "flamethrower", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -699,10 +546,7 @@
     "color": "red",
     "broken_color": "red",
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    },
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -712,10 +556,7 @@
     "name": "FN FAL turret",
     "item": "fn_fal",
     "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "fn_falnc",
@@ -724,10 +565,7 @@
     "name": "automated FN FAL",
     "item": "fn_fal",
     "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "fn_p90",
@@ -736,10 +574,7 @@
     "name": "FN P90 turret",
     "item": "fn_p90",
     "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "h&k416a5",
@@ -748,10 +583,7 @@
     "name": "H&K 416A5 turret",
     "item": "h&k416a5",
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "h&k416a5nc",
@@ -760,10 +592,7 @@
     "name": "automated H&K 416A5",
     "item": "h&k416a5",
     "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "heavy_rail_rifle",
@@ -772,10 +601,7 @@
     "name": "heavy rail rifle turret",
     "item": "heavy_rail_rifle",
     "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "hk_g3",
@@ -784,10 +610,7 @@
     "name": "H&K G3 turret",
     "item": "hk_g3",
     "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_g36",
@@ -796,10 +619,7 @@
     "name": "H&K G36 turret",
     "item": "hk_g36",
     "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_g36nc",
@@ -808,10 +628,7 @@
     "name": "automated H&K G36",
     "item": "hk_g36",
     "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_g3nc",
@@ -820,10 +637,7 @@
     "name": "automated H&K G3",
     "item": "hk_g3",
     "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_g80",
@@ -832,10 +646,7 @@
     "name": "H&K G80 turret",
     "item": "hk_g80",
     "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "hk_mp5",
@@ -844,10 +655,7 @@
     "name": "H&K MP5 turret",
     "item": "hk_mp5",
     "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_mp5nc",
@@ -856,10 +664,7 @@
     "name": "automated H&K MP5",
     "item": "hk_mp5",
     "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_mp7",
@@ -868,10 +673,7 @@
     "name": "H&K MP7 turret",
     "item": "hk_mp7",
     "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_ump45",
@@ -880,10 +682,7 @@
     "name": "H&K UMP45 turret",
     "item": "hk_ump45",
     "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "hk_ump45nc",
@@ -892,10 +691,7 @@
     "name": "automated H&K UMP45",
     "item": "hk_ump45",
     "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ksg",
@@ -904,10 +700,7 @@
     "name": "Kel-Tec KSG turret",
     "item": "ksg",
     "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "ksgnc",
@@ -916,10 +709,7 @@
     "name": "automated Kel-Tec KSG",
     "item": "ksg",
     "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "l_base_223",
@@ -928,10 +718,7 @@
     "name": "L523 turret",
     "item": "l_base_223",
     "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_base_223nc",
@@ -940,10 +727,7 @@
     "name": "automated L523",
     "item": "l_base_223",
     "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_car_223",
@@ -952,10 +736,7 @@
     "name": "L523-CAR turret",
     "item": "l_car_223",
     "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_car_223nc",
@@ -964,10 +745,7 @@
     "name": "automated L523-CAR",
     "item": "l_car_223",
     "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_def_12",
@@ -976,10 +754,7 @@
     "name": "L12 Defender turret",
     "item": "l_def_12",
     "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_def_12nc",
@@ -988,10 +763,7 @@
     "name": "automated L12 Defender",
     "item": "l_def_12",
     "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_dsr_223",
@@ -1000,10 +772,7 @@
     "name": "L523-DSR turret",
     "item": "l_dsr_223",
     "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_dsr_223nc",
@@ -1012,10 +781,7 @@
     "name": "automated L523-DSR",
     "item": "l_dsr_223",
     "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_lmg_223",
@@ -1024,10 +790,7 @@
     "name": "L523-LMG turret",
     "item": "l_lmg_223",
     "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_lmg_223nc",
@@ -1036,10 +799,7 @@
     "name": "automated L523-LMG",
     "item": "l_lmg_223",
     "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_long_45",
@@ -1048,10 +808,7 @@
     "name": "Long Ranger turret",
     "item": "l_long_45",
     "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_long_45nc",
@@ -1060,10 +817,7 @@
     "name": "automated Long Ranger",
     "item": "l_long_45",
     "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_mbr_223",
@@ -1072,10 +826,7 @@
     "name": "L523-MBR turret",
     "item": "l_mbr_223",
     "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "l_mbr_223nc",
@@ -1084,10 +835,7 @@
     "name": "automated L523-MBR",
     "item": "l_mbr_223",
     "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "launcher_simple",
@@ -1096,10 +844,7 @@
     "name": "40mm launcher turret",
     "item": "launcher_simple",
     "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "m1014",
@@ -1108,10 +853,7 @@
     "name": "M1014 shotgun turret",
     "item": "m1014",
     "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "m1014nc",
@@ -1120,10 +862,7 @@
     "name": "automated M1014 shotgun",
     "item": "m1014",
     "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "m107a1",
@@ -1132,10 +871,7 @@
     "name": "Barrett M107A1 turret",
     "item": "m107a1",
     "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m107a1nc",
@@ -1144,10 +880,7 @@
     "name": "automated Barrett M107A1",
     "item": "m107a1",
     "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m14ebr",
@@ -1156,10 +889,7 @@
     "name": "M14-EBR turret",
     "item": "m14ebr",
     "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m14ebrnc",
@@ -1168,10 +898,7 @@
     "name": "automated M14-EBR",
     "item": "m14ebr",
     "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m1a",
@@ -1180,10 +907,7 @@
     "name": "M1A turret",
     "item": "m1a",
     "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m1anc",
@@ -1192,10 +916,7 @@
     "name": "automated M1A",
     "item": "m1a",
     "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m2010",
@@ -1204,10 +925,7 @@
     "name": "M2010 ESR turret",
     "item": "m2010",
     "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m27iar",
@@ -1216,10 +934,7 @@
     "name": "M27 IAR turret",
     "item": "m27iar",
     "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m27iarnc",
@@ -1228,10 +943,7 @@
     "name": "automated M27 IAR",
     "item": "m27iar",
     "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m2browning_sawn",
@@ -1240,10 +952,7 @@
     "name": ".50 caliber turret",
     "item": "m2browning_sawn",
     "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m2browning_sawnnc",
@@ -1252,10 +961,7 @@
     "name": "automated .50 caliber rifle",
     "item": "m2browning_sawn",
     "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m320",
@@ -1264,10 +970,7 @@
     "name": "M320 turret",
     "item": "m320",
     "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "m4a1",
@@ -1276,10 +979,7 @@
     "name": "M4A1 turret",
     "item": "m4a1",
     "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m4a1nc",
@@ -1288,10 +988,7 @@
     "name": "automated M4A1",
     "item": "m4a1",
     "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m60",
@@ -1300,10 +997,7 @@
     "name": "M60 turret",
     "item": "m60",
     "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m60nc",
@@ -1312,10 +1006,7 @@
     "name": "automated M60",
     "item": "m60",
     "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "m79",
@@ -1324,10 +1015,7 @@
     "name": "M79 turret",
     "item": "m79",
     "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mac_10",
@@ -1336,10 +1024,7 @@
     "name": "MAC-10 turret",
     "item": "mac_10",
     "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mac_10nc",
@@ -1348,10 +1033,7 @@
     "name": "automated MAC-10",
     "item": "mac_10",
     "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "marlin_9a",
@@ -1360,10 +1042,7 @@
     "name": "Marlin 39A turret",
     "item": "marlin_9a",
     "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "marlin_9anc",
@@ -1372,10 +1051,7 @@
     "name": "automated Marlin 39A",
     "item": "marlin_9a",
     "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "mgl",
@@ -1384,10 +1060,7 @@
     "name": "Milkor MGL turret",
     "item": "mgl",
     "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mossberg_500",
@@ -1396,10 +1069,7 @@
     "name": "Mossberg 500 turret",
     "item": "mossberg_500",
     "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "mossberg_500nc",
@@ -1408,10 +1078,7 @@
     "name": "automated Mossberg 500",
     "item": "mossberg_500",
     "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "nailrifle",
@@ -1420,10 +1087,7 @@
     "name": "nail rifle turret",
     "item": "nailrifle",
     "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "nailriflenc",
@@ -1432,10 +1096,7 @@
     "name": "automated nail rifle",
     "item": "nailrifle",
     "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "needlegun",
@@ -1444,10 +1105,7 @@
     "name": "RM216 SPIW turret",
     "item": "needlegun",
     "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "pipe_double_shotgun",
@@ -1456,10 +1114,7 @@
     "name": "double pipe shotgun turret",
     "item": "pipe_double_shotgun",
     "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "pipe_double_shotgunnc",
@@ -1468,10 +1123,7 @@
     "name": "automated double pipe shotgun",
     "item": "pipe_double_shotgun",
     "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "pipe_shotgun",
@@ -1480,10 +1132,7 @@
     "name": "pipe shotgun turret",
     "item": "pipe_shotgun",
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "pipe_shotgunnc",
@@ -1492,10 +1141,7 @@
     "name": "automated pipe shotgun",
     "item": "pipe_shotgun",
     "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "rebar_rifle",
@@ -1504,10 +1150,7 @@
     "name": "rail rifle turret",
     "item": "rebar_rifle",
     "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "remington_700",
@@ -1516,10 +1159,7 @@
     "name": "Remington 700 turret",
     "item": "remington_700",
     "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "remington_870",
@@ -1528,10 +1168,7 @@
     "name": "Remington 870 turret",
     "item": "remington_870",
     "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "remington_870nc",
@@ -1540,10 +1177,7 @@
     "name": "automated Remington 870",
     "item": "remington_870",
     "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "repeatingcrossbow",
@@ -1554,10 +1188,7 @@
     "color": "brown",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "repeatingcrossbownc",
@@ -1568,10 +1199,7 @@
     "color": "brown",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "revolver_shotgun",
@@ -1580,10 +1208,7 @@
     "name": "revolver shotgun turret",
     "item": "revolver_shotgun",
     "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "revolver_shotgunnc",
@@ -1592,10 +1217,7 @@
     "name": "automated revolver shotgun",
     "item": "revolver_shotgun",
     "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
     "id": "rifle_22",
@@ -1604,10 +1226,7 @@
     "name": ".22 pipe rifle turret",
     "item": "rifle_22",
     "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_22nc",
@@ -1616,10 +1235,7 @@
     "name": "automated .22 pipe rifle",
     "item": "rifle_22",
     "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_308",
@@ -1628,10 +1244,7 @@
     "name": ".308 pipe rifle turret",
     "item": "rifle_308",
     "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_308nc",
@@ -1640,10 +1253,7 @@
     "name": "automated .308 pipe rifle",
     "item": "rifle_308",
     "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_9mm",
@@ -1652,10 +1262,7 @@
     "name": "9x19mm pipe rifle turret",
     "item": "rifle_9mm",
     "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_9mmnc",
@@ -1664,10 +1271,7 @@
     "name": "automated 9x19mm pipe rifle",
     "item": "rifle_9mm",
     "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_flintlock",
@@ -1679,10 +1283,7 @@
     "broken_symbol": "x",
     "durability": 240,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rifle_flintlocknc",
@@ -1696,10 +1297,7 @@
     "broken_color": "dark_gray",
     "durability": 240,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -1708,10 +1306,7 @@
     "name": "RM11B scout rifle turret",
     "item": "rm11b_sniper_rifle",
     "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm2000_smg",
@@ -1720,10 +1315,7 @@
     "name": "RM2000 SMG turret",
     "item": "rm2000_smg",
     "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm360_carbine",
@@ -1732,10 +1324,7 @@
     "name": "RM360 carbine turret",
     "item": "rm360_carbine",
     "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm360_carbinenc",
@@ -1744,10 +1333,7 @@
     "name": "automated RM360 carbine",
     "item": "rm360_carbine",
     "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm51_assault_rifle",
@@ -1756,10 +1342,7 @@
     "name": "RM51 assault rifle turret",
     "item": "rm51_assault_rifle",
     "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm614_lmg",
@@ -1768,10 +1351,7 @@
     "name": "RM614 LMG turret",
     "item": "rm614_lmg",
     "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rm802",
@@ -1780,10 +1360,7 @@
     "name": "RM802 turret",
     "item": "rm802",
     "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rm88_battle_rifle",
@@ -1792,10 +1369,7 @@
     "name": "RM88 battle rifle turret",
     "item": "rm88_battle_rifle",
     "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "rslauncher",
@@ -1806,10 +1380,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "rslaunchernc",
@@ -1820,10 +1391,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "ruger_1022",
@@ -1832,10 +1400,7 @@
     "name": "Ruger 10/22 turret",
     "item": "ruger_1022",
     "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ruger_1022nc",
@@ -1844,10 +1409,7 @@
     "name": "automated Ruger 10/22",
     "item": "ruger_1022",
     "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ruger_mini",
@@ -1856,10 +1418,7 @@
     "name": "Ruger mini-14 turret",
     "item": "ruger_mini",
     "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "ruger_mininc",
@@ -1868,10 +1427,7 @@
     "name": "automated Ruger mini-14",
     "item": "ruger_mini",
     "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "saiga_12",
@@ -1880,10 +1436,7 @@
     "name": "Saiga 12 turret",
     "item": "saiga_12",
     "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "saiga_12nc",
@@ -1892,10 +1445,7 @@
     "name": "automated Saiga 12",
     "item": "saiga_12",
     "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "savage_111f",
@@ -1904,10 +1454,7 @@
     "name": "Savage 111F turret",
     "item": "savage_111f",
     "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "savage_111fnc",
@@ -1916,10 +1463,7 @@
     "name": "automated Savage 111F",
     "item": "savage_111f",
     "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "scar_h",
@@ -1928,10 +1472,7 @@
     "name": "FN SCAR-H turret",
     "item": "scar_h",
     "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "scar_hnc",
@@ -1940,10 +1481,7 @@
     "name": "automated FN SCAR-H",
     "item": "scar_h",
     "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "scar_l",
@@ -1952,10 +1490,7 @@
     "name": "FN SCAR-L turret",
     "item": "scar_l",
     "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "scar_lnc",
@@ -1964,10 +1499,7 @@
     "name": "automated FN SCAR-L",
     "item": "scar_l",
     "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "shotgun_d",
@@ -1976,10 +1508,7 @@
     "name": "double shotgun turret",
     "item": "shotgun_d",
     "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "shotgun_dnc",
@@ -1988,10 +1517,7 @@
     "name": "automated double shotgun",
     "item": "shotgun_d",
     "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "shotgun_s",
@@ -2000,10 +1526,7 @@
     "name": "single shotgun turret",
     "item": "shotgun_s",
     "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "shotgun_snc",
@@ -2012,10 +1535,7 @@
     "name": "automated single shotgun",
     "item": "shotgun_s",
     "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "sks",
@@ -2024,10 +1544,7 @@
     "name": "SKS turret",
     "item": "sks",
     "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "slauncher",
@@ -2038,10 +1555,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "slaunchernc",
@@ -2052,10 +1566,7 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "steyr_aug",
@@ -2064,10 +1575,7 @@
     "name": "Steyr AUG turret",
     "item": "steyr_aug",
     "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "steyr_augnc",
@@ -2076,10 +1584,7 @@
     "name": "automated Steyr AUG",
     "item": "steyr_aug",
     "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "surv_carbine_223",
@@ -2088,10 +1593,7 @@
     "name": "223 carbine turret",
     "item": "surv_carbine_223",
     "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "surv_carbine_223nc",
@@ -2100,10 +1602,7 @@
     "name": "automated 223 carbine",
     "item": "surv_carbine_223",
     "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "survivor_special_700",
@@ -2112,10 +1611,7 @@
     "name": "survivor special turret",
     "item": "survivor_special_700",
     "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "tec9",
@@ -2124,10 +1620,7 @@
     "name": "TEC-9 turret",
     "item": "tec9",
     "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "tec9nc",
@@ -2136,10 +1629,7 @@
     "name": "automated TEC-9",
     "item": "tec9",
     "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "uzi",
@@ -2148,10 +1638,7 @@
     "name": "Uzi turret",
     "item": "uzi",
     "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "uzinc",
@@ -2160,10 +1647,7 @@
     "name": "automated Uzi",
     "item": "uzi",
     "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
     "id": "v29",
@@ -2172,10 +1656,7 @@
     "name": "V29 laser turret",
     "item": "v29",
     "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   },
   {
     "id": "v29_cheap",
@@ -2184,9 +1665,6 @@
     "name": "LACP laser turret",
     "item": "v29_cheap",
     "breaks_into": [ { "item": "v29_cheap", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } }
   }
 ]

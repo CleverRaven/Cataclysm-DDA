@@ -243,10 +243,7 @@
     "size": 5,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "avortexacceleratornc",
@@ -258,10 +255,7 @@
     "broken_color": "pink",
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "avortexbolter",
@@ -274,10 +268,7 @@
     "size": 10,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "avortexbolternc",
@@ -289,10 +280,7 @@
     "broken_color": "pink",
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "avortexrifle",
@@ -305,10 +293,7 @@
     "size": 40,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "avortexriflenc",
@@ -320,10 +305,7 @@
     "broken_color": "pink",
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "charcoal",
@@ -536,10 +518,7 @@
     "size": 10,
     "folded_volume": 22,
     "breaks_into": [ { "item": "diamondlance", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "diamondnova",
@@ -553,10 +532,7 @@
     "size": 10,
     "folded_volume": 22,
     "breaks_into": [ { "item": "diamondnova", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "diamondnova",
@@ -833,10 +809,7 @@
     "size": 1000,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "vortexbolter",
@@ -849,10 +822,7 @@
     "size": 10,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "vortexbolter",
@@ -893,10 +863,7 @@
     "size": 10,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "vortexcannon",
@@ -910,10 +877,7 @@
     "range": 18,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "vortexcannon",
@@ -952,10 +916,7 @@
     "size": 40,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
     "id": "vortexrifle",
