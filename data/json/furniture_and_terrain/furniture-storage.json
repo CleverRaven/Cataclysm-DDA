@@ -796,8 +796,8 @@
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": [ 1, 20 ] }
-         ]
-        },
+      ]
+    },
     "id": "f_displaycase",
     "name": "display case",
     "description": "Display your stuff fancily and securely.",
