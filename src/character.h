@@ -967,6 +967,8 @@ class Character : public Creature, public visitable<Character>
                 time_died = time;
             }
         }
+        // magic mod
+        known_magic magic;
 
         void make_bleed( body_part bp, time_duration duration, int intensity = 1,
                          bool permanent = false,

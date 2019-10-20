@@ -1572,9 +1572,6 @@ class player : public Character
 
         std::set<tripoint> camps;
 
-        // magic mod
-        known_magic magic;
-
     protected:
 
         trap_map known_traps;
