@@ -739,16 +739,7 @@ void player::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "automoveroute" );
-    json.start_array();
-    for( const auto &elem : auto_move_route ) {
-        json.start_object();
-        json.member( "x", elem.x );
-        json.member( "y", elem.y );
-        json.member( "z", elem.z );
-        json.end_object();
-    }
-    json.end_array();
+    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -855,13 +846,8 @@ void player::load( JsonObject &data )
         known_traps.insert( trap_map::value_type( p, t ) );
     }
 
-    JsonArray automoveroute = data.get_array( "automoveroute" );
-    auto_move_route.clear();
-    while( automoveroute.has_more() ) {
-        JsonObject pmap = automoveroute.next_object();
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        auto_move_route.emplace_back( p );
-    }
+    data.read( "automoveroute", auto_move_route );
+
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
         add_bionic( bionic_id( "bio_earplugs" ) );

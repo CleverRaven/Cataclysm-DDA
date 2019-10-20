@@ -1061,7 +1061,7 @@ class Character : public Creature, public visitable<Character>
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle;
         bool hauling;
-        player_activity destination_activity;
+
         player_activity activity;
         std::list<player_activity> backlog;
         inventory inv;
@@ -1293,7 +1293,7 @@ class Character : public Creature, public visitable<Character>
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         enchantment enchantment_cache;
-
+        player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 
