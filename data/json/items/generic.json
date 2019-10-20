@@ -2275,6 +2275,7 @@
     "name": "cigar butt",
     "color": "dark_gray",
     "symbol": "!",
+    "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
