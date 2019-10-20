@@ -435,6 +435,14 @@ void npc::randomize( const npc_class_id &type )
             add_bionic( bl.first );
         }
     }
+    // Add spells for magiclysm mod
+    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+        this->magic.learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -1235,7 +1243,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1263,7 +1271,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {

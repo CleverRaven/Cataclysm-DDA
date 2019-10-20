@@ -306,18 +306,18 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( const item &it : components ) {
-        if( it.has_flag( "HIDDEN_POISON" ) ) {
-            set_flag( "HIDDEN_POISON" );
+    for( item &component : components ) {
+        for( const std::string &f : component.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
-        if( it.has_flag( "HIDDEN_HALLU" ) ) {
-            set_flag( "HIDDEN_HALLU" );
-        }
-        if( it.is_filthy() ) {
-            set_flag( "FILTHY" );
+        for( const std::string &f : component.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
     }
-
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )

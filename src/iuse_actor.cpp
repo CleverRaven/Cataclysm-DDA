@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
@@ -257,7 +258,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
-ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
@@ -356,7 +357,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
     return 0;
 }
 
-ret_val<bool> countdown_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
     if( it.active ) {
@@ -1269,7 +1270,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
     }
 }
 
-ret_val<bool> firestarter_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( p.is_underwater() ) {
@@ -1802,7 +1803,7 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 }
 
-ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
                                         const tripoint & ) const
 {
     if( !p.has_effect( effect_bite ) &&
@@ -1962,7 +1963,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     return cost >= 0 ? cost : it.ammo_required();
 }
 
-ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint & ) const
+ret_val<bool> enzlave_actor::can_use( const Character &p, const item &, bool,
+                                      const tripoint & ) const
 {
     /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
@@ -2030,7 +2032,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     return it.type->charges_to_use();
 }
 
-ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2128,7 +2130,7 @@ int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) cons
     return it.type->charges_to_use();
 }
 
-ret_val<bool> manualnoise_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> manualnoise_actor::can_use( const Character &, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2268,7 +2270,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     return 0;
 }
 
-ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
+ret_val<bool> musical_instrument_actor::can_use( const Character &p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
@@ -4088,7 +4090,7 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
     }
 }
 
-ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
@@ -4168,7 +4170,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
     return 0;
 }
 
-ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     const auto mods = it.gunmods();
