@@ -842,15 +842,13 @@
     "type": "overmap_terrain",
     "id": "megastore_parking",
     "copy-from": "megastore_parking",
-    "name": "megastore parking lot",
-    "sym": "O",
-    "color": "dark_gray"
+    "sym": "p",
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
-    "name": "megastore",
     "sym": "M",
     "color": "i_magenta"
   },
@@ -889,7 +887,7 @@
     "id": "megastore_1_2_0",
     "copy-from": "megastore_1_2_0",
     "name": "megastore",
-    "sym": "+",
+    "sym": "m",
     "color": "i_magenta"
   },
   {
@@ -949,8 +947,7 @@
     "type": "overmap_terrain",
     "id": "megastore_0_0_roof",
     "copy-from": "megastore_0_0_roof",
-    "name": "megastore roof",
-    "sym": "M",
+    "sym": "m",
     "color": "i_magenta"
   },
   {
