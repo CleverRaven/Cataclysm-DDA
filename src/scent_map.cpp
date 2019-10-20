@@ -182,6 +182,8 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> sum_3_scent_y;
     scent_array<int> squares_used_y;
 
+    scent_array<std::string> sum_3_type_y;
+
     // these are for caching flag lookups
     scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
     scent_array<bool> reduces_scent;
@@ -210,6 +212,7 @@ void scent_map::update( const tripoint &center, map &m )
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
+            sum_3_type_y[y][x] = "";
             for( int i = y - 1; i <= y + 1; ++i ) {
                 if( !blocks_scent[x][i] ) {
                     if( reduces_scent[x][i] ) {
@@ -220,6 +223,7 @@ void scent_map::update( const tripoint &center, map &m )
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
                     }
+                    sum_3_type_y[y][x] = typescent[x][i].empty() ? sum_3_type_y[y][x] : typescent[x][i];
                 }
             }
         }
@@ -228,7 +232,8 @@ void scent_map::update( const tripoint &center, map &m )
     // Rest of the scent map
     for( int x = scentmap_minx; x <= scentmap_maxx; ++x ) {
         for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
-            auto &scent_here = grscent[x][y];
+            int &scent_here = grscent[x][y];
+            std::string &type_here = typescent[x][y];
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
@@ -255,9 +260,14 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x]
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
+                for( size_t ki = -1; ki < 2; ki++ ) {
+                    type_here = sum_3_type_y[y][x + ki].empty() ? type_here : sum_3_type_y[y][x + ki];
+                }
+
             } else {
                 // this cell blocks scent
                 scent_here = 0;
+                type_here.clear();
             }
         }
     }
