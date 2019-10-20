@@ -1132,6 +1132,10 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
+        int get_stim() const;
+        void set_stim( int new_stim );
+        void mod_stim( int mod );
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
@@ -1310,6 +1314,8 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance;
+
+        int stim;
 };
 
 template<>

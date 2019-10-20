@@ -1235,7 +1235,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1263,7 +1263,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {
