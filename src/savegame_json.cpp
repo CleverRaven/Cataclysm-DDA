@@ -297,6 +297,39 @@ void player_activity::deserialize( JsonIn &jsin )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///// requirements.h
+void requirement_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    if( !is_null() ) {
+        json.member( "blacklisted", blacklisted );
+        std::vector<std::vector<item_comp>> req_comps = get_components();
+        std::vector<std::vector<tool_comp>> tool_comps = get_tools();
+        std::vector<std::vector<quality_requirement>> quality_comps = get_qualities();
+
+        json.member( "req_comps_total", req_comps );
+
+        json.member( "tool_comps_total", tool_comps );
+
+        json.member( "quality_comps_total", quality_comps );
+    }
+    json.end_object();
+}
+
+void requirement_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+
+    data.read( "blacklisted", blacklisted );
+
+    data.read( "req_comps_total", components );
+    data.read( "tool_comps_total", tools );
+    data.read( "quality_comps_total", qualities );
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// skill.h
 void SkillLevel::serialize( JsonOut &json ) const
 {
@@ -402,7 +435,25 @@ void Character::load( JsonObject &data )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
     }
-
+    data.read( "activity", activity );
+    data.read( "destination_activity", destination_activity );
+    // Changed from a single element to a list, handle either.
+    // Can deprecate once we stop handling pre-0.B saves.
+    if( data.has_array( "backlog" ) ) {
+        data.read( "backlog", backlog );
+    } else {
+        player_activity temp;
+        data.read( "backlog", temp );
+        backlog.push_front( temp );
+    }
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+        requirement_data fetch_reqs;
+        data.read( "fetch_data", fetch_reqs );
+        const requirement_id req_id( backlog.front().str_values.back() );
+        requirement_data::save_requirement( fetch_reqs, req_id );
+    }
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -585,6 +636,19 @@ void Character::store( JsonOut &json ) const
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
 
+    // crafting etc
+    json.member( "destination_activity", destination_activity );
+    json.member( "activity", activity );
+    json.member( "backlog", backlog );
+
+    // handling for storing activity requirements
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+        requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
+        json.member( "fetch_data", things_to_fetch );
+    }
+
     // breathing
     json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
@@ -662,6 +726,7 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
+
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {
@@ -670,6 +735,17 @@ void player::store( JsonOut &json ) const
         json.member( "y", elem.first.y );
         json.member( "z", elem.first.z );
         json.member( "trap", elem.second );
+        json.end_object();
+    }
+    json.end_array();
+
+    json.member( "automoveroute" );
+    json.start_array();
+    for( const auto &elem : auto_move_route ) {
+        json.start_object();
+        json.member( "x", elem.x );
+        json.member( "y", elem.y );
+        json.member( "z", elem.z );
         json.end_object();
     }
     json.end_array();
@@ -694,6 +770,8 @@ void player::store( JsonOut &json ) const
     } else {
         json.member( "last_target_pos", last_target_pos );
     }
+
+    json.member( "destination_point", destination_point );
 
     // faction warnings
     json.member( "faction_warnings" );
@@ -777,6 +855,13 @@ void player::load( JsonObject &data )
         known_traps.insert( trap_map::value_type( p, t ) );
     }
 
+    JsonArray automoveroute = data.get_array( "automoveroute" );
+    auto_move_route.clear();
+    while( automoveroute.has_more() ) {
+        JsonObject pmap = automoveroute.next_object();
+        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
+        auto_move_route.emplace_back( p );
+    }
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
         add_bionic( bionic_id( "bio_earplugs" ) );
@@ -833,7 +918,7 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
-
+    data.read( "destination_point", destination_point );
     JsonArray basecamps = data.get_array( "camps" );
     camps.clear();
     while( basecamps.has_more() ) {
@@ -896,10 +981,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
 
-    // crafting etc
-    json.member( "activity", activity );
-    json.member( "backlog", backlog );
-
     // "The cold wakes you up."
     json.member( "temp_cur", temp_cur );
     json.member( "temp_conv", temp_conv );
@@ -958,16 +1039,6 @@ void avatar::load( JsonObject &data )
         debugmsg( "Tried to use non-existent profession '%s'", prof_ident.c_str() );
     }
 
-    data.read( "activity", activity );
-    // Changed from a single element to a list, handle either.
-    // Can deprecate once we stop handling pre-0.B saves.
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    } else {
-        player_activity temp;
-        data.read( "backlog", temp );
-        backlog.push_front( temp );
-    }
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -3166,12 +3237,50 @@ static void serialize( const item_comp &value, JsonOut &jsout )
     jsout.end_object();
 }
 
+static void serialize( const tool_comp &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "recoverable", value.recoverable );
+
+    jsout.end_object();
+}
+
 static void deserialize( item_comp &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "recoverable", value.recoverable );
+}
+
+static void deserialize( tool_comp &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "recoverable", value.recoverable );
+}
+
+static void serialize( const quality_requirement &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "level", value.level );
+
+    jsout.end_object();
+}
+
+static void deserialize( quality_requirement &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "level", value.level );
 }
 
 // basecamp

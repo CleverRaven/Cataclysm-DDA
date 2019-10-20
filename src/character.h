@@ -1061,7 +1061,7 @@ class Character : public Creature, public visitable<Character>
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle;
         bool hauling;
-
+        player_activity destination_activity;
         player_activity activity;
         std::list<player_activity> backlog;
         inventory inv;
