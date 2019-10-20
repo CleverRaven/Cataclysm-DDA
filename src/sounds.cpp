@@ -101,6 +101,32 @@ struct centroid {
     float weight;
 };
 
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
+{
+    switch ( data ) {
+    case sounds::sound_t::background: return "background";
+    case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::music: return "music";
+    case sounds::sound_t::movement: return "movement";
+    case sounds::sound_t::speech: return "speech";
+    case sounds::sound_t::activity: return "activity";
+    case sounds::sound_t::destructive_activity: return "destructive_activity";
+    case sounds::sound_t::alarm: return "alarm";
+    case sounds::sound_t::combat: return "combat";
+    case sounds::sound_t::alert: return "alert";
+    case sounds::sound_t::order: return "order";
+    case sounds::sound_t::_LAST: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
+}
+// *INDENT-ON*
+} // namespace io
+
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
 static std::vector<std::pair<tripoint, int>> recent_sounds;
@@ -275,6 +301,9 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
             case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
@@ -304,6 +333,9 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
                 return true;
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
         }
     }
     return true;

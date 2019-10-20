@@ -166,7 +166,7 @@ static void load_forest_mapgen_settings( JsonObject &jo,
 {
     if( !jo.has_object( "forest_mapgen_settings" ) ) {
         if( strict ) {
-            jo.throw_error( "\"forest_mapgen_settings\": { ... } required for default" );
+            jo.throw_error( "\"forest_mapgen_settings\": { … } required for default" );
         }
     } else {
         JsonObject forest_biomes_list_jo = jo.get_object( "forest_mapgen_settings" );
@@ -187,7 +187,7 @@ static void load_forest_trail_settings( JsonObject &jo,
 {
     if( !jo.has_object( "forest_trail_settings" ) ) {
         if( strict ) {
-            jo.throw_error( "\"forest_trail_settings\": { ... } required for default" );
+            jo.throw_error( "\"forest_trail_settings\": { … } required for default" );
         }
     } else {
         JsonObject forest_trail_settings_jo = jo.get_object( "forest_trail_settings" );
@@ -245,7 +245,7 @@ static void load_overmap_feature_flag_settings( JsonObject &jo,
 {
     if( !jo.has_object( "overmap_feature_flag_settings" ) ) {
         if( strict ) {
-            jo.throw_error( "\"overmap_feature_flag_settings\": { ... } required for default" );
+            jo.throw_error( "\"overmap_feature_flag_settings\": { … } required for default" );
         }
     } else {
         JsonObject overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
@@ -292,7 +292,7 @@ static void load_overmap_forest_settings(
 {
     if( !jo.has_object( "overmap_forest_settings" ) ) {
         if( strict ) {
-            jo.throw_error( "\"overmap_forest_settings\": { ... } required for default" );
+            jo.throw_error( "\"overmap_forest_settings\": { … } required for default" );
         }
     } else {
         JsonObject overmap_forest_settings_jo = jo.get_object( "overmap_forest_settings" );
@@ -317,7 +317,7 @@ static void load_overmap_lake_settings( JsonObject &jo,
 {
     if( !jo.has_object( "overmap_lake_settings" ) ) {
         if( strict ) {
-            jo.throw_error( "\"overmap_lake_settings\": { ... } required for default" );
+            jo.throw_error( "\"overmap_lake_settings\": { … } required for default" );
         }
     } else {
         JsonObject overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
@@ -351,8 +351,8 @@ static void load_overmap_lake_settings( JsonObject &jo,
                 JsonObject jo = aliases_jarr.next_object();
                 jo.read( "om_terrain", alias.overmap_terrain );
                 jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
-                                   "CONTAINS" ), ot_match_type::contains );
+                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                   ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
         }
@@ -388,7 +388,7 @@ void load_region_settings( JsonObject &jo )
 
     if( ! jo.has_object( "field_coverage" ) ) {
         if( strict ) {
-            jo.throw_error( "\"field_coverage\": { ... } required for default" );
+            jo.throw_error( "\"field_coverage\": { … } required for default" );
         }
     } else {
         JsonObject pjo = jo.get_object( "field_coverage" );
@@ -435,7 +435,7 @@ void load_region_settings( JsonObject &jo )
                     }
                 }
             } else {
-                pjo.throw_error( "boost_chance > 0 requires boosted_other { ... }" );
+                pjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
             }
         }
     }
@@ -446,7 +446,7 @@ void load_region_settings( JsonObject &jo )
 
     if( ! jo.has_object( "map_extras" ) ) {
         if( strict ) {
-            jo.throw_error( "\"map_extras\": { ... } required for default" );
+            jo.throw_error( "\"map_extras\": { … } required for default" );
         }
     } else {
         JsonObject pjo = jo.get_object( "map_extras" );
@@ -463,7 +463,7 @@ void load_region_settings( JsonObject &jo )
 
                 if( ! zjo.has_object( "extras" ) ) {
                     if( strict ) {
-                        zjo.throw_error( "\"extras\": { ... } required for default" );
+                        zjo.throw_error( "\"extras\": { … } required for default" );
                     }
                 } else {
                     JsonObject exjo = zjo.get_object( "extras" );
@@ -483,7 +483,7 @@ void load_region_settings( JsonObject &jo )
 
     if( ! jo.has_object( "city" ) ) {
         if( strict ) {
-            jo.throw_error( "\"city\": { ... } required for default" );
+            jo.throw_error( "\"city\": { … } required for default" );
         }
     } else {
         JsonObject cjo = jo.get_object( "city" );
@@ -505,7 +505,7 @@ void load_region_settings( JsonObject &jo )
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
         building_bin & dest ) {
             if( !cjo.has_object( type ) && strict ) {
-                jo.throw_error( "city: \"" + type + "\": { ... } required for default" );
+                jo.throw_error( "city: \"" + type + "\": { … } required for default" );
             } else {
                 JsonObject wjo = cjo.get_object( type );
                 std::set<std::string> keys = wjo.get_member_names();
@@ -526,7 +526,7 @@ void load_region_settings( JsonObject &jo )
 
     if( ! jo.has_object( "weather" ) ) {
         if( strict ) {
-            jo.throw_error( "\"weather\": { ... } required for default" );
+            jo.throw_error( "\"weather\": { … } required for default" );
         }
     } else {
         JsonObject wjo = jo.get_object( "weather" );
@@ -646,7 +646,7 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
 
     if( region.field_coverage.boost_chance > 0.0f &&
         region.field_coverage.boosted_percent_str.empty() ) {
-        fieldjo.throw_error( "boost_chance > 0 requires boosted_other { ... }" );
+        fieldjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
     }
 
     load_forest_mapgen_settings( jo, region.forest_composition, false, true );

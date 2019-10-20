@@ -300,7 +300,7 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "chem_sulphur", 10 ] ],
+      [ [ "chem_sulphur", 150 ] ],
       [ [ "oxy_powder", 100 ] ],
       [ [ "ammonia", 5 ] ],
       [ [ "acid", 1 ] ],
@@ -456,7 +456,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "note": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
+    "//": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "slime_scrap", 10 ] ] ]
   },
@@ -797,7 +797,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "chem_sulphur", 25 ] ] ]
+    "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
   },
   {
     "type": "recipe",
@@ -876,6 +876,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 5,
+    "charges": 680,
     "time": "45 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 5 ] ],
     "tools": [
@@ -927,7 +928,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 20 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
+    "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 300 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -950,6 +951,16 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_match_head_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "8 m",
+    "autolearn": true,
+    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1056,7 +1067,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_aluminium_powder", 50 ] ], [ [ "chem_chromium_oxide", 50 ] ] ]
+    "components": [ [ [ "chem_aluminium_powder", 50 ] ], [ [ "chem_chromium_oxide", 430 ] ] ]
   },
   {
     "type": "recipe",
@@ -1080,7 +1091,7 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_zinc_powder", 50 ] ], [ [ "chem_sulphur", 50 ] ], [ [ "superglue", 2 ] ] ]
+    "components": [ [ [ "chem_zinc_powder", 645 ] ], [ [ "chem_sulphur", 750 ] ], [ [ "superglue", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1151,6 +1162,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 3,
+    "charges": 200,
     "time": "2 h",
     "autolearn": true,
     "byproducts": [ [ "chem_zinc" ] ],
@@ -1164,10 +1176,11 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 3,
+    "charges": 785,
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_zinc", 50 ] ], [ [ "coal_lump", 25 ], [ "charcoal", 50 ] ] ]
+    "components": [ [ [ "chem_zinc", 785 ] ], [ [ "coal_lump", 25 ], [ "charcoal", 50 ] ] ]
   },
   {
     "result": "chem_manganese_dioxide",
@@ -1176,9 +1189,10 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "charges": 400,
+    "//": "rhodonite has up to 42% manganese.  915g/869mg*40%=421",
     "time": "1 h",
     "autolearn": true,
-    "byproducts": [ [ "chem_manganese_dioxide", 50 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "material_rhodonite", 1 ] ] ]
   }

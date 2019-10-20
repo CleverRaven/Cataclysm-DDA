@@ -37,15 +37,33 @@
     "id": "down_mattress",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "down_mattress",
-    "name_plural": "down_mattresses",
+    "name": "down mattress",
+    "name_plural": "down mattresses",
     "description": "This is a single, or twin, sized down filled mattress.",
-    "weight": 20000,
+    "weight": "6 kg",
     "volume": "300000 ml",
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
+  },
+  {
+    "id": "fuse",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "fuse",
+    "name_plural": "fuse",
+    "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
+    "weight": "6 g",
+    "volume": "80 ml",
+    "price": 500,
+    "container": "bag_plastic",
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "count": 50,
+    "ammo_type": "components",
+    "effects": [ "COOKOFF" ]
   }
 ]

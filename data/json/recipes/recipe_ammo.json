@@ -432,7 +432,7 @@
     "time": "7 m",
     "reversible": true,
     "decomp_learn": 6,
-    "note": "you just take the warhead off or put it on, rather than making the warhead",
+    "//": "you just take the warhead off or put it on, rather than making the warhead",
     "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -846,7 +846,7 @@
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 10 ] ] ]
+    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 150 ] ] ]
   },
   {
     "type": "recipe",

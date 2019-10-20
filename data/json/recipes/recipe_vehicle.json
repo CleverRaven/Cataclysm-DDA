@@ -123,7 +123,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skill_required": [ "fabrication", 5 ],
+    "skills_required": [ "fabrication", 5 ],
     "difficulty": 5,
     "time": "180 m",
     "reversible": true,
@@ -148,10 +148,52 @@
     ]
   },
   {
+    "result": "programmable_autopilot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 5,
+    "time": "1200 m",
+    "autolearn": false,
+    "book_learn": [
+      [ "manual_electronics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "advanced_electronics", 3 ],
+      [ "recipe_lab_elec", 3 ],
+      [ "textbook_anarch", 3 ]
+    ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "wire", 6 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  },
+  {
     "result": "minifridge",
     "type": "recipe",
     "copy-from": "minifreezer",
-    "skill_required": [ "fabrication", 4 ],
+    "skills_required": [ "fabrication", 4 ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -175,7 +217,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skill_required": [ "mechanics", 2 ],
+    "skills_required": [ "mechanics", 2 ],
     "difficulty": 2,
     "time": "15 m",
     "autolearn": true,
@@ -214,7 +256,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skill_required": [ "electronics", 4 ],
+    "skills_required": [ "electronics", 4 ],
     "difficulty": 4,
     "time": "30 m",
     "reversible": true,
@@ -228,7 +270,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skill_required": [ "mechanics", 5 ],
+    "skills_required": [ "mechanics", 5 ],
     "difficulty": 5,
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
@@ -253,7 +295,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skill_required": [ "mechanics", 5 ],
+    "skills_required": [ "mechanics", 5 ],
     "difficulty": 5,
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
@@ -392,5 +434,27 @@
     "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "turret_controls",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 5 ], [ "mechanics", 3 ] ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "laptop", -1 ] ] ],
+    "components": [
+      [ [ "targeting_module", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
   }
 ]

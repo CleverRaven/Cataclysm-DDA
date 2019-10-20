@@ -1967,7 +1967,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
+    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
 }
 
 bool npc::is_enemy() const
@@ -2515,13 +2515,22 @@ std::string npc_job_id( npc_job job )
     return iter->second;
 }
 
+std::vector<std::string> all_jobs()
+{
+    std::vector<std::string> ret;
+    for( int i = 0; i < NPCJOB_END; i++ ) {
+        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
+    }
+    return ret;
+}
+
 std::string npc_job_name( npc_job job )
 {
     switch( job ) {
         case NPCJOB_NULL:
-            return _( "Not much" );
+            return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking" );
+            return _( "Cooking and butchering" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2539,7 +2548,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_HUSBANDRY:
             return _( "Caring for the livestock" );
         case NPCJOB_HUNTING:
-            return _( "Hunting for meat" );
+            return _( "Hunting and fishing" );
         case NPCJOB_FORAGING:
             return _( "Gathering edibles" );
         default:

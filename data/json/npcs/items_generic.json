@@ -2,22 +2,26 @@
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_male",
-    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_female",
-    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_male",
-    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_top", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_female",
-    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_top", 95 ] ]
   },
   {
     "type": "item_group",
@@ -764,7 +768,6 @@
       [ "mask_bal", 1 ],
       [ "mask_dust", 4 ],
       [ "mask_filter", 1 ],
-      [ "matchbomb", 2 ],
       [ "maltballs", 1 ],
       [ "maple_candy", 2 ],
       [ "marshmallow", 2 ],
@@ -997,6 +1000,7 @@
       [ "sm_extinguisher", 2 ],
       [ "small_lcd_screen", 1 ],
       [ "small_repairkit", 3 ],
+      [ "smart_lamp", 2 ],
       [ "smokebomb", 2 ],
       [ "smoxygen_tank", 1 ],
       [ "smpistol_primer", 2 ],

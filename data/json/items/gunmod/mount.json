@@ -13,7 +13,7 @@
     "color": "light_gray",
     "location": "grip mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": 60000,
+    "//install_time": 60000,
     "min_skills": [ [ "gun", 5 ] ],
     "add_mod": [ [ "grip", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -31,7 +31,7 @@
     "color": "light_gray",
     "location": "rail mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": 15000,
+    "//install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "rail", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -49,7 +49,7 @@
     "color": "light_gray",
     "location": "sights mount",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow" ],
-    "install_time": 15000,
+    "//install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -67,7 +67,7 @@
     "color": "light_gray",
     "location": "sights mount",
     "mod_targets": [ "launcher" ],
-    "install_time": 15000,
+    "//install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -85,7 +85,7 @@
     "color": "light_gray",
     "location": "sights mount",
     "mod_targets": [ "pistol" ],
-    "install_time": 15000,
+    "//install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "sights", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -104,7 +104,7 @@
     "color": "light_gray",
     "location": "stock mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": 60000,
+    "//install_time": 60000,
     "min_skills": [ [ "gun", 5 ] ],
     "add_mod": [ [ "stock", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -122,7 +122,7 @@
     "color": "light_gray",
     "location": "underbarrel mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "bow" ],
-    "install_time": 15000,
+    "//install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
     "add_mod": [ [ "underbarrel", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]

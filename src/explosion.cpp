@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force );
+        g->m.smash_items( pt, force, _( "force of the explosion" ) );
 
         if( fire ) {
             int intensity = ( force > 50.0f ) + ( force > 100.0f );
@@ -708,10 +708,11 @@ void emp_blast( const tripoint &p )
         }
     }
     if( g->u.posx() == x && g->u.posy() == y ) {
-        if( g->u.power_level > 0_kJ ) {
+        if( g->u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( g->u.power_level > 1000_kJ ? 1000 : units::to_kilojoule( g->u.power_level ) );
-            g->u.charge_power( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
+            int max_drain = ( g->u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
+                                  g->u.get_power_level() ) );
+            g->u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects

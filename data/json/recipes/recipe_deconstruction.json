@@ -1515,13 +1515,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
-    "result": "down_blanket",
-    "type": "uncraft",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
-  },
-  {
     "result": "down_pillow",
     "type": "uncraft",
     "time": "1 m",
@@ -1920,7 +1913,7 @@
     "time": "30 m",
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 20 ] ], [ [ "steel_chunk", 3 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 10 ] ], [ [ "steel_lump", 5 ] ], [ [ "e_scrap", 5 ] ] ]
   },
   {
     "result": "motor_large",
@@ -1935,7 +1928,8 @@
       [ [ "amplifier", 4 ] ],
       [ [ "cable", 30 ] ],
       [ [ "bearing", 40 ] ],
-      [ [ "steel_chunk", 7 ] ]
+      [ [ "steel_lump", 15 ] ],
+      [ [ "e_scrap", 5 ] ]
     ]
   },
   {
@@ -2250,7 +2244,7 @@
     "type": "uncraft",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "components": [ [ [ "scrap", 54 ] ] ]
   },
   {
     "result": "stick_long",
@@ -2762,13 +2756,6 @@
     "time": "6 s",
     "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "leaf_spring",
-    "type": "uncraft",
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
     "result": "styrofoam_cup",

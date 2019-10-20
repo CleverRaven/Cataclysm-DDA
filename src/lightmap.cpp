@@ -192,7 +192,7 @@ void map::build_sunlight_cache( int zlev )
     }
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
-    if( zlev == map_cache.max_populated_zlev ) {
+    if( zlev == std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) ) {
         for( auto &lm_col : lm ) {
             for( four_quadrants &lm_entry : lm_col ) {
                 lm_entry.fill( outside_light_level );
@@ -275,7 +275,8 @@ void map::generate_lightmap( const int zlev )
     const float natural_light = g->natural_light_level( zlev );
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
-    const int maxz = zlevels ? map_cache.max_populated_zlev : zlev;
+    // Plus one zlevel to prevent clipping inside structures
+    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int z = maxz; z >= minz; z-- ) {
@@ -447,7 +448,7 @@ void map::generate_lightmap( const int zlev )
 
     if( g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 15 ) {
+            if( rl_dist( p, g->u.pos() ) < 2 ) {
                 lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
             }
         }

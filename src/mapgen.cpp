@@ -1016,7 +1016,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
-                set_mapgen_defer( jsi, "liquid", "no such item type" );
+                set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1045,7 +1045,7 @@ class jmapgen_item_group : public jmapgen_piece
             group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item group '" + group_id + "'" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -1075,7 +1075,7 @@ class jmapgen_loot : public jmapgen_piece
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
             if( !name.empty() && !item::type_is_defined( name ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item type '" + name + "'" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
@@ -2678,10 +2678,8 @@ void map::draw_map( mapgendata &dat )
     const bool generated = run_mapgen_func( function_key, dat );
 
     if( !generated ) {
-        if( is_ot_match( "megastore", terrain_type, ot_match_type::prefix ) ) {
-            draw_megastore( dat );
-        } else if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
-                   is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
+        if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
+            is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
         } else if( is_ot_match( "haz_sar", terrain_type, ot_match_type::prefix ) ) {
             draw_sarcophagus( dat );
@@ -4148,7 +4146,7 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX, SEEY ), f_table );
                         if( loot_variant <= 67 ) {
                             spawn_item( point( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point( SEEX, SEEY - 1 ), "battery", dice( 4, 3 ) );
+                            spawn_item( point( SEEX, SEEY - 1 ), "heavy_battery_cell" );
                             spawn_item( point( SEEX - 1, SEEY ), "v29" );
                             spawn_item( point( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
                             spawn_item( point( SEEX, SEEY ), "plasma_gun" );
@@ -5652,222 +5650,6 @@ void map::draw_sarcophagus( mapgendata &dat )
             if( match( dat.east(), "haz_sar_b1" ) && match( dat.south(), "haz_sar_b1" ) ) {
                 rotate( 3 );
             }
-        }
-    }
-}
-
-void map::draw_megastore( mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "megastore_entrance" ) {
-        fill_background( this, t_floor );
-        // Construct facing north; below, we'll rotate to face road
-        line( this, t_wall_glass, 0, 0, EAST_EDGE, 0 );
-        ter_set( point( SEEX, 0 ), t_door_glass_c );
-        ter_set( point( SEEX + 1, 0 ), t_door_glass_c );
-        //Vending
-        std::vector<int> vset;
-        vset.reserve( 21 );
-        int vnum = rng( 2, 6 );
-        for( int a = 0; a < 21; a++ ) {
-            vset.push_back( a );
-        }
-        std::shuffle( vset.begin(), vset.end(), rng_get_engine() );
-        for( int a = 0; a < vnum; a++ ) {
-            if( vset[a] < 12 ) {
-                if( one_in( 2 ) ) {
-                    place_vending( point( vset[a], 1 ), "vending_food" );
-                } else {
-                    place_vending( point( vset[a], 1 ), "vending_drink" );
-                }
-            } else {
-                if( one_in( 2 ) ) {
-                    place_vending( point( vset[a] + 2, 1 ), "vending_food" );
-                } else {
-                    place_vending( point( vset[a] + 2, 1 ), "vending_drink" );
-                }
-            }
-        }
-        vset.clear();
-        // Long checkout lanes
-        for( int x = 2; x <= 18; x += 4 ) {
-            line_furn( this, f_counter, x, 4, x, 14 );
-            line_furn( this, f_rack, x + 3, 4, x + 3, 14 );
-            place_items( "snacks",    80, point( x + 3, 4 ), point( x + 3, 14 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( "magazines", 70, point( x + 3, 4 ), point( x + 3, 14 ), false,
-                         calendar::start_of_cataclysm );
-        }
-        if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-        return ter( n ) == t_floor;
-        } ) ) {
-            place_spawns( GROUP_PLAIN, 1, p->xy(), p->xy(), 1, true );
-        }
-        // Finally, figure out where the road is; construct our entrance facing that.
-        std::vector<direction> faces_road;
-        if( is_ot_match( "road", dat.east(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.east(), ot_match_type::type ) ) {
-            rotate( 1 );
-        }
-        if( is_ot_match( "road", dat.south(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.south(), ot_match_type::type ) ) {
-            rotate( 2 );
-        }
-        if( is_ot_match( "road", dat.west(), ot_match_type::type ) ||
-            is_ot_match( "bridge", dat.west(), ot_match_type::type ) ) {
-            rotate( 3 );
-        }
-    } else if( terrain_type == "megastore" ) {
-        square( this, t_floor, 0, 0, EAST_EDGE, SOUTH_EDGE );
-        // Randomly pick contents
-        switch( rng( 1, 5 ) ) {
-            case 1: { // Groceries
-                bool fridge = false;
-                for( int x = rng( 2, 3 ); x < EAST_EDGE; x += 3 ) {
-                    for( int y = 2; y <= SEEY; y += SEEY - 2 ) {
-                        if( one_in( 3 ) ) {
-                            fridge = !fridge;
-                        }
-                        if( fridge ) {
-                            line_furn( this, f_glass_fridge, x, y, x, y + SEEY - 4 );
-                            if( one_in( 3 ) ) {
-                                place_items( "fridgesnacks", 80, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            } else {
-                                place_items( "fridge",       70, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            }
-                        } else {
-                            line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
-                            if( one_in( 3 ) ) {
-                                place_items( "cannedfood", 78, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            } else if( one_in( 2 ) ) {
-                                place_items( "pasta",      82, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            } else if( one_in( 2 ) ) {
-                                place_items( "produce",    65, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            } else {
-                                place_items( "snacks",     72, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                             calendar::start_of_cataclysm );
-                            }
-                        }
-                    }
-                }
-            }
-            break;
-            case 2: // Hardware
-                for( int x = 2; x <= 22; x += 4 ) {
-                    line_furn( this, f_rack, x, 4, x, SEEY * 2 - 5 );
-                    if( one_in( 3 ) ) {
-                        place_items( "tools_carpentry", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
-                                     calendar::start_of_cataclysm );
-                    } else if( one_in( 2 ) ) {
-                        place_items( "tools_construction", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
-                                     calendar::start_of_cataclysm );
-                    } else if( one_in( 3 ) ) {
-                        place_items( "hardware", 70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
-                                     calendar::start_of_cataclysm );
-                    } else {
-                        place_items( "mischw",   70, point( x, 4 ), point( x, SEEY * 2 - 5 ), false,
-                                     calendar::start_of_cataclysm );
-                    }
-                }
-                break;
-            case 3: // Clothing
-                for( int x = 2; x < SEEX * 2; x += 6 ) {
-                    for( int y = 3; y <= 9; y += 6 ) {
-                        square_furn( this, f_rack, x, y, x + 1, y + 1 );
-                        if( one_in( 2 ) ) {
-                            place_items( "shirts",  75, point( x, y ), point( x + 1, y + 1 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else if( one_in( 2 ) ) {
-                            place_items( "pants",   72, point( x, y ), point( x + 1, y + 1 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else if( one_in( 2 ) ) {
-                            place_items( "jackets", 65, point( x, y ), point( x + 1, y + 1 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else {
-                            place_items( "winter",  62, point( x, y ), point( x + 1, y + 1 ), false,
-                                         calendar::start_of_cataclysm );
-                        }
-                    }
-                }
-                for( int y = 13; y <= SEEY * 2 - 2; y += 3 ) {
-                    line_furn( this, f_rack, 2, y, SEEX * 2 - 3, y );
-                    if( one_in( 3 ) ) {
-                        place_items( "shirts",     75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
-                                     calendar::start_of_cataclysm );
-                    } else if( one_in( 2 ) ) {
-                        place_items( "shoes",      75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
-                                     calendar::start_of_cataclysm );
-                    } else if( one_in( 2 ) ) {
-                        place_items( "bags",       75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
-                                     calendar::start_of_cataclysm );
-                    } else {
-                        place_items( "allclothes", 75, point( 2, y ), point( SEEX * 2 - 3, y ), false,
-                                     calendar::start_of_cataclysm );
-                    }
-                }
-                break;
-            case 4: // Cleaning and soft drugs and novels and junk
-                for( int x = rng( 2, 3 ); x < EAST_EDGE; x += 3 ) {
-                    for( int y = 2; y <= SEEY; y += SEEY - 2 ) {
-                        line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
-                        if( one_in( 3 ) ) {
-                            place_items( "cleaning",  78, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else if( one_in( 2 ) ) {
-                            place_items( "softdrugs", 72, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else {
-                            place_items( "novels",    84, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        }
-                    }
-                }
-                break;
-            case 5: // Sporting goods
-                for( int x = rng( 2, 3 ); x < EAST_EDGE; x += 3 ) {
-                    for( int y = 2; y <= SEEY; y += SEEY - 2 ) {
-                        line_furn( this, f_rack, x, y, x, y + SEEY - 4 );
-                        if( one_in( 2 ) ) {
-                            place_items( "sports",  72, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else if( one_in( 10 ) ) {
-                            place_items( "guns_rifle_common",  20, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        } else {
-                            place_items( "camping", 68, point( x, y ), point( x, y + SEEY - 4 ), false,
-                                         calendar::start_of_cataclysm );
-                        }
-                    }
-                }
-                break;
-        }
-
-        // Add some spawns
-        for( int i = 0; i < 15; i++ ) {
-            int x = rng( 0, EAST_EDGE ), y = rng( 0, SOUTH_EDGE );
-            if( ter( point( x, y ) ) == t_floor ) {
-                place_spawns( GROUP_PLAIN, 1, point( x, y ), point( x, y ), 1, true );
-            }
-        }
-        // Rotate randomly...
-        rotate( rng( 0, 3 ) );
-        // ... then place walls as needed.
-        if( dat.north() != "megastore_entrance" && dat.north() != "megastore" ) {
-            line( this, t_wall, 0, 0, EAST_EDGE, 0 );
-        }
-        if( dat.east() != "megastore_entrance" && dat.east() != "megastore" ) {
-            line( this, t_wall, EAST_EDGE, 0, EAST_EDGE, SOUTH_EDGE );
-        }
-        if( dat.south() != "megastore_entrance" && dat.south() != "megastore" ) {
-            line( this, t_wall, 0, SOUTH_EDGE, EAST_EDGE, SOUTH_EDGE );
-        }
-        if( dat.west() != "megastore_entrance" && dat.west() != "megastore" ) {
-            line( this, t_wall, 0, 0, 0, SOUTH_EDGE );
         }
     }
 }

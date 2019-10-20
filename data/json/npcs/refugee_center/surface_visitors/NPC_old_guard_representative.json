@@ -202,7 +202,8 @@
         "om_special": "bandit_camp",
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
-        "range": [ 10, 50 ]
+        "min_distance": 10,
+        "search_range": 50
       },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
