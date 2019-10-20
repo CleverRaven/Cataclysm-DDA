@@ -886,7 +886,6 @@
     "type": "overmap_terrain",
     "id": "megastore_1_2_0",
     "copy-from": "megastore_1_2_0",
-    "name": "megastore",
     "sym": "m",
     "color": "i_magenta"
   },
@@ -899,8 +898,7 @@
     "type": "overmap_terrain",
     "id": "megastore_0_0_1",
     "copy-from": "megastore_0_0_1",
-    "name": "megastore, second floor",
-    "sym": "M",
+    "sym": "m",
     "color": "i_magenta"
   },
   {
