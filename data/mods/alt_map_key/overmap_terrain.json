@@ -849,7 +849,7 @@
     "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
-     "sym": "m",
+    "sym": "m",
     "color": "i_magenta"
   },
   {
@@ -886,7 +886,9 @@
     "type": "overmap_terrain",
     "id": "megastore_1_2_0",
     "copy-from": "megastore_1_2_0",
-    "color": "i_magenta"
+    "name": "megastore entrance",
+    "color": "i_magenta",
+    "symbol": "M"
   },
   {
     "type": "overmap_terrain",
