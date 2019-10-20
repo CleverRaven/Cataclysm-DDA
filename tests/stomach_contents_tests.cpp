@@ -197,7 +197,7 @@ TEST_CASE( "all_nutrition_starve_test" )
     }
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
-    // close to 0 which is the max value for some vitamins 
+    // close to 0 which is the max value for some vitamins
     CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -100 );

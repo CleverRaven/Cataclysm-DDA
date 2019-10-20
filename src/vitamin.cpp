@@ -53,8 +53,10 @@ void vitamin::load_vitamin( JsonObject &jo )
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
     jo.read( "name", vit.name_ );
-    vit.deficiency_ = efftype_id( jo.get_string( "deficiency", "null" ) );
-    vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
+    vit.deficiency_ = efftype_id::NULL_ID();
+    jo.read( "deficiency", vit.deficiency_ );
+    vit.excess_ = efftype_id::NULL_ID();
+    jo.read( "excess", vit.excess_ );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
