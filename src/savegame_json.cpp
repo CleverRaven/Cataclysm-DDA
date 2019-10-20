@@ -395,6 +395,7 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+    data.read( "pkill", pkill );
 
     JsonObject vits = data.get_object( "vitamin_levels" );
     for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
@@ -526,6 +527,8 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+    on_stat_change( "pkill", pkill );
+    on_stat_change( "perceived_pain", get_perceived_pain() );
     recalc_sight_limits();
     reset_encumbrance();
 
@@ -587,6 +590,7 @@ void Character::store( JsonOut &json ) const
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
+    json.member( "pkill", pkill );
 
     // energy
     json.member( "stim", stim );
@@ -639,8 +643,6 @@ void player::store( JsonOut &json ) const
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
-    // pain
-    json.member( "pkill", pkill );
     // misc levels
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
@@ -744,7 +746,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
@@ -815,9 +816,6 @@ void player::load( JsonObject &data )
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
-
-    on_stat_change( "pkill", pkill );
-    on_stat_change( "perceived_pain", get_perceived_pain() );
 
     int tmptar;
     int tmptartyp = 0;
