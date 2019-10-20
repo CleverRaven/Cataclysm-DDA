@@ -22,8 +22,16 @@
       "clip_size": 1
     },
     "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "archery", 1 ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
     "flags": [ "STR_RELOAD" ]
+  },
+  {
+    "id": "gun_crossbow_mod",
+    "copy-from": "gun_crossbow",
+    "type": "GUNMOD",
+    "name": "modified rail-mounted crossbow",
+    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
+    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "offset_sights",
@@ -37,6 +45,14 @@
     "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
+  },
+  {
+    "id": "offset_sights_mod",
+    "copy-from": "offset_sights",
+    "type": "GUNMOD",
+    "name": "modified offset iron sights",
+    "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "offset_sight_rail",
@@ -53,6 +69,14 @@
     "mod_targets": [ "shotgun", "smg", "rifle" ],
     "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ]
+  },
+  {
+    "id": "offset_sight_rail_mod",
+    "copy-from": "offset_sight_rail",
+    "type": "GUNMOD",
+    "name": "modified offset sight rail",
+    "description": "An additional rail set at 45° for attaching a secondary optic.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "rail_laser_sight",
@@ -89,6 +113,14 @@
     "dispersion_modifier": -1,
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 6 ] ]
+  },
+  {
+    "id": "stabilizer_mod",
+    "copy-from": "stabilizer",
+    "type": "GUNMOD",
+    "name": "modified gyroscopic stabilizer",
+    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and slightly increasing accuracy.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "lead_stabilizer",
