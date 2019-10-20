@@ -478,7 +478,6 @@ player::player() :
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
     stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
-    pkill = 0;
     radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
@@ -2935,12 +2934,12 @@ int player::get_perceived_pain() const
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
-void player::mod_painkiller( int npkill )
+void Character::mod_painkiller( int npkill )
 {
     set_painkiller( pkill + npkill );
 }
 
-void player::set_painkiller( int npkill )
+void Character::set_painkiller( int npkill )
 {
     npkill = std::max( npkill, 0 );
     if( pkill != npkill ) {
@@ -2956,12 +2955,12 @@ void player::set_painkiller( int npkill )
     }
 }
 
-int player::get_painkiller() const
+int Character::get_painkiller() const
 {
     return pkill;
 }
 
-void player::react_to_felt_pain( int intensity )
+void Character::react_to_felt_pain( int intensity )
 {
     if( intensity <= 0 ) {
         return;

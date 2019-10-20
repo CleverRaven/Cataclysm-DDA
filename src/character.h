@@ -1179,6 +1179,14 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        /** Modifies intensity of painkillers  */
+        void mod_painkiller( int npkill );
+        /** Sets intensity of painkillers  */
+        void set_painkiller( int npkill );
+        /** Returns intensity of painkillers  */
+        int get_painkiller() const;
+        void react_to_felt_pain( int intensity );
+
         void spores();
         void blossoms();
 
@@ -1330,6 +1338,7 @@ class Character : public Creature, public visitable<Character>
         bool check_encumbrance;
 
         int stim;
+        int pkill;
 };
 
 template<>

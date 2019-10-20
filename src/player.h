@@ -710,12 +710,6 @@ class player : public Character
 
         void add_pain_msg( int val, body_part bp ) const;
 
-        /** Modifies intensity of painkillers  */
-        void mod_painkiller( int npkill );
-        /** Sets intensity of painkillers  */
-        void set_painkiller( int npkill );
-        /** Returns intensity of painkillers  */
-        int get_painkiller() const;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -1629,10 +1623,6 @@ class player : public Character
          * @return Whether the target was fully consumed.
          */
         bool consume_med( item &target );
-
-        void react_to_felt_pain( int intensity );
-
-        int pkill;
 
     private:
 
