@@ -118,7 +118,7 @@
     "category": "other",
     "name": "plastic bag",
     "description": "A small, open plastic bag.  Essentially trash.",
-    "weight": "2 g",
+    "weight": "5 g",
     "volume": 0,
     "price": 0,
     "to_hit": -1,
