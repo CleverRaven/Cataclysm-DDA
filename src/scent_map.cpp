@@ -4,6 +4,7 @@
 #include <cassert>
 #include <algorithm>
 
+#include "assign.h"
 #include "calendar.h"
 #include "color.h"
 #include "game.h"
@@ -275,4 +276,11 @@ void scent_map::update( const tripoint &center, map &m )
             }
         }
     }
+}
+
+void scent_type::load_scent_type( JsonObject &jo, const std::string & )
+{
+    scent_type new_scent;
+    assign( jo, "id", new_scent.id, true );
+
 }

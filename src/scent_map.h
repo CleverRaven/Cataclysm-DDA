@@ -21,6 +21,13 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
+class scent_type
+{
+    public:
+        void load_scent_type( JsonObject &jo, const std::string & );
+        scenttype_id id;
+};
+
 class scent_map
 {
     protected:
