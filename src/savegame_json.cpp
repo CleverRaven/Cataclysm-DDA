@@ -410,6 +410,9 @@ void Character::load( JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
+    //energy
+    data.read( "stim", stim );
+
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
 
@@ -585,6 +588,9 @@ void Character::store( JsonOut &json ) const
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
 
+    // energy
+    json.member( "stim", stim );
+
     // breathing
     json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
@@ -632,7 +638,6 @@ void player::store( JsonOut &json ) const
     Character::store( json );
 
     // energy
-    json.member( "stim", stim );
     json.member( "last_sleep_check", last_sleep_check );
     // pain
     json.member( "pkill", pkill );
@@ -739,7 +744,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "stim", stim );
     data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );

@@ -180,6 +180,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    set_stim( 0 );
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
@@ -4163,6 +4164,21 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::get_stim() const
+{
+    return stim;
+}
+
+void Character::set_stim( int new_stim )
+{
+    stim = new_stim;
+}
+
+void Character::mod_stim( int mod )
+{
+    stim += mod;
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
