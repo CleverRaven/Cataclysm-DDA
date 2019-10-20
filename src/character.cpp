@@ -68,6 +68,9 @@ static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
 static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_tools( "bio_tools" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -5418,4 +5421,63 @@ std::string Character::is_snuggling() const
     }
 
     return "nothing";
+}
+
+bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
+{
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
+        return it.has_flag( flag );
+    } );
+}
+
+std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
+{
+    return items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+}
+
+bool Character::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const
+{
+    if( it == "fire" || it == "apparatus" ) {
+        return has_fire( quantity );
+    }
+    if( it == "UPS" && is_mounted() &&
+        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto mons = mounted_creature.get();
+        return quantity <= mons->battery_item->ammo_remaining();
+    }
+    return charges_of( it, quantity, filter ) == quantity;
+}
+
+bool Character::has_fire( const int quantity ) const
+{
+    // TODO: Replace this with a "tool produces fire" flag.
+
+    if( g->m.has_nearby_fire( pos() ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                return true;
+            }
+        }
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( is_npc() ) {
+        // A hack to make NPCs use their Molotovs
+        return true;
+    }
+    return false;
 }
