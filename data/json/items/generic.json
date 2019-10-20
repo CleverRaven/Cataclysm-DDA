@@ -2341,6 +2341,7 @@
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
