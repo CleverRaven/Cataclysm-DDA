@@ -1085,6 +1085,8 @@ void avatar::update_mental_focus()
 
 void avatar::reset_stats()
 {
+    const int current_stim = get_stim();
+
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -1157,12 +1159,12 @@ void avatar::reset_stats()
     set_fake_effect_dur( effect_sad, 1_turns * -morale );
 
     // Stimulants
-    set_fake_effect_dur( effect_stim, 1_turns * stim );
-    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    set_fake_effect_dur( effect_stim, 1_turns * current_stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -current_stim );
     if( has_trait( trait_STIMBOOST ) ) {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 60 ) );
     } else {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
     const float bmi = get_bmi();

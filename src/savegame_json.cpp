@@ -461,9 +461,12 @@ void Character::load( JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
+    //energy
+    data.read( "stim", stim );
+
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
-
+    data.read( "magic", magic );
     JsonArray parray;
 
     data.read( "underwater", underwater );
@@ -649,6 +652,8 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    json.member( "stim", stim );  
+  
     // breathing
     json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );
@@ -656,7 +661,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
-
+    json.member( "magic", magic );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
@@ -696,7 +701,6 @@ void player::store( JsonOut &json ) const
     Character::store( json );
 
     // energy
-    json.member( "stim", stim );
     json.member( "last_sleep_check", last_sleep_check );
     // pain
     json.member( "pkill", pkill );
@@ -817,7 +821,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "stim", stim );
     data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
@@ -973,8 +976,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "magic", magic );
-
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
     json.member( "dex_upgrade", abs( dex_upgrade ) );
@@ -1071,7 +1072,6 @@ void avatar::load( JsonObject &data )
     }
 
     data.read( "stamina", stamina );
-    data.read( "magic", magic );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1450,7 +1450,6 @@ void npc::load( JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1680,7 +1679,6 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-
     json.member( "mission", mission ); // TODO: stringid
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );

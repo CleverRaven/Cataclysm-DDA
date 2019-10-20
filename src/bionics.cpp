@@ -503,7 +503,7 @@ bool player::activate_bionic( int b, bool eff_only )
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
-        stim = 0;
+        set_stim( 0 );
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
@@ -1007,10 +1007,10 @@ void player::process_bionic( int b )
         }
 
         // Only dull pain so extreme that we can't pkill it safely
-        if( pkill >= 150 && pain > pkill && stim > -150 ) {
+        if( pkill >= 150 && pain > pkill && get_stim() > -150 ) {
             mod_pain( -1 );
             // Negative side effect: negative stim
-            stim--;
+            mod_stim( -1 );
             mod_power_level( -2_kJ );
         }
     } else if( bio.id == "bio_cable" ) {

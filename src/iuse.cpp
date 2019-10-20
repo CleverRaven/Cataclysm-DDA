@@ -412,7 +412,7 @@ static int alcohol( player &p, const item &it, const int strength )
         // might not be healthy, and still causes Thirst problems, though
         p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.stim += abs( it.get_comestible() ? it.get_comestible()->stim : 0 );
+        p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -889,7 +889,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
     } else {
-        p->stim += 3;
+        p->mod_stim( 3 );
     }
     if( one_in( 50 ) ) { // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
@@ -963,8 +963,8 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
         p->remove_effect( effect_asthma );
-    } else if( p->stim < 16 ) {
-        p->stim += 8;
+    } else if( p->get_stim() < 16 ) {
+        p->mod_stim( 8 );
         p->mod_painkiller( 2 );
     }
     p->mod_painkiller( 2 );
@@ -1452,7 +1452,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         }
     } else if( p->has_trait( trait_THRESH_MYCUS ) ) {
         p->mod_painkiller( 5 );
-        p->stim += 5;
+        p->mod_stim( 5 );
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(
@@ -2548,8 +2548,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
 
     if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
-                            -1, p->get_item_position( it ) );
+        p->assign_activity( activity_id( "ACT_CHURN" ), 18000, -1, p->get_item_position( it ) );
         p->activity.placement = g->m.getabs( pnt );
         return it->type->charges_to_use();
     } else {
@@ -5728,7 +5727,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_jetinjector, 20_minutes, num_bp, false, 2 );
         p->mod_painkiller( 20 );
-        p->stim += 10;
+        p->mod_stim( 10 );
         p->healall( 20 );
     }
 
@@ -5756,7 +5755,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_stimpack, 25_minutes, num_bp, false, 2 );
         p->mod_painkiller( 2 );
-        p->stim += 20;
+        p->mod_stim( 20 );
         p->mod_fatigue( -100 );
         p->stamina = p->get_stamina_max();
     }
@@ -9745,7 +9744,7 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<bool> use_function::can_call( const player &p, const item &it, bool t,
+ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {
