@@ -61,7 +61,7 @@
     "id": "techno_basic",
     "type": "BOOK",
     "name": { "str": "Magitek Illustrated", "str_pl": "copies of Magitek Illustrated" },
-    "description": "A paperback tome for the art of combining modern technology with magic.  There is a disclaimer for mechanically unusual designs on the back.",
+    "description": "A paperback tome for the art of combining modern technology with magic.  There is a disclaimer on the back: `Cannith Industries bears no responsibility for malfunctions or accidents for any products mentioned herein`.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
