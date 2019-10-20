@@ -730,7 +730,6 @@ void player::store( JsonOut &json ) const
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
-
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {
