@@ -2934,32 +2934,6 @@ int player::get_perceived_pain() const
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
-void Character::mod_painkiller( int npkill )
-{
-    set_painkiller( pkill + npkill );
-}
-
-void Character::set_painkiller( int npkill )
-{
-    npkill = std::max( npkill, 0 );
-    if( pkill != npkill ) {
-        const int prev_pain = get_perceived_pain();
-        pkill = npkill;
-        on_stat_change( "pkill", pkill );
-        const int cur_pain = get_perceived_pain();
-
-        if( cur_pain != prev_pain ) {
-            react_to_felt_pain( cur_pain - prev_pain );
-            on_stat_change( "perceived_pain", cur_pain );
-        }
-    }
-}
-
-int Character::get_painkiller() const
-{
-    return pkill;
-}
-
 void Character::react_to_felt_pain( int intensity )
 {
     if( intensity <= 0 ) {
