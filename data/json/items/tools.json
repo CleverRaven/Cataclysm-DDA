@@ -454,7 +454,7 @@
     "type": "TOOL",
     "name": "bear trap",
     "description": "This is a spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
-    "weight": "11793 g",
+    "weight": "14000 g",
     "volume": "1500 ml",
     "price": 6000,
     "to_hit": -2,
