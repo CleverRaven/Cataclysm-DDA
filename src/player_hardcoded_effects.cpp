@@ -1336,8 +1336,8 @@ void player::hardcoded_effects( effect &it )
                 // Myoclonic seizure (muscle spasm)
                 if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
                     std::string limb = random_entry<std::vector<std::string>>( { "arm", "hand", "leg" } );
-                    add_msg_if_player( m_bad,
-                                       _( string_format( "Your %s suddenly jerks in an unexpected direction!", limb ) ) );
+                    add_msg_if_player( m_bad, string_format(
+                                           _( "Your %s suddenly jerks in an unexpected direction!" ), _( limb ) ) );
                     if( limb == "arm" ) {
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;

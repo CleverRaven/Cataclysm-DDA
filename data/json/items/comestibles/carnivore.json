@@ -117,7 +117,7 @@
     "copy-from": "meat",
     "name": "chunk of mutant meat",
     "name_plural": "chunks of mutant meat",
-    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems safe to eat, if you cook it and remove the worst parts.",
+    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts.",
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -130,7 +130,7 @@
     "copy-from": "meat_scrap",
     "name": "scrap of mutant meat",
     "name_plural": "scraps of mutant meat",
-    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems safe to eat, if you cook it and remove the worst parts.",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems digestible at least, if you cook it and remove the worst parts.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -209,8 +209,7 @@
     "calories": 25,
     "fun": 0,
     "healthy": 0,
-    "delete": { "flags": [ "BAD_TASTE" ] },
-    "flags": [ "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_CRAFT_INHERIT" ]
   },
   {
     "id": "offal",
@@ -311,7 +310,6 @@
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
     "flags": "NO_CRAFT_INHERIT",
-    "delete": { "flags": [ "SMOKABLE" ] },
     "proportional": { "price": 0.64 }
   },
   {
