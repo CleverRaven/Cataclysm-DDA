@@ -1,6 +1,7 @@
 # JSON Flags
 
 * [Notes](#notes)
+* [Inheritance](#inheritance)
 * [TODO](#todo)
 * [Ammo](#ammo)
   + [Ammo type](#ammo-type)
@@ -72,6 +73,11 @@
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+
+
+## Inheritance
+
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
 
 
 ## TODO
