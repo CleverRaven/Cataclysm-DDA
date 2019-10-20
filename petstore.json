@@ -1,0 +1,440 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_petstore" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........2rrrrrrrrrrrr",
+        ".|--6666--|2yrrryrrryrrr",
+        ".| 4      |2yrrryrrryrrr",
+        ".|--  CC I72yrrryrrryrrr",
+        ".| 4  CC I72yrrryrrryrrr",
+        ".|--  CC I72yrrryrrryrrr",
+        ".| 4      |2yyyyyyyyyyyy",
+        ".|--    --|2222222222222",
+        ".|      4 |....322223...",
+        ".--+-11----------gg-|...",
+        ".|          CCC7 oo |...",
+        ".|     A  A    7 oo |...",
+        ".|  A  A  A  A -6gg6|...",
+        ".1  A  A  A  A   oo |...",
+        ".|  A  A         oo 1...",
+        ".|        dddd  dddd1...",
+        ".1 K K L  d Fd  dF d|...",
+        ".| K K L            ---.",
+        ".|          CC  CC  AA|.",
+        ".|+--+--              |.",
+        ".| B| G|  KAAAAAAAAAAA|.",
+        ".|------+-------------|.",
+        ".....RrrrrrUUrrUrrrr....",
+        ".....rrrrrrrUrrrrrrr...."
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_c",
+        "-": "t_wall_w",
+        ".": "t_grass",
+        "1": "t_window",
+        "2": "t_sidewalk",
+        "3": "t_tree_young",
+        "4": "t_chaingate_c",
+        "5": "t_wall_wood",
+        "6": "t_wall_glass_h",
+        "7": "t_wall_glass_v",
+        "g": "t_door_glass_c",
+        "r": "t_pavement",
+        "U": "t_pavement",
+        "y": "t_pavement_y",
+        "|": "t_wall_w",
+        "R": "t_gutter_downspout"
+      },
+      "furniture": {
+        "A": "f_rack",
+        "C": "f_counter",
+        "F": "f_chair",
+        "G": "f_locker",
+        "H": "f_table",
+        "I": "f_sofa",
+        "d": "f_desk",
+        "K": "f_counter",
+        "L": "f_counter",
+        "U": [ "f_dumpster", "f_recycle_bin" ]
+      },
+      "toilets": { "B": {  } },
+      "items": {
+        "A": { "item": "petstore_shelves", "chance": 60, "repeat": [ 1, 8 ] },
+        "L": { "item": "petstore_shelves", "chance": 60, "repeat": [ 1, 8 ] },
+        "G": { "item": "cleaning", "chance": 30, "repeat": [ 1, 4 ] },
+        "C": { "item": "petstore_misc", "chance": 60, "repeat": [ 1, 8 ] },
+        "K": { "item": "petstore_misc", "chance": 60, "repeat": [ 1, 8 ] },
+        "d": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
+        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_petstore_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222223             ",
+        " |........3             ",
+        " |..U.....3             ",
+        " |........3             ",
+        " |........3             ",
+        " |.....R..3             ",
+        " |........3             ",
+        " |........3             ",
+        " |........22222222223   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................322 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |---5----------------3 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": 18
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 5, 12 ],
+          "y": 11
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "place_item": [
+        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
+        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
+        { "item": "pet_carrier", "repeat": 1, "x": 8, "y": 14 },
+        { "item": "bathroom_scale", "x": 21, "y": 19 }
+      ],
+      "furniture": {
+        "#": "f_counter",
+        "&": "f_sink",
+        "^": "f_indoor_plant",
+        "{": "f_rack",
+        "f": "f_filing_cabinet",
+        "A": "f_stool",
+        "l": "f_locker"
+      },
+      "toilets": { "T": {  } },
+      "place_items": [
+        { "chance": 15, "item": "vet_softdrug", "x": 21, "y": 6 },
+        { "chance": 30, "item": "vet_utility", "x": [ 20, 21 ], "y": 3 }
+      ],
+      "items": { "l": { "item": "cleaning", "chance": 30 }, "T": { "item": "softdrugs", "chance": 30 } },
+      "place_monster": [
+        { "monster": "mon_cat", "x": 2, "y": 3 },
+        { "monster": "mon_rabbit", "x": 2, "y": 7 },
+        { "monster": "mon_rabbit", "x": 3, "y": 7 },
+        { "monster": "mon_dog_zombie_rot", "x": 2, "y": 9 },
+        { "monster": "mon_dog", "x": 2, "y": 13 },
+        { "monster": "mon_dog", "x": 2, "y": 15 },
+        { "monster": "mon_dog_zombie_rot", "x": 10, "y": 19 }
+      ],
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "_||||www||ss||wwww|||||_",
+        "_|CCW...^|ss|^.....-ff|_",
+        "_|CC+....|++|......#..|_",
+        "_|---..............#A.|_",
+        "_|CCW..............#..|_",
+        "_|CC+...{..........-D-|_",
+        "_|---...{.............|_",
+        "_|CCW...{.............|_",
+        "_|CCW...{.............|_",
+        "_|CC+...{.............|_",
+        "_|---...{......{{{{{{{|_",
+        "_|CCW...{.....--------|_",
+        "_|CCW.................|_",
+        "_|CC+.................|_",
+        "_|||||||||||||b||-...-|_",
+        "___c_______4|T.&|l....|_",
+        "___c___d___d|||||l...&|_",
+        "___c_ddddddddcdd|.....|_",
+        "___c__d__d_d_addb....&|_",
+        "___c_________cdd|.....|_",
+        "___ccccccccccccc|||||||_",
+        "________________________"
+      ],
+      "terrain": {
+        "+": "t_door_glass_c",
+        "-": "t_wall_w",
+        ".": "t_floor",
+        "C": "t_thconc_floor",
+        "D": "t_door_c",
+        "W": "t_wall_glass",
+        "_": "t_grass",
+        "a": "t_chaingate_c",
+        "b": "t_door_locked",
+        "c": "t_chainfence",
+        "d": "t_dirt",
+        "s": "t_sidewalk",
+        "w": "t_wall_glass_alarm",
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
+      }
+    },
+    "om_terrain": "s_petstore_1",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_petstore_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |22222223  |2222222223 ",
+        " |.......3  |.........3 ",
+        " |.......322|.........3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |----------5....R....3 ",
+        "            |.........3 ",
+        "            |----.....3 ",
+        "                |.....3 ",
+        "                |..U..3 ",
+        "                |.....3 ",
+        "                |-----3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 6, 8 ]
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "furniture": {
+        "#": "f_counter",
+        "&": "f_trashcan",
+        "H": "f_sofa",
+        "S": "f_sink",
+        "^": "f_indoor_plant",
+        "a": "f_chair",
+        "b": "f_bench",
+        "l": "f_locker",
+        "Y": "f_locker",
+        "G": "f_locker",
+        "t": "f_toilet",
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "{": "f_rack",
+        "K": "f_birdbath"
+      },
+      "place_items": [
+        { "chance": 35, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
+        { "chance": 30, "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
+        { "chance": 55, "item": "trash", "x": 6, "y": 14 },
+        { "chance": 55, "item": "trash", "x": 12, "y": 5 },
+        { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
+        { "chance": 45, "item": "vet_utility", "x": 14, "y": 14 },
+        { "chance": 45, "item": "vet_utility", "x": 14, "y": 12 },
+        { "chance": 45, "item": "vet_utility", "x": 11, "y": [ 11, 12 ] },
+        { "chance": 40, "item": "magazines", "x": 7, "y": 11 }
+      ],
+      "items": {
+        "{": { "item": "petstore_shelves", "chance": 60, "repeat": [ 1, 8 ] },
+        "G": { "item": "cleaning", "chance": 30, "repeat": [ 1, 4 ] },
+        "l": { "item": "petstore_misc", "chance": 60, "repeat": [ 1, 8 ] },
+        "#": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
+        "Y": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
+      },
+      "place_monster": [
+        { "monster": "mon_dog_zombie_rot", "x": 21, "y": 7 },
+        { "monster": "mon_dog_skeleton", "x": 22, "y": 7 },
+        { "monster": "mon_dog", "x": 22, "y": 10 },
+        { "monster": "mon_dog", "x": 22, "y": 11 },
+        { "monster": "mon_cat", "x": 21, "y": 13 },
+        { "monster": "mon_cat", "x": 22, "y": 13 },
+        { "monster": "mon_dog_zombie_rot", "x": 14, "y": 19 },
+        { "monster": "mon_dog_zombie_rot", "x": 20, "y": 21 }
+      ],
+      "place_toilets": [ { "x": 2, "y": 19 } ],
+      "rows": [
+        "___________pppssppp_____",
+        "__9____9___p9psspKppppp_",
+        "_____9_____pppssp|||--||",
+        "____duduuudu__ss_|HH..^|",
+        "_||----------|++||.....|",
+        "_|....^|^...&-..-....^&|",
+        "_|.....|.....-..-...||||",
+        "_|.....#.....|++|...-..|",
+        "_|l.|.a#............+..|",
+        "_|l.|..#............||||",
+        "_|l.|..#............-..|",
+        "_|l.|..#...{..{..b..+..|",
+        "_||||..|...{..{..b..||||",
+        "_|.....|...{..{.....-..|",
+        "_|....&|...{..{..b..+..|",
+        "_||D||||...{..{..b..||||",
+        "_|....................S|",
+        "_|....................#|",
+        "_||D||e|||||||||||||||||",
+        "_|t.|...a&HH|ddd_d____dC",
+        "4|..|.......Ddddd__d___C",
+        "_|#S|YYG....|dd_d_d__d_C",
+        "_||||||||w|||ccccccccccc",
+        "________________________"
+      ],
+      "terrain": {
+        "+": "t_door_glass_c",
+        "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "p": "t_grass",
+        "K": "t_grass",
+        "-": "t_wall_glass",
+        ".": "t_floor",
+        "C": "t_chainfence_v",
+        "D": "t_door_c",
+        "c": "t_chainfence_h",
+        "d": "t_dirt",
+        "e": "t_door_c_peep",
+        "s": "t_sidewalk",
+        "u": "t_underbrush",
+        "w": "t_window",
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout",
+        "9": [
+          "t_tree_blackjack",
+          "t_tree_walnut",
+          "t_tree_chestnut",
+          "t_tree_beech",
+          "t_tree_hazelnut",
+          "t_tree_cottonwood",
+          "t_tree",
+          "t_tree_elm",
+          "t_tree_dead",
+          "t_tree_apple",
+          "t_tree_pear",
+          "t_tree_cherry",
+          "t_tree_peach",
+          "t_tree_apricot",
+          "t_tree_plum",
+          "t_tree_mulberry",
+          "t_tree_elderberry",
+          "t_tree_pine",
+          "t_tree_birch",
+          "t_tree_willow",
+          "t_tree_maple",
+          "t_tree_hickory",
+          "t_tree_almond",
+          "t_tree_pecan"
+        ]
+      }
+    },
+    "om_terrain": "s_petstore_2",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_petstore_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                 |222223",
+        "                 |.....3",
+        " |222222222222222|..U..3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |..........3----------3",
+        " |..........3           ",
+        " 5....R.....3           ",
+        " |..........3           ",
+        " |----------3           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 6, 9 ]
+        }
+      ]
+    }
+  }
+]

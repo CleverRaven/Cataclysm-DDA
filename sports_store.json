@@ -1,0 +1,129 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_sports" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".--~~~~~~--++--~~~~~~--.",
+        ".|   @@          @@   |.",
+        ".|                    |.",
+        ".|{  {}    mm    {}  }|.",
+        ".|{  {}   ^--^   {}  }|.",
+        ".|{  {}   ^||^   {}  }|.",
+        ".|{  {}   ^--^   {}  }|.",
+        ".|{  {}    pp    {}  }|.",
+        ".|{  {}          {}  }|.",
+        ".|        }}}}        |.",
+        ".|######  }}}}  |/|/|/|.",
+        ".|   h #        | | | |.",
+        ".|        ttteee|^|^|^|.",
+        ".|----+---------------|.",
+        ".|& |   }}}}}}}}} OOOO|.",
+        ".|  +                O|.",
+        ".|% |   {{{{{{{{{    O|.",
+        ".-----------------*----.",
+        "........4..............."
+      ],
+      "terrain": {
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_floor",
+        "'": "t_pavement",
+        "`": "t_pavement_y",
+        "+": "t_door_c",
+        "*": "t_door_locked",
+        "|": "t_wall_p",
+        "-": "t_wall_p",
+        "~": "t_window",
+        "4": "t_gutter_downspout",
+        "/": "t_door_curtain_c"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "h": "f_stool",
+        "t": "f_treadmill",
+        "e": "f_ergometer",
+        "p": "f_floor_canvas",
+        "m": "f_exercise",
+        "%": "f_sink",
+        "@": "f_mannequin",
+        "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
+        "{": "f_rack",
+        "}": "f_rack",
+        "O": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ]
+      },
+      "toilets": { "&": {  } },
+      "items": { "O": { "item": "allsporting", "chance": 50 } },
+      "place_loot": [
+        { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "camping", "x": 2, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "camping", "x": 5, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "camping", "x": 6, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "sports", "x": 17, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "sports", "x": 18, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "sports", "x": 21, "y": [ 8, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 10, 13 ], "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 10, 13 ], "y": 15, "chance": 80, "repeat": [ 1, 8 ] },
+        { "group": "allsporting", "x": [ 8, 16 ], "y": 19, "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "allsporting", "x": [ 8, 16 ], "y": 21, "chance": 70, "repeat": [ 1, 2 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": 7, "chance": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_sports_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |..oooo........oooo..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...&.........=......3 ",
+        " |....................3 ",
+        " |------5-------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 15, 16 ]
+        }
+      ]
+    }
+  }
+]

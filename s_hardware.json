@@ -1,0 +1,541 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_hardware" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "~~~~~~~~~~~_____________",
+        "~~~~~~~~~~~_____________",
+        "*|-----++-|_____________",
+        "*|[[[[...]|_____________",
+        "*|.......]O_____________",
+        "*|[.[....]|-----------|~",
+        "*|[.[.....y[[[[[[[[[[[|~",
+        "*|[.[.................|~",
+        "*|[.[.#%###...........|~",
+        "*|[...#l.....[[[[[[[[[|~",
+        "*|-+-------.----------|~",
+        "*|..y|]]]]].]]]]]]]]|~~~",
+        "*|&.S|..............|~**",
+        "*|||||]]]]].]]]]]]]]|~**",
+        "*****|..............|~**",
+        "*****|dh............O___",
+        "*****|dd..@@@@.h....;___",
+        "*****|O-------------|___",
+        "****************_4UU____",
+        "****************________",
+        "****************________",
+        "************************"
+      ],
+      "terrain": {
+        "%": "t_console_broken",
+        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "+": "t_door_c",
+        "-": "t_wall_w",
+        ".": "t_floor",
+        ";": "t_door_locked",
+        "O": "t_window",
+        "_": "t_pavement",
+        "U": "t_pavement",
+        "|": "t_wall_w",
+        "~": "t_sidewalk",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "@": "f_locker",
+        "[": "f_bookcase",
+        "]": "f_rack",
+        "d": "f_desk",
+        "h": "f_chair",
+        "l": "f_stool",
+        "S": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "U": [ "f_dumpster", "f_recycle_bin" ]
+      },
+      "toilets": { "&": {  } },
+      "place_items": [
+        { "item": "plumbing_bulk", "x": [ 6, 10 ], "y": 13, "chance": 65, "repeat": [ 2, 8 ] },
+        { "item": "plumbing_bulk", "x": [ 12, 19 ], "y": 13, "chance": 65, "repeat": [ 2, 12 ] },
+        { "item": "plumbing_bulk", "x": [ 6, 10 ], "y": 15, "chance": 65, "repeat": [ 2, 8 ] },
+        { "item": "plumbing_bulk", "x": [ 12, 19 ], "y": 15, "chance": 65, "repeat": [ 2, 12 ] },
+        { "item": "hardware_plumbing", "x": [ 2, 5 ], "y": 5, "chance": 85, "repeat": [ 1, 6 ] },
+        { "item": "hardware_plumbing", "x": [ 11, 21 ], "y": 8, "chance": 85, "repeat": [ 3, 16 ] },
+        { "item": "hardware_plumbing", "x": [ 13, 21 ], "y": 11, "chance": 85, "repeat": [ 3, 12 ] },
+        { "item": "hardware_plumbing", "x": 2, "y": [ 7, 11 ], "chance": 85, "repeat": [ 2, 8 ] },
+        { "item": "hardware_plumbing", "x": 4, "y": [ 7, 10 ], "chance": 85, "repeat": [ 2, 6 ] },
+        { "item": "hardware_plumbing", "x": 9, "y": [ 5, 7 ], "chance": 85, "repeat": [ 1, 4 ] },
+        { "item": "hardware_plumbing", "x": [ 10, 13 ], "y": 18, "chance": 90, "repeat": [ 1, 6 ] },
+        { "item": "hardware", "x": [ 14, 19 ], "y": [ 16, 18 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "office", "x": 6, "y": [ 17, 18 ], "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_hardware_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222223             ",
+        " |........3             ",
+        " |...&....3             ",
+        " |........3222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..................3-3 ",
+        " |..................3   ",
+        " |.=................3   ",
+        " |---|..............3   ",
+        "     |..............3   ",
+        "     |..............3   ",
+        "     |..............3   ",
+        "     |-----------5--3   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 9, 11 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_hardware_1" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ppppp~~~~~~~~~~~~~~~~~~~",
+        "ppppp###---##++##---###~",
+        "ppppp#b.........v....P#'",
+        "ppppp#b.b.b.r..r.o.o.P#'",
+        "ppppp#b.b.b.c..c.o.o.P#'",
+        "ppppp#..v.........v..P#'",
+        "ppppp#l.lllll..hhhhh.P#'",
+        "ppppp##=##...........P#'",
+        "ppppp#S.&#lll..hhhhhvP#'",
+        "ppppp########++########'",
+        "ppppp#HHHHHHH__HHHHHHH#4",
+        "pVppp#_____T_____T____#'",
+        "ppppp#HHHHHHH__HHHHHHH#'",
+        "ppppp#__T________T____#'",
+        "ppppp#HHHH#HHT_HH#HHHH#'",
+        "pppppwppppppppppppppppw'",
+        "pppppwHHHHHHHppHHHHHHHw'",
+        "ppppp|ppppppppppppppppw'",
+        "ppppp|pppppppppHpHpHpHw'",
+        "pppppw1p2p3pMppHpHpHpHw'",
+        "pppppw1p2p3pMppHpHpHpHw'",
+        "'D'D'w1p2p3pMppHpHpHpHw'",
+        "'''''WWWWWWWWWWWWWWWWWW'",
+        "''''''''''''''''''''''''"
+      ],
+      "terrain": {
+        "#": "t_wall_w",
+        "'": [ "t_grass", "t_grass", "t_dirt" ],
+        "+": "t_door_glass_c",
+        "-": "t_wall_glass",
+        ".": "t_floor",
+        "D": "t_dirt",
+        "=": "t_door_c",
+        "H": "t_pavement",
+        "M": "t_pavement",
+        "V": "t_pavement",
+        "U": "t_pavement",
+        "1": "t_pavement",
+        "2": "t_pavement",
+        "3": "t_pavement",
+        "W": "t_chainfence_h",
+        "_": "t_floor",
+        "p": "t_pavement",
+        "r": "t_console_broken",
+        "w": "t_chainfence_v",
+        "|": "t_chaingate_c",
+        "~": "t_sidewalk",
+        "4": "t_gutter_downspout"
+      },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_cabbage" }, "furniture": "f_planter_harvest" },
+        "2": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_harvest" },
+        "3": { "item": { "item": "seed_zucchini" }, "furniture": "f_planter_harvest" },
+        "M": { "item": { "item": "seed_flower" }, "furniture": "f_planter_harvest" }
+      },
+      "furniture": {
+        "D": "f_dumpster",
+        "H": "f_rack",
+        "P": "f_rack",
+        "b": "f_rack",
+        "c": "f_counter",
+        "h": "f_rack",
+        "l": "f_rack",
+        "o": "f_rack",
+        "S": "f_sink",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "toilets": { "&": {  } },
+      "items": {
+        "D": [
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 },
+          { "item": "trash", "chance": 50 }
+        ],
+        "H": { "item": "hardware_bulk", "chance": 65, "repeat": [ 1, 6 ] },
+        "P": { "item": "paint", "chance": 65, "repeat": [ 1, 8 ] },
+        "b": { "item": "tools_construction", "chance": 35, "repeat": [ 1, 2 ] },
+        "h": { "item": "hardware", "chance": 65, "repeat": [ 1, 2 ] },
+        "l": { "item": "cleaning", "chance": 65, "repeat": [ 1, 2 ] },
+        "o": { "item": "home_hw", "chance": 45 }
+      },
+      "item": { "M": { "item": "lawnmower", "chance": 25 } },
+      "vehicles": {
+        "T": { "vehicle": "handjack", "chance": 2, "status": 1 },
+        "V": { "vehicle": "flatbed_truck", "chance": 50, "status": 1, "rotation": 270 },
+        "v": { "vehicle": "shopping_cart", "chance": 10, "status": 1 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_hardware_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "     |22222222222222223 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................3 ",
+        "     |................5 ",
+        "     |................3 ",
+        "     |...&........=...3 ",
+        "     |................3 ",
+        "     |----------------3 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 7, 17 ],
+          "y": [ 4, 9 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_hardware_2" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "*W^^^WW|-=--:---:---:-|*",
+        "*w~~~%~|..............|*",
+        "*w~~~v~|..............|*",
+        "*w~~~v~|..l%..l%..l%..|*",
+        "*w~~~~~|...#...#...#..|*",
+        "*w~~~~~|...#...#...#..|*",
+        "*w~~~~~|..............|*",
+        "*w~~~~~:..............|*",
+        "*w~~~~~:..............|*",
+        "*w~~~~~|...]..]..]..].|*",
+        "*wr~~r~|...]..]..]..].|*",
+        "*wr~~r~|...]..]..]..].|*",
+        "*wr~~r~|...]..]..]..].|*",
+        "*wr~~r~|...]..]..]..].|*",
+        "*w~~~~~|..............|*",
+        "*wr~~r~|..............|*",
+        "*wr~~r~|.###..]..]..].|*",
+        "*wr~~r~+..l#..]..]..].|*",
+        "*wr~~r~|---|..]..]..].|*",
+        "*wr~~r~|tsu|..]..]..].|*",
+        "*w~~~~~|...+..........|4",
+        "*WWWWWW|---|----------|*",
+        "************************"
+      ],
+      "terrain": {
+        "%": "t_console_broken",
+        "*": "t_grass",
+        "+": "t_door_c",
+        "-": "t_wall_w",
+        ".": "t_floor",
+        ":": "t_door_glass_c",
+        "=": "t_wall_glass",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "r": "t_sidewalk",
+        "v": "t_sidewalk",
+        "w": "t_chainfence_v",
+        "|": "t_wall_w",
+        "~": "t_sidewalk",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": { "#": "f_counter", "]": "f_rack", "l": "f_stool", "r": "f_rack", "s": "f_sink", "u": "f_trashcan", "v": "f_counter" },
+      "place_vendingmachines": [ { "x": 8, "y": 2 }, { "x": 8, "y": 3 } ],
+      "toilets": { "t": {  } },
+      "place_items": [
+        { "item": "hardware_bulk", "x": 2, "y": [ 2, 7 ], "chance": 70, "repeat": [ 1, 6 ] },
+        { "item": "tools_carpentry", "x": 20, "y": [ 10, 14 ], "chance": 70, "repeat": [ 1, 8 ] },
+        { "item": "paint", "x": 17, "y": [ 10, 14 ], "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "hardware", "x": 14, "y": [ 10, 14 ], "chance": 70, "repeat": [ 1, 8 ] },
+        { "item": "cleaning", "x": 11, "y": [ 10, 14 ], "chance": 70, "repeat": [ 1, 8 ] },
+        { "item": "hardware", "x": 20, "y": [ 17, 20 ], "chance": 70, "repeat": [ 1, 8 ] },
+        { "item": "tools_construction", "x": 17, "y": [ 17, 20 ], "chance": 70, "repeat": [ 1, 6 ] },
+        { "item": "construction_worker", "x": 14, "y": [ 17, 20 ], "chance": 60, "repeat": [ 1, 6 ] },
+        { "item": "farming_seeds", "x": 2, "y": [ 11, 14 ], "chance": 70, "repeat": [ 4, 12 ] },
+        { "item": "tools_earthworking", "x": 2, "y": [ 16, 20 ], "chance": 65, "repeat": [ 1, 4 ] },
+        { "item": "farming_seeds", "x": 5, "y": [ 11, 14 ], "chance": 70, "repeat": [ 2, 12 ] },
+        { "item": "supplies_farming", "x": 5, "y": [ 16, 20 ], "chance": 65, "repeat": [ 1, 4 ] },
+        { "item": "trash", "x": 10, "y": 20, "chance": 75 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "wheelbarrow", "x": [ 3, 4 ], "y": [ 5, 9 ], "chance": 40 },
+        { "vehicle": "shopping_cart", "x": [ 21, 22 ], "y": [ 3, 22 ], "chance": 25 },
+        { "vehicle": "shopping_cart", "x": [ 18, 19 ], "y": [ 7, 22 ], "chance": 25 },
+        { "vehicle": "shopping_cart", "x": [ 15, 16 ], "y": [ 7, 22 ], "chance": 25 },
+        { "vehicle": "shopping_cart", "x": [ 12, 13 ], "y": [ 7, 22 ], "chance": 25 },
+        { "vehicle": "shopping_cart", "x": [ 8, 10 ], "y": [ 5, 16 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_hardware_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "       |222222222222223 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |..............3 ",
+        "       |...........=..3 ",
+        "       |..&...........3 ",
+        "       |..............5 ",
+        "       |--------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 9, 17 ],
+          "y": [ 4, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_hardware_3" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~WWWWWWWWW^^WWWWWWW~~~",
+        "***w~~~~~~~~~~~~~~~~w***",
+        "***w~~~~~~~~~~~~~~~~w***",
+        "***w~~~~~~~~~~~~~~~~w***",
+        "***-=----===-++---=--***",
+        "***|...............]|***",
+        "***|.]]]..[[...[[..]|***",
+        "***|...............]|***",
+        "***|...........]]..]|***",
+        "***|.]]].###.......]|***",
+        "***|.......#...]]..]|***",
+        "***|.....#l%.......]|***",
+        "***|.]]].###...]]..]|***",
+        "***|......y........]|***",
+        "***|...............]|***",
+        "***|.]]]]]...]..]..]|***",
+        "***|.......y.]..]..]|***",
+        "***|-+------+-------|***",
+        "***|Y.y|...........L|***",
+        "***|...|.CC...C..l.L|***",
+        "***|&.S|C.C..CCY...L|4**",
+        "***|----------------|***",
+        "************************"
+      ],
+      "terrain": {
+        "%": "t_console_broken",
+        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "+": "t_door_c",
+        "-": "t_wall_w",
+        ".": "t_floor",
+        "=": "t_wall_glass",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "w": "t_chainfence_v",
+        "|": "t_wall_w",
+        "~": "t_sidewalk",
+        "4": "t_gutter_downspout"
+      },
+      "toilets": { "&": {  } },
+      "furniture": {
+        "#": "f_counter",
+        "[": "f_table",
+        "]": "f_rack",
+        "l": "f_stool",
+        "S": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "Y": "f_trashcan",
+        "C": [ "f_crate_c", "f_cardboard_box" ],
+        "L": "f_locker"
+      },
+      "place_signs": [ { "signage": "the name is gone but a slogan remains: 'We'll repair you all the way'", "x": 15, "y": 4 } ],
+      "items": {
+        "C": { "item": "home_hw", "chance": 50, "repeat": [ 2, 4 ] },
+        "S": { "item": "softdrugs", "chance": 20 },
+        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
+      },
+      "place_items": [
+        { "item": "hardware_bulk", "x": [ 4, 11 ], "y": 4, "chance": 75, "repeat": [ 1, 12 ] },
+        { "item": "cleaning", "x": [ 5, 7 ], "y": 7, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "cleaning", "x": [ 5, 7 ], "y": 10, "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "tools_construction", "x": [ 5, 7 ], "y": 13, "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "mischw", "x": [ 5, 9 ], "y": 16, "chance": 80, "repeat": [ 1, 7 ] },
+        { "item": "paint", "x": [ 10, 11 ], "y": 7, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "paint", "x": [ 15, 16 ], "y": 7, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "home_hw", "x": [ 15, 16 ], "y": 9, "chance": 60, "repeat": [ 1, 4 ] },
+        { "item": "home_hw", "x": [ 15, 16 ], "y": 11, "chance": 60, "repeat": [ 1, 4 ] },
+        { "item": "snacks", "x": [ 15, 16 ], "y": 13, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "hardware", "x": 13, "y": [ 16, 17 ], "chance": 70, "repeat": [ 1, 6 ] },
+        { "item": "hardware", "x": 16, "y": [ 16, 17 ], "chance": 70, "repeat": [ 1, 6 ] },
+        { "item": "tools_carpentry", "x": 19, "y": [ 6, 17 ], "chance": 80, "repeat": [ 1, 9 ] }
+      ],
+      "place_vehicles": [
+        { "vehicle": "wheelbarrow", "x": 4, "y": 2, "chance": 25 },
+        { "vehicle": "wheelbarrow", "x": 5, "y": 2, "chance": 25 },
+        { "vehicle": "wheelbarrow", "x": 6, "y": 2, "chance": 25 },
+        { "vehicle": "wheelbarrow", "x": 7, "y": 2, "chance": 25 },
+        { "vehicle": "wheelbarrow", "x": 8, "y": 2, "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_hardware_roof_3",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |22222222222222223   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |.=...........&..3   ",
+        "   |................5   ",
+        "   |----------------3   ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 7, 16 ]
+        }
+      ]
+    }
+  }
+]

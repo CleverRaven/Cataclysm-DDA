@@ -1,0 +1,605 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "pawn" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".--~~~~~~--**--~~~~~~--.",
+        ".|              N     |.",
+        ".|{   ##   ##   Na   }|.",
+        ".|{   ##   ##   ?    }|.",
+        ".|{   ##   ##   NNN  }|.",
+        ".|{   ##   ##        }|.",
+        ".|{   ##   ##   ##   }|.",
+        ".|{   ##   ##   ##   }|.",
+        ".|{   ##   ##   ##   }|.",
+        ".|{   ##   ##   ##   }|.",
+        ".|{   ##   ##        }|.",
+        ".|{   ##   ##  --%%%%-|.",
+        ".|{   ##   ##  |y d  X|.",
+        ".|{   ##       +  dh }|4",
+        ".|{   ##   |-^-|  d  }|.",
+        ".|{   ##   |   |     }|.",
+        ".|{        |$ &|{}   }|.",
+        ".------------------*---.",
+        "..............'U<U''U''."
+      ],
+      "terrain": {
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_floor",
+        "'": "t_pavement",
+        "U": "t_pavement",
+        "`": "t_pavement_y",
+        "^": "t_door_c",
+        "+": "t_door_locked",
+        "*": "t_door_locked_alarm",
+        "|": "t_wall_y",
+        "-": "t_wall_y",
+        "~": "t_window_alarm",
+        "%": "t_reinforced_glass",
+        "?": "t_console_broken",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
+      },
+      "furniture": {
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "X": "f_safe_l",
+        "d": "f_desk",
+        "#": "f_table",
+        "N": "f_counter",
+        "a": "f_stool",
+        "h": "f_chair",
+        "S": "f_sink",
+        "{": "f_rack",
+        "}": "f_rack"
+      },
+      "toilets": { "&": {  } },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_loot": [
+        { "group": "pawn", "x": 2, "y": [ 7, 21 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 6, 7 ], "y": [ 7, 20 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 11, 12 ], "y": [ 7, 17 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 16, 17 ], "y": [ 11, 14 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": 21, "y": [ 7, 15 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "office", "x": 18, "y": [ 17, 19 ], "chance": 70 },
+        { "group": "homeguns", "x": 21, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "harddrugs", "x": [ 16, 17 ], "y": 21, "chance": 20, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pawn_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |....................3 ",
+        " |..................X.3 ",
+        " |..........&=........3 ",
+        " |-------------###----3 ",
+        "               #>#      "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": [ 3, 18 ],
+          "y": [ 7, 8 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 10, 13 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "pawn_1" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........''...........",
+        ".|-~~~~~~--**--~~~~~~-|.",
+        ".|y                  y|.",
+        ".|{  ##############  }|.",
+        ".|{                  }|.",
+        ".|{  ##############  }| ",
+        ".|{                  }|.",
+        ".|{  ##############  }|.",
+        ".|{                  }|.",
+        ".|{  ##############  }|.",
+        ".|{                  }|.",
+        ".|{  ##############  }|.",
+        ".|{                  }|.",
+        ".|{  ##############  }|.",
+        ".|{                  }|.",
+        ".|{  ##############  }|.",
+        ".|                    |.",
+        "4|-^-|$$$$$!$|$$$$!$$$|.",
+        ".|y  |# ddd }|C      C|.",
+        ".|% &|#  h  }|C      C|.",
+        ".|---|#     }|C      C|.",
+        ".|X  *    y }|CCCCCCCC|.",
+        ".--------*-------------.",
+        "......8U8888<U8........."
+      ],
+      "terrain": {
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_floor",
+        "'": "t_sidewalk",
+        "^": "t_door_c",
+        "+": "t_door_locked",
+        "*": "t_door_locked_alarm",
+        "|": "t_wall_w",
+        "-": "t_wall_w",
+        "~": "t_window_alarm",
+        "$": "t_bars",
+        "!": "t_door_bar_locked",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up",
+        "U": "t_sidewalk",
+        "8": "t_sidewalk"
+      },
+      "furniture": {
+        "X": "f_safe_l",
+        "d": "f_desk",
+        "#": "f_counter",
+        "h": "f_chair",
+        "C": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ],
+        "%": "f_sink",
+        "{": "f_rack",
+        "}": "f_rack",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "U": [ "f_dumpster", "f_recycle_bin" ]
+      },
+      "toilets": { "&": {  } },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] } },
+      "place_loot": [
+        { "group": "pawn", "x": 2, "y": [ 3, 15 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": 21, "y": [ 3, 15 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 3, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 5, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 7, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 9, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 11, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 13, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "pawn", "x": [ 5, 18 ], "y": 15, "chance": 80, "repeat": [ 1, 4 ] },
+        { "group": "homeguns", "x": 14, "y": [ 18, 21 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "homeguns", "x": 21, "y": [ 18, 21 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "pawn", "x": [ 15, 20 ], "y": 21, "chance": 70 },
+        { "group": "office", "x": [ 8, 10 ], "y": 18, "chance": 70 },
+        { "group": "homeguns", "x": 12, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "harddrugs", "x": 6, "y": [ 18, 20 ], "chance": 20, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pawn_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " 5....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...=............&...3 ",
+        " |....................3 ",
+        " |---------###--------- ",
+        "           #>#          "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": [ 3, 18 ],
+          "y": [ 7, 8 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 10, 13 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "pawn_pf" ],
+    "weight": 50,
+    "object": {
+      "rows": [
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".`''''`''''`''''`''''`..",
+        ".....|--~~-~~-*-~~-|....",
+        ".....|@           }|....",
+        ".....|{           }|....",
+        ".....|{           }|....",
+        ".....|{         ddd|....",
+        ".....|{         d $|....",
+        ".....|{         Dh{|....",
+        ".....|{         D {|....",
+        ".....|{         d {|....",
+        ".....|{            |....",
+        ".....|--|     |--+-|....",
+        ".....|% ^     |{{ {|....",
+        ".....|& |     |> {{|....",
+        ".....|-----*-------|....",
+        ".........<''............",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_floor",
+        "{": "t_floor",
+        "}": "t_floor",
+        "$": "t_floor",
+        "#": "t_floor",
+        "@": "t_floor",
+        "%": "t_floor",
+        "&": "t_floor",
+        "h": "t_floor",
+        "d": "t_floor",
+        "D": "t_floor",
+        ">": "t_stairs_down",
+        "'": "t_pavement",
+        "`": "t_pavement_y",
+        "^": "t_door_c",
+        "+": "t_door_bar_locked",
+        "*": "t_door_locked_alarm",
+        "|": "t_wall_w",
+        "-": "t_wall_w",
+        "~": "t_window_alarm",
+        "<": "t_ladder_up"
+      },
+      "furniture": {
+        "d": "f_displaycase",
+        "D": "f_displaycase",
+        "h": "f_chair",
+        "%": "f_sink",
+        "{": "f_rack",
+        "$": "f_rack",
+        "}": "f_rack"
+      },
+      "toilets": { "&": {  } },
+      "items": {
+        "}": { "item": "mussto_stringinst", "chance": 80 },
+        "{": { "item": "pawn_shop_electronics", "chance": 60, "repeat": [ 1, 3 ] },
+        "d": { "item": "elecsto_persele", "chance": 60, "repeat": [ 1, 3 ] },
+        "@": { "item": "armor_suit", "chance": 100 }
+      },
+      "place_loot": [
+        { "item": "hammer", "x": 16, "y": 12 },
+        { "item": "bat", "x": 17, "y": 12 },
+        { "item": "chainsaw_off", "x": 16, "y": 11 },
+        { "item": "radio_car", "x": 18, "y": 10 }
+      ],
+      "place_vehicles": [ { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "pawn_pf_under" ],
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........|-------|.......",
+        "........|B  b  c|.......",
+        "........|   M   |.......",
+        "........|---+---|.......",
+        "........|t     t|.......",
+        "........|t     t|.......",
+        "........|t     t|.......",
+        "........|  hh   |.......",
+        "........|s w w  |.......",
+        "........|  G s p|.......",
+        "........|       |.......",
+        "........|+|  fff|.......",
+        "........|<|-----|.......",
+        "........|-|.............",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_rock",
+        " ": "t_floor",
+        "b": "t_floor",
+        "c": "t_floor",
+        "B": "t_floor",
+        "M": "t_floor",
+        "f": "t_floor",
+        "h": "t_floor",
+        "t": "t_floor",
+        "s": "t_floor",
+        "p": "t_floor",
+        "w": "t_floor",
+        "G": "t_floor",
+        "<": "t_stairs_up",
+        "^": "t_door_c",
+        "+": "t_door_locked",
+        "|": "t_wall",
+        "-": "t_wall"
+      },
+      "furniture": {
+        "t": "f_table",
+        "f": "f_filing_cabinet",
+        "h": "f_chair",
+        "s": "f_stool",
+        "b": "f_crate_c",
+        "B": "f_bench",
+        "c": "f_counter",
+        "p": "f_drill_press"
+      },
+      "items": {
+        "t": { "item": "bondage", "chance": 60, "repeat": [ 2, 4 ] },
+        "f": { "item": "office", "chance": 80, "repeat": [ 1, 2 ] },
+        "G": { "item": "Gimp", "chance": 100 },
+        "M": { "item": "Maynard", "chance": 100 }
+      },
+      "place_loot": [
+        { "item": "pitchfork", "chance": 100, "x": 15, "y": 15 },
+        { "item": "stepladder", "chance": 100, "x": 11, "y": 16 },
+        { "item": "m1911", "chance": 100, "x": 15, "y": 6 },
+        { "item": "katana", "chance": 100, "x": 12, "y": 16 }
+      ],
+      "liquids": { "w": { "liquid": "water", "amount": [ 1, 3 ] }, "h": { "liquid": "water", "amount": [ 1, 2 ] } },
+      "place_fields": [ { "field": "fd_blood", "x": 12, "y": 7 }, { "field": "fd_blood", "x": 10, "y": 6 } ],
+      "place_monster": [ { "monster": "mon_zombie_cop", "chance": 100, "x": 10, "y": 6 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pawn_pf_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     222222222222222    ",
+        "     |.............3    ",
+        "     |..&=.........3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |...........X.3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |.............3    ",
+        "     |--###--------3    ",
+        "        #>#             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 6, 18 ], "y": [ 6, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": [ 6, 15 ],
+          "y": [ 7, 8 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 6, 15 ],
+          "y": [ 10, 13 ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "my_precious",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "supplies_metal_precious", "prob": 70 },
+      { "item": "money_bundle", "prob": 90 },
+      { "item": "gold_watch", "prob": 30 },
+      { "item": "gold_ear", "prob": 30 },
+      { "item": "gold_bracelet", "prob": 30 },
+      { "item": "diamond_ring", "prob": 20 },
+      { "item": "diamond", "prob": 10 }
+    ]
+  },
+  {
+    "id": "pawn_shop_electronics",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "elecsto_entapl" },
+      { "group": "elecsto_cameras" },
+      { "group": "elecsto_homapl" },
+      { "group": "elecsto_pcs" }
+    ]
+  },
+  {
+    "id": "armor_suit",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "helmet_plate", 100 ],
+      [ "boots_plate", 100 ],
+      [ "armguard_lightplate", 100 ],
+      [ "gloves_plate", 100 ],
+      [ "legguard_lightplate", 100 ],
+      [ "armor_plate", 100 ]
+    ]
+  },
+  {
+    "id": "bondage",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "leather_belt", 50 ],
+      [ "blindfold", 50 ],
+      [ "bondage_mask", 50 ],
+      [ "bondage_mask_zipped", 50 ],
+      [ "bondage_suit", 40 ],
+      [ "leather_collar", 50 ],
+      [ "vibrator", 50 ],
+      [ "bullwhip", 50 ],
+      [ "candle", 50 ],
+      [ "rope_6", 20 ],
+      [ "vibrator", 30 ],
+      [ "camisole", 25 ],
+      [ "panties", 40 ],
+      [ "bra", 40 ],
+      [ "hot_pants_leather", 30 ],
+      [ "boxer_shorts", 30 ],
+      [ "mag_porn", 20 ],
+      [ "briefs", 30 ],
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      [ "bikini_top_leather", 25 ],
+      [ "skirt_leather", 25 ],
+      [ "honey_bottled", 20 ],
+      [ "nanoskirt", 25 ],
+      [ "mag_dude", 20 ],
+      [ "chaps_leather", 25 ],
+      [ "novel_romance", 10 ],
+      [ "novel_erotic", 10 ],
+      [ "leather_cat_ears", 25 ],
+      [ "leather_cat_tail", 25 ],
+      [ "rope_30", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Gimp",
+    "subtype": "collection",
+    "items": [ { "item": "bondage_mask_zipped" }, { "item": "bondage_suit" }, { "item": "corpse" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "Maynard",
+    "subtype": "collection",
+    "items": [
+      { "item": "longshirt" },
+      { "item": "wristwatch" },
+      { "item": "pants" },
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "corpse" }
+    ]
+  }
+]

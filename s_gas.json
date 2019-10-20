@@ -1,0 +1,296 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gas" ],
+    "weight": 350,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "........................",
+        ".-----..................",
+        ".|...|..........sss.....",
+        ".|.Q.|...........&s.....",
+        ".|...|...........1s.....",
+        ".|...|P..........2s.....",
+        ".--+--..........sss.....",
+        "........................",
+        "...s9s...........s9s....",
+        "........................",
+        "....5.............5.....",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "....5.............5.....",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "....5.............5.....",
+        "...s9s...........s9s....",
+        "........................"
+      ],
+      "place_terrain": [ { "ter": "t_gas_tank", "x": 3, "y": 5 } ],
+      "terrain": {
+        "&": "t_atm",
+        "+": "t_chaingate_l",
+        "-": "t_chainfence_h",
+        ".": "t_pavement",
+        "5": "t_gas_pump",
+        "s": "t_little_column",
+        "|": "t_chainfence_v"
+      },
+      "furniture": { "9": "f_aut_gas_console" },
+      "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 5, "repeat": [ 200, 1075 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gas_1" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "____:]:____:____:]:____]",
+        "____]]]____:____]]]____]",
+        "____!#!____:____!#!____]",
+        "____]]]____:____]]]____]",
+        "____:]:____:____:]:____]",
+        "____]]]____:____]]]____]",
+        "____!#!____:____!#!____]",
+        "____]]]____:____]]]____]",
+        "____:]:____:____:]:____]",
+        "]]]]]]]]]]]]]]]]]]]]]]]]",
+        "]]]]]]]]]]]]]Pr]]]]]]]]]",
+        "#xxxxxxxxx///xxxxxxxxx#]",
+        "#1.......&...&.......1#]",
+        "#r...................{#]",
+        "#r..rrrrr.....rrrrr..{#]",
+        "#r..rrrrr.....rrrrr..{#]",
+        "#r...................{#]",
+        "#r...................{#]",
+        "#&.AFFD#.CCCCC#rrrrrr1#]",
+        "##+#####...s..#########]",
+        "#S.#...+......+.......~]",
+        "#T.#TSl#.rrrrr#HHtcCfl#]",
+        "########~##############]",
+        " 4      ]]]]]]]]]]]]]]]]"
+      ],
+      "palettes": [ "road" ],
+      "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
+      "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
+      "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
+      "place_loot": [
+        { "group": "fridgesnacks", "x": 21, "y": [ 13, 17 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "fridge", "x": 20, "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "snacks", "x": [ 14, 18 ], "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "magazines", "x": [ 4, 8 ], "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "softdrugs", "x": 1, "y": [ 13, 17 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "behindcounter", "x": [ 9, 13 ], "y": 21, "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "road", "x": [ 7, 15 ], "y": [ 0, 8 ], "chance": 30, "repeat": [ 1, 2 ] },
+        { "group": "gas_charging_rack", "x": [ 15, 20 ], "y": 18, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "gas_charging_rack", "x": 14, "y": 10, "chance": 50 },
+        { "group": "dining", "x": 17, "y": 21, "chance": 45 },
+        { "group": "bed", "x": [ 15, 16 ], "y": 21, "chance": 70 },
+        { "item": "microwave", "x": 19, "y": 21, "chance": 80 },
+        { "item": "laptop", "x": 11, "y": 18, "chance": 70 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 20 ], "y": [ 16, 17 ], "chance": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_gas_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|2222222222222222222223 ",
+        "|.....................3 ",
+        "|...............R.....3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|...........U.........3 ",
+        "|.....................3 ",
+        "|-5-------------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 15, 16 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gas_rural" ],
+    "//": "Rural Gas Station",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_______O________O_______",
+        "________________________",
+        "________________________",
+        "________________________",
+        "........................",
+        ".#~~~~~~~#    #~~~~~~~#.",
+        ".[                    [.",
+        ".####0#####33#####0####.",
+        ".#9999  99      >S   9#.",
+        ".#      99      >    9#.",
+        ".#9999  99      >     #.",
+        ".#              >  >>>#.",
+        ".#FFFFFFFF            #.",
+        ".###########3#######  #.",
+        ".#@@  BC#;R# 66 6F>#3##.",
+        ".#@@   C#  3 B    ># ;#.",
+        ".#:     ####   H   #  #.",
+        "4#:  H  3    ??6  =#A #.",
+        ".##00#####0############."
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 22 ], "repeat": [ 5, 10 ] },
+        { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 22 ], "repeat": [ 5, 10 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 2 ], "repeat": [ 8, 10 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "#": "t_wall_log",
+        ".": "t_grass",
+        "0": "t_curtains",
+        "3": "t_door_locked",
+        "=": "t_rock_floor",
+        "O": "t_dirt",
+        "[": "t_fence_v",
+        "_": "t_pavement",
+        "~": "t_fence_h",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "6": "f_table",
+        "9": "f_rack",
+        ":": "f_dresser",
+        "=": "f_woodstove",
+        ">": "f_counter",
+        "?": "f_sofa",
+        "@": "f_bed",
+        "A": "f_sink",
+        "B": "f_chair",
+        "C": "f_desk",
+        "F": "f_glass_fridge",
+        "H": "f_armchair",
+        "S": "f_stool",
+        "R": "f_shower"
+      },
+      "toilets": { ";": {  } },
+      "gaspumps": { "O": {  } },
+      "place_items": [
+        { "item": "bed", "x": [ 2, 3 ], "y": [ 19, 20 ], "chance": 80 },
+        { "item": "dresser", "x": 2, "y": 21, "chance": 80 },
+        { "item": "fridgesnacks", "x": [ 2, 9 ], "y": 17, "chance": 80 },
+        { "item": "fridge", "x": 17, "y": 19, "chance": 80 },
+        { "item": "snacks", "x": [ 2, 5 ], "y": 15, "chance": 80 },
+        { "item": "behindcounter", "x": [ 21, 21 ], "y": [ 13, 14 ], "chance": 80 },
+        { "item": "road", "x": [ 20, 20 ], "y": [ 13, 14 ], "chance": 20 },
+        { "item": "snacks", "x": [ 2, 5 ], "y": 13, "chance": 13 },
+        { "item": "camping", "x": [ 9, 9 ], "y": [ 15, 15 ], "chance": 70 },
+        { "item": "homebooks", "x": [ 7, 7 ], "y": [ 19, 20 ], "chance": 60 },
+        { "item": "magazines", "x": [ 9, 9 ], "y": [ 13, 15 ], "chance": 90 },
+        { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80 }
+      ],
+      "place_item": [
+        { "item": "shotgun_s", "x": 3, "y": 20 },
+        { "item": "pot", "x": 18, "y": 21 },
+        { "item": "shot_00", "x": 7, "y": 19, "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_gas_rural_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |................R...3 ",
+        " |....U...............3 ",
+        " 5....................3 ",
+        " |--------------------3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 12, 17 ]
+        }
+      ]
+    }
+  }
+]

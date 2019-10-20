@@ -1,0 +1,142 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant_3" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "========================",
+        "=|OOOOOOOOOOOOOOO--+--|=",
+        "=|HtHHtHHtHHtHHtHlblbY|=",
+        "=|HtHHtHHtHHtHHtHblblb|=",
+        "=|blblblblblblblblblbY|=",
+        "=|UbUbUbUbUbUbUbUbcblb|=",
+        "=|#################lbl|=",
+        "=|lblblblblblblblb#blb|=",
+        "=|blblblblblblblblblbl|=",
+        "=|lb####ffGGGG####lblb|=",
+        "=|bl----------------+-|=",
+        "=|lb###fffffff##|00|lS|=",
+        "=|blblblblblblbl+l2|ll|=",
+        "=|lblblblblblblb|00|lT|=",
+        "=|---------------|----|=",
+        "==4=====================",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_linoleum_gray",
+        "+": "t_door_c",
+        ",": "t_pavement_y",
+        "-": "t_wall_w",
+        ".": "t_grass",
+        "=": "t_sidewalk",
+        "G": "t_linoleum_gray",
+        "H": "t_linoleum_white",
+        "O": "t_window",
+        "S": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "_": "t_pavement",
+        "b": "t_linoleum_gray",
+        "c": "t_linoleum_white",
+        "f": "t_linoleum_white",
+        "l": "t_linoleum_white",
+        "t": "t_linoleum_gray",
+        "4": "t_gutter_downspout",
+        "|": "t_wall_w"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "G": "f_oven",
+        "H": "f_sofa",
+        "S": "f_sink",
+        "Y": "f_rack_coat",
+        "f": "f_fridge",
+        "0": "f_locker",
+        "2": "f_bench",
+        "U": "f_stool",
+        "t": "f_table"
+      },
+      "toilets": { "T": {  } },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
+      "place_items": [
+        { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 4 ] },
+        { "item": "coat_rack", "x": [ 17, 18 ], "y": 18, "chance": 95, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant_roof_3" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |--------------------3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.........&..........3 ",
+        " |....................3 ",
+        " |.........&..........3 ",
+        " |522222222222222222223 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_tar_flat_roof",
+        " ": "t_open_air",
+        "|": "t_gutter_west",
+        "2": "t_gutter_south",
+        "-": "t_gutter_north",
+        "3": "t_gutter_east",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 7, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "roof_2x2_utilities_b", 20 ],
+            [ "roof_2x2_utilities_c", 20 ],
+            [ "roof_2x2_utilities_d", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "null", 40 ]
+          ],
+          "x": [ 13, 17 ],
+          "y": [ 16, 17 ]
+        },
+        {
+          "chunks": [ [ "roof_4x4_utility_1", 30 ], [ "roof_6x6_utility", 30 ], [ "null", 80 ] ],
+          "x": [ 3, 14 ],
+          "y": [ 8, 9 ]
+        }
+      ]
+    }
+  }
+]
