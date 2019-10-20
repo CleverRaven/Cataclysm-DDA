@@ -187,10 +187,6 @@ class player : public Character
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
-        bool in_sleep_state() const override {
-            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
-        }
-
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
@@ -224,8 +220,7 @@ class player : public Character
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Maintains body temperature */
-        void update_bodytemp();
+
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
         /** Returns the player's modified base movement cost */
@@ -276,9 +271,6 @@ class player : public Character
         bool purifiable( const trait_id &flag ) const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
-
-        /** Returns true if the player is in a climate controlled area or armor */
-        bool in_climate_control();
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
@@ -754,8 +746,6 @@ class player : public Character
          */
         bool vitamin_set( const vitamin_id &vit, int qty );
 
-        /** Current metabolic rate due to traits, hunger, speed, etc. */
-        float metabolic_rate() const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
         int get_lift_assist() const;
@@ -985,10 +975,6 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
-        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( body_part bp ) const override;
         /** Returns overall cutting resistance for the body_part */
@@ -1001,8 +987,6 @@ class player : public Character
         int get_env_resist( body_part bp ) const override;
         /** Returns overall acid resistance for the body part */
         int get_armor_acid( body_part bp ) const;
-        /** Returns overall fire resistance for the body part */
-        int get_armor_fire( body_part bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
@@ -1015,8 +999,6 @@ class player : public Character
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
         int kcal_speed_penalty();
@@ -1261,7 +1243,6 @@ class player : public Character
         void shift_destination( const point &shift );
 
         // ---------------VALUES-----------------
-
         tripoint view_offset;
         // Is currently in control of a vehicle
         bool controlling_vehicle;
@@ -1273,8 +1254,6 @@ class player : public Character
 
         start_location_id start_location;
 
-        time_point next_climate_control_check;
-        bool last_climate_control_ret;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1289,12 +1268,6 @@ class player : public Character
         int cash;
         int movecounter;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        // Equalizes heat between body parts
-        void temp_equalizer( body_part bp1, body_part bp2 );
-
-        std::array<int, num_bp> drench_capacity;
-        std::array<int, num_bp> body_wetness;
 
         int focus_pool;
 
@@ -1453,26 +1426,6 @@ class player : public Character
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
-
-        /** Can the player lie down and cover self with blankets etc. **/
-        bool can_use_floor_warmth() const;
-        /**
-         * Warmth from terrain, furniture, vehicle furniture and traps.
-         * Can be negative.
-         **/
-        static int floor_bedding_warmth( const tripoint &pos );
-        /** Warmth from clothing on the floor **/
-        static int floor_item_warmth( const tripoint &pos );
-        /** Final warmth from the floor **/
-        int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
-        /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature ) const;
-        /** Define blood loss (in percents) */
-        int blood_loss( body_part bp ) const;
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

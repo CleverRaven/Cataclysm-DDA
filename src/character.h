@@ -31,6 +31,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "overmapbuffer.h"
 #include "player_activity.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -341,6 +342,15 @@ class Character : public Creature, public visitable<Character>
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
 
+        /** Maintains body temperature */
+        void update_bodytemp();
+
+        /** Equalizes heat between body parts */
+        void temp_equalizer( body_part bp1, body_part bp2 );
+
+        /** Define blood loss (in percents) */
+        int blood_loss( body_part bp ) const;
+
         /** Resets the value of all bonus fields to 0. */
         void reset_bonuses() override;
         /** Resets stats, and applies effects in an idempotent manner */
@@ -373,6 +383,12 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_active_power_armor() const;
         /** Returns true if the player is wearing an active optical cloak */
         bool is_wearing_active_optcloak() const;
+
+        /** Returns true if the player is in a climate controlled area or armor */
+        bool in_climate_control();
+
+        /** Returns wind resistance provided by armor, etc **/
+        int get_wind_resistance( body_part bp ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -458,6 +474,8 @@ class Character : public Creature, public visitable<Character>
         float bionic_armor_bonus( body_part bp, damage_type dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
+        /** Returns overall fire resistance for the body part */
+        int get_armor_fire( body_part bp ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -1179,6 +1197,8 @@ class Character : public Creature, public visitable<Character>
 
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
+        /** Current metabolic rate due to traits, hunger, speed, etc. */
+        float metabolic_rate() const;
         // gets the max value healthy you can be, related to your weight
         int get_max_healthy() const;
         // gets the string that describes your weight
@@ -1228,8 +1248,6 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
 
-        bool is_wielding( const item &target ) const;
-
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
 
@@ -1273,6 +1291,33 @@ class Character : public Creature, public visitable<Character>
         player_activity get_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
+        /** Returns warmth provided by armor, etc. */
+        int warmth( body_part bp ) const;
+        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
+        int bonus_item_warmth( body_part bp ) const;
+        /** Can the player lie down and cover self with blankets etc. **/
+        bool can_use_floor_warmth() const;
+        /**
+         * Warmth from terrain, furniture, vehicle furniture and traps.
+         * Can be negative.
+         **/
+        static int floor_bedding_warmth( const tripoint &pos );
+        /** Warmth from clothing on the floor **/
+        static int floor_item_warmth( const tripoint &pos );
+        /** Final warmth from the floor **/
+        int floor_warmth( const tripoint &pos ) const;
+
+        /** Correction factor of the body temperature due to traits and mutations **/
+        int bodytemp_modifier_traits( bool overheated ) const;
+        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
+        int bodytemp_modifier_traits_floor() const;
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control( int temperature ) const;
+
+        bool in_sleep_state() const override {
+            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
+        }
+
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**
@@ -1442,6 +1487,15 @@ class Character : public Creature, public visitable<Character>
     protected:
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
+
+    public:
+        // TODO: make these private
+        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
+        std::array<int, num_bp> body_wetness;
+        std::array<int, num_bp> drench_capacity;
+
+        time_point next_climate_control_check;
+        bool last_climate_control_ret;
 };
 
 template<>
