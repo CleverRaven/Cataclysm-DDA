@@ -212,7 +212,7 @@ void scent_map::update( const tripoint &center, map &m )
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
-            sum_3_type_y[y][x] = "";
+
             for( int i = y - 1; i <= y + 1; ++i ) {
                 if( !blocks_scent[x][i] ) {
                     if( reduces_scent[x][i] ) {
@@ -223,7 +223,9 @@ void scent_map::update( const tripoint &center, map &m )
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
                     }
-                    sum_3_type_y[y][x] = typescent[x][i].empty() ? sum_3_type_y[y][x] : typescent[x][i];
+                    if( !typescent[x][i].empty() ) {
+                        sum_3_type_y[y][x] = typescent[x][i];
+                    }
                 }
             }
         }
@@ -260,8 +262,10 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x]
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
-                for( size_t ki = -1; ki < 2; ki++ ) {
-                    type_here = sum_3_type_y[y][x + ki].empty() ? type_here : sum_3_type_y[y][x + ki];
+                for( int ki = x - 1; ki < x + 2; ki++ ) {
+                    if( !sum_3_type_y[y][ki].empty() ) {
+                        type_here = sum_3_type_y[y][ki];
+                    }
                 }
 
             } else {
