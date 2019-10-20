@@ -3287,7 +3287,7 @@
     "category": "spare_parts",
     "name": "Kevlar plate",
     "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "360 g",
+    "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
     "material": "kevlar",
