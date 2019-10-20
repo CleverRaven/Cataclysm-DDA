@@ -2548,8 +2548,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
 
     if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
-                            -1, p->get_item_position( it ) );
+        p->assign_activity( activity_id( "ACT_CHURN" ), 18000, -1, p->get_item_position( it ) );
         p->activity.placement = g->m.getabs( pnt );
         return it->type->charges_to_use();
     } else {
