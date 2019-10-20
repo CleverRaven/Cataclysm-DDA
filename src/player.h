@@ -1078,17 +1078,6 @@ class player : public Character
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
 
-        // has_amount works ONLY for quantity.
-        // has_charges works ONLY for charges.
-        std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item> );
-        // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, int quantity );
-
-        // Uses up charges
-        std::list<item> use_charges( const itype_id &what, int qty,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
-
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
@@ -1488,7 +1477,6 @@ class player : public Character
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        void use_fire( int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;

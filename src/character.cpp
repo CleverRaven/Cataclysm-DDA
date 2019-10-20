@@ -75,6 +75,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_ups( "bio_ups" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -2040,6 +2041,11 @@ bool Character::has_artifact_with( const art_effect_passive effect ) const
     return has_item_with( [effect]( const item & it ) {
         return it.has_effect_when_carried( effect );
     } );
+}
+
+bool Character::is_wielding( const item &target ) const
+{
+    return &weapon == &target;
 }
 
 bool Character::is_wearing( const itype_id &it ) const
@@ -5677,6 +5683,109 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
+std::list<item> Character::use_amount( itype_id it, int quantity,
+                                       const std::function<bool( const item & )> &filter )
+{
+    std::list<item> ret;
+    if( weapon.use_amount( it, quantity, ret ) ) {
+        remove_weapon();
+    }
+    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
+        if( a->use_amount( it, quantity, ret, filter ) ) {
+            a->on_takeoff( *this );
+            a = worn.erase( a );
+        } else {
+            ++a;
+        }
+    }
+    if( quantity <= 0 ) {
+        return ret;
+    }
+    std::list<item> tmp = inv.use_amount( it, quantity, filter );
+    ret.splice( ret.end(), tmp );
+    return ret;
+}
+
+bool Character::use_charges_if_avail( const itype_id &it, int quantity )
+{
+    if( has_charges( it, quantity ) ) {
+        use_charges( it, quantity );
+        return true;
+    }
+    return false;
+}
+
+std::list<item> Character::use_charges( const itype_id &what, int qty,
+                                        const std::function<bool( const item & )> &filter )
+{
+    std::list<item> res;
+
+    if( qty <= 0 ) {
+        return res;
+
+    } else if( what == "toolset" ) {
+        mod_power_level( units::from_kilojoule( -qty ) );
+        return res;
+
+    } else if( what == "fire" ) {
+        use_fire( qty );
+        return res;
+
+    } else if( what == "UPS" ) {
+        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+            mounted_creature.get()->battery_item ) {
+            auto mons = mounted_creature.get();
+            int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
+            mons->use_mech_power( -power_drain );
+            qty -= std::min( qty, power_drain );
+            return res;
+        }
+        if( has_power() && has_active_bionic( bio_ups ) ) {
+            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+            mod_power_level( units::from_kilojoule( -bio ) );
+            qty -= std::min( qty, bio );
+        }
+
+        int adv = charges_of( "adv_UPS_off", static_cast<int>( ceil( qty * 0.6 ) ) );
+        if( adv > 0 ) {
+            std::list<item> found = use_charges( "adv_UPS_off", adv );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
+        }
+
+        int ups = charges_of( "UPS_off", qty );
+        if( ups > 0 ) {
+            std::list<item> found = use_charges( "UPS_off", ups );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, ups );
+        }
+        return res;
+    }
+
+    std::vector<item *> del;
+
+    bool has_tool_with_UPS = false;
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
+        if( e->use_charges( what, qty, res, pos(), filter ) ) {
+            del.push_back( e );
+        }
+        if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
+            has_tool_with_UPS = true;
+        }
+        return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+    } );
+
+    for( auto e : del ) {
+        remove_item( *e );
+    }
+
+    if( has_tool_with_UPS ) {
+        use_charges( "UPS", qty );
+    }
+
+    return res;
+}
+
 bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
@@ -5734,4 +5843,37 @@ int Character::get_painkiller() const
 bool Character::is_wielding( const item &target ) const
 {
     return &weapon == &target;
+}
+
+void Character::use_fire( const int quantity )
+{
+    //Okay, so checks for nearby fires first,
+    //then held lit torch or candle, bionic tool/lighter/laser
+    //tries to use 1 charge of lighters, matches, flame throwers
+    //If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
+    // (home made, military), hotplate, welder in that order.
+    // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
+
+    if( g->m.has_nearby_fire( pos() ) ) {
+        return;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        return;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                use_charges( i->typeId(), quantity );
+                return;
+            }
+        }
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
+        return;
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
+        return;
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
+        return;
+    }
 }

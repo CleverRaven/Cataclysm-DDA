@@ -961,6 +961,8 @@ class Character : public Creature, public visitable<Character>
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
 
+        bool is_wielding( const item &target ) const;
+
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
         bool is_wearing( const itype_id &it ) const;
@@ -1143,10 +1145,22 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
 
-        bool has_fire( int quantity ) const;
-
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
+        // has_amount works ONLY for quantity.
+        // has_charges works ONLY for charges.
+        std::list<item> use_amount( itype_id it, int quantity,
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
+        // Uses up charges
+        bool use_charges_if_avail( const itype_id &it, int quantity );
+
+        // Uses up charges
+        std::list<item> use_charges( const itype_id &what, int qty,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+
+        bool has_fire( int quantity ) const;
+        void use_fire( int quantity );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
