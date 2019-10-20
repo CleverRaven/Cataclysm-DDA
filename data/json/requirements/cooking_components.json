@@ -102,7 +102,16 @@
     "id": "meat_red",
     "type": "requirement",
     "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
+    "components": [
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "meat_scrap", 10 ],
+        [ "mutant_meat_scrap", 10 ],
+        [ "rehydrated_meat", 1 ],
+        [ "meat_canned", 1 ]
+      ]
+    ]
   },
   {
     "id": "meat_red_raw",

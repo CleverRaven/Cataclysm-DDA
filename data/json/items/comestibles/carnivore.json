@@ -117,7 +117,7 @@
     "copy-from": "meat",
     "name": "chunk of mutant meat",
     "name_plural": "chunks of mutant meat",
-    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  Seems safe to eat, if you cook it.",
+    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems safe to eat, if you cook it and remove the worst parts.",
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -130,11 +130,12 @@
     "copy-from": "meat_scrap",
     "name": "scrap of mutant meat",
     "name_plural": "scraps of mutant meat",
-    "description": "A tiny scrap of meat from a heavily mutated animal.  It's not much, and it smells a bit odd, but it's probably safe to eat if cooked.",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems safe to eat, if you cook it and remove the worst parts.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "mutant_toxin", 2 ] ]
+    "vitamins": [ [ "mutant_toxin", 2 ] ],
+    "flags": [ "BAD_TASTE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -188,13 +189,13 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
     "name": "cooked mutant meat",
-    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.",
+    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…",
     "looks_like": "meat_cooked",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "calories": 200,
     "healthy": 0,
-    "fun": 0,
+    "fun": -1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
@@ -208,6 +209,7 @@
     "calories": 25,
     "fun": 0,
     "healthy": 0,
+    "delete": { "flags": [ "BAD_TASTE" ] },
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -308,7 +310,8 @@
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "delete": { "flags": [ "SMOKABLE", "NO_CRAFT_INHERIT" ] },
+    "flags": "NO_CRAFT_INHERIT",
+    "delete": { "flags": [ "SMOKABLE" ] },
     "proportional": { "price": 0.64 }
   },
   {
