@@ -4374,7 +4374,7 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = it.get_addict_mod( "PKILL", addiction_level( ADD_PKILLER ) );
         if( is_new || it.activated( calendar::turn, "PKILL", val, reduced, mod ) ) {
-            mod_painkiller( bound_mod_to_vals( pkill, val, it.get_max_val( "PKILL", reduced ), 0 ) );
+            mod_painkiller( bound_mod_to_vals( get_painkiller(), val, it.get_max_val( "PKILL", reduced ), 0 ) );
         }
     }
 
@@ -5572,7 +5572,7 @@ void player::suffer()
     }
 
     //stim -200 or painkillers 240 kills
-    if( current_stim < -160 || pkill > 200 ) {
+    if( current_stim < -160 || get_painkiller() > 200 ) {
         if( one_turn_in( 3_minutes ) && !in_sleep_state() ) {
             add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
@@ -5581,13 +5581,13 @@ void player::suffer()
             fall_asleep( dur );
         }
     }
-    if( current_stim < -120 || pkill > 160 ) {
+    if( current_stim < -120 || get_painkiller() > 160 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
             add_msg( m_bad, _( "Your breathing slows down." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
-    if( current_stim < -85 || pkill > 145 ) {
+    if( current_stim < -85 || get_painkiller() > 145 ) {
         if( one_turn_in( 15_seconds ) && !has_effect( effect_sleep ) ) {
             add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             mod_moves( -rng( 10, 30 ) );
@@ -5597,7 +5597,7 @@ void player::suffer()
             }
         }
     }
-    if( current_stim < -60 || pkill > 130 ) {
+    if( current_stim < -60 || get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
             add_msg( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
