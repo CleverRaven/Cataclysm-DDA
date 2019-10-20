@@ -1599,14 +1599,6 @@ bool overmap::generate_sub( const int z )
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), tripoint( i * 2, j * 2, z ), 2, 200 ) );
-            } else if( oter_above == "silo" ) {
-                // NOLINTNEXTLINE(misc-redundant-expression)
-                if( rng( 2, 7 ) < abs( z ) || rng( 2, 7 ) < abs( z ) ) {
-                    ter_set( p, oter_id( "silo_finale" ) );
-                } else {
-                    ter_set( p, oter_id( "silo" ) );
-                    requires_sub = true;
-                }
             }
         }
     }
