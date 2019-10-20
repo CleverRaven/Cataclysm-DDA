@@ -305,7 +305,7 @@ void requirement_data::serialize( JsonOut &json ) const
     if( !is_null() ) {
         json.member( "blacklisted", blacklisted );
         const std::vector<std::vector<item_comp>> req_comps = get_components();
-        std::vector<std::vector<tool_comp>> tool_comps = get_tools();
+        const std::vector<std::vector<tool_comp>> tool_comps = get_tools();
         std::vector<std::vector<quality_requirement>> quality_comps = get_qualities();
 
         json.member( "req_comps_total", req_comps );
