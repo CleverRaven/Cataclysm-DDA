@@ -5647,14 +5647,13 @@ computer *map::computer_at( const tripoint &p )
 
 void map::remove_submap_camp( const tripoint &p )
 {
-    basecamp camp;
-    get_submap_at( p )->camp = camp;
+    get_submap_at( p )->camp.reset();
 }
 
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    basecamp camp = get_submap_at( p )->camp;
-    return camp;
+    basecamp *pcamp = get_submap_at( p )->camp.get();
+    return pcamp ? *pcamp : basecamp();
 }
 
 void map::add_camp( const tripoint &p, const std::string &name )
