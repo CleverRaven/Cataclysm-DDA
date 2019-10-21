@@ -1490,7 +1490,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
-                    // then it means no further work can be done here.
+                    // then it means no further work can be done here
                     if( seed == "No seed" ) {
                         return activity_reason_info::fail( ALREADY_DONE );
                     }
