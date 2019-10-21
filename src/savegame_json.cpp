@@ -3582,7 +3582,7 @@ void submap::store( JsonOut &jsout ) const
     }
 
     // Output base camp if any
-    if( camp ){
+    if( camp ) {
         jsout.member( "camp", *camp );
     }
 }
