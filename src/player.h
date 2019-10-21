@@ -1138,10 +1138,6 @@ class player : public Character
         float power_rating() const override;
         float speed_rating() const override;
 
-        /**
-         * All items that have the given flag (@ref item::has_flag).
-         */
-        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
         void process_active_items();
         /**
          * Remove charges from a specific item (given by its item position).
@@ -1194,9 +1190,6 @@ class player : public Character
         std::list<item> use_charges( const itype_id &what, int qty,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
-
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
@@ -1211,9 +1204,6 @@ class player : public Character
         * @param loc Location for item to crush
         */
         bool crush_frozen_liquid( item_location loc );
-
-        // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
@@ -1572,9 +1562,6 @@ class player : public Character
 
         std::set<tripoint> camps;
 
-        // magic mod
-        known_magic magic;
-
     protected:
 
         trap_map known_traps;
@@ -1622,7 +1609,6 @@ class player : public Character
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        bool has_fire( int quantity ) const;
         void use_fire( int quantity );
 
         /** Determine player's capability of recharging their CBMs. */

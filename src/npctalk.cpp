@@ -163,6 +163,18 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
     return 800;
 }
 
+int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
+{
+    if( is_player_ally() ) {
+        return 0;
+    }
+    int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
+    if( !knows ) {
+        ret = ret * 2;
+    }
+    return ret;
+}
+
 // Rescale values from "mission scale" to "opinion scale"
 int npc_trading::cash_to_favor( const npc &, int cash )
 {
@@ -897,7 +909,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
-        if( trainable.empty() && styles.empty() ) {
+        const std::vector<spell_id> spells = p->magic.spells();
+        std::vector<spell_id> teachable_spells;
+        for( const spell_id &sp : spells ) {
+            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
+                teachable_spells.emplace_back( sp );
+            }
+        }
+        if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
             return _( "Sorry, but it doesn't seem I have anything to teach you." );
         } else {
             return _( "Here's what I can teach you…" );
@@ -1119,6 +1138,14 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       const spell_id &sp, const bool first )
+{
+    talk_response &result = add_response( text, r, first );
+    result.dialogue_spell = sp;
+    return result;
+}
+
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
                                        const martialart &style, const bool first )
 {
     talk_response &result = add_response( text, r, first );
@@ -1170,7 +1197,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
+            g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
             std::stringstream resume;
             resume << _( "Yes, let's resume training " );
@@ -1178,9 +1206,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
             if( !skillt.is_valid() ) {
-                auto &style = matype_id( backlog.name ).obj();
-                resume << style.name;
-                add_response( resume.str(), "TALK_TRAIN_START", style );
+                const matype_id styleid = matype_id( backlog.name );
+                if( !styleid.is_valid() ) {
+                    const spell_id &sp_id = spell_id( backlog.name );
+                    if( p->magic.knows_spell( sp_id ) ) {
+                        resume << sp_id->name.translated();
+                        add_response( resume.str(), "TALK_TRAIN_START", sp_id );
+                    }
+                } else {
+                    martialart style = styleid.obj();
+                    resume << style.name;
+                    add_response( resume.str(), "TALK_TRAIN_START", style );
+                }
             } else {
                 resume << skillt.obj().name();
                 add_response( resume.str(), "TALK_TRAIN_START", skillt );
@@ -1188,9 +1225,38 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
-        if( trainable.empty() && styles.empty() ) {
+        const std::vector<spell_id> spells = p->magic.spells();
+        std::vector<spell_id> teachable_spells;
+        for( const spell_id &sp : spells ) {
+            const spell &temp_spell = p->magic.get_spell( sp );
+            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
+                if( g->u.magic.knows_spell( sp ) ) {
+                    const spell &player_spell = g->u.magic.get_spell( sp );
+                    if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
+                        continue;
+                    }
+                }
+                teachable_spells.emplace_back( sp );
+            }
+        }
+        if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
+        }
+        for( const spell_id &sp : teachable_spells ) {
+            const spell &temp_spell = p->magic.get_spell( sp );
+            const bool knows = g->u.magic.knows_spell( sp );
+            const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+                             temp_spell.get_level() );
+            std::string text;
+            if( knows ) {
+                text = string_format( _( "%s: 1 hour lesson (cost %s)" ), temp_spell.name(),
+                                      format_money( cost ) );
+            } else {
+                text = string_format( _( "%s: teaching spell knowledge (cost %s)" ), temp_spell.name(),
+                                      format_money( cost ) );
+            }
+            add_response( text, "TALK_TRAIN_START", sp );
         }
         for( auto &style_id : styles ) {
             auto &style = style_id.obj();
@@ -1685,14 +1751,18 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
         beta->chatbin.style = matype_id::NULL_ID();
+        beta->chatbin.dialogue_spell = spell_id();
     } else if( chosen.style ) {
         beta->chatbin.style = chosen.style;
         beta->chatbin.skill = skill_id::NULL_ID();
+        beta->chatbin.dialogue_spell = spell_id();
+    } else if( chosen.dialogue_spell != spell_id() ) {
+        beta->chatbin.style = matype_id::NULL_ID();
+        beta->chatbin.skill = skill_id::NULL_ID();
+        beta->chatbin.dialogue_spell = chosen.dialogue_spell;
     }
-
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
-
     return effects.apply( *this );
 }
 
@@ -2638,6 +2708,7 @@ talk_response::talk_response()
     mission_selected = nullptr;
     skill = skill_id::NULL_ID();
     style = matype_id::NULL_ID();
+    dialogue_spell = spell_id();
 }
 
 talk_response::talk_response( JsonObject jo )

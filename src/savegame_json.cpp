@@ -415,7 +415,7 @@ void Character::load( JsonObject &data )
 
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
-
+    data.read( "magic", magic );
     JsonArray parray;
 
     data.read( "underwater", underwater );
@@ -598,7 +598,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
-
+    json.member( "magic", magic );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
@@ -892,8 +892,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "magic", magic );
-
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
     json.member( "dex_upgrade", abs( dex_upgrade ) );
@@ -1004,7 +1002,6 @@ void avatar::load( JsonObject &data )
     }
 
     data.read( "stamina", stamina );
-    data.read( "magic", magic );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1383,7 +1380,6 @@ void npc::load( JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1613,7 +1609,6 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-
     json.member( "mission", mission ); // TODO: stringid
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
