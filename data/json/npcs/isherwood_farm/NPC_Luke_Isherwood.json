@@ -6,9 +6,6 @@
     "name_unique": "Luke Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_LUKE",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_LUKE",
@@ -23,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -109,12 +109,6 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE",
     "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
-    "condition": {
-      "and": [
-        { "not": { "u_is_wearing": "badge_marshal" } },
-        { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-      ]
-    },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -124,7 +118,7 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
-    "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -190,13 +184,15 @@
     "value": 20000,
     "item": "textbook_fabrication",
     "count": 1,
-    "end": { "opinion": { "trust": 2, "value": 2 } },
-    "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need more knowledge to get better pottery.",
       "offer": "I could really use the book, DIY Compendium.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "accepted": "Fantastic, I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore should have one, schools are another good idea.",
       "inquire": "Do you have the book?",

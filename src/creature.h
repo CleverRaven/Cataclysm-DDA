@@ -180,7 +180,7 @@ class Creature
          */
         /*@{*/
         virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const;
+        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
         /*@}*/
 
         /**
@@ -278,6 +278,8 @@ class Creature
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
+        virtual bool in_species( const species_id & ) const;
+
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead

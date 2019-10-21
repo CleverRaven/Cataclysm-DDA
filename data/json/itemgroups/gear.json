@@ -152,7 +152,7 @@
       { "group": "novels", "prob": 10 },
       { "group": "misc_smoking", "prob": 10 },
       { "group": "stoner", "prob": 5 },
-      { "group": "cannedfood", "prob": 10, "repeat": [ 1, 3 ] },
+      { "group": "cannedfood", "prob": 10, "count": [ 1, 3 ] },
       { "item": "drink_hobo", "prob": 1 }
     ]
   }

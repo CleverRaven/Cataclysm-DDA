@@ -355,7 +355,7 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
                 ( text.size() ) ? 1 : 0 ) ) {
             // Next page
             i--;
-            center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
+            center_print( w, height - 1, c_light_gray, _( "Press any key for more…" ) );
             wrefresh( w );
             catacurses::refresh();
             inp_mngr.wait_for_any_key();
@@ -666,7 +666,7 @@ std::string string_replace( std::string text, const std::string &before, const s
 {
     // Check if there's something to replace (mandatory) and it's necessary (optional)
     // Second condition assumes that text is much longer than both &before and &after.
-    if( before.length() == 0 || before == after ) {
+    if( before.empty() || before == after ) {
         return text;
     }
 
@@ -723,10 +723,11 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white, intros[tab_idx] );
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
+                              // NOLINTNEXTLINE(cata-text-style): literal comma
                               _( "Separate multiple items with ," ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
-                                  _( "Example: back,flash,aid, ,band" ) );
+                                  _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
@@ -1618,7 +1619,7 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string &capitalize_letter( std::string &str, size_t n )
 {
     char c = str[n];
-    if( str.length() > 0 && c >= 'a' && c <= 'z' ) {
+    if( !str.empty() && c >= 'a' && c <= 'z' ) {
         c += 'A' - 'a';
         str[n] = c;
     }
@@ -1955,11 +1956,11 @@ int scrollingcombattext::cSCT::getPosX() const
             }
 
             //Center text
-            iDirOffset -= ( getText().length() / 2 );
+            iDirOffset -= utf8_width( getText() ) / 2;
 
         } else if( oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft ) {
             //Right align text
-            iDirOffset -= getText().length() - 1;
+            iDirOffset -= utf8_width( getText() ) - 1;
         }
 
         return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
@@ -1981,11 +1982,11 @@ int scrollingcombattext::cSCT::getPosY() const
 
             if( oDir == oUp || oDir == oDown ) {
                 //Center text
-                iDirOffset -= ( getText().length() / 2 );
+                iDirOffset -= utf8_width( getText() ) / 2;
 
             } else if( oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft ) {
                 //Right align text
-                iDirOffset -= getText().length() - 1;
+                iDirOffset -= utf8_width( getText() ) - 1;
             }
 
         }
@@ -2133,7 +2134,7 @@ std::vector<std::string> string_split( const std::string &text_in, char delim_in
         elems.push_back( item );
     }
 
-    if( text_in[text_in.length() - 1] == delim_in ) {
+    if( text_in.back() == delim_in ) {
         elems.push_back( "" );
     }
 

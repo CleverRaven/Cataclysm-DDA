@@ -798,7 +798,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim. (10 moves)" ),
+        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
                    front_or( "AIM", ' ' ) );
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
@@ -1200,7 +1200,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
 
     // TODO: last_target should be member of target_handler
@@ -1940,7 +1940,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
                 casting.effect() == "ter_transform" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
-                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
+                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
             } else if( casting.effect() == "cone_attack" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Cone Arc: %s degrees" ), casting.aoe_string() );

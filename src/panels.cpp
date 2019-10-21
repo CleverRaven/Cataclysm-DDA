@@ -434,7 +434,7 @@ static std::string get_temp( const avatar &u )
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( g->weather.get_temperature( u.pos() ) );
     }
-    if( static_cast<int>( temp.size() ) == 0 ) {
+    if( temp.empty() ) {
         return "-";
     }
     return temp;
@@ -779,19 +779,28 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
-    if( u.max_power_level == 0_kJ ) {
+    if( !u.has_max_power() ) {
         s_pwr = "--";
         c_pwr = c_light_gray;
     } else {
-        if( u.power_level >= u.max_power_level / 2 ) {
+        if( u.get_power_level() >= u.get_max_power_level() / 2 ) {
             c_pwr = c_light_blue;
-        } else if( u.power_level >= u.max_power_level / 3 ) {
+        } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
-        } else if( u.power_level >= u.max_power_level / 4 ) {
+        } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
             c_pwr = c_red;
         }
-        s_pwr = to_string( units::to_kilojoule( u.power_level ) ) + pgettext( "energy unit: kilojoule",
-                "kJ" );
+
+        if( u.get_power_level() < 1_J ) {
+            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: millijoule", "mJ" );
+        } else if( u.get_power_level() < 1_kJ ) {
+            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: joule", "J" );
+        } else {
+            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: kilojoule", "kJ" );
+        }
     }
     return std::make_pair( c_pwr, s_pwr );
 }
@@ -858,7 +867,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
+    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
+            limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
@@ -901,7 +911,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         wprintz( w, hp.second, hp.first );
 
         //Add the trailing symbols for a not-quite-full health bar
-        print_symbol_num( w, 5 - static_cast<int>( hp.first.size() ), ".", c_white );
+        print_symbol_num( w, 5 - utf8_width( hp.first ), ".", c_white );
     }
 }
 
@@ -950,7 +960,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
 
     mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
     const auto pwr = power_stat( u );
-    mvwprintz( w, point( 31 - pwr.second.length(), 1 ), pwr.first, pwr.second );
+    mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
 
     wrefresh( w );
 }
@@ -983,9 +993,9 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return c_red;
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return c_light_blue;
     } else {
         return c_light_gray;
@@ -994,9 +1004,9 @@ static nc_color move_mode_color( avatar &u )
 
 static std::string move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return pgettext( "movement-type", "C" );
     } else {
         return pgettext( "movement-type", "W" );
@@ -1010,13 +1020,13 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
     nc_color move_color = move_mode_color( u );
     std::string move_string = to_string( u.movecounter ) + move_mode_string( u );
-    mvwprintz( w, point( 15 - move_string.length(), 0 ), move_color, move_string );
+    mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
         mvwprintz( w, point( 20, 0 ), c_light_gray, _( "Sound:" ) );
         const std::string snd = to_string( u.volume );
-        mvwprintz( w, point( 30 - snd.length(), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
+        mvwprintz( w, point( 30 - utf8_width( snd ), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
     wrefresh( w );
@@ -1072,7 +1082,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     // display date
     mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
     std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, point( 10 - day.length(), 0 ), c_light_gray, day );
+    mvwprintz( w, point( 10 - utf8_width( day ), 0 ), c_light_gray, day );
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
@@ -1080,6 +1090,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 11, 0 ), c_light_gray, _( "Time: ???" ) );
     }
     //display moon
@@ -1152,9 +1163,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 
         std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( nx, ny ) );
-        while( str.length() < 5 ) {
-            str = str + " ";
-        }
+        str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
     }
     wrefresh( w );
@@ -1175,7 +1184,8 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
-        std::string str = string_format( " %-5s: ", body_part_hp_bar_ui_text( parts[i].first ) );
+        std::string str = string_format( " %s: ",
+                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1207,7 +1217,8 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                       get_hp_bar( u.stamina, u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
-    for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
+    const int width = utf8_width( needs_pair.second );
+    for( int i = 0; i < 5 - width; i++ ) {
         mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
     }
 
@@ -1250,7 +1261,8 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
                                       get_hp_bar( u.stamina, u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
-    for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
+    const int width = utf8_width( needs_pair.second );
+    for( int i = 0; i < 5 - width; i++ ) {
         mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
     }
 
@@ -1348,6 +1360,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else if( g->get_levz() >= 0 ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
@@ -1493,7 +1506,9 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
 {
     werase( w );
-    mvwprintz( w, point_zero, c_light_gray, string_format( formatstr, _( "Wind" ) ) );
+    mvwprintz( w, point_zero, c_light_gray,
+               //~ translation should not exceed 5 console cells
+               string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
@@ -1504,12 +1519,12 @@ static void render_wind( avatar &u, const catacurses::window &w, std::string for
 
 static void draw_wind( avatar &u, const catacurses::window &w )
 {
-    render_wind( u, w, "%-5s: " );
+    render_wind( u, w, "%s: " );
 }
 
 static void draw_wind_padding( avatar &u, const catacurses::window &w )
 {
-    render_wind( u, w, " %-5s: " );
+    render_wind( u, w, " %s: " );
 }
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
@@ -1580,7 +1595,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
                                 get_hp_bar( u.stamina, u.get_stamina_max() ).first );
     mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
     mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
-    for( size_t i = 0; i < 5 - pair.second.length(); i++ ) {
+    const int width = utf8_width( pair.second );
+    for( int i = 0; i < 5 - width; i++ ) {
         mvwprintz( w, point( 43 - i, 5 ), c_white, "." );
     }
 
@@ -1588,9 +1604,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !u.in_vehicle ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 26 + move_string.length(), 5 ), move_color, move_string );
+        mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
     // temperature
@@ -1876,6 +1892,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
@@ -1898,38 +1915,43 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string )
+static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string,
+                        const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );
 
     auto mana_pair = mana_stat( u );
-    const std::string mana_string = string_format( fmt_string, _( "Mana" ),
-                                    colorize( mana_pair.second, mana_pair.first ), _( "Max Mana" ),
-                                    colorize( to_string( u.magic.max_mana( u ) ), c_light_blue ) );
+    const std::string mana_string = string_format( fmt_string,
+                                    //~ translation should not exceed 4 console cells
+                                    utf8_justify( _( "Mana" ), j1 ),
+                                    colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
+                                    //~ translation should not exceed 9 console cells
+                                    utf8_justify( _( "Max Mana" ), j3 ),
+                                    colorize( utf8_justify( to_string( u.magic.max_mana( u ) ), j4 ), c_light_blue ) );
     nc_color gray = c_light_gray;
-    print_colored_text( w, point( getmaxx( w ) - mana_string.size(), 0 ), gray, gray, mana_string );
+    print_colored_text( w, point_zero, gray, gray, mana_string );
 
     wrefresh( w );
 }
 
 static void draw_mana_classic( const player &u, const catacurses::window &w )
 {
-    print_mana( u, w, "%-8s: %-5s %22s: %-5s" );
+    print_mana( u, w, "%s: %s %s: %s", -8, -5, 20, -5 );
 }
 
 static void draw_mana_compact( const player &u, const catacurses::window &w )
 {
-    print_mana( u, w, "%4s %-5s %12s %-5s" );
+    print_mana( u, w, "%s %s %s %s", 4, -5, 12, -5 );
 }
 
 static void draw_mana_narrow( const player &u, const catacurses::window &w )
 {
-    print_mana( u, w, " %-5s: %-5s %11s : %-5s" );
+    print_mana( u, w, " %s: %s %s : %s", -5, -5, 9, -5 );
 }
 
 static void draw_mana_wide( const player &u, const catacurses::window &w )
 {
-    print_mana( u, w, " %-5s: %-5s %15s : %-5s" );
+    print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
 // ============

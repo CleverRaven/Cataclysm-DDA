@@ -34,8 +34,6 @@ static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -277,8 +275,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
     // Clear bonus/penalty menu.
-    mvwprintz( w_stats, point( 0, 7 ), c_light_gray, "%26s", "" );
-    mvwprintz( w_stats, point( 0, 8 ), c_light_gray, "%26s", "" );
+    mvwprintz( w_stats, point( 0, 7 ), c_light_gray, std::string( 26, ' ' ) );
+    mvwprintz( w_stats, point( 0, 8 ), c_light_gray, std::string( 26, ' ' ) );
 
     nc_color col_temp = c_light_gray;
 
@@ -341,7 +339,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         }
     } else if( line == 4 ) {
         mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Weight:" ) );
-        mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), h_light_gray,
+        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), h_light_gray,
                    you.get_weight_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -383,7 +381,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Intelligence:" ) );
     mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Perception:" ) );
     mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), c_light_gray,
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
                you.get_weight_string() );
     wrefresh( w_stats );
 }
@@ -514,7 +512,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
     const size_t half_y = useful_y / 2;
@@ -561,7 +559,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                         string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                       units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                                       units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
             trim_and_print( w_bionics, point( 1, static_cast<int>( i + 2 ) ), getmaxx( w_bionics ) - 1,
@@ -577,9 +575,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 
 static void draw_effects_tab( const catacurses::window &w_effects, const catacurses::window &w_info,
                               unsigned int &line, int &curtab, input_context &ctxt, bool &done,
-                              std::string &action, std::vector<std::string> &effect_name,
-                              const size_t effect_win_size_y,
-                              const std::vector<std::string> &effect_text )
+                              std::string &action, std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                              const size_t effect_win_size_y )
 {
     mvwprintz( w_effects, point_zero, h_light_gray, header_spaces );
     center_print( w_effects, 0, h_light_gray, _( title_EFFECTS ) );
@@ -589,37 +586,40 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
     size_t min = 0;
     size_t max = 0;
 
+    const size_t actual_size = effect_name_and_text.size();
+
     if( line <= half_y ) {
         min = 0;
         max = effect_win_size_y;
-        if( effect_name.size() < max ) {
-            max = effect_name.size();
+        if( actual_size < max ) {
+            max = actual_size;
         }
-    } else if( line >= effect_name.size() - half_y ) {
-        min = ( effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y );
-        max = effect_name.size();
+    } else if( line >= actual_size - half_y ) {
+        min = ( actual_size < effect_win_size_y ? 0 : actual_size - effect_win_size_y );
+        max = actual_size;
     } else {
         min = line - half_y;
         max = line - half_y + effect_win_size_y;
-        if( effect_name.size() < max ) {
-            max = effect_name.size();
+        if( actual_size < max ) {
+            max = actual_size;
         }
     }
 
     for( size_t i = min; i < max; i++ ) {
         trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - min ) ), getmaxx( w_effects ) - 1,
-                        i == line ? h_light_gray : c_light_gray, effect_name[i] );
+                        i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
-    if( line < effect_text.size() ) {
+    if( line < actual_size ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, effect_text[line] );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                        effect_name_and_text[line].second );
     }
     wrefresh( w_effects );
     wrefresh( w_info );
 
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
-        if( line < effect_name.size() - 1 ) {
+        if( line < actual_size - 1 ) {
             line++;
         }
         return;
@@ -630,10 +630,10 @@ static void draw_effects_tab( const catacurses::window &w_effects, const catacur
     } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
         mvwprintz( w_effects, point_zero, c_light_gray, header_spaces );
         center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
-        for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
+        for( size_t i = 0; i < actual_size && i < 7; i++ ) {
             trim_and_print( w_effects, point( 0, static_cast<int>( i ) + 1 ), getmaxx( w_effects ) - 1,
                             c_light_gray,
-                            effect_name[i] );
+                            effect_name_and_text[i].first );
         }
         wrefresh( w_effects );
         line = 0;
@@ -718,7 +718,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%*s", col_width, "" );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( col_width, ' ' ) );
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
@@ -729,7 +729,7 @@ static const Skill *draw_skills_list( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? c_light_blue : c_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, "%*s", col_width, "" );
+                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
@@ -921,7 +921,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                                   const catacurses::window &w_bionics, const catacurses::window &w_effects,
                                   const catacurses::window &w_skills, const catacurses::window &w_speed, player &you,
                                   unsigned int &line, std::vector<trait_id> &traitslist, std::vector<bionic> &bionicslist,
-                                  std::vector<std::string> &effect_name, std::vector<HeaderSkill> &skillslist,
+                                  std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
+                                  std::vector<HeaderSkill> &skillslist,
                                   const size_t bionics_win_size_y, const size_t effect_win_size_y, const size_t trait_win_size_y,
                                   const size_t skill_win_size_y )
 {
@@ -955,7 +956,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 4 );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 5 );
     mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - you.get_weight_string().size(), 6 ), c_light_gray,
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
                you.get_weight_string() );
 
     wrefresh( w_stats );
@@ -981,7 +982,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
+                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
                         "%s", bionicslist[i].info().name );
@@ -990,10 +991,10 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     // Next, draw effects.
     center_print( w_effects, 0, c_light_gray, _( title_EFFECTS ) );
-    for( size_t i = 0; i < effect_name.size() && i < effect_win_size_y; i++ ) {
+    for( size_t i = 0; i < effect_name_and_text.size() && i < effect_win_size_y; i++ ) {
         trim_and_print( w_effects, point( 0, static_cast<int>( i ) + 1 ), getmaxx( w_effects ) - 1,
                         c_light_gray,
-                        effect_name[i] );
+                        effect_name_and_text[i].first );
     }
     wrefresh( w_effects );
 
@@ -1012,34 +1013,35 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     line = 3;
     if( you.weight_carried() > you.weight_capacity() ) {
         pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Overburdened        -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         line++;
     }
     pen = you.get_pain_penalty().speed;
     if( pen >= 1 ) {
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Pain                -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
         line++;
     }
     if( you.get_thirst() > 40 ) {
         pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Thirst              -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "%-20s-%s%d%%" ), inanition,
-                   ( pen < 10 ? " " : "" ), pen );
+        //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
+        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
+                   left_justify( inanition, 20 ), pen );
         line++;
     }
     if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
-        mvwprintz( w_speed, point( 1, line ), c_red, _( "Out of Sunlight     -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
+        mvwprintz( w_speed, point( 1, line ), c_red,
+                   pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
         line++;
     }
 
@@ -1048,7 +1050,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         nc_color pen_color;
         std::string pen_sign;
         const auto player_local_temp = g->weather.get_temperature( you.pos() );
-        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < 65 ) {
@@ -1057,8 +1059,9 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         }
         if( !pen_sign.empty() ) {
             pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
-            mvwprintz( w_speed, point( 1, line ), pen_color, _( "Cold-Blooded        %s%s%d%%" ), pen_sign,
-                       ( pen < 10 ? " " : "" ), pen );
+            mvwprintz( w_speed, point( 1, line ), pen_color,
+                       //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
+                       pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
             line++;
         }
     }
@@ -1070,21 +1073,21 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         std::swap( quick_bonus, bio_speed_bonus );
     }
     if( you.has_trait( trait_id( "QUICK" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green, _( "Quick               +%s%d%%" ),
-                   ( quick_bonus < 10 ? " " : "" ), quick_bonus );
+        mvwprintz( w_speed, point( 1, line ), c_green,
+                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
         line++;
     }
     if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green, _( "Bionic Speed        +%s%d%%" ),
-                   ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
+        mvwprintz( w_speed, point( 1, line ), c_green,
+                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
     }
 
     int runcost = you.run_cost( 100 );
     nc_color col = ( runcost <= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( runcost >= 100 ? 21 : ( runcost < 10 ? 23 : 22 ), 1 ), col,
+    mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
                "%d", runcost );
     col = ( newmoves >= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( newmoves >= 100 ? 21 : ( newmoves < 10 ? 23 : 22 ), 2 ), col,
+    mvwprintz( w_speed, point( 21 + ( newmoves >= 100 ? 0 : ( newmoves < 10 ? 2 : 1 ) ), 2 ), col,
                "%d", newmoves );
     wrefresh( w_speed );
 }
@@ -1092,19 +1095,17 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 void player::disp_info()
 {
     unsigned int line = 0;
-    std::vector<std::string> effect_name;
-    std::vector<std::string> effect_text;
+    std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string tmp = _effect_it.second.disp_name();
-            if( !tmp.empty() ) {
-                effect_name.push_back( tmp );
-                effect_text.push_back( _effect_it.second.disp_desc() );
+            if( tmp.empty() ) {
+                continue;
             }
+            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
         }
     }
     if( get_perceived_pain() > 0 ) {
-        effect_name.push_back( _( "Pain" ) );
         const auto ppen = get_pain_penalty();
         std::string pain_text;
         const auto add_if = [&]( const int amount, const char *const name ) {
@@ -1117,22 +1118,23 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_text.push_back( pain_text );
+        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
     }
 
     const float bmi = get_bmi();
 
     if( bmi < character_weight_category::underweight ) {
+        std::string starvation_name;
         std::stringstream starvation_text;
 
         if( bmi < character_weight_category::emaciated ) {
-            effect_name.push_back( _( "Severely Malnourished" ) );
+            starvation_name = _( "Severely Malnourished" );
             starvation_text <<
-                            _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
+                            _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
         } else {
-            effect_name.push_back( _( "Malnourished" ) );
+            starvation_name = _( "Malnourished" );
             starvation_text <<
-                            _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
+                            _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {
@@ -1142,36 +1144,38 @@ void player::disp_info()
             starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
         }
 
-        effect_text.push_back( starvation_text.str() );
+        effect_name_and_text.push_back( { starvation_name, starvation_text.str() } );
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you.\n"
-                                  "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you.\n"
+                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                        } );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you badly.\n"
-                                  "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you badly.\n"
+                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                        } );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you terribly.\n"
-                                  "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
+        effect_name_and_text.push_back( { _( "In Sunlight" ),
+                                          _( "The sunlight irritates you terribly.\n"
+                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                        } );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( elem ) );
+            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
         }
     }
 
     unsigned int maxy = static_cast<unsigned>( TERMY );
 
-    unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name.size() );
+    unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
     std::vector<trait_id> traitslist = get_mutations( false );
     unsigned int trait_win_size_y = 1 + static_cast<unsigned>( traitslist.size() );
@@ -1316,8 +1320,8 @@ void player::disp_info()
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
-                          line, traitslist, bionicslist, effect_name, skillslist, bionics_win_size_y, effect_win_size_y,
-                          trait_win_size_y, skill_win_size_y );
+                          line, traitslist, bionicslist, effect_name_and_text, skillslist, bionics_win_size_y,
+                          effect_win_size_y, trait_win_size_y, skill_win_size_y );
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
@@ -1371,7 +1375,7 @@ void player::disp_info()
 
             case 6: // Effects tab
                 draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
-                                  effect_name, effect_win_size_y, effect_text );
+                                  effect_name_and_text, effect_win_size_y );
                 break;
 
             case 3: // Skills tab

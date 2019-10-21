@@ -332,7 +332,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_lamp",
+      "active": true,
+      "msg": "You open the lamp's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -372,7 +378,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_light",
+      "active": true,
+      "msg": "You open the nightlight's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -442,7 +454,7 @@
     "type": "TOOL",
     "name": "bear trap",
     "description": "This is a spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
-    "weight": "11793 g",
+    "weight": "14000 g",
     "volume": "1500 ml",
     "price": 6000,
     "to_hit": -2,
@@ -1009,7 +1021,7 @@
     "power_draw": 500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "smart_phone",
@@ -1038,7 +1050,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "revert_to": "smart_phone", "type": "CAMERA" },
+      "CAMERA",
       "MP3"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -1053,7 +1065,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "magazine_well": 1
   },
   {
@@ -1062,7 +1074,7 @@
     "type": "TOOL",
     "name": "smartphone - Flashlight",
     "name_plural": "smartphones - Flashlight",
-    "power_draw": 500,
+    "power_draw": 1500,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -1070,7 +1082,7 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "chainsaw_off",
@@ -1161,6 +1173,26 @@
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "lifestraw",
+    "type": "TOOL",
+    "name": "lifestraw",
+    "description": "Set the lifestraw in suspect water, let sit for one minute then drink. The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
+    "weight": "104 g",
+    "volume": "592 ml",
+    "price": 4000,
+    "price_postapoc": 75000,
+    "to_hit": -3,
+    "bashing": 1,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "i",
+    "looks_like": "advanced_ecig",
+    "color": "light_cyan",
+    "initial_charges": 4000,
+    "max_charges": 4000,
+    "charges_per_use": 1,
+    "use_action": { "type": "WATER_PURIFIER", "moves": 70 }
   },
   {
     "id": "char_smoker",
@@ -1586,7 +1618,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -2909,7 +2941,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -3255,7 +3287,7 @@
     "category": "spare_parts",
     "name": "Kevlar plate",
     "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "360 g",
+    "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
     "material": "kevlar",
@@ -3390,7 +3422,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
+    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",
@@ -3653,61 +3685,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ]
-  },
-  {
-    "id": "matchbomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "match head bomb",
-    "description": "This is a homemade bomb consisting of a bottle filled with match heads and equipped with a fuse.  Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this.",
-    "weight": "412 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 8,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_red",
-    "explode_in_fire": true,
-    "explosion": { "power": 100 },
-    "use_action": {
-      "target": "matchbomb_act",
-      "msg": "You light the match head bomb.",
-      "target_charges": 20,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "matchbomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "match head bomb (lit)",
-    "name_plural": "match head bombs (lit)",
-    "description": "This is a bottle filled with match heads and equipped with a fuse.  This one has been lit, and its fuse is rapidly burning down.  You may not want to hold onto it much longer.",
-    "weight": "412 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 8,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 100 },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 120 }
-    },
-    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "matches",
@@ -4045,7 +4022,9 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell"
         ]
       ]
     ],
@@ -4313,6 +4292,24 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
+    "id": "oxygen_cylinder",
+    "type": "TOOL",
+    "name": "oxygen cylinder",
+    "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
+    "weight": "12888 g",
+    "volume": "2500 ml",
+    "price": 13400,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "blue",
+    "initial_charges": 300,
+    "max_charges": 300,
+    "charges_per_use": 10,
+    "use_action": "OXYGEN_BOTTLE"
+  },
+  {
     "id": "nitrogen_tank",
     "type": "TOOL",
     "name": "nitrogen tank",
@@ -4543,57 +4540,6 @@
     "symbol": ",",
     "color": "brown",
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
-  },
-  {
-    "id": "pipebomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 1500,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "use_action": {
-      "target": "pipebomb_act",
-      "msg": "You light the fuse on the pipe bomb.",
-      "target_charges": 7,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
-  },
-  {
-    "id": "pipebomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active pipe bomb",
-    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "initial_charges": 7,
-    "max_charges": 7,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
     "id": "pliers",
@@ -4871,7 +4817,7 @@
     "id": "wash_kit",
     "type": "TOOL",
     "name": "washing kit",
-    "description": "A combination kit of a washboard and a sponge.  Everything you need to clean items after the apocalypse.",
+    "description": "A combination kit of a washboard and a sponge or rag.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 0,
@@ -4926,10 +4872,10 @@
     "name": "reading light (active)",
     "name_plural": "reading lights (active)",
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 6000,
+    "power_draw": 1000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_8", "CHARGEDIM" ]
+    "flags": [ "LIGHT_15", "CHARGEDIM" ]
   },
   {
     "id": "ref_lighter",
@@ -5323,6 +5269,7 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
+      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,
@@ -5463,7 +5410,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
+    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",
@@ -5645,7 +5592,6 @@
     "price": 162654,
     "to_hit": -6,
     "bashing": 10,
-    "contains": "2750 ml",
     "material": "steel",
     "symbol": "A",
     "color": "yellow",
@@ -6172,60 +6118,6 @@
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
   {
-    "id": "tool_black_powder_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "black gunpowder bomb",
-    "description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
-    "//": "40g of tin can and 250ml/412g of gunpowder",
-    "weight": "452 g",
-    "volume": "250 ml",
-    "price": 2500,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
-    "use_action": {
-      "target": "tool_black_powder_bomb_act",
-      "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!",
-      "target_charges": 3,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-  },
-  {
-    "id": "tool_black_powder_bomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active black gunpowder bomb",
-    "description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
-    "weight": "452 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Kshhh.",
-      "no_deactivate_msg": "You've already lit the fuse - throw it!",
-      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "tool_black_powder_charge",
     "type": "TOOL",
     "category": "weapons",
@@ -6340,68 +6232,6 @@
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
   {
-    "id": "tool_rdx_sand_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  Use this item to light the fuse.",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 1000,
-    "to_hit": -2,
-    "bashing": 4,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "target": "tool_rdx_sand_bomb_act",
-      "msg": "You light the fuse on the sand bomb.  Throw it!",
-      "target_charges": 20,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-  },
-  {
-    "id": "tool_rdx_sand_bomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  The fuse has been lit, so why are you still holding it?",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_red",
-    "initial_charges": 20,
-    "max_charges": 20,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Kshhh.",
-      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "explosion": { "power": 1340, "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "tool_rocket_candy",
     "type": "TOOL",
     "category": "weapons",
@@ -6501,7 +6331,7 @@
     "cutting": 5,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
     "max_charges": 1000,
-    "note": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
+    "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
       "HAMMER",
@@ -7313,7 +7143,7 @@
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
     "use_action": [
-      { "type": "HOTPLATE", "moves": 60, "msg": "You heat up the food.", "menu_text": "Heat up food" },
+      "HOTPLATE",
       {
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",
@@ -7343,6 +7173,8 @@
       "active": true,
       "need_fire": 1,
       "need_fire_msg": "You need a lighter or fire to light this.",
+      "need_charges": 1,
+      "need_charges_msg": "The ember carrier is out of tinder.",
       "type": "transform"
     }
   },

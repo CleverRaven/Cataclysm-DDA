@@ -18,7 +18,8 @@
         "text": "What if you're wrong?",
         "topic": "BGSS_RELIGIOUS_1_FAITH1",
         "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } },
-        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT" },
+        "opinion": { "value": -1 }
       },
       { "text": "What will you do then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -51,7 +52,8 @@
         "text": "What if you're wrong?",
         "topic": "BGSS_RELIGIOUS_1_FAITH1",
         "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } },
-        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT" },
+        "opinion": { "value": -1 }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

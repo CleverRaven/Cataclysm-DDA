@@ -3194,7 +3194,6 @@
     "city_distance": [ 10, 200 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 2 ],
-    "extras": "build",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3209,7 +3208,6 @@
     "city_distance": [ 10, 200 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 2 ],
-    "extras": "build",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3224,7 +3222,6 @@
     "city_distance": [ 10, 200 ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 2 ],
-    "extras": "build",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -3345,7 +3342,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "apple_orchard",
+    "id": "Apple Orchard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "orchard_processing_north" },
       { "point": [ 1, 0, 0 ], "overmap": "orchard_tree_apple_north" },
@@ -3364,10 +3361,10 @@
       { "point": [ 2, 3, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 3, 0 ], "overmap": "orchard_tree_apple_north" }
     ],
-    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 1, 12 ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
   },
@@ -6064,7 +6061,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 1, 20 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "UNIQUE" ]
+    "flags": [ "CLASSIC" ]
   },
   {
     "id": "airliner_crashed",

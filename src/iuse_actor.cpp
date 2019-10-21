@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
@@ -59,6 +60,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "weather.h"
 #include "enums.h"
@@ -256,7 +258,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
-ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
@@ -355,7 +357,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
     return 0;
 }
 
-ret_val<bool> countdown_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
     if( it.active ) {
@@ -871,7 +873,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0_kJ ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -993,7 +995,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( type == t_door_bar_locked ) {
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open..." );
+        open_message = _( "The door swings open…" );
     } else {
         return 0;
     }
@@ -1247,7 +1249,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     return !has_unactivated_brazier ||
            query_yn(
-               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
+               _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1258,7 +1260,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
         } else {
             if( one_in( 4 ) ) {
                 p.add_msg_if_player( m_mixed,
-                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+                                     _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
                 p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
@@ -1268,7 +1270,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
     }
 }
 
-ret_val<bool> firestarter_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( p.is_underwater() ) {
@@ -1600,7 +1602,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
     return std::make_unique<inscribe_actor>( *this );
 }
 
-bool inscribe_actor::item_inscription( item &cut ) const
+bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
     if( !cut.made_of( SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
@@ -1608,7 +1610,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = _( verb );
+        std::string lower_verb = verb.translated();
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb, cut.display_name() );
@@ -1621,36 +1623,36 @@ bool inscribe_actor::item_inscription( item &cut ) const
     };
 
     uilist menu;
-    menu.text = string_format( _( "%s meaning?" ), _( verb ) );
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
 
     std::string carving;
-    std::string carving_type;
+    std::string carving_tool;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
-            carving_type = "item_label_type";
+            carving_tool = "item_label_tool";
             break;
         case INSCRIPTION_NOTE:
             carving = "item_note";
-            carving_type = "item_note_type";
+            carving_tool = "item_note_tool";
             break;
         default:
             return false;
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
+    std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
                                 //~ %1$s: gerund (e.g. carved), %2$s: item name
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        _( gerund ), cut.type_name() );
+                                        gerund, cut.type_name() );
 
     string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), _( verb ) ) )
+    popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : "" )
+    .text( hasnote ? cut.get_var( carving ) : std::string() )
     .description( messageprefix )
     .identifier( "inscribe_item" )
     .max_length( 128 )
@@ -1659,12 +1661,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
         return false;
     }
     const std::string message = popup.text();
-    if( hasnote && message == "." ) {
+    if( message.empty() ) {
         cut.erase_var( carving );
-        cut.erase_var( carving_type );
+        cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, _( gerund ) );
+        cut.set_var( carving_tool, tool.typeId() );
     }
 
     return true;
@@ -1679,7 +1681,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uilist imenu;
-        imenu.text = string_format( _( "%s on what?" ), _( verb ) );
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -1695,14 +1697,22 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item &cut = p.i_at( pos );
+    if( cut.is_null() ) {
+        p.add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+    if( &cut == &it ) {
+        p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
+        return 0;
+    }
     // inscribe_item returns false if the action fails or is canceled somehow.
 
-    if( item_inscription( cut ) ) {
+    if( item_inscription( it, cut ) ) {
         return cost >= 0 ? cost : it.ammo_required();
     }
 
@@ -1793,7 +1803,7 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 }
 
-ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
                                         const tripoint & ) const
 {
     if( !p.has_effect( effect_bite ) &&
@@ -1899,7 +1909,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( tolerance_level == 0 ) {
         // You just don't care, no message.
     } else if( tolerance_level <= 5 ) {
-        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat..." ) );
+        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat…" ) );
     } else {
         add_msg( m_bad, _( "You feel horrible for mutilating and enslaving someone's corpse." ) );
 
@@ -1953,7 +1963,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     return cost >= 0 ? cost : it.ammo_required();
 }
 
-ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint & ) const
+ret_val<bool> enzlave_actor::can_use( const Character &p, const item &, bool,
+                                      const tripoint & ) const
 {
     /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
@@ -2021,7 +2032,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     return it.type->charges_to_use();
 }
 
-ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2119,7 +2130,7 @@ int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) cons
     return it.type->charges_to_use();
 }
 
-ret_val<bool> manualnoise_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> manualnoise_actor::can_use( const Character &, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2259,7 +2270,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     return 0;
 }
 
-ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
+ret_val<bool> musical_instrument_actor::can_use( const Character &p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
@@ -2877,10 +2888,28 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
 
 static item_location get_item_location( player &p, item &it, const tripoint &pos )
 {
+    // Item on a character
     if( p.has_item( it ) ) {
         return item_location( p, &it );
     }
 
+    // Item in a vehicle
+    if( const optional_vpart_position &vp = g->m.veh_at( pos ) ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        bool found_in_vehicle = false;
+        vc.visit_items( [&]( const item * e ) {
+            if( e == &it ) {
+                found_in_vehicle = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( found_in_vehicle ) {
+            return item_location( vc, &it );
+        }
+    }
+
+    // Item on the map
     return item_location( pos, &it );
 }
 
@@ -2966,7 +2995,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             for( const auto &entry : valid_entries ) {
                 const auto &mat_comp = entry.obj().repaired_with();
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that. Have: %d, need: %d" ),
+                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.amount_of( mat_comp, false ) :
@@ -3187,7 +3216,7 @@ static bool damage_item( player &pl, item_location &fix )
     const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
     const std::string resultdurability = fix->durability_indicator( true );
-    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+    pl.add_msg_if_player( m_bad, _( "You damage your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                           startdurability, resultdurability );
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
@@ -3260,10 +3289,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                                       startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ), fix->tname( 1,
                                       false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
@@ -3653,7 +3682,7 @@ static hp_part pick_part_to_heal(
             return healed_part;
         }
 
-        if( patient.hp_cur[healed_part] == 0 ) {
+        if( patient.is_limb_broken( healed_part ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
@@ -3853,7 +3882,7 @@ static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::string &name ) const
 {
     if( !allow_under_player && pos == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "Yeah. Place the %s at your feet. Real damn smart move." ),
+        p.add_msg_if_player( m_info, _( "Yeah.  Place the %s at your feet.  Real damn smart move." ),
                              name );
         return false;
     }
@@ -3876,7 +3905,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
     const trap &existing_trap = g->m.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ),
+            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
@@ -4061,7 +4090,7 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
     }
 }
 
-ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
@@ -4082,7 +4111,7 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.max_power_level < bid->capacity ) {
+        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
@@ -4141,7 +4170,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
     return 0;
 }
 
-ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     const auto mods = it.gunmods();
@@ -4207,7 +4236,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
                 mutation_category );
 
     if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
+        p.add_msg_if_player( m_good, _( "You quiver with anticipation…" ) );
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
@@ -4544,7 +4573,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.charges >= thread_needed ) {
         tmenu.text = _( "How do you want to modify it?" );
     } else {
-        tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
+        tmenu.text = _( "Not enough thread to modify.  Which modification do you want to remove?" );
     }
 
     int index = 0;
@@ -4617,7 +4646,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         const std::string startdurability = mod.durability_indicator( true );
         const auto destroyed = mod.inc_damage();
         const std::string resultdurability = mod.durability_indicator( true );
-        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!  ( %s-> %s)" ),
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );

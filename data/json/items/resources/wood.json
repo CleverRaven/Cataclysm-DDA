@@ -131,6 +131,7 @@
     "weight": "15000 g",
     "to_hit": 1,
     "color": "brown",
+    "looks_like": "2x4",
     "symbol": "H",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],

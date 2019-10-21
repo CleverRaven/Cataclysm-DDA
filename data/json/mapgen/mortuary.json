@@ -127,7 +127,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] } },
       "place_nested": [
         {
           "chunks": [

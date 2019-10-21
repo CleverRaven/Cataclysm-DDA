@@ -70,6 +70,7 @@ ignorable = {
     "event_transformation",
     "event_statistic",
     "EXTERNAL_OPTION",
+    "hit_range",
     "ITEM_BLACKLIST",
     "item_group",
     "MIGRATION",
@@ -97,7 +98,6 @@ ignorable = {
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
-    "enchantment"
 }
 
 # these objects can have their strings automatically extracted.
@@ -341,6 +341,8 @@ def extract_gun(item):
     if "name" in item:
         item_name = item.get("name")
         if "name_plural" in item:
+            if type(item_name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
             # legacy format
             if item["name_plural"] != "none":
                 writestr(outfile, item_name, item["name_plural"])
@@ -375,6 +377,8 @@ def extract_gunmod(item):
     if "name" in item:
         item_name = item.get("name")
         if "name_plural" in item:
+            if type(item_name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
             # legacy format
             if item["name_plural"] != "none":
                 writestr(outfile, item_name, item["name_plural"])
@@ -853,6 +857,8 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
             raise WrongJSONItem("ERROR: str_pl not supported here", string)
         writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
         return
+    elif type(string) is not str and plural is not None:
+        raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", plural)
 
     # don't write empty strings
     if not string: return
@@ -954,6 +960,8 @@ def extract(item, infilename):
         return
     if name:
         if "name_plural" in item:
+            if type(name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
             # legacy format
             if item["name_plural"] != "none":
                 writestr(outfile, name, item["name_plural"], **kwargs)
@@ -989,6 +997,9 @@ def extract(item, infilename):
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
+        wrote = True
+    if "sound_description" in item:
+        writestr(outfile, item["sound_description"], comment="description for the sound of spell '{}'".format(name), **kwargs)
         wrote = True
     if "snippet_category" in item and type(item["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)

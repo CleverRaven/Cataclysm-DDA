@@ -159,7 +159,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
                            getVersionString() ) << eol;
     file << eol;
     file << string_format( _( "In memory of: %s" ), u.name ) << eol;
-    if( epitaph.length() > 0 ) {  //Don't record empty epitaphs
+    if( !epitaph.empty() ) {  //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
     }
@@ -287,7 +287,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     }
     file << string_format(
              _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ),
-             units::to_kilojoule( u.power_level ), units::to_kilojoule( u.max_power_level ) ) << eol;
+             units::to_kilojoule( u.get_power_level() ), units::to_kilojoule( u.get_max_power_level() ) ) << eol;
     file << eol;
 
     //Equipment

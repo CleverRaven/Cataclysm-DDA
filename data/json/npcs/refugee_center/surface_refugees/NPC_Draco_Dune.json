@@ -257,9 +257,9 @@
       "context": "mission",
       "value": "yes",
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
-      "no": "Man, just imagine what I could do with a new guitar.",
-      "speaker_effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+      "no": "Man, just imagine what I could do with a new guitar."
     },
+    "speaker_effect": { "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" } },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",

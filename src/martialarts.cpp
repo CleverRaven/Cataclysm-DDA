@@ -116,6 +116,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "take_weapon", take_weapon, false );
     optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
@@ -129,7 +130,8 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
+    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
+    optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -510,10 +512,12 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    knockback_follow = 0; // player follows the knocked-back party into their former tile
+    powerful_knockback = false;
+    knockback_follow = false; // player follows the knocked-back party into their former tile
 
     // offensive
     disarms = false; // like tec_disarm
+    take_weapon = false; // disarms and equips weapon if hands are free
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
 
@@ -591,9 +595,9 @@ int ma_buff::speed_bonus( const player &u ) const
 {
     return bonuses.get_flat( u, AFFECTED_SPEED );
 }
-int ma_buff::armor_bonus( const player &u, damage_type dt ) const
+int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
 {
-    return bonuses.get_flat( u, AFFECTED_ARMOR, dt );
+    return bonuses.get_flat( guy, AFFECTED_ARMOR, dt );
 }
 float ma_buff::damage_bonus( const player &u, damage_type dt ) const
 {
@@ -910,7 +914,7 @@ bool player::can_leg_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0 ) {
+    if( get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
         } else if( ma.leg_block_with_bio_armor_legs && has_bionic( bionic_id( "bio_armor_legs" ) ) ) {
@@ -929,7 +933,7 @@ bool player::can_arm_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0 ) {
+    if( !is_limb_broken( hp_arm_l ) || !is_limb_broken( hp_arm_r ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && has_bionic( bionic_id( "bio_armor_arms" ) ) ) {
@@ -1056,7 +1060,7 @@ int player::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int player::mabuff_armor_bonus( damage_type type ) const
+int Character::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1209,9 +1213,23 @@ float ma_technique::armor_penetration( const player &u, damage_type type ) const
 std::string ma_technique::get_description() const
 {
     std::stringstream dump;
+    std::string type;
 
-    dump << string_format( _( "<bold>Type:</bold> %s" ),
-                           defensive ? _( "defensive" ) : _( "offensive" ) ) << std::endl;
+    if( block_counter ) {
+        type = _( "Block Counter" );
+    } else if( dodge_counter ) {
+        type = _( "Dodge Counter" );
+    } else if( miss_recovery ) {
+        type = _( "Miss Recovery" );
+    } else if( grab_break ) {
+        type = _( "Grab Break" );
+    } else if( defensive ) {
+        type = _( "Defensive" );
+    } else {
+        type = _( "Offensive" );
+    }
+
+    dump << string_format( _( "<bold>Type:</bold> %s" ), type ) << std::endl;
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -1252,6 +1270,10 @@ std::string ma_technique::get_description() const
 
     if( human_target ) {
         dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+    }
+
+    if( powerful_knockback ) {
+        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1302,6 +1324,11 @@ std::string ma_technique::get_description() const
 
     if( disarms ) {
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+    }
+
+    if( take_weapon ) {
+        dump << _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) <<
+             std::endl;
     }
 
     return dump.str();
