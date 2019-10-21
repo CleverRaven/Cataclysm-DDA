@@ -183,9 +183,7 @@ const efftype_id effect_stim( "stim" );
 const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
@@ -308,7 +306,6 @@ static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
@@ -711,93 +708,6 @@ void player::process_turn()
 void player::action_taken()
 {
     nv_cached = false;
-}
-
-void player::update_morale()
-{
-    morale->decay( 1_minutes );
-    apply_persistent_morale();
-}
-
-void player::apply_persistent_morale()
-{
-    // Hoarders get a morale penalty if they're not carrying a full inventory.
-    if( has_trait( trait_HOARDER ) ) {
-        int pen = ( volume_capacity() - volume_carried() ) / 125_ml;
-        if( pen > 70 ) {
-            pen = 70;
-        }
-        if( pen <= 0 ) {
-            pen = 0;
-        }
-        if( has_effect( effect_took_xanax ) ) {
-            pen = pen / 7;
-        } else if( has_effect( effect_took_prozac ) ) {
-            pen = pen / 2;
-        }
-        if( pen > 0 ) {
-            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
-        }
-    }
-    // Nomads get a morale penalty if they stay near the same overmap tiles too long.
-    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        const tripoint ompos = global_omt_location();
-        float total_time = 0;
-        // Check how long we've stayed in any overmap tile within 5 of us.
-        const int max_dist = 5;
-        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
-            const float dist = rl_dist( ompos, pos );
-            if( dist > max_dist ) {
-                continue;
-            }
-            const auto iter = overmap_time.find( pos.xy() );
-            if( iter == overmap_time.end() ) {
-                continue;
-            }
-            // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
-            total_time += to_moves<float>( iter->second ) * ( max_dist - dist ) / max_dist;
-        }
-        // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
-        int max_unhappiness;
-        float min_time, max_time;
-        if( has_trait( trait_NOMAD ) ) {
-            max_unhappiness = 20;
-            min_time = to_moves<float>( 12_hours );
-            max_time = to_moves<float>( 1_days );
-        } else if( has_trait( trait_NOMAD2 ) ) {
-            max_unhappiness = 40;
-            min_time = to_moves<float>( 4_hours );
-            max_time = to_moves<float>( 8_hours );
-        } else { // traid_NOMAD3
-            max_unhappiness = 60;
-            min_time = to_moves<float>( 1_hours );
-            max_time = to_moves<float>( 2_hours );
-        }
-        // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
-        const float t = ( total_time - min_time ) / ( max_time - min_time );
-        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
-        if( pen > 0 ) {
-            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
-        }
-    }
-
-    if( has_trait( trait_PROF_FOODP ) ) {
-        // Loosing your face is distressing
-        if( !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-               is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
-        } else if( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
-            rem_morale( MORALE_PERM_NOFACE );
-        }
-
-        if( is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
-            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
-        } else {
-            rem_morale( MORALE_PERM_FPMODE_ON );
-        }
-    }
-
 }
 
 /* Here lies the intended effects of body temperature
@@ -2148,21 +2058,6 @@ float player::active_light() const
         lumination = 5;
     }
     return lumination;
-}
-
-tripoint player::global_square_location() const
-{
-    return g->m.getabs( position );
-}
-
-tripoint player::global_sm_location() const
-{
-    return ms_to_sm_copy( global_square_location() );
-}
-
-tripoint player::global_omt_location() const
-{
-    return ms_to_omt_copy( global_square_location() );
 }
 
 const tripoint &player::pos() const
@@ -6102,72 +5997,6 @@ void player::update_body_wetness( const w_point &weather )
         }
     }
     // TODO: Make clothing slow down drying
-}
-
-int player::get_morale_level() const
-{
-    return morale->get_level();
-}
-
-void player::add_morale( const morale_type &type, int bonus, int max_bonus,
-                         const time_duration &duration, const time_duration &decay_start,
-                         bool capped, const itype *item_type )
-{
-    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
-}
-
-int player::has_morale( const morale_type &type ) const
-{
-    return morale->has( type );
-}
-
-void player::rem_morale( const morale_type &type, const itype *item_type )
-{
-    morale->remove( type, item_type );
-}
-
-void player::clear_morale()
-{
-    morale->clear();
-}
-
-bool player::has_morale_to_read() const
-{
-    return get_morale_level() >= -40;
-}
-
-void player::check_and_recover_morale()
-{
-    player_morale test_morale;
-
-    for( const auto &wit : worn ) {
-        test_morale.on_item_wear( wit );
-    }
-
-    for( const auto &mut : my_mutations ) {
-        test_morale.on_mutation_gain( mut.first );
-    }
-
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
-            const effect &e = _effect_it.second;
-            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
-        }
-    }
-
-    test_morale.on_stat_change( "hunger", get_hunger() );
-    test_morale.on_stat_change( "thirst", get_thirst() );
-    test_morale.on_stat_change( "fatigue", get_fatigue() );
-    test_morale.on_stat_change( "pain", get_pain() );
-    test_morale.on_stat_change( "pkill", get_painkiller() );
-    test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
-
-    apply_persistent_morale();
-
-    if( !morale->consistent_with( test_morale ) ) {
-        *morale = player_morale( test_morale ); // Recover consistency
-        add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
-    }
 }
 
 void player::on_worn_item_transform( const item &old_it, const item &new_it )

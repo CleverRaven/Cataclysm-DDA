@@ -134,8 +134,6 @@ struct special_attack {
     damage_instance damage;
 };
 
-class player_morale;
-
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
@@ -227,10 +225,6 @@ class player : public Character
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Ticks down morale counters and removes them */
-        void update_morale();
-        /** Ensures persistent morale effects are up-to-date */
-        void apply_persistent_morale();
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
@@ -775,8 +769,6 @@ class player : public Character
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
         void modify_addiction( const islot_comestible &comest );
-        /** Used to apply morale modifications from food and medication **/
-        void modify_morale( item &food, int nutr = 0 );
 
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
@@ -798,8 +790,6 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
         /**
@@ -1111,17 +1101,6 @@ class player : public Character
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
-        int get_morale_level() const; // Modified by traits, &c
-        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
-                         const time_duration &duration = 1_hours,
-                         const time_duration &decay_start = 30_minutes, bool capped = false,
-                         const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
-        void clear_morale();
-        bool has_morale_to_read() const;
-        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
@@ -1258,7 +1237,6 @@ class player : public Character
         int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
@@ -1366,20 +1344,6 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
-
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         */
-        virtual tripoint global_square_location() const;
-        /**
-        * Returns the location of the player in global submap coordinates.
-        */
-        tripoint global_sm_location() const;
-        /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
-        tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
 
@@ -1641,11 +1605,6 @@ class player : public Character
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-    protected:
-        // TODO: move this to avatar
-        pimpl<player_morale> morale;
-    private:
-
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
@@ -1656,10 +1615,6 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
-    private:
-
-        /** Amount of time the player has spent in each overmap tile. */
-        std::unordered_map<point, time_duration> overmap_time;
 };
 
 #endif
