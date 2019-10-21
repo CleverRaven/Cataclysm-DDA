@@ -263,7 +263,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                            volume_carried,
                                            volume_capacity,
                                            volume_units_abbr() );
-        const int hrightcol = columns - 1 - formatted_head.length();
+        const int hrightcol = columns - 1 - utf8_width( formatted_head );
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
@@ -295,7 +295,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
-        mvwprintz( window, point( columns - 1 - formatted_head.length(), 4 ), norm, formatted_head );
+        mvwprintz( window, point( columns - 1 - utf8_width( formatted_head ), 4 ), norm, formatted_head );
     }
 
     //print header row and determine max item name length

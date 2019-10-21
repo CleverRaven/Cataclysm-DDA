@@ -135,6 +135,7 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_PRINT_FACTION_INFO,
+    DEBUG_PRINT_NPC_MAGIC,
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
@@ -210,6 +211,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
+            { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -1523,6 +1525,27 @@ void debug()
             std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
             break;
         }
+        case DEBUG_PRINT_NPC_MAGIC: {
+            for( npc &guy : g->all_npcs() ) {
+                const std::vector<spell_id> spells = guy.magic.spells();
+                if( spells.empty() ) {
+                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+                    continue;
+                }
+                std::cout << guy.disp_name() << "knows : ";
+                int counter = 1;
+                for( const spell_id sp : spells ) {
+                    std::cout << sp->name.translated() << " ";
+                    if( counter < static_cast<int>( spells.size() ) ) {
+                        std::cout << "and ";
+                    } else {
+                        std::cout << "." << std::endl;
+                    }
+                    counter++;
+                }
+            }
+            break;
+        }
         case DEBUG_QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
@@ -1602,7 +1625,11 @@ void debug()
             std::vector<uilist_entry> uiles;
             {
                 uilist_entry uile( _( "Spell" ) );
-                uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
+                uile.ctxt = string_format( "%s %s",
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "LVL" ), 4 ),
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
                 uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
@@ -1610,7 +1637,7 @@ void debug()
             int retval = 0;
             for( spell *sp : spells ) {
                 uilist_entry uile( sp->name() );
-                uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
+                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
                 uile.retval = retval++;
                 uile.enabled = !sp->is_max_level();
                 uiles.emplace_back( uile );

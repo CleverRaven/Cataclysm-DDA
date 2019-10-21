@@ -67,6 +67,9 @@ static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_tools( "bio_tools" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -180,6 +183,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    set_stim( 0 );
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
@@ -3169,7 +3173,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - h_bar.size(),
+            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
                     '.' ), c_white );
         }
     };
@@ -3775,9 +3779,9 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), static_cast<size_t>( 0 ),
-    []( size_t m, body_part bp ) {
-        return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
+    int longest = std::accumulate( bps.begin(), bps.end(), 0,
+    []( int m, body_part bp ) {
+        return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
@@ -3792,13 +3796,11 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << colorize( bp_heading, name_color );
-        // Align them. There is probably a less ugly way to do it
-        ss << std::string( longest - bp_heading.size() + 1, ' ' );
+        ss << colorize( left_justify( bp_heading, longest ), name_color );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // TODO: Integrate into get_hp_bar somehow
-        ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
         ss << std::endl;
     }
 
@@ -4163,6 +4165,21 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::get_stim() const
+{
+    return stim;
+}
+
+void Character::set_stim( int new_stim )
+{
+    stim = new_stim;
+}
+
+void Character::mod_stim( int mod )
+{
+    stim += mod;
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
@@ -5296,4 +5313,63 @@ std::string Character::is_snuggling() const
     }
 
     return "nothing";
+}
+
+bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
+{
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
+        return it.has_flag( flag );
+    } );
+}
+
+std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
+{
+    return items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+}
+
+bool Character::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const
+{
+    if( it == "fire" || it == "apparatus" ) {
+        return has_fire( quantity );
+    }
+    if( it == "UPS" && is_mounted() &&
+        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto mons = mounted_creature.get();
+        return quantity <= mons->battery_item->ammo_remaining();
+    }
+    return charges_of( it, quantity, filter ) == quantity;
+}
+
+bool Character::has_fire( const int quantity ) const
+{
+    // TODO: Replace this with a "tool produces fire" flag.
+
+    if( g->m.has_nearby_fire( pos() ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                return true;
+            }
+        }
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( is_npc() ) {
+        // A hack to make NPCs use their Molotovs
+        return true;
+    }
+    return false;
 }

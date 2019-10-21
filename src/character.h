@@ -967,6 +967,8 @@ class Character : public Creature, public visitable<Character>
                 time_died = time;
             }
         }
+        // magic mod
+        known_magic magic;
 
         void make_bleed( body_part bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
@@ -1088,6 +1090,18 @@ class Character : public Creature, public visitable<Character>
         void stop_hauling();
         bool is_hauling() const;
 
+        // Has a weapon, inventory item or worn item with flag
+        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
+        /**
+         * All items that have the given flag (@ref item::has_flag).
+         */
+        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
+
+        bool has_fire( int quantity ) const;
+
+        bool has_charges( const itype_id &it, int quantity,
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1131,6 +1145,10 @@ class Character : public Creature, public visitable<Character>
         void reset_activity_level();
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
+
+        int get_stim() const;
+        void set_stim( int new_stim );
+        void mod_stim( int mod );
 
     protected:
         void on_stat_change( const std::string &, int ) override {}
@@ -1310,6 +1328,8 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance;
+
+        int stim;
 };
 
 template<>
