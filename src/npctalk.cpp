@@ -338,6 +338,7 @@ static void tell_veh_stop_following()
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
+            g->m.validate_autopilot_cache();
             v->engine_on = false;
         }
     }

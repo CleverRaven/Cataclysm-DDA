@@ -533,6 +533,7 @@ void vehicle::toggle_autopilot()
             is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
+            g->m.validate_autopilot_cache();
             break;
         default:
             return;
@@ -1057,6 +1058,7 @@ void vehicle::enable_patrol()
     autodrive_local_target = tripoint_zero;
     start_engines();
     refresh();
+    g->m.validate_autopilot_cache();
 }
 
 void vehicle::honk_horn()

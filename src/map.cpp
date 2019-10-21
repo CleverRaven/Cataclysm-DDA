@@ -324,6 +324,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         if( current_submap->vehicles[i].get() == veh ) {
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
+            autopilot_cache.erase( veh );
             reset_vehicle_cache( z );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
@@ -342,6 +343,24 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 void map::destroy_vehicle( vehicle *veh )
 {
     detach_vehicle( veh );
+}
+
+void map::validate_autopilot_cache()
+{
+    for( const auto &elem : get_vehicles() ){
+        auto &v = veh.v;
+        if( v->is_following || v->is_patrolling || v->is_autodriving ){
+            autopilot_cache.emplace_back( v );
+        }
+    }
+    for(it2 = autopilot_cache.begin(); it2 != autopilot_cache.end();){
+        vehicle *veh = *it2;
+        if( !veh || ( !veh->is_following && !veh->is_patrolling && !veh->is_autodriving ) ){
+            it2 = autopilot_cache.erase(it2);
+        } else {
+            ++it2;
+        }
+    }
 }
 
 void map::on_vehicle_moved( const int smz )

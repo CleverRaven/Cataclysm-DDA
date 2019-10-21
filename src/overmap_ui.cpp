@@ -1437,6 +1437,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
+                        g->m.validate_autopilot_cache();
                         g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
                     } else {
                         g->u.reset_move_mode();

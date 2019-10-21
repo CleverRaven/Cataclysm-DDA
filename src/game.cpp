@@ -1643,8 +1643,11 @@ void game::process_activity()
 
 void game::autopilot_vehicles()
 {
-    for( auto &veh : m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( vehicle *veh : m.get_autopilot_cache() ) {
+        if( !veh ){
+            m.validate_autopilot_cache();
+            return;
+        }
         if( v->is_following ) {
             v->drive_to_local_target( g->m.getabs( u.pos() ), true );
         } else if( v->is_patrolling ) {
@@ -5306,6 +5309,7 @@ void game::control_vehicle()
         veh->is_patrolling = false;
         veh->autopilot_on = false;
         veh->is_autodriving = false;
+        m.validate_autopilot_cache();
     }
 }
 

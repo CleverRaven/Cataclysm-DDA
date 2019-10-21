@@ -2683,6 +2683,7 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
             player_veh->omt_path.clear();
         }
         player_veh->is_autodriving = false;
+        g->m.validate_autopilot_cache();
         act->set_to_null();
         p->cancel_activity();
         return;
@@ -2690,6 +2691,7 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
     if( player_veh->omt_path.empty() ) {
         act->set_to_null();
         player_veh->is_autodriving = false;
+        g->m.validate_autopilot_cache();
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
     }

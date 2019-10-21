@@ -638,6 +638,7 @@ void vehicle::activate_animal_follow()
             parts[ e ].enabled = false;
         }
     }
+    g->m.validate_autopilot_cache();
     refresh();
 }
 
@@ -664,6 +665,7 @@ void vehicle::autopilot_patrol()
         if( !g->m.inbounds( g->m.getlocal( autodrive_local_target ) ) ) {
             autodrive_local_target = tripoint_zero;
             is_patrolling = false;
+            g->m.validate_autopilot_cache();
             return;
         }
         drive_to_local_target( autodrive_local_target, false );
@@ -674,6 +676,7 @@ void vehicle::autopilot_patrol()
                                g->m.getabs( global_pos3() ), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
+        g->m.validate_autopilot_cache();
         return;
     }
     // get corners.
@@ -738,6 +741,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
 {
     if( follow_protocol && g->u.in_vehicle ) {
         is_following = false;
+        g->m.validate_autopilot_cache();
         return;
     }
     refresh();
@@ -811,6 +815,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
         is_following = false;
         autopilot_on = false;
         autodrive_local_target = tripoint_zero;
+        g->m.validate_autopilot_cache();
         return;
     }
     int turn_x = 0;
@@ -868,6 +873,7 @@ void vehicle::do_autodrive()
     if( omt_path.empty() ) {
         is_autodriving = false;
         autodrive_local_target = tripoint_zero;
+        g->m.validate_autopilot_cache();
         return;
     }
     tripoint vehpos = global_pos3();
@@ -882,6 +888,7 @@ void vehicle::do_autodrive()
         // we've gone walkabout somehow, call off the whole thing
         is_autodriving = false;
         autodrive_local_target = tripoint_zero;
+        g->m.validate_autopilot_cache();
         return;
     }
     int x_side = 0;
@@ -5939,6 +5946,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     // If auto-driving and damage happens, bail out
     if( is_autodriving ) {
         is_autodriving = false;
+        g->m.validate_autopilot_cache();
     }
     g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {
