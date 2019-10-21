@@ -1049,7 +1049,7 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
-    const scenttype_id tracked_scent = type->scent_tracked;
+    const std::set<scenttype_id> tracked_scents = type->scents_tracked;
 
     std::vector<tripoint> smoves;
 
@@ -1077,11 +1077,11 @@ tripoint monster::scent_move()
 
         bool right_scent = false;
         if( type_scent.is_empty() ) {
-            if( tracked_scent.is_empty() ) {
+            if( tracked_scents.empty() ) {
                 right_scent = true;
             }
-        } else if( !tracked_scent.is_empty() ) {
-            right_scent = tracked_scent == type_scent;
+        } else if( !tracked_scents.empty() ) {
+            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
         }
 
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {

@@ -656,8 +656,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
-    assign( jo, "scent_tracked", scent_tracked, strict );
-
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
@@ -682,6 +680,13 @@ void mtype::load( JsonObject &jo, const std::string &src )
         melee_damage = load_damage_instance( arr );
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo );
+    }
+
+    if( jo.has_array( "scents_tracked" ) ) {
+        JsonArray jar = jo.get_array( "scents_tracked" );
+        while( jar.has_more() ) {
+            scents_tracked.emplace( jar.next_string() );
+        }
     }
 
     int bonus_cut = 0;
@@ -1042,7 +1047,6 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        const scenttype_id s_id = mon.scent_tracked;
         if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1072,8 +1076,10 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
         }
-        if( !s_id.is_empty() && !s_id.is_valid() ) {
-            debugmsg( "monster %s has unknown scent_tracked %s", mon.id.c_str(), s_id.c_str() );
+        for( const scenttype_id &s_id : mon.scents_tracked ) {
+            if( !s_id.is_empty() && !s_id.is_valid() ) {
+                debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
+            }
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
