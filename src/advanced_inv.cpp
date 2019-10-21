@@ -824,7 +824,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     if( spane.get_area() == AIM_ALL ) {
         // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
         if( dpane.get_area() == AIM_WORN ) {
-            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
+            popup( _( "You look at the items, then your clothes, and scratch your headâ€¦" ) );
             return false;
         }
         // if the source pane (AIM_ALL) is empty, then show a message and leave
@@ -1044,7 +1044,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
-    sm.text = _( "Sort by…" );
+    sm.text = _( "Sort byâ€¦" );
     sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
     sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );
