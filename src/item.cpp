@@ -306,18 +306,18 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( const item &it : components ) {
-        if( it.has_flag( "HIDDEN_POISON" ) ) {
-            set_flag( "HIDDEN_POISON" );
+    for( item &component : components ) {
+        for( const std::string &f : component.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
-        if( it.has_flag( "HIDDEN_HALLU" ) ) {
-            set_flag( "HIDDEN_HALLU" );
-        }
-        if( it.is_filthy() ) {
-            set_flag( "FILTHY" );
+        for( const std::string &f : component.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
     }
-
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
@@ -1354,9 +1354,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
-        if( food_item->get_comestible()->fun != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
-            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ),
-                                      g->u.fun_for( *food_item ).first ) );
+        const std::pair<int, int> fun_for_food_item = g->u.fun_for( *food_item );
+        if( fun_for_food_item.first != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
+            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first ) );
         }
 
         if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
@@ -2916,20 +2916,25 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-        std::map<std::string, std::string>::const_iterator item_note_type =
-            item_vars.find( "item_note_type" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             insert_separation_line();
             std::string ntext;
-            if( item_note_type != item_vars.end() ) {
-                //~ %1$s: gerund (e.g. carved), %2$s: item name
-                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        item_note_type->second.c_str(), tname() );
+            const use_function *use_func = item_note_tool != item_vars.end() ?
+                                           item_controller->find_template( item_note_tool->second )->get_use( "inscribe" ) : nullptr;
+            const inscribe_actor *use_actor = use_func ?
+                                              dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
+            if( use_actor ) {
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
+                ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
             } else {
-                ntext += _( "Note: " );
+                //~ %1$s: inscription text
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
             }
-            info.push_back( iteminfo( "DESCRIPTION", ntext + item_note->second ) );
+            info.push_back( iteminfo( "DESCRIPTION", ntext ) );
         }
 
         // describe contents
@@ -3110,11 +3115,11 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
-    } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( !has_flag( "NO_PACKED" ) ) {
+    } else if( is_bionic() ) {
+        if( !u.has_bionic( type->bionic->id ) ) {
+            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
+        } else if( !has_flag( "NO_STERILE" ) ) {
             ret = c_dark_gray;
-        } else {
-            ret = c_cyan;
         }
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
@@ -3236,10 +3241,6 @@ nc_color item::color_in_inventory() const
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
-        }
-    } else if( is_bionic() ) {
-        if( !u.has_bionic( type->bionic->id ) ) {
-            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
@@ -3844,10 +3845,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     units::mass ret;
-    if( integral ) {
-        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
+    if( local_str_mass.empty() ) {
+        ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+        ret = units::from_milligram( std::stoll( local_str_mass ) );
     }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
@@ -4059,6 +4061,8 @@ int item::lift_strength() const
 int item::attack_time() const
 {
     int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
+    ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
+                                          true );
     return ret;
 }
 
@@ -5744,6 +5748,44 @@ std::vector<enchantment> item::get_enchantments() const
     return relic_data->get_enchantments();
 }
 
+double item::calculate_by_enchantment( const Character &owner, double modify,
+                                       enchantment::mod value, bool round_value ) const
+{
+    double add_value = 0.0;
+    double mult_value = 1.0;
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.is_active( owner, *this ) ) {
+            add_value += ench.get_value_add( value );
+            mult_value += ench.get_value_multiply( value );
+        }
+    }
+    modify += add_value;
+    modify *= mult_value;
+    if( round_value ) {
+        modify = round( modify );
+    }
+    return modify;
+}
+
+double item::calculate_by_enchantment_wield( double modify, enchantment::mod value,
+        bool round_value ) const
+{
+    double add_value = 0.0;
+    double mult_value = 1.0;
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.active_wield() ) {
+            add_value += ench.get_value_add( value );
+            mult_value += ench.get_value_multiply( value );
+        }
+    }
+    modify += add_value;
+    modify *= mult_value;
+    if( round_value ) {
+        modify = round( modify );
+    }
+    return modify;
+}
+
 bool item::can_contain( const item &it ) const
 {
     // TODO: Volume check
@@ -6135,7 +6177,7 @@ int item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            int power = units::to_kilojoule( g->u.power_level );
+            int power = units::to_kilojoule( g->u.get_power_level() );
             return power;
         }
         return charges;
@@ -6266,8 +6308,8 @@ int item::ammo_consume( int qty, const tripoint &pos )
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            charges = units::to_kilojoule( g->u.power_level );
-            g->u.charge_power( units::from_kilojoule( -qty ) );
+            charges = units::to_kilojoule( g->u.get_power_level() );
+            g->u.mod_power_level( units::from_kilojoule( -qty ) );
         }
         charges -= qty;
         if( charges == 0 ) {
@@ -6994,6 +7036,13 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    if( count_by_charges() ) {
+        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        time_added *= stack_burnt;
+        smoke_added *= stack_burnt;
+        burn_added *= stack_burnt;
+    }
+
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
     return burn_added;
@@ -7008,11 +7057,14 @@ bool item::burn( fire_data &frd )
     }
 
     if( count_by_charges() ) {
-        burn_added *= rng( type->stack_size / 2, type->stack_size );
-        charges -= roll_remainder( burn_added );
-        if( charges <= 0 ) {
-            return true;
+        if( type->volume == 0_ml ) {
+            charges = 0;
+        } else {
+            charges -= roll_remainder( burn_added * units::legacy_volume_factor * type->stack_size /
+                                       ( 3.0 * type->volume ) );
         }
+
+        return charges <= 0;
     }
 
     if( is_corpse() ) {

@@ -1,0 +1,103 @@
+[
+  {
+    "id": "mbracer_steel_pair",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": "pair of steel bracers",
+    "name_plural": "pairs of steel bracers",
+    "description": "A full assembly of medieval arm protection.",
+    "weight": "1520 g",
+    "volume": "2500 ml",
+    "price": 20000,
+    "to_hit": -1,
+    "material": [ "steel", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "ARMS" ],
+    "coverage": 45,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 5,
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "copy-from": "mbracer_steel_pair",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_steel_single",
+    "name": "steel bracer",
+    "name_plural": "steel bracers",
+    "weight": "770 g",
+    "volume": "1250 ml",
+    "covers": [ "ARM_EITHER" ]
+  },
+  {
+    "copy-from": "mbracer_steel_single",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_defense_lesser",
+    "name": "bracer of lesser defense",
+    "name_plural": "bracers of lesser defense",
+    "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, silver accentuates the intricate design.  It protects your body with a light aura to reduce damage you take.",
+    "material_thickness": 6,
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mbracer_steel_single",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_defense_greater",
+    "name": "bracer of greater defense",
+    "name_plural": "bracers of greater defense",
+    "description": "A light but extremely sturdy steel bracer with an ornate shield engraved on the top, gold accentuates the intricate design.  It protects your body with a strong aura to reduce damage you take.",
+    "material_thickness": 6,
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mbracer_steel_single",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_lightning_lesser",
+    "name": "lesser bracer of lightning",
+    "name_plural": "lesser bracers of lightning",
+    "description": "A light but extremely sturdy steel bracer with an ornate bundle of lightning bolts engraved on the top, silver accentuates the intricate design.  It protects your body with a light aura to reduce electrical damage you take, as well as being able to release a Jolt spell 3 times a day.",
+    "initial_charges": 72,
+    "charges": 72,
+    "max_charges": 72,
+    "charges_per_use": 24,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -5 } ] } ] },
+    "use_action": { "type": "cast_spell", "spell_id": "jolt", "no_fail": true, "level": 15, "need_worn": true }
+  },
+  {
+    "copy-from": "mbracer_steel_single",
+    "type": "TOOL_ARMOR",
+    "id": "mbracer_lightning_greater",
+    "name": "greater bracer of lightning",
+    "name_plural": "greater bracers of lightning",
+    "description": "A light but extremely sturdy steel bracer with an ornate bundle of lightning bolts engraved on the top, gold accentuates the intricate design.  It protects your body with a strong aura to reduce electrical damage you take, as well as being able to release a Lightning Bolt spell 3 times a day.",
+    "initial_charges": 72,
+    "charges": 72,
+    "max_charges": 72,
+    "charges_per_use": 24,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -10 } ] } ] },
+    "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true }
+  }
+]

@@ -365,6 +365,13 @@ void Character::load( JsonObject &data )
 {
     Creature::load( data );
 
+    if( !data.read( "posx", position.x ) ) {  // uh-oh.
+        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
+    }
+    data.read( "posy", position.y );
+    if( !data.read( "posz", position.z ) && g != nullptr ) {
+        position.z = g->get_levz();
+    }
     // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
@@ -388,6 +395,14 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+
+    JsonObject vits = data.get_object( "vitamin_levels" );
+    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[v.first] = lvl;
+    }
+
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -395,9 +410,12 @@ void Character::load( JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
+    //energy
+    data.read( "stim", stim );
+
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
-
+    data.read( "magic", magic );
     JsonArray parray;
 
     data.read( "underwater", underwater );
@@ -472,6 +490,15 @@ void Character::load( JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    std::string tmove_mode;
+    data.read( "move_mode", tmove_mode );
+    for( int i = 0; i < CMM_COUNT; ++i ) {
+        if( tmove_mode == character_movemode_str[i] ) {
+            move_mode = static_cast<character_movemode>( i );
+            break;
+        }
+    }
+
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
@@ -512,8 +539,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0_kJ ) {
-        power_level = 0_kJ;
+    if( power_level < 0_mJ ) {
+        power_level = 0_mJ;
     }
 }
 
@@ -523,6 +550,12 @@ void Character::load( JsonObject &data )
 void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
+
+    // assumes already in Character object
+    // positional data
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
+    json.member( "posz", position.z );
 
     // stat
     json.member( "str_cur", str_cur );
@@ -553,6 +586,10 @@ void Character::store( JsonOut &json ) const
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
+    json.member( "vitamin_levels", vitamin_levels );
+
+    // energy
+    json.member( "stim", stim );
 
     // breathing
     json.member( "underwater", underwater );
@@ -561,9 +598,12 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
-
+    json.member( "magic", magic );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
+
+    json.member( "move_mode", character_movemode_str[ move_mode ] );
+
     // storing the mount
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
@@ -577,7 +617,13 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", units::to_kilojoule( power_level ) );
+    if( power_level < 1_J ) {
+        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+    } else if( power_level < 1_kJ ) {
+        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+    } else {
+        json.member( "power_level", units::to_kilojoule( power_level ) );
+    }
     json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
 }
 
@@ -591,14 +637,7 @@ void player::store( JsonOut &json ) const
 {
     Character::store( json );
 
-    // assumes already in player object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
-
     // energy
-    json.member( "stim", stim );
     json.member( "last_sleep_check", last_sleep_check );
     // pain
     json.member( "pkill", pkill );
@@ -705,14 +744,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    if( !data.read( "posx", position.x ) ) { // uh-oh.
-        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
-    }
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
-    }
-    data.read( "stim", stim );
     data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
@@ -861,9 +892,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "move_mode", player_movemode_str[ move_mode ] );
-    json.member( "magic", magic );
-
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
     json.member( "dex_upgrade", abs( dex_upgrade ) );
@@ -884,8 +912,6 @@ void avatar::store( JsonOut &json ) const
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
-
-    json.member( "vitamin_levels", vitamin_levels );
 
     json.member( "stomach", stomach );
     json.member( "guts", guts );
@@ -976,15 +1002,6 @@ void avatar::load( JsonObject &data )
     }
 
     data.read( "stamina", stamina );
-    data.read( "magic", magic );
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < PMM_COUNT; ++i ) {
-        if( tmove_mode == player_movemode_str[i] ) {
-            move_mode = static_cast<player_movemode>( i );
-            break;
-        }
-    }
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1018,13 +1035,6 @@ void avatar::load( JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    auto vits = data.get_object( "vitamin_levels" );
-    for( const auto &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[ v.first ] = lvl;
-    }
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
@@ -1370,7 +1380,6 @@ void npc::load( JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1600,7 +1609,6 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-
     json.member( "mission", mission ); // TODO: stringid
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
@@ -2116,6 +2124,10 @@ void item::io( Archive &archive )
         }
     }
 
+    // Remove stored translated gerund in favor of storing the inscription tool type
+    item_vars.erase( "item_label_type" );
+    item_vars.erase( "item_note_type" );
+
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
@@ -2494,6 +2506,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_anchor[1] = pivot_anchor[0];
     pivot_rotation[1] = pivot_rotation[0] = fdir;
     data.read( "is_following", is_following );
+    data.read( "is_patrolling", is_patrolling );
+    data.read( "autodrive_local_target", autodrive_local_target );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2507,6 +2521,15 @@ void vehicle::deserialize( JsonIn &jsin )
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+
+        //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
+        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+            vp.part().enabled = false;
+        }
+        //Set turret control unit's state equal to turret's targeting mode on loading save
+        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+            turret_part.part().enabled = vp.part().enabled;
+        }
     }
 
     // Add vehicle mounts to cars that are missing them.
@@ -2634,6 +2657,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
     json.member( "is_following", is_following );
+    json.member( "is_patrolling", is_patrolling );
+    json.member( "autodrive_local_target", autodrive_local_target );
     json.end_object();
 }
 

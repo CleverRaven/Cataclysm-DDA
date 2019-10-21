@@ -574,8 +574,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         p->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->power_level = units::from_kilojoule( std::min( units::to_kilojoule( p->max_power_level ),
-                                                    units::to_kilojoule( p->power_level ) + healing ) );
+            p->mod_power_level( units::from_kilojoule( healing ) );
         } else {
             p->mod_stat( "stamina", healing );
         }
@@ -782,6 +781,25 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
     }
 }
 
+void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        monster *mon = g->critter_at<monster>( potential_target );
+        if( !mon ) {
+            continue;
+        }
+        sp.make_sound( potential_target );
+        if( mon->friendly == 0 && mon->get_hp() <= sp.damage() ) {
+            mon->unset_dest();
+            mon->friendly += sp.duration() / 100;
+        }
+    }
+}
+
 void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
@@ -808,5 +826,17 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             }
         }
         sp.make_sound( potential_target );
+    }
+}
+
+void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        // the bash already makes noise, so no need for spell::make_sound()
+        g->m.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
 }

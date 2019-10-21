@@ -355,7 +355,7 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
                 ( text.size() ) ? 1 : 0 ) ) {
             // Next page
             i--;
-            center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
+            center_print( w, height - 1, c_light_gray, _( "Press any key for more…" ) );
             wrefresh( w );
             catacurses::refresh();
             inp_mngr.wait_for_any_key();
@@ -723,10 +723,11 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white, intros[tab_idx] );
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
+                              // NOLINTNEXTLINE(cata-text-style): literal comma
                               _( "Separate multiple items with ," ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
-                                  _( "Example: back,flash,aid, ,band" ) );
+                                  _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,

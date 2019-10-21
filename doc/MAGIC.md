@@ -16,7 +16,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"effect_str": "template"                                  // special. see below
 	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
 	"effected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
-	"spell_class": "NONE"                                     // 
+	"spell_class": "NONE"                                     //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
 	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
@@ -56,7 +56,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.
 
 When deciding values for some of these, it is important to note that some of the formulae are not linear.
-For example, this is the formula for spell failure chance: 
+For example, this is the formula for spell failure chance:
 
 ```( ( ( ( spell_level - spell_difficulty ) * 2 + intelligence + spellcraft_skill ) - 30 ) / 30 ) ^ 2```
 
@@ -109,7 +109,11 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "morale" - gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
 
+* "charm_monster" - charms a monster that has less hp than damage() for approximately duration()
+
 * "mutate" - mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
+
+* "bash" - bashes the terrain at the target. uses damage() as the strength of the bash.
 
 * "WONDER" - Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
 
@@ -176,9 +180,9 @@ Currently there is only one way of learning spells that is implemented: learning
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
 
-#### Spells in professions
+#### Spells in professions and NPC classes
 
-You can add a "spell" member to professions like so:
+You can add a "spell" member to professions or an NPC class definition like so:
 ```json
 "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
 ```
@@ -194,4 +198,3 @@ You can assign a spell as a special attack for a monster.
 * spell_id: the id for the spell being cast.
 * spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 * cooldown: how often the monster can cast this spell
-

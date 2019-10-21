@@ -211,5 +211,16 @@
     "remove_message": "The earth pulls you down hard.",
     "rating": "good",
     "flags": [ "EFFECT_FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_frightful_presence",
+    "name": [ "Scared", "Frightened", "Terrified" ],
+    "max_intensity": 3,
+    "desc": [ "Your knees are shaking, your heart beats fast, and your stomach rebels." ],
+    "apply_message": "You are afraid!",
+    "remove_message": "Your fear dissipates.",
+    "rating": "bad",
+    "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
   }
 ]

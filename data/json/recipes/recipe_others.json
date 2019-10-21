@@ -502,7 +502,7 @@
         [ "duct_tape", 20 ],
         [ "medical_tape", 40 ],
         [ "cordage", 1, "LIST" ],
-        [ "filament", 15, "LIST" ]
+        [ "filament", 300, "LIST" ]
       ]
     ]
   },
@@ -644,7 +644,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 40, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -658,7 +658,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -710,7 +710,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ]
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
   },
   {
@@ -736,7 +736,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 80, "LIST" ] ] ]
+    "components": [ [ [ "rock", 3 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -752,7 +752,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -771,7 +771,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {
@@ -789,7 +789,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -806,7 +806,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -897,7 +897,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "filament", 60, "LIST" ] ]
+      [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
     ]
   },
   {
@@ -913,7 +913,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 14 ], [ "tanned_hide", 2 ], [ "fur", 14 ], [ "tanned_pelt", 2 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "filament", 90, "LIST" ] ]
+      [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
     ]
   },
   {
@@ -929,7 +929,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 24 ], [ "tanned_hide", 4 ], [ "fur", 24 ], [ "tanned_pelt", 4 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "filament", 120, "LIST" ] ]
+      [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
     ]
   },
   {
@@ -958,7 +958,7 @@
     "components": [
       [ [ "stick", 10 ], [ "2x4", 5 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
@@ -976,7 +976,7 @@
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "leather", 4 ], [ "tanned_hide", 1 ] ],
       [ [ "damaged_shelter_kit", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -992,7 +992,7 @@
     "decomp_learn": 0,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 360, "LIST" ] ] ]
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1652,11 +1652,26 @@
     "difficulty": 4,
     "time": "12 m",
     "reversible": true,
-    "note": "sawing it down doesn't teach anything useful",
+    "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_armor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "12 m",
+    "reversible": true,
+    "//": "sawing it down doesn't teach anything useful",
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1679,7 +1694,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "note": "hardened metal tools require high fabrication, so +1 diff here",
+    "//": "hardened metal tools require high fabrication, so +1 diff here",
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
@@ -2387,7 +2402,7 @@
     "difficulty": 4,
     "time": "45 m",
     "reversible": true,
-    "note": "melting the chisel back down seems unlikely to teach anything useful",
+    "//": "melting the chisel back down seems unlikely to teach anything useful",
     "autolearn": true,
     "book_learn": [
       [ "textbook_fabrication", 3 ],
@@ -2515,9 +2530,9 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -2595,7 +2610,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "note": "not so much the engineering as hardening the edge",
+    "//": "not so much the engineering as hardening the edge",
     "time": "6 h 20 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 2 ] ],
@@ -3391,7 +3406,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "filament", 20 ], [ "cordage_short", 1 ] ],
+    "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
     "components": [ [ [ "rag", 2 ] ] ]
   },
   {
@@ -3403,7 +3418,7 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "filament", 80 ], [ "cordage", 1 ] ],
+    "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
     "components": [ [ [ "rag", 12 ] ] ]
   },
   {
@@ -3637,7 +3652,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "components": [ [ [ "steel_standard", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3774,13 +3789,14 @@
   {
     "type": "recipe",
     "result": "chem_sulphur",
-    "result_mult": 5,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 m",
+    "charges": 1562,
+    "time": "5 m",
     "autolearn": true,
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "chunk_sulfur", 1 ] ] ]
   },
@@ -4407,7 +4423,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
@@ -4422,7 +4438,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
@@ -4437,7 +4453,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,

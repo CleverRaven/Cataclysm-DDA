@@ -435,6 +435,14 @@ void npc::randomize( const npc_class_id &type )
             add_bionic( bl.first );
         }
     }
+    // Add spells for magiclysm mod
+    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+        this->magic.learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -1235,7 +1243,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1263,7 +1271,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {
@@ -1967,7 +1975,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
+    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
 }
 
 bool npc::is_enemy() const
@@ -2515,13 +2523,22 @@ std::string npc_job_id( npc_job job )
     return iter->second;
 }
 
+std::vector<std::string> all_jobs()
+{
+    std::vector<std::string> ret;
+    for( int i = 0; i < NPCJOB_END; i++ ) {
+        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
+    }
+    return ret;
+}
+
 std::string npc_job_name( npc_job job )
 {
     switch( job ) {
         case NPCJOB_NULL:
-            return _( "Not much" );
+            return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking" );
+            return _( "Cooking and butchering" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2539,7 +2556,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_HUSBANDRY:
             return _( "Caring for the livestock" );
         case NPCJOB_HUNTING:
-            return _( "Hunting for meat" );
+            return _( "Hunting and fishing" );
         case NPCJOB_FORAGING:
             return _( "Gathering edibles" );
         default:

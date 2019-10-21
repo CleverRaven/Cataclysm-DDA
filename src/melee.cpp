@@ -53,6 +53,10 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "projectile.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "mapdata.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -101,6 +105,8 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
+
+static const efftype_id effect_amigara( "amigara" );
 
 const species_id HUMAN( "HUMAN" );
 
@@ -368,12 +374,15 @@ static void melee_train( player &p, int lo, int hi, const item &weap )
     int bash = weap.damage_melee( DT_BASH ) + ( weap.is_null() ? 1 : 0 );
 
     float total = std::max( cut + stab + bash, 1 );
-    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
-    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
-    // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
-                ceil( bash / total * rng( lo, hi ) ), hi );
+    // Unarmed may deal cut, stab, and bash damage depending on the weapon
+    if( weap.is_unarmed_weapon() ) {
+        p.practice( skill_unarmed, ceil( 1 * rng( lo, hi ) ), hi );
+    } else {
+        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
+        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
+        p.practice( skill_bashing, ceil( bash / total * rng( lo, hi ) ), hi );
+    }
 }
 
 void player::melee_attack( Creature &t, bool allow_special )
@@ -477,6 +486,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             technique_id = tec_none;
         }
 
+        // if you have two broken arms you aren't doing any martial arts
+        // and your hits are not going to hurt very much
+        if( get_working_arm_count() < 1 ) {
+            technique_id = tec_none;
+            d.mult_damage( 0.1 );
+        }
+
         const ma_technique &technique = technique_id.obj();
 
         // Handles effects as well; not done in melee_affect_*
@@ -558,6 +574,11 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     ma_onattack_effects(); // trigger martial arts on-attack effects
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
+    did_hit( t );
+    if( t.as_character() ) {
+        dealt_projectile_attack dp = dealt_projectile_attack();
+        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+    }
     return;
 }
 
@@ -1076,6 +1097,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        if( ( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) ) {
+            continue;
+        }
+
         // Don't apply humanoid-only techniques to non-humanoids
         if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
@@ -1317,34 +1342,53 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
-    if( technique.knockback_dist > 0 ) {
+    if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-
-        if( !technique.powerful_knockback ) {
-            for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
-                t.knock_back_from( kb_point );
-            }
-        } else {
-            g->knockback( pos(), t.pos(), technique.knockback_dist, technique.stun_dur, 1 );
+        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+            t.knock_back_from( kb_point );
         }
-
         // This technique makes the player follow into the tile the target was knocked from
-        if( technique.knockback_follow > 0 ) {
-            // Check if terrain there is safe then if a critter's still there - if clear, move player there
-            if( !g->prompt_dangerous_tile( prev_pos ) ) {
-                return;
-            } else {
+        if( technique.knockback_follow ) {
+            const optional_vpart_position vp0 = g->m.veh_at( pos() );
+            vehicle *const veh0 = veh_pointer_or_null( vp0 );
+            bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
+            bool to_deepwater = g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
+
+            // Check if it's possible to move to the new tile
+            bool move_issue =
+                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
+                ( to_swimmable && to_deepwater ) || // Dive into deep water
+                is_mounted() ||
+                ( veh0 != nullptr && abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
+                ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
+                has_effect( effect_amigara );
+
+            if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
                     g->place_player( prev_pos );
+                    g->on_move_effects();
                 }
             }
         }
     }
 
     player *p = dynamic_cast<player *>( &t );
+
+    if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
+        if( p->is_player() ) {
+            add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
+        } else {
+            add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
+                                   _( "<npcname> disarms %s and takes their weapon!" ),
+                                   p->name );
+        }
+        item it = p->remove_weapon();
+        wield( it );
+    }
+
     if( technique.disarms && p != nullptr && p->is_armed() ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
@@ -1601,8 +1645,12 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
-    if( tec != tec_none ) {
-        melee_attack( *source, false, tec );
+    if( tec != tec_none && !is_dead_state() ) {
+        if( stamina < get_stamina_max() / 3 ) {
+            add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+        } else {
+            melee_attack( *source, false, tec );
+        }
     }
 
     return true;
@@ -1661,9 +1709,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
-        charge_power( -2_kJ );
+        mod_power_level( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1674,7 +1722,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     }
 
     if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        charge_power( 3_kJ );
+        mod_power_level( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
@@ -2016,7 +2064,7 @@ void player_hit_message( player *attacker, const std::string &message,
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
+            msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
@@ -2077,6 +2125,8 @@ int player::attack_speed( const item &weap ) const
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
+
+    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;

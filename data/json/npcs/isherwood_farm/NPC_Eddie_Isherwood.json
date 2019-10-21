@@ -6,9 +6,6 @@
     "name_unique": "Eddie Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_EDDIE",
@@ -23,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "shopkeeper_item_group": "NC_ISHERWOOD_EDDIE_misc",
     "skills": [
       {
@@ -146,7 +146,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_LUKE",
     "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery. He's out in the old outbuilding right now, cleaning up the place.",
-    "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -165,7 +165,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
     "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
-    "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

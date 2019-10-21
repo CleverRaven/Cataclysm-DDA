@@ -488,7 +488,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "trying to start the vehicle",
     "suspendable": false,
-    "rooted": true,
     "based_on": "time"
   },
   {

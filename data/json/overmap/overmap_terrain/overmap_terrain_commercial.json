@@ -5,7 +5,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "flag": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
+    "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -13,7 +13,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "flag": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
+    "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -28,7 +28,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -43,7 +43,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -58,7 +58,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -73,7 +73,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -88,7 +88,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -375,7 +375,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "flag": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -390,7 +390,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "flag": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1291,16 +1291,68 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_entrance",
+    "id": "megastore_parking",
+    "name": "megastore parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_0",
+    "name": "megastore",
+    "sym": "M",
+    "color": "blue",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_0",
     "name": "megastore",
     "sym": "+",
     "color": "light_blue",
-    "see_cost": 5,
     "extras": "build",
+    "see_cost": 5,
     "mondensity": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
-      "NO_ROTATE",
       "RISK_HIGH",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
@@ -1320,14 +1372,108 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore",
-    "name": "megastore",
+    "id": "megastore_2_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_1",
+    "name": "megastore, second floor",
     "sym": "M",
     "color": "blue",
-    "see_cost": 5,
     "extras": "build",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_roof",
+    "name": "megastore roof",
+    "sym": "M",
+    "color": "blue",
+    "extras": "build",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_roof",
+    "copy-from": "megastore_0_0_roof",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 8, 12 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_roof",
+    "copy-from": "megastore_0_0_roof"
   },
   {
     "type": "overmap_terrain",

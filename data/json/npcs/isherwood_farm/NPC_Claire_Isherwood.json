@@ -8,8 +8,6 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -22,6 +20,8 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "skills": [
       {
@@ -346,7 +346,7 @@
       "describe": "I could use a barn cat to keep the mice down.",
       "offer": "I saw some feral cats out by the old cabin.  Can you capture one for me?",
       "accepted": "Thank you!  Please hurry back! Take this cage so you have a chance of capturing one.",
-      "rejected": "I did't want to use chemicals on these rats.",
+      "rejected": "I didn't want to use chemicals on these rats.",
       "advice": "Take this pet carrier; if you can get close to a cat, you can put it inside.  If you're having problems, try befriending it with cat food.",
       "inquire": "Have you found a cat?",
       "success": "Thank you so much, I want you to have this copy of my natural remedy journal. I'll name this handsome fellow Joshua.",
