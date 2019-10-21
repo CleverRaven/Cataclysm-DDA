@@ -146,7 +146,7 @@
     "id": "motor_oil",
     "type": "AMMO",
     "name": "motor oil",
-    "name_plural": "lamp oil",
+    "name_plural": "motor oil",
     "description": "An oil made for use in car engines.",
     "category": "fuel",
     "weight": "1 g",
