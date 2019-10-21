@@ -4116,8 +4116,6 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         }
     }
 
-    const bionic_id &bid = it.type->bionic->id;
-
     if( p.has_bionic( bid )  && !bid->allow_duplicates ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
