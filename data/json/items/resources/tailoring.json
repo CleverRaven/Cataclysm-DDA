@@ -1,0 +1,18 @@
+[
+  {
+    "id": "scrap_cotton",
+    "type": "AMMO",
+    "category": "other",
+    "name": "cotton scraps",
+    "name_plural": "cotton scraps",
+    "description": "Oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some thread if you really want.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "material": "cotton",
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
+  }
+]
