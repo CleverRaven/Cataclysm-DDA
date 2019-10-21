@@ -6083,7 +6083,10 @@ damage_instance item::gun_damage( bool with_ammo ) const
     if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
-            du.amount -= item_damage * 2;
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max( 1.0, du.amount - item_damage * 2 );
         }
     }
 
