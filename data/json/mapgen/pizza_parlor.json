@@ -45,7 +45,7 @@
         " ": "t_sidewalk",
         "#": "t_linoleum_white",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_r",
         ".": "t_floor",
         "@": "t_console_broken",
         "F": "t_linoleum_white",
@@ -64,7 +64,7 @@
         "{": "t_linoleum_white",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_r"
       },
       "furniture": {
         "#": "f_counter",
@@ -82,12 +82,12 @@
       },
       "toilets": { "t": {  } },
       "place_items": [
-        { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 45, "repeat": [ 3, 4 ] },
-        { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 40, "repeat": [ 7, 10 ] },
-        { "item": "pizza_kitchen", "x": 1, "y": [ 8, 9 ], "chance": 42, "repeat": [ 7, 9 ] },
-        { "item": "pizza_fridge", "x": 1, "y": [ 1, 2 ], "chance": 40, "repeat": [ 9, 10 ] },
-        { "item": "pizza_beer", "x": [ 9, 13 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "pizza_soda", "x": 6, "y": [ 9, 12 ], "chance": 30, "repeat": [ 2, 5 ] },
+        { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 85, "repeat": [ 3, 4 ] },
+        { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 70, "repeat": [ 7, 16 ] },
+        { "item": "pizza_kitchen", "x": 1, "y": [ 8, 9 ], "chance": 72, "repeat": [ 7, 16 ] },
+        { "item": "pizza_fridge", "x": 1, "y": [ 1, 2 ], "chance": 60, "repeat": [ 9, 16 ] },
+        { "item": "pizza_beer", "x": [ 9, 13 ], "y": 1, "chance": 30, "repeat": [ 2, 7 ] },
+        { "item": "pizza_soda", "x": 6, "y": [ 9, 12 ], "chance": 30, "repeat": [ 2, 7 ] },
         { "item": "pizza_table", "x": [ 11, 12 ], "y": 11, "chance": 25 },
         { "item": "pizza_beer", "x": [ 11, 12 ], "y": 11, "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "pizza_table", "x": [ 7, 8 ], "y": 16, "chance": 25 },
@@ -243,7 +243,7 @@
         "{": "t_linoleum_white",
         "x": "t_sidewalk",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",

@@ -1,49 +1,5 @@
 [
   {
-    "id": "musicstore_showpiece",
-    "type": "item_group",
-    "items": [
-      {
-        "distribution": [
-          { "item": "acoustic_guitar", "prob": 100 },
-          { "item": "bagpipes", "prob": 25 },
-          { "item": "banjo", "prob": 60 },
-          { "item": "bone_flute", "prob": 20 },
-          { "item": "clarinet", "prob": 50 },
-          { "item": "flute", "prob": 50 },
-          { "item": "harmonica_holder", "prob": 70 },
-          { "item": "jug_clay", "prob": 20 },
-          { "item": "saw", "prob": 20 },
-          { "item": "saxophone", "prob": 50 },
-          { "item": "trumpet", "prob": 50 },
-          { "item": "tuba", "prob": 25 },
-          { "item": "ukulele", "prob": 50 },
-          { "item": "violin", "prob": 90 },
-          {
-            "collection": [
-              { "item": "case_violin" },
-              { "item": "tommygun" },
-              { "item": "grip" },
-              { "item": "thompson_drum" }
-            ], "prob": 15
-          },
-          {
-            "collection": [
-              { "item": "case_violin" },
-              { "item": "violin_golden" }
-            ], "prob": 50
-          },
-          {
-            "collection": [
-              { "item": "spoon" },
-              { "item": "washboard" }
-            ], "prob": 15
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "mussto_windinst",
     "type": "item_group",
     "items": [
@@ -59,12 +15,7 @@
   {
     "id": "mussto_stringinst",
     "type": "item_group",
-    "items": [
-      [ "acoustic_guitar", 100 ],
-      [ "violin", 80 ],
-      [ "ukulele", 90 ],
-      [ "banjo", 100 ]
-    ]
+    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
   },
   {
     "id": "light_reading",
@@ -87,6 +38,7 @@
     "weight": 180,
     "//": "Real decent place for a quick morale boost, relatively rare.",
     "object": {
+      "fill_ter": "t_linoleum_gray",
       "rows": [
         "_s______,______,______s_",
         "_s______,______,______s_",
@@ -104,46 +56,38 @@
         "_|...######..........C|_",
         "_|...######...........|_",
         "_8...........|+-|+-|+-|_",
-        "_8E..rrrrrr..|..|..|..8_",
-        "_8c..rrrrrr..|..|..|..8_",
-        "_|...........|Ec|Ec|Ec|_",
+        "_8E..rrrrrr..|g7|gg|gg8_",
+        "_8c..rrrrrr..|gg|gg|gg8_",
+        "_|...........|Kh|Kh|Kh|_",
         "_|D---D|D-55----------|_",
         "_|.S|S.|sssssss12_z_____",
-        "_|T#|#T|________________",
+        "_|T#|#T|<_______________",
         "_-H---H-________________",
         "________________________"
       ],
       "terrain": {
-        "#": "t_linoleum_gray",
         "%": "t_shrub",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_b",
         ".": "t_linoleum_gray",
         "1": "t_pavement",
         "2": "t_pavement",
         "5": "t_wall_glass",
         "8": "t_wall_glass",
-        "C": "t_linoleum_gray",
         "D": "t_door_c",
-        "E": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
         "H": "t_curtains",
         "L": "t_door_locked",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "^": "t_linoleum_gray",
         "_": "t_pavement",
-        "c": "t_linoleum_gray",
         "d": "t_pavement",
-        "l": "t_linoleum_gray",
-        "r": "t_linoleum_gray",
         "s": "t_sidewalk",
-        "t": "t_linoleum_gray",
-        "w": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
         "z": "t_shrub",
-        "|": "t_wall"
+        "g": "t_carpet_green",
+        "h": "t_carpet_green",
+        "K": "t_carpet_green",
+        "7": "t_carpet_green",
+        "<": "t_gutter_downspout",
+        "|": "t_wall_b"
       },
       "furniture": {
         "#": "f_counter",
@@ -153,10 +97,13 @@
         "^": "f_indoor_plant",
         "c": "f_chair",
         "d": "f_dumpster",
+        "h": "f_chair",
+        "K": "f_desk",
+        "7": "f_speaker_cabinet",
         "r": "f_rack"
       },
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
         { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 11, "chance": 40, "repeat": [ 1, 2 ] },
@@ -165,7 +112,68 @@
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 16, "chance": 30, "repeat": [ 1, 2 ] },
         { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 17, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "light_reading", "x": [ 13, 14 ], "y": [ 10, 12 ], "chance": 70, "repeat": [ 2, 4 ] },
-        { "group": "musicstore_showpiece", "x": 21, "y": 8, "chance": 95 }
+        { "group": "musicstore_showpiece", "x": 21, "y": 8, "chance": 95 },
+        { "item": "amplifier_head", "x": 15, "y": [ 16, 17 ], "chance": 50 },
+        { "item": "amplifier_head", "x": 18, "y": [ 16, 17 ], "chance": 10 },
+        { "item": "amplifier_head", "x": 21, "y": [ 16, 17 ], "chance": 10 }
+      ],
+      "place_furniture": [
+        { "furn": "f_speaker_cabinet", "x": 15, "y": 17 },
+        { "furn": "f_speaker_cabinet", "x": 18, "y": [ 16, 17 ] },
+        { "furn": "f_speaker_cabinet", "x": 21, "y": [ 16, 17 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_music_roof" ],
+    "weight": 180,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " wnnnnnnnnnnnnnnnnnnnne ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w....................e ",
+        " w.&..................e ",
+        " w.....esssssssssssssse ",
+        " w.....e                ",
+        " w.....d                ",
+        " wssssse                ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_open_air",
+        ".": "t_flat_roof",
+        "n": "t_gutter_north",
+        "e": "t_gutter_east",
+        "s": "t_gutter_south",
+        "w": "t_gutter_west",
+        "d": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent" },
+      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 9, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ], [ "roof_6x6_survivor", 5 ] ],
+          "x": [ 3, 20 ],
+          "y": [ 10, 17 ]
+        }
       ]
     }
   }

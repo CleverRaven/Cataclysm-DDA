@@ -42,7 +42,7 @@
         "&": "t_pavement",
         "+": "t_door_c",
         ",": "t_floor",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "1": "t_grass",
         "2": "t_grass",
@@ -62,7 +62,7 @@
         "z": "t_shrub",
         "{": "t_floor",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -100,12 +100,12 @@
         { "item": "chair_hat", "x": 2, "y": 12, "chance": 30 },
         { "item": "chair_pants", "x": 2, "y": 12, "chance": 30 },
         { "item": "chair_feet", "x": 2, "y": 12, "chance": 30 },
-        { "item": "displays", "x": 2, "y": [ 7, 9 ], "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "displays", "x": [ 5, 7 ], "y": 6, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "displays", "x": [ 4, 5 ], "y": [ 8, 9 ], "chance": 30, "repeat": [ 1, 4 ] },
+        { "item": "displays", "x": 2, "y": [ 7, 9 ], "chance": 60, "repeat": [ 1, 9 ] },
+        { "item": "displays", "x": [ 5, 7 ], "y": 6, "chance": 60, "repeat": [ 1, 9 ] },
+        { "item": "displays", "x": [ 4, 5 ], "y": [ 8, 9 ], "chance": 30, "repeat": [ 1, 12 ] },
         { "item": "teashop_kitchen_counter", "x": 2, "y": [ 14, 16 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "teashop_kitchen_counter", "x": [ 5, 6 ], "y": 14, "chance": 80, "repeat": [ 1, 3 ] },
-        { "item": "teashop_fridge", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 4 ] }
+        { "item": "teashop_fridge", "x": 4, "y": 14, "chance": 90, "repeat": [ 1, 8 ] }
       ]
     }
   },
@@ -255,8 +255,8 @@
         "{": { "item": "corner_reader", "chance": 45, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 30, "repeat": [ 2, 4 ] },
         "#": { "item": "teashop_kitchen_counter", "chance": 80, "repeat": [ 1, 3 ] },
-        "F": { "item": "teashop_fridge", "chance": 80, "repeat": [ 1, 4 ] },
-        "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ] },
+        "F": { "item": "teashop_fridge", "chance": 90, "repeat": [ 1, 8 ] },
+        "}": { "item": "displays", "chance": 60, "repeat": [ 1, 6 ] },
         "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ] },
         "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ] }
       },
@@ -314,8 +314,8 @@
       "furniture": { "c": "f_chair", "C": "f_chair", "t": "f_table", "T": "f_table", "S": "f_sink" },
       "toilets": { "U": {  } },
       "items": {
-        "T": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
-        "t": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] }
+        "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
+        "t": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] }
       }
     }
   },

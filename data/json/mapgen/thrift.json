@@ -1,46 +1,11 @@
 [
   {
-    "id": "thrift_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 5 ],
-      [ "sewing_kit", 15 ],
-      [ "scissors", 10 ],
-      [ "gasoline_lantern", 7 ],
-      [ "flashlight", 25 ],
-      [ "hotplate", 20 ],
-      [ "coffeemaker", 25 ],
-      [ "textbook_firstaid", 2 ],
-      [ "pocket_firearms", 1 ],
-      [ "mag_archery", 4 ]
-    ]
-  },
-  {
-    "id": "thrift_books",
-    "type": "item_group",
-    "items": [
-      [ "mag_traps", 20 ],
-      [ "manual_traps", 12 ],
-      [ "trappers_companion", 2 ],
-      [ "mag_guns", 15 ],
-      [ "mag_rifle", 15 ],
-      [ "mag_shotgun", 15 ],
-      [ "mag_survival", 40 ],
-      [ "manual_survival", 20 ],
-      [ "textbook_firstaid", 8 ],
-      [ "pocket_survival", 2 ],
-      [ "mag_archery", 15 ],
-      [ "manual_archery", 8 ],
-      [ "book_archery", 2 ],
-      [ "recipe_arrows", 4 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_thrift" ],
     "weight": 500,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "rrrrrrrrrrrrrrrrrrrrrrrr",
         "yrrryrrryrrryrrryrrryrrr",
@@ -50,49 +15,44 @@
         "yrrryrrryrrryrrryrrryrrr",
         "yyyyyyyyyyyyyyyyyyyyyyyy",
         "222222222222222222222222",
-        "................2222....",
-        ".----66666666----gg-|...",
-        ".|I            7 oo |...",
-        ".|H   A  A  A  7 oo |...",
-        ".|I   A  A  A  --gg-|...",
-        ".|H   A  A       oo |...",
-        ".|I   A  A       oo |...",
-        ".|         C    CCCC|...",
-        ".|F F H    C    C  F|...",
-        ".|F F H      oo     ---.",
+        "................2222.222",
+        ".----66666666----gg-|222",
+        ".|I            7Voo |2<2",
+        ".|H   A  A  A  7Woo |+-|",
+        ".|I   A  A  A  --gg-| L|",
+        ".|H   A  A       oo |+-|",
+        ".|I   A  A       oo | J|",
+        ".|         C    CCCC|FJ|",
+        ".|F F H    C    CF  + K|",
+        ".|F F H      oo     ---|",
         ".|    H  AAAAooAAA   A|.",
         ".|+--        oo      A|.",
         ".| B|AAAAAAAAooAAA   A|.",
         ".|-----------------+--|.",
-        "..................rrr...",
+        "...Z...........rUUrrU...",
         "........................"
       ],
       "terrain": {
         " ": "t_floor",
-        "+": "t_door_c",
-        "-": "t_wall_h",
+        "+": "t_door_locked",
+        "-": "t_wall_w",
         ".": "t_grass",
         "1": "t_window",
         "2": "t_sidewalk",
+        "U": "t_pavement",
         "3": "t_tree_young",
         "4": "t_chaingate_l",
         "5": "t_wall_wood",
         "6": "t_wall_glass_h",
         "7": "t_wall_glass_v",
-        "A": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "D": "t_floor",
         "E": "t_dirtfloor",
-        "F": "t_floor",
         "G": "t_dirtfloor",
-        "H": "t_floor",
-        "I": "t_floor",
         "g": "t_door_glass_c",
-        "o": "t_floor",
         "r": "t_pavement",
         "y": "t_pavement_y",
-        "|": "t_wall_v"
+        "|": "t_wall_w",
+        "Z": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "A": "f_rack",
@@ -102,18 +62,90 @@
         "F": "f_chair",
         "G": "f_locker",
         "H": "f_table",
-        "I": "f_sofa"
+        "I": "f_sofa",
+        "J": "f_desk",
+        "K": "f_filing_cabinet",
+        "L": "f_locker",
+        "U": [ "f_dumpster", "f_recycle_bin" ]
       },
+      "vendingmachines": { "W": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } },
       "toilets": { "B": {  } },
+      "items": {
+        "J": { "item": "office", "chance": 30 },
+        "K": { "item": "office_paper", "chance": 30 },
+        "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
+      },
       "place_items": [
-        { "item": "thrift_misc", "x": [ 9, 12 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": [ 5, 12 ], "y": 20, "chance": 35, "repeat": [ 1, 9 ] },
-        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 20, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 6, "y": [ 11, 14 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 9, "y": [ 11, 14 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 12, "y": [ 11, 12 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_books", "x": 21, "y": [ 18, 20 ], "chance": 35, "repeat": [ 1, 3 ] }
+        { "item": "thrift_misc", "x": [ 9, 12 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_misc", "x": [ 5, 12 ], "y": 20, "chance": 75, "repeat": [ 1, 14 ] },
+        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 20, "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_misc", "x": 6, "y": [ 11, 14 ], "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_misc", "x": 9, "y": [ 11, 14 ], "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_misc", "x": 12, "y": [ 11, 12 ], "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "thrift_books", "x": 21, "y": [ 18, 20 ], "chance": 75, "repeat": [ 1, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_thrift_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222####",
+        " |..................##>#",
+        " |..................####",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |....................33",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-5------------------3 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 11, 13 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 12 ],
+          "y": 15
+        }
       ]
     }
   }
