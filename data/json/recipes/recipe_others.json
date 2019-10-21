@@ -1774,9 +1774,10 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "using": [ [ "steel_standard", 11 ] ],
     "book_learn": [ [ "mag_traps", 1 ], [ "manual_mechanics", 2 ], [ "manual_traps", 1 ], [ "howto_traps", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ] ]
+    "components": [ [ [ "spring", 1 ] ] ]
   },
   {
     "type": "recipe",
