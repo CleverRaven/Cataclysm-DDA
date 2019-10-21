@@ -140,7 +140,7 @@ struct mutation_branch {
         int bleed_resist = 0;
 
         /**What do you smell like*/
-        std::string scent_type;
+        scenttype_id scent_typeid;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;

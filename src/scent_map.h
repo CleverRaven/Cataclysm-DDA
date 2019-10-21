@@ -10,6 +10,7 @@
 #include "game_constants.h"
 #include "optional.h"
 #include "point.h"
+#include "type_id.h"
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 
@@ -24,8 +25,11 @@ class window;
 class scent_type
 {
     public:
-        void load_scent_type( JsonObject &jo, const std::string & );
+        static void load_scent_type( JsonObject &jo, const std::string &src );
+        void load( JsonObject &jo, const std::string & );
         scenttype_id id;
+        bool was_loaded;
+
 };
 
 class scent_map
@@ -35,7 +39,7 @@ class scent_map
         using scent_array = std::array<std::array<T, MAPSIZE_Y>, MAPSIZE_X>;
 
         scent_array<int> grscent;
-        scent_array<std::string> typescent;
+        scent_array<scenttype_id> typescent;
         cata::optional<tripoint> player_last_position;
         time_point player_last_moved = calendar::before_time_starts;
 
@@ -60,14 +64,14 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        void set( const tripoint &p, int value, std::string type = "" );
+        void set( const tripoint &p, int value, scenttype_id type = scenttype_id());
         int get( const tripoint &p ) const;
         /**@}*/
-        void set_unsafe( const tripoint &p, int value, std::string type = "" );
+        void set_unsafe( const tripoint &p, int value, scenttype_id type = scenttype_id() );
         int get_unsafe( const tripoint &p ) const;
 
-        std::string get_type( const tripoint &p ) const;
-        std::string get_type_unsafe( const tripoint &p ) const;
+        scenttype_id get_type( const tripoint &p ) const;
+        scenttype_id get_type_unsafe( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
         bool inbounds( const point &p ) const {

@@ -4980,12 +4980,12 @@ bool Character::crossed_threshold() const
     return false;
 }
 
-std::string Character::get_scent_type()
+scenttype_id Character::get_scent_type()
 {
-    std::string scent_type;
+    scenttype_id scent_type;
     for( const trait_id &mut : get_mutations() ) {
-        if( !mut.obj().scent_type.empty() ) {
-            scent_type = mut.obj().scent_type;
+        if( !mut.obj().scent_typeid.is_empty() ) {
+            scent_type = mut.obj().scent_typeid;
         }
     }
     return scent_type;

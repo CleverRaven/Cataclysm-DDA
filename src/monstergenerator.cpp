@@ -1042,6 +1042,7 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
+        const scenttype_id s_id = mon.scent_tracked;
         if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1070,6 +1071,9 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !s_id.is_empty() && !s_id.is_valid() ) {
+            debugmsg( "monster %s has unknown scent_tracked %s", mon.id.c_str(), s_id.c_str() );
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {

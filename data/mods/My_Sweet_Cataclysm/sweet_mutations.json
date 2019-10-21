@@ -10,7 +10,7 @@
     "points": 2,
     "weakness_to_water": 5,
     "ignored_by": [ "ZOMBIE" ],
-    "scent_modifier": 0,
+    "scent_type": "sugar",
     "thirst_modifier": -1.0,
     "can_only_eat": [ "junk", "sugar" ],
     "can_only_heal_with": [ "caramel_ointement" ],

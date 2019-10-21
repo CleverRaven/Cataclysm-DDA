@@ -1049,7 +1049,7 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
-    const std::string tracked_scent = type->scent_tracked;
+    const scenttype_id tracked_scent = type->scent_tracked;
 
     std::vector<tripoint> smoves;
 
@@ -1073,14 +1073,14 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
-        const std::string type_scent = g->scent.get_type( dest );
+        const scenttype_id type_scent = g->scent.get_type( dest );
 
         bool right_scent = false;
-        if( type_scent.empty() ) {
-            if( tracked_scent.empty() ) {
+        if( type_scent.is_empty() ) {
+            if( tracked_scent.is_empty() ) {
                 right_scent = true;
             }
-        } else if( !tracked_scent.empty() ) {
+        } else if( !tracked_scent.is_empty() ) {
             right_scent = tracked_scent == type_scent;
         }
 

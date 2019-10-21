@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "color.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "map.h"
 #include "output.h"
 #include "cursesdef.h"
@@ -52,8 +53,8 @@ void scent_map::reset()
         }
     }
     for( auto &elem : typescent ) {
-        for( std::string &val : elem ) {
-            val.clear();
+        for( scenttype_id &val : elem ) {
+            val = scenttype_id();
         }
     }
 }
@@ -66,7 +67,7 @@ void scent_map::decay()
         for( auto &val : elem ) {
             val = std::max( 0, val - 1 );
             if( val == 0 ) {
-                typescent[x][y].clear();
+                typescent[x][y] = scenttype_id();
             }
             y ++;
         }
@@ -90,12 +91,12 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 {
     scent_array<int> new_scent;
-    scent_array<std::string> new_scent_type;
+    scent_array<scenttype_id> new_scent_type;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
             const point p( x + sm_shift_x, y + sm_shift_y );
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
-            new_scent_type[x][y] = inbounds( p ) ? typescent[p.x][p.y] : "";
+            new_scent_type[x][y] = inbounds( p ) ? typescent[p.x][p.y] : scenttype_id();
         }
     }
     grscent = new_scent;
@@ -110,17 +111,17 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value, std::string type )
+void scent_map::set( const tripoint &p, int value, scenttype_id type )
 {
     if( inbounds( p ) ) {
         set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value, std::string type )
+void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
 {
     grscent[p.x][p.y] = value;
-    if( !type.empty() ) {
+    if( !type.is_empty() ) {
         typescent[p.x][p.y] = type;
     }
 }
@@ -129,16 +130,16 @@ int scent_map::get_unsafe( const tripoint &p ) const
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
 }
 
-std::string scent_map::get_type( const tripoint &p ) const
+scenttype_id scent_map::get_type( const tripoint &p ) const
 {
-    std::string scent_type;
+    scenttype_id id;
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
-        scent_type = get_type_unsafe( p );
+        id = get_type_unsafe( p );
     }
-    return scent_type;
+    return id;
 }
 
-std::string scent_map::get_type_unsafe( const tripoint &p ) const
+scenttype_id scent_map::get_type_unsafe( const tripoint &p ) const
 {
     return typescent[p.x][p.y];
 }
@@ -183,7 +184,7 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> sum_3_scent_y;
     scent_array<int> squares_used_y;
 
-    scent_array<std::string> sum_3_type_y;
+    scent_array<scenttype_id> sum_3_type_y;
 
     // these are for caching flag lookups
     scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
@@ -224,7 +225,7 @@ void scent_map::update( const tripoint &center, map &m )
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
                     }
-                    if( !typescent[x][i].empty() ) {
+                    if( !typescent[x][i].is_empty() ) {
                         sum_3_type_y[y][x] = typescent[x][i];
                     }
                 }
@@ -236,7 +237,7 @@ void scent_map::update( const tripoint &center, map &m )
     for( int x = scentmap_minx; x <= scentmap_maxx; ++x ) {
         for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
             int &scent_here = grscent[x][y];
-            std::string &type_here = typescent[x][y];
+            scenttype_id &type_here = typescent[x][y];
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
@@ -264,7 +265,7 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
                 for( int ki = x - 1; ki < x + 2; ki++ ) {
-                    if( !sum_3_type_y[y][ki].empty() ) {
+                    if( !sum_3_type_y[y][ki].is_empty() ) {
                         type_here = sum_3_type_y[y][ki];
                     }
                 }
@@ -272,15 +273,35 @@ void scent_map::update( const tripoint &center, map &m )
             } else {
                 // this cell blocks scent
                 scent_here = 0;
-                type_here.clear();
+                type_here = scenttype_id();
             }
         }
     }
 }
 
-void scent_type::load_scent_type( JsonObject &jo, const std::string & )
+namespace
 {
-    scent_type new_scent;
-    assign( jo, "id", new_scent.id, true );
+generic_factory<scent_type> scent_factory( "scent_type" );
+} // namespace
 
+template<>
+const scent_type &string_id<scent_type>::obj() const
+{
+    return scent_factory.obj( *this );
+}
+
+template<>
+bool string_id<scent_type>::is_valid() const
+{
+    return scent_factory.is_valid( *this );
+}
+
+void scent_type::load_scent_type( JsonObject &jo, const std::string &src )
+{
+    scent_factory.load( jo, src );
+}
+
+void scent_type::load( JsonObject &jo, const std::string & )
+{
+    assign( jo, "id", id );
 }

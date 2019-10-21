@@ -1161,7 +1161,7 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
-        std::string get_scent_type();
+        scenttype_id get_scent_type();
 
         void spores();
         void blossoms();
