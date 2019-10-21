@@ -40,7 +40,7 @@
     "name": "Skorpion Vz. 82",
     "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
     "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
-    "weight": "1251 g",
+    "weight": "1440 g",
     "ammo": "9x18",
     "min_cycle_recoil": 270,
     "burst": 15,
