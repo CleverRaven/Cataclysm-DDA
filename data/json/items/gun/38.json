@@ -40,7 +40,7 @@
     "name": "COP .38",
     "name_plural": "COP .38",
     "description": "The COP .38 is a small, chubby derringer pistol that bears a slight resemblance to the Mossberg Brownie.  It has four barrels arranged in a square formation.",
-    "weight": "857 g",
+    "weight": "800 g",
     "volume": "399ml",
     "price": 120000,
     "to_hit": -1,
