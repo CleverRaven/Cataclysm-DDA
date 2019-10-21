@@ -6,6 +6,7 @@
     "name": "Mosin-Nagant M44",
     "name_plural": "Mosin-Nagant M44",
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
+    "weight": "4100 g",
     "price": 23000,
     "relative": { "weight": -500, "volume": -2, "range": -6, "ranged_damage": -3, "dispersion": 60, "barrel_length": -2 }
   },
@@ -16,6 +17,7 @@
     "name": "Mosin-Nagant M44-EBR",
     "name_plural": "Mosin-Nagant M44-EBR",
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
+    "weight": "4330 g",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
     "valid_mod_locations": [
@@ -72,6 +74,7 @@
     "name": "Mosin-Nagant 1891/30-EBR",
     "name_plural": "Mosin-Nagant 1891/30-EBR",
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
+    "weight": "4230 g",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
     "valid_mod_locations": [
