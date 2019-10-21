@@ -2588,7 +2588,14 @@
     "//": "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ],
+      [
+        [ "tallow", 2 ],
+        [ "tallow_tainted", 2 ],
+        [ "cooking_oil", 16 ],
+        [ "cooking_oil2", 16 ],
+        [ "lamp_oil", 250 ],
+        [ "motor_oil", 250 ]
+      ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -3165,7 +3172,14 @@
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [ [ "tallow", 4 ], [ "tallow_tainted", 4 ], [ "cooking_oil", 32 ], [ "cooking_oil2", 32 ], [ "lamp_oil", 500 ] ]
+      [
+        [ "tallow", 4 ],
+        [ "tallow_tainted", 4 ],
+        [ "cooking_oil", 32 ],
+        [ "cooking_oil2", 32 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ]
     ]
   },
   {

@@ -79,6 +79,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_dirt_and_lube( "fault_gun_dirt_and_lube" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
@@ -277,10 +278,12 @@ bool player::handle_gun_damage( item &it )
             dirt_dbl = static_cast<double>( dirt );
             if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
                 it.faults.insert( fault_gun_dirt );
+				it.faults.insert( fault_gun_dirt_and_lube );
             }
             if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
+				it.faults.insert( fault_gun_dirt_and_lube );
             }
             // end fouling mechanics
         }

@@ -396,6 +396,7 @@
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
       [
         [ "lamp_oil", 50 ],
+        [ "motor_oil", 50 ],
         [ "chem_ethanol", 100 ],
         [ "denat_alcohol", 100 ],
         [ "gasoline", 250 ],

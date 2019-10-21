@@ -115,6 +115,7 @@ const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
 const fault_id fault_gun_dirt( "fault_gun_dirt" );
+const fault_id fault_gun_dirt_and_lube( "fault_gun_dirt_and_lube" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
@@ -3474,7 +3475,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( !faults.empty() ) {
         if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
-            faults.size() == 1 ) {
+            faults.size() < 3 ) {
             damtext.insert( 0, dirt_symbol );
         } else {
             damtext.insert( 0, _( "faulty " ) + dirt_symbol );

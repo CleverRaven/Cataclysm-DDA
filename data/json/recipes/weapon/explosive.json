@@ -247,7 +247,8 @@
         [ "chem_methanol", 500 ],
         [ "ether", 500 ],
         [ "denat_alcohol", 500 ],
-        [ "lamp_oil", 500 ]
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
       ]
     ]
   },

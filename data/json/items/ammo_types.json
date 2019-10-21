@@ -283,6 +283,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "motor_oil",
+    "name": "motor oil",
+    "default": "motor_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"

@@ -217,6 +217,7 @@ void Item_modifier::modify( item &new_item ) const
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
+            new_item.faults.emplace( "fault_gun_dirt_and_lube" );
         }
     }
 

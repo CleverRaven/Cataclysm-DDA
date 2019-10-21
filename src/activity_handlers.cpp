@@ -2514,9 +2514,15 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
+    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ||
+        act->name == "fault_gun_dirt_and_lube" ) {
+        target->faults.erase( fault_id( "fault_gun_blackpowder" ) );
+        target->faults.erase( fault_id( "fault_gun_dirt" ) );
+        target->faults.erase( fault_id( "fault_gun_dirt_and_lube" ) );
         target->set_var( "dirt", 0 );
-        target->faults.emplace( "fault_gun_unlubricated" );
+        if( act->name != "fault_gun_dirt_and_lube" ) {
+            target->faults.emplace( "fault_gun_unlubricated" );
+        }
     }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }

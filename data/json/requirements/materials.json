@@ -70,6 +70,7 @@
         [ "cooking_oil2", 8 ],
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
+        [ "motor_oil", 200 ],
         [ "salt_water", 5 ],
         [ "ash", 50 ],
         [ "tin", 50 ]

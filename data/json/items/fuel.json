@@ -143,6 +143,35 @@
     "effects": [ "FLAME", "STREAM" ]
   },
   {
+    "id": "motor_oil",
+    "type": "AMMO",
+    "name": "motor oil",
+    "name_plural": "lamp oil",
+    "description": "An oil made for use in car engines.",
+    "category": "fuel",
+    "weight": "1 g",
+    "volume": "200ml",
+    "price": 20,
+    "price_postapoc": 200,
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "symbol": "=",
+    "color": "yellow",
+    "material": "hydrocarbons",
+    "ammo_type": "motor_oil",
+    "fuel": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
+    "range": 6,
+    "damage": 2,
+    "pierce": 2,
+    "effects": [ "FLAME", "STREAM" ]
+  },
+  {
     "id": "napalm",
     "type": "AMMO",
     "name": "napalm",

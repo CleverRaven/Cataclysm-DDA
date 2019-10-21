@@ -414,6 +414,7 @@
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
+        [ "motor_oil", 50, "NO_RECOVER" ],
         [ "chem_ethanol", 100, "NO_RECOVER" ],
         [ "denat_alcohol", 100, "NO_RECOVER" ],
         [ "gasoline", 250, "NO_RECOVER" ],

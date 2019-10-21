@@ -293,6 +293,7 @@
       [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
+      [ "motor_oil", 100 ],
       [ "lamp_oil", 100 ]
     ]
   },
@@ -367,6 +368,7 @@
       [ "alternator_bicycle", 4 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
+      [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ]
     ]
