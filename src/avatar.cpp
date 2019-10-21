@@ -457,7 +457,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
             // Some helpers to reduce repetition:
             auto length = []( const std::pair<npc *, std::string> &elem ) {
-                return elem.first->disp_name().size() + elem.second.size();
+                return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
@@ -474,7 +474,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
+                return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {

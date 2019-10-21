@@ -88,7 +88,7 @@ std::string get_input_string_from_file( const std::string &fname )
         if( !ret.empty() && static_cast<unsigned char>( ret[0] ) == 0xef ) {
             ret.erase( 0, 3 );
         }
-        while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
+        while( !ret.empty() && ( ret.back() == '\r' ||  ret.back() == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
     } );

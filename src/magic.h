@@ -461,7 +461,7 @@ class known_magic
         void deserialize( JsonIn &jsin );
     private:
         // gets length of longest spell name
-        size_t get_spellname_max_width();
+        int get_spellname_max_width();
         // gets invlet if assigned, or -1 if not
         int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };

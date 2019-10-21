@@ -1625,7 +1625,11 @@ void debug()
             std::vector<uilist_entry> uiles;
             {
                 uilist_entry uile( _( "Spell" ) );
-                uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
+                uile.ctxt = string_format( "%s %s",
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "LVL" ), 4 ),
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
                 uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
@@ -1633,7 +1637,7 @@ void debug()
             int retval = 0;
             for( spell *sp : spells ) {
                 uilist_entry uile( sp->name() );
-                uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
+                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
                 uile.retval = retval++;
                 uile.enabled = !sp->is_max_level();
                 uiles.emplace_back( uile );

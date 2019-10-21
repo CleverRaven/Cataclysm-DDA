@@ -27,6 +27,10 @@ int utf8_width( const char *s, bool ignore_tags = false );
 int utf8_width( const std::string &str, bool ignore_tags = false );
 int utf8_width( const utf8_wrapper &str, bool ignore_tags = false );
 
+std::string left_justify( const std::string &str, int width, bool ignore_tags = false );
+std::string right_justify( const std::string &str, int width, bool ignore_tags = false );
+std::string utf8_justify( const std::string &str, int width, bool ignore_tags = false );
+
 /**
  * Center text inside whole line.
  * @param text to be centered.
