@@ -674,7 +674,7 @@ void vehicle::autopilot_patrol()
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
                                g->m.getabs( global_pos3() ), 60 );
-    if( !has_part( "AUTOPILOT" ) || !has_part( "CTRL_ELECTRONIC" ) || !has_part( "REMOTE_CONTROLS" ) ){
+    if( !has_part( "AUTOPILOT" ) || !has_part( "CTRL_ELECTRONIC" ) || !has_part( "REMOTE_CONTROLS" ) ) {
         autopilot_on = false;
         is_patrolling = false;
         is_following = false;
@@ -2066,7 +2066,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         loot_zones.erase( parts[p].mount );
         zones_dirty = true;
     }
-    if( part_flag( p, "AUTOPILOT" ) ){
+    if( part_flag( p, "AUTOPILOT" ) ) {
         autopilot_on = false;
         is_patrolling = false;
         is_following = false;

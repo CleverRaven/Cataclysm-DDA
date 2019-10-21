@@ -1447,10 +1447,10 @@ class map
         void build_sunlight_cache( int zlev );
     public:
         void validate_autopilot_cache();
-        std::unordered_set<vehicle *> get_autopilot_cache(){
+        std::unordered_set<vehicle *> get_autopilot_cache() {
             return autopilot_cache;
         }
-        void clear_autopilot_cache(){
+        void clear_autopilot_cache() {
             autopilot_cache.clear();
         }
         void add_to_autopilot_cache( vehicle *veh );

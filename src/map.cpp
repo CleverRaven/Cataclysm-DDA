@@ -347,7 +347,7 @@ void map::destroy_vehicle( vehicle *veh )
 
 void map::add_to_autopilot_cache( vehicle *veh )
 {
-    if( !veh ){
+    if( !veh ) {
         return;
     }
     autopilot_cache.insert( veh );
@@ -355,7 +355,7 @@ void map::add_to_autopilot_cache( vehicle *veh )
 
 void map::remove_from_autopilot_cache( vehicle *veh )
 {
-    if( !veh ){
+    if( !veh ) {
         return;
     }
     autopilot_cache.erase( veh );
@@ -363,22 +363,22 @@ void map::remove_from_autopilot_cache( vehicle *veh )
 
 void map::validate_autopilot_cache()
 {
-    for( auto &elem : get_vehicles() ){
+    for( auto &elem : get_vehicles() ) {
         vehicle *veh = elem.v;
-        if( veh && ( veh->is_following || veh->is_patrolling ) ){
+        if( veh && ( veh->is_following || veh->is_patrolling ) ) {
             add_to_autopilot_cache( veh );
         }
     }
-    for( vehicle *veh : get_autopilot_cache() ){
+    for( vehicle *veh : get_autopilot_cache() ) {
         bool found = false;
-        for( auto &elem : get_vehicles() ){
+        for( auto &elem : get_vehicles() ) {
             vehicle *veh2 = elem.v;
-            if( veh2 == veh ){
+            if( veh2 == veh ) {
                 found = true;
                 break;
             }
         }
-        if( !found || !veh || ( !veh->is_following && !veh->is_patrolling ) ){
+        if( !found || !veh || ( !veh->is_following && !veh->is_patrolling ) ) {
             remove_from_autopilot_cache( veh );
         }
     }

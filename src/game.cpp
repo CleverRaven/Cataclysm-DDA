@@ -1644,7 +1644,7 @@ void game::process_activity()
 void game::autopilot_vehicles()
 {
     for( vehicle *veh : m.get_autopilot_cache() ) {
-        if( !veh ){
+        if( !veh ) {
             m.validate_autopilot_cache();
         } else {
             if( veh->is_following ) {
