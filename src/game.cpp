@@ -1646,12 +1646,12 @@ void game::autopilot_vehicles()
     for( vehicle *veh : m.get_autopilot_cache() ) {
         if( !veh ){
             m.validate_autopilot_cache();
-            return;
-        }
-        if( v->is_following ) {
-            v->drive_to_local_target( g->m.getabs( u.pos() ), true );
-        } else if( v->is_patrolling ) {
-            v->autopilot_patrol();
+        } else {
+            if( veh->is_following ) {
+                veh->drive_to_local_target( g->m.getabs( u.pos() ), true );
+            } else if( veh->is_patrolling ) {
+                veh->autopilot_patrol();
+            }
         }
     }
 }
@@ -2694,6 +2694,7 @@ void game::load( const save_t &name )
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();
+    m.validate_autopilot_cache();
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
@@ -5309,7 +5310,7 @@ void game::control_vehicle()
         veh->is_patrolling = false;
         veh->autopilot_on = false;
         veh->is_autodriving = false;
-        m.validate_autopilot_cache();
+        m.remove_from_autopilot_cache( veh );
     }
 }
 
@@ -10645,6 +10646,7 @@ void game::vertical_shift( const int z_after )
     const int z_before = get_levz();
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
+        m.clear_autopilot_cache();
         m.access_cache( z_before ).vehicle_list.clear();
         m.access_cache( z_before ).zone_vehicles.clear();
         m.set_transparency_cache_dirty( z_before );
@@ -10661,6 +10663,7 @@ void game::vertical_shift( const int z_after )
     // this may be required after a vertical shift if z-levels are not enabled
     // the critter is unloaded/loaded, and it needs to reconstruct its rider data after being reloaded.
     validate_mounted_npcs();
+    m.validate_autopilot_cache();
     vertical_notes( z_before, z_after );
 }
 

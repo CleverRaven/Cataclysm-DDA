@@ -857,7 +857,7 @@ void vehicle::autodrive( int x, int y )
             monster *mon = get_pet( e );
             if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                 is_following = false;
-                g->m.validate_autopilot_cache();
+                g->m.remove_from_autopilot_cache( this );
             }
         }
     }

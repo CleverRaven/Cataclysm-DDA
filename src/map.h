@@ -1447,9 +1447,14 @@ class map
         void build_sunlight_cache( int zlev );
     public:
         void validate_autopilot_cache();
-        std::vector<vehicle *> get_autopilot_cache(){
+        std::unordered_set<vehicle *> get_autopilot_cache(){
             return autopilot_cache;
         }
+        void clear_autopilot_cache(){
+            autopilot_cache.clear();
+        }
+        void add_to_autopilot_cache( vehicle *veh );
+        void remove_from_autopilot_cache( vehicle *veh );
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -1655,7 +1660,7 @@ class map
          * Cache of coordinate pairs recently checked for visibility.
          */
         mutable lru_cache<point, char> skew_vision_cache;
-        std::vector<vehicle *> autopilot_cache;
+        std::unordered_set<vehicle *> autopilot_cache;
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];

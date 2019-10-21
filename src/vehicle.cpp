@@ -638,7 +638,7 @@ void vehicle::activate_animal_follow()
             parts[ e ].enabled = false;
         }
     }
-    g->m.validate_autopilot_cache();
+    g->m.add_to_autopilot_cache( this );
     refresh();
 }
 
@@ -665,7 +665,7 @@ void vehicle::autopilot_patrol()
         if( !g->m.inbounds( g->m.getlocal( autodrive_local_target ) ) ) {
             autodrive_local_target = tripoint_zero;
             is_patrolling = false;
-            g->m.validate_autopilot_cache();
+            g->m.remove_from_autopilot_cache( this );
             return;
         }
         drive_to_local_target( autodrive_local_target, false );
@@ -674,9 +674,15 @@ void vehicle::autopilot_patrol()
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
                                g->m.getabs( global_pos3() ), 60 );
+    if( !has_part( "AUTOPILOT" ) || !has_part( "CTRL_ELECTRONIC" ) || !has_part( "REMOTE_CONTROLS" ) ){
+        autopilot_on = false;
+        is_patrolling = false;
+        is_following = false;
+        g->m.remove_from_autopilot_cache( this );
+    }
     if( zone_src_set.empty() ) {
         is_patrolling = false;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
         return;
     }
     // get corners.
@@ -741,10 +747,9 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
 {
     if( follow_protocol && g->u.in_vehicle ) {
         is_following = false;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
         return;
     }
-    refresh();
     tripoint vehpos = g->m.getabs( global_pos3() );
     rl_vec2d facevec = face_vec();
     point rel_pos_target = target.xy() - vehpos.xy();
@@ -815,7 +820,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
         is_following = false;
         autopilot_on = false;
         autodrive_local_target = tripoint_zero;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
         return;
     }
     int turn_x = 0;
@@ -873,7 +878,7 @@ void vehicle::do_autodrive()
     if( omt_path.empty() ) {
         is_autodriving = false;
         autodrive_local_target = tripoint_zero;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
         return;
     }
     tripoint vehpos = global_pos3();
@@ -888,7 +893,7 @@ void vehicle::do_autodrive()
         // we've gone walkabout somehow, call off the whole thing
         is_autodriving = false;
         autodrive_local_target = tripoint_zero;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
         return;
     }
     int x_side = 0;
@@ -2060,6 +2065,12 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // this mount points regardless of how many there are
         loot_zones.erase( parts[p].mount );
         zones_dirty = true;
+    }
+    if( part_flag( p, "AUTOPILOT" ) ){
+        autopilot_on = false;
+        is_patrolling = false;
+        is_following = false;
+        g->m.remove_from_autopilot_cache( this );
     }
 
     parts[p].removed = true;
@@ -5946,7 +5957,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     // If auto-driving and damage happens, bail out
     if( is_autodriving ) {
         is_autodriving = false;
-        g->m.validate_autopilot_cache();
+        g->m.remove_from_autopilot_cache( this );
     }
     g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {

@@ -1058,7 +1058,7 @@ void vehicle::enable_patrol()
     autodrive_local_target = tripoint_zero;
     start_engines();
     refresh();
-    g->m.validate_autopilot_cache();
+    g->m.add_to_autopilot_cache( this );
 }
 
 void vehicle::honk_horn()

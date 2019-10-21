@@ -345,20 +345,41 @@ void map::destroy_vehicle( vehicle *veh )
     detach_vehicle( veh );
 }
 
+void map::add_to_autopilot_cache( vehicle *veh )
+{
+    if( !veh ){
+        return;
+    }
+    autopilot_cache.insert( veh );
+}
+
+void map::remove_from_autopilot_cache( vehicle *veh )
+{
+    if( !veh ){
+        return;
+    }
+    autopilot_cache.erase( veh );
+}
+
 void map::validate_autopilot_cache()
 {
-    for( const auto &elem : get_vehicles() ){
-        auto &v = veh.v;
-        if( v->is_following || v->is_patrolling || v->is_autodriving ){
-            autopilot_cache.emplace_back( v );
+    for( auto &elem : get_vehicles() ){
+        vehicle *veh = elem.v;
+        if( veh && ( veh->is_following || veh->is_patrolling ) ){
+            add_to_autopilot_cache( veh );
         }
     }
-    for(it2 = autopilot_cache.begin(); it2 != autopilot_cache.end();){
-        vehicle *veh = *it2;
-        if( !veh || ( !veh->is_following && !veh->is_patrolling && !veh->is_autodriving ) ){
-            it2 = autopilot_cache.erase(it2);
-        } else {
-            ++it2;
+    for( vehicle *veh : get_autopilot_cache() ){
+        bool found = false;
+        for( auto &elem : get_vehicles() ){
+            vehicle *veh2 = elem.v;
+            if( veh2 == veh ){
+                found = true;
+                break;
+            }
+        }
+        if( !found || !veh || ( !veh->is_following && !veh->is_patrolling ) ){
+            remove_from_autopilot_cache( veh );
         }
     }
 }
@@ -8010,6 +8031,7 @@ void map::do_vehicle_caching( int z )
     auto &outside_cache = ch.outside_cache;
     auto &transparency_cache = ch.transparency_cache;
     auto &floor_cache = ch.floor_cache;
+    validate_autopilot_cache();
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t part = vp.part_index();
