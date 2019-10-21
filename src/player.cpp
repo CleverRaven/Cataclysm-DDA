@@ -9934,25 +9934,25 @@ void player::environmental_revert_effect()
 }
 
 void player::set_destination( const std::vector<tripoint> &route,
-                              const player_activity &destination_activity )
+                              const player_activity &new_destination_activity )
 {
     auto_move_route = route;
-    this->destination_activity = destination_activity;
+    set_destination_activity( new_destination_activity );
     destination_point.emplace( g->m.getabs( route.back() ) );
 }
 
 void player::clear_destination()
 {
     auto_move_route.clear();
-    destination_activity = player_activity();
+    clear_destination_activity();
     destination_point = cata::nullopt;
     next_expected_position = cata::nullopt;
 }
 
 bool player::has_distant_destination() const
 {
-    return has_destination() && !destination_activity.is_null() &&
-           destination_activity.id() == "ACT_TRAVELLING" && !omt_path.empty();
+    return has_destination() && !get_destination_activity().is_null() &&
+           get_destination_activity().id() == "ACT_TRAVELLING" && !omt_path.empty();
 }
 
 bool player::has_destination() const
@@ -9962,7 +9962,7 @@ bool player::has_destination() const
 
 bool player::has_destination_activity() const
 {
-    return !destination_activity.is_null() && destination_point &&
+    return !get_destination_activity().is_null() && destination_point &&
            position == g->m.getlocal( *destination_point );
 }
 
@@ -9973,7 +9973,7 @@ void player::start_destination_activity()
         return;
     }
 
-    assign_activity( destination_activity );
+    assign_activity( get_destination_activity() );
     clear_destination();
 }
 

@@ -652,8 +652,8 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
-    json.member( "stim", stim );  
-  
+    json.member( "stim", stim );
+
     // breathing
     json.member( "underwater", underwater );
     json.member( "oxygen", oxygen );

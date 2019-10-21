@@ -450,6 +450,21 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
+void Character::set_destination_activity( const player_activity &new_destination_activity )
+{
+    destination_activity = new_destination_activity;
+}
+
+void Character::clear_destination_activity()
+{
+    destination_activity = player_activity();
+}
+
+player_activity Character::get_destination_activity() const
+{
+    return destination_activity;
+}
+
 void Character::mount_creature( monster &z )
 {
     tripoint pnt = z.pos();

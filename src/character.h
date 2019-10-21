@@ -1192,6 +1192,9 @@ class Character : public Creature, public visitable<Character>
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
+        player_activity get_destination_activity() const;
+        void set_destination_activity( const player_activity &new_destination_activity );
+        void clear_destination_activity();
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**
