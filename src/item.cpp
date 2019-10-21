@@ -6086,7 +6086,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max( 1.0, du.amount - item_damage * 2 );
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
         }
     }
 
