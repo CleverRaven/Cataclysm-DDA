@@ -1,57 +1,6 @@
 [
   {
     "type": "technique",
-    "id": "Charge",
-    "name": "CHARGE",
-    "unarmed_allowed": false,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.66 ], [ "damage", "stab", 1.5 ] ],
-    "flat_bonuses": [ [ "movecost", "str", -0.25 ] ],
-    "down_dur": 2,
-    "messages": [ "Your hooking attack makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "85% moves, 66% Bash, 76% Cut, 86% Stab, Down two turns, STR (C) greatly reduces action cost"
-  },
-  {
-    "type": "technique",
-    "id": "LKGSr1",
-    "name": "HEAVY STROKE",
-    "min_melee": 4,
-    "unarmed_allowed": false,
-    "melee_allowed": true,
-    "knockback_dist": 1,
-    "mult_bonuses": [ [ "movecost",  ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
-    "flat_bonuses": [
-      [ "movecost", "str", -1.0 ],
-      [ "damage", "bash", "str", 0.1 ],
-      [ "damage", "stab", "str", 0.1 ],
-      [ "damage", "cut", "str", 0.1 ]
-    ],
-    "messages": [ "Your momentum causes your weapon to continue through %s", "<npcname> inertially strikes %s" ],
-    "aoe": "wide",
-    "description": "Wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
-  },
-  {
-    "type": "technique",
-    "id": "LKGSStomp",
-    "name": "STOMP",
-    "min_melee": 2,
-    "unarmed_allowed": false,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.18 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
-    "flat_bonuses": [
-      [ "movecost", "str", -0.2 ],
-      [ "movecost", "dex", -0.2 ],
-      [ "movecost", "per", -0.125 ],
-      [ "damage", "bash", "per", 0.15 ],
-      [ "damage", "cut", "per", 0.3 ],
-      [ "damage", "stab", "per", 0.15 ]
-    ],
-    "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
-    "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
-  },
-  {
-    "type": "technique",
     "id": "LKStance1",
     "name": "UNDERHAND",
     "min_melee": 1,
