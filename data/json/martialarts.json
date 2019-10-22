@@ -298,6 +298,7 @@
       "baton-extended",
       "bee_sting",
       "bowling_pin",
+      "butterfly_swords",
       "cane",
       "copper_knife",
       "cudgel",
@@ -579,6 +580,7 @@
     ],
     "weapons": [
       "baton-extended",
+      "butterfly_swords",
       "copper_knife",
       "cudgel",
       "diveknife",
@@ -870,6 +872,7 @@
       "broadsword_fake",
       "broadfire_off",
       "broadfire_on",
+      "butterfly_swords",
       "cavalry_sabre",
       "cavalry_sabre_fake",
       "copper_knife",
@@ -1100,6 +1103,7 @@
     "weapons": [
       "baton-extended",
       "bowling_pin",
+      "butterfly_swords",
       "cudgel",
       "diveknife",
       "firemachete_off",
