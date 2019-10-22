@@ -18,7 +18,7 @@
       "items": [
         { "item": "stick", "count": [ 0, 1 ] },
         { "item": "pebble", "charges": [ 3, 5 ] },
-        { "item": "soil", "charges": [ 10, 30 ] },
+        { "item": "material_soil", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 1, 6 ] }
       ]
     }
