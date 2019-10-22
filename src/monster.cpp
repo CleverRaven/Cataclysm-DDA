@@ -212,6 +212,8 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
+
+    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -618,6 +620,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
+
+    if( effect_cache[MODIFIED] ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
@@ -1685,6 +1691,29 @@ void monster::add_effect( const efftype_id &eff_id, const time_duration dur, bod
 {
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
+
+    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect(
+                                 eff_id ) );
+}
+
+bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
+{
+    bool modif = effect_is_modifier_enabled( get_effect( eff_id ) );
+    bool rtrn = Creature::remove_effect( eff_id, bp );
+
+    if( modif && effect_cache[MODIFIED] ) {
+        modif = false;
+        for( const auto &ef : *effects ) {
+            modif |= effect_is_modifier_enabled( ef.second.at( num_bp ) );
+        }
+        effect_cache[MODIFIED] = modif;
+    }
+    return rtrn;
+}
+
+bool monster::effect_is_modifier_enabled( const effect &eff )
+{
+    return eff.get_mod( "GROWTH" ) != 0;
 }
 
 std::string monster::get_effect_status() const
@@ -2242,6 +2271,17 @@ bool monster::check_mech_powered() const
     return true;
 }
 
+int monster::get_effect_bonus( std::string arg, bool reduced ) const
+{
+    int rtrn = 0;
+    for( const auto effbody : *effects ) {
+        for( const auto ef : effbody.second ) {
+            rtrn += ef.second.get_mod( arg, reduced );
+        }
+    }
+    return rtrn;
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2293,6 +2333,10 @@ void monster::process_one_effect( effect &it, bool is_new )
     };
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2528,17 +2572,29 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    if( effect_cache[MODIFIED] ) {
+        return m_size( type->size + get_effect_bonus( "GROWTH" ) );
+    } else {
+        return type->size;
+    }
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    if( effect_cache[MODIFIED] ) {
+        return units::operator*( type->weight, get_size() / type->size );
+    } else {
+        return type->weight;
+    }
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    if( effect_cache[MODIFIED] ) {
+        return units::operator*( type->volume, get_size() / type->size );
+    } else {
+        return type->volume;
+    }
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const

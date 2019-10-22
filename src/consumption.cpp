@@ -162,7 +162,7 @@ int player::nutrition_for( const item &comest ) const
     return kcal_for( comest ) / islot_comestible::kcal_per_nutr;
 }
 
-std::pair<int, int> player::fun_for( const item &comest ) const
+std::pair<int, int> Character::fun_for( const item &comest ) const
 {
     static const trait_id trait_GOURMAND( "GOURMAND" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -1007,7 +1007,7 @@ void player::modify_addiction( const islot_comestible &comest )
     }
 }
 
-void player::modify_morale( item &food, const int nutr )
+void Character::modify_morale( item &food, const int nutr )
 {
     time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
