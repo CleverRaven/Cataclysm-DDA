@@ -104,7 +104,8 @@ bool stomach_contents::store_absorbed( player &p )
         p.mod_stored_kcal( calories_absorbed );
         absorbed = true;
     }
-    p.vitamins_mod( vitamins_absorbed );
+    p.vitamins_mod( vitamins_absorbed, false );
+    vitamins_absorbed.clear();
     return absorbed;
 }
 

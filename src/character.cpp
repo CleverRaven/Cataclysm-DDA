@@ -5084,9 +5084,9 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl < 0 ) {
         if( has_effect( exc, num_bp ) ) {
-            get_effect( exc, num_bp ).set_intensity( lvl, true );
+            get_effect( exc, num_bp ).set_intensity( -lvl, true );
         } else {
-            add_effect( exc, 1_turns, num_bp, true, lvl );
+            add_effect( exc, 1_turns, num_bp, true, -lvl );
         }
     }
 }
