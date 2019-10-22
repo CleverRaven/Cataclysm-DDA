@@ -260,12 +260,10 @@
     "difficulty": 7,
     "time": "190 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [
-      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 7 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_metal",
@@ -277,12 +275,9 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_paper",

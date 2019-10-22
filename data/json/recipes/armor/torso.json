@@ -210,12 +210,10 @@
     "difficulty": 8,
     "time": "3 h 10 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [
-      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 8 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "cuirass_scrap",

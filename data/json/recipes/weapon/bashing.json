@@ -45,7 +45,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
-    "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "using": [ [ "forging_standard", 5 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {

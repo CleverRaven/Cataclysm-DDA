@@ -125,12 +125,10 @@
     "difficulty": 8,
     "time": "9 h 20 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 400 ], [ "oxy_torch", 80 ] ] ],
-    "components": [
-      [ [ "steel_lump", 20 ], [ "steel_chunk", 80 ] ],
-      [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 20 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -218,9 +216,10 @@
     "difficulty": 9,
     "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 450 ], [ "oxy_torch", 90 ] ] ],
-    "components": [ [ [ "steel_lump", 30 ] ], [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
+    "using": [ [ "blacksmithing_standard", 22 ], [ "steel_standard", 30 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "armor_samurai",
@@ -231,13 +230,10 @@
     "difficulty": 9,
     "time": "9 h 20 m",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 450 ], [ "oxy_torch", 90 ] ] ],
-    "components": [
-      [ [ "steel_lump", 16 ], [ "steel_chunk", 64 ] ],
-      [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ],
-      [ [ "rag", 10 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 22 ], [ "steel_standard", 16 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ], [ [ "rag", 10 ] ] ]
   },
   {
     "result": "armor_scavenger",

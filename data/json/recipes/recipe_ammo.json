@@ -68,7 +68,8 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "weights", 10, "LIST" ] ] ]
   },
   {
@@ -711,9 +712,9 @@
     "difficulty": 2,
     "time": "100 m",
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
-    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 16 ], [ "scrap", 48 ] ] ]
+    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -725,9 +726,9 @@
     "difficulty": 2,
     "time": "180 m",
     "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
