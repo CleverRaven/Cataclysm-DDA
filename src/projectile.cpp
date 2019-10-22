@@ -93,7 +93,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 {
     if( effects.count( "EXPLOSIVE_RAUFOSS" ) > 0 ) {
         // TODO: Make this actually fill a ~4m radius circle with fire and 20 shrapnel bits.  Or better, a 30 deg, 15m long arc.
-        explosion_handler::explosion( p, 3, 0.6, true, 28, 1.4 );
+        explosion_handler::explosion( p, 2.4, 0.6, true, 28, 1.4 );
     }
 
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
