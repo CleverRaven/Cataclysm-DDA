@@ -1,6 +1,7 @@
 # JSON Flags
 
 * [Notes](#notes)
+* [Inheritance](#inheritance)
 * [TODO](#todo)
 * [Ammo](#ammo)
   + [Ammo type](#ammo-type)
@@ -72,6 +73,11 @@
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+
+
+## Inheritance
+
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
 
 
 ## TODO
@@ -1256,6 +1262,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
 - ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
@@ -1272,6 +1279,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.

@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
                     }
                 },
                 {
-                    "--check-mods", "[mods...]",
+                    "--check-mods", "[mods…]",
                     "Checks the json files belonging to CDDA mods",
                     section_default,
                     [&check_mods, &opts]( int n, const char *params[] ) -> int {
@@ -221,7 +221,7 @@ int main( int argc, char *argv[] )
                     }
                 },
                 {
-                    "--dump-stats", "<what> [mode = TSV] [opts...]",
+                    "--dump-stats", "<what> [mode = TSV] [opts…]",
                     "Dumps item stats",
                     section_default,
                     [&dump, &dmode, &opts]( int n, const char *params[] ) -> int {
@@ -339,6 +339,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--userdir", "<path>",
+                    // NOLINTNEXTLINE(cata-text-style): the dot is not a period
                     "Base path for user-overrides to files from the ./data directory and named below",
                     section_user_directory,
                     []( int num_args, const char **params ) -> int {

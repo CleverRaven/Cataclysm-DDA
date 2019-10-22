@@ -16,7 +16,7 @@ import argparse
 import pathlib
 import contextlib
 import xml.etree.ElementTree
-from datetime import date, datetime, timedelta
+from datetime import time as dtime, date, datetime, timedelta
 
 
 log = logging.getLogger('generate_changelog')
@@ -63,6 +63,9 @@ class Commit:
     def committed_after(self, commit_dttm):
         return self.commit_dttm is not None and self.commit_dttm >= commit_dttm
 
+    def committed_before(self, commit_dttm):
+        return self.commit_dttm is not None and self.commit_dttm <= commit_dttm
+
     @property
     def is_merge(self):
         return len(self.parents) > 1
@@ -99,8 +102,14 @@ class PullRequest:
     def merged_after(self, merge_dttm):
         return self.merge_dttm is not None and self.merge_dttm >= merge_dttm
 
+    def merged_before(self, merge_dttm):
+        return self.merge_dttm is not None and self.merge_dttm <= merge_dttm
+
     def updated_after(self, update_dttm):
         return self.update_dttm is not None and self.update_dttm >= update_dttm
+
+    def updated_before(self, update_dttm):
+        return self.update_dttm is not None and self.update_dttm <= update_dttm
 
     def __str__(self):
         return f'{self.__class__.__name__}[{self.id} - {self.merge_dttm} - {self.title} BY {self.author}]'
@@ -452,9 +461,13 @@ class CommitApi:
 
             params:
                 min_commit_dttm = None or minimum commit date to be part of the result set (UTC+0 timezone)
-            params:
-                max_commit_dttm = None or maximum commit date to be part of the result set
+                max_commit_dttm = None or maximum commit date to be part of the result set (UTC+0 timezone)
         """
+        if min_commit_dttm is None:
+            min_commit_dttm = datetime.min
+        if max_commit_dttm is None:
+            max_commit_dttm = datetime.utcnow()
+
         results_queue = collections.deque()
         request_generator = CommitApiGenerator(self.api_token, min_commit_dttm, max_commit_dttm, branch)
         threaded = MultiThreadedGitHubApi()
@@ -462,18 +475,20 @@ class CommitApi:
                                       self._process_commit_data_callback(results_queue),
                                       max_threads=max_threads)
 
-        return (commit for commit in results_queue if commit.committed_after(min_commit_dttm))
+        return (commit for commit in results_queue
+                if commit.committed_after(min_commit_dttm) and commit.committed_before(max_commit_dttm))
 
     def _process_commit_data_callback(self, results_queue):
         """Returns a callback that will process data into Commits instances and stop threads when needed."""
-        def _process_commit_data_callback_closure(json_data, request_generator):
+        def _process_commit_data_callback_closure(json_data, request_generator, api_request):
             nonlocal results_queue
             commit_list = [self._create_commit_from_api_data(x) for x in json_data]
             for commit in commit_list:
                 results_queue.append(commit)
 
             if request_generator.is_active and len(commit_list) == 0:
-                log.debug(f'Target page found, stop giving threads more requests')
+                log.debug(f'Target page found, stop giving threads more requests.'
+                          f' Target URL: {api_request.full_url}')
                 request_generator.deactivate()
         return _process_commit_data_callback_closure
 
@@ -537,45 +552,50 @@ class PullRequestApi:
         else:
             return api_data['items'][0]['number']
 
-    def get_pr_list(self, min_dttm, max_dttm, state='all', merged_only=False, max_threads=15):
+    def get_pr_list(self, min_dttm, max_dttm=None, state='all', merged_only=False, max_threads=15):
         """Return a list of PullRequests from specified commit date up to now. Order is not guaranteed by threads.
 
             params:
                 min_dttm = None or minimum update date on the PR to be part of the result set (UTC+0 timezone)
-                min_dttm = None or maximum update date on the PR to be part of the result set (UTC+0 timezone)
+                max_dttm = None or maximum update date on the PR to be part of the result set (UTC+0 timezone)
                 state = 'open' | 'closed' | 'all'
                 merged_only = search only 'closed' state PRs, and filter PRs by merge date instead of update date
         """
+        if min_dttm is None:
+            min_dttm = datetime.min
+        if max_dttm is None:
+            max_dttm = datetime.utcnow()
+
         results_queue = collections.deque()
         request_generator = PullRequestApiGenerator(self.api_token, state if not merged_only else 'closed')
         threaded = MultiThreadedGitHubApi()
         threaded.process_api_requests(request_generator,
-                                      self._process_pr_data_callback(results_queue, min_dttm, max_dttm, merged_only),
+                                      self._process_pr_data_callback(results_queue, min_dttm),
                                       max_threads=max_threads)
 
         if merged_only:
-            return (pr for pr in results_queue if pr.is_merged and pr.merged_after(min_dttm))
+            return (pr for pr in results_queue
+                    if pr.is_merged and pr.merged_after(min_dttm) and pr.merged_before(max_dttm))
         else:
-            return (pr for pr in results_queue if pr.updated_after(min_dttm))
+            return (pr for pr in results_queue
+                    if pr.updated_after(min_dttm) and pr.updated_before(max_dttm))
 
-    def _process_pr_data_callback(self, results_queue, min_dttm, max_dttm, merged_only):
+    def _process_pr_data_callback(self, results_queue, min_dttm):
         """Returns a callback that will process data into Pull Requests objects and stop threads when needed."""
-        def _process_pr_data_callback_closure(json_data, request_generator):
-            nonlocal results_queue, min_dttm, merged_only
+        def _process_pr_data_callback_closure(json_data, request_generator, api_request):
+            nonlocal results_queue, min_dttm
             pull_request_list = [self._create_pr_from_api_data(x) for x in json_data]
             for pr in pull_request_list:
-                if not merged_only or pr.is_merged:
-                    results_queue.append(pr)
+                results_queue.append(pr)
 
-            target_page_found = False
-            if min_dttm is not None and merged_only:
-                target_page_found = not any(pr.merged_after(min_dttm) for pr in pull_request_list)
-            if min_dttm is not None and not merged_only:
-                target_page_found = not any(pr.updated_after(min_dttm) for pr in pull_request_list)
+            ### this check on update date makes sure we get the GitHub API pages we need
+            ### a more precise PR filter of the result is made from results_queue later
+            target_page_found = not any(pr.updated_after(min_dttm) for pr in pull_request_list)
 
             if len(pull_request_list) == 0 or target_page_found:
                 if request_generator.is_active:
-                    log.debug(f'Target page found, stop giving threads more requests')
+                    log.debug(f'Target page found, stop giving threads more requests.'
+                              f' Target URL: {api_request.full_url}')
                     request_generator.deactivate()
 
         return _process_pr_data_callback_closure
@@ -629,7 +649,7 @@ class MultiThreadedGitHubApi:
         log.debug(f'Thread Started!')
         api_request = request_generator.generate()
         while api_request is not None:
-            callback(do_github_request(api_request), request_generator)
+            callback(do_github_request(api_request), request_generator, api_request)
             api_request = request_generator.generate()
         log.debug(f'No more requests left, killing Thread.')
 
@@ -849,7 +869,7 @@ def main_entry(argv):
     parser.add_argument(
         'target_date',
         help='Specify when should stop generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
-        type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time())
+        type=lambda d: datetime.combine(date.fromisoformat(d), dtime.min)
     )
 
     parser.add_argument(
@@ -869,8 +889,8 @@ def main_entry(argv):
     parser.add_argument(
         '-e', '--end-date',
         help='Specify when should start generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
-        type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time()),
-        default=None
+        type=lambda d: datetime.combine(date.fromisoformat(d), dtime.max),
+        default=datetime.utcnow()
     )
 
     parser.add_argument(
@@ -902,9 +922,6 @@ def main_entry(argv):
     )
 
     arguments = parser.parse_args(argv[1:])
-
-    if (arguments.end_date is None):
-        arguments.end_date=datetime.now()
 
     logging.basicConfig(level=logging.DEBUG if arguments.verbose else logging.INFO,
                         format='   LOG | %(threadName)s | %(levelname)s | %(message)s')

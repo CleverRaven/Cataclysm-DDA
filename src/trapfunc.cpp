@@ -640,10 +640,10 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
         return false;
     }
     if( c == &g->u ) {
-        c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
+        c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
     } else {
         if( g->u.sees( p ) ) {
-            add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
+            add_msg( _( "The air shimmers around %s…" ), c->disp_name() );
         }
     }
     teleport::teleport( *c );
@@ -1035,7 +1035,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     const int throwing_skill_level = p->get_skill_level( skill_throw );
     const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
     if( roll < diff ) {
-        p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
+        p->add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         p->use_amount( itemname, 1 );
         g->m.spawn_item( random_neighbor( p->pos() ), itemname );
         return false;

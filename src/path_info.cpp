@@ -17,7 +17,7 @@ std::map<std::string, std::string> FILENAMES;
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
-        const char ch = path.at( path.length() - 1 );
+        const char ch = path.back();
         if( ch != '/' && ch != '\\' ) {
             path.push_back( '/' );
         }

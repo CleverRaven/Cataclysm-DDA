@@ -243,7 +243,8 @@ input_context game::get_player_input( std::string &action )
                     for( auto &elem : SCT.vSCT ) {
                         //Erase previous text from w_terrain
                         if( elem.getStep() > 0 ) {
-                            for( size_t i = 0; i < elem.getText().length(); ++i ) {
+                            const int width = utf8_width( elem.getText() );
+                            for( int i = 0; i < width; ++i ) {
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
@@ -264,8 +265,8 @@ input_context game::get_player_input( std::string &action )
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
                     const direction oCurDir = iter->getDirecton();
-
-                    for( int i = 0; i < static_cast<int>( iter->getText().length() ); ++i ) {
+                    const int width = utf8_width( iter->getText() );
+                    for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
@@ -306,7 +307,7 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
 
                 query_popup()
-                .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
+                .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true )
                 .show();
 
@@ -370,7 +371,7 @@ static void rcdrive( int dx, int dy )
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
+        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -1066,19 +1067,19 @@ static void loot()
 
     if( flags & TillPlots ) {
         menu.addentry_desc( TillPlots, has_hoe, 't',
-                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots… you need a tool to dig with" ),
                             _( "Tills nearby Farm: Plot zones." ) );
     }
 
     if( flags & PlantPlots ) {
         menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
-                            !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds… it is too cold for planting" ) :
+                            !has_seeds ? _( "Plant seeds… you don't have any" ) : _( "Plant seeds" ),
                             _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
     }
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                            !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                            !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
                             _( "Fertilize any nearby Farm: Plot zones." ) );
     }
 
@@ -1344,7 +1345,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );
@@ -1357,7 +1358,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );

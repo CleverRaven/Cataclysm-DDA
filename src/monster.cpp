@@ -610,7 +610,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = att.first.length() + name().length() + 3;
+    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -1399,7 +1399,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel venom flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain…" ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
