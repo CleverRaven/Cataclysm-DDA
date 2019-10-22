@@ -37,9 +37,9 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
+      { "monster": "mon_zombie_necro", "freq": 40, "cost_multiplier": 2 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
-      { "monster": "mon_slasher_weak", "freq": 75, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_slasher_weak", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_waster", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
