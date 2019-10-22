@@ -278,12 +278,12 @@ bool player::handle_gun_damage( item &it )
             dirt_dbl = static_cast<double>( dirt );
             if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
                 it.faults.insert( fault_gun_dirt );
-				it.faults.insert( fault_gun_dirt_and_lube );
+                it.faults.insert( fault_gun_dirt_and_lube );
             }
             if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
-				it.faults.insert( fault_gun_dirt_and_lube );
+                it.faults.insert( fault_gun_dirt_and_lube );
             }
             // end fouling mechanics
         }
