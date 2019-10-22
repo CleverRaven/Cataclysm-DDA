@@ -952,7 +952,7 @@ def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_to
         commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
 
         pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
-        pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=False))
+        pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
 
     github_thread = threading.Thread(target=exit_on_exception(load_github_repos))
     github_thread.name = 'WORKER_GIT'
