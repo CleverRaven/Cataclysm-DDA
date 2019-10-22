@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "technique",
     "id": "Charge",
     "name": "CHARGE",
@@ -19,7 +19,7 @@
     "unarmed_allowed": false,
     "melee_allowed": true,
     "knockback_dist": 1,
-    "mult_bonuses": [ [ "movecost",  ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
+    "mult_bonuses": [ [ "movecost", 1.1 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "flat_bonuses": [
       [ "movecost", "str", -1.0 ],
       [ "damage", "bash", "str", 0.1 ],
