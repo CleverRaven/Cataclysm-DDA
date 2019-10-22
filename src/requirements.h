@@ -16,6 +16,8 @@
 class nc_color;
 class JsonObject;
 class JsonArray;
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 
@@ -216,7 +218,11 @@ struct requirement_data {
          */
         static void save_requirement( const requirement_data &req,
                                       const requirement_id &id = requirement_id::NULL_ID() );
-
+        /**
+         * Serialize custom created requirement objects for fetch activities
+         */
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 

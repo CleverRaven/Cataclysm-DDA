@@ -1331,7 +1331,7 @@ class player : public Character
 
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
-                              const player_activity &destination_activity = player_activity() );
+                              const player_activity &new_destination_activity = player_activity() );
         void clear_destination();
         bool has_distant_destination() const;
 
@@ -1591,7 +1591,6 @@ class player : public Character
     private:
 
         std::vector<tripoint> auto_move_route;
-        player_activity destination_activity;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
