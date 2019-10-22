@@ -73,7 +73,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "ump45mag" ] ] ]
+    "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
   },
   {
     "id": "m1911",
@@ -147,7 +147,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
   },
   {
     "id": "rifle_45",
@@ -193,7 +193,7 @@
     "type": "GUN",
     "name": "Luty SMG: .45",
     "name_plural": "Luty SMGs: .45",
-    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 magazines, or alternatively custom-made makeshift ones.",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3274 g",
     "volume": "1750 ml",
@@ -224,7 +224,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
+    "magazines": [ [ "45", [ "smg_45_mag", "mac10mag" ] ] ]
   },
   {
     "id": "surv_hand_cannon",
@@ -286,7 +286,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ] ]
+    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ] ] ]
   },
   {
     "id": "usp_45",

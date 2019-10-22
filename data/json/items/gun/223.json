@@ -390,7 +390,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30" ] ] ]
+    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",

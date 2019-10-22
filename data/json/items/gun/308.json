@@ -21,7 +21,7 @@
     "min_cycle_recoil": 2700,
     "burst": 12,
     "barrel_length": 2,
-    "magazines": [ [ "308", [ "falmag", "falbigmag" ] ] ]
+    "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
   {
     "id": "hk_g3",
@@ -44,7 +44,7 @@
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
-    "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ] ]
+    "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
   },
   {
     "id": "m134",
@@ -135,7 +135,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ]
+    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ]
   },
   {
     "id": "m240",
@@ -217,7 +217,7 @@
     "name": "pipe rifle: .308",
     "name_plural": "pipe rifles: .308",
     "//": "It's amongst the smallest of the .308 firearms, and a scrap weapon as well. This means a short handmade barrel, and considerable loss of energy.",
-    "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",
+    "description": "A homemade lever-action magazine-fed smoothbore rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as being able to accept G3 compatible magazines, and chambering the more powerful .308 rounds.",
     "weight": "2311 g",
     "volume": "2 L",
     "price": 10000,
@@ -231,7 +231,6 @@
     "dispersion": 550,
     "durability": 6,
     "blackpowder_tolerance": 60,
-    "clip_size": 6,
     "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [
@@ -248,7 +247,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "magazines": [ [ "308", [ "g3_makeshiftmag", "g3mag", "g3bigmag" ] ] ]
   },
   {
     "id": "savage_111f",
@@ -284,7 +283,7 @@
     "ranged_damage": -3,
     "min_cycle_recoil": 2700,
     "magazine_well": 1,
-    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
+    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
   },
   {
     "id": "M24",
@@ -307,7 +306,7 @@
     "min_cycle_recoil": 2700,
     "barrel_length": 2,
     "default_mods": [ "rifle_scope", "cheek_pad" ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
+    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -345,7 +344,7 @@
     "min_cycle_recoil": 2700,
     "burst": 10,
     "default_mods": [ "adjustable_stock" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },
   {
     "id": "m110a1",
@@ -367,7 +366,7 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },
   {
     "id": "ar10",
@@ -388,6 +387,6 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "ar10mag_20rd" ] ] ]
+    "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ]
   }
 ]
