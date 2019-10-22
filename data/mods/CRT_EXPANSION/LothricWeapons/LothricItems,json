@@ -1,1 +1,23 @@
-
+[
+  {
+    "id": "lothric_sword",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "Lothric knight sword",
+    "name_plural": "Lothric knight swords",
+    "description": "A well-crafted straight sword designed for thrusting attacks, wielded by the venerable Knights of Lothric.",
+    "color": "dark_gray",
+    "material": "steel",
+    "weight": 1750,
+    "volume": 2.5,
+    "price": 20000,
+    "cutting": 35,
+    "bashing": 10,
+    "to_hit": 2,
+    "durability": 15,
+    "symbol": ";",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
+    "techniques": [ "LKStance1", "LKStance2" ]
+  }
+]
