@@ -840,19 +840,155 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_entrance",
-    "copy-from": "megastore_entrance",
-    "name": "megastore",
+    "id": "megastore_parking",
+    "copy-from": "megastore_parking",
+    "name": "megastore parking lot",
     "sym": "M",
     "color": "i_magenta"
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore",
-    "copy-from": "megastore",
+    "id": "megastore_0_0_0",
+    "copy-from": "megastore_0_0_0",
     "name": "megastore",
     "sym": "m",
     "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_0",
+    "copy-from": "megastore_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_1",
+    "copy-from": "megastore_0_0_1",
+    "name": "megastore, second floor",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_1",
+    "copy-from": "megastore_0_0_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_0_roof",
+    "copy-from": "megastore_0_0_roof",
+    "name": "megastore roof",
+    "sym": "m",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_0_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_1_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_0_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_1_2_roof",
+    "copy-from": "megastore_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_2_2_roof",
+    "copy-from": "megastore_0_0_roof"
   },
   {
     "type": "overmap_terrain",
