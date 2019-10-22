@@ -455,7 +455,7 @@ void monexamine::rename_pet( monster &z )
                               .title( _( "Enter new pet name:" ) )
                               .width( 20 )
                               .query_string();
-    if( unique_name.length() > 0 ) {
+    if( !unique_name.empty() ) {
         z.unique_name = unique_name;
     }
 }

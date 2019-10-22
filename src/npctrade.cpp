@@ -284,11 +284,11 @@ void trading_window::update_win( npc &np, const std::string &deal )
                                       format_money( std::abs( your_balance ) ) );
         }
 
-        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2, 3 ),
+        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - utf8_width( cost_str ) ) / 2, 3 ),
                    trade_color, cost_str );
 
         if( !deal.empty() ) {
-            mvwprintz( w_head, point( ( TERMX - deal.length() ) / 2, 3 ),
+            mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                        trade_color_light, deal );
         }
         draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
@@ -349,7 +349,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 std::string price_str = format_money( ip.price );
                 nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
                                        c_light_gray );
-                mvwprintz( w_whose, point( win_w - price_str.length(), i - offset + 1 ),
+                mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                            price_color, price_str );
             }
             if( offset > 0 ) {

@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "player_activity.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -493,12 +494,14 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled */
+        /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( hp_part limb ) const;
         /** Returns true if the limb is hindered(40% or less hp) */
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** source of truth of whether a Character can run */
+        bool can_run();
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
@@ -964,6 +967,8 @@ class Character : public Creature, public visitable<Character>
                 time_died = time;
             }
         }
+        // magic mod
+        known_magic magic;
 
         void make_bleed( body_part bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
@@ -1055,7 +1060,12 @@ class Character : public Creature, public visitable<Character>
         std::list<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
+        // Means player sit inside vehicle on the tile he is now
+        bool in_vehicle;
+        bool hauling;
 
+        player_activity activity;
+        std::list<player_activity> backlog;
         inventory inv;
         itype_id last_item;
         item weapon;
@@ -1074,6 +1084,36 @@ class Character : public Creature, public visitable<Character>
         int mounted_creature_id;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
+        // Has a weapon, inventory item or worn item with flag
+        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
+        /**
+         * All items that have the given flag (@ref item::has_flag).
+         */
+        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
+
+        bool has_fire( int quantity ) const;
+
+        bool has_charges( const itype_id &it, int quantity,
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
+        /** Legacy activity assignment, should not be used where resuming is important. */
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
+                              int index = -1, int pos = INT_MIN,
+                              const std::string &name = "" );
+        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
+        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Check if player currently has a given activity */
+        bool has_activity( const activity_id &type ) const;
+        /** Check if player currently has any of the given activities */
+        bool has_activity( const std::vector<activity_id> &types ) const;
+        void resume_backlog_activity();
+        void cancel_activity();
 
         void initialize_stomach_contents();
 
@@ -1106,6 +1146,10 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
+        int get_stim() const;
+        void set_stim( int new_stim );
+        void mod_stim( int mod );
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
@@ -1137,6 +1181,44 @@ class Character : public Creature, public visitable<Character>
 
         void spores();
         void blossoms();
+
+        /** Handles rooting effects */
+        void rooted_message() const;
+        void rooted();
+
+        /** Adds "sleep" to the player */
+        void fall_asleep();
+        void fall_asleep( const time_duration &duration );
+        /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
+        std::string is_snuggling() const;
+
+        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
+        void update_vitamins( const vitamin_id &vit );
+        /**
+         * Check current level of a vitamin
+         *
+         * Accesses level of a given vitamin.  If the vitamin_id specified does not
+         * exist then this function simply returns 0.
+         *
+         * @param vit ID of vitamin to check level for.
+         * @returns current level for specified vitamin
+         */
+        int vitamin_get( const vitamin_id &vit ) const;
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param vit ID of vitamin to modify
+         * @param qty amount by which to adjust vitamin (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if vitamin does not exist
+         */
+        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+
+        /** Returns true if the player is wearing something on the entered body_part */
+        bool wearing_something_on( body_part bp ) const;
+        /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
+        double footwear_factor() const;
+        /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
     protected:
         Character();
         Character( Character && );
@@ -1222,6 +1304,8 @@ class Character : public Creature, public visitable<Character>
         faction *my_fac = nullptr;
 
         character_movemode move_mode;
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 
     private:
         // a cache of all active enchantment values.
@@ -1244,6 +1328,8 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance;
+
+        int stim;
 };
 
 template<>

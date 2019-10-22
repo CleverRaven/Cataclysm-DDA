@@ -306,18 +306,18 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( const item &it : components ) {
-        if( it.has_flag( "HIDDEN_POISON" ) ) {
-            set_flag( "HIDDEN_POISON" );
+    for( item &component : components ) {
+        for( const std::string &f : component.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
-        if( it.has_flag( "HIDDEN_HALLU" ) ) {
-            set_flag( "HIDDEN_HALLU" );
-        }
-        if( it.is_filthy() ) {
-            set_flag( "FILTHY" );
+        for( const std::string &f : component.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
     }
-
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
@@ -3469,7 +3469,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         with_prefix ) {
         damtext = durability_indicator();
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            truncate_override = damtext.length() - 3;
+            // get the utf8 width of the tags
+            truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
     }
     if( !faults.empty() ) {
@@ -3845,10 +3846,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     units::mass ret;
-    if( integral ) {
-        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
+    if( local_str_mass.empty() ) {
+        ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+        ret = units::from_milligram( std::stoll( local_str_mass ) );
     }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
@@ -5092,7 +5094,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol() + " ", damage_color() );
+            outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5116,7 +5118,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol() + " ", damage_color() );
+        outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {

@@ -1,0 +1,16 @@
+[
+  {
+    "result": "down_blanket",
+    "type": "uncraft",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+  },
+  {
+    "result": "blanket",
+    "type": "uncraft",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  }
+]

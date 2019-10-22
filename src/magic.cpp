@@ -1414,11 +1414,11 @@ int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) cons
                          ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
 }
 
-size_t known_magic::get_spellname_max_width()
+int known_magic::get_spellname_max_width()
 {
-    size_t width = 0;
+    int width = 0;
     for( const spell *sp : get_spells() ) {
-        width = std::max( width, sp->name().length() );
+        width = std::max( width, utf8_width( sp->name() ) );
     }
     return width;
 }
@@ -1664,7 +1664,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 int known_magic::select_spell( const player &p )
 {
     // max width of spell names
-    const size_t max_spell_name_length = get_spellname_max_width();
+    const int max_spell_name_length = get_spellname_max_width();
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
@@ -1672,7 +1672,7 @@ int known_magic::select_spell( const player &p )
     spell_menu.w_width = 80;
     spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
     spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
-    spell_menu.pad_right = spell_menu.w_width - static_cast<int>( max_spell_name_length ) - 5;
+    spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
     spell_menu.title = _( "Choose a Spell" );
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
@@ -1761,8 +1761,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
-    print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
-                        spell_class );
+    print_colored_text( w, point( menu->pad_left - utf8_width( spell_class ) - 1, line++ ), yellow,
+                        yellow, spell_class );
     line++;
     line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
@@ -1800,8 +1800,15 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     line++;
 
     print_colored_text( w, point( start_x, line++ ), gray, gray,
-                        string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
-                                       _( "max lvl" ) ) );
+                        string_format( "%s %s %s %s",
+                                       //~ translation should not exceed 10 console cells
+                                       left_justify( _( "Stat Gain" ), 10 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "lvl 0" ), 7 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "per lvl" ), 7 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "max lvl" ), 7 ) ) );
     std::vector<std::tuple<std::string, int, float, int>> rows;
 
     if( sp.max_damage != 0 && sp.min_damage != 0 && !damage_string.empty() ) {
@@ -1868,6 +1875,7 @@ void fake_spell::load( JsonObject &jo )
 
 void fake_spell::serialize( JsonOut &json ) const
 {
+    json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
     if( !max_level ) {
@@ -1876,6 +1884,7 @@ void fake_spell::serialize( JsonOut &json ) const
         json.member( "max_level", *max_level );
     }
     json.member( "min_level", level );
+    json.end_object();
 }
 
 void fake_spell::deserialize( JsonIn &jsin )

@@ -55,6 +55,10 @@
 #include "rng.h"
 #include "stomach.h"
 #include "ui.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vitamin.h"
+#include "vpart_position.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
@@ -63,6 +67,9 @@ static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_tools( "bio_tools" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -101,6 +108,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
+const efftype_id effect_winded( "winded" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
@@ -131,6 +139,8 @@ static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
@@ -173,6 +183,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    set_stim( 0 );
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
@@ -676,6 +687,11 @@ bool Character::is_limb_disabled( hp_part limb ) const
 bool Character::is_limb_broken( hp_part limb ) const
 {
     return hp_cur[limb] == 0;
+}
+
+bool Character::can_run()
+{
+    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
 bool Character::move_effects( bool attacking )
@@ -1264,7 +1280,7 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
 {
     std::vector<itype_id> stored_fuels;
     for( const itype_id fuel : bio->fuel_opts ) {
-        if( !get_value( fuel ).empty() ) {
+        if( !get_value( fuel ).empty() || fuel == itype_id( "muscle" ) ) {
             stored_fuels.emplace_back( fuel );
         }
     }
@@ -3157,7 +3173,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - h_bar.size(),
+            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
                     '.' ), c_white );
         }
     };
@@ -3763,9 +3779,9 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), static_cast<size_t>( 0 ),
-    []( size_t m, body_part bp ) {
-        return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
+    int longest = std::accumulate( bps.begin(), bps.end(), 0,
+    []( int m, body_part bp ) {
+        return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
@@ -3780,13 +3796,11 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << colorize( bp_heading, name_color );
-        // Align them. There is probably a less ugly way to do it
-        ss << std::string( longest - bp_heading.size() + 1, ' ' );
+        ss << colorize( left_justify( bp_heading, longest ), name_color );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // TODO: Integrate into get_hp_bar somehow
-        ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
         ss << std::endl;
     }
 
@@ -4151,6 +4165,21 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::get_stim() const
+{
+    return stim;
+}
+
+void Character::set_stim( int new_stim )
+{
+    stim = new_stim;
+}
+
+void Character::mod_stim( int mod )
+{
+    stim += mod;
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
@@ -4988,4 +5017,359 @@ void Character::blossoms()
     for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
         g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
+}
+
+void Character::update_vitamins( const vitamin_id &vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1_turns, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1_turns, num_bp, true, lvl );
+        }
+    }
+}
+
+void Character::rooted_message() const
+{
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) &&
+        !wearing_shoes ) {
+        add_msg( m_info, _( "You sink your roots into the soil." ) );
+    }
+}
+
+void Character::rooted()
+// Should average a point every two minutes or so; ground isn't uniformly fertile
+{
+    double shoe_factor = footwear_factor();
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
+        if( one_in( 96 ) ) {
+            vitamin_mod( vitamin_id( "iron" ), 1, true );
+            vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        }
+        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+            mod_thirst( -1 );
+        }
+        mod_healthy_mod( 5, 50 );
+    }
+}
+
+bool Character::wearing_something_on( body_part bp ) const
+{
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::is_wearing_shoes( const side &which_side ) const
+{
+    bool left = true;
+    bool right = true;
+    if( which_side == side::LEFT || which_side == side::BOTH ) {
+        left = false;
+        for( const item &worn_item : worn ) {
+            if( worn_item.covers( bp_foot_l ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
+                left = true;
+                break;
+            }
+        }
+    }
+    if( which_side == side::RIGHT || which_side == side::BOTH ) {
+        right = false;
+        for( const item &worn_item : worn ) {
+            if( worn_item.covers( bp_foot_r ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
+                right = true;
+                break;
+            }
+        }
+    }
+    return ( left && right );
+}
+
+double Character::footwear_factor() const
+{
+    double ret = 0;
+    if( wearing_something_on( bp_foot_l ) ) {
+        ret += .5;
+    }
+    if( wearing_something_on( bp_foot_r ) ) {
+        ret += .5;
+    }
+    return ret;
+}
+
+void Character::start_hauling()
+{
+    add_msg( _( "You start hauling items along the ground." ) );
+    if( is_armed() ) {
+        add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
+    }
+    hauling = true;
+}
+
+void Character::stop_hauling()
+{
+    add_msg( _( "You stop hauling items." ) );
+    hauling = false;
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
+        cancel_activity();
+    }
+}
+
+bool Character::is_hauling() const
+{
+    return hauling;
+}
+
+void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
+                                 const std::string &name )
+{
+    assign_activity( player_activity( type, moves, index, pos, name ) );
+}
+
+void Character::assign_activity( const player_activity &act, bool allow_resume )
+{
+    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+        add_msg_if_player( _( "You resume your task." ) );
+        activity = backlog.front();
+        backlog.pop_front();
+    } else {
+        if( activity ) {
+            backlog.push_front( activity );
+        }
+
+        activity = act;
+    }
+
+    if( activity.rooted() ) {
+        rooted_message();
+    }
+    if( is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( this );
+        guy->set_attitude( NPCATT_ACTIVITY );
+        guy->set_mission( NPC_MISSION_ACTIVITY );
+        guy->current_activity_id = activity.id();
+    }
+}
+
+bool Character::has_activity( const activity_id &type ) const
+{
+    return activity.id() == type;
+}
+
+bool Character::has_activity( const std::vector<activity_id> &types ) const
+{
+    return std::find( types.begin(), types.end(), activity.id() ) != types.end();
+}
+
+void Character::cancel_activity()
+{
+    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
+        stop_hauling();
+    }
+    if( has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ) {
+        remove_value( "sleep_query" );
+    }
+    // Clear any backlog items that aren't auto-resume.
+    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
+        if( backlog_item->auto_resume ) {
+            backlog_item++;
+        } else {
+            backlog_item = backlog.erase( backlog_item );
+        }
+    }
+    if( activity && activity.is_suspendable() ) {
+        backlog.push_front( activity );
+    }
+    sfx::end_activity_sounds(); // kill activity sounds when canceled
+    activity = player_activity();
+}
+
+void Character::resume_backlog_activity()
+{
+    if( !backlog.empty() && backlog.front().auto_resume ) {
+        activity = backlog.front();
+        backlog.pop_front();
+    }
+}
+
+void Character::fall_asleep()
+{
+    // Communicate to the player that he is using items on the floor
+    std::string item_name = is_snuggling();
+    if( item_name == "many" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
+        } else {
+            add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
+        }
+    } else if( item_name != "nothing" ) {
+        if( one_in( 15 ) ) {
+            add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name );
+        } else {
+            add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
+        }
+    }
+    if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
+        get_kcal_percent() > 0.8f ) {
+        if( is_avatar() ) {
+            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
+                               pgettext( "memorial_female", "Entered hibernation." ) );
+        }
+        // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
+        fall_asleep( 10_days );
+        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+        // will last about 8 days.
+    }
+
+    fall_asleep( 10_hours ); // default max sleep time.
+}
+
+void Character::fall_asleep( const time_duration &duration )
+{
+    if( activity ) {
+        if( activity.id() == "ACT_TRY_SLEEP" ) {
+            activity.set_to_null();
+        } else {
+            cancel_activity();
+        }
+    }
+    add_effect( effect_sleep, duration );
+}
+
+std::string Character::is_snuggling() const
+{
+    auto begin = g->m.i_at( pos() ).begin();
+    auto end = g->m.i_at( pos() ).end();
+
+    if( in_vehicle ) {
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
+                false ) ) {
+            vehicle *const veh = &vp->vehicle();
+            const int cargo = vp->part_index();
+            if( !veh->get_items( cargo ).empty() ) {
+                begin = veh->get_items( cargo ).begin();
+                end = veh->get_items( cargo ).end();
+            }
+        }
+    }
+    const item *floor_armor = nullptr;
+    int ticker = 0;
+
+    // If there are no items on the floor, return nothing
+    if( begin == end ) {
+        return "nothing";
+    }
+
+    for( auto candidate = begin; candidate != end; ++candidate ) {
+        if( !candidate->is_armor() ) {
+            continue;
+        } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
+                   ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
+                     candidate->covers( bp_leg_r ) ) ) {
+            floor_armor = &*candidate;
+            ticker++;
+        }
+    }
+
+    if( ticker == 0 ) {
+        return "nothing";
+    } else if( ticker == 1 ) {
+        return floor_armor->type_name();
+    } else if( ticker > 1 ) {
+        return "many";
+    }
+
+    return "nothing";
+}
+
+bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
+{
+    return has_item_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
+        return it.has_flag( flag );
+    } );
+}
+
+std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
+{
+    return items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+}
+
+bool Character::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const
+{
+    if( it == "fire" || it == "apparatus" ) {
+        return has_fire( quantity );
+    }
+    if( it == "UPS" && is_mounted() &&
+        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
+        auto mons = mounted_creature.get();
+        return quantity <= mons->battery_item->ammo_remaining();
+    }
+    return charges_of( it, quantity, filter ) == quantity;
+}
+
+bool Character::has_fire( const int quantity ) const
+{
+    // TODO: Replace this with a "tool produces fire" flag.
+
+    if( g->m.has_nearby_fire( pos() ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
+        for( auto &i : firestarters ) {
+            if( has_charges( i->typeId(), quantity ) ) {
+                return true;
+            }
+        }
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+        return true;
+    } else if( is_npc() ) {
+        // A hack to make NPCs use their Molotovs
+        return true;
+    }
+    return false;
 }

@@ -70,9 +70,12 @@ class PngRefs(object):
         # dict of png absolute numbers to png names
         self.pngnum_to_pngname = { 0: "null_image" }
         self.pngnum = 0
+        self.referenced_pngnames = []
         self.tileset_pathname = tileset_dirname
         if not tileset_dirname.startswith("gfx/"):
             self.tileset_pathname = "gfx/" + tileset_dirname
+        if self.tileset_pathname.endswith("/"):
+            self.tileset_pathname = self.tileset_pathname[:-1]
 
         try:
             os.stat(self.tileset_pathname)
@@ -90,6 +93,19 @@ class PngRefs(object):
             self.tileset_width = self.tileset_info[0].get("width")
             self.tileset_height = self.tileset_info[0].get("height")
 
+    def convert_a_pngname_to_pngnum(self, sprite_id, entry):
+        if sprite_id and sprite_id != "no_entry":
+            new_id = self.pngname_to_pngnum.get(sprite_id, 0)
+            if new_id:
+                entry.append(new_id)
+                if sprite_id not in self.referenced_pngnames:
+                    self.referenced_pngnames.append(sprite_id)
+                return True
+            else:
+                print("sprite id '{}' has no matching PNG file.  ".format(sprite_id) +
+                      "It will not be added to tile_config.json")
+        return False
+
     def convert_pngname_to_pngnum(self, index):
         new_index = []
         if isinstance(index, list):
@@ -97,30 +113,22 @@ class PngRefs(object):
                 if isinstance(pngname, dict):
                     sprite_ids = pngname.get("sprite")
                     valid = False
+                    new_sprites = []
                     if isinstance(sprite_ids, list):
                         new_sprites = []
                         for sprite_id in sprite_ids:
-                            if sprite_id != "no_entry":
-                                new_id = self.pngname_to_pngnum.get(sprite_id, 0)
-                                if new_id:
-                                    new_sprites.append(new_id)
-                                    valid = True
+                            valid |= self.convert_a_pngname_to_pngnum(sprite_id, new_sprites)
                         pngname["sprite"] = new_sprites
-                    elif sprite_ids and sprite_ids != "no_entry":
-                        new_id = self.pngname_to_pngnum.get(sprite_ids, 0)
-                        if new_id:
-                            pngname["sprite"] = new_id
-                            valid = True
+                    else:
+                        valid = self.convert_a_pngname_to_pngnum(sprite_ids, new_sprites)
+                        if valid:
+                            pngname["sprite"] = new_sprites[0]
                     if valid:
                         new_index.append(pngname)
-                elif pngname != "no_entry":
-                    new_id = self.pngname_to_pngnum.get(pngname, 0)
-                    if new_id:
-                        new_index.append(new_id)
-        elif index and index != "no_entry":
-            new_id = self.pngname_to_pngnum.get(index, 0)
-            if new_id:
-                new_index.append(new_id)
+                else:
+                    self.convert_a_pngname_to_pngnum(pngname, new_index)
+        else:
+            self.convert_a_pngname_to_pngnum(index, new_index)
         if new_index and len(new_index) == 1:
             return new_index[0]
         return new_index
@@ -162,6 +170,13 @@ class PngRefs(object):
                     self.processed_ids.append(full_id)
             return tile_entry
         return None
+
+    def verify(self):
+        for pngname, pngnum in self.pngname_to_pngnum.items():
+            if pngnum and pngname not in self.referenced_pngnames:
+                print("image filename '{}' index '{}'".format(pngname, pngnum) +
+                      " was not used in any tile_config.json entries")
+
 
 class TilesheetData(object):
     def __init__(self, subdir_index, refs):
@@ -263,7 +278,9 @@ class TilesheetData(object):
                             print("error loading {}".format(filepath))
                             raise
 
-                        self.tile_entries.append(tile_entry)
+                        if not isinstance(tile_entry, list):
+                            tile_entry = [tile_entry]
+                        self.tile_entries += tile_entry
         if self.row_pngs:
             merged = self.merge_row(refs)
             tmp_merged_pngs += merged
@@ -356,3 +373,5 @@ conf_data = {
 }
 tileset_confpath = refs.tileset_pathname + "/" + "tile_config.json"
 write_to_json(tileset_confpath, conf_data)
+
+refs.verify()

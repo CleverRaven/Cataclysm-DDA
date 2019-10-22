@@ -486,6 +486,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             technique_id = tec_none;
         }
 
+        // if you have two broken arms you aren't doing any martial arts
+        // and your hits are not going to hurt very much
+        if( get_working_arm_count() < 1 ) {
+            technique_id = tec_none;
+            d.mult_damage( 0.1 );
+        }
+
         const ma_technique &technique = technique_id.obj();
 
         // Handles effects as well; not done in melee_affect_*
@@ -1394,7 +1401,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     //AOE attacks, feel free to skip over this lump
-    if( technique.aoe.length() > 0 ) {
+    if( !technique.aoe.empty() ) {
         // Remember out moves and stamina
         // We don't want to consume them for every attack!
         const int temp_moves = moves;
