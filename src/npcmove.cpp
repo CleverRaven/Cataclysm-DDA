@@ -98,7 +98,6 @@ const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 
 // active defense CBMs - activate when in danger
 const bionic_id bio_ads( "bio_ads" );
@@ -160,7 +159,6 @@ const std::vector<bionic_id> power_cbms = { {
         bio_furnace,
         bio_metabolics,
         bio_reactor,
-        bio_torsionratchet
     }
 };
 const std::vector<bionic_id> defense_cbms = { {
@@ -1013,8 +1011,11 @@ void npc::execute_action( npc_action action )
 
         case npc_drop_items:
             /* NPCs cant choose this action anymore, but at least it works */
-            drop_items( weight_carried() - weight_capacity(),
-                        volume_carried() - volume_capacity() );
+            drop_invalid_inventory();
+            /* drop_items is still broken
+             * drop_items( weight_carried() - weight_capacity(),
+             *             volume_carried() - volume_capacity() );
+             */
             move_pause();
             break;
 
@@ -1640,13 +1641,10 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-
     for( const bionic_id bid : get_fueled_bionics() ) {
-        for( const itype_id fid : bid->fuel_opts ) {
-            return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
-                    !use_bionic_by_id( bid ) );
-        }
+        return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
+                get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                !use_bionic_by_id( bid ) );
     }
     return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
@@ -1683,10 +1681,9 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    use_bionic_by_id( bio_torsionratchet );
     use_bionic_by_id( bio_metabolics );
 
-    for( bionic_id bid : get_fueled_bionics() ) {
+    for( bionic_id &bid : get_fueled_bionics() ) {
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
@@ -1902,7 +1899,7 @@ npc_action npc::address_player()
 
     if( attitude == NPCATT_MUG && sees( g->u ) ) {
         if( one_in( 3 ) ) {
-            say( _( "Don't move a <swear> muscle..." ) );
+            say( _( "Don't move a <swear> muscle…" ) );
         }
         return npc_mug_player;
     }
@@ -2297,7 +2294,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) ) {
+    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2966,8 +2963,12 @@ struct ratio_index {
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
+/* As of October 2019, this is buggy, do not use!! */
 void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
 {
+    /* Remove this when someone debugs it back to functionality */
+    return;
+
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
              name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
@@ -3862,7 +3863,7 @@ void npc::reach_omt_destination()
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        " 'I've arrived, boss!'" ), disp_name() );
+                                        "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4242,7 +4243,7 @@ bool npc::complain()
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
-        const std::string speech = string_format( _( "My %s wound is infected..." ),
+        const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
         if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
@@ -4271,7 +4272,7 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( radiation > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
-        std::string speech = _( "I'm suffering from radiation sickness..." );
+        std::string speech = _( "I'm suffering from radiation sickness…" );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }
@@ -4370,4 +4371,9 @@ bool npc::adjust_worn()
     }
 
     return false;
+}
+
+void npc::set_movement_mode( character_movemode new_mode )
+{
+    move_mode = new_mode;
 }

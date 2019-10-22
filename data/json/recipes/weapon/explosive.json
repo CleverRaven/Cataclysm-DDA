@@ -163,7 +163,7 @@
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "fungicide", 50 ] ],
-      [ [ "chem_sulphur", 10 ] ],
+      [ [ "chem_sulphur", 150 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]

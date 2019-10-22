@@ -53,6 +53,7 @@
     "items": [
       [ "adderall", 100 ],
       [ "antibiotics", 100 ],
+      [ "strong_antibiotic", 45 ],
       [ "antifungal", 100 ],
       [ "antiparasitic", 100 ],
       [ "diazepam", 100 ],

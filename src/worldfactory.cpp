@@ -925,7 +925,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 if( num_lines > window_height ) {
                     // The description didn't fit in the window, so provide a
                     // hint for how to see the whole thing
-                    std::string message = string_format( _( "... %s = View full description " ),
+                    std::string message = string_format( _( "…%s = View full description " ),
                                                          ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                     nc_color color = c_green;
                     print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
@@ -1156,7 +1156,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                            _( "________NO NAME ENTERED!________" ) );
                 noname = true;
                 wrefresh( w_confirmation );
-                if( !query_yn( _( "Are you SURE you're finished? World name will be randomly generated." ) ) ) {
+                if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
                     werase( w_confirmation );
                     continue;
                 } else {
@@ -1273,7 +1273,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
 
     // Add tips & hints
     fold_and_print( win, point( 2, FULL_SCREEN_HEIGHT - 7 ), getmaxx( win ) - 4, c_green,
-                    _( "%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option. %s/%s = Prev/Next Tab." ),
+                    _( "%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option.  %s/%s = Prev/Next Tab." ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
                     ctxtp.get_desc( "HELP_KEYBINDINGS" ),
                     ctxtp.get_desc( "PREV_CATEGORY_TAB" ),

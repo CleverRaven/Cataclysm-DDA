@@ -23,6 +23,7 @@ void json_flag::load( JsonObject &jo )
     jo.read( "info", f.info_ );
     jo.read( "conflicts", f.conflicts_ );
     jo.read( "inherit", f.inherit_ );
+    jo.read( "craft_inherit", f.craft_inherit_ );
 }
 
 void json_flag::check_consistency()

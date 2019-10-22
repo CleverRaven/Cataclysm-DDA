@@ -298,6 +298,7 @@
       "baton-extended",
       "bee_sting",
       "bowling_pin",
+      "butterfly_swords",
       "cane",
       "copper_knife",
       "cudgel",
@@ -579,6 +580,7 @@
     ],
     "weapons": [
       "baton-extended",
+      "butterfly_swords",
       "copper_knife",
       "cudgel",
       "diveknife",
@@ -870,6 +872,7 @@
       "broadsword_fake",
       "broadfire_off",
       "broadfire_on",
+      "butterfly_swords",
       "cavalry_sabre",
       "cavalry_sabre_fake",
       "copper_knife",
@@ -1100,6 +1103,7 @@
     "weapons": [
       "baton-extended",
       "bowling_pin",
+      "butterfly_swords",
       "cudgel",
       "diveknife",
       "firemachete_off",
@@ -1199,47 +1203,180 @@
   },
   {
     "type": "martial_art",
-    "id": "style_tai_chi",
-    "name": "Tai Chi",
-    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
-    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
-    "learn_difficulty": 4,
-    "arm_block": 1,
-    "leg_block": 99,
+    "id": "style_sojutsu",
+    "name": "Sōjutsu",
+    "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.  Standing still gives you an extra block attempt but moving will briefly increase your damage.",
+    "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
+    "learn_difficulty": 7,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
     "static_buffs": [
       {
-        "id": "tai_chi_block",
-        "name": "Tai Chi",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "block", "per", 1.0 ] ],
-        "description": "+1 Block.  Perception decreases damage when blocking.",
+        "id": "buff_sojutsu_static",
+        "name": "Sōjutsu Stance",
+        "description": "Your training grants better defense while using a polearm.\n\n+1 Block attempt.",
+        "min_melee": 0,
+        "melee_allowed": true,
         "bonus_blocks": 1
       }
     ],
-    "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
+    "onmove_buffs": [
+      {
+        "id": "buff_sojutsu_onmove",
+        "name": "Superior Positioning",
+        "description": "You have given up your defenses for a moment to increase the damage of your attacks.\n\n+10%% damage, -1 Block attempts.\nLasts 1 turn.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "bonus_blocks": -1,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "techniques": [ "tec_sojutsu_push", "tec_sojutsu_shove", "tec_sojutsu_trip" ],
+    "weapons": [
+      "glaive",
+      "halberd",
+      "halberd_fake",
+      "ji",
+      "naginata",
+      "naginata_inferior",
+      "naginata_fake",
+      "long_pole",
+      "makeshift_halberd",
+      "pike",
+      "pike_inferior",
+      "pike_fake",
+      "pitchfork",
+      "qiang",
+      "spear_copper",
+      "spear_dory",
+      "spear_forked",
+      "spear_homemade_halfpike",
+      "spear_pipe",
+      "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
+      "spear_rebar",
+      "spear_steel",
+      "spear_survivor",
+      "spear_wood"
+    ]
   },
   {
     "type": "martial_art",
     "id": "style_taekwondo",
     "name": "Taekwondo",
-    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
     "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
-    "arm_block": 2,
+    "arm_block": 1,
     "leg_block": 3,
     "force_unarmed": true,
     "static_buffs": [
       {
-        "id": "taekwondo_static",
-        "name": "Taekwondo",
+        "id": "buff_taekwondo_static",
+        "name": "Taekwondo Stance",
+        "description": "Using your legs to attack allows your hands to be free for better defense.\n\nBlocked damage decreased by 50%% of Strength.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
-        "description": "Strength decreases damage when blocking."
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      },
+      {
+        "id": "buff_taekwondo_static2",
+        "name": "Unhindered",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "strictly_unarmed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],
-    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+    "techniques": [ "tec_taekwondo_disarm", "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tai_chi",
+    "name": "Tai Chi",
+    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
+    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 0,
+    "static_buffs": [
+      {
+        "id": "buff_tai_chi_static",
+        "name": "Tai Chi Stance",
+        "description": "You are focused of defense and predicting your opponents attacks.\n\n+1 Block attempts, blocked damage reduced by 100%% Perception.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "block", "per", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_tai_chi_ondodge",
+        "name": "Repulse the Monkey",
+        "description": "By perfectly positioning yourself and your opponent, you have become more accurate and can bypass your opponent's defenses.\n\nAccuracy increased by 20%% of Perception, gain bash Armor Pentration equal to 50%% of Perception.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "arpen", "bash", "per", 0.5 ], [ "hit", "per", 0.2 ] ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_tai_chi_onpause",
+        "name": "Cross Hands",
+        "description": "By taking a moment to prepare yourself, you are able to use your entire body fully for attacking and defending.\n\n+1.0 Dodge skill, blocked damage reduced by 50%% of Perception.\nEnables \"Palm Strike\" and \"Double Palm Strike\" techniques.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "block", "per", 0.5 ], [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_taichi_disarm", "tec_taichi_palm", "tec_taichi_counter", "tec_taichi_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tiger",
+    "name": "Tiger Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
+    "learn_difficulty": 10,
+    "static_buffs": [
+      {
+        "id": "buff_tiger_static",
+        "name": "Tiger's Strength",
+        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\n\nStrength increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Strength but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "str", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_tiger_onhit",
+        "name": "Tiger Fury",
+        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+10%% damage.\nLasts 3 turns.  Stacks 4 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "max_stacks": 4,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_tiger_oncrit",
+        "name": "Tiger Rampage",
+        "description": "Your opponent's lose is your gain.  Your next attack will break through your opponent's guard.\n\nGain Armor Penetration equal to 50%% of Strength.\nLasts 1 turns.  Stacks 2 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "arpen", "bash", "str", 0.5 ], [ "arpen", "cut", "str", 0.5 ], [ "arpen", "stab", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_tiger_palm", "tec_tiger_takedown" ]
   },
   {
     "type": "martial_art",
@@ -1280,38 +1417,6 @@
       }
     ],
     "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_tiger",
-    "name": "Tiger Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
-    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "tiger_static",
-        "name": "Tiger Strength",
-        "description": "Strength provides additional damage bonus.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "str", 0.8 ] ]
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "tiger_hit_buff",
-        "name": "Tiger Fury",
-        "description": "+3 Bash/atk",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 3,
-        "max_stacks": 8,
-        "flat_bonuses": [ [ "damage", "bash", 3.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_tiger_grab" ]
   },
   {
     "type": "martial_art",
@@ -1371,66 +1476,6 @@
       }
     ],
     "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_sojutsu",
-    "name": "Sōjutsu",
-    "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
-    "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
-    "learn_difficulty": 7,
-    "primary_skill": "stabbing",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "sojutsu_static",
-        "name": "Sōjutsu Stance",
-        "description": "Bonus block with reach weapons while standing still",
-        "unarmed_allowed": false,
-        "bonus_blocks": 1
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "sojutsu_damage_buff",
-        "name": "Sōjutsu Rush",
-        "description": "Increased damage when moving but no bonus block",
-        "unarmed_allowed": false,
-        "min_melee": 0,
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "bonus_blocks": -1,
-        "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
-      }
-    ],
-    "techniques": [ "tec_sojutsu_push", "tec_sojutsu_trip", "tec_sojutsu_skewer" ],
-    "weapons": [
-      "glaive",
-      "halberd",
-      "halberd_fake",
-      "naginata",
-      "naginata_inferior",
-      "naginata_fake",
-      "makeshift_halberd",
-      "pike",
-      "pike_inferior",
-      "pike_fake",
-      "pitchfork",
-      "qiang",
-      "spear_copper",
-      "spear_forked",
-      "spear_homemade_halfpike",
-      "spear_pipe",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_steel",
-      "spear_survivor",
-      "spear_wood"
-    ]
   },
   {
     "type": "martial_art",

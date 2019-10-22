@@ -50,11 +50,11 @@ struct pathfinding_settings;
 struct trap;
 
 enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+    MS_TINY = 1,    // Squirrel
+    MS_SMALL = 2,      // Dog
+    MS_MEDIUM = 3,    // Human
+    MS_LARGE = 4,    // Cow
+    MS_HUGE = 5    // TAAAANK
 };
 
 enum FacingDirection {
@@ -180,7 +180,7 @@ class Creature
          */
         /*@{*/
         virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const;
+        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
         /*@}*/
 
         /**
@@ -342,7 +342,7 @@ class Creature
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
@@ -745,7 +745,6 @@ class Creature
 
         int armor_bash_bonus;
         int armor_cut_bonus;
-
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;

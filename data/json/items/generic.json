@@ -99,6 +99,28 @@
   },
   {
     "type": "GENERIC",
+    "id": "log_immersion27",
+    "copy-from": "file",
+    "name": "INCIDENT REPORT: IMMERSION-27A",
+    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner.  It seems to be an internal report of some kind.",
+    "snippet_category": "log_immersion27"
+  },
+  {
+    "type": "GENERIC",
+    "id": "report_t_substrate",
+    "copy-from": "log_immersion27",
+    "name": "MATERIAL: T-SUBSTRATE",
+    "snippet_category": "t-substrate"
+  },
+  {
+    "type": "GENERIC",
+    "id": "HAADF_t_substrate",
+    "copy-from": "log_immersion27",
+    "name": "HAADF MICROGRAPH: T-SUBSTRATE",
+    "snippet_category": "HAADF_t-substrate"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -333,6 +355,21 @@
     "material": "wool",
     "symbol": ",",
     "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "sample_t_substrate",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "t-substrate sample",
+    "description": "An acrylic cube cast around a small black crystal.  It's tepid to the touch.",
+    "price": 0,
+    "material": "stone",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -697,7 +734,7 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": "iron",
-    "weight": "3220 g",
+    "weight": "3000 g",
     "volume": "750 ml"
   },
   {
@@ -1473,8 +1510,8 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "110 g",
-    "volume": "250 ml"
+    "weight": "125 g",
+    "volume": "25 ml"
   },
   {
     "type": "GENERIC",
@@ -2238,6 +2275,7 @@
     "name": "cigar butt",
     "color": "dark_gray",
     "symbol": "!",
+    "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2271,6 +2309,7 @@
     "symbol": "!",
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2303,6 +2342,7 @@
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {

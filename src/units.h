@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "json.h"
+#include "translations.h"
 
 namespace units
 {
@@ -374,13 +375,22 @@ inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
 {
-    return from_millijoule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // Check for overflow - if the energy provided is greater than max energy, then it
+    // if overflow when converted to millijoules
+    const value_type energy = v > max_energy_joules ? max_energy_joules : v;
+    return from_millijoule<value_type>( energy * 1000 );
 }
 
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
 {
-    return from_joule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // This checks for value_type overflow - if the energy we are given in Joules is greater
+    // than the max energy in Joules, overflow will occur when it is converted to millijoules
+    // The value we are given is in kJ, multiply by 1000 to convert it to joules, for use in from_joule
+    value_type energy = v * 1000 > max_energy_joules ? max_energy_joules : v * 1000;
+    return from_joule<value_type>( energy );
 }
 
 template<typename value_type>
@@ -477,6 +487,20 @@ template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
+}
+
+inline std::string display( const units::energy v )
+{
+    const int kj = units::to_kilojoule( v );
+    const int j = units::to_joule( v );
+    if( kj >= 1 && float( j ) / kj == 1000 ) { // at least 1 kJ and there is no fraction
+        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+    }
+    const int mj = units::to_millijoule( v );
+    if( j >= 1 && float( mj ) / j  == 1000 ) { // at least 1 J and there is no fraction
+        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+    }
+    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
