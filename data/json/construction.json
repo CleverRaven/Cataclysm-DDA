@@ -77,6 +77,36 @@
   },
   {
     "type": "construction",
+    "description": "Build Vertical Monorail Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ], [ { "id": "WELD", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "spike", 2 ] ] ],
+    "post_terrain": "t_railroad_track_v"
+  },
+  {
+    "type": "construction",
+    "description": "Build Horizontal Monorail Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ], [ { "id": "WELD", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "spike", 2 ] ] ],
+    "post_terrain": "t_railroad_track_v"
+  },
+  {
+    "type": "construction",
+    "description": "Build Diagonal Monorail Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 1 } ], [ { "id": "WELD", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "spike", 2 ] ] ],
+    "post_terrain": "t_railroad_track_v"
+  },
+  {
+    "type": "construction",
     "description": "Build Door Curtain",
     "//": "Door frame not required",
     "category": "CONSTRUCT",
