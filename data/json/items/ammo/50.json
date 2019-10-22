@@ -13,7 +13,7 @@
     "id": "50bmg",
     "type": "AMMO",
     "name": ".50 BMG Ball",
-    "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+    "description": "The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": "114 g",
     "volume": "250 ml",
     "price": 2200,
@@ -43,11 +43,15 @@
   },
   {
     "id": "50_mk211",
-    "copy-from": "50ss",
+    "copy-from": "50bmg",
     "type": "AMMO",
     "name": ".50 BMG Raufoss Mk 211",
-    "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge which surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
-    "effects": [ "INCENDIARY", "EXPLOSIVE_SMALL" ],
+    "price": 60000,
+    "price_postapoc": 120000,
+    "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge that surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
+    "effects": [ "INCENDIARY", "EXPLOSIVE_RAUFOSS" ],
+    "//": "mk 211 is estimated to be as effective as 20mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",
+    "relative": { "damage": 50, "pierce": 20 },
     "proportional": { "dispersion": 0.75 }
   },
   {
@@ -65,7 +69,7 @@
     "copy-from": "50bmg",
     "type": "AMMO",
     "name": "reloaded .50 BMG Ball",
-    "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.  This one has been hand-reloaded.",
+    "description": "The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
