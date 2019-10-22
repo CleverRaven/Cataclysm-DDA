@@ -49,7 +49,9 @@ void TextStyleCheck::registerMatchers( MatchFinder *Finder )
                         )
                     )
                 )
-            )
+            ),
+            // __func__, etc
+            unless( hasAncestor( predefinedExpr() ) )
         ).bind( "str" ),
         this
     );
@@ -63,10 +65,13 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
     }
     const StringLiteral &text = *str;
 
-    // ignore macro expansions
+    const SourceManager &SrcMgr = *Result.SourceManager;
     for( size_t i = 0; i < text.getNumConcatenated(); ++i ) {
         const SourceLocation &loc = text.getStrTokenLoc( i );
-        if( loc.isInvalid() || loc.isMacroID() ) {
+        if( loc.isInvalid() ) {
+            return;
+        } else if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc(
+                                  loc ) ).getFilename() ).equals( "<scratch space>" ) ) {
             return;
         }
     }
@@ -76,12 +81,11 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
         return;
     }
 
-    const SourceManager &SrcMgr = *Result.SourceManager;
     // disable fix-its for utf8 strings to avoid removing the u8 prefix
     bool fixit = text.isAscii();
     for( size_t i = 0; fixit && i < text.getNumConcatenated(); ++i ) {
         const SourceLocation &loc = text.getStrTokenLoc( i );
-        if( SrcMgr.getCharacterData( loc )[0] == 'R' ) {
+        if( !loc.isMacroID() && SrcMgr.getCharacterData( loc )[0] == 'R' ) {
             // disable fix-its for raw strings to avoid removing the R prefix
             fixit = false;
         }
@@ -91,7 +95,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
     const TargetInfo &Info = Result.Context->getTargetInfo();
     const auto location = [&SrcMgr, &LangOpts, &Info]
     ( const StringLiteralIterator & it ) -> SourceLocation {
-        return it.toSourceLocation( SrcMgr, LangOpts, Info );
+        return SrcMgr.getSpellingLoc( it.toSourceLocation( SrcMgr, LangOpts, Info ) );
     };
 
     struct punctuation {
@@ -177,12 +181,12 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             continue;
         }
         if( punc->replace.yes ) {
-            const CharSourceRange range = CharSourceRange::getCharRange(
-                                              location( itpunc ), location( it ) );
             const std::string &replace = EscapeUnicode ? punc->replace.escaped : punc->replace.str;
             auto diags = diag( location( itpunc ), "%0 preferred over %1." )
                          << punc->replace.replace_desc << punc->replace.sym_desc;
             if( fixit ) {
+                const CharSourceRange range = CharSourceRange::getCharRange(
+                                                  location( itpunc ), location( it ) );
                 diags << FixItHint::CreateReplacement( range, replace );
             }
         }
@@ -196,10 +200,10 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
                 }
             }
             if( spacesbefore > 0 && spacesbefore <= punc->spaces.fix_before_max ) {
-                const CharSourceRange range = CharSourceRange::getCharRange(
-                                                  location( itspacebefore ), location( itpunc ) );
                 auto diags = diag( location( itpunc ), "unnecessary spaces before this location." );
                 if( fixit ) {
+                    const CharSourceRange range = CharSourceRange::getCharRange(
+                                                      location( itspacebefore ), location( itpunc ) );
                     diags << FixItHint::CreateRemoval( range );
                 }
             }
@@ -219,37 +223,37 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             if( after_word && itspaceend >= end ) {
                 // treat spaces at the end of strings in concat expressions (+, += or <<) as deliberate
                 if( !in_concat_expr && spacelen > 0 && spacelen <= punc->spaces.fix_end_max ) {
-                    const CharSourceRange range = CharSourceRange::getCharRange(
-                                                      location( it ), location( itspaceend ) );
                     auto diags = diag( location( it ), "unnecessary spaces at end of string." );
                     if( fixit ) {
+                        const CharSourceRange range = CharSourceRange::getCharRange(
+                                                          location( it ), location( itspaceend ) );
                         diags << FixItHint::CreateRemoval( range );
                     }
                 }
             } else if( after_word && *itspaceend == U'\n' ) {
                 if( spacelen > 0 && spacelen <= punc->spaces.fix_line_end_max ) {
-                    const CharSourceRange range = CharSourceRange::getCharRange(
-                                                      location( it ), location( itspaceend ) );
                     auto diags = diag( location( it ), "unnecessary spaces at end of line." );
                     if( fixit ) {
+                        const CharSourceRange range = CharSourceRange::getCharRange(
+                                                          location( it ), location( itspaceend ) );
                         diags << FixItHint::CreateRemoval( range );
                     }
                 }
             } else if( itpunc <= beg ) {
                 if( spacelen > 0 && spacelen <= punc->spaces.fix_line_start_max ) {
-                    const CharSourceRange range = CharSourceRange::getCharRange(
-                                                      location( it ), location( itspaceend ) );
                     auto diags = diag( location( it ), "undesired spaces after a punctuation that starts a string." );
                     if( fixit ) {
+                        const CharSourceRange range = CharSourceRange::getCharRange(
+                                                          location( it ), location( itspaceend ) );
                         diags << FixItHint::CreateRemoval( range );
                     }
                 }
             } else if( itpunc > beg && *( itpunc - 1 ) == U'\n' ) {
                 if( spacelen > 0 && spacelen <= punc->spaces.fix_start_max ) {
-                    const CharSourceRange range = CharSourceRange::getCharRange(
-                                                      location( it ), location( itspaceend ) );
                     auto diags = diag( location( it ), "undesired spaces after a punctuation that starts a line." );
                     if( fixit ) {
+                        const CharSourceRange range = CharSourceRange::getCharRange(
+                                                          location( it ), location( itspaceend ) );
                         diags << FixItHint::CreateRemoval( range );
                     }
                 }
@@ -266,14 +270,14 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
                     }
                 } else if( spacelen > punc->spaces.fix_spaces_to &&
                            spacelen <= punc->spaces.fix_spaces_max ) {
-                    const CharSourceRange range = CharSourceRange::getCharRange(
-                                                      location( itspaceend - ( spacelen - punc->spaces.fix_spaces_to ) ),
-                                                      location( itspaceend ) );
                     auto diags = diag( location( it ),
                                        "excessive spaces at this location.  %0 required, but %1 found." )
                                  << static_cast<unsigned int>( punc->spaces.fix_spaces_to )
                                  << static_cast<unsigned int>( spacelen );
                     if( fixit ) {
+                        const CharSourceRange range = CharSourceRange::getCharRange(
+                                                          location( itspaceend - ( spacelen - punc->spaces.fix_spaces_to ) ),
+                                                          location( itspaceend ) );
                         diags << FixItHint::CreateRemoval( range );
                     }
                 }
