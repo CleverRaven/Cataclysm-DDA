@@ -23,17 +23,17 @@
       {
         "id": "buff_crt_enforcement_static",
         "name": "C.R.I.T Guard",
-        "description": "Only with strength can the right the wrongs of the world.\n\nBlocked damage reduced by 50%% of Strength, Accuracy increased by 20%% of Strength.",
+        "description": "It is only with strength that we can carry the burden of world.\n\nBlocked damage reduced by 30%% of Strength, Accuracy increased by 25%% of Strength.",
         "min_melee": 0,
         "melee_allowed": true,
-        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "hit", "str", 0.2 ] ]
+        "flat_bonuses": [ [ "block", "str", 0.3 ], [ "hit", "str", 0.25 ] ]
       }
     ],
     "onblock_buffs": [
       {
         "id": "buff_crt_enforcement_onblock",
-        "name": "C.R.I.T Defender",
-        "description": "When the going gets tough, you get tougher.\n\nGain Armor equal to 50%% of Strength.\nLasts 3 turns.",
+        "name": "C.R.I.T Bulwark",
+        "description": "YOur brothers in arms might not be here, but you will stand in their steed.\n\nGain Armor equal to 50%% of Strength.\nLasts 3 turns.",
         "min_melee": 2,
         "melee_allowed": true,
         "buff_duration": 3,
@@ -55,6 +55,7 @@
     "techniques": [ "tec_crt_enforcement_knockdown", "tec_crt_enforcement_stun", "tec_crt_enforcement_wide" ],
     "weapons": [
       "crt_nstick",
+      "crt_hatchet",
       "crt_knuckledusters",
       "baton-extended",
       "cudgel",
