@@ -3851,7 +3851,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             legacy_computer->load_data( computer_data );
         }
     } else if( member_name == "camp" ) {
-        camp.reset( new basecamp() );
+        camp = std::make_unique<basecamp>();
         jsin.read( *camp );
     } else {
         jsin.skip_value();
