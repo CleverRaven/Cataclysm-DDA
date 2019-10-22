@@ -14,13 +14,13 @@ More techniques, more play styles. Tries to open up melee and offer more than "d
 
 # For those curious about stat scaling:
 
-* SS-Rank is for stupid high scaling
-* S-Rank is anything 2.0 down to 1.0
-* A-Rank is from 0.99 down to .75
-* B-Rank is .74 down to .5
-* C-Rank is .49 down to .25
-* D-Rank is .24 to .20
-* E-Rank is .19 and below
+* SS-Rank is for stupid high scaling (legendary scaling)
+* S-Rank is anything 2.0 down to 1.0 (dramatically scales)
+* A-Rank is from 0.99 down to .75 (noticeably scales)
+* B-Rank is .74 down to .5 (averagely scales)
+* C-Rank is .49 down to .25 (somewhat scales)
+* D-Rank is .24 to .20 (barely scales)
+* E-Rank is .19 and below (offers scaling as an afterthought)
 
 I tried to keep the damage balanced and also added scaling damage and movecosts to make it so certain attacks or weapons carry different risks.
 
