@@ -16,14 +16,14 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>|| </color>bookplate" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>|| </color>ankle sheath" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
             }
         }
 
@@ -39,7 +39,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
             }
 
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>|| </color>tunic (too small)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (too small)" );
             }
         }
 
@@ -52,14 +52,14 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>|| </color>bookplate (too small)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too small)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>|| </color>ankle sheath" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
             }
         }
 
@@ -75,7 +75,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
             }
 
             THEN( "the item name says its tiny" ) {
-                CHECK( name == "<color_c_light_green>|| </color>tunic (tiny!)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (tiny!)" );
             }
         }
 
@@ -88,14 +88,14 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too big" ) {
-                CHECK( name == "<color_c_light_green>|| </color>bookplate (too big)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too big)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>|| </color>ankle sheath (huge!)" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath (huge!)" );
             }
         }
 
@@ -111,7 +111,7 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
             }
 
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>|| </color>tunic" );
+                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic" );
             }
         }
 

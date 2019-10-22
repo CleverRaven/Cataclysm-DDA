@@ -113,9 +113,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.movement_mode_is( PMM_WALK ) ) {
+    if( you.movement_mode_is( CMM_WALK ) ) {
         you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( you.movement_mode_is( CMM_CROUCH ) ) {
         you.increase_activity_level( MODERATE_EXERCISE );
     } else {
         you.increase_activity_level( ACTIVE_EXERCISE );
@@ -207,7 +207,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
         }
         if( newdist > curdist ) {
-            add_msg( m_info, _( "You cannot pull yourself away from the faultline..." ) );
+            add_msg( m_info, _( "You cannot pull yourself away from the faultline…" ) );
             return false;
         }
     }
@@ -238,7 +238,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
             if( you.has_destination() ) {
-                add_msg( m_warning, _( "Monster in the way. Auto-move canceled." ) );
+                add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
                 add_msg( m_info, _( "Click directly on monster to attack." ) );
                 you.clear_destination();
                 return false;
@@ -251,7 +251,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                     add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
                 } else {
                     you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
                     return false;
                 }
             }
@@ -352,7 +352,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( PMM_WALK )
+        && you.movement_mode_is( CMM_WALK )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -503,7 +503,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     if( you.oxygen <= 5 && you.is_underwater() ) {
         if( movecost < 500 ) {
-            popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
+            popup( _( "You need to breathe!  (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
         } else {
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
@@ -561,7 +561,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     int reach = you.weapon.reach_range( you );
     auto critters = you.get_hostile_creatures( reach );
     if( critters.empty() ) {
-        add_msg( m_info, _( "No hostile creature in reach. Waiting a turn." ) );
+        add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
             you.pause();
         }
@@ -596,7 +596,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
+            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
             // break a possible loop when aiming
             if( you.activity ) {
                 you.cancel_activity();
@@ -684,7 +684,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg( m_info,
-                         _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
+                         _( "You must stand near acceptable terrain or furniture to use this weapon.  A table, a mound of dirt, a broken window, etc." ) );
                 return false;
             }
         }
@@ -877,7 +877,7 @@ void avatar_action::plthrow( avatar &you, int pos,
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
             return;
         }
     }

@@ -1,0 +1,1456 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "LEEL",
+        " EE ",
+        "y   ",
+        "O   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_E",
+    "//": "compass direction indicates head of bed",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "O  L",
+        "  EE",
+        "  EE",
+        "a  L"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_W",
+    "//": "compass direction indicates head of bed",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "L   ",
+        "EE O",
+        "EE y",
+        "L   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bedroom_4x4_adult_1_S",
+    "//": "compass direction indicates head of bed",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " aO ",
+        "    ",
+        " EE ",
+        "LEEL"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "EL  ",
+        "E  I",
+        "y BI",
+        "O   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_W",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "EE  ",
+        "L  I",
+        "  BI",
+        "Oa  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_E",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "II  ",
+        "B  L",
+        "y EE",
+        "O   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_4x4_adult_2_S",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "IIy ",
+        "B  O",
+        " E  ",
+        "LE  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_N_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " LEEL",
+        "  EE ",
+        "y    ",
+        "IB   ",
+        "I  OO"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_S_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  II ",
+        "O B  ",
+        "O   y",
+        " EE  ",
+        "LEEL "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_W_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "L    ",
+        "EE  I",
+        "EE BI",
+        "L    ",
+        "OOy  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_E_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "O   L",
+        "O  EE",
+        "B  EE",
+        "II  L"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_N_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  EL ",
+        "O E y",
+        "    C",
+        " B  a",
+        " II  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_S_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "IB  y",
+        "I   C",
+        "  E a",
+        "O EL "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_E_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "EE  I",
+        "L  AI",
+        "y   R",
+        "OCy  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed",
+    "nested_mapgen_id": "bedroom_5x5_adult_W_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  OO ",
+        "IB  L",
+        "I  EE",
+        "y   R",
+        "RCa  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [
+          { "item": "victoria_shop", "chance": 40 },
+          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 20 }
+        ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "I": { "item": "bedroom", "chance": 40, "repeat": [ 1, 2 ] },
+        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_5x5_E_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y    ",
+        " BBB ",
+        " LLL ",
+        " BBB ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_5x5_N_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " BLB ",
+        " BLB ",
+        " BLB ",
+        "y    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_N_S_1A",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "  BLB ",
+        "I BLB ",
+        "I BLB ",
+        "y BLB ",
+        "      "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_N_S_1B",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        " BLB a",
+        " BLB I",
+        " BLB I",
+        " BLB y",
+        "      "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_E_W_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " yIIy ",
+        "      ",
+        " BBBB ",
+        " LLLL ",
+        " BBBB ",
+        "      "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_E_W_2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y     ",
+        " BBBB ",
+        " LLLL ",
+        " LLLL ",
+        " BBBB ",
+        "      "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_N_S_2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y     ",
+        " BLLB ",
+        " BLLB ",
+        " BLLB ",
+        " BLLB ",
+        "      "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_N_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y@@@L",
+        "     ",
+        " LLL ",
+        "     ",
+        "aCLC "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_S_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " CLCa",
+        "     ",
+        " LLL ",
+        "     ",
+        "y@@@L"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_E_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "a   L",
+        "C L @",
+        "L L @",
+        "C L @",
+        "    y"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_W_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y   a",
+        "@ L C",
+        "@ L L",
+        "@ L C",
+        "L   y"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "bookcases and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_1",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "RR",
+        "C "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "R": [ { "item": "homebooks", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "bookcase and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "C ",
+        "R "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "R": [ { "item": "homebooks", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "bookcase and chair for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_3",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " C",
+        "HR"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "R": [ { "item": "homebooks", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "filing cabinets, shredder for workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_4_N",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "SS",
+        "  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "S": [ { "item": "office_paper", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "filing cabinets, shredder for workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_4_S",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ",
+        "SS"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "S": [ { "item": "office_paper", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "filing cabinets, shredder for workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_4_W",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "S ",
+        "S "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "S": [ { "item": "office_paper", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "filing cabinets, shredder for workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_2x2_4_E",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " S",
+        " S"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "S": [ { "item": "office_paper", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "bookcases and chair for for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "R H",
+        "RC ",
+        "R  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "R": [ { "item": "homebooks", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "III",
+        " B ",
+        "y  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "I  ",
+        "IB ",
+        "I y"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_4",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "III",
+        "B  ",
+        "  y"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_5",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@@@",
+        "   ",
+        "CLL"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_S_5",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " LL",
+        "   ",
+        "@@@"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_E_5",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "T @",
+        "T @",
+        "C @"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_N_6",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "NNN",
+        " A ",
+        "   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "N": [ { "item": "home_hw", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_E_6",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  N",
+        " AN",
+        "  N"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "N": [ { "item": "home_hw", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_S_6",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        " A ",
+        "NNN"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "N": [ { "item": "home_hw", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_W_6",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "N  ",
+        "NA ",
+        "N  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "N": [ { "item": "home_hw", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_N_8",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "III",
+        " B ",
+        "   "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "office", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_E_8",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  I",
+        " BI",
+        "  I"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "office", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_S_8",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        " B ",
+        "III"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "office", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_W_8",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "I  ",
+        "IB ",
+        "I  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "I": [ { "item": "office", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_S_7",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        " E ",
+        "LEL"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "E": [ { "item": "bed", "chance": 30 } ], "L": [ { "item": "bedroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_E_7",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "L  ",
+        "EEy"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "E": [ { "item": "bed", "chance": 30 } ], "L": [ { "item": "bedroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "greenhouse_6x6_herbal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  s   ",
+        "BBCBB ",
+        "D4R4Dc",
+        "B5R2Bc",
+        "D2R3Dc",
+        "BBCBB "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { "s": "t_concrete" },
+      "place_items": [
+        { "item": "farming_tools", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "flower_pots", "x": 5, "y": [ 2, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "greenhouse_6x6_vegetable",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  s   ",
+        "BBCBB ",
+        "D6R6Dc",
+        "B7R7Bc",
+        "D9R8Dc",
+        "BBCBB "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { "s": "t_concrete" },
+      "place_items": [
+        { "item": "farming_tools", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "flower_pots", "x": 5, "y": [ 2, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_junk",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||++||",
+        "|O  Q|",
+        "|z  Q|",
+        "|zzSQ|",
+        "|SzzQ|",
+        "||||||"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "terrain": {
+        "|": "t_wall_metal",
+        "+": "t_door_metal_pickable",
+        " ": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "Q": "t_thconc_floor",
+        "O": "t_thconc_floor"
+      },
+      "place_items": [
+        { "item": "home_hw", "x": 4, "y": [ 1, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "allclothes", "x": 1, "y": 1, "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "x": 1, "y": [ 2, 3 ], "chance": 55, "repeat": [ 1, 4 ] },
+        { "item": "bedroom", "x": 2, "y": [ 3, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_woodworker",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||++||",
+        "|GF A|",
+        "|G  C|",
+        "|G FD|",
+        "|GEEB|",
+        "||oo||"
+      ],
+      "terrain": {
+        "|": "t_wall_wood",
+        "+": "t_door_locked",
+        "o": "t_curtains",
+        " ": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "E": "t_thconc_floor",
+        "F": "t_thconc_floor",
+        "G": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": [ "f_drill_press", "f_planer" ],
+        "B": [ "f_jointer", "f_router", "f_mitresaw" ],
+        "C": "f_tablesaw",
+        "D": "f_bandsaw",
+        "E": "f_workbench",
+        "F": "f_stool",
+        "G": "f_rack_wood"
+      },
+      "place_items": [
+        { "item": "home_hw", "x": [ 1, 3 ], "y": 4, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "wood_workshop", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "pond_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    N ",
+        "  Kk  ",
+        "kKkKK ",
+        "NKKK  ",
+        "  Kcc ",
+        "   cZ "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "playset_4x4_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "GG c",
+        "GG c",
+        "  II",
+        "N II"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "playset_4x4_2",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H   ",
+        "H  I",
+        "G  I",
+        " ccI"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "firepit_5x5_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ccc ",
+        "     ",
+        "  i  ",
+        "     ",
+        " ccc "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [ { "item": "stash_wood", "x": 1, "y": 2, "chance": 100, "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "firepit_5x5_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "S   S",
+        "S i S",
+        "S    ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [ { "item": "stash_wood", "x": 2, "y": 1, "chance": 100, "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "reflecting_pool_5x5_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " MMM ",
+        " fMf ",
+        " MMM ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { " ": "t_concrete", "f": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "reflecting_pool_5x5_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " MMM ",
+        " MZM ",
+        " MMM ",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { " ": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "PPP",
+        "PPP",
+        "PPP"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [
+        { "item": "farming_tools", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "111",
+        "   ",
+        "111"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [
+        { "item": "farming_tools", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "garden_3x3_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "111",
+        "1Z1",
+        "111"
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
+    }
+  }
+]

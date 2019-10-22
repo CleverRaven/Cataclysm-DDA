@@ -6,7 +6,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "time": "80 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ] ]
@@ -106,7 +105,6 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "85 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]

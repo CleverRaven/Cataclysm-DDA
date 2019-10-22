@@ -31,6 +31,8 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
     "multi_activity": true
   },
   {
@@ -488,7 +490,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "trying to start the vehicle",
     "suspendable": false,
-    "rooted": true,
     "based_on": "time"
   },
   {

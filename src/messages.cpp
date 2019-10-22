@@ -175,7 +175,7 @@ class messages_impl
 
         void add_msg_string( std::string &&msg, game_message_type const type,
                              const game_message_flags flags ) {
-            if( msg.length() == 0 || !active ) {
+            if( msg.empty() || !active ) {
                 return;
             }
 
@@ -751,7 +751,7 @@ void Messages::dialog::run()
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
     const auto &help_fmt = _(
-                               "Format is [[TYPE]:]TEXT. The values for TYPE are: %s\n"
+                               "Format is [[TYPE]:]TEXT.  The values for TYPE are: %s\n"
                                "Examples:\n"
                                "  good:mutation\n"
                                "  :you pick up: 1\n"

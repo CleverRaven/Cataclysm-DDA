@@ -570,7 +570,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
-    std::string snd = "Smash!"; // NOTE: Unused!
+    const std::string snd = _( "smash!" );
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
@@ -737,7 +737,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) { // TODO: that is always false!
+            if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
                          name, parts[ ret.part ].name(), ret.target_name, snd );
@@ -1243,7 +1243,7 @@ vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
         stop( false );
         of_turn = 0;
@@ -1431,7 +1431,8 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh ) const
+float map::vehicle_wheel_traction( const vehicle &veh,
+                                   const bool ignore_movement_modifiers /*=false*/ ) const
 {
     if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
@@ -1477,6 +1478,12 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
                 break;
             }
         }
+
+        // Ignore the movement modifier if needed.
+        if( ignore_movement_modifiers ) {
+            move_mod = 2;
+        }
+
         traction_wheel_area += 2.0 * wheel_area / move_mod;
     }
 

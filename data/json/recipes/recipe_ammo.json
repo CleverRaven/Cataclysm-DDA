@@ -846,7 +846,7 @@
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 10 ] ] ]
+    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 150 ] ] ]
   },
   {
     "type": "recipe",
