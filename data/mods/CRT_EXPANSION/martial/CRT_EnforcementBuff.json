@@ -17,7 +17,7 @@
     "type": "martial_art",
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
-    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor penetration and blocking and attack increases your armor based on your Strength.",
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor penetration. On a successful block,  your armor increases based on your Strength.",
     "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "static_buffs": [
       {
@@ -33,11 +33,11 @@
       {
         "id": "buff_crt_enforcement_onblock",
         "name": "C.R.I.T Bulwark",
-        "description": "YOur brothers in arms might not be here, but you will stand in their steed.\n\nGain Armor equal to 50%% of Strength.\nLasts 3 turns.",
+        "description": "Your brothers in arms might have perished, but you will stand steadfast in their steed.\n\nGain Armor equal to 30%% of Strength.\nLasts 3 turns.",
         "min_melee": 2,
         "melee_allowed": true,
         "buff_duration": 3,
-        "flat_bonuses": [ [ "armor", "bash", "str", 0.5 ], [ "armor", "cut", "str", 0.5 ], [ "armor", "stab", "str", 0.5 ] ]
+        "flat_bonuses": [ [ "armor", "bash", "str", 0.3 ], [ "armor", "cut", "str", 0.3 ], [ "armor", "stab", "str", 0.3 ] ]
       }
     ],
     "onhit_buffs": [
