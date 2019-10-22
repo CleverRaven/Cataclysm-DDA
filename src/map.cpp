@@ -2905,7 +2905,22 @@ int map::collapse_check( const tripoint &p )
     const bool collapses = has_flag( "COLLAPSES", p );
     const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
 
-    int num_supports = 0;
+    int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
+    // if there's support below, things are less likely to collapse
+    if( p.z > -OVERMAP_DEPTH ) {
+        const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
+        for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
+            if( has_flag( "SUPPORTS_ROOF", pbelow ) ) {
+                num_supports += 1;
+                if( has_flag( "WALL", pbelow ) ) {
+                    num_supports = 2;
+                }
+                if( tbelow == pbelow ) {
+                    num_supports += 2;
+                }
+            }
+        }
+    }
 
     for( const tripoint &t : points_in_radius( p, 1 ) ) {
         if( p == t ) {
@@ -2919,8 +2934,12 @@ int map::collapse_check( const tripoint &p )
                 num_supports += 2;
             }
         } else if( supports_roof ) {
-            if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
-                num_supports += 3;
+            if( has_flag( "SUPPORTS_ROOF", t ) ) {
+                if( has_flag( "WALL", t ) ) {
+                    num_supports += 4;
+                } else if( !has_flag( "COLLAPSES", t ) ) {
+                    num_supports += 3;
+                }
             }
         }
     }
@@ -2928,25 +2947,43 @@ int map::collapse_check( const tripoint &p )
     return 1.7 * num_supports;
 }
 
-void map::collapse_at( const tripoint &p, const bool silent )
+// there is still some odd behavior here and there and you can get floating chunks of
+// unsupported floor, but this is much better than it used to be
+void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting )
 {
+    const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
+    const bool wall = was_supporting || has_flag( "WALL", p );
     destroy( p, silent );
     crush( p );
     make_rubble( p );
-    for( const tripoint &t : points_in_radius( p, 1, 1 ) ) {
-        if( p == t || ( t.z < p.z && has_flag( "SUPPORTS_ROOF", p ) ) ) {
-            continue;
-        }
-        if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
-            destroy( t, silent );
-            // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-        } else if( t.z > p.z && has_flag( "FLAT", t ) ) {
-            destroy( t );
-        } else if( has_flag( "FLAT", t ) && one_in( 8 ) ) {
-            crush( t );
-            make_rubble( t );
+    const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
+
+    // If something supporting the roof collapsed, see what else collapses
+    if( supports && !still_supports ) {
+        for( const tripoint &t : points_in_radius( p, 1 ) ) {
+            const tripoint &tz = tripoint( t.xy(), t.z + 1 );
+            // if nothing above us had the chance of collapsing, move on
+            if( !one_in( collapse_check( tz ) ) ) {
+                continue;
+            }
+            // if a wall collapses, walls without support from below risk collapsing and
+            //propogate the collapse upwards
+            if( wall && p == t && has_flag( "WALL", tz ) ) {
+                collapse_at( tz, silent );
+            }
+            // floors without support from below risk collapsing into open air and can propogate
+            // the collapse horizontally but not vertically
+            if( p != t && ( has_flag( "SUPPORTS_ROOF", t ) && has_flag( "COLLAPSES", t ) ) ) {
+                collapse_at( t, silent );
+            }
+            // this tile used to support a roof, now it doesn't, which means there is only
+            // open air above us
+            ter_set( tz, t_open_air );
+            furn_set( tz, f_null );
         }
     }
+    // it would be great to check if collapsing ceilings smashed through the floor, but
+    // that's not handled for now
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
@@ -3268,10 +3305,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     soundfxid = "smash_success";
     sound = bash->sound;
     // Set this now in case the ter_set below changes this
-    const bool collapses = smash_ter && has_flag( "COLLAPSES", p );
-    const bool supports = smash_ter && has_flag( "SUPPORTS_ROOF", p );
-
+    const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
+
     // Special code to collapse the tent if destroyed
     if( tent ) {
         // Get ids of possible centers
@@ -3378,20 +3414,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash->explosive, 0.8, false );
     }
 
-    if( collapses ) {
-        collapse_at( p, params.silent );
-    }
-    // Check the flag again to ensure the new terrain doesn't support anything
-    if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        for( const tripoint &t : points_in_radius( p, 1 ) ) {
-            if( p == t || !has_flag( "COLLAPSES", t ) ) {
-                continue;
-            }
-
-            if( one_in( collapse_check( t ) ) ) {
-                collapse_at( t, params.silent );
-            }
-        }
+    if( will_collapse ) {
+        collapse_at( p, params.silent, true );
     }
 
     params.did_bash = true;
@@ -4437,6 +4461,11 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
+            //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
+            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
+                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
+        }
         new_item.active = true;
     }
 
@@ -8032,7 +8061,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent

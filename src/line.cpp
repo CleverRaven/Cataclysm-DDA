@@ -267,6 +267,14 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
+float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist( loc1, loc2 );
+    }
+    return square_dist( loc1, loc2 );
+}
+
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
     const point d = abs( loc1 - loc2 );

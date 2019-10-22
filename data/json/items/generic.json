@@ -734,7 +734,7 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": "iron",
-    "weight": "3220 g",
+    "weight": "3000 g",
     "volume": "750 ml"
   },
   {
@@ -1510,8 +1510,8 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "110 g",
-    "volume": "250 ml"
+    "weight": "125 g",
+    "volume": "25 ml"
   },
   {
     "type": "GENERIC",
@@ -2275,6 +2275,7 @@
     "name": "cigar butt",
     "color": "dark_gray",
     "symbol": "!",
+    "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2308,6 +2309,7 @@
     "symbol": "!",
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2340,6 +2342,7 @@
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {

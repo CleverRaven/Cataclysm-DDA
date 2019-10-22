@@ -154,6 +154,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "wood_workshop",
+    "//": "for domestic or small trade wood working shops",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "2x4", "prob": 100, "count": [ 4, 6 ] },
+          { "item": "wood_beam", "prob": 10, "count": [ 1, 2 ] },
+          { "item": "wood_sheet", "prob": 50, "count": [ 2, 3 ] },
+          { "item": "wood_panel", "prob": 30, "count": [ 2, 3 ] },
+          { "item": "stick_long", "prob": 30, "count": [ 5, 10 ] },
+          { "item": "stick", "prob": 50, "count": [ 1, 7 ] },
+          { "item": "nail", "prob": 100, "count": [ 5, 20 ] }
+        ],
+        "prob": 100
+      },
+      [ "plastic_sheet", 5 ],
+      [ "pine_bough", 3 ]
+    ]
+  },
+  {
     "id": "supplies_hardware",
     "type": "item_group",
     "//": "General purpose supplies for building / blue collar work.",

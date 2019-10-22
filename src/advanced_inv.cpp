@@ -263,7 +263,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                            volume_carried,
                                            volume_capacity,
                                            volume_units_abbr() );
-        const int hrightcol = columns - 1 - formatted_head.length();
+        const int hrightcol = columns - 1 - utf8_width( formatted_head );
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
@@ -295,7 +295,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
-        mvwprintz( window, point( columns - 1 - formatted_head.length(), 4 ), norm, formatted_head );
+        mvwprintz( window, point( columns - 1 - utf8_width( formatted_head ), 4 ), norm, formatted_head );
     }
 
     //print header row and determine max item name length
@@ -769,7 +769,7 @@ void advanced_inv_area::init()
     }
 
     // remove leading space
-    if( flags.length() && flags[0] == ' ' ) {
+    if( !flags.empty() && flags[0] == ' ' ) {
         flags.erase( 0, 1 );
     }
 }
@@ -882,6 +882,9 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
+    if( it.has_flag( "HIDDEN_ITEM" ) ) {
+        return true;
+    }
     if( filter.empty() ) {
         return false;
     }
@@ -1199,7 +1202,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     if( spane.get_area() == AIM_ALL ) {
         // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
         if( dpane.get_area() == AIM_WORN ) {
-            popup( _( "You look at the items, then your clothes, and scratch your head..." ) );
+            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
             return false;
         }
         // if the source pane (AIM_ALL) is empty, then show a message and leave
@@ -1419,7 +1422,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
-    sm.text = _( "Sort by..." );
+    sm.text = _( "Sort by…" );
     sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
     sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );

@@ -168,42 +168,5 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
-  },
-  {
-    "id": "taurus_38",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": "Taurus Pro .38",
-    "name_plural": "Taurus Pro .38",
-    "description": "A popular .38 pistol.  Designed with numerous safety features and built from high-quality, durable materials.",
-    "weight": "515 g",
-    "volume": "500 ml",
-    "price": 64000,
-    "to_hit": -2,
-    "bashing": 8,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "38",
-    "skill": "pistol",
-    "dispersion": 480,
-    "durability": 7,
-    "min_cycle_recoil": 225,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
-    "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }
 ]

@@ -518,13 +518,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "lens", 1 ] ],
-      [ [ "identification_module", 1 ] ]
+      [ [ "lens", 1 ] ]
     ]
   },
   {
@@ -632,7 +634,7 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "steel_chunk", 20 ] ]
     ]
   },
@@ -736,13 +738,14 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "gun_module", 2 ] ],
-      [ [ "hk_mp5", 2 ] ],
-      [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "hk_mp5", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -756,13 +759,14 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "m249", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -776,13 +780,14 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "m240", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -796,12 +801,13 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "m2browning", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
@@ -816,14 +822,15 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "laser_cannon", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "solar_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -1515,13 +1522,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
-    "result": "down_blanket",
-    "type": "uncraft",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
-  },
-  {
     "result": "down_pillow",
     "type": "uncraft",
     "time": "1 m",
@@ -1920,7 +1920,7 @@
     "time": "30 m",
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 20 ] ], [ [ "steel_chunk", 3 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 10 ] ], [ [ "steel_lump", 5 ] ], [ [ "e_scrap", 5 ] ] ]
   },
   {
     "result": "motor_large",
@@ -1935,7 +1935,8 @@
       [ [ "amplifier", 4 ] ],
       [ [ "cable", 30 ] ],
       [ [ "bearing", 40 ] ],
-      [ [ "steel_chunk", 7 ] ]
+      [ [ "steel_lump", 15 ] ],
+      [ [ "e_scrap", 5 ] ]
     ]
   },
   {
@@ -2250,7 +2251,7 @@
     "type": "uncraft",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "components": [ [ [ "scrap", 54 ] ] ]
   },
   {
     "result": "stick_long",

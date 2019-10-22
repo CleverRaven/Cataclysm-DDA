@@ -386,7 +386,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
-bool player::can_mount( const monster &critter ) const
+bool Character::can_mount( const monster &critter ) const
 {
     const auto &avoid = get_path_avoid();
     auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
@@ -455,7 +455,7 @@ void monexamine::rename_pet( monster &z )
                               .title( _( "Enter new pet name:" ) )
                               .width( 20 )
                               .query_string();
-    if( unique_name.length() > 0 ) {
+    if( !unique_name.empty() ) {
         z.unique_name = unique_name;
     }
 }

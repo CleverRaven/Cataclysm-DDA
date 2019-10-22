@@ -83,5 +83,27 @@
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
+  },
+  {
+    "id": "taurus_spectrum",
+    "copy-from": "pistol_backup",
+    "type": "GUN",
+    "name": "Taurus Spectrum",
+    "name_plural": "Taurus Spectrum",
+    "description": "A .380 subcompact pistol.  Designed for concealed carry and built from high-quality, durable materials.",
+    "weight": "283 g",
+    "volume": "187 ml",
+    "price": 64000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "380",
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 225,
+    "magazine_well": 1,
+    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
   }
 ]

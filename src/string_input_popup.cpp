@@ -53,7 +53,7 @@ void string_input_popup::create_window()
 
         for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
             title_split = foldstring( _title, wraplen );
-            if( static_cast<int>( title_split.back().size() ) <= titlesize ) {
+            if( utf8_width( title_split.back() ) <= titlesize ) {
                 break;
             }
         }
@@ -181,32 +181,22 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     if( up ) {
         if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
             return;
-        } else {
-            if( _hist_str_ind == 0 ) {
-                if( ret.empty() ) {
-                    _session_str_entered.erase( 0 );
-                } else {
-                    _session_str_entered = ret.str();
-                }
+        } else if( _hist_str_ind == 0 ) {
+            _session_str_entered = ret.str();
 
-                //avoid showing the same result twice (after reopen filter window without reset)
-                if( hist.size() > 1 && ret.str() == hist[hist.size() - 1] ) {
-                    _hist_str_ind += 1;
-                }
+            //avoid showing the same result twice (after reopen filter window without reset)
+            if( hist.size() > 1 && _session_str_entered == hist.back() ) {
+                _hist_str_ind += 1;
             }
         }
     } else {
         if( _hist_str_ind == 1 ) {
-            if( _session_str_entered.empty() ) {
-                ret.erase( 0 );
-            } else {
-                ret = _session_str_entered;
-                _position = _session_str_entered.length();
-            }
+            ret = _session_str_entered;
+            _position = ret.length();
             //show initial string entered and 'return'
             _hist_str_ind = 0;
-        }
-        if( _hist_str_ind == 0 ) {
+            return;
+        } else if( _hist_str_ind == 0 ) {
             return;
         }
     }
@@ -214,7 +204,6 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _hist_str_ind += up ? 1 : -1;
     ret = hist[hist.size() - _hist_str_ind];
     _position = ret.length();
-
 }
 
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,

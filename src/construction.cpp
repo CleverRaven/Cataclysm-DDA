@@ -872,10 +872,10 @@ void complete_construction( player *p )
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
-                add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
+                add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
                 //NPC near you isn't skilled enough to help
-                add_msg( m_info, _( "%s watches you work..." ), elem->name );
+                add_msg( m_info, _( "%s watches you work…" ), elem->name );
             }
 
             award_xp( *elem );
