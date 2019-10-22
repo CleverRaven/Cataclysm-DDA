@@ -264,6 +264,11 @@ struct islot_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+    /**
+     * Whitelisted clothing mods.
+     * Restricted clothing mods must be listed here by id to be compatible.
+     */
+    std::vector<std::string> valid_mods;
 };
 
 struct islot_pet_armor {
