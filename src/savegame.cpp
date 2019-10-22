@@ -800,24 +800,24 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             //North
             if( ter_test_n != needs_conversion.end() && ter_test_n->second == megastore ) {
                 ter_set( pos + point( -1, -2 ), oter_id( megastore + "_0_0_0_north" ) );
-                ter_set( pos + point(  0, -2 ), oter_id( megastore + "_1_0_0_north" ) );
-                ter_set( pos + point(  1, -2 ), oter_id( megastore + "_2_0_0_north" ) );
+                ter_set( pos + point( 0, -2 ), oter_id( megastore + "_1_0_0_north" ) );
+                ter_set( pos + point( 1, -2 ), oter_id( megastore + "_2_0_0_north" ) );
                 ter_set( pos + point( -1, -1 ), oter_id( megastore + "_0_1_0_north" ) );
-                ter_set( pos + point(  0, -1 ), oter_id( megastore + "_1_1_0_north" ) );
-                ter_set( pos + point(  1, -1 ), oter_id( megastore + "_2_1_0_north" ) );
+                ter_set( pos + point( 0, -1 ), oter_id( megastore + "_1_1_0_north" ) );
+                ter_set( pos + point( 1, -1 ), oter_id( megastore + "_2_1_0_north" ) );
                 ter_set( pos + point( -1,  0 ), oter_id( megastore + "_0_2_0_north" ) );
-                ter_set( pos + point(  0,  0 ), oter_id( megastore + "_1_2_0_north" ) );
-                ter_set( pos + point(  1,  0 ), oter_id( megastore + "_2_2_0_north" ) );
+                ter_set( pos + point( 0,  0 ), oter_id( megastore + "_1_2_0_north" ) );
+                ter_set( pos + point( 1,  0 ), oter_id( megastore + "_2_2_0_north" ) );
             } else if( ter_test_s != needs_conversion.end() && ter_test_s->second == megastore ) {
                 ter_set( pos + point( -1,  0 ), oter_id( megastore + "_2_2_0_south" ) );
-                ter_set( pos + point(  0,  0 ), oter_id( megastore + "_1_2_0_south" ) );
-                ter_set( pos + point(  1,  0 ), oter_id( megastore + "_0_2_0_south" ) );
+                ter_set( pos + point( 0,  0 ), oter_id( megastore + "_1_2_0_south" ) );
+                ter_set( pos + point( 1,  0 ), oter_id( megastore + "_0_2_0_south" ) );
                 ter_set( pos + point( -1,  1 ), oter_id( megastore + "_2_1_0_south" ) );
-                ter_set( pos + point(  0,  1 ), oter_id( megastore + "_1_1_0_south" ) );
-                ter_set( pos + point(  1,  1 ), oter_id( megastore + "_0_1_0_south" ) );
+                ter_set( pos + point( 0,  1 ), oter_id( megastore + "_1_1_0_south" ) );
+                ter_set( pos + point( 1,  1 ), oter_id( megastore + "_0_1_0_south" ) );
                 ter_set( pos + point( -1,  2 ), oter_id( megastore + "_2_0_0_south" ) );
-                ter_set( pos + point(  0,  2 ), oter_id( megastore + "_1_0_0_south" ) );
-                ter_set( pos + point(  1,  2 ), oter_id( megastore + "_0_0_0_south" ) );
+                ter_set( pos + point( 0,  2 ), oter_id( megastore + "_1_0_0_south" ) );
+                ter_set( pos + point( 1,  2 ), oter_id( megastore + "_0_0_0_south" ) );
             } else if( ter_test_e != needs_conversion.end() && ter_test_e->second == megastore ) {
                 ter_set( pos + point( 0, -1 ), oter_id( megastore + "_0_2_0_east" ) );
                 ter_set( pos + point( 1, -1 ), oter_id( megastore + "_0_1_0_east" ) );
@@ -831,13 +831,13 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else if( ter_test_w != needs_conversion.end() && ter_test_w->second == megastore ) {
                 ter_set( pos + point( -2, -1 ), oter_id( megastore + "_2_0_0_west" ) );
                 ter_set( pos + point( -1, -1 ), oter_id( megastore + "_2_1_0_west" ) );
-                ter_set( pos + point(  0, -1 ), oter_id( megastore + "_2_2_0_west" ) );
+                ter_set( pos + point( 0, -1 ), oter_id( megastore + "_2_2_0_west" ) );
                 ter_set( pos + point( -2,  0 ), oter_id( megastore + "_1_0_0_west" ) );
                 ter_set( pos + point( -1,  0 ), oter_id( megastore + "_1_1_0_west" ) );
-                ter_set( pos + point(  0,  0 ), oter_id( megastore + "_1_2_0_west" ) );
+                ter_set( pos + point( 0,  0 ), oter_id( megastore + "_1_2_0_west" ) );
                 ter_set( pos + point( -2,  1 ), oter_id( megastore + "_0_0_0_west" ) );
                 ter_set( pos + point( -1,  1 ), oter_id( megastore + "_0_1_0_west" ) );
-                ter_set( pos + point(  0,  1 ), oter_id( megastore + "_0_2_0_west" ) );
+                ter_set( pos + point( 0,  1 ), oter_id( megastore + "_0_2_0_west" ) );
             } else {
                 debugmsg( "Malformed Megastore" );
             }
