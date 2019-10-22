@@ -17,51 +17,45 @@
     "type": "martial_art",
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
-    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases how well you block and offers other combat bonuses based on stats.",
-    "initiate": [ "You ready yourself to stand your ground.", "%s draws the line." ],
-    "arm_block": 2,
-    "leg_block": 10,
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor penetration and blocking and attack increases your armor based on your Strength.",
+    "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "static_buffs": [
       {
-        "id": "crt_enforcement_static",
+        "id": "buff_crt_enforcement_static",
         "name": "C.R.I.T Guard",
-        "description": "+1 armor. STR provides accuracy and minor bash arpen.",
-        "unarmed_allowed": true,
+        "description": "Only with strength can the right the wrongs of the world.\n\nBlocked damage reduced by 50%% of Strength, Accuracy increased by 20%% of Strength.",
+        "min_melee": 0,
         "melee_allowed": true,
-        "flat_bonuses": [
-          [ "arpen", "bash", "str", 0.15 ],
-          [ "armor", "bash", 1 ],
-          [ "armor", "cut", 1 ],
-          [ "armor", "stab", 1 ],
-          [ "hit", "str", 0.4 ]
-        ]
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "hit", "str", 0.2 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_crt_enforcement_onblock",
+        "name": "C.R.I.T Defender",
+        "description": "When the going gets tough, you get tougher.\n\nGain Armor equal to 50%% of Strength.\nLasts 3 turns.",
+        "min_melee": 2,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "armor", "bash", "str", 0.5 ], [ "armor", "cut", "str", 0.5 ], [ "armor", "stab", "str", 0.5 ] ]
       }
     ],
     "onhit_buffs": [
       {
-        "id": "crt_enforcement_hit_buff",
-        "name": "C.R.I.T Buildup",
-        "description": "+1 armor and other small bonuses per stack. Max of 2 stacks",
-        "unarmed_allowed": true,
+        "id": "buff_crt_enforcement_onhit",
+        "name": "C.R.I.T Enforcer",
+        "description": "STOP!  RESISTING!!\n\n+1 Armor Penetration.\nLasts 10 turns. Stacks 10 times.",
+        "min_melee": 4,
         "melee_allowed": true,
         "buff_duration": 10,
-        "max_stacks": 2,
-        "flat_bonuses": [
-          [ "damage", "bash", "str", 0.5 ],
-          [ "armor", "bash", 1 ],
-          [ "armor", "cut", 1 ],
-          [ "armor", "stab", 1 ],
-          [ "block", "str", 0.2 ]
-        ]
+        "max_stacks": 10,
+        "flat_bonuses": [ [ "arpen", "bash", 1.0 ], [ "arpen", "cut", 1.0 ], [ "arpen", "stab", 1.0 ] ]
       }
     ],
-    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_power", "tec_crt_enforcement_brutal" ],
+    "techniques": [ "tec_crt_enforcement_knockdown", "tec_crt_enforcement_stun", "tec_crt_enforcement_wide" ],
     "weapons": [
-      "knife_crt",
       "crt_nstick",
       "crt_knuckledusters",
-      "crt_hatchet",
-      "crt_etool",
       "baton-extended",
       "cudgel",
       "sword_wood",
@@ -84,41 +78,35 @@
   },
   {
     "type": "technique",
-    "id": "tec_crt_enforcement_normal",
-    "name": "Harsh Reprimand",
-    "min_unarmed": 1,
+    "id": "tec_crt_enforcement_knockdown",
+    "name": "Forced Compliance",
+    "messages": [ "You clock %s in it's weak spot and knock them down", "<npcname> smashes  %s to the ground." ],
     "min_melee": 1,
-    "unarmed_allowed": true,
     "melee_allowed": true,
-    "flat_bonuses": [ [ "damage", "bash", "str", 0.15 ], [ "movecost", "str", -0.75 ] ],
-    "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
     "down_dur": 1
   },
   {
     "type": "technique",
-    "id": "tec_crt_enforcement_power",
-    "name": "Forced Compliance",
-    "min_unarmed": 2,
-    "min_melee": 2,
-    "unarmed_allowed": true,
+    "id": "tec_crt_enforcement_stun",
+    "name": "Harsh Reprimand",
+    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon into %s" ],
+    "min_melee": 3,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 1.1 ] ],
-    "flat_bonuses": [ [ "arpen", "bash", "str", 0.125 ], [ "movecost", "str", -1.5 ] ],
-    "messages": [ "You brazenly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
+    "crit_tec": true,
+    "stun_dur": 1,
+    "knockback_dist": 1
   },
   {
     "type": "technique",
-    "id": "tec_crt_enforcement_brutal",
+    "id": "tec_crt_enforcement_wide",
     "name": "Roomsweeper",
-    "min_unarmed": 4,
-    "min_melee": 4,
-    "unarmed_allowed": true,
+    "messages": [
+      "You steady your arm and release a crushing blow at %s and those nearby",
+      "<npcname> releases a crushing blow at %s and those nearby"
+    ],
+    "min_melee": 5,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 1.3 ], [ "damage", "bash", 1.15 ], [ "damage", "cut", 1.05 ] ],
-    "flat_bonuses": [ [ "arpen", "bash", "str", 0.5 ], [ "damage", "cut", "str", 0.5 ], [ "movecost", "str", -1.75 ] ],
     "crit_tec": true,
-    "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],
-    "stun_dur": 3,
-    "knockback_dist": 2
+    "aoe": "wide"
   }
 ]
