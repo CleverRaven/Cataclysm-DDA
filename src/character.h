@@ -50,6 +50,7 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+class player_morale;
 struct points_left;
 class faction;
 struct construction;
@@ -569,6 +570,21 @@ class Character : public Creature, public visitable<Character>
         inline void setpos( const tripoint &p ) override {
             position = p;
         }
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
+
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -1179,6 +1195,14 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        /** Modifies intensity of painkillers  */
+        void mod_painkiller( int npkill );
+        /** Sets intensity of painkillers  */
+        void set_painkiller( int npkill );
+        /** Returns intensity of painkillers  */
+        int get_painkiller() const;
+        void react_to_felt_pain( int intensity );
+
         void spores();
         void blossoms();
 
@@ -1219,6 +1243,29 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        /** Ticks down morale counters and removes them */
+        void update_morale();
+        /** Ensures persistent morale effects are up-to-date */
+        void apply_persistent_morale();
+        /** Used to apply morale modifications from food and medication **/
+        void modify_morale( item &food, int nutr = 0 );
+        int get_morale_level() const; // Modified by traits, &c
+        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
+                         const time_duration &duration = 1_hours,
+                         const time_duration &decay_start = 30_minutes, bool capped = false,
+                         const itype *item_type = nullptr );
+        int has_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
+        void clear_morale();
+        bool has_morale_to_read() const;
+        bool has_morale_to_craft() const;
+        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
+        void check_and_recover_morale();
+
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
+
     protected:
         Character();
         Character( Character && );
@@ -1307,6 +1354,8 @@ class Character : public Creature, public visitable<Character>
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
+        pimpl<player_morale> morale;
+
     private:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -1330,6 +1379,11 @@ class Character : public Creature, public visitable<Character>
         bool check_encumbrance;
 
         int stim;
+        int pkill;
+
+    protected:
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<point, time_duration> overmap_time;
 };
 
 template<>

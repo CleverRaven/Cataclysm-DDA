@@ -395,6 +395,7 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+    data.read( "pkill", pkill );
 
     JsonObject vits = data.get_object( "vitamin_levels" );
     for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
@@ -509,6 +510,8 @@ void Character::load( JsonObject &data )
         }
     }
 
+    morale->load( data );
+
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
@@ -526,6 +529,8 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+    on_stat_change( "pkill", pkill );
+    on_stat_change( "perceived_pain", get_perceived_pain() );
     recalc_sight_limits();
     reset_encumbrance();
 
@@ -541,6 +546,16 @@ void Character::load( JsonObject &data )
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
         power_level = 0_mJ;
+    }
+
+    JsonArray overmap_time_array = data.get_array( "overmap_time" );
+    overmap_time.clear();
+    while( overmap_time_array.has_more() ) {
+        point pt;
+        overmap_time_array.read_next( pt );
+        time_duration tdr = 0_turns;
+        overmap_time_array.read_next( tdr );
+        overmap_time[pt] = tdr;
     }
 }
 
@@ -587,6 +602,7 @@ void Character::store( JsonOut &json ) const
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
+    json.member( "pkill", pkill );
 
     // energy
     json.member( "stim", stim );
@@ -608,6 +624,9 @@ void Character::store( JsonOut &json ) const
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
     }
+
+    morale->store( json );
+
     // skills
     json.member( "skills" );
     json.start_object();
@@ -625,6 +644,16 @@ void Character::store( JsonOut &json ) const
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
     json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
+
+    if( !overmap_time.empty() ) {
+        json.member( "overmap_time" );
+        json.start_array();
+        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+            json.write( pr.first );
+            json.write( pr.second );
+        }
+        json.end_array();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -639,8 +668,6 @@ void player::store( JsonOut &json ) const
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
-    // pain
-    json.member( "pkill", pkill );
     // misc levels
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
@@ -722,16 +749,6 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
-    if( !overmap_time.empty() ) {
-        json.member( "overmap_time" );
-        json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
-            json.write( pr.first );
-            json.write( pr.second );
-        }
-        json.end_array();
-    }
 }
 
 /**
@@ -744,7 +761,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
@@ -816,9 +832,6 @@ void player::load( JsonObject &data )
         }
     }
 
-    on_stat_change( "pkill", pkill );
-    on_stat_change( "perceived_pain", get_perceived_pain() );
-
     int tmptar;
     int tmptartyp = 0;
 
@@ -845,15 +858,6 @@ void player::load( JsonObject &data )
         tripoint bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
-    }
-    JsonArray overmap_time_array = data.get_array( "overmap_time" );
-    overmap_time.clear();
-    while( overmap_time_array.has_more() ) {
-        point pt;
-        overmap_time_array.read_next( pt );
-        time_duration tdr = 0_turns;
-        overmap_time_array.read_next( tdr );
-        overmap_time[pt] = tdr;
     }
 }
 
@@ -917,8 +921,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "guts", guts );
 
     json.member( "translocators", translocators );
-
-    morale->store( json );
 
     // mission stuff
     json.member( "active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
@@ -1040,8 +1042,6 @@ void avatar::load( JsonObject &data )
     data.read( "guts", guts );
 
     data.read( "translocators", translocators );
-
-    morale->load( data );
 
     std::vector<int> tmpmissions;
     if( data.read( "active_missions", tmpmissions ) ) {
