@@ -50,7 +50,7 @@
     "id": "offset_sights_mod",
     "copy-from": "offset_sights",
     "type": "GUNMOD",
-    "name": "modified offset iron sights",
+    "name": { "str": "modified offset iron sights", "str_pl": "modified offset iron sights" },
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
