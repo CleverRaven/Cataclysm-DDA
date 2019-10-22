@@ -20,5 +20,16 @@
     "start_name": "Wizard's Secret Basement Study",
     "allowed_locs": [ "magic_basement" ],
     "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "lake_retreat",
+    "name": "The Wizard's Vacation",
+    "flags": [ "LONE_START" ],
+    "points": 6,
+    "description": "You have been an apprentice to a wizard for some time now, you've saved for years for your dream vaction at a secluded wizard tower.  Your journey of self-discovery is interrupted by the cataclysm.  Now you have to figure out how to survive on your own.  At least he left his notebook...",
+    "start_name": "Wizard's Retreat Vacation",
+    "allowed_locs": [ "lake_retreat" ],
+    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper" ]
   }
 ]
