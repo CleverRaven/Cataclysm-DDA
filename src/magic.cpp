@@ -1458,18 +1458,18 @@ class spellcasting_callback : public uilist_callback
             }
             if( event.get_first_input() == '=' ) {
                 int invlet = 0;
-                invlet = popup_getkey( _( "Choose a new letter for this spell." ) );
+                invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( is_valid_invlet( invlet ) ) {
                     const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
                                             reserved_invlets );
                     if( !invlet_set ) {
-                        popup( _( "Letter already used." ) );
+                        popup( _( "Hotkey already used." ) );
                     } else {
                         popup( _( "%s set. Close and reopen spell menu to refresh list with changes." ),
                                string_format( "%c", invlet ) );
                     }
                 } else {
-                    popup( _( "Letter removed." ) );
+                    popup( _( "Hotkey removed." ) );
                     g->u.magic.rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
@@ -1488,6 +1488,9 @@ class spellcasting_callback : public uilist_callback
                                         _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
+            const std::string assign_letter = _( "Assign Hotkey [=]" );
+            mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
+                       assign_letter );
             draw_spell_info( *known_spells[entnum], menu );
         }
 };
