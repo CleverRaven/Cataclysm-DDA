@@ -85,7 +85,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->get_calories();
+            kcal += it.type->comestible->get_calories() * it.charges;
         }
     }
     return kcal;
