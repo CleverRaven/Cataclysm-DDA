@@ -1453,7 +1453,7 @@ class spellcasting_callback : public uilist_callback
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
         bool key( const input_context &, const input_event &event, int entnum,
-                  uilist *menu ) override {
+                  uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'I' ) {
                 casting_ignore = !casting_ignore;
                 return true;
