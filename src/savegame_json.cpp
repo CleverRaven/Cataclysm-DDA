@@ -1060,7 +1060,6 @@ void avatar::load( JsonObject &data )
     }
 
     data.read( "magic", magic );
-    data.read( "stamina", stamina );
 
     set_highest_cat_level();
     drench_mut_calc();
