@@ -69,9 +69,9 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp );
     } else {
+        // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container();
     }
-    // TODO: change the spawn lists to contain proper references to containers
     return tmp;
 }
 
@@ -231,7 +231,7 @@ void Item_modifier::modify( item &new_item ) const
 
     int max_capacity = -1;
     if( charges.first != -1 && charges.second == -1 ) {
-        int max_ammo = new_item.ammo_capacity();
+        const int max_ammo = new_item.ammo_capacity();
         if( max_ammo > 0 ) {
             max_capacity = max_ammo;
         }
@@ -245,7 +245,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    bool charges_not_set = charges.first == -1 && charges.second == -1;
+    const bool charges_not_set = charges.first == -1 && charges.second == -1;
     int ch = -1;
     if( !charges_not_set ) {
         int charges_min = charges.first;
