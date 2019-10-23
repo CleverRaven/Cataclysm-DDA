@@ -473,7 +473,6 @@ player::player() :
     blocks_left = 1;
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
-    pkill = 0;
     radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
