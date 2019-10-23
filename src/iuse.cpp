@@ -1607,7 +1607,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int choice = uilist( _( "Which signal should activate the item?:" ), {
+    int choice = uilist( _( "Which signal should activate the item?" ), {
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
@@ -8074,7 +8074,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     if( choice == 0 ) {
         it->convert( "radio_car" ).active = false;
 
-        p->add_msg_if_player( _( "You turned off your RC car" ) );
+        p->add_msg_if_player( _( "You turned off your RC car." ) );
         return it->type->charges_to_use();
     }
 
