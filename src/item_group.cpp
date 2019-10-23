@@ -229,8 +229,15 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    int max_capacity = 0;
-    if( !cont.is_null() ) {
+    int max_capacity = -1;
+    if( charges.first != -1 && charges.second == -1 ) {
+        int max_ammo = new_item.ammo_capacity();
+        if( max_ammo > 0 ) {
+            max_capacity = max_ammo;
+        }
+    }
+
+    if( max_capacity == -1 && !cont.is_null() ) {
         if( new_item.made_of( LIQUID ) ) {
             max_capacity = cont.get_remaining_capacity_for_liquid( new_item );
         } else if( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) {
@@ -243,13 +250,13 @@ void Item_modifier::modify( item &new_item ) const
     if( !charges_not_set ) {
         int charges_min = charges.first;
         int charges_max = charges.second;
-        
+
         if( charges_min == -1 && charges_max != -1 ) {
             charges_min = 0;
         }
 
-        if( !cont.is_null() && ( charges_max > max_capacity || ( charges_min != 1 &&
-                                 charges_max == -1 ) ) ) {
+        if( max_capacity != -1 && ( charges_max > max_capacity || ( charges_min != 1 &&
+                                    charges_max == -1 ) ) ) {
             charges_max = max_capacity;
         }
 
