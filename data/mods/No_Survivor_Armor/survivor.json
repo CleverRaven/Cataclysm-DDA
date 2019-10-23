@@ -35,9 +35,12 @@
     "boots_lsurvivor",
     "boots_survivor",
     "boots_hsurvivor",
+    "boots_survivor_roller_off",
+    "boots_survivor_roller_on"
     "gloves_lsurvivor",
     "gloves_survivor",
     "gloves_hsurvivor",
+    "gloves_survivor_fingerless",
     "hood_lsurvivor",
     "hood_survivor",
     "helmet_survivor",
@@ -59,6 +62,8 @@
     "survivor_goggles",
     "survivor_light",
     "survivor_light_on",
+    "wearable_atomic_light",
+    "wearable_atomic_light_off",
     "lsurvivor_pants",
     "lsurvivor_armor"
   ]
