@@ -152,7 +152,6 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_tied( "tied" );
 const efftype_id effect_under_op( "under_operation" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
