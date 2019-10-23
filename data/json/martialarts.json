@@ -298,6 +298,7 @@
       "baton-extended",
       "bee_sting",
       "bowling_pin",
+      "butterfly_swords",
       "cane",
       "copper_knife",
       "cudgel",
@@ -579,6 +580,7 @@
     ],
     "weapons": [
       "baton-extended",
+      "butterfly_swords",
       "copper_knife",
       "cudgel",
       "diveknife",
@@ -870,6 +872,7 @@
       "broadsword_fake",
       "broadfire_off",
       "broadfire_on",
+      "butterfly_swords",
       "cavalry_sabre",
       "cavalry_sabre_fake",
       "copper_knife",
@@ -1100,6 +1103,7 @@
     "weapons": [
       "baton-extended",
       "bowling_pin",
+      "butterfly_swords",
       "cudgel",
       "diveknife",
       "firemachete_off",
@@ -1333,6 +1337,49 @@
   },
   {
     "type": "martial_art",
+    "id": "style_tiger",
+    "name": "Tiger Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
+    "learn_difficulty": 10,
+    "static_buffs": [
+      {
+        "id": "buff_tiger_static",
+        "name": "Tiger's Strength",
+        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\n\nStrength increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Strength but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "str", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_tiger_onhit",
+        "name": "Tiger Fury",
+        "description": "You attack with an endless barrage of strikes.  The more you hit, the stronger you become.\n\n+10%% damage.\nLasts 3 turns.  Stacks 4 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "max_stacks": 4,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_tiger_oncrit",
+        "name": "Tiger Rampage",
+        "description": "Your opponent's lose is your gain.  Your next attack will break through your opponent's guard.\n\nGain Armor Penetration equal to 50%% of Strength.\nLasts 1 turns.  Stacks 2 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "arpen", "bash", "str", 0.5 ], [ "arpen", "cut", "str", 0.5 ], [ "arpen", "stab", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_tiger_palm", "tec_tiger_takedown" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_zui_quan",
     "name": "Zui Quan",
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
@@ -1370,38 +1417,6 @@
       }
     ],
     "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_tiger",
-    "name": "Tiger Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
-    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "tiger_static",
-        "name": "Tiger Strength",
-        "description": "Strength provides additional damage bonus.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "str", 0.8 ] ]
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "tiger_hit_buff",
-        "name": "Tiger Fury",
-        "description": "+3 Bash/atk",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 3,
-        "max_stacks": 8,
-        "flat_bonuses": [ [ "damage", "bash", 3.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_tiger_grab" ]
   },
   {
     "type": "martial_art",

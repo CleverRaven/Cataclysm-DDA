@@ -15,6 +15,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "construction.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -32,6 +33,8 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
+#include "morale.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "options.h"
@@ -108,6 +111,8 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_winded( "winded" );
 
@@ -131,6 +136,7 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
@@ -138,6 +144,9 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
 static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+static const trait_id trait_NOMAD( "NOMAD" );
+static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -187,6 +196,7 @@ Character::Character() :
     sleep_deprivation = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    pkill = 0;
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
@@ -451,6 +461,21 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+void Character::set_destination_activity( const player_activity &new_destination_activity )
+{
+    destination_activity = new_destination_activity;
+}
+
+void Character::clear_destination_activity()
+{
+    destination_activity = player_activity();
+}
+
+player_activity Character::get_destination_activity() const
+{
+    return destination_activity;
 }
 
 void Character::mount_creature( monster &z )
@@ -3176,7 +3201,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::string h_bar = get_hp_bar( hp, maximal_hp, false ).first;
             nc_color h_bar_col = get_hp_bar( hp, maximal_hp, false ).second;
 
-            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - h_bar.size(),
+            return colorize( h_bar, h_bar_col ) + colorize( std::string( 5 - utf8_width( h_bar ),
                     '.' ), c_white );
         }
     };
@@ -3531,6 +3556,21 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
     } );
 }
 
+tripoint Character::global_square_location() const
+{
+    return g->m.getabs( position );
+}
+
+tripoint Character::global_sm_location() const
+{
+    return ms_to_sm_copy( global_square_location() );
+}
+
+tripoint Character::global_omt_location() const
+{
+    return ms_to_omt_copy( global_square_location() );
+}
+
 bool Character::is_blind() const
 {
     return ( worn_with_flag( "BLIND" ) ||
@@ -3782,9 +3822,9 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), static_cast<size_t>( 0 ),
-    []( size_t m, body_part bp ) {
-        return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
+    int longest = std::accumulate( bps.begin(), bps.end(), 0,
+    []( int m, body_part bp ) {
+        return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
@@ -3799,13 +3839,11 @@ std::string Character::extended_description() const
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
-        ss << colorize( bp_heading, name_color );
-        // Align them. There is probably a less ugly way to do it
-        ss << std::string( longest - bp_heading.size() + 1, ' ' );
+        ss << colorize( left_justify( bp_heading, longest ), name_color );
         ss << colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // TODO: Integrate into get_hp_bar somehow
-        ss << colorize( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
         ss << std::endl;
     }
 
@@ -5152,9 +5190,9 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl < 0 ) {
         if( has_effect( exc, num_bp ) ) {
-            get_effect( exc, num_bp ).set_intensity( lvl, true );
+            get_effect( exc, num_bp ).set_intensity( -lvl, true );
         } else {
-            add_effect( exc, 1_turns, num_bp, true, lvl );
+            add_effect( exc, 1_turns, num_bp, true, -lvl );
         }
     }
 }
@@ -5236,6 +5274,159 @@ double Character::footwear_factor() const
     }
     return ret;
 }
+
+void Character::update_morale()
+{
+    morale->decay( 1_minutes );
+    apply_persistent_morale();
+}
+
+void Character::apply_persistent_morale()
+{
+    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    if( has_trait( trait_HOARDER ) ) {
+        int pen = ( volume_capacity() - volume_carried() ) / 125_ml;
+        if( pen > 70 ) {
+            pen = 70;
+        }
+        if( pen <= 0 ) {
+            pen = 0;
+        }
+        if( has_effect( effect_took_xanax ) ) {
+            pen = pen / 7;
+        } else if( has_effect( effect_took_prozac ) ) {
+            pen = pen / 2;
+        }
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        }
+    }
+    // Nomads get a morale penalty if they stay near the same overmap tiles too long.
+    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
+        const tripoint ompos = global_omt_location();
+        float total_time = 0;
+        // Check how long we've stayed in any overmap tile within 5 of us.
+        const int max_dist = 5;
+        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
+            const float dist = rl_dist( ompos, pos );
+            if( dist > max_dist ) {
+                continue;
+            }
+            const auto iter = overmap_time.find( pos.xy() );
+            if( iter == overmap_time.end() ) {
+                continue;
+            }
+            // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
+            total_time += to_moves<float>( iter->second ) * ( max_dist - dist ) / max_dist;
+        }
+        // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
+        int max_unhappiness;
+        float min_time, max_time;
+        if( has_trait( trait_NOMAD ) ) {
+            max_unhappiness = 20;
+            min_time = to_moves<float>( 12_hours );
+            max_time = to_moves<float>( 1_days );
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            max_unhappiness = 40;
+            min_time = to_moves<float>( 4_hours );
+            max_time = to_moves<float>( 8_hours );
+        } else { // traid_NOMAD3
+            max_unhappiness = 60;
+            min_time = to_moves<float>( 1_hours );
+            max_time = to_moves<float>( 2_hours );
+        }
+        // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
+        const float t = ( total_time - min_time ) / ( max_time - min_time );
+        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
+        }
+    }
+
+    if( has_trait( trait_PROF_FOODP ) ) {
+        // Loosing your face is distressing
+        if( !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+               is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
+        } else if( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+            rem_morale( MORALE_PERM_NOFACE );
+        }
+
+        if( is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
+        } else {
+            rem_morale( MORALE_PERM_FPMODE_ON );
+        }
+    }
+}
+
+int Character::get_morale_level() const
+{
+    return morale->get_level();
+}
+
+void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
+                            const time_duration &duration, const time_duration &decay_start,
+                            bool capped, const itype *item_type )
+{
+    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+}
+
+int Character::has_morale( const morale_type &type ) const
+{
+    return morale->has( type );
+}
+
+void Character::rem_morale( const morale_type &type, const itype *item_type )
+{
+    morale->remove( type, item_type );
+}
+
+void Character::clear_morale()
+{
+    morale->clear();
+}
+
+bool Character::has_morale_to_read() const
+{
+    return get_morale_level() >= -40;
+}
+
+void Character::check_and_recover_morale()
+{
+    player_morale test_morale;
+
+    for( const auto &wit : worn ) {
+        test_morale.on_item_wear( wit );
+    }
+
+    for( const auto &mut : my_mutations ) {
+        test_morale.on_mutation_gain( mut.first );
+    }
+
+    for( auto &elem : *effects ) {
+        for( auto &_effect_it : elem.second ) {
+            const effect &e = _effect_it.second;
+            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+        }
+    }
+
+    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "thirst", get_thirst() );
+    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "pain", get_pain() );
+    test_morale.on_stat_change( "pkill", get_painkiller() );
+    test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
+
+    apply_persistent_morale();
+
+    if( !morale->consistent_with( test_morale ) ) {
+        *morale = player_morale( test_morale ); // Recover consistency
+        add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
+    }
+}
+
 
 void Character::start_hauling()
 {
@@ -5480,4 +5671,35 @@ bool Character::has_fire( const int quantity ) const
         return true;
     }
     return false;
+}
+
+void Character::mod_painkiller( int npkill )
+{
+    set_painkiller( pkill + npkill );
+}
+
+void Character::set_painkiller( int npkill )
+{
+    npkill = std::max( npkill, 0 );
+    if( pkill != npkill ) {
+        const int prev_pain = get_perceived_pain();
+        pkill = npkill;
+        on_stat_change( "pkill", pkill );
+        const int cur_pain = get_perceived_pain();
+
+        if( cur_pain != prev_pain ) {
+            react_to_felt_pain( cur_pain - prev_pain );
+            on_stat_change( "perceived_pain", cur_pain );
+        }
+    }
+}
+
+int Character::get_painkiller() const
+{
+    return pkill;
+}
+
+bool Character::is_wielding( const item &target ) const
+{
+    return &weapon == &target;
 }

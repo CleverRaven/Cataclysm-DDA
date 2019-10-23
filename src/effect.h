@@ -82,6 +82,9 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Returns the maximum intensity of this type. */
+        int get_max_intensity() const;
+
     protected:
         int max_intensity;
         int max_effective_intensity;

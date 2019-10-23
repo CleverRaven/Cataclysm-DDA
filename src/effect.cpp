@@ -343,6 +343,13 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
         extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
         extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
+        // creature stats mod
+        extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
+        extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
+        extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
+        extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
+        extract_effect( j, mod_data, "growth_mod",    member, "GROWTH",  "min" );
+
         return true;
     } else {
         return false;
@@ -463,6 +470,11 @@ bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
         return true;
     }
     return false;
+}
+
+int effect_type::get_max_intensity() const
+{
+    return max_intensity;
 }
 
 effect effect::null_effect;
