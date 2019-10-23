@@ -301,7 +301,6 @@
     "weight": 680388,
     "hp": 100,
     "speed": 130,
-    "mountable_weight_ratio": 0.3,
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "light_gray",
