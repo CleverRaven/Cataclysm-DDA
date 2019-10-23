@@ -115,6 +115,8 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
 
+        float get_mountable_weight_ratio() const;
+
         // Access
         std::string get_name() const override;
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
