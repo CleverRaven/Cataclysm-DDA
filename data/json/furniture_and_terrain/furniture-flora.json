@@ -20,7 +20,6 @@
     "description": "A common weed with a yellow flower.  Produces seeds that get carried on the wind by thin, gray filaments.",
     "symbol": "f",
     "color": "yellow",
-    "looks_like": "t_grass_long",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
