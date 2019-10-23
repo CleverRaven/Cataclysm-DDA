@@ -133,17 +133,15 @@ TEST_CASE( "recipe_permutations" )
                                                 default_calories * 0.8 );
             const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
                                                 default_calories * 1.2 );
-            if( mystats.calories.min() != mystats.calories.max() ) {
-                if( mystats.calories.min() < 0 || lower_bound >= mystats.calories.avg() ||
-                    mystats.calories.avg() >= upper_bound ) {
-                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
-                            recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
-                            upper_bound );
-                }
-                CHECK( mystats.calories.min() >= 0 );
-                CHECK( lower_bound < mystats.calories.avg() );
-                CHECK( mystats.calories.avg() < upper_bound );
+            if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
+                mystats.calories.avg() > upper_bound ) {
+                printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                        recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                        upper_bound );
             }
+            CHECK( mystats.calories.min() >= 0 );
+            CHECK( lower_bound <= mystats.calories.avg() );
+            CHECK( mystats.calories.avg() <= upper_bound );
         }
     }
 }
