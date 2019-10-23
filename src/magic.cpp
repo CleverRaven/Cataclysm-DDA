@@ -1468,7 +1468,7 @@ class spellcasting_callback : public uilist_callback
                         popup( _( "Hotkey already used." ) );
                     } else {
                         popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
-                                invlet );
+                               invlet );
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
