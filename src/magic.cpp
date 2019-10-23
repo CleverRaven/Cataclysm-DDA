@@ -1423,21 +1423,55 @@ int known_magic::get_spellname_max_width()
     return width;
 }
 
+static bool is_valid_invlet( const int invlet )
+{
+    if( invlet >= 'a' && invlet <= 'z' ) {
+        return true;
+    }
+    if( invlet >= 'A' && invlet <= 'Z' ) {
+        return true;
+    }
+    if( invlet >= '!' && invlet <= '-' ) {
+        return true;
+    }
+    return false;
+}
+
 class spellcasting_callback : public uilist_callback
 {
     private:
         std::vector<spell *> known_spells;
         void draw_spell_info( const spell &sp, const uilist *menu );
     public:
+        // invlets reserved for special functions
+        const std::set<int> reserved_invlets{ 'I', '=' };
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
-                  uilist * /*menu*/ ) override {
+        bool key( const input_context &, const input_event &event, int entnum,
+                  uilist *menu ) override {
             if( event.get_first_input() == 'I' ) {
                 casting_ignore = !casting_ignore;
+                return true;
+            }
+            if( event.get_first_input() == '=' ) {
+                int invlet = 0;
+                invlet = popup_getkey( _( "Choose a new letter for this spell." ) );
+                if( is_valid_invlet( invlet ) ) {
+                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
+                                            reserved_invlets );
+                    if( !invlet_set ) {
+                        popup( _( "Letter already used." ) );
+                    } else {
+                        popup( _( "%s set. Close and reopen spell menu to refresh list with changes." ),
+                               string_format( "%c", invlet ) );
+                    }
+                } else {
+                    popup( _( "Letter removed." ) );
+                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                }
                 return true;
             }
             return false;
@@ -1631,6 +1665,20 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
 }
 
+bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+{
+    if( used_invlets.count( invlet ) > 0 ) {
+        return false;
+    }
+    invlets[sp] = invlet;
+    return true;
+}
+
+void known_magic::rem_invlet( const spell_id &sp )
+{
+    invlets.erase( sp );
+}
+
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
@@ -1677,8 +1725,7 @@ int known_magic::select_spell( const player &p )
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
 
-    std::set<int> used_invlets;
-    used_invlets.emplace( 'I' );
+    std::set<int> used_invlets{ cb.reserved_invlets };
 
     for( size_t i = 0; i < known_spells.size(); i++ ) {
         spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( p ),
