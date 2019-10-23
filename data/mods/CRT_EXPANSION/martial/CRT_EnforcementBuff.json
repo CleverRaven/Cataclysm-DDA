@@ -23,7 +23,7 @@
       {
         "id": "buff_crt_enforcement_static",
         "name": "C.R.I.T Guard",
-        "description": "It is only with strength that we can carry the burden of world.\n\nBlocked damage reduced by 30%% of Strength, Accuracy increased by 25%% of Strength.",
+        "description": "It is only our with strength that we can carry the burden of world.\n\nBlocked damage reduced by 30%% of Strength, Accuracy increased by 25%% of Strength.",
         "min_melee": 0,
         "melee_allowed": true,
         "flat_bonuses": [ [ "block", "str", 0.3 ], [ "hit", "str", 0.25 ] ]
@@ -33,7 +33,7 @@
       {
         "id": "buff_crt_enforcement_onblock",
         "name": "C.R.I.T Bulwark",
-        "description": "Your brothers in arms might have perished, but you will stand steadfast in their steed.\n\nGain Armor equal to 30%% of Strength.\nLasts 3 turns.",
+        "description": "Our brothers in arms might have perished, but we will stand steadfast in their steed.\n\nGain Armor equal to 30%% of Strength.\nLasts 3 turns.",
         "min_melee": 2,
         "melee_allowed": true,
         "buff_duration": 3,
