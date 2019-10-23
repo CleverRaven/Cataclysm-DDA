@@ -11,14 +11,14 @@
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
       "components": [
         [
-          [ "gasoline", 10 ],
-          [ "diesel", 10 ],
-          [ "chem_ethanol", 10 ],
-          [ "denat_alcohol", 10 ],
-          [ "vinegar", 10 ],
-          [ "ammonia", 10 ],
-          [ "bleach", 10 ],
-          [ "soapy_water", 10 ]
+          [ "gasoline", 5 ],
+          [ "diesel", 5 ],
+          [ "chem_ethanol", 5 ],
+          [ "denat_alcohol", 5 ],
+          [ "vinegar", 5 ],
+          [ "ammonia", 5 ],
+          [ "bleach", 5 ],
+          [ "soapy_water", 5 ]
         ],
         [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
@@ -45,14 +45,14 @@
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
       "components": [
         [
-          [ "gasoline", 10 ],
-          [ "diesel", 10 ],
-          [ "chem_ethanol", 10 ],
-          [ "denat_alcohol", 10 ],
-          [ "vinegar", 10 ],
-          [ "ammonia", 10 ],
-          [ "bleach", 10 ],
-          [ "soapy_water", 10 ]
+          [ "gasoline", 5 ],
+          [ "diesel", 5 ],
+          [ "chem_ethanol", 5 ],
+          [ "denat_alcohol", 5 ],
+          [ "vinegar", 5 ],
+          [ "ammonia", 5 ],
+          [ "bleach", 5 ],
+          [ "soapy_water", 5 ]
         ],
         [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
@@ -70,17 +70,17 @@
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
       "components": [
         [
-          [ "gasoline", 10 ],
-          [ "diesel", 10 ],
-          [ "chem_ethanol", 10 ],
-          [ "denat_alcohol", 10 ],
-          [ "vinegar", 10 ],
-          [ "ammonia", 10 ],
-          [ "bleach", 10 ],
-          [ "soapy_water", 10 ]
+          [ "gasoline", 5 ],
+          [ "diesel", 5 ],
+          [ "chem_ethanol", 5 ],
+          [ "denat_alcohol", 5 ],
+          [ "vinegar", 5 ],
+          [ "ammonia", 5 ],
+          [ "bleach", 5 ],
+          [ "soapy_water", 5 ]
         ],
         [ [ "rag", 1 ], [ "fur", 1 ] ],
-        [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 1 ] ]
+        [ [ "lamp_oil", 5 ], [ "cooking_oil", 5 ], [ "cooking_oil2", 5 ], [ "motor_oil", 5 ] ]
       ]
     }
   },
@@ -95,7 +95,7 @@
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
       "components": [
-        [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 1 ] ],
+        [ [ "lamp_oil", 5 ], [ "cooking_oil", 5 ], [ "cooking_oil2", 5 ], [ "motor_oil", 5 ] ],
         [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
     }
