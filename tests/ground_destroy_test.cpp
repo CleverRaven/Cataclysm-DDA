@@ -1,3 +1,4 @@
+#include <set>
 #include <string>
 #include <vector>
 #include <memory>
@@ -9,6 +10,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "options.h"
 #include "int_id.h"
@@ -142,5 +144,109 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 
     if( !found_open_air ) {
         FAIL( "After explosion, no open air was found" );
+    }
+}
+
+// Destroying interior floors shouldn't cause the roofs above to collapse.
+// Destroying supporting walls should cause the roofs above to collapse.
+// Behavior may depend on ZLEVELS being set.
+TEST_CASE( "collapse_checks", "[.]" )
+{
+    constexpr int wall_size = 5;
+
+    const ter_id floor_id = ter_id( "t_floor" );
+    const ter_id dirt_id = ter_id( "t_dirt" );
+    const ter_id wall_id = ter_id( "t_wall" );
+    const ter_id open_air_id = ter_id( "t_open_air" );
+
+    REQUIRE( floor_id != t_null );
+    REQUIRE( dirt_id != t_null );
+    REQUIRE( wall_id != t_null );
+    REQUIRE( open_air_id != t_null );
+
+    const bool zlevels_set = get_option<bool>( "ZLEVELS" );
+    INFO( "ZLEVELS is " << zlevels_set );
+    clear_map_and_put_player_underground();
+
+    // build a structure
+    const tripoint &midair = tripoint( tripoint_zero.xy(), tripoint_zero.z + 1 );
+    for( const tripoint &pt : g->m.points_in_radius( midair, wall_size, 1 ) ) {
+        g->m.ter_set( pt, floor_id );
+    }
+    std::set<tripoint> corners;
+    for( int delta_z = 0; delta_z < 3; delta_z++ ) {
+        for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
+            for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
+                const tripoint &pt = tripoint( tripoint_zero.x + delta_x * wall_size,
+                                               tripoint_zero.y + delta_y * wall_size,
+                                               tripoint_zero.z + delta_z );
+                corners.insert( pt );
+                g->m.ter_set( pt, wall_id );
+            }
+        }
+    }
+
+    // make sure it's a valid structure
+    for( const tripoint &pt : g->m.points_in_radius( midair, wall_size, 1 ) ) {
+        if( corners.find( pt ) != corners.end() ) {
+            REQUIRE( g->m.ter( pt ) == wall_id );
+        } else {
+            REQUIRE( g->m.ter( pt ) == floor_id );
+        }
+    }
+
+    // destroy the floor on the first floor; floor above should not collapse
+    for( const tripoint &pt : g->m.points_in_radius( tripoint_zero, wall_size ) ) {
+        if( corners.find( pt ) == corners.end() ) {
+            g->m.destroy( pt, true );
+        }
+    }
+    for( const tripoint &pt : g->m.points_in_radius( midair, wall_size ) ) {
+        if( corners.find( pt ) != corners.end() ) {
+            CHECK( g->m.ter( pt ) == wall_id );
+        } else {
+            CHECK( g->m.ter( pt ) == floor_id );
+        }
+    }
+
+    // destroy the walls on the first floor; upper floors should mostly collapse
+    for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
+        for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
+            const tripoint &pt = tripoint( tripoint_zero.x + delta_x * wall_size,
+                                           tripoint_zero.y + delta_y * wall_size,
+                                           tripoint_zero.z );
+            g->m.destroy( pt, true );
+        }
+    }
+    int open_air_count = 0;
+    int tile_count = 0;
+    int no_wall_count = 0;
+    for( const tripoint &pt : g->m.points_in_radius( midair, wall_size, 1 ) ) {
+        if( pt.z == 0 ) {
+            continue;
+        }
+        const ter_id t_id = g->m.ter( pt );
+        tile_count += 1;
+        if( t_id == t_open_air ) {
+            open_air_count += 1;
+            if( corners.find( pt ) != corners.end() ) {
+                no_wall_count += 1;
+            }
+        }
+    }
+    int partial_tiles = tile_count / 5;
+    CHECK( open_air_count > partial_tiles );
+    if( open_air_count < partial_tiles ) {
+        FAIL( open_air_count << " open air tiles were found on the upper floors after the walls "
+              "collapsed." );
+    } else {
+        INFO( open_air_count << " open air tiles were found on the upper floors after the walls "
+              "collapsed." );
+    }
+    CHECK( no_wall_count == 8 );
+    if( no_wall_count != 8 ) {
+        FAIL( "Only " << no_wall_count << " walls on the upper floors collapsed." );
+    } else {
+        INFO( "All " << no_wall_count << " walls on the upper floors collapsed." );
     }
 }

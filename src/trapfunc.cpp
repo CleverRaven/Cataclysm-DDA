@@ -640,10 +640,10 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
         return false;
     }
     if( c == &g->u ) {
-        c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
+        c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
     } else {
         if( g->u.sees( p ) ) {
-            add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
+            add_msg( _( "The air shimmers around %s…" ), c->disp_name() );
         }
     }
     teleport::teleport( *c );
@@ -710,22 +710,22 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         }
         // distribute damage amongst player and horse
         if( z->has_effect( effect_ridden ) && z->mounted_player ) {
-            player *pl = z->mounted_player;
-            pl->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            pl->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            pl->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            pl->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            pl->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+            Character *ch = z->mounted_player;
+            ch->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+            ch->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+            ch->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
             if( g->u.sees( p ) ) {
-                pl->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                ch->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                                            _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
             }
-            pl->check_dead_state();
+            ch->check_dead_state();
         }
     }
 
@@ -1035,7 +1035,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     const int throwing_skill_level = p->get_skill_level( skill_throw );
     const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
     if( roll < diff ) {
-        p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
+        p->add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         p->use_amount( itemname, 1 );
         g->m.spawn_item( random_neighbor( p->pos() ), itemname );
         return false;

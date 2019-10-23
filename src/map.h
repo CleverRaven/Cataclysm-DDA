@@ -839,7 +839,7 @@ class map
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint &p );
         /** Causes a collapse at p, such as from destroying a wall */
-        void collapse_at( const tripoint &p, bool silent );
+        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
         void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
@@ -1434,7 +1434,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
         void draw_sarcophagus( mapgendata &dat );
-        void draw_megastore( mapgendata &dat );
         void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );

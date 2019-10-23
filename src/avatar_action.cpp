@@ -113,9 +113,9 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.movement_mode_is( PMM_WALK ) ) {
+    if( you.movement_mode_is( CMM_WALK ) ) {
         you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( you.movement_mode_is( CMM_CROUCH ) ) {
         you.increase_activity_level( MODERATE_EXERCISE );
     } else {
         you.increase_activity_level( ACTIVE_EXERCISE );
@@ -207,7 +207,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
         }
         if( newdist > curdist ) {
-            add_msg( m_info, _( "You cannot pull yourself away from the faultline..." ) );
+            add_msg( m_info, _( "You cannot pull yourself away from the faultline…" ) );
             return false;
         }
     }
@@ -251,7 +251,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                     add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
                 } else {
                     you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
                     return false;
                 }
             }
@@ -352,7 +352,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.movement_mode_is( PMM_WALK )
+        && you.movement_mode_is( CMM_WALK )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -596,7 +596,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
+            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
             // break a possible loop when aiming
             if( you.activity ) {
                 you.cancel_activity();
@@ -877,7 +877,7 @@ void avatar_action::plthrow( avatar &you, int pos,
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
             return;
         }
     }

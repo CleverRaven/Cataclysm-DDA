@@ -14,6 +14,35 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "nylon",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "synthetic fabric",
+    "description": "This is small bolt of synthetic fabric.  Unlike you and other natural materials, it won't degrade much with age.  Maybe that's less of a bad thing now.",
+    "weight": "55 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "nylon",
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "lycra_patch",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "lycra patch",
+    "name_plural": "lycra patches",
+    "description": "This is a small bolt of a synthetic fabric blended with stretchy lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
+    "weight": "87 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "lycra",
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "plastic_sheet",
     "type": "GENERIC",
     "category": "spare_parts",

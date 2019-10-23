@@ -689,7 +689,7 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
             if( one_in( 12000 - to_turns<int>( dur ) ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights..." ) );
+                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
                     // Set ourselves up for removal
@@ -785,8 +785,8 @@ void player::hardcoded_effects( effect &it )
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
             focus_pool--;
         }
-        if( dur > 200_minutes && one_in( 48 ) && stim < 20 ) {
-            stim++;
+        if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
+            mod_stim( 1 );
         }
         if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
             focus_pool--;
@@ -998,7 +998,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         }
         if( dur == 1_turns && !sleeping ) {
-            add_msg_if_player( _( "You try to sleep, but can't..." ) );
+            add_msg_if_player( _( "You try to sleep, but can't…" ) );
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
@@ -1217,9 +1217,9 @@ void player::hardcoded_effects( effect &it )
                 remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
                 } else {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm…" ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
                 remove_effect( effect_alarm_clock );

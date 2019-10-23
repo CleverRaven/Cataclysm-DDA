@@ -715,7 +715,7 @@
     "use_action": {
       "type": "transform",
       "msg": "Initiating \nRunning suit integrity diagnostics...\nAll systems operational.",
-      "target": "dimensional_anchor_on",
+      "target": "phase_immersion_suit_on",
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
@@ -1560,7 +1560,8 @@
         "max_volume": "1 L",
         "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
-      "CROWBAR"
+      "CROWBAR",
+      "HAMMER"
     ],
     "qualities": [
       [ "HAMMER", 3 ],
