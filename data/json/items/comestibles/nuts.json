@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pine_nuts",
-    "name": "handful of pine nuts",
-    "name_plural": "handfuls of pine nuts",
+    "name": { "str": "pine nuts", "str_pl": "pine nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": 1080,
@@ -25,8 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juniper",
-    "name": "handful of junipers",
-    "name_plural": "handful of junipers",
+    "name": { "str": "junipers", "str_pl": "junipers" },
     "weight": "122 g",
     "color": "blue",
     "comestible_type": "FOOD",
@@ -44,8 +42,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pistachio_unshelled",
-    "name": "handful of shelled pistachios",
-    "name_plural": "handfuls of shelled pistachios",
+    "name": { "str": "shelled pistachios", "str_pl": "shelled pistachios" },
     "weight": "30 g",
     "color": "green",
     "spoils_in": "90 days",
@@ -67,8 +64,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pistachio_roasted",
-    "name": "handful of roasted pistachios",
-    "name_plural": "handfuls of roasted pistachios",
+    "name": { "str": "roasted pistachios", "str_pl": "roasted pistachios" },
     "copy-from": "pistachio_unshelled",
     "healthy": 2,
     "description": "A handful of roasted nuts from an pistachio tree.",
@@ -79,8 +75,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_unshelled",
-    "name": "handful of shelled almonds",
-    "name_plural": "handfuls of shelled almonds",
+    "name": { "str": "shelled almonds", "str_pl": "shelled almonds" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "300 days",
@@ -102,8 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_roasted",
-    "name": "handful of roasted almonds",
-    "name_plural": "handfuls of roasted almonds",
+    "name": { "str": "roasted almonds", "str_pl": "roasted almonds" },
     "copy-from": "almond_unshelled",
     "healthy": 2,
     "description": "A handful of roasted nuts from an almond tree.",
@@ -114,8 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cashews",
-    "name": "handful of cashews",
-    "name_plural": "handfuls of cashews",
+    "name": { "str": "cashews", "str_pl": "cashews" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -137,8 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pecan_unshelled",
-    "name": "handful of shelled pecans",
-    "name_plural": "handfuls of shelled pecans",
+    "name": { "str": "shelled pecans", "str_pl": "shelled pecans" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -160,8 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pecan_roasted",
-    "name": "handful of roasted pecans",
-    "name_plural": "handfuls of roasted pecans",
+    "name": { "str": "roasted pecans", "str_pl": "roasted pecans" },
     "copy-from": "pecan_unshelled",
     "description": "A handful of roasted nuts from a pecan tree.",
     "price": 150,
@@ -171,8 +162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "peanut_unshelled",
-    "name": "handful of shelled peanuts",
-    "name_plural": "handful of shelled peanuts",
+    "name": { "str": "shelled peanuts", "str_pl": "shelled peanuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -194,8 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beech_nuts",
-    "name": "handful of beech nuts",
-    "name_plural": "handfuls of beech nuts",
+    "name": { "str": "beech nuts", "str_pl": "beech nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -215,8 +204,7 @@
   {
     "type": "COMESTIBLE",
     "id": "walnut_unshelled",
-    "name": "handful of shelled walnuts",
-    "name_plural": "handfuls of shelled walnuts",
+    "name": { "str": "shelled walnuts", "str_pl": "shelled walnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -237,8 +225,7 @@
   {
     "type": "COMESTIBLE",
     "id": "walnut_roasted",
-    "name": "handful of roasted walnuts",
-    "name_plural": "handfuls of roasted walnuts",
+    "name": { "str": "roasted walnuts", "str_pl": "roasted walnuts" },
     "copy-from": "walnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a walnut tree.",
@@ -249,8 +236,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chestnut_unshelled",
-    "name": "handful of shelled chestnuts",
-    "name_plural": "handfuls of shelled chestnuts",
+    "name": { "str": "shelled chestnuts", "str_pl": "shelled chestnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -271,8 +257,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chestnut_roasted",
-    "name": "handful of roasted chestnuts",
-    "name_plural": "handfuls of roasted chestnuts",
+    "name": { "str": "roasted chestnuts", "str_pl": "roasted chestnuts" },
     "copy-from": "chestnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a chestnut tree.",
@@ -283,8 +268,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_unshelled",
-    "name": "handful of shelled hazelnuts",
-    "name_plural": "handfuls of shelled hazelnuts",
+    "name": { "str": "shelled hazelnuts", "str_pl": "shelled hazelnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "150 days",
@@ -305,8 +289,7 @@
   {
     "type": "COMESTIBLE",
     "id": "edamame_roasted",
-    "name": "handful of roasted edamame",
-    "name_plural": "handful of roasted edamame",
+    "name": { "str": "roasted edamame", "str_pl": "roasted edamame" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -327,8 +310,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soy_nuts",
-    "name": "handful of roasted soy nuts",
-    "name_plural": "handful of roasted soy nuts",
+    "name": { "str": "roasted soy nuts", "str_pl": "roasted soy nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -349,8 +331,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_roasted",
-    "name": "handful of roasted hazelnuts",
-    "name_plural": "handfuls of roasted hazelnuts",
+    "name": { "str": "roasted hazelnuts", "str_pl": "roasted hazelnuts" },
     "copy-from": "hazelnut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a hazelnut tree.",
@@ -361,8 +342,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_unshelled",
-    "name": "handful of shelled hickory nuts",
-    "name_plural": "handfuls of shelled hickory nuts",
+    "name": { "str": "shelled hickory nuts", "str_pl": "shelled hickory nuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -383,8 +363,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_roasted",
-    "name": "handful of roasted hickory nuts",
-    "name_plural": "handfuls of roasted hickory nuts",
+    "name": { "str": "roasted hickory nuts", "str_pl": "roasted hickory nuts" },
     "copy-from": "hickory_nut_unshelled",
     "healthy": 1,
     "description": "A handful of roasted nuts from a hickory tree.",
@@ -417,8 +396,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns",
-    "name": "handful of acorns",
-    "name_plural": "handfuls of acorns",
+    "name": { "str": "acorns", "str_pl": "acorns" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "240 days",
@@ -440,8 +418,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorn_roasted",
-    "name": "handful of roasted acorns",
-    "name_plural": "handfuls of roasted acorns",
+    "name": { "str": "roasted acorns", "str_pl": "roasted acorns" },
     "copy-from": "acorns",
     "healthy": 1,
     "description": "A handful roasted nuts from an oak tree.",
