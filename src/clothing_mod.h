@@ -53,6 +53,7 @@ struct clothing_mod {
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;
+    bool restricted;
 
     static size_t count();
 };

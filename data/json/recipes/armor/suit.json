@@ -863,5 +863,17 @@
     "book_learn": [ [ "tailor_japanese", 3 ] ],
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "rag", 16 ] ] ]
+  },
+  {
+    "result": "zentai",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "2 h",
+    "book_learn": [ [ "mag_animecon", 1 ] ],
+    "using": [ [ "sewing_standard", 36 ] ],
+    "components": [ [ [ "lycra_patch", 34 ] ] ]
   }
 ]

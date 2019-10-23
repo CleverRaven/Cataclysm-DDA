@@ -1774,9 +1774,11 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 11 ] ],
     "book_learn": [ [ "mag_traps", 1 ], [ "manual_mechanics", 2 ], [ "manual_traps", 1 ], [ "howto_traps", 1 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ] ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "spring", 1 ] ] ]
   },
   {
     "type": "recipe",

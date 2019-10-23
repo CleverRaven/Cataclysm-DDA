@@ -400,6 +400,18 @@
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
+    "result": "leotard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 13 ] ],
+    "components": [ [ [ "lycra_patch", 8 ] ] ]
+  },
+  {
     "result": "long_undertop",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -943,6 +955,18 @@
     "components": [ [ [ "rag", 8 ] ] ]
   },
   {
+    "result": "sports_bra",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 2 ] ] ]
+  },
+  {
     "result": "sundress",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -978,6 +1002,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "thermal_shirt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "42 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "lycra_patch", 7 ] ] ]
   },
   {
     "result": "trenchcoat",
@@ -1097,6 +1133,18 @@
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
+    "result": "under_armor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 4 ] ] ]
+  },
+  {
     "result": "undershirt",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1107,6 +1155,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "unitard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 10 ] ] ]
   },
   {
     "result": "xlkevlar",

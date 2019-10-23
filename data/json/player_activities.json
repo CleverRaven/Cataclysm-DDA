@@ -31,6 +31,8 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
     "multi_activity": true
   },
   {
