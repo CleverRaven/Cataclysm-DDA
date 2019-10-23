@@ -1926,7 +1926,6 @@
     "type": "terrain",
     "id": "t_stump",
     "name": "tree stump",
-    "looks_like": "t_trunk",
     "description": "A tree stump, remnant of a tree that has been cut down.",
     "symbol": "^",
     "color": "brown",
