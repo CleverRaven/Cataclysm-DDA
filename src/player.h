@@ -890,7 +890,6 @@ class player : public Character
         /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
 
-        bool is_wielding( const item &target ) const;
         bool unwield();
 
         /** Creates the UI and handles player input for picking martial arts styles */

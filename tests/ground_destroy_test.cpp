@@ -177,9 +177,7 @@ TEST_CASE( "collapse_checks", "[.]" )
     for( int delta_z = 0; delta_z < 3; delta_z++ ) {
         for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
             for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
-                const tripoint &pt = tripoint( tripoint_zero.x + delta_x * wall_size,
-                                               tripoint_zero.y + delta_y * wall_size,
-                                               tripoint_zero.z + delta_z );
+                const tripoint pt( delta_x * wall_size, delta_y * wall_size, delta_z );
                 corners.insert( pt );
                 g->m.ter_set( pt, wall_id );
             }
@@ -212,9 +210,7 @@ TEST_CASE( "collapse_checks", "[.]" )
     // destroy the walls on the first floor; upper floors should mostly collapse
     for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
         for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
-            const tripoint &pt = tripoint( tripoint_zero.x + delta_x * wall_size,
-                                           tripoint_zero.y + delta_y * wall_size,
-                                           tripoint_zero.z );
+            const tripoint pt( delta_x * wall_size, delta_y * wall_size, 0 );
             g->m.destroy( pt, true );
         }
     }
