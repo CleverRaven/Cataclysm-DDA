@@ -1190,6 +1190,7 @@ void known_magic::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    json.member( "invlets", invlets );
 
     json.end_object();
 }
@@ -1211,6 +1212,7 @@ void known_magic::deserialize( JsonIn &jsin )
             spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
+    data.read( "invlets", invlets );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
