@@ -48,8 +48,8 @@ class scent_map
     public:
         scent_map( const game &g ) : gm( g ) { }
 
-        void deserialize( const std::string &data );
-        std::string serialize() const;
+        void deserialize( const std::string &data, bool is_type = false );
+        std::string serialize( bool is_type = false ) const;
 
         void draw( const catacurses::window &win, int div, const tripoint &center ) const;
 
@@ -64,7 +64,7 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        void set( const tripoint &p, int value, scenttype_id type = scenttype_id());
+        void set( const tripoint &p, int value, scenttype_id type = scenttype_id() );
         int get( const tripoint &p ) const;
         /**@}*/
         void set_unsafe( const tripoint &p, int value, scenttype_id type = scenttype_id() );
