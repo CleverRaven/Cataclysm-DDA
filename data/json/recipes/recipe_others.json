@@ -3577,7 +3577,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "bag_plastic", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -3589,7 +3589,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "cash_card", 4 ] ] ]
+    "components": [ [ [ "cash_card", 9 ], [ "plastic_straw", 3 ] ] ]
   },
   {
     "type": "recipe",
