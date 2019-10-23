@@ -3253,6 +3253,21 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_survivor_fingerless",
+    "copy_from": "gloves_lsurvivor",
+    "type": "ARMOR",
+    "looks_like": "gloves_lsurvivor",
+    "category": "armor",
+    "name": "pair of fingerless survivor gloves",
+    "name_plural": "pairs of fingerless survivor gloves",
+    "description": "A pair of customized, Kevlar armored cloth gloves with no fingers, modified to be easy to wear while providing maximum protection under extreme conditions.",
+    "weight": "160 g",
+    "coverage": 85,
+    "encumbrance": 8,
+    "warmth": 12,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
     "id": "gloves_medical",
     "type": "ARMOR",
     "name": "pair of medical gloves",
