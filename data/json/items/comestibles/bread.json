@@ -99,7 +99,7 @@
     "looks_like": "bread",
     "volume": "750 ml",
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
