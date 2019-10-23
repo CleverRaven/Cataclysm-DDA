@@ -908,7 +908,6 @@ class map
 
         // Items
         void process_active_items();
-        void trigger_rc_items( const std::string &signal );
 
         // Items: 2D
         map_stack i_at( const point &p );
