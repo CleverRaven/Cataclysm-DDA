@@ -602,8 +602,8 @@
     "price": 4000,
     "material": [ "steel", "plastic" ],
     "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "900 g",
-    "volume": "750 ml",
+    "weight": "1 kg",
+    "volume": "1500 ml",
     "bashing": 2,
     "use_action": {
       "type": "transform",
@@ -613,6 +613,7 @@
       "active": true
     },
     "covers": [ "HEAD" ],
+    "encumbrance": 5,
     "coverage": 20,
     "material_thickness": 1
   },
