@@ -494,6 +494,7 @@ class Creature
 
         virtual void mod_dodge_bonus( float ndodge );
         virtual void mod_hit_bonus( float  nhit );
+        virtual void mod_size_bonus(float nsize);
 
         virtual void set_bash_mult( float nbashmult );
         virtual void set_cut_mult( float ncutmult );
@@ -754,6 +755,7 @@ class Creature
         float hit_bonus;
         int bash_bonus;
         int cut_bonus;
+        float size_bonus;
 
         float bash_mult;
         float cut_mult;
