@@ -2262,7 +2262,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 2 ], [ "fur", 2 ] ] ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",

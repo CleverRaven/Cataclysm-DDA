@@ -170,9 +170,17 @@ bool player::handle_gun_damage( item &it )
     const cata::optional<islot_gun> &firing = it.type->gun;
     if( !it.has_flag( "NEVER_JAMS" ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 1000000000000.0 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
+
+        add_msg_player_or_npc(
+            _( "Your %s misfires with a muffled click!" ),
+            _( "<npcname>'s %s misfires with a muffled click!" ),
+            it.tname() );
+        if( dirt_dbl > 7800 ) {
+            add_msg_player_or_npc(
+                _( "Perhaps taking the ammo out of it and reloading will help." ),
+                _( "Perhaps taking the ammo out of it and reloading will help." ),
+                it.tname() );
+        }
         return false;
     }
 
@@ -272,7 +280,9 @@ bool player::handle_gun_damage( item &it )
                 if( dirtadder < 0 ) {
                     dirtadder = 0;
                 }
-                it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+                if( curammo_effects.count( "BLACKPOWDER" ) || dirt < 7150 ) {
+                    it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+                }
             }
             dirt = it.get_var( "dirt", 0 );
             dirt_dbl = static_cast<double>( dirt );

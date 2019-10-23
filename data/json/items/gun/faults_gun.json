@@ -4,7 +4,7 @@
     "type": "fault",
     "name": "Clean blackpowder fouling without lubricating",
     "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust. It fouls the gun much faster than the use of modern smokeless powder cartridges. Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly. **Cleaning your gun without lubricating it will result in an unreliable (but clean) weapon.",
-    "time": "30 m",
+    "time": "23 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -19,7 +19,7 @@
           [ "ammonia", 10 ],
           [ "bleach", 10 ],
           [ "soapy_water", 10 ]
-        ]
+        ], [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
     }
   },
@@ -37,7 +37,7 @@
     "type": "fault",
     "name": "Clean gun without lubricating",
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun. Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm. **Cleaning your gun without lubricating it will result in an unreliable (but clean) weapon.",
-    "time": "30 m",
+    "time": "23 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -52,7 +52,7 @@
           [ "ammonia", 10 ],
           [ "bleach", 10 ],
           [ "soapy_water", 10 ]
-        ]
+        ], [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
     }
   },
@@ -61,7 +61,7 @@
     "type": "fault",
     "name": "Clean gun and lubricate",
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun. Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm.",
-    "time": "32 m",
+    "time": "25 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -76,7 +76,7 @@
           [ "ammonia", 10 ],
           [ "bleach", 10 ],
           [ "soapy_water", 10 ]
-        ],
+        ], [ [ "rag", 1 ], [ "fur", 1 ] ],
         [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 1 ] ]
       ]
     }
@@ -91,7 +91,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 1 ] ] ]
+      "components": [ [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 1 ] ], [ [ "rag", 1 ], [ "fur", 1 ] ] ]
     }
   }
 ]
