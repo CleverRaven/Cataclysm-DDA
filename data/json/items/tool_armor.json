@@ -605,7 +605,13 @@
     "weight": "900 g",
     "volume": "750 ml",
     "bashing": 2,
-    "use_action": { "type": "transform", "msg": "You close the headlamp's cover.", "menu_text": "Close cover", "target": "wearable_atomic_light_off", "active": true },
+    "use_action": {
+      "type": "transform",
+      "msg": "You close the headlamp's cover.",
+      "menu_text": "Close cover",
+      "target": "wearable_atomic_light_off",
+      "active": true
+    },
     "covers": [ "HEAD" ],
     "coverage": 20,
     "material_thickness": 1
@@ -619,7 +625,12 @@
     "name_plural": "atomic headlamps (covered)",
     "description": "This is a custom made reinforced headlamp powered by the magic of nuclear decay, focused for more usable brightness.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to open the cover and show the light.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "use_action": { "type": "transform", "msg": "You open the headlamp's cover.", "menu_text": "Open cover", "target": "wearable_atomic_light" }
+    "use_action": {
+      "type": "transform",
+      "msg": "You open the headlamp's cover.",
+      "menu_text": "Open cover",
+      "target": "wearable_atomic_light"
+    }
   },
   {
     "id": "rm13_armor",
