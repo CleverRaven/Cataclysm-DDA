@@ -1,8 +1,6 @@
 #include "bodypart.h"
 
-#include <map>
 #include <unordered_map>
-#include <set>
 #include <utility>
 #include <vector>
 

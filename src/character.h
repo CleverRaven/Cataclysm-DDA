@@ -32,7 +32,6 @@
 #include "optional.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "point.h"

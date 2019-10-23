@@ -6,10 +6,9 @@
 #include <algorithm>
 #include <limits>
 #include <list>
-#include <map>
-#include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"

@@ -8,8 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "string_id.h"
 #include "map_extras.h"
+#include "string_id.h"
 
 namespace auto_notes
 {

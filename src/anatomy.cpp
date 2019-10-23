@@ -4,7 +4,6 @@
 #include <array>
 #include <cmath>
 #include <numeric>
-#include <set>
 
 #include "cata_utility.h"
 #include "generic_factory.h"

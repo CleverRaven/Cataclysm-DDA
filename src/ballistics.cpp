@@ -3,7 +3,6 @@
 #include <cmath>
 #include <cstddef>
 #include <algorithm>
-#include <list>
 #include <memory>
 #include <set>
 #include <vector>

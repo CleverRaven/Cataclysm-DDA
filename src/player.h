@@ -6,7 +6,6 @@
 #include <array>
 #include <memory>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -49,7 +48,6 @@ struct pathfinding_settings;
 class recipe;
 struct islot_comestible;
 struct itype;
-class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 

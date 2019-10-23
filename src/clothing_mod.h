@@ -10,7 +10,6 @@
 #include "type_id.h"
 
 class JsonObject;
-class player;
 class item;
 
 template<typename T> struct enum_traits;

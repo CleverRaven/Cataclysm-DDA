@@ -14,7 +14,6 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
 #include "game.h"
 #include "input.h"
 #include "itype.h"

@@ -1,7 +1,6 @@
 #include "clothing_mod.h"
 
 #include <string>
-#include <set>
 
 #include "generic_factory.h"
 #include "item.h"

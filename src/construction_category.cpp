@@ -1,7 +1,6 @@
 #include "construction_category.h"
 
 #include <string>
-#include <set>
 
 #include "generic_factory.h"
 

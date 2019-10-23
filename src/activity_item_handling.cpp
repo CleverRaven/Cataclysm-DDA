@@ -3,7 +3,6 @@
 #include <climits>
 #include <algorithm>
 #include <list>
-#include <iostream>
 #include <vector>
 #include <iterator>
 #include <memory>
@@ -49,8 +48,6 @@
 #include "item_location.h"
 #include "point.h"
 #include "string_id.h"
-
-struct construction_category;
 
 void cancel_aim_processing();
 

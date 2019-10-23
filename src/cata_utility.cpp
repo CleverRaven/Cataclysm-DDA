@@ -14,7 +14,6 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "mapsharing.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"

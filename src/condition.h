@@ -4,14 +4,8 @@
 
 #include <functional>
 #include <unordered_set>
-#include <utility>
-#include <vector>
 
 #include "json.h"
-
-class player;
-class npc;
-class mission;
 
 namespace dialogue_data
 {

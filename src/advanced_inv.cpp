@@ -37,13 +37,9 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "clzones.h"
 #include "colony.h"
 #include "enums.h"
-#include "faction.h"
-#include "item_location.h"
 #include "map_selector.h"
-#include "pimpl.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -51,12 +47,10 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cstring>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
-#include <initializer_list>
 #include <iterator>
 #include <memory>
 #include <unordered_map>

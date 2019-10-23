@@ -21,7 +21,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "input.h"

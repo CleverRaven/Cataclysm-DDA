@@ -15,7 +15,6 @@
 #include "point.h"
 #include "units.h"
 
-class uilist;
 class vehicle;
 class item;
 

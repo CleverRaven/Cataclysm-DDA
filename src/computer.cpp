@@ -6,7 +6,6 @@
 #include <sstream>
 #include <string>
 #include <list>
-#include <locale>
 #include <map>
 #include <memory>
 #include <utility>
@@ -16,7 +15,7 @@
 #include "debug.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "input.h"
 #include "item_factory.h"
@@ -47,7 +46,6 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"
-#include "omdata.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "basecamp.h"

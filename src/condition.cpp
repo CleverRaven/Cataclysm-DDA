@@ -3,7 +3,6 @@
 #include <functional>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -11,7 +10,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "dialogue.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "item_category.h"
 #include "item.h"
@@ -22,12 +20,15 @@
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "recipe.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class basecamp;
+class recepie;
+struct dialogue;
 
 const efftype_id effect_currently_busy( "currently_busy" );
 

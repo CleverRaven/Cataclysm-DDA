@@ -38,7 +38,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "calendar.h"
-#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"

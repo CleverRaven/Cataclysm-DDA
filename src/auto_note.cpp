@@ -4,17 +4,15 @@
 
 #include "game.h"
 #include "json.h"
-#include "string_formatter.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "map_extras.h"
 #include "options.h"
 #include "cata_utility.h"
 #include "output.h"
-#include "debug.h"
 #include "filesystem.h"
 #include "translations.h"
-#include "avatar.h"
 #include "map_extras.h"
 #include "generic_factory.h"
 

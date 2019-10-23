@@ -2,7 +2,6 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include <array>
 #include <iosfwd>
 #include <string>
 #include <unordered_map>

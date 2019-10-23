@@ -20,7 +20,6 @@
 #include "event_bus.h"
 #include "field.h"
 #include "game.h"
-#include "game_constants.h"
 #include "itype.h"
 #include "material.h"
 #include "map.h"

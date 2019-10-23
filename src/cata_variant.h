@@ -3,7 +3,6 @@
 #define CATA_VARIANT_H
 
 #include <array>
-#include <cassert>
 #include <utility>
 
 #include "character_id.h"
