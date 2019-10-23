@@ -3679,6 +3679,7 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
@@ -3693,6 +3694,7 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ] ] ]
