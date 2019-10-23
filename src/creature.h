@@ -488,7 +488,7 @@ class Creature
         virtual void mod_block_bonus( int nblock );
         virtual void mod_bash_bonus( int nbash );
         virtual void mod_cut_bonus( int ncut );
-        virtual void mod_size_bonus(int nsize);
+        virtual void mod_size_bonus( int nsize );
 
         virtual void set_dodge_bonus( float ndodge );
         virtual void set_hit_bonus( float nhit );
