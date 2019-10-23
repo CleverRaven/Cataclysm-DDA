@@ -1528,7 +1528,7 @@ void Creature::mod_cut_bonus( int ncut )
 {
     cut_bonus += ncut;
 }
-void Creature::mod_size_bonus(float nsize)
+void Creature::mod_size_bonus( float nsize )
 {
     size_bonus += nsize;
 }

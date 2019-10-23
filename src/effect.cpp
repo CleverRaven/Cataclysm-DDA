@@ -472,11 +472,6 @@ bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
     return false;
 }
 
-int effect_type::get_max_intensity() const
-{
-    return max_intensity;
-}
-
 effect effect::null_effect;
 
 bool effect::is_null() const
