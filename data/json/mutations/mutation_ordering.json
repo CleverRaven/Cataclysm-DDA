@@ -121,14 +121,7 @@
         "order": 1600
       },
       {
-        "id": [
-          "hair_color_black",
-          "hair_color_brown",
-          "hair_color_blond",
-          "hair_color_red",
-          "hair_color_gray",
-          "hair_color_white"
-        ],
+        "id": [ "hair_color_black", "hair_color_brown", "hair_color_blond", "hair_color_red", "hair_color_gray", "hair_color_white" ],
         "order": 1650
       },
       { "id": [ "LEAVES" ], "order": 1900 },
