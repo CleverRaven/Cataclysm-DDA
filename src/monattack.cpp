@@ -5281,9 +5281,9 @@ bool mattack::zombie_fuse( monster *z )
         }
     }
 
-    if( critter == nullptr ||
-        ( z->get_hp() + critter->get_hp() > z->get_hp_max() +
-            z->get_effect(effect_grown_of_fuse).get_max_intensity() ) ) {
+    if( critter == nullptr || ( z->has_effect( effect_grown_of_fuse ) &&
+                                ( z->get_hp() + critter->get_hp() > z->get_hp_max() + z->get_effect(
+                                      effect_grown_of_fuse ).get_max_intensity() ) ) ) {
         return false;
     }
     if( g->u.sees( *z ) ) {
