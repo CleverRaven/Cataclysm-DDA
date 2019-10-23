@@ -2142,7 +2142,7 @@ int player::attack_speed( const item &weap ) const
 
 double player::weapon_value( const item &weap, int ammo ) const
 {
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2156,7 +2156,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

@@ -2553,7 +2553,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
 int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return 0;
     }
@@ -2744,7 +2744,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
 int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ),
                              it.type_name() );
         return 0;
