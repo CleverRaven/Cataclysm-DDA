@@ -3589,7 +3589,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "cash_card", 9 ], [ "plastic_straw", 3 ] ] ]
+    "components": [ [ [ "cash_card", 9 ], [ "plastic_straw", 2 ] ] ]
   },
   {
     "type": "recipe",
