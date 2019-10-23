@@ -234,7 +234,7 @@
       { "trait": "hair_style_fro", "prob": 1 },
       { "trait": "hair_style_short", "prob": 35 },
       { "trait": "hair_style_medium", "prob": 25 },
-      { "trait": "hair_style_white_long", "prob": 13 }
+      { "trait": "hair_style_long", "prob": 13 }
     ]
   }
 ]
