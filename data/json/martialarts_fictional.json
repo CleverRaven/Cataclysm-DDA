@@ -171,16 +171,15 @@
     "type": "martial_art",
     "id": "style_toad",
     "name": "Toad Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
+    "description": "One of the Five Deadly Venoms, used by Liang Shen.  Masters of Toad Style can focus themselves to protect against all attacks.  You have powerful armor against physical attacks, though you will lose focus when you move.  You can meditate by pausing, giving yourself more armor for a short time.",
     "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 3,
-    "leg_block": 99,
     "static_buffs": [
       {
-        "id": "toad_static",
+        "id": "buff_toad_static",
         "name": "Toad's Iron Skin",
-        "description": "Gain up to +6 armor while standing still",
+        "description": "Your body is as strong as iron but only if you don't move.\n\n+6 bash, cut, and stab armor.",
         "//": "FWIW, this is twice the amount of armor provided by bionic plating.",
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "armor", "bash", 6.0 ], [ "armor", "cut", 6.0 ], [ "armor", "stab", 6.0 ] ]
@@ -188,17 +187,38 @@
     ],
     "onmove_buffs": [
       {
-        "id": "toad_armor_dissipate",
+        "id": "buff_toad_onmove",
         "name": "Iron Skin Dissipation",
-        "description": "Iron Skin softens when you move!",
+        "description": "Moving causes you to lose your iron skin.\n\n-1 bash, cut, and stab armor.\nLasts 6 turns.  Stacks 6 times.",
         "unarmed_allowed": true,
-        "min_unarmed": 0,
         "buff_duration": 6,
         "max_stacks": 6,
         "flat_bonuses": [ [ "armor", "bash", -1.0 ], [ "armor", "cut", -1.0 ], [ "armor", "stab", -1.0 ] ]
       }
     ],
-    "techniques": [ "tec_toad_grab" ]
+    "onpause_buffs": [
+      {
+        "id": "buff_toad_onpause",
+        "name": "Toad's Meditation",
+        "description": "By concentrating for a moment, you can bolster the strength of your iron skin.\n\n+3 bash, cut, and stab armor.\nLasts 2 turns.",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "armor", "bash", 3.0 ], [ "armor", "cut", 3.0 ], [ "armor", "stab", 3.0 ] ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "toad_ongethit",
+        "name": "Toad's Venom",
+        "description": "Your venom is just another lesson about the strength of your iron body.\n\n+2 bash damage.\nLasts 5 turns.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_toad_counter", "tec_toad_critcounter", "tec_toad_grab" ]
   },
   {
     "type": "martial_art",
@@ -478,13 +498,37 @@
   },
   {
     "type": "technique",
-    "id": "tec_toad_grab",
-    "name": "Toad's Tongue",
+    "id": "tec_toad_counter",
+    "name": "Toad Smack",
+    "messages": [ "You disregard %s's attack and knock them down", "<npcname> disregards %s's attack and knocks them down" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ] ],
+    "block_counter": true,
     "down_dur": 1,
-    "messages": [ "You snatch and slug %s", "<npcname> snatches and slug %s" ]
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_toad_critcounter",
+    "name": "Toad Slam",
+    "messages": [ "You meet %s's attack head on with a stunning counter", "<npcname> meet %s's attack head on with a stunning counter" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_toad_grab",
+    "name": "Toad's Tongue",
+    "messages": [ "You snatch and slug %s", "<npcname> snatches and slug %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
   },
   {
     "type": "technique",
