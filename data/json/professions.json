@@ -2018,7 +2018,10 @@
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There's precious few balloon animals in your future now.",
     "points": -1,
     "items": {
-      "both": { "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes", "airhorn" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "both": {
+        "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes", "airhorn" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
