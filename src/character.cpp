@@ -5592,3 +5592,8 @@ int Character::get_painkiller() const
 {
     return pkill;
 }
+
+bool Character::is_wielding( const item &target ) const
+{
+    return &weapon == &target;
+}

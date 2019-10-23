@@ -820,7 +820,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
 
     targeting_data args = {
         TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &you ),
-        bp_cost, &you.weapon == &weapon, gun->ammo_data(),
+        bp_cost, you.is_wielding( weapon ), gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()
     };

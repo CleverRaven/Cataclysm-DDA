@@ -7117,11 +7117,6 @@ ret_val<bool> player::can_unwield( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
-bool player::is_wielding( const item &target ) const
-{
-    return &weapon == &target;
-}
-
 bool player::unwield()
 {
     if( weapon.is_null() ) {
