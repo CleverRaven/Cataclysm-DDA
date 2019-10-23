@@ -906,9 +906,7 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
-                width = cur_entry.txt.length();
-            }
+            width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
@@ -964,9 +962,7 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < static_cast<int>( entry.txt.length() ) ) {
-            width = entry.txt.length();
-        }
+        width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;

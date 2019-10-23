@@ -1289,11 +1289,12 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "camera", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "motor_tiny", 3 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "hk_mp5", 1 ] ],
       [ [ "mp5mag", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
@@ -1322,14 +1323,15 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "laser_cannon", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "solar_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -1354,13 +1356,14 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "m249", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -1385,13 +1388,14 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "m240", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },
@@ -1543,13 +1547,15 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "lens", 1 ] ],
-      [ [ "identification_module", 1 ] ]
+      [ [ "lens", 1 ] ]
     ]
   },
   {
@@ -1577,7 +1583,7 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "steel_chunk", 20 ] ]
     ]
   },
@@ -1703,7 +1709,6 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
@@ -1881,12 +1886,13 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "m2browning", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]

@@ -162,7 +162,7 @@ int player::nutrition_for( const item &comest ) const
     return kcal_for( comest ) / islot_comestible::kcal_per_nutr;
 }
 
-std::pair<int, int> player::fun_for( const item &comest ) const
+std::pair<int, int> Character::fun_for( const item &comest ) const
 {
     static const trait_id trait_GOURMAND( "GOURMAND" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -966,18 +966,20 @@ void player::modify_health( const islot_comestible &comest )
 
 void player::modify_stimulation( const islot_comestible &comest )
 {
+    const int current_stim = get_stim();
     if( comest.stim != 0 &&
-        ( abs( stim ) < ( abs( comest.stim ) * 3 ) ||
-          sgn( stim ) != sgn( comest.stim ) ) ) {
+        ( abs( current_stim ) < ( abs( comest.stim ) * 3 ) ||
+          sgn( current_stim ) != sgn( comest.stim ) ) ) {
         if( comest.stim < 0 ) {
-            stim = std::max( comest.stim * 3, stim + comest.stim );
+            set_stim( std::max( comest.stim * 3, current_stim + comest.stim ) );
         } else {
-            stim = std::min( comest.stim * 3, stim + comest.stim );
+            set_stim( std::min( comest.stim * 3, current_stim + comest.stim ) );
         }
     }
-    if( has_trait( trait_id( "STIMBOOST" ) ) && ( stim > 30 ) && ( ( comest.add == ADD_CAFFEINE )
-            || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) || ( comest.add == ADD_CRACK ) ) ) {
-        int hallu_duration = ( stim - comest.stim < 30 ) ? stim - 30 : comest.stim;
+    if( has_trait( trait_id( "STIMBOOST" ) ) && ( current_stim > 30 ) &&
+        ( ( comest.add == ADD_CAFFEINE ) || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) ||
+          ( comest.add == ADD_CRACK ) ) ) {
+        int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
                                                 _( "You have a bad feeling about this." ),
@@ -1005,7 +1007,7 @@ void player::modify_addiction( const islot_comestible &comest )
     }
 }
 
-void player::modify_morale( item &food, const int nutr )
+void Character::modify_morale( item &food, const int nutr )
 {
     time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {

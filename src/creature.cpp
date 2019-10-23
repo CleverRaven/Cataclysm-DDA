@@ -1473,6 +1473,7 @@ void Creature::set_armor_cut_bonus( int ncutarm )
     armor_cut_bonus = ncutarm;
 }
 
+
 void Creature::set_speed_base( int nspeed )
 {
     speed_base = nspeed;
@@ -1485,6 +1486,7 @@ void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;

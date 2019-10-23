@@ -1007,7 +1007,7 @@ bool game::cleanup_at_end()
                 iNameLine = vRip.size();
                 vRip.emplace_back( "|                                        <" );
                 vRip.emplace_back( "|                                        |" );
-                iMaxWidth = vRip[vRip.size() - 1].length();
+                iMaxWidth = utf8_width( vRip.back() );
                 vRip.emplace_back( "|                                        |" );
                 vRip.emplace_back( "|_____.-._____              __/|_________|" );
                 vRip.emplace_back( "              |            |" );
@@ -1041,7 +1041,7 @@ bool game::cleanup_at_end()
                 iNameLine = vRip.size();
                 vRip.emplace_back( "|                                         <" );
                 vRip.emplace_back( "|                                         |" );
-                iMaxWidth = vRip[vRip.size() - 1].length();
+                iMaxWidth = utf8_width( vRip.back() );
                 vRip.emplace_back( "|                                         |" );
                 vRip.emplace_back( "|_____.-._______            __/|__________|" );
                 vRip.emplace_back( "             % / `_-.   _  |%" );
@@ -1064,7 +1064,7 @@ bool game::cleanup_at_end()
             vRip.emplace_back( R"(|                                   |)" );
             vRip.emplace_back( R"(|   _                               |)" );
             vRip.emplace_back( R"(|__/                                |)" );
-            iMaxWidth = vRip[vRip.size() - 1].length();
+            iMaxWidth = utf8_width( vRip.back() );
             vRip.emplace_back( R"( / `--.                             |)" );
             vRip.emplace_back( R"(|                                  ( )" );
             iInfoLine = vRip.size();
@@ -1091,27 +1091,30 @@ bool game::cleanup_at_end()
         sfx::fade_audio_group( sfx::group::fatigue, 2000 );
 
         for( size_t iY = 0; iY < vRip.size(); ++iY ) {
-            for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
-                char cTemp = vRip[iY][iX];
-                if( cTemp != ' ' ) {
+            size_t iX = 0;
+            const char *str = vRip[iY].data();
+            for( int slen = vRip[iY].size(); slen > 0; ) {
+                const uint32_t cTemp = UTF8_getch( &str, &slen );
+                if( cTemp != U' ' ) {
                     nc_color ncColor = c_light_gray;
 
-                    if( cTemp == '%' ) {
+                    if( cTemp == U'%' ) {
                         ncColor = c_green;
 
-                    } else if( cTemp == '_' || cTemp == '|' ) {
+                    } else if( cTemp == U'_' || cTemp == U'|' ) {
                         ncColor = c_white;
 
-                    } else if( cTemp == '@' ) {
+                    } else if( cTemp == U'@' ) {
                         ncColor = c_brown;
 
-                    } else if( cTemp == '*' ) {
+                    } else if( cTemp == U'*' ) {
                         ncColor = c_red;
                     }
 
                     mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
-                              vRip[iY][iX] );
+                              cTemp );
                 }
+                iX += mk_wcwidth( cTemp );
             }
         }
 
@@ -9833,10 +9836,18 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( str_req > u.get_str() ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            u.moves -= 100;
-            add_msg( m_bad, _( "The %s is too heavy for you to budge." ),
-                     furntype.name() );
-            return true;
+            if( u.get_str() >= str_req - 3 ) {
+                u.moves -= std::max( 3000, move_penalty * 10 );
+                add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
+                if( one_in( 3 ) ) {
+                    add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
+                    return true;
+                }
+            } else {
+                u.moves -= 100;
+                add_msg( m_bad, _( "The %s is too heavy for you to budge." ), furntype.name() );
+                return true;
+            }
         }
         u.moves -= move_penalty;
         if( move_penalty > 500 ) {

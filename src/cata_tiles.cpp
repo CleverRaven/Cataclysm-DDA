@@ -3240,7 +3240,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
-        const int full_text_length = iter->getText().length();
+        const int full_text_length = utf8_width( iter->getText() );
 
         int iOffsetX = 0;
         int iOffsetY = 0;

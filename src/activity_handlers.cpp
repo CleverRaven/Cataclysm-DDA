@@ -1927,6 +1927,35 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     }
 }
 
+static bool magic_train( player_activity *act, player *p )
+{
+    if( !p ) {
+        return false;
+    }
+    const spell_id &sp_id = spell_id( act->name );
+    if( sp_id.is_valid() ) {
+        const bool knows = g->u.magic.knows_spell( sp_id );
+        if( knows ) {
+            spell &studying = p->magic.get_spell( sp_id );
+            const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
+            const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
+            studying.gain_exp( xp );
+            p->add_msg_if_player( m_good, _( "You learn a little about the spell : %s" ),
+                                  sp_id->name.translated() );
+        } else {
+            p->magic.learn_spell( act->name, *p );
+            // you can decline to learn this spell , as it may lock you out of other magic.
+            if( p->magic.knows_spell( sp_id ) ) {
+                add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
+            } else {
+                act->set_to_null();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
@@ -1954,8 +1983,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         add_msg( m_good, _( "You learn %s." ), mastyle.name );
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
-    } else {
-        debugmsg( "train_finish without a valid skill or style name" );
+    } else if( !magic_train( act, p ) ) {
+        debugmsg( "train_finish without a valid skill or style or spell name" );
     }
 
     act->set_to_null();
@@ -3092,7 +3121,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( p->has_bionic( bid ) ) {
                 p->perform_uninstall( bid, act->values[0], act->values[1],
-                                      act->values[2], act->values[3] );
+                                      units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
                           act->str_values[cbm_id] );
