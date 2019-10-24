@@ -17,4 +17,4 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
   }
- ]
+]
