@@ -244,7 +244,7 @@ bool Creature::sees( const Creature &critter ) const
             return false;
         }
     }
-    return sees( critter.pos(), ch != nullptr ) && visible( ch );
+    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
