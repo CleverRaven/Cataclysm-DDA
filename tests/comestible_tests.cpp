@@ -113,6 +113,8 @@ TEST_CASE( "recipe_permutations" )
     // that is causing the test to fail (or decrease the total calories of the ingredients)
     // If the average is under the lower bound, you need to decrease the calories for the item
     // that is causing the test to fail (or increase the total calories of the ingredients)
+    // If it doesn't make sense for your component and resultant calories to match, you probably
+    // want to add the NUTRIENT_OVERRIDE flag to the resultant item.
     for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
         const recipe &recipe_obj = recipe_pair.first.obj();
@@ -123,6 +125,9 @@ TEST_CASE( "recipe_permutations" )
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = run_stats( recipe_permutations( recipe_obj.requirements().get_components() ),
                                            byproduct_calories( recipe_obj ) );
+            if( mystats.calories.n() < 2 ) {
+                continue;
+            }
             // The calories of the result
             int default_calories = 0;
             if( res_it.type->comestible ) {
