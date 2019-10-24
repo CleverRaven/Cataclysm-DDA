@@ -856,7 +856,7 @@
     "//": "Covers the floor with pebbles. Used for constructing railroads.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": 40,
+    "time": "40 m",
     "components": [ [ [ "pebble", 100 ] ] ],
     "post_terrain": "t_railroad_rubble"
   },
