@@ -12,7 +12,6 @@
     "volume": "50 ml",
     "material": "plastic",
     "bashing": 1,
-    "cutting": 0,
     "to_hit": -1
   },
   {
@@ -131,7 +130,6 @@
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "plastic" ],
     "bashing": 5,
-    "cutting": 0,
     "to_hit": -1
   },
   {
@@ -147,7 +145,6 @@
     "volume": "2400 ml",
     "material": "plastic",
     "bashing": 2,
-    "cutting": 0,
     "to_hit": -1
   },
   {
@@ -164,8 +161,6 @@
     "weight": 227,
     "volume": 1,
     "material": "paper",
-    "bashing": 0,
-    "cutting": 0,
     "to_hit": -2,
     "snippet_category": [
       {
@@ -197,7 +192,6 @@
     "volume": 2,
     "material": [ "plastic", "steel" ],
     "bashing": 3,
-    "cutting": 0,
     "to-hit": 0
   },
   {
@@ -213,7 +207,6 @@
     "volume": 1,
     "material": [ "ceramic", "steel" ],
     "bashing": 3,
-    "cutting": 0,
     "to-hit": 1
   },
   {
@@ -230,7 +223,6 @@
     "volume": 2,
     "material": [ "steel", "plastic" ],
     "bashing": 3,
-    "cutting": 0,
     "to_hit": 1
   }
 ]
