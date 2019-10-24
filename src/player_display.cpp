@@ -1057,7 +1057,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = std::abs( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color, _( "Cold-Blooded        %s%s%d%%" ), pen_sign,
                        ( pen < 10 ? " " : "" ), pen );
             line++;
