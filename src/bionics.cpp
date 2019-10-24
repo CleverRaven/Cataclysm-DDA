@@ -1946,7 +1946,7 @@ void player::add_bionic( const bionic_id &b )
 
     units::energy pow_up = bionics[b].capacity;
     mod_max_power_level( pow_up );
-    if( pow_up > 0_J ) {
+    if( pow_up > 0_mJ ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
     }
