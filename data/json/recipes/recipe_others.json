@@ -4688,7 +4688,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
