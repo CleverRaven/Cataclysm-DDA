@@ -36,8 +36,8 @@
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ 
-      { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] } ,
+    "monsters": [
+      { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_shrieker", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_lemure", "freq": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
     ]
