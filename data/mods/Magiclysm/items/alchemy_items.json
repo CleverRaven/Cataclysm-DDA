@@ -191,12 +191,12 @@
     "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
     "volume": "100 ml",
     "weight": "100 g",
+    "price": 2000,
     "symbol": ",",
     "color": "red",
     "to_hit": -1,
     "material": [ "flesh" ],
     "cutting": 7,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 2000
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   }
 ]
