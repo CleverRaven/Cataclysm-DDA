@@ -12,5 +12,19 @@
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "under_armor",
+    "type": "uncraft",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lycra_patch", 1 ] ] ]
+  },
+  {
+    "result": "under_armor_shorts",
+    "type": "uncraft",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lycra_patch", 1 ] ] ]
   }
 ]

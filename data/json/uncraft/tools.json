@@ -1,0 +1,20 @@
+[
+  {
+    "result": "pipe_tobacco",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "50 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "result": "ukulele",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "50 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
+  }
+ ]
