@@ -80,7 +80,7 @@
           [ "soapy_water", 32 ]
         ],
         [ [ "rag", 1 ], [ "fur", 1 ] ],
-        [ [ "lamp_oil", 63 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "motor_oil", 63 ] ]
+        [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
       ]
     }
   },
@@ -95,7 +95,7 @@
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
       "components": [
-        [ [ "lamp_oil", 63 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "motor_oil", 63 ] ],
+        [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ],
         [ [ "rag", 1 ], [ "fur", 1 ] ]
       ]
     }
