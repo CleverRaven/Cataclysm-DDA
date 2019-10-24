@@ -226,7 +226,7 @@
     "name": "Viper Kung Fu",
     "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) has a unique three-part combo, which initiates on a dodge, then follows up with a stunning Viper Bite and then finishes with the legendary Viper Strike.",
     "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
-    "learn_difficulty": 10,	
+    "learn_difficulty": 10,
     "arm_block": 1,
     "static_buffs": [
       {
@@ -410,7 +410,8 @@
     "dodge_counter": true,
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ]
-  },  {
+  },
+  {
     "type": "technique",
     "id": "tec_venom_snake_feint",
     "name": "Viper Hiss",
