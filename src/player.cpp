@@ -1598,7 +1598,7 @@ int player::swim_speed() const
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
-            ret += get_weight() / 120_gram - 50 * mon->get_size();
+            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
             return ret;
         }
     }
