@@ -455,11 +455,11 @@ class salvage_actor : public iuse_actor
 
         /** Materials it can cut */
         std::set<material_id> material_whitelist = {
-            material_id( "alien_resin" ),
             material_id( "acidchitin" ),
+            material_id( "alien_resin" ),
             material_id( "bone" ),
-            material_id( "cotton" ),
             material_id( "chitin" ),
+            material_id( "cotton" ),
             material_id( "faux_fur" ),
             material_id( "fur" ),
             material_id( "kevlar" ),
