@@ -11,13 +11,13 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100" ]
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "bipod",
@@ -37,6 +37,15 @@
     "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ]
+  },
+  {
+    "id": "bipod_mod",
+    "copy-from": "bipod",
+    "type": "GUNMOD",
+    "name": "modified bipod",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "combination_gun_shotgun",
@@ -90,6 +99,14 @@
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+  },
+  {
+    "id": "grip_mod",
+    "copy-from": "grip",
+    "type": "GUNMOD",
+    "name": "modified forward grip",
+    "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.  This one was modified and customized to mount on pretty much any weapon, if you so want.",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "inter_bayonet",
@@ -198,6 +215,14 @@
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
+    "id": "m203_mod",
+    "copy-from": "m203",
+    "type": "GUNMOD",
+    "name": "modified M203",
+    "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "m320_mod",
     "type": "GUNMOD",
     "name": "M320 GLM",
@@ -217,6 +242,14 @@
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
+    "id": "m320_mod_mod",
+    "copy-from": "m320_mod",
+    "type": "GUNMOD",
+    "name": "modified M320 GLM",
+    "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for stand alone use.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
     "type": "GENERIC",
@@ -224,12 +257,13 @@
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "masterkey",
@@ -250,10 +284,18 @@
     "flags": [ "RELOAD_ONE" ]
   },
   {
+    "id": "masterkey_mod",
+    "copy-from": "masterkey",
+    "type": "GUNMOD",
+    "name": "modified masterkey shotgun",
+    "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "pipe_launcher40mm",
     "type": "GUNMOD",
     "name": "40mm pipe launcher",
-    "description": "This is a home built launcher tube that can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
+    "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "2080 g",
     "volume": "750 ml",
     "price": 25000,
@@ -261,7 +303,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
-    "mod_targets": [ "rifle", "crossbow" ],
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
@@ -307,6 +349,14 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
+    "id": "rm121aux_mod",
+    "copy-from": "rm121aux",
+    "type": "GUNMOD",
+    "name": "modified RM121 aux shotgun",
+    "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "u_shotgun",
     "type": "GUNMOD",
     "name": "underslung shotgun",
@@ -323,6 +373,14 @@
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
+  },
+  {
+    "id": "u_shotgun_mod",
+    "copy-from": "u_shotgun",
+    "type": "GUNMOD",
+    "name": "modified underslung shotgun",
+    "description": "A short shotgun with 2 barrels, which can be mounted under the barrel of many rifles.  It allows two shotgun shells to be loaded and fired.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "lead_laser_sight",

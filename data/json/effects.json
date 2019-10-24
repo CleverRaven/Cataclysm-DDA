@@ -1789,7 +1789,7 @@
       "dodge_mod": [ 0.0104 ],
       "speed_mod": [ 0.1042 ],
       "bash_mod": [ 0.08333 ],
-      "growth_mod": [ 0.00625 ]
+      "size_mod": [ 0.00625 ]
     },
     "int_decay_step": 0
   },

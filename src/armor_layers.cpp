@@ -288,7 +288,7 @@ std::vector<std::string> clothing_properties(
 std::vector<std::string> clothing_protection( const item &worn_item, const int width )
 {
     std::vector<std::string> prot;
-    prot.reserve( 4 );
+    prot.reserve( 6 );
 
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
@@ -296,6 +296,10 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Acid:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Fire:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;

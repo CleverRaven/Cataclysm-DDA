@@ -540,8 +540,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "volume": "92500 ml",
-    "weight": 120000,
+    "volume": "62500 ml",
+    "weight": 81500,
     "hp": 112,
     "speed": 60,
     "material": [ "flesh" ],
@@ -562,7 +562,7 @@
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
     },
-    "death_function": [ "SPLATTER", "NORMAL" ],
+    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
