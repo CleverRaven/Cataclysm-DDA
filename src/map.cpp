@@ -5216,53 +5216,6 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, safe_reference<item> &item_ref,
-                                const tripoint &pos, const std::string &signal,
-                                const float, const temperature_flag flag )
-{
-    bool trigger_item = false;
-    if( item_ref->has_flag( "RADIO_ACTIVATION" ) && item_ref->has_flag( signal ) ) {
-        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
-        if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
-            // Invoke twice: first to transform, then later to proc
-            // Can't use process_item here - invalidates our iterator
-            item_ref->process( nullptr, pos, true );
-        }
-        if( item_ref->has_flag( "BOMB" ) ) {
-            // Set charges to 0 to ensure it detonates now
-            item_ref->charges = 0;
-            item_ref->item_counter = 0;
-        }
-        trigger_item = true;
-    } else if( item_ref->has_flag( "RADIO_CONTAINER" ) && !item_ref->contents.empty() ) {
-        auto it = std::find_if( item_ref->contents.begin(),
-        item_ref->contents.end(), [ &signal ]( const item & c ) {
-            return c.has_flag( signal );
-        } );
-        if( it != item_ref->contents.end() ) {
-            item_ref->convert( it->typeId() );
-            if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
-                item_ref->process( nullptr, pos, true );
-            }
-
-            // Clear possible mods to prevent unnecessary pop-ups.
-            item_ref->contents.clear();
-
-            item_ref->charges = 0;
-            trigger_item = true;
-        }
-    }
-    if( trigger_item ) {
-        return process_item( items, item_ref, pos, true, 1, flag );
-    }
-    return false;
-}
-
-void map::trigger_rc_items( const std::string &signal )
-{
-    process_items( false, trigger_radio_item, signal );
-}
-
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
