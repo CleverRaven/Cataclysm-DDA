@@ -264,7 +264,7 @@ void Item_modifier::modify( item &new_item ) const
             charges_min = charges_max;
         }
 
-        ch = ( charges_min == charges_max ) ? charges_min : rng( charges_min,
+        ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );
     } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
         new_item.charges = max_capacity;
