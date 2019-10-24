@@ -10,8 +10,6 @@
 #include "type_id.h"
 
 struct tripoint;
-struct point;
-class time_point;
 class map;
 class mapgendata;
 class mission;

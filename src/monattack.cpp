@@ -21,7 +21,7 @@
 #include "debug.h"
 #include "effect.h"
 #include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "gun_mode.h"

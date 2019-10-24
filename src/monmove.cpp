@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
-#include <list>
 
 #include "avatar.h"
 #include "bionics.h"

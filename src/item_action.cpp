@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
-#include <list>
 #include <memory>
 #include <set>
 #include <tuple>

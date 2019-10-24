@@ -15,7 +15,6 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
-#include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -35,6 +34,8 @@ class JsonObject;
 class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
+
+namespace cata { template <typename T> class optional; }
 
 template<typename T>
 class string_id;

@@ -1,9 +1,10 @@
 #include "effect.h"
 
-#include <map>
-#include <sstream>
 #include <algorithm>
+#include <cstddef>
+#include <map>
 #include <memory>
+#include <sstream>
 #include <unordered_set>
 
 #include "debug.h"

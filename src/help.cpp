@@ -5,7 +5,6 @@
 #include <vector>
 #include <array>
 #include <iterator>
-#include <list>
 
 #include "action.h"
 #include "catacharset.h"

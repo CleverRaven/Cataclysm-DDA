@@ -1,14 +1,14 @@
 #include "magic_ter_furn_transform.h"
 
 #include "creature.h"
-#include "point.h"
+#include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "magic.h"
 #include "map.h"
 #include "mapdata.h"
-#include "messages.h"
 #include "type_id.h"
+
+struct tripoint;
 
 namespace
 {

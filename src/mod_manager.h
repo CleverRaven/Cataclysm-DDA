@@ -10,7 +10,6 @@
 #include <utility>
 
 #include "pimpl.h"
-#include "string_id.h"
 #include "type_id.h"
 
 struct WORLD;

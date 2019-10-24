@@ -1,5 +1,8 @@
 #include "event_statistics.h"
 
+#include <map>
+#include <memory>
+
 #include "event.h"
 #include "generic_factory.h"
 #include "stats_tracker.h"

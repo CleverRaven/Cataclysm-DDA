@@ -1,7 +1,6 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <set>
 
 #include "assign.h"
 #include "calendar.h"

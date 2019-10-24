@@ -29,7 +29,7 @@
 #include "enums.h"
 #include "explosion.h"
 #include "fault.h"
-#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "flag.h"
 #include "game.h"

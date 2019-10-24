@@ -7,10 +7,10 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "enum_conversions.h"
-#include "type_id.h"
 
 using itype_id = std::string;
+
+template <typename E> struct enum_traits;
 
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
@@ -110,8 +110,6 @@ struct hash<event_type> {
 
 namespace cata
 {
-
-class event;
 
 namespace event_detail
 {

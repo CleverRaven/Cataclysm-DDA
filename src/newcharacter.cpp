@@ -53,8 +53,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-struct points_left;
-
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
 #define COL_STAT_BONUS      c_light_green // Bonus

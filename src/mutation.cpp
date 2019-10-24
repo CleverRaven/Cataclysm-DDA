@@ -2,12 +2,11 @@
 
 #include <cstddef>
 #include <algorithm>
-#include <list>
 #include <unordered_set>
 
 #include "avatar_action.h"
 #include "event_bus.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"

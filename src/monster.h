@@ -40,8 +40,6 @@ struct trap;
 
 enum class mon_trigger;
 
-class monster;
-
 class mon_special_attack
 {
     public:

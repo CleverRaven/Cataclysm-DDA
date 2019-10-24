@@ -8,7 +8,6 @@
 #include <list>
 #include <unordered_map>
 #include <utility>
-#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -45,7 +44,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pimpl.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"

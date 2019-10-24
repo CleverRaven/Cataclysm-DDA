@@ -10,8 +10,8 @@
 
 #include "game_constants.h"
 #include "lightmap.h"
-#include "point.h"
 
+struct point;
 struct tripoint;
 
 // For light we store four values, depending on the direction that the light

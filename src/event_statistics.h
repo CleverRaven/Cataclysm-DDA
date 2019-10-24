@@ -2,8 +2,6 @@
 #ifndef CATA_EVENT_STATISTICS_H
 #define CATA_EVENT_STATISTICS_H
 
-#include <map>
-#include <memory>
 #include <vector>
 
 #include "clone_ptr.h"
@@ -11,10 +9,6 @@
 #include "translations.h"
 
 class cata_variant;
-namespace cata
-{
-class event;
-} // namespace cata
 class event_multiset;
 enum class event_type : int;
 class JsonObject;

@@ -5,6 +5,8 @@
 #include "platform_win.h"
 
 #include <cstdlib>
+#include <fstream>
+#include <map>
 #include <stdexcept>
 
 #if defined(__linux__)

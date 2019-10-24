@@ -22,6 +22,7 @@
 #include "drawing_primitives.h"
 #include "enums.h"
 #include "faction.h"
+#include "field_type.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -56,7 +57,6 @@
 #include "vpart_range.h"
 #include "calendar.h"
 #include "common_types.h"
-#include "field.h"
 #include "game_constants.h"
 #include "item.h"
 #include "string_id.h"
@@ -65,7 +65,6 @@
 #include "material.h"
 #include "int_id.h"
 #include "colony.h"
-#include "pimpl.h"
 #include "point.h"
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "

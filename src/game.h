@@ -4,7 +4,6 @@
 
 #include <climits>
 #include <array>
-#include <list>
 #include <map>
 #include <memory>
 #include <set>

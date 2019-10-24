@@ -24,7 +24,6 @@
 #include "item.h"
 #include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"

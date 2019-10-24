@@ -6,7 +6,6 @@
 #include <map>
 #include <string>
 #include <memory>
-#include <set>
 #include <utility>
 
 #include "avatar.h"

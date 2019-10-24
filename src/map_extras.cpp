@@ -11,7 +11,7 @@
 #include "auto_note.h"
 #include "cellular_automata.h"
 #include "debug.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "generic_factory.h"

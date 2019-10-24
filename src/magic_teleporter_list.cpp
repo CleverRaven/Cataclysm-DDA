@@ -10,7 +10,6 @@
 #include "coordinate_conversions.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"

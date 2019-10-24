@@ -1,6 +1,7 @@
 #include "mission.h"
 
 #include <algorithm>
+#include <iosfwd>
 #include <memory>
 #include <unordered_map>
 #include <numeric>
@@ -19,14 +20,12 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "item_group.h"
 #include "creature.h"
 #include "inventory.h"
 #include "item.h"
-#include "json.h"
 #include "monster.h"
 #include "material.h"
 

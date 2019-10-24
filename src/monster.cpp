@@ -5,7 +5,6 @@
 #include <sstream>
 #include <memory>
 #include <tuple>
-#include <unordered_map>
 
 #include "avatar.h"
 #include "coordinate_conversions.h"
@@ -14,7 +13,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"

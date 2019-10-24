@@ -10,7 +10,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "creature_tracker.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -21,7 +20,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -34,7 +32,6 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "type_id.h"
-#include "pimpl.h"
 #include "point.h"
 
 const species_id ZOMBIE( "ZOMBIE" );

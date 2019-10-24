@@ -2,19 +2,17 @@
 
 #include <cstdlib>
 #include <algorithm>
-#include <array>
 #include <iterator>
 #include <initializer_list>
 #include <map>
 #include <ostream>
-#include <queue>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "character_id.h"
 #include "debug.h"
-#include "field.h"
+#include "field_type.h"
 #include "flood_fill.h"
 #include "item.h"
 #include "line.h"

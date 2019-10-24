@@ -14,7 +14,7 @@
 #include "json.h"
 #include "translations.h"
 #include "player.h"
-#include "field.h"
+#include "field_type.h"
 
 namespace
 {

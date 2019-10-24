@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"

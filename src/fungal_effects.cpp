@@ -7,7 +7,7 @@
 
 #include "avatar.h"
 #include "creature.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"

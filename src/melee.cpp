@@ -10,7 +10,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 #include <cmath>
@@ -50,7 +49,6 @@
 #include "string_id.h"
 #include "units.h"
 #include "weighted_list.h"
-#include "material.h"
 #include "type_id.h"
 #include "point.h"
 #include "projectile.h"

@@ -2,7 +2,6 @@
 #ifndef CATA_MEMORIAL_LOGGER_H
 #define CATA_MEMORIAL_LOGGER_H
 
-#include <map>
 #include <string>
 #include <vector>
 

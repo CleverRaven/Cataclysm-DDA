@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "int_id.h"
 #include "json.h"
 #include "string_id.h"
 

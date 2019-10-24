@@ -1,6 +1,5 @@
 #include "drawing_primitives.h"
 
-#include <functional>
 #include <vector>
 #include <utility>
 

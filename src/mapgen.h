@@ -12,7 +12,6 @@
 #include "regional_settings.h"
 #include "type_id.h"
 
-class time_point;
 struct point;
 class JsonArray;
 class JsonObject;

@@ -9,7 +9,6 @@
 #include <memory>
 #include <string>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"

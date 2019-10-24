@@ -14,7 +14,7 @@
 #include "avatar.h"
 #include "explosion.h"
 #include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"

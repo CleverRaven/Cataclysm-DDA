@@ -4,7 +4,6 @@
 #include "enum_conversions.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "units.h"

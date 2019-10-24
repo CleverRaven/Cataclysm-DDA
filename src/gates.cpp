@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <set>
 
 #include "avatar.h"
 #include "game.h" // TODO: This is a circular dependency

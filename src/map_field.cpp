@@ -9,7 +9,6 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <array>
 #include <bitset>
 #include <string>
 
@@ -34,7 +33,6 @@
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "rng.h"
-#include "scent_map.h"
 #include "submap.h"
 #include "translations.h"
 #include "vehicle.h"

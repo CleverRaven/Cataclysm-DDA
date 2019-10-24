@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <map>
 #include <sstream>
 
 #include "addiction.h"

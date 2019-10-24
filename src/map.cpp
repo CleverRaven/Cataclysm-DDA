@@ -19,7 +19,6 @@
 #include "clzones.h"
 #include "debug.h"
 #include "drawing_primitives.h"
-#include "emit.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "fragment_cloud.h"
@@ -82,7 +81,6 @@
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "construction.h"
 #include "flat_set.h"
 
 const mtype_id mon_zombie( "mon_zombie" );

@@ -15,7 +15,6 @@
 #include "messages.h"
 #include "map_iterator.h"
 #include "npc.h"
-#include "npctalk.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"

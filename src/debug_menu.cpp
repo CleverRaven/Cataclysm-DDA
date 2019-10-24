@@ -18,7 +18,6 @@
 #include <type_traits>
 #include <utility>
 #include <cstdlib>
-#include <ctime>
 #include <unordered_map>
 
 #include "action.h"
@@ -46,7 +45,6 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -61,7 +59,6 @@
 #include "weather.h"
 #include "recipe_dictionary.h"
 #include "martialarts.h"
-#include "sounds.h"
 #include "trait_group.h"
 #include "artifact.h"
 #include "vpart_position.h"
@@ -73,9 +70,7 @@
 #include "cata_utility.h"
 #include "clzones.h"
 #include "compatibility.h"
-#include "creature.h"
 #include "cursesdef.h"
-#include "input.h"
 #include "item_group.h"
 #include "monster.h"
 #include "point.h"

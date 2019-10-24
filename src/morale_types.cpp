@@ -1,7 +1,6 @@
 #include "morale_types.h"
 
 #include <cstddef>
-#include <set>
 #include <vector>
 
 #include "generic_factory.h"

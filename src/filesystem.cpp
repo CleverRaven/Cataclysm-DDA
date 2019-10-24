@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include <iterator>
-#include <utility>
 
 #include "debug.h"
 #include "cata_utility.h"

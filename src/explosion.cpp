@@ -24,7 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item_factory.h"

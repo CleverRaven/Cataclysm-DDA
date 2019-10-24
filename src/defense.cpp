@@ -12,7 +12,6 @@
 #include "input.h"
 #include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monstergenerator.h"

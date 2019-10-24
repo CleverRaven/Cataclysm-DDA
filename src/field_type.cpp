@@ -1,7 +1,5 @@
 #include "field_type.h"
 
-#include <set>
-
 #include "bodypart.h"
 #include "debug.h"
 #include "enums.h"

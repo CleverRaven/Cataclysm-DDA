@@ -27,7 +27,7 @@
 #include "effect.h"
 #include "timed_event.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"

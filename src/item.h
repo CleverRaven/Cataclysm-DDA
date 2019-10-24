@@ -38,11 +38,6 @@ class material_type;
 struct mtype;
 class faction;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class nc_color;
 class JsonIn;
 class JsonOut;
