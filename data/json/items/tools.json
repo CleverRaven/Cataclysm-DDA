@@ -4849,16 +4849,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
     "magazine_well": 1
   },
   {
