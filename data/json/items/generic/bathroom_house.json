@@ -49,11 +49,11 @@
         "description": "A plastic brush with soft bristles for cleaning your teeth.",
         "copy_from": "base_toiletries",
         "snippet_category": [
-            { "id": "tbrush1", "text": "It has a cheap, blocky handle and is likely meant to be disposable." },
-            { "id": "tbrush2", "text": "It has an ergonomic silicone grip. Luxurious!" },
-            { "id": "tbrush3", "text": "The blue and white pattern on the handle implies cleanliness." },
-            { "id": "tbrush4", "text": "This one is meant for kids, and has a wide-eyed cartoon pony on the handle." },
-            { "id": "tbrush5", "text": "This one is meant for kids, and has a grinning red racecar on the handle." }
+            { "id": "tbrush1", "text": "A plastic brush with soft bristles for cleaning your teeth. It has a cheap, blocky handle and is likely meant to be disposable." },
+            { "id": "tbrush2", "text": "A combination toothbrush and gum massager. It has an ergonomic silicone grip. Luxurious!" },
+            { "id": "tbrush3", "text": "A plastic brush with soft bristles for cleaning your teeth. The blue and white pattern on the handle implies cleanliness." },
+            { "id": "tbrush4", "text": "A short toothbrush designed for children. It has a wide-eyed cartoon pony on the handle." },
+            { "id": "tbrush5", "text": "A short toothbrush designed for children. It has a grinning red racecar on the handle." }
         ]
     },
     
@@ -65,10 +65,10 @@
         "description": "An instrument of hair torture.",
         "copy_from": "base_toiletries",
         "snippet_category": [
-            { "id:": "hbrush1", "text": "There are round safety tips on the bristles."},
-            { "id:": "hbrush2", "text": "The handle has a faux-wood design."},
-            { "id:": "hbrush3", "text": "The shiny crome design makes it look modern."},
-            { "id:": "hbrush4", "text": "The cartoon whale on the handle seems friendly enough."}
+            { "id:": "hbrush1", "text": "An instrument of hair torture. There are round safety tips on the bristles."},
+            { "id:": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle."},
+            { "id:": "hbrush3", "text": "A soft, cushioned hairbrush. The shiny chrome design appears modern."},
+            { "id:": "hbrush4", "text": "A tacky kid's hairbrush. The cartoon whale on the handle seems friendly enough."}
         ]
     },
     
@@ -76,7 +76,7 @@
         "id": "curler_hair",
         "name": "hair curler",
         "type": "GENERIC",
-        "description": "a soft plastic cylinder you can wrap a lock of your hair around to curl it.",
+        "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
         "copy_from": "base_toiletries",
         "symbol": ",",
         "weight": 20,
@@ -89,7 +89,7 @@
         "name": "dental floss",
         "name_plural": "rolls of dental floss",
         "type": "GENERIC",
-        "description": "Twenty five yards of finely waxed thread wound up inside a plastic container. Perfect for picking bits of smoked meat out of your teeth. Disassemble to use the thread for something else.",
+        "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container. Perfect for picking bits of smoked meat out of your teeth. Disassemble to use the thread for something else.",
         "copy_from": "base_toiletries",
         "symbol": "~",
         "material": [ "plastic", "cotton" ]
@@ -102,10 +102,10 @@
         "description": "A grooming tool with teeth for straightening your hair.",
         "copy_from": "base_toiletries",
         "snippet_category": [
-            { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end."},
-            { "id": "pcomb2", "text": "This one is narrow, black and austere."},
-            { "id": "pcomb3", "text": "Its tortiseshell pattern makes it seem antique."},
-            { "id": "pcomb4", "text": "This one folds on a hinge, in case you want to look like a greaser."}
+            { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end of this otherwise pristine comb."},
+            { "id": "pcomb2", "text": "A grooming tool with teeth for straightening your hair. This one is narrow, black and austere."},
+            { "id": "pcomb3", "text": "A comb made of soft plastic. Its tortoiseshell pattern makes it seem antique."},
+            { "id": "pcomb4", "text": "A comb which folds on a hinge, in case you want to look like a greaser."}
         ]
     },
     
@@ -131,7 +131,7 @@
         "id": "plunger_futuristic",
         "name": "professional plunger",
         "type": "GENERIC",
-        "description": "This hollow plastic toilet plunger's bell compresses like an accordion. It is efficient at its intended purpouse, and complete rubbish as a weapon.",
+        "description": "This hollow plastic toilet plunger's bell compresses like an accordion. It is efficient at its intended purpose, and complete rubbish as a weapon.",
         "symbol": "p",
         "color": "black",
         "price": 1590,
@@ -163,10 +163,10 @@
         "to_hit": -2,
         "snippet_category": [
             { "id:": "tpaper1", "text": "Imagine the thinnest, most disposable paper you could possibly make. Now imagine something thinner than that."},
-            { "id:": "tpaper2", "text": "This roll is two-ply and quilted, for vandalizing houses more comfortably than ever."},
-            { "id:": "tpaper3", "text": "This brand is designed to dissolve completely in water!"},
+            { "id:": "tpaper2", "text": "This roll of toilet paper is two-ply and quilted, for vandalizing houses more comfortably than ever."},
+            { "id:": "tpaper3", "text": "This brand of toilet paper is designed to dissolve completely in water!"},
             { "id:": "tpaper4", "text": "Images of your least favorite politician are printed on each individual sheet."},
-            { "id:": "tpaper5", "text": "The splinters of unprocessed wood visible in this one make it seem less luxurious, though."}
+            { "id:": "tpaper5", "text": "A luxurious remnant of civilization. The splinters of unprocessed wood visible in this one make it seem less luxurious, though."}
         ] 
     },
     
@@ -174,7 +174,7 @@
         "id": "hair_dryer",
         "name": "hair dryer",
         "type": "GENERIC",
-        "description": "This tool dries your hair by pushing air through a coil of hot wires. Without a funtioning power grid, it is a plastic paper weight.",
+        "description": "This tool dries your hair by pushing air through a coil of hot wires. Without a funtioning power grid, it is a motorized paper weight.",
         "symbol": "(",
         "color": "black",
         "price": 2100,
