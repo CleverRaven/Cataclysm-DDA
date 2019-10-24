@@ -50,11 +50,11 @@ struct pathfinding_settings;
 struct trap;
 
 enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+    MS_TINY = 1,    // Squirrel
+    MS_SMALL = 2,   // Dog
+    MS_MEDIUM = 3,  // Human
+    MS_LARGE = 4,   // Cow
+    MS_HUGE = 5     // TAAAANK
 };
 
 enum FacingDirection {
