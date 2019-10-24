@@ -2272,6 +2272,25 @@
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
+    "id": "drinking_hat",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": "drinking hat",
+    "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
+    "price": 1000,
+    "material": [ "cotton", "aluminum" ],
+    "weight": "582 g",
+    "volume": "1 L",
+    "encumbrance": 5,
+    "covers": [ "HEAD" ],
+    "coverage": 15,
+    "material_thickness": 1,
+    "container_data": { "contains": "500 ml", "watertight": true },
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "dress_wedding",
     "type": "ARMOR",
     "name": "wedding dress",
