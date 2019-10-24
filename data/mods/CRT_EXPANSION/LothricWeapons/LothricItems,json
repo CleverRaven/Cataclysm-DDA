@@ -10,7 +10,7 @@
     "price": 100000,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "steel" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "LEGS", "FEET" ],
@@ -58,7 +58,7 @@
     "symbol": "[",
     "color": "red",
     "covers": [ "TORSO" ],
-    "coverage": 15,
+    "coverage": 10,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
@@ -72,13 +72,13 @@
     "volume": "500 ml",
     "price": 3900,
     "price_postapoc": 10000,
-    "material": "cotton",
+    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "red",
     "covers": [ "TORSO" ],
     "coverage": 15,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER" ]
   },
   {
     "id": "lothric_sword",
