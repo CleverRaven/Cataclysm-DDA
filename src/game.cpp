@@ -1535,7 +1535,7 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
     monmove();
-    if( calendar::once_every( 3_minutes ) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
