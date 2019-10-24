@@ -562,5 +562,73 @@
       "items": [ { "item": "pipe", "count": [ 2, 3 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "id": "t_railroad_track_small",
+    "type": "terrain",
+    "name": "small railroad track",
+    "description": "Like a railroad track, only smaller. You could probably run a small vehicle on this.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 3,
+    "looks_like": "t_railroad_track",
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_railroad_rubble",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 6, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_railroad_rubble",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 6, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_small_d",
+    "type": "terrain",
+    "name": "small railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "looks_like": "t_railroad_track_d",
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_railroad_rubble",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 6, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_railroad_rubble",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 6, 12 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "RAIL", "TRANSPARENT" ]
   }
 ]
