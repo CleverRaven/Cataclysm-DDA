@@ -783,7 +783,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
         return true;
     }
 
