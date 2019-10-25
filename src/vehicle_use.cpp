@@ -12,6 +12,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "clzones.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -473,7 +474,7 @@ void vehicle::smash_security_system()
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
                 g->u.controlling_vehicle = false;
                 is_alarm_on = false;
-                add_msg( _( "You destroy the controls..." ) );
+                add_msg( _( "You destroy the controls…" ) );
             } else {
                 add_msg( _( "You damage the controls." ) );
             }
@@ -494,6 +495,48 @@ void vehicle::smash_security_system()
 std::string vehicle::tracking_toggle_string()
 {
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
+}
+
+void vehicle::autopilot_patrol_check()
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
+        enable_patrol();
+    } else {
+        g->zones_manager();
+    }
+}
+
+void vehicle::toggle_autopilot()
+{
+    uilist smenu;
+    enum autopilot_option : int {
+        PATROL,
+        STOP
+    };
+    smenu.desc_enabled = true;
+    smenu.text = _( "Choose action for the autopilot" );
+    smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
+                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
+                                           "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
+                        "", string_format( _( "Stop all autopilot related activities." ) ) );
+    smenu.query();
+    switch( smenu.ret ) {
+        case PATROL:
+            autopilot_patrol_check();
+            break;
+        case STOP:
+            autopilot_on = false;
+            is_patrolling = false;
+            is_following = false;
+            is_autodriving = false;
+            autodrive_local_target = tripoint_zero;
+            stop_engines();
+            break;
+        default:
+            return;
+    }
 }
 
 void vehicle::toggle_tracking()
@@ -600,26 +643,10 @@ void vehicle::use_controls( const tripoint &pos )
             actions.push_back( [&] {
                 if( engine_on )
                 {
-                    vehicle_noise = 0;
                     engine_on = false;
-                    add_msg( _( "You turn the engine off." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
                                    _( "the engine go silent" ) );
-                    for( size_t e = 0; e < engines.size(); ++e ) {
-                        if( is_engine_on( e ) ) {
-                            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            } else if( is_engine_type( e, fuel_type_battery ) ) {
-                                sfx::play_variant_sound( "engine_stop", "electric",
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            } else {
-                                sfx::play_variant_sound( "engine_stop", "combustion",
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            }
-                        }
-                    }
-                    sfx::do_vehicle_engine_sfx();
+                    stop_engines();
                 } else
                 {
                     start_engines();
@@ -632,6 +659,12 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "HORN" ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
+    }
+    if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
+                                     has_part( "REMOTE_CONTROLS" ) ) ) {
+        options.emplace_back( _( "Control autopilot" ),
+                              keybind( "CONTROL_AUTOPILOT" ) );
+        actions.push_back( [&] { toggle_autopilot(); refresh(); } );
     }
 
     options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
@@ -854,10 +887,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() >= 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -946,6 +979,28 @@ bool vehicle::start_engine( const int e )
     return true;
 }
 
+void vehicle::stop_engines()
+{
+    vehicle_noise = 0;
+    engine_on = false;
+    add_msg( _( "You turn the engine off." ) );
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if( is_engine_on( e ) ) {
+            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
+                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            } else if( is_engine_type( e, fuel_type_battery ) ) {
+                sfx::play_variant_sound( "engine_stop", "electric",
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            } else {
+                sfx::play_variant_sound( "engine_stop", "combustion",
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            }
+        }
+    }
+    sfx::do_vehicle_engine_sfx();
+}
+
 void vehicle::start_engines( const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
@@ -993,6 +1048,15 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         g->u.activity.placement = starting_engine_position - g->u.pos();
         g->u.activity.values.push_back( take_control );
     }
+}
+
+void vehicle::enable_patrol()
+{
+    is_patrolling = true;
+    autopilot_on = true;
+    autodrive_local_target = tripoint_zero;
+    start_engines();
+    refresh();
 }
 
 void vehicle::honk_horn()
@@ -1049,7 +1113,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
         int amount = 0;
-        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
+        const std::string popupmsg = string_format( _( "Move how many?  [Have %d] (0 to cancel)" ), count );
 
         amount = string_input_popup()
                  .title( popupmsg )
@@ -1414,8 +1478,13 @@ void vehicle::use_autoclave( int p )
 {
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
+    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
+    } );
+
+    bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.has_flag( no_packed );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1427,8 +1496,7 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad,
-                 _( "The autoclave is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
@@ -1436,8 +1504,9 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You need to remove all filthy items from the autoclave to start the sterilizing cycle." ) );
     } else if( !cbms ) {
-        add_msg( m_bad,
-                 _( "Only CBMs can be sterilized in an autoclave." ) );
+        add_msg( m_bad, _( "Only CBMs can be sterilized in an autoclave." ) );
+    } else if( unpacked_items ) {
+        add_msg( m_bad, _( "You should put your CBMs in autoclave pouches to keep them sterile." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
@@ -1649,25 +1718,50 @@ void vehicle::use_bike_rack( int part )
     }
 
     // check if we're storing a vehicle on this rack
-    std::vector<int> carried_parts;
-    std::vector<int> carry_rack;
+    std::vector<std::vector<int>> carried_vehicles;
+    std::vector<std::vector<int>> carrying_racks;
     bool found_vehicle = false;
-    for( const auto &rack_parts : racks_parts ) {
-        for( auto rack_part : rack_parts ) {
+    bool full_rack = true;
+    for( const std::vector<int> &rack_parts : racks_parts ) {
+        std::vector<int> carried_parts;
+        std::vector<int> carry_rack;
+        size_t carry_size = 0;
+        std::string cur_vehicle;
+
+        const auto add_vehicle = []( std::vector<int> &carried_parts,
+                                     std::vector<std::vector<int>> &carried_vehicles,
+                                     std::vector<int> &carry_rack,
+        std::vector<std::vector<int>> &carrying_racks ) {
+            if( !carry_rack.empty() ) {
+                carrying_racks.emplace_back( carry_rack );
+                carried_vehicles.emplace_back( carried_parts );
+                carry_rack.clear();
+                carried_parts.clear();
+            }
+        };
+
+        for( const int &rack_part : rack_parts ) {
             // skip parts that aren't carrying anything
             if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
+                add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+                cur_vehicle.clear();
                 continue;
             }
-            for( int i = 0; i < 4; i++ ) {
-                point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
+            for( const point &mount_dir : vehicles::cardinal_d ) {
+                point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {
                     continue;
                 }
                 if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
+                    carry_size += 1;
                     found_vehicle = true;
                     // found a carried vehicle part
-                    for( auto carried_part : near_parts ) {
+                    if( parts[ near_parts[ 0 ] ].carried_name() != cur_vehicle ) {
+                        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+                        cur_vehicle = parts[ near_parts[ 0 ] ].carried_name();
+                    }
+                    for( const int &carried_part : near_parts ) {
                         carried_parts.push_back( carried_part );
                     }
                     carry_rack.push_back( rack_part );
@@ -1676,15 +1770,27 @@ void vehicle::use_bike_rack( int part )
                 }
             }
         }
-        if( found_vehicle ) {
-            break;
-        }
+
+        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+        full_rack &= carry_size == rack_parts.size();
     }
+    int unload_carried = full_rack ? 0 : -1;
     bool success = false;
-    if( found_vehicle ) {
-        success = remove_carried_vehicle( carried_parts );
+    if( found_vehicle && !full_rack ) {
+        uilist rack_menu;
+        rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
+        for( size_t i = 0; i < carried_vehicles.size(); i++ ) {
+            rack_menu.addentry( i + 1, true, '1' + i,
+                                string_format( _( "Remove the %s from the rack" ),
+                                               parts[ carried_vehicles[i].front() ].carried_name() ) );
+        }
+        rack_menu.query();
+        unload_carried = rack_menu.ret - 1;
+    }
+    if( unload_carried > -1 ) {
+        success = remove_carried_vehicle( carried_vehicles[unload_carried] );
         if( success ) {
-            for( auto rack_part : carry_rack ) {
+            for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
             }
         }

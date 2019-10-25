@@ -1076,7 +1076,7 @@ bool JsonIn::get_bool()
             end_value();
             return true;
         } else {
-            err << R"(not a boolean. expected "true", but got ")";
+            err << R"(not a boolean.  expected "true", but got ")";
             err << ch << text << "\"";
             error( err.str(), -4 );
         }
@@ -1086,12 +1086,12 @@ bool JsonIn::get_bool()
             end_value();
             return false;
         } else {
-            err << R"(not a boolean. expected "false", but got ")";
+            err << R"(not a boolean.  expected "false", but got ")";
             err << ch << text << "\"";
             error( err.str(), -5 );
         }
     }
-    err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
+    err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
     throw JsonError( "warnings are silly" );
 }

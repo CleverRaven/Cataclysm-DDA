@@ -92,14 +92,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -111,14 +115,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -130,14 +138,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {

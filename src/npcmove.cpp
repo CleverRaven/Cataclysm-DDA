@@ -98,7 +98,6 @@ const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 
 // active defense CBMs - activate when in danger
 const bionic_id bio_ads( "bio_ads" );
@@ -160,7 +159,6 @@ const std::vector<bionic_id> power_cbms = { {
         bio_furnace,
         bio_metabolics,
         bio_reactor,
-        bio_torsionratchet
     }
 };
 const std::vector<bionic_id> defense_cbms = { {
@@ -361,7 +359,7 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int def_radius = 6;
+    int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
@@ -802,6 +800,11 @@ void npc::move()
         }
     }
 
+    if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
+        rl_dist( pos(), g->u.pos() ) > follow_distance() ) {
+        action = npc_follow_player;
+    }
+
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
         std::vector<tripoint> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
@@ -832,6 +835,29 @@ void npc::move()
             if( is_ally( g->u ) ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
+            }
+        }
+        if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
+            bool found_job = false;
+            if( has_job() && calendar::once_every( 30_minutes ) ) {
+                if( job_duties.find( job ) != job_duties.end() ) {
+                    const std::vector<activity_id> jobs_to_rotate = job_duties[job];
+                    if( !jobs_to_rotate.empty() ) {
+                        assign_activity( random_entry( jobs_to_rotate ) );
+                        set_mission( NPC_MISSION_ACTIVITY );
+                        set_attitude( NPCATT_ACTIVITY );
+                        action = npc_player_activity;
+                        found_job = true;
+                    } else {
+                        debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
+                        set_mission( NPC_MISSION_GUARD_ALLY );
+                        set_attitude( NPCATT_NULL );
+                    }
+                }
+            }
+            if( !found_job ) {
+                action = npc_pause;
+                goal = global_omt_location();
             }
         }
         if( is_stationary( true ) ) {
@@ -990,8 +1016,11 @@ void npc::execute_action( npc_action action )
 
         case npc_drop_items:
             /* NPCs cant choose this action anymore, but at least it works */
-            drop_items( weight_carried() - weight_capacity(),
-                        volume_carried() - volume_capacity() );
+            drop_invalid_inventory();
+            /* drop_items is still broken
+             * drop_items( weight_carried() - weight_capacity(),
+             *             volume_carried() - volume_capacity() );
+             */
             move_pause();
             break;
 
@@ -1617,13 +1646,10 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-
     for( const bionic_id bid : get_fueled_bionics() ) {
-        for( const itype_id fid : bid->fuel_opts ) {
-            return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
-                    !use_bionic_by_id( bid ) );
-        }
+        return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
+                get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                !use_bionic_by_id( bid ) );
     }
     return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
@@ -1660,10 +1686,9 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    use_bionic_by_id( bio_torsionratchet );
     use_bionic_by_id( bio_metabolics );
 
-    for( bionic_id bid : get_fueled_bionics() ) {
+    for( bionic_id &bid : get_fueled_bionics() ) {
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
@@ -1879,7 +1904,7 @@ npc_action npc::address_player()
 
     if( attitude == NPCATT_MUG && sees( g->u ) ) {
         if( one_in( 3 ) ) {
-            say( _( "Don't move a <swear> muscle..." ) );
+            say( _( "Don't move a <swear> muscle…" ) );
         }
         return npc_mug_player;
     }
@@ -1923,7 +1948,7 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
@@ -2274,7 +2299,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) ) {
+    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2943,8 +2968,12 @@ struct ratio_index {
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
+/* As of October 2019, this is buggy, do not use!! */
 void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
 {
+    /* Remove this when someone debugs it back to functionality */
+    return;
+
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
              name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
@@ -3839,7 +3868,7 @@ void npc::reach_omt_destination()
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        " 'I've arrived, boss!'" ), disp_name() );
+                                        "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4219,7 +4248,7 @@ bool npc::complain()
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
-        const std::string speech = string_format( _( "My %s wound is infected..." ),
+        const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
         if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
@@ -4248,7 +4277,7 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( radiation > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
-        std::string speech = _( "I'm suffering from radiation sickness..." );
+        std::string speech = _( "I'm suffering from radiation sickness…" );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }
@@ -4347,4 +4376,9 @@ bool npc::adjust_worn()
     }
 
     return false;
+}
+
+void npc::set_movement_mode( character_movemode new_mode )
+{
+    move_mode = new_mode;
 }

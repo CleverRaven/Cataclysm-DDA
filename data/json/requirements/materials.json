@@ -50,8 +50,20 @@
   {
     "id": "fabric_standard",
     "type": "requirement",
-    "//": "Materials used for crafting or repairing clothing or sheeting",
-    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
+    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_permeable",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing woven fabrics",
+    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_nostretch",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing non-form fitting clothing",
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "filament",
@@ -144,5 +156,17 @@
     "type": "requirement",
     "//": "Materials used for plastic and rubber things.",
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "id": "solar_panel",
+    "type": "requirement",
+    "//": "Materials used for repairing solar panels",
+    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "id": "solar_panel_v2",
+    "type": "requirement",
+    "//": "Materials used for repairing upgraded solar panels",
+    "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
   }
 ]

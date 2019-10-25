@@ -102,7 +102,13 @@ void player_activity::do_turn( player &p )
     }
 
     if( type->based_on() == based_on_type::TIME ) {
-        moves_left -= 100;
+        if( moves_left >= 100 ) {
+            moves_left -= 100;
+            p.moves = 0;
+        } else {
+            p.moves -= p.moves * moves_left / 100;
+            moves_left = 0;
+        }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
             moves_left -= p.moves;

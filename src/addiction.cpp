@@ -52,6 +52,7 @@ void marloss_add( player &u, int in, const char *msg );
 void addict_effect( player &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
+    const int current_stim = u.get_stim();
 
     switch( add.type ) {
         case ADD_CIG:
@@ -66,8 +67,8 @@ void addict_effect( player &u, addiction &add )
             if( one_in( 800 - 50 * in ) ) {
                 u.mod_fatigue( 1 );
             }
-            if( u.stim > -5 * in && one_in( 400 - 20 * in ) ) {
-                u.stim--;
+            if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
+                u.mod_stim( -1 );
             }
             break;
 
@@ -78,11 +79,11 @@ void addict_effect( player &u, addiction &add )
 
             u.add_msg_if_player( m_warning, _( "You want some caffeine." ) );
             u.add_morale( MORALE_CRAVING_CAFFEINE, -5, -30 );
-            if( u.stim > -10 * in && rng( 0, 10 ) < in ) {
-                u.stim--;
+            if( current_stim > -10 * in && rng( 0, 10 ) < in ) {
+                u.mod_stim( -1 );
             }
             if( rng( 8, 400 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need it bad!" ) );
+                u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need it bad!" ) );
                 u.add_effect( effect_shakes, 2_minutes );
             }
             break;
@@ -104,8 +105,8 @@ void addict_effect( player &u, addiction &add )
                 u.add_morale( morale_type, -35, -10 * in );
             } else if( rng( 8, 300 ) < in ) {
                 const std::string msg_2 = add.type == ADD_ALCOHOL ?
-                                          _( "Your hands start shaking... you need a drink bad!" ) :
-                                          _( "You're shaking... you need some diazepam!" );
+                                          _( "Your hands start shaking… you need a drink bad!" ) :
+                                          _( "You're shaking… you need some diazepam!" );
                 u.add_msg_if_player( m_bad, msg_2 );
                 u.add_morale( morale_type, -35, -10 * in );
                 u.add_effect( effect_shakes, 5_minutes );
@@ -143,7 +144,7 @@ void addict_effect( player &u, addiction &add )
                 u.mod_healthy_mod( -1, -in * 30 );
             }
             if( one_in( 20 ) && dice( 2, 20 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need some painkillers." ) );
+                u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need some painkillers." ) );
                 u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
                 u.add_effect( effect_shakes, 2_minutes + in * 30_seconds );
             } else if( one_in( 20 ) && dice( 2, 30 ) < in ) {
@@ -157,8 +158,8 @@ void addict_effect( player &u, addiction &add )
         case ADD_SPEED: {
             u.mod_int_bonus( -1 );
             u.mod_str_bonus( -1 );
-            if( u.stim > -100 && x_in_y( in, 20 ) ) {
-                u.stim--;
+            if( current_stim > -100 && x_in_y( in, 20 ) ) {
+                u.mod_stim( -1 );
             }
             if( rng( 0, 150 ) <= in ) {
                 u.mod_healthy_mod( -1, -in );
@@ -167,7 +168,7 @@ void addict_effect( player &u, addiction &add )
                 u.add_msg_if_player( m_warning, _( "You feel depressed.  Speed would help." ) );
                 u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
             } else if( one_in( 10 ) && dice( 2, 80 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need a pick-me-up." ) );
+                u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need a pick-me-up." ) );
                 u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
                 u.add_effect( effect_shakes, in * 2_minutes );
             } else if( one_in( 50 ) && dice( 2, 100 ) < in ) {
@@ -194,8 +195,8 @@ void addict_effect( player &u, addiction &add )
             if( dice( 2, 80 ) <= in ) {
                 u.add_msg_if_player( m_warning, cur_msg );
                 u.add_morale( morale_type, -20, -15 * in );
-                if( u.stim > -150 ) {
-                    u.stim -= 3;
+                if( current_stim > -150 ) {
+                    u.mod_stim( -3 );
                 }
             }
             break;
@@ -216,7 +217,7 @@ void addict_effect( player &u, addiction &add )
                 }
             } else if( in > 5 || one_in( 500 - 15 * in ) ) {
                 u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
-                                     _( "You could use some new parts..." ) );
+                                     _( "You could use some new parts…" ) );
                 u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );
             }
             break;

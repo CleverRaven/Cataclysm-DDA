@@ -288,7 +288,7 @@ std::vector<std::string> clothing_properties(
 std::vector<std::string> clothing_protection( const item &worn_item, const int width )
 {
     std::vector<std::string> prot;
-    prot.reserve( 4 );
+    prot.reserve( 6 );
 
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
@@ -296,6 +296,10 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Acid:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Fire:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -522,7 +526,7 @@ void player::sort_armor()
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex] );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press %s for help. Press %s to change keybindings." ),
+                         _( "Press %s for help.  Press %s to change keybindings." ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 

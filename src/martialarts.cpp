@@ -116,6 +116,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "take_weapon", take_weapon, false );
     optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
@@ -516,6 +517,7 @@ ma_technique::ma_technique()
 
     // offensive
     disarms = false; // like tec_disarm
+    take_weapon = false; // disarms and equips weapon if hands are free
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
 
@@ -781,7 +783,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
         return true;
     }
 
@@ -1211,9 +1213,23 @@ float ma_technique::armor_penetration( const player &u, damage_type type ) const
 std::string ma_technique::get_description() const
 {
     std::stringstream dump;
+    std::string type;
 
-    dump << string_format( _( "<bold>Type:</bold> %s" ),
-                           defensive ? _( "defensive" ) : _( "offensive" ) ) << std::endl;
+    if( block_counter ) {
+        type = _( "Block Counter" );
+    } else if( dodge_counter ) {
+        type = _( "Dodge Counter" );
+    } else if( miss_recovery ) {
+        type = _( "Miss Recovery" );
+    } else if( grab_break ) {
+        type = _( "Grab Break" );
+    } else if( defensive ) {
+        type = _( "Defensive" );
+    } else {
+        type = _( "Offensive" );
+    }
+
+    dump << string_format( _( "<bold>Type:</bold> %s" ), type ) << std::endl;
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -1308,6 +1324,11 @@ std::string ma_technique::get_description() const
 
     if( disarms ) {
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+    }
+
+    if( take_weapon ) {
+        dump << _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) <<
+             std::endl;
     }
 
     return dump.str();

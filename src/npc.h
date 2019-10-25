@@ -128,23 +128,20 @@ enum npc_job : int {
     NPCJOB_END
 };
 
-static const std::map<npc_job, std::vector<activity_id>> job_duties = {
+std::vector<std::string> all_jobs();
+std::string npc_job_id( npc_job job );
+std::string npc_job_name( npc_job job );
+
+static std::map<npc_job, std::vector<activity_id>> job_duties = {
     { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
-    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ), activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
+    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
     { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
     { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
     { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
-    { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ) } },
-    { NPCJOB_SECURITY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
     { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
     { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
-    { NPCJOB_HUSBANDRY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
     { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
-    { NPCJOB_FORAGING, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
 };
-
-std::string npc_job_id( npc_job job );
-std::string npc_job_name( npc_job job );
 
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
@@ -160,6 +157,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING,
+    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
 };
 
 struct npc_companion_mission {
@@ -738,6 +736,10 @@ struct npc_chatbin {
      * The martial art style this NPC offers to train.
      */
     matype_id style;
+    /**
+     * The spell this NPC offers to train
+     */
+    spell_id dialogue_spell;
     std::string first_topic = "TALK_NONE";
 
     npc_chatbin() = default;
@@ -1008,6 +1010,8 @@ class npc : public player
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
+        int calc_spell_training_cost( bool knows, int difficulty, int level );
+
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
 
@@ -1094,6 +1098,8 @@ class npc : public player
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // Same as if the player pressed '.'
         void move_pause();
+
+        void set_movement_mode( character_movemode mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;

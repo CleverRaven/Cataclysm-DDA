@@ -435,6 +435,14 @@ void npc::randomize( const npc_class_id &type )
             add_bionic( bl.first );
         }
     }
+    // Add spells for magiclysm mod
+    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+        this->magic.learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -1235,7 +1243,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1263,7 +1271,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {
@@ -1967,7 +1975,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
+    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
 }
 
 bool npc::is_enemy() const
@@ -2166,7 +2174,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
-    const unsigned int iWidth = getmaxx( w ) - 2;
+    const int iWidth = getmaxx( w ) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -2181,28 +2189,19 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
+    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
-        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-        size_t split;
-        do {
-            split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<int>( iWidth ) );
-            if( split == std::string::npos ) {
-                mvwprintz( w, point( column, line ), color, str_in );
-            } else {
-                mvwprintz( w, point( column, line ), color, str_in.substr( 0, split ) );
-            }
-            str_in = str_in.substr( split + 1 );
-            line++;
-        } while( split != std::string::npos && line <= last_line );
+        const std::vector<std::string> folded = foldstring( str_in, iWidth );
+        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
+            trim_and_print( w, point( column, line ), iWidth, color, *it );
+        }
     };
 
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
+        const std::string wearing = _( "Wearing: " ) + worn_str;
         enumerate_print( wearing, c_light_blue );
     }
 
@@ -2223,7 +2222,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
+        const std::string mutations = _( "Traits: " ) + trait_str;
         enumerate_print( mutations, c_green );
     }
 
@@ -2515,13 +2514,22 @@ std::string npc_job_id( npc_job job )
     return iter->second;
 }
 
+std::vector<std::string> all_jobs()
+{
+    std::vector<std::string> ret;
+    for( int i = 0; i < NPCJOB_END; i++ ) {
+        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
+    }
+    return ret;
+}
+
 std::string npc_job_name( npc_job job )
 {
     switch( job ) {
         case NPCJOB_NULL:
-            return _( "Not much" );
+            return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking" );
+            return _( "Cooking and butchering" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2539,7 +2547,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_HUSBANDRY:
             return _( "Caring for the livestock" );
         case NPCJOB_HUNTING:
-            return _( "Hunting for meat" );
+            return _( "Hunting and fishing" );
         case NPCJOB_FORAGING:
             return _( "Gathering edibles" );
         default:

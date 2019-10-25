@@ -90,6 +90,12 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_guard"
       },
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
@@ -293,8 +299,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "true": "<ally_rule_follow_distance_2_true_text>",
-          "false": "<ally_rule_follow_distance_2_false_text>"
+          "false": "<ally_rule_follow_distance_2_true_text>",
+          "true": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }

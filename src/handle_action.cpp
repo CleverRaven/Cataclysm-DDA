@@ -243,7 +243,8 @@ input_context game::get_player_input( std::string &action )
                     for( auto &elem : SCT.vSCT ) {
                         //Erase previous text from w_terrain
                         if( elem.getStep() > 0 ) {
-                            for( size_t i = 0; i < elem.getText().length(); ++i ) {
+                            const int width = utf8_width( elem.getText() );
+                            for( int i = 0; i < width; ++i ) {
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
@@ -264,8 +265,8 @@ input_context game::get_player_input( std::string &action )
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
                     const direction oCurDir = iter->getDirecton();
-
-                    for( int i = 0; i < static_cast<int>( iter->getText().length() ); ++i ) {
+                    const int width = utf8_width( iter->getText() );
+                    for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
@@ -306,7 +307,7 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
 
                 query_popup()
-                .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
+                .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true )
                 .show();
 
@@ -370,7 +371,7 @@ static void rcdrive( int dx, int dy )
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
+        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -402,7 +403,7 @@ static void pldrive( int x, int y )
         remote = false;
     }
     if( !veh ) {
-        dbg( D_ERROR ) << "game::pldrive: can't find vehicle! Drive mode is now off.";
+        dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
         debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
         u.in_vehicle = false;
         return;
@@ -410,13 +411,13 @@ static void pldrive( int x, int y )
     if( !remote ) {
         int pctr = veh->part_with_feature( part, "CONTROLS", true );
         if( pctr < 0 ) {
-            add_msg( m_info, _( "You can't drive the vehicle from here. You need controls!" ) );
+            add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             u.controlling_vehicle = false;
             return;
         }
     } else {
         if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
-            add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
+            add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
     }
@@ -737,8 +738,8 @@ static int try_set_alarm()
     const bool already_set = g->u.has_effect( effect_alarm_clock );
 
     as_m.text = already_set ?
-                _( "You already have an alarm set. What do you want to do?" ) :
-                _( "You have an alarm clock. What do you want to do?" );
+                _( "You already have an alarm set.  What do you want to do?" ) :
+                _( "You have an alarm clock.  What do you want to do?" );
 
     as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
@@ -972,9 +973,9 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-                    _( "You have an alarm clock. Set an alarm?" );
+        as_m.text = can_hibernate
+                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
+                    : _( "You have an alarm clock.  Set an alarm?" );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -1061,24 +1062,24 @@ static void loot()
 
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
 
     if( flags & TillPlots ) {
         menu.addentry_desc( TillPlots, has_hoe, 't',
-                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots… you need a tool to dig with" ),
                             _( "Tills nearby Farm: Plot zones." ) );
     }
 
     if( flags & PlantPlots ) {
         menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
-                            !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                            _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
+                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds… it is too cold for planting" ) :
+                            !has_seeds ? _( "Plant seeds… you don't have any" ) : _( "Plant seeds" ),
+                            _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
     }
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                            !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                            !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
                             _( "Fertilize any nearby Farm: Plot zones." ) );
     }
 
@@ -1344,7 +1345,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );
@@ -1357,7 +1358,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );
@@ -1367,7 +1368,7 @@ static void fire()
 
 static void open_movement_mode_menu()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
@@ -1379,13 +1380,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( PMM_WALK );
+            u.set_movement_mode( CMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( PMM_RUN );
+            u.set_movement_mode( CMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( PMM_CROUCH );
+            u.set_movement_mode( CMM_CROUCH );
             break;
         default:
             break;
@@ -2100,6 +2101,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
+                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else {
                     control_vehicle();
                 }
@@ -2119,7 +2122,7 @@ bool game::handle_action()
                     turnssincelastmon = 0;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
-                             ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
+                             ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
                 }
                 if( u.has_effect( effect_laserlocked ) ) {
                     u.remove_effect( effect_laserlocked );

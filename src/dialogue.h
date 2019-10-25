@@ -208,6 +208,7 @@ struct talk_response {
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID();
     matype_id style = matype_id::NULL_ID();
+    spell_id dialogue_spell = spell_id();
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -301,6 +302,12 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
                                      bool first = false );
+        /**
+        * Add a simple response that switches the topic to the new one and sets the currently
+        * talked about magic spell to the given one.
+        */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const spell_id &sp, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.

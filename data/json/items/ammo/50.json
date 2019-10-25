@@ -3,17 +3,17 @@
     "id": "50_incendiary",
     "copy-from": "50bmg",
     "type": "AMMO",
-    "name": ".50 BMG tracer",
-    "description": "A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.",
+    "name": ".50 BMG M17 tracer",
+    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "count": 10,
     "effects": [ "INCENDIARY" ],
-    "proportional": { "dispersion": 0.8 }
+    "dispersion": 310
   },
   {
     "id": "50bmg",
     "type": "AMMO",
-    "name": ".50 BMG Ball",
-    "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+    "name": ".50 BMG M33 Ball",
+    "description": ".50 BMG ammunition with mild steel cored 661gr FMJ bullets.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": "114 g",
     "volume": "250 ml",
     "price": 2200,
@@ -28,35 +28,59 @@
     "range": 110,
     "damage": 131,
     "pierce": 28,
-    "dispersion": 30,
+    "dispersion": 150,
     "recoil": 26250,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "50match",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": ".50 BMG Match",
+    "description": ".50 BMG FMJ lead core ammunition manufactured with tighter tolerances for long-range competition shooting or other precision rifle use.",
+    "count": 10,
+    "relative": { "damage": 2, "pierce": -4 },
+    "dispersion": 100
   },
   {
     "id": "50ss",
     "copy-from": "50bmg",
     "type": "AMMO",
-    "name": ".50 BMG AP",
+    "name": ".50 BMG M2 AP",
     "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
     "count": 10,
-    "relative": { "damage": -10, "pierce": 20 }
+    "relative": { "damage": -10, "pierce": 20 },
+    "dispersion": 600
+  },
+  {
+    "id": "50_mk211",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": ".50 BMG Raufoss Mk 211",
+    "price": 60000,
+    "price_postapoc": 120000,
+    "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge that surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
+    "effects": [ "INCENDIARY", "EXPLOSIVE_RAUFOSS" ],
+    "//": "mk 211 is estimated to be as effective as 20mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",
+    "relative": { "damage": 50, "pierce": 20 },
+    "dispersion": 100
   },
   {
     "id": "reloaded_50_incendiary",
     "copy-from": "50_incendiary",
     "type": "AMMO",
     "name": ".50 BMG tracer, reloaded",
-    "description": "A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.  This one has been hand-reloaded.",
+    "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_50bmg",
-    "copy-from": "50bmg",
+    "copy-from": "50match",
     "type": "AMMO",
-    "name": ".50 BMG Ball, reloaded",
-    "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.  This one has been hand-reloaded.",
+    "name": ".50 BMG Match, reloaded",
+    "description": ".50 BMG ammunition with lead-cored FMJ bullets.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -66,7 +90,7 @@
     "copy-from": "50ss",
     "type": "AMMO",
     "name": ".50 BMG AP, reloaded",
-    "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.  This one has been hand-reloaded.",
+    "description": "Variant of the .50 BMG round that uses a core hardened steel.  Penetration is increased, but damage is reduced.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

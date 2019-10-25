@@ -127,6 +127,7 @@
       [ "ppq40mag_12rd", 2 ],
       [ "ppq40mag_14rd", 1 ],
       [ "ppq45mag", 1 ],
+      [ "taurus_spectrum_mag", 1 ],
       [ "hptc9", 1 ],
       [ "hptcf380", 1 ],
       [ "hptjcp", 1 ],
@@ -171,7 +172,6 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
-      [ "taurus38mag", 30 ],
       [ "ppkmag", 15 ],
       [ "lw12mag", 5 ],
       [ "lw21mag", 5 ]

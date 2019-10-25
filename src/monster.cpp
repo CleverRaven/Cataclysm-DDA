@@ -610,7 +610,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = att.first.length() + name().length() + 3;
+    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -618,6 +618,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
+
+    if( size_bonus > 0 ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
@@ -1399,7 +1403,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel venom flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain…" ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
@@ -2250,8 +2254,27 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::start_of_cataclysm );
+
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+
+    // This block removes some items, according to item spawn scaling factor
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        // Temporary vector, to remember which items will be dropped
+        std::vector<item> remaining;
+        for( const item &it : items ) {
+            if( rng_float( 0, 1 ) < spawn_rate ) {
+                remaining.push_back( it );
+            }
+        }
+        // If there aren't any items left, there's nothing left to do
+        if( remaining.empty() ) {
+            return;
+        }
+        items = remaining;
+    }
+
+    const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
@@ -2274,6 +2297,11 @@ void monster::process_one_effect( effect &it, bool is_new )
     };
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2509,17 +2537,17 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return units::operator*( type->weight, get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2597,7 +2625,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close

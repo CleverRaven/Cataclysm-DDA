@@ -267,7 +267,9 @@
       "dairy_farm_NW",
       "dairy_farm_NE",
       "dairy_farm_SW",
-      "dairy_farm_SE"
+      "dairy_farm_SE",
+      "megastore",
+      "megastore_entrance"
     ]
   }
 ]
