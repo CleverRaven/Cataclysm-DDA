@@ -2221,7 +2221,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             uilist_entry entry( loc.ident().get_cid(), true, -1, loc.name() );
 
             select_location.entries.emplace_back( entry );
-            
+
             if( loc.ident().get_cid() == you.start_location.get_cid() ) {
                 select_location.selected = offset;
             }
@@ -2658,7 +2658,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
 
-            const std::string jobj_start_location = jobj.get_string("start_location", "");
+            const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
             // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const auto &loc : start_location::get_all() ) {
