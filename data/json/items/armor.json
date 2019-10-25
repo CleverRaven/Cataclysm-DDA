@@ -4482,6 +4482,7 @@
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,
@@ -4500,6 +4501,7 @@
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
     "symbol": "[",
     "color": "pink",
+    "proportional": { "weight": 6, "volume": 6, "price": 6, "quench": 6, "calories": 6, "healthy": 6, "fun": 6 },
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,

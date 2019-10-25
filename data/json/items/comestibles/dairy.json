@@ -179,7 +179,8 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 5 ], [ "calcium", 32 ], [ "iron", 2 ] ],
-    "fun": 5
+    "fun": 5,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -229,13 +230,13 @@
     "id": "milk_powder",
     "name": "powdered milk",
     "name_plural": "powdered milk",
-    "weight": "7 g",
+    "weight": "30 g",
     "color": "white",
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 26,
+    "calories": 132,
     "description": "Dehydrated milk powder.  Mix with water to make drinkable milk.",
     "price": 1100,
     "material": [ "powder", "milk" ],
@@ -243,7 +244,7 @@
     "volume": "250 ml",
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 10,
+    "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5
   },
