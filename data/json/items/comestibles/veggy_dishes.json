@@ -325,7 +325,7 @@
     "price": 150,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
   },
