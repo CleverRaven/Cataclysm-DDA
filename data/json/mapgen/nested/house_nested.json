@@ -1149,7 +1149,7 @@
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "      ",
+        "  s   ",
         "BBCBB ",
         "D4R4Dc",
         "B5R2Bc",
@@ -1157,10 +1157,114 @@
         "BBCBB "
       ],
       "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { "s": "t_concrete" },
       "place_items": [
         { "item": "farming_tools", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
         { "item": "farming_seeds", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
         { "item": "flower_pots", "x": 5, "y": [ 2, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "greenhouse_6x6_vegetable",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  s   ",
+        "BBCBB ",
+        "D6R6Dc",
+        "B7R7Bc",
+        "D9R8Dc",
+        "BBCBB "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "terrain": { "s": "t_concrete" },
+      "place_items": [
+        { "item": "farming_tools", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "flower_pots", "x": 5, "y": [ 2, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_junk",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||++||",
+        "|O  Q|",
+        "|z  Q|",
+        "|zzSQ|",
+        "|SzzQ|",
+        "||||||"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "terrain": {
+        "|": "t_wall_metal",
+        "+": "t_door_metal_pickable",
+        " ": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "Q": "t_thconc_floor",
+        "O": "t_thconc_floor"
+      },
+      "place_items": [
+        { "item": "home_hw", "x": 4, "y": [ 1, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "allclothes", "x": 1, "y": 1, "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "x": 1, "y": [ 2, 3 ], "chance": 55, "repeat": [ 1, 4 ] },
+        { "item": "bedroom", "x": 2, "y": [ 3, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "shed_6x6_woodworker",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||++||",
+        "|GF A|",
+        "|G  C|",
+        "|G FD|",
+        "|GEEB|",
+        "||oo||"
+      ],
+      "terrain": {
+        "|": "t_wall_wood",
+        "+": "t_door_locked",
+        "o": "t_curtains",
+        " ": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "D": "t_thconc_floor",
+        "E": "t_thconc_floor",
+        "F": "t_thconc_floor",
+        "G": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": [ "f_drill_press", "f_planer" ],
+        "B": [ "f_jointer", "f_router", "f_mitresaw" ],
+        "C": "f_tablesaw",
+        "D": "f_bandsaw",
+        "E": "f_workbench",
+        "F": "f_stool",
+        "G": "f_rack_wood"
+      },
+      "place_items": [
+        { "item": "home_hw", "x": [ 1, 3 ], "y": 4, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "wood_workshop", "x": 1, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 3 ] }
       ]
     }
   },

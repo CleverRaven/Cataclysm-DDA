@@ -306,18 +306,18 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( const item &it : components ) {
-        if( it.has_flag( "HIDDEN_POISON" ) ) {
-            set_flag( "HIDDEN_POISON" );
+    for( item &component : components ) {
+        for( const std::string &f : component.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
-        if( it.has_flag( "HIDDEN_HALLU" ) ) {
-            set_flag( "HIDDEN_HALLU" );
-        }
-        if( it.is_filthy() ) {
-            set_flag( "FILTHY" );
+        for( const std::string &f : component.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
         }
     }
-
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
@@ -3469,7 +3469,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         with_prefix ) {
         damtext = durability_indicator();
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            truncate_override = damtext.length() - 3;
+            // get the utf8 width of the tags
+            truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
     }
     if( !faults.empty() ) {
@@ -5093,7 +5094,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol() + " ", damage_color() );
+            outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5117,7 +5118,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol() + " ", damage_color() );
+        outputstring = colorize( damage_symbol() + "\u00A0", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
@@ -6082,7 +6083,10 @@ damage_instance item::gun_damage( bool with_ammo ) const
     if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
-            du.amount -= item_damage * 2;
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
         }
     }
 

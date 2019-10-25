@@ -159,7 +159,6 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
-    { activity_id( "ACT_CHURN" ), churn_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -1528,9 +1527,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
-    //Gaming takes time, not speed
-    act->moves_left -= 100;
-
     item &game_item = p->i_at( act->position );
 
     //Deduct 1 battery charge for every minute spent playing
@@ -1931,6 +1927,35 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     }
 }
 
+static bool magic_train( player_activity *act, player *p )
+{
+    if( !p ) {
+        return false;
+    }
+    const spell_id &sp_id = spell_id( act->name );
+    if( sp_id.is_valid() ) {
+        const bool knows = g->u.magic.knows_spell( sp_id );
+        if( knows ) {
+            spell &studying = p->magic.get_spell( sp_id );
+            const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
+            const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
+            studying.gain_exp( xp );
+            p->add_msg_if_player( m_good, _( "You learn a little about the spell : %s" ),
+                                  sp_id->name.translated() );
+        } else {
+            p->magic.learn_spell( act->name, *p );
+            // you can decline to learn this spell , as it may lock you out of other magic.
+            if( p->magic.knows_spell( sp_id ) ) {
+                add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
+            } else {
+                act->set_to_null();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
@@ -1958,8 +1983,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         add_msg( m_good, _( "You learn %s." ), mastyle.name );
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
-    } else {
-        debugmsg( "train_finish without a valid skill or style name" );
+    } else if( !magic_train( act, p ) ) {
+        debugmsg( "train_finish without a valid skill or style or spell name" );
     }
 
     act->set_to_null();
@@ -2011,7 +2036,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    act->moves_left -= 100;
     item &hand_crank_item = p ->i_at( act->position );
 
     if( calendar::once_every( 144_seconds ) ) {
@@ -2035,8 +2059,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    act->moves_left -= 100;
-
     item &vibrator_item = p->i_at( act->position );
 
     if( ( p->is_wearing( "rebreather" ) ) || ( p->is_wearing( "rebreather_xl" ) ) ||
@@ -2064,8 +2086,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
-
-    p->pause();
 }
 
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
@@ -3101,7 +3121,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( p->has_bionic( bid ) ) {
                 p->perform_uninstall( bid, act->values[0], act->values[1],
-                                      act->values[2], act->values[3] );
+                                      units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
                           act->str_values[cbm_id] );
@@ -3165,7 +3185,6 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         p->add_effect( effect_narcosis, time_left );
         p->add_effect( effect_sleep, time_left );
     }
-    p->set_moves( 0 );
 }
 
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
@@ -3219,12 +3238,6 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
     resume_for_multi_activities( *p );
-}
-
-void activity_handlers::churn_do_turn( player_activity *act, player *p )
-{
-    ( void )act;
-    p->set_moves( 0 );
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -4093,9 +4106,6 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     }
 
     // TODO: Add some kind of chance of getting the target's attention
-
-    // Allow time to pass
-    p->pause();
 }
 
 void activity_handlers::robot_control_finish( player_activity *act, player *p )

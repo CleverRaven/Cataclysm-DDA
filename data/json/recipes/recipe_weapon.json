@@ -361,6 +361,7 @@
         [ "knife_meat_cleaver", 1 ],
         [ "blade", 1 ],
         [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_rm42", 1 ],
@@ -393,6 +394,7 @@
         [ "knife_meat_cleaver", 1 ],
         [ "blade", 1 ],
         [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_rm42", 1 ],
@@ -1177,7 +1179,7 @@
     "reversible": true,
     "autolearn": true,
     "decomp_learn": 0,
-    "components": [ [ [ "m320_mod", 1 ] ], [ [ "ugl_buttstock", 1 ] ] ]
+    "components": [ [ [ "m320_mod", 1 ], [ "m320_mod_mod", 1 ] ], [ [ "ugl_buttstock", 1 ] ] ]
   },
   {
     "type": "recipe",

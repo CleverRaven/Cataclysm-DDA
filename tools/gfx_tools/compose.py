@@ -278,7 +278,9 @@ class TilesheetData(object):
                             print("error loading {}".format(filepath))
                             raise
 
-                        self.tile_entries.append(tile_entry)
+                        if not isinstance(tile_entry, list):
+                            tile_entry = [tile_entry]
+                        self.tile_entries += tile_entry
         if self.row_pngs:
             merged = self.merge_row(refs)
             tmp_merged_pngs += merged

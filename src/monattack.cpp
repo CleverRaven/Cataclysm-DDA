@@ -135,6 +135,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_infected( "infected" );
@@ -2979,13 +2980,13 @@ bool mattack::check_money_left( monster *z )
         if( z->friendly == -1 &&
             z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
-            const bool had_inventory = !z->inv.empty();
-            for( const item &it : z->inv ) {
-                g->m.add_item_or_charges( z->pos(), it );
-            }
-            z->inv.clear();
-            z->remove_effect( effect_has_bag );
-            if( had_inventory ) {
+
+            if( !z->inv.empty() ) {
+                for( const item &it : z->inv ) {
+                    g->m.add_item_or_charges( z->pos(), it );
+                }
+                z->inv.clear();
+                z->remove_effect( effect_has_bag );
                 add_msg( m_info,
                          _( "The %s dumps the contents of its bag on the ground and drops the bag on top of it." ),
                          z->get_name() );
@@ -5266,6 +5267,36 @@ bool mattack::stretch_attack( monster *z )
 
     target->on_hit( z, hit,  z->type->melee_skill );
 
+    return true;
+}
+
+bool mattack::zombie_fuse( monster *z )
+{
+    monster *critter = nullptr;
+    for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        critter = g->critter_at<monster>( p );
+        if( critter != nullptr && critter->faction == z->faction
+            && critter != z && critter->get_size() <= z->get_size() ) {
+            break;
+        }
+    }
+
+    if( critter == nullptr || ( z->has_effect( effect_grown_of_fuse ) &&
+                                ( z->get_hp() + critter->get_hp() > z->get_hp_max() + z->get_effect(
+                                      effect_grown_of_fuse ).get_max_intensity() ) ) ) {
+        return false;
+    }
+    if( g->u.sees( *z ) ) {
+        add_msg( _( "The %1$s fuses with the %2$s." ),
+                 critter->name(),
+                 z->name() );
+    }
+    z->moves -= 200;
+    z->add_effect( effect_grown_of_fuse, 10_days, num_bp, true,
+                   critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    z->heal( critter->get_hp(), true );
+    critter->death_drops = false;
+    critter->die( z );
     return true;
 }
 

@@ -503,7 +503,7 @@ bool player::activate_bionic( int b, bool eff_only )
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
-        stim = 0;
+        set_stim( 0 );
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
@@ -900,10 +900,11 @@ bool player::burn_fuel( int b, bool start )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
+static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int factor = 1,
+                              int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    const int armor_power_cost = 1;
+    const units::energy armor_power_cost = 1_kJ;
     units::energy power_cost = info.power_over_time * factor;
     bool recharged = false;
 
@@ -915,12 +916,12 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
                 return w.active && w.is_power_armor();
             } );
             if( !powered_armor ) {
-                power_cost -= units::from_kilojoule( armor_power_cost ) * factor;
+                power_cost -= armor_power_cost * factor;
             }
         }
         if( p.get_power_level() >= power_cost ) {
             // Set the recharging cost and charge the bionic.
-            amount = units::to_kilojoule( power_cost );
+            amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
             bio.charge_timer = info.charge_time - rate;
             recharged = true;
@@ -953,7 +954,7 @@ void player::process_bionic( int b )
                 bio.charge_timer = bio.info().charge_time;
             } else {
                 // Try to recharge our bionic if it is made for it
-                int cost = 0;
+                units::energy cost = 0_mJ;
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
@@ -963,8 +964,8 @@ void player::process_bionic( int b )
                     deactivate_bionic( b, true );
                     return;
                 }
-                if( cost ) {
-                    mod_power_level( units::from_kilojoule( -cost ) );
+                if( cost > 0_mJ ) {
+                    mod_power_level( -cost );
                 }
             }
         }
@@ -1007,10 +1008,10 @@ void player::process_bionic( int b )
         }
 
         // Only dull pain so extreme that we can't pkill it safely
-        if( pkill >= 150 && pain > pkill && stim > -150 ) {
+        if( pkill >= 150 && pain > pkill && get_stim() > -150 ) {
             mod_pain( -1 );
             // Negative side effect: negative stim
-            stim--;
+            mod_stim( -1 );
             mod_power_level( -2_kJ );
         }
     } else if( bio.id == "bio_cable" ) {
@@ -1461,7 +1462,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
+void player::perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
                                 int pl_skill )
 {
     if( success > 0 ) {
@@ -1474,7 +1475,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         remove_bionic( bid );
 
         // remove power bank provided by bionic
-        mod_max_power_level( -units::from_kilojoule( power_lvl ) );
+        mod_max_power_level( -power_lvl );
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
@@ -1686,7 +1687,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
-    activity.values.push_back( units::to_kilojoule( bionics[bioid].capacity ) );
+    activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
     activity.str_values.push_back( "" );

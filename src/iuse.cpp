@@ -412,7 +412,7 @@ static int alcohol( player &p, const item &it, const int strength )
         // might not be healthy, and still causes Thirst problems, though
         p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.stim += abs( it.get_comestible() ? it.get_comestible()->stim : 0 );
+        p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -889,7 +889,7 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
     } else {
-        p->stim += 3;
+        p->mod_stim( 3 );
     }
     if( one_in( 50 ) ) { // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
@@ -963,8 +963,8 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_teargas );
     } else if( p->has_effect( effect_asthma ) ) {
         p->remove_effect( effect_asthma );
-    } else if( p->stim < 16 ) {
-        p->stim += 8;
+    } else if( p->get_stim() < 16 ) {
+        p->mod_stim( 8 );
         p->mod_painkiller( 2 );
     }
     p->mod_painkiller( 2 );
@@ -1452,7 +1452,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         }
     } else if( p->has_trait( trait_THRESH_MYCUS ) ) {
         p->mod_painkiller( 5 );
-        p->stim += 5;
+        p->mod_stim( 5 );
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(
@@ -1607,7 +1607,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int choice = uilist( _( "Which signal should activate the item?:" ), {
+    int choice = uilist( _( "Which signal should activate the item?" ), {
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
@@ -2548,8 +2548,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
 
     if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( activity_id( "ACT_CHURN" ), to_turns<int>( 3_minutes ),
-                            -1, p->get_item_position( it ) );
+        p->assign_activity( activity_id( "ACT_CHURN" ), 18000, -1, p->get_item_position( it ) );
         p->activity.placement = g->m.getabs( pnt );
         return it->type->charges_to_use();
     } else {
@@ -5728,7 +5727,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_jetinjector, 20_minutes, num_bp, false, 2 );
         p->mod_painkiller( 20 );
-        p->stim += 10;
+        p->mod_stim( 10 );
         p->healall( 20 );
     }
 
@@ -5756,7 +5755,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_stimpack, 25_minutes, num_bp, false, 2 );
         p->mod_painkiller( 2 );
-        p->stim += 20;
+        p->mod_stim( 20 );
         p->mod_fatigue( -100 );
         p->stamina = p->get_stamina_max();
     }
@@ -8043,7 +8042,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             p->i_add( *bomb_it );
             it->contents.erase( bomb_it );
 
-            p->add_msg_if_player( _( "You disarmed your RC car" ) );
+            p->add_msg_if_player( _( "You disarmed your RC car." ) );
         }
     }
 
@@ -8074,7 +8073,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     if( choice == 0 ) {
         it->convert( "radio_car" ).active = false;
 
-        p->add_msg_if_player( _( "You turned off your RC car" ) );
+        p->add_msg_if_player( _( "You turned off your RC car." ) );
         return it->type->charges_to_use();
     }
 
@@ -8083,24 +8082,37 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
 
 static void sendRadioSignal( player &p, const std::string &signal )
 {
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( const tripoint &loc : g->m.points_in_radius( p.pos(), 30 ) ) {
+        for( item &it : g->m.i_at( loc ) ) {
+            if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
+                sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+                if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
+                    // Invoke to transform a radio-modded explosive into its active form
+                    it.type->invoke( p, it, loc );
+                    it.ammo_unset();
+                }
+            } else if( it.has_flag( "RADIO_CONTAINER" ) && !it.contents.empty() ) {
+                auto itm = std::find_if( it.contents.begin(),
+                it.contents.end(), [&signal]( const item & c ) {
+                    return c.has_flag( signal );
+                } );
 
-        if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
-
-            if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
-                // Invoke twice: first to transform, then later to proc
-                it.type->invoke( p, it, p.pos() );
-                it.ammo_unset();
-                // The type changed
+                if( itm != it.contents.end() ) {
+                    sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+                    // Invoke twice: first to transform, then later to proc
+                    if( itm->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                        itm->type->invoke( p, *itm, loc );
+                        itm->ammo_unset();
+                        // The type changed
+                    }
+                    if( itm->has_flag( "BOMB" ) ) {
+                        itm->type->invoke( p, *itm, loc );
+                        it.contents.clear();
+                    }
+                }
             }
-
-            it.type->invoke( p, it, p.pos() );
         }
     }
-
-    g->m.trigger_rc_items( signal );
 }
 
 int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
@@ -8160,18 +8172,35 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             }
         }
     } else if( choice > 0 ) {
-        std::string signal = "RADIOSIGNAL_";
-        std::stringstream choice_str;
-        choice_str << choice;
-        signal += choice_str.str();
+        const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );
 
         auto item_list = p->get_radio_items();
         for( auto &elem : item_list ) {
-            if( ( elem )->has_flag( "BOMB" ) && ( elem )->has_flag( signal ) ) {
+            if( elem->has_flag( "BOMB" ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
-                                      _( "The %s in you inventory would explode on this signal.  Place it down before sending the signal." ),
-                                      ( elem )->display_name() );
+                                      _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
+                                      elem->display_name() );
                 return 0;
+            }
+        }
+
+        std::vector<item *> radio_containers = p->items_with( []( const item & itm ) {
+            return itm.has_flag( "RADIO_CONTAINER" );
+        } );
+
+        if( !radio_containers.empty() ) {
+            for( auto items : radio_containers ) {
+                auto itm = std::find_if( items->contents.begin(),
+                items->contents.end(), [&]( const item & c ) {
+                    return c.has_flag( "BOMB" ) && c.has_flag( signal );
+                } );
+
+                if( itm != items->contents.end() ) {
+                    p->add_msg_if_player( m_warning,
+                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
+                                          itm->display_name(), items->display_name() );
+                    return 0;
+                }
             }
         }
 
@@ -9745,7 +9774,7 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<bool> use_function::can_call( const player &p, const item &it, bool t,
+ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {

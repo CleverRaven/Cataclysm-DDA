@@ -47,6 +47,7 @@
 #include "output.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
@@ -456,7 +457,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
             std::vector<std::vector<std::string>> folded_names;
             for( const auto &cur_key_entry : cur_key_list ) {
-                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, part_x + 5, ' ' );
+                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
+                                                  ' ' );
                 folded_names_lines += f_name.size();
                 folded_names.emplace_back( f_name );
             }
@@ -1951,24 +1953,31 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     available = companion_sort( available, skill_tested );
     std::vector<comp_rank> rankings = companion_rank( available );
 
+    skill_id skill_tested_id( skill_tested );
     int x = 0;
     for( auto &e : available ) {
-        std::string after_npc = e->mission == NPC_MISSION_GUARD_ALLY ? " (Guarding) " : "  ";
-        std::string npc_entry = e->name + after_npc;
+        std::string npc_entry;
+        if( e->mission == NPC_MISSION_GUARD_ALLY ) {
+            //~ %1$s: npc name
+            npc_entry = string_format( pgettext( "companion", "%1$s (Guarding)" ), e->name );
+        } else {
+            npc_entry = e->name;
+        }
         if( !skill_tested.empty() ) {
-            std::string req_skill = ( skill_level == 0 ) ? "" : "/" + to_string( skill_level );
-            std::string skill_test = "[" + skill_id( skill_tested ).str() + " " +
-                                     to_string( e->get_skill_level( skill_id( skill_tested ) ) ) +
-                                     req_skill + "] ";
-            while( skill_test.length() + npc_entry.length() < 51 ) {
-                npc_entry += " ";
+            std::string skill_test;
+            if( skill_level == 0 ) {
+                //~ %1$s: companion name, %2$d: companion skill level
+                skill_test = string_format( pgettext( "companion skill", "[%1$s %2$d]" ),
+                                            skill_tested_id->name(), e->get_skill_level( skill_tested_id ) );
+            } else {
+                //~ %1$s: companion name, %2$d: companion skill level, %3$d: skill requirement
+                skill_test = string_format( pgettext( "companion skill", "[%1$s %2$d/%3$d]" ),
+                                            skill_tested_id->name(), e->get_skill_level( skill_tested_id ), skill_level );
             }
-            npc_entry += skill_test;
+            npc_entry += right_justify( skill_test, 51 - utf8_width( npc_entry ) );
         }
-        while( npc_entry.length() < 51 ) {
-            npc_entry += " ";
-        }
-        npc_entry = string_format( "%s [ %4d : %4d : %4d ]", npc_entry, rankings[x].combat,
+        npc_entry = string_format( pgettext( "companion ranking", "%s [ %4d : %4d : %4d ]" ),
+                                   left_justify( npc_entry, 51 ), rankings[x].combat,
                                    rankings[x].survival, rankings[x].industry );
         x++;
         npcs.push_back( npc_entry );
@@ -1981,7 +1990,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     }
 
     if( !skill_tested.empty() &&
-        available[npc_choice]->get_skill_level( skill_id( skill_tested ) ) < skill_level ) {
+        available[npc_choice]->get_skill_level( skill_tested_id ) < skill_level ) {
         popup( _( "The companion you selected doesn't have the skills!" ) );
         return nullptr;
     }

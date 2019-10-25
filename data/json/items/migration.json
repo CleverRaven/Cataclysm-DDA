@@ -728,5 +728,14 @@
     "id": "abzats",
     "type": "MIGRATION",
     "replace": "bigun"
+  },
+    "id": "taurus_38",
+    "type": "MIGRATION",
+    "replace": "taurus_spectrum"
+  },
+  {
+    "id": "taurus38mag",
+    "type": "MIGRATION",
+    "replace": "taurus_spectrum_mag"
   }
 ]
