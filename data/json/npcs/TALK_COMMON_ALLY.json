@@ -275,15 +275,15 @@
       ]
     },
     "responses": [
-      { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
-      { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      { "text": "Change your engagement rules…", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules…", "topic": "TALK_AIM_RULES" },
       {
-        "text": "Change your bionic power reserve rules...",
+        "text": "Change your bionic power reserve rules…",
         "topic": "TALK_CBM_RESERVE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
       {
-        "text": "Change your bionic power recharge rules...",
+        "text": "Change your bionic power recharge rules…",
         "topic": "TALK_CBM_RECHARGE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },

@@ -70,7 +70,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
                           "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
@@ -666,7 +666,7 @@ action_id handle_action_menu()
         ctxt.get_action_name( action_ident( name ) ) );
 #define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
-    catgname += "..."; \
+    catgname += "…"; \
     entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 

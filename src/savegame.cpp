@@ -870,7 +870,7 @@ void overmap::unserialize( std::istream &fin )
                             } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else {
-                                debugmsg( "Loaded bad ter! ter %s", tmp_ter.c_str() );
+                                debugmsg( "Loaded bad ter!  ter %s", tmp_ter.c_str() );
                                 tmp_otid = oter_id( 0 );
                             }
                         }

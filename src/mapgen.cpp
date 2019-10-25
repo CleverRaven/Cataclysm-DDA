@@ -598,7 +598,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
         } else if( pjo.read( "set", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
-            debugmsg( "Warning, set: [ { \"set\": ... } is deprecated, use set: [ { \"point\": ... " );
+            debugmsg( "Warning, set: [ { \"set\": … } is deprecated, use set: [ { \"point\": … " );
         } else if( pjo.read( "line", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_LINE;
         } else if( pjo.read( "square", tmpval ) ) {

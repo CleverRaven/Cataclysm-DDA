@@ -304,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     int z = veh->sm_pos.z;
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
                   veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
         z = veh->sm_pos.z = abs_sub.z;
@@ -334,7 +334,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
               veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }

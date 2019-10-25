@@ -6387,7 +6387,7 @@ bool vehicle::refresh_zones()
 
             const int part_idx = part_with_feature( z.first, "CARGO", false );
             if( part_idx == -1 ) {
-                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
+                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone.  Removing loot zone.",
                           z.first.x, z.first.y, this->name );
 
                 // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.

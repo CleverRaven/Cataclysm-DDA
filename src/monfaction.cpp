@@ -197,7 +197,8 @@ void monfactions::finalize()
             the_faction.base_faction = root;
         }
 
-        debugmsg( "Cycle encountered when processing monster factions. Bad factions:\n %s", names.c_str() );
+        debugmsg( "Cycle encountered when processing monster factions.  Bad factions:\n %s",
+                  names.c_str() );
     }
 
     faction_list.shrink_to_fit(); // Save a couple of bytes

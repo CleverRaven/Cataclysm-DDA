@@ -7842,7 +7842,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
-            debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
@@ -7913,7 +7913,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
+                    debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature

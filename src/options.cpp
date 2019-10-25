@@ -1137,7 +1137,7 @@ void options_manager::add_options_general()
        );
 
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
-         translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
+         translate_marker( "Number of turns after which safe mode is reactivated.  Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
          1, 600, 50
        );
 
@@ -1203,7 +1203,7 @@ void options_manager::add_options_general()
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
-         translate_marker( "Set to drop empty containers after use.  No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers." ),
+         translate_marker( "Set to drop empty containers after use.  No: Don't drop any.  - Watertight: All except watertight containers.  - All: Drop all containers." ),
     { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
     "no"
        );
@@ -1490,8 +1490,8 @@ void options_manager::add_options_interface()
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "Enabled: automatically assign letters to any carried items that lack them. Disabled: do not auto-assign letters."
-    " Favorites: only auto-assign letters to favorited items." ), {
+         translate_marker( "Enabled: automatically assign letters to any carried items that lack them.  Disabled: do not auto-assign letters.  "
+    "Favorites: only auto-assign letters to favorited items." ), {
         { "disabled", translate_marker( "Disabled" ) },
         { "enabled", translate_marker( "Enabled" ) },
         { "favorites", translate_marker( "Favorites" ) }
@@ -1499,6 +1499,7 @@ void options_manager::add_options_interface()
     "favorites" );
 
     add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
+         // NOLINTNEXTLINE(cata-text-style): one space after "etc."
          translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
          true
        );
@@ -1803,7 +1804,7 @@ void options_manager::add_options_graphics()
 
 #if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display. Requires restart." ), {
+    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
         { "1", translate_marker( "1x" ) },
         { "2", translate_marker( "2x" )},
         { "4", translate_marker( "4x" )}
@@ -1968,12 +1969,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
+         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          0, 999, 30
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
-         translate_marker( "How many days after the cataclysm the player spawns. Day 0 is the day of the cataclysm. Can be overridden by scenarios. Increasing this will cause food rot and monster evolution to advance." ),
+         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2007,7 +2008,7 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
+         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
          true
        );
 
