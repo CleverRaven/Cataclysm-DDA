@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
@@ -1190,6 +1191,7 @@ void known_magic::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    json.member( "invlets", invlets );
 
     json.end_object();
 }
@@ -1211,6 +1213,7 @@ void known_magic::deserialize( JsonIn &jsin )
             spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
+    data.read( "invlets", invlets );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
@@ -1429,15 +1432,35 @@ class spellcasting_callback : public uilist_callback
         std::vector<spell *> known_spells;
         void draw_spell_info( const spell &sp, const uilist *menu );
     public:
+        // invlets reserved for special functions
+        const std::set<int> reserved_invlets{ 'I', '=' };
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
+        bool key( const input_context &, const input_event &event, int entnum,
                   uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'I' ) {
                 casting_ignore = !casting_ignore;
+                return true;
+            }
+            if( event.get_first_input() == '=' ) {
+                int invlet = 0;
+                invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
+                if( inv_chars.valid( invlet ) ) {
+                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
+                                            reserved_invlets );
+                    if( !invlet_set ) {
+                        popup( _( "Hotkey already used." ) );
+                    } else {
+                        popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                               invlet );
+                    }
+                } else {
+                    popup( _( "Hotkey removed." ) );
+                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                }
                 return true;
             }
             return false;
@@ -1454,6 +1477,9 @@ class spellcasting_callback : public uilist_callback
                                         _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
+            const std::string assign_letter = _( "Assign Hotkey [=]" );
+            mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
+                       assign_letter );
             draw_spell_info( *known_spells[entnum], menu );
         }
 };
@@ -1631,6 +1657,20 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
 }
 
+bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+{
+    if( used_invlets.count( invlet ) > 0 ) {
+        return false;
+    }
+    invlets[sp] = invlet;
+    return true;
+}
+
+void known_magic::rem_invlet( const spell_id &sp )
+{
+    invlets.erase( sp );
+}
+
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
@@ -1678,8 +1718,7 @@ int known_magic::select_spell( const player &p )
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
 
-    std::set<int> used_invlets;
-    used_invlets.emplace( 'I' );
+    std::set<int> used_invlets{ cb.reserved_invlets };
 
     for( size_t i = 0; i < known_spells.size(); i++ ) {
         spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( p ),
