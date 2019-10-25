@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
@@ -1425,20 +1426,6 @@ int known_magic::get_spellname_max_width()
     return width;
 }
 
-static bool is_valid_invlet( const int invlet )
-{
-    if( invlet >= 'a' && invlet <= 'z' ) {
-        return true;
-    }
-    if( invlet >= 'A' && invlet <= 'Z' ) {
-        return true;
-    }
-    if( invlet >= '!' && invlet <= '-' ) {
-        return true;
-    }
-    return false;
-}
-
 class spellcasting_callback : public uilist_callback
 {
     private:
@@ -1461,7 +1448,7 @@ class spellcasting_callback : public uilist_callback
             if( event.get_first_input() == '=' ) {
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
-                if( is_valid_invlet( invlet ) ) {
+                if( inv_chars.valid( invlet ) ) {
                     const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
                                             reserved_invlets );
                     if( !invlet_set ) {
