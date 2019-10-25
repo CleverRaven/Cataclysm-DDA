@@ -625,8 +625,8 @@
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 J",
-    "react_cost": "10 J",
+    "act_cost": "80 J",
+    "react_cost": "4 J",
     "time": 1
   },
   {
