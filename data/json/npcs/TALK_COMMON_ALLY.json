@@ -299,8 +299,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "true": "<ally_rule_follow_distance_2_true_text>",
-          "false": "<ally_rule_follow_distance_2_false_text>"
+          "false": "<ally_rule_follow_distance_2_true_text>",
+          "true": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }
