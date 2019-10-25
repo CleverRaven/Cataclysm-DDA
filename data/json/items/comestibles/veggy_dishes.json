@@ -314,7 +314,7 @@
     "id": "potato_baked",
     "name": "baked potato",
     "name_plural": "baked potatoes",
-    "weight": "241 g",
+    "weight": "170 g",
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
