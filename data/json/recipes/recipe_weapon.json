@@ -2495,7 +2495,7 @@
     "skill_used": "fabrication",
     "time": "1 h 40 m",
     "autolearn": true,
-    "tools": [[ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ]],
+    "tools": [ [ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "fencing_foil", 1 ] ] ]
   },
@@ -2508,7 +2508,7 @@
     "time": "1 h 40 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools":  [[ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ]],
+    "tools": [ [ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ] ],
     "components": [ [ [ "fencing_epee", 1 ] ] ]
   },
   {
@@ -2520,7 +2520,7 @@
     "time": "1 h 40 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [[ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ]],
+    "tools": [ [ [ "rock", -1 ], [ "ceramic_shard", -1 ], [ "sharp_rock", -1 ] ] ],
     "components": [ [ [ "fencing_sabre", 1 ] ] ]
   },
   {
