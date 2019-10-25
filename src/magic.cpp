@@ -1674,6 +1674,7 @@ int known_magic::select_spell( const player &p )
     spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
     spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
     spell_menu.title = _( "Choose a Spell" );
+    spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
 

@@ -2216,6 +2216,8 @@ void panel_manager::deserialize( JsonIn &jsin )
             JsonObject joPanel = jaPanels.next_object();
 
             std::string name = joPanel.get_string( "name" );
+            bool toggle = joPanel.get_bool( "toggle" );
+
             for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
                 if( it2->get_name() == name ) {
                     if( it->get_name() != name ) {
@@ -2223,7 +2225,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                         layout.erase( it2 );
                         it = layout.insert( it, panel );
                     }
-                    it->toggle = joPanel.get_bool( "toggle" );
+                    it->toggle = toggle;
                     ++it;
                     break;
                 }

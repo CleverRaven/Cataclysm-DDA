@@ -348,7 +348,7 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
         extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
         extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
         extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
-        extract_effect( j, mod_data, "growth_mod",    member, "GROWTH",  "min" );
+        extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
 
         return true;
     } else {
@@ -470,11 +470,6 @@ bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
         return true;
     }
     return false;
-}
-
-int effect_type::get_max_intensity() const
-{
-    return max_intensity;
 }
 
 effect effect::null_effect;

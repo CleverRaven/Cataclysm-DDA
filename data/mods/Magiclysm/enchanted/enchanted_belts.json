@@ -42,7 +42,7 @@
     "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
     "material": [ "superalloy" ],
     "material_thickness": 10,
-    "environmental": 20,
+    "environmental_protection": 20,
     "weight_capacity_bonus": "50 kg",
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]

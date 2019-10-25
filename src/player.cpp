@@ -1598,7 +1598,7 @@ int player::swim_speed() const
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
-            ret += get_weight() / 120_gram - 50 * mon->get_size();
+            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
             return ret;
         }
     }
@@ -2903,6 +2903,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
         if( !can_wield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
+            i_rem( &weapon );
         }
         if( has_effect( effect_mending, hurt ) ) {
             effect &e = get_effect( effect_mending, hurt );
@@ -7115,11 +7116,6 @@ ret_val<bool> player::can_unwield( const item &it ) const
     }
 
     return ret_val<bool>::make_success();
-}
-
-bool player::is_wielding( const item &target ) const
-{
-    return &weapon == &target;
 }
 
 bool player::unwield()

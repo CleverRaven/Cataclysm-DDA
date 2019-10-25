@@ -212,8 +212,6 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
-
-    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -622,7 +620,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
-    if( effect_cache[MODIFIED] ) {
+    if( size_bonus > 0 ) {
         wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
@@ -1691,29 +1689,6 @@ void monster::add_effect( const efftype_id &eff_id, const time_duration dur, bod
 {
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
-
-    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect(
-                                 eff_id ) );
-}
-
-bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
-{
-    bool modif = effect_is_modifier_enabled( get_effect( eff_id ) );
-    bool rtrn = Creature::remove_effect( eff_id, bp );
-
-    if( modif && effect_cache[MODIFIED] ) {
-        modif = false;
-        for( const auto &ef : *effects ) {
-            modif |= effect_is_modifier_enabled( ef.second.at( num_bp ) );
-        }
-        effect_cache[MODIFIED] = modif;
-    }
-    return rtrn;
-}
-
-bool monster::effect_is_modifier_enabled( const effect &eff )
-{
-    return eff.get_mod( "GROWTH" ) != 0;
 }
 
 std::string monster::get_effect_status() const
@@ -2271,17 +2246,6 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-int monster::get_effect_bonus( std::string arg, bool reduced ) const
-{
-    int rtrn = 0;
-    for( const auto effbody : *effects ) {
-        for( const auto ef : effbody.second ) {
-            rtrn += ef.second.get_mod( arg, reduced );
-        }
-    }
-    return rtrn;
-}
-
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2337,6 +2301,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     mod_hit_bonus( get_effect( "HIT", reduced ) );
     mod_bash_bonus( get_effect( "BASH", reduced ) );
     mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2572,29 +2537,17 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return m_size( type->size + get_effect_bonus( "GROWTH" ) );
-    } else {
-        return type->size;
-    }
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return units::operator*( type->weight, get_size() / type->size );
-    } else {
-        return type->weight;
-    }
+    return units::operator*( type->weight, get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return units::operator*( type->volume, get_size() / type->size );
-    } else {
-        return type->volume;
-    }
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2672,7 +2625,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close

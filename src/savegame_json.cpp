@@ -1246,23 +1246,29 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
 
         // This and the following two entries are for legacy save game handling.
         // "avoid_combat" was renamed "follow_close" to better reflect behavior.
-        data.read( "rule_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            set_flag( ally_rule::follow_close );
-        } else {
-            clear_flag( ally_rule::follow_close );
+        if( data.has_member( "rule_avoid_combat" ) ) {
+            data.read( "rule_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                set_flag( ally_rule::follow_close );
+            } else {
+                clear_flag( ally_rule::follow_close );
+            }
         }
-        data.read( "override_enable_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            enable_override( ally_rule::follow_close );
-        } else {
-            disable_override( ally_rule::follow_close );
+        if( data.has_member( "override_enable_avoid_combat" ) ) {
+            data.read( "override_enable_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                enable_override( ally_rule::follow_close );
+            } else {
+                disable_override( ally_rule::follow_close );
+            }
         }
-        data.read( "override_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            set_override( ally_rule::follow_close );
-        } else {
-            clear_override( ally_rule::follow_close );
+        if( data.has_member( "override_avoid_combat" ) ) {
+            data.read( "override_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                set_override( ally_rule::follow_close );
+            } else {
+                clear_override( ally_rule::follow_close );
+            }
         }
     }
 
@@ -3675,8 +3681,8 @@ void submap::store( JsonOut &jsout ) const
     }
 
     // Output base camp if any
-    if( camp.is_valid() ) {
-        jsout.member( "camp", camp );
+    if( camp ) {
+        jsout.member( "camp", *camp );
     }
 }
 
@@ -3944,7 +3950,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             legacy_computer->load_data( computer_data );
         }
     } else if( member_name == "camp" ) {
-        jsin.read( camp );
+        camp = std::make_unique<basecamp>();
+        jsin.read( *camp );
     } else {
         jsin.skip_value();
     }

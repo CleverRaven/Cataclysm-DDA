@@ -167,6 +167,7 @@
     "color": "pink",
     "name": "faux fur pelt",
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
+    "flags": [ "NO_SALVAGE" ],
     "material": [ "faux_fur" ]
   },
   {
@@ -282,6 +283,7 @@
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "material": "chitin",
+    "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -311,6 +313,7 @@
     "name_plural": "chunks of biosilicified chitin",
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
     "material": "acidchitin",
+    "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },
     "relative": { "bashing": 2 }
   },
