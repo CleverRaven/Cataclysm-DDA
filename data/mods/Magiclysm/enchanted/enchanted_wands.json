@@ -31,7 +31,6 @@
     "color": "brown",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "initial_charges": 20,
-    "charges": 20,
     "max_charges": 20,
     "charges_per_use": 1
   },

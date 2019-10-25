@@ -1192,7 +1192,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": { "type": "WATER_PURIFIER", "moves": 70 }
+    "use_action": "WATER_PURIFIER"
   },
   {
     "id": "char_smoker",
@@ -5256,7 +5256,6 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
-      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,

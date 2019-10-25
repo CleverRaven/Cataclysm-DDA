@@ -758,31 +758,52 @@ class JsonOut
  *     if (!jo.read("messages", messages)) {
  *         DebugLog() << "No messages.";
  *     }
+ *
+ *
+ * Automatic error checking
+ * ------------------------
+ *
+ * By default, when a JsonObject is destroyed (or when you call finish) it will
+ * check to see whether every member of the object was referenced in some way
+ * (even simply checking for the existence of the member is suffucient).
+ *
+ * If not all the members were referenced, then an error will be written to the
+ * log (which in particular will cause the tests to fail).
+ *
+ * If you don't want this behaviour, then call allow_omitted_members() before
+ * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
+ * that you may be intending to re-parse that string later).
  */
 class JsonObject
 {
     private:
         std::map<std::string, int> positions;
+        std::set<std::string> visited_members;
         int start;
         int end;
         bool final_separator;
+        bool report_unvisited_members = true;
+        bool reported_unvisited_members = false;
         JsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true );
 
     public:
         JsonObject( JsonIn &jsin );
-        JsonObject( const JsonObject &jo );
         JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonObject( const JsonObject & ) = default;
+        JsonObject( JsonObject && ) = default;
+        JsonObject &operator=( const JsonObject & ) = default;
+        JsonObject &operator=( JsonObject && ) = default;
         ~JsonObject() {
             finish();
         }
-        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
         bool empty();
 
+        void allow_omitted_members();
         bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
@@ -852,6 +873,7 @@ class JsonObject
         // but the read fails.
         template <typename T>
         bool read( const std::string &name, T &t, bool throw_on_error = true ) {
+            visited_members.insert( name );
             int pos = positions[name];
             if( pos <= start ) {
                 return false;
@@ -1053,6 +1075,7 @@ template <typename T>
 std::set<T> JsonObject::get_tags( const std::string &name )
 {
     std::set<T> res;
+    visited_members.insert( name );
     int pos = positions[ name ];
     if( pos <= start ) {
         return res;

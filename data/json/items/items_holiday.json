@@ -46,8 +46,7 @@
       "type": "transform",
       "target": "plastic_jack_o_lantern",
       "msg": "The candle winks out inside the lantern.",
-      "menu_text": "Extinguish",
-      "revert_to": "plastic_jack_o_lantern"
+      "menu_text": "Extinguish"
     },
     "flags": [ "LIGHT_6", "TRADER_AVOID" ]
   }
