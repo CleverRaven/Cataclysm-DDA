@@ -1286,7 +1286,6 @@
         "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
         "unarmed_allowed": true,
         "min_unarmed": 0,
-        "strictly_unarmed": true,
         "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],

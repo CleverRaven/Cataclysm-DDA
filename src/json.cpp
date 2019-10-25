@@ -16,8 +16,12 @@
 #include <exception>
 #include <utility>
 
+#include "cata_utility.h"
+
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
+
+#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool is_whitespace( char ch )
 {
@@ -92,19 +96,21 @@ JsonObject::JsonObject( JsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-JsonObject::JsonObject( const JsonObject &jo )
-{
-    jsin = jo.jsin;
-    start = jo.start;
-    positions = jo.positions;
-    end = jo.end;
-    final_separator = jo.final_separator;
-}
-
-JsonObject &JsonObject::operator=( const JsonObject &jo ) = default;
-
 void JsonObject::finish()
 {
+#ifndef CATA_IN_TOOL
+    if( report_unvisited_members && !reported_unvisited_members && !std::uncaught_exception() ) {
+        reported_unvisited_members = true;
+        for( const std::pair<std::string, int> &p : positions ) {
+            const std::string &name = p.first;
+            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
+                name != "blueprint" ) {
+                dbg( D_ERROR ) << "Failed to visit member '" << name << "' in JsonObject at "
+                               << jsin->line_number( start ) << ":\n" << str() << std::endl;
+            }
+        }
+    }
+#endif
     if( jsin && jsin->good() ) {
         jsin->seek( end );
         jsin->set_ate_separator( final_separator );
@@ -120,9 +126,15 @@ bool JsonObject::empty()
     return positions.empty();
 }
 
+void JsonObject::allow_omitted_members()
+{
+    report_unvisited_members = false;
+}
+
 int JsonObject::verify_position( const std::string &name,
                                  const bool throw_exception )
 {
+    visited_members.insert( name );
     int pos = positions[name]; // initialized to 0 if it doesn't exist
     if( pos > start ) {
         return pos;
@@ -159,7 +171,11 @@ std::string JsonObject::line_number()
 
 std::string JsonObject::str()
 {
-    if( jsin ) {
+    // If we're getting the string form, we might be re-parsing later, so don't
+    // complain about unvisited members.
+    allow_omitted_members();
+
+    if( jsin && end >= start ) {
         return jsin->substr( start, end - start );
     } else {
         return "{}";
@@ -208,6 +224,7 @@ bool JsonObject::get_bool( const std::string &name )
 
 bool JsonObject::get_bool( const std::string &name, const bool fallback )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return fallback;
@@ -225,6 +242,7 @@ int JsonObject::get_int( const std::string &name )
 
 int JsonObject::get_int( const std::string &name, const int fallback )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return fallback;
@@ -242,6 +260,7 @@ double JsonObject::get_float( const std::string &name )
 
 double JsonObject::get_float( const std::string &name, const double fallback )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return fallback;
@@ -259,6 +278,7 @@ std::string JsonObject::get_string( const std::string &name )
 
 std::string JsonObject::get_string( const std::string &name, const std::string &fallback )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return fallback;
@@ -271,6 +291,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
 
 JsonArray JsonObject::get_array( const std::string &name )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return JsonArray(); // empty array
@@ -301,6 +322,7 @@ std::vector<std::string> JsonObject::get_string_array( const std::string &name )
 
 JsonObject JsonObject::get_object( const std::string &name )
 {
+    visited_members.insert( name );
     int pos = positions[name];
     if( pos <= start ) {
         return JsonObject(); // empty object
@@ -1365,10 +1387,11 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
+    if( !stream || stream->fail() ) {
+        return "???";
+    }
     if( stream->eof() ) {
         return "EOF";
-    } else if( stream->fail() ) {
-        return "???";
     } // else stream is fine
     int pos = tell();
     int line = 1;

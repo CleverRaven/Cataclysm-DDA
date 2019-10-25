@@ -624,6 +624,6 @@
     "id": "spell_scroll_lava_bomb",
     "name": "Scroll of Lava Bomb",
     "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
-    "use_action": { "type": "learn_spell", "spell": [ "lava_bomb" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb" ] }
   }
 ]

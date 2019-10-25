@@ -36,7 +36,7 @@
       "rotation": 2,
       "palettes": [ "megastore", "mega_goods_c" ],
       "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
-      "items": { "C": { "item": "produce", "chance": 30, "count": 3 } }
+      "items": { "C": { "item": "produce", "chance": 30, "repeat": 3 } }
     }
   }
 ]

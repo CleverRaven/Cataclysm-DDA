@@ -32,7 +32,7 @@
 const efftype_id effect_currently_busy( "currently_busy" );
 
 // throws an error on failure, so no need to return
-std::string get_talk_varname( JsonObject jo, const std::string &member, bool check_value )
+std::string get_talk_varname( JsonObject &jo, const std::string &member, bool check_value )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
         ( check_value && !jo.has_string( "value" ) ) ) {
@@ -61,7 +61,7 @@ void read_condition( JsonObject &jo, const std::string &member_name,
             return sub_condition( d );
         };
     } else if( jo.has_object( member_name ) ) {
-        const JsonObject con_obj = jo.get_object( member_name );
+        JsonObject con_obj = jo.get_object( member_name );
         conditional_t<T> sub_condition( con_obj );
         condition = [sub_condition]( const T & d ) {
             return sub_condition( d );
@@ -877,7 +877,7 @@ void conditional_t<T>::set_mission_has_generic_rewards()
 }
 
 template<class T>
-conditional_t<T>::conditional_t( JsonObject jo )
+conditional_t<T>::conditional_t( JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
     const bool is_npc = true;
@@ -890,7 +890,8 @@ conditional_t<T>::conditional_t( JsonObject jo )
                 conditional_t<T> type_condition( ja.next_string() );
                 conditionals.emplace_back( type_condition );
             } else if( ja.test_object() ) {
-                conditional_t<T> type_condition( ja.next_object() );
+                JsonObject cond = ja.next_object();
+                conditional_t<T> type_condition( cond );
                 conditionals.emplace_back( type_condition );
             } else {
                 ja.skip_value();
@@ -921,7 +922,8 @@ conditional_t<T>::conditional_t( JsonObject jo )
             return false;
         };
     } else if( jo.has_object( "not" ) ) {
-        const conditional_t<T> sub_condition = conditional_t<T>( jo.get_object( "not" ) );
+        JsonObject cond = jo.get_object( "not" );
+        const conditional_t<T> sub_condition = conditional_t<T>( cond );
         found_sub_member = true;
         condition = [sub_condition]( const T & d ) {
             return !sub_condition( d );
