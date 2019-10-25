@@ -205,7 +205,7 @@
     "type": "GENERIC",
     "description": "A wand made of heat-resistant ceramics. When plugged into an outlet, it is hot enough to shape your hair into curls. Too bad the power's out.",
     "symbol": "/",
-    "color": "orange",
+    "color": "lmagenta",
     "price": 2500,
     "price_postapoc": 0,
     "weight": 590,
