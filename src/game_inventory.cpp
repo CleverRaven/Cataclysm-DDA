@@ -488,7 +488,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const int charges = it.charges;
                 double converted_volume;
                 if( charges != 0 ) {
-                    converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                    converted_volume = round_up( convert_volume( it.volume().value() / charges,
                                                  &converted_volume_scale ), 2 );
                 } else {
                     converted_volume = round_up( convert_volume( it.volume().value(), &converted_volume_scale ), 2 );
