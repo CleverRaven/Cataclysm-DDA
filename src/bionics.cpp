@@ -987,15 +987,44 @@ void player::process_bionic( int b )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        "bio_hydraulics" );
     } else if( bio.id == "bio_nanobots" ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            if( get_power_level() >= 5_kJ && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                heal( static_cast<hp_part>( i ), 1 );
-                mod_power_level( -5_kJ );
+        if( get_power_level() >= 40_J ) {
+            std::forward_list<int> bleeding_bp_parts;
+            for( const body_part bp : all_body_parts ) {
+                if( has_effect( effect_bleed, bp ) ) {
+                    bleeding_bp_parts.push_front( static_cast<int>( bp ) );
+                }
             }
-        }
-        for( const body_part bp : all_body_parts ) {
-            if( get_power_level() >= 2_kJ && remove_effect( effect_bleed, bp ) ) {
-                mod_power_level( -2_kJ );
+            std::vector<int> damaged_hp_parts;
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                if( hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
+                    damaged_hp_parts.push_back( i );
+                    // only healed and non-hp parts will have a chance of bleeding removal
+                    bleeding_bp_parts.remove( static_cast<int>( hp_to_bp( static_cast<hp_part>( i ) ) ) );
+                }
+            }
+            if( calendar::once_every( 60_turns ) ) {
+                bool try_to_heal_bleeding = true;
+                if( get_stored_kcal() >= 5 && damaged_hp_parts.size() > 0 ) {
+                    const hp_part part_to_heal = static_cast<hp_part>( damaged_hp_parts[ rng( 0,
+                                                      damaged_hp_parts.size() - 1 ) ] );
+                    heal( part_to_heal, 1 );
+                    mod_stored_kcal( -5 );
+                    const body_part bp_healed = hp_to_bp( part_to_heal );
+                    int hp_percent = float( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
+                    if( has_effect( effect_bleed, bp_healed ) && rng( 0, 100 ) < hp_percent ) {
+                        remove_effect( effect_bleed, bp_healed );
+                        try_to_heal_bleeding = false;
+                    }
+                }
+
+                // if no bleed was removed, try to remove it on some other part
+                if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
+                    remove_effect( effect_bleed, static_cast<body_part>( bleeding_bp_parts.front() ) );
+                }
+
+            }
+            if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
+                mod_power_level( -40_J );
             }
         }
     } else if( bio.id == "bio_painkiller" ) {
@@ -1252,7 +1281,8 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     return adjusted_skill;
 }
 
-int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_id &important_skill,
+int player::bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
                               const skill_id &least_important_skill, int skill_level )
 {
     int pl_skill;
@@ -1634,7 +1664,8 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
     return true;
 }
 
-bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
+bool player::install_bionics( const itype &type, player &installer, bool autodoc,
+                              int skill_level )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -2057,7 +2088,8 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name, const std::string &flag,
+static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
+                              const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
     bool value = fallback;
@@ -2264,7 +2296,7 @@ void bionic::deserialize( JsonIn &jsin )
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
-                                        bool needs_anesthesia ) //used by the Autodoc
+                                        bool needs_anesthesia )   //used by the Autodoc
 {
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
