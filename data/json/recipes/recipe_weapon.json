@@ -73,7 +73,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ],
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
       [ [ "scrap_copper", 2 ], [ "copper", 200 ] ]
     ]
   },
@@ -247,7 +247,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
       [ [ "scrap_copper", 3 ], [ "copper", 300 ] ]
     ]
   },
@@ -285,7 +285,7 @@
       [ [ "stick_long", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 75, "LIST" ], [ "duct_tape", 75 ] ]
+      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ], [ "duct_tape", 75 ] ]
     ]
   },
   {
@@ -432,7 +432,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -447,7 +447,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -460,7 +460,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -476,7 +476,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -492,7 +492,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
@@ -510,7 +510,7 @@
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
@@ -529,7 +529,7 @@
       [ [ "steel_tiny", 1, "LIST" ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 200, "LIST" ] ]
+      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
     ]
   },
   {
@@ -558,7 +558,7 @@
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
+      [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ]
     ]
   },
   {
@@ -587,7 +587,7 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "sheet_metal_small", 8 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
-      [ [ "cordage", 18, "LIST" ], [ "filament", 1800, "LIST" ] ]
+      [ [ "cordage", 18, "LIST" ], [ "filament", 5400, "LIST" ] ]
     ]
   },
   {
@@ -897,7 +897,7 @@
     "components": [
       [ [ "stick", 5 ], [ "2x4", 3 ] ],
       [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "filament", 100, "LIST" ] ]
+      [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
     ]
   },
   {
@@ -926,7 +926,7 @@
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 15 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage", 6, "LIST" ], [ "filament", 600, "LIST" ] ]
+      [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ]
     ]
   },
   {
@@ -2722,12 +2722,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 2 ],
     "difficulty": 2,
     "time": "18 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "leather", 2 ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",

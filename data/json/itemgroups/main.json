@@ -103,6 +103,7 @@
       [ "mininuke", 10 ],
       [ "adv_UPS_off", 10 ],
       [ "optical_cloak", 10 ],
+      [ "superalloy_harness_dog", 10 ],
       [ "holo_cloak", 10 ],
       [ "plasma_rifle", 10 ],
       [ "portal", 10 ],
@@ -232,6 +233,7 @@
       [ "shortbow", 20 ],
       [ "recurbow", 40 ],
       [ "reflexbow", 20 ],
+      [ "hybridbow", 25 ],
       [ "slingshot", 50 ],
       [ "wristrocket", 50 ]
     ]

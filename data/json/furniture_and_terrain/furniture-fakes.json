@@ -1,0 +1,42 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_hands",
+    "name": "fake workbench hands",
+    "description": "This fake workbench holds the stats for working on a wielded item.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 1.0, "mass": 5000, "volume": "10L" }
+  },
+  {
+    "type": "furniture",
+    "//": "This furniture object also gets used as a fake workbench whenever a player crafts on the ground anywhere else.",
+    "id": "f_ground_crafting_spot",
+    "name": "ground crafting spot",
+    "looks_like": "tr_firewood_source",
+    "description": "A cleared spot on the ground for crafting.  Slower than using a workbench or holding a project in your hands, but readily available.",
+    "symbol": "x",
+    "color": "white",
+    "move_cost_mod": 2,
+    "required_str": 0,
+    "deconstruct": { "items": [  ] },
+    "bash": { "str_min": 0, "str_max": 0, "items": [  ] },
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_no_item",
+    "//": "This is used in a hack to clear furniture with the keg iexamine of all items execept the stored liquid before usage.",
+    "name": "seeing this is a bug",
+    "description": "Seeing this is a bug.  If seen, please report and destroy.",
+    "symbol": "#",
+    "color": "black",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "NOITEM" ]
+  }
+]

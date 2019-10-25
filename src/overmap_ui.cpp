@@ -406,7 +406,7 @@ static point draw_notes( const tripoint &origin )
             nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
                                                 note_text ),
                                  string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color> : %s (Distance: <color_white>%d</color>)" ),
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>)" ),
                                      origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player ) );
             nmenu.entries[row].ctxt = string_format(
                                           _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );
@@ -1025,6 +1025,7 @@ void create_note( const tripoint &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                               _( "Type GLYPH:TEXT to set a custom glyph." ),
                               _( "Type COLOR;TEXT to set a custom color." ),
+                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
     std::string title = _( "Note:" );
@@ -1091,6 +1092,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
+                       // NOLINTNEXTLINE(cata-text-style): literal comma
                        .description( _( "Multiple entries separated with , Excludes starting with -" ) )
                        .query_string();
     if( term.empty() ) {
@@ -1261,6 +1263,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                        can_rotate ? "" : _( "(fixed)" ) );
             mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Areas highlighted in red" ) );
             mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
+            // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
             mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
             mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );

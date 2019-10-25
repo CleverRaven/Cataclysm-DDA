@@ -607,6 +607,13 @@
   },
   {
     "type": "keybinding",
+    "id": "RESET",
+    "category": "SOKOBAN",
+    "name": "Reset level",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UNDO",
     "category": "SOKOBAN",
     "name": "Undo move",

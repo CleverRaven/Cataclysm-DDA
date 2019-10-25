@@ -156,6 +156,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "smart_lamp", 3 ],
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],

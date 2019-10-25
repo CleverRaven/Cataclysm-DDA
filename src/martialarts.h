@@ -102,6 +102,7 @@ class ma_technique
 
         // offensive
         bool disarms; // like tec_disarm
+        bool take_weapon; // disarms and equips weapon if hands are free
         bool dodge_counter; // counter move activated on a dodge
         bool block_counter; // counter move activated on a block
 
