@@ -29,5 +29,45 @@
     "material": [ "steel", "wood" ],
     "delete": { "qualities": [ [ "LEATHER_AWL", 1 ] ] },
     "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] }
+  },
+  {
+    "id": "loom_frame",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "frame loom",
+    "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
+    "weight": "3804 g",
+    "volume": "6000 ml",
+    "price": 4000,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
+    "id": "shed_stick",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "wooden shed stick",
+    "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 100,
+    "bashing": 2,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
+    "id": "tailoring_pattern_set",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "tailoring pattern set",
+    "description": "This is a large set of tailoring patterns made from paper.  They're useful for making any kind of cloth or leather items from scratch, but are necessary for more advanced projects.",
+    "weight": "1000 g",
+    "volume": "833 ml",
+    "price": 4000,
+    "material": "paper",
+    "symbol": ";",
+    "color": "yellow"
   }
 ]
