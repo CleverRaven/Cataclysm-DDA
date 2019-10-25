@@ -20,6 +20,7 @@
     "name_plural": "soap_dishes",
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap. It has ridges to help drain water away from the dish. Not the most exciting of items.",
+    "symbol": "-",
     "copy_from": "base_toiletries"
   },
   {
@@ -27,6 +28,7 @@
     "name": "shaving razor",
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle. Much easier to shave with than a loose razor.",
+    "symbol": "t",
     "copy_from": "base_toiletries",
     "price": 800,
     "price_postapoc": 1200,
@@ -41,6 +43,7 @@
     "name_plural": "toothbrushes",
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
+    "symbol": "/",
     "copy_from": "base_toiletries",
     "snippet_category": [
       {
@@ -71,6 +74,7 @@
     "name_plural": "hairbrushes",
     "type": "GENERIC",
     "description": "An instrument of hair torture.",
+    "symbol": "/",
     "copy_from": "base_toiletries",
     "snippet_category": [
       { "id:": "hbrush1", "text": "An instrument of hair torture. There are round safety tips on the bristles." },
@@ -105,6 +109,7 @@
     "name": "comb",
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
+    "symbol": "/",
     "copy_from": "base_toiletries",
     "snippet_category": [
       { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end of this otherwise pristine comb." },
