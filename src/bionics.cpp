@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <forward_list>
 
 #include "action.h"
 #include "avatar.h"
