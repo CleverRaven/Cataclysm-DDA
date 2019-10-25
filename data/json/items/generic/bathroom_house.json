@@ -21,7 +21,7 @@
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap. It has ridges to help drain water away from the dish. Not the most exciting of items.",
     "symbol": "-",
-    "copy_from": "base_toiletries"
+    "copy-from": "base_toiletries"
   },
   {
     "id": "razor_shaving",
@@ -29,7 +29,7 @@
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle. Much easier to shave with than a loose razor.",
     "symbol": "t",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "price": 800,
     "price_postapoc": 1200,
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards. disposable razors are a hot commodity. The razor also loses the Cutting 1 quality. Don't ask how we confirmed this.",
@@ -44,7 +44,7 @@
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "snippet_category": [
       {
         "id": "tbrush1",
@@ -75,12 +75,12 @@
     "type": "GENERIC",
     "description": "An instrument of hair torture.",
     "symbol": "/",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "snippet_category": [
-      { "id:": "hbrush1", "text": "An instrument of hair torture. There are round safety tips on the bristles." },
-      { "id:": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
-      { "id:": "hbrush3", "text": "A soft, cushioned hairbrush. The shiny chrome design appears modern." },
-      { "id:": "hbrush4", "text": "A tacky kid's hairbrush. The cartoon whale on the handle seems friendly enough." }
+      { "id": "hbrush1", "text": "An instrument of hair torture. There are round safety tips on the bristles." },
+      { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
+      { "id": "hbrush3", "text": "A soft, cushioned hairbrush. The shiny chrome design appears modern." },
+      { "id": "hbrush4", "text": "A tacky kid's hairbrush. The cartoon whale on the handle seems friendly enough." }
     ]
   },
   {
@@ -88,7 +88,7 @@
     "name": "hair curler",
     "type": "GENERIC",
     "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "symbol": ",",
     "weight": 20,
     "volume": "25 ml",
@@ -100,7 +100,7 @@
     "name_plural": "rolls of dental floss",
     "type": "GENERIC",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container. Perfect for picking bits of smoked meat out of your teeth. Disassemble to use the thread for something else.",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "symbol": "~",
     "material": [ "plastic", "cotton" ]
   },
@@ -110,7 +110,7 @@
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
     "symbol": "/",
-    "copy_from": "base_toiletries",
+    "copy-from": "base_toiletries",
     "snippet_category": [
       { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end of this otherwise pristine comb." },
       {
@@ -169,17 +169,17 @@
     "to_hit": -2,
     "snippet_category": [
       {
-        "id:": "tpaper1",
+        "id": "tpaper1",
         "text": "Imagine the thinnest, most disposable paper you could possibly make. Now imagine something thinner than that."
       },
       {
-        "id:": "tpaper2",
+        "id": "tpaper2",
         "text": "This roll of toilet paper is two-ply and quilted, for vandalizing houses more comfortably than ever."
       },
-      { "id:": "tpaper3", "text": "This brand of toilet paper is designed to dissolve completely in water!" },
+      { "id": "tpaper3", "text": "This brand of toilet paper is designed to dissolve completely in water!" },
       { "id:": "tpaper4", "text": "Images of your least favorite politician are printed on each individual sheet." },
       {
-        "id:": "tpaper5",
+        "id": "tpaper5",
         "text": "A luxurious remnant of civilization. The splinters of unprocessed wood visible in this one make it seem less luxurious, though."
       }
     ]
@@ -197,7 +197,7 @@
     "volume": 2,
     "material": [ "plastic", "steel" ],
     "bashing": 3,
-    "to-hit": 0
+    "to_hit": 0
   },
   {
     "id": "curling_iron",
@@ -205,14 +205,14 @@
     "type": "GENERIC",
     "description": "A wand made of heat-resistant ceramics. When plugged into an outlet, it is hot enough to shape your hair into curls. Too bad the power's out.",
     "symbol": "/",
-    "color": "lmagenta",
+    "color": "magenta",
     "price": 2500,
     "price_postapoc": 0,
     "weight": 590,
     "volume": 1,
     "material": [ "ceramic", "steel" ],
     "bashing": 3,
-    "to-hit": 1
+    "to_hit": 1
   },
   {
     "id": "brush_toilet",
