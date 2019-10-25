@@ -409,21 +409,19 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool melee_style = u.style_selected.obj().strictly_melee;
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = u.used_weapon().has_flag( "UNARMED_WEAPON" );
+    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( "UNARMED_WEAPON" );
     bool forced_unarmed = u.style_selected.obj().force_unarmed;
-    bool ok_weapon = is_valid_weapon( u.weapon );
+    bool weapon_ok = is_valid_weapon( u.weapon );
     bool style_weapon = u.style_selected.obj().has_weapon( u.weapon.typeId() );
     bool all_weapons = u.style_selected.obj().allow_melee;
 
-    bool valid_unarmed = !melee_style && unarmed_allowed && ( !is_armed || ( is_armed &&
-        unarmed_weapon && unarmed_weapons_allowed ) );
+    bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
+    bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
 
-    bool valid_melee = !strictly_unarmed && ( forced_unarmed || ( melee_allowed && ok_weapon &&
-        ( style_weapon || all_weapons ) ) );
+    bool valid_unarmed = !melee_style && unarmed_allowed && unarmed_ok;
+    bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
 
-    bool valid_weapon = valid_unarmed || valid_melee;
-
-    if( !valid_weapon ) {
+    if( !valid_unarmed && !valid_melee ) {
         return false;
     }
 
