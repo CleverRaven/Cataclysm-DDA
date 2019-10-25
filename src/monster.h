@@ -378,7 +378,7 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
+        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death();
 
         // Other
@@ -396,6 +396,7 @@ class monster : public Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+
         /**
          * Makes monster react to heard sound
          *

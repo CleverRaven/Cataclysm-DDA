@@ -207,7 +207,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
         }
         if( newdist > curdist ) {
-            add_msg( m_info, _( "You cannot pull yourself away from the faultline..." ) );
+            add_msg( m_info, _( "You cannot pull yourself away from the faultline…" ) );
             return false;
         }
     }
@@ -251,7 +251,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                     add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
                 } else {
                     you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
                     return false;
                 }
             }
@@ -596,7 +596,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
+            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
             // break a possible loop when aiming
             if( you.activity ) {
                 you.cancel_activity();
@@ -820,7 +820,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
 
     targeting_data args = {
         TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &you ),
-        bp_cost, &you.weapon == &weapon, gun->ammo_data(),
+        bp_cost, you.is_wielding( weapon ), gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()
     };
@@ -877,7 +877,7 @@ void avatar_action::plthrow( avatar &you, int pos,
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
         } else {
             you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
             return;
         }
     }

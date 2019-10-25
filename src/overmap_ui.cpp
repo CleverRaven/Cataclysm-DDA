@@ -163,11 +163,12 @@ static void update_note_preview( const std::string &note,
     werase( *w_preview_title );
     nc_color default_color = c_unset;
     print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text );
-    mvwputch( *w_preview_title, point( note_text.length(), 0 ), c_white, LINE_XOXO );
-    for( size_t i = 0; i < note_text.length(); i++ ) {
+    int note_text_width = utf8_width( note_text );
+    mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
+    for( int i = 0; i < note_text_width; i++ ) {
         mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
     }
-    mvwputch( *w_preview_title, point( note_text.length(), 1 ), c_white, LINE_XOOX );
+    mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
     wrefresh( *w_preview_title );
 
     const int npm_offset_x = 1;
@@ -1025,6 +1026,7 @@ void create_note( const tripoint &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                               _( "Type GLYPH:TEXT to set a custom glyph." ),
                               _( "Type COLOR;TEXT to set a custom color." ),
+                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
     std::string title = _( "Note:" );
@@ -1091,6 +1093,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
+                       // NOLINTNEXTLINE(cata-text-style): literal comma
                        .description( _( "Multiple entries separated with , Excludes starting with -" ) )
                        .query_string();
     if( term.empty() ) {
@@ -1155,7 +1158,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
         //Draw search box
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
-        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%*s", 12, term );
+        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%s", right_justify( term, 12 ) );
 
         mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
         mvwprintz( w_search, point( 16, 2 ), c_light_red, "%*d/%d", 3, i + 1, locations.size() );
@@ -1261,6 +1264,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                        can_rotate ? "" : _( "(fixed)" ) );
             mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Areas highlighted in red" ) );
             mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
+            // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
             mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
             mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );

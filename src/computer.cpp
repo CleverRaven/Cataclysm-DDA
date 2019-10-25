@@ -161,7 +161,7 @@ void computer::use()
     wrefresh( w_border );
 
     // Login
-    print_line( _( "Logging into %s..." ), _( name ) );
+    print_line( _( "Logging into %s…" ), _( name ) );
     if( security > 0 ) {
         if( calendar::turn < next_attempt ) {
             print_error( _( "Access is temporary blocked for security purposes." ) );
@@ -178,7 +178,7 @@ void computer::use()
 
             case 'n':
             case 'N':
-                query_any( _( "Shutting down... press any key." ) );
+                query_any( _( "Shutting down… press any key." ) );
                 shutdown_terminal();
                 return;
 
@@ -186,7 +186,7 @@ void computer::use()
             case 'Y':
                 if( !hack_attempt( g->u ) ) {
                     if( failures.empty() ) {
-                        query_any( _( "Maximum login attempts exceeded.  Press any key..." ) );
+                        query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
                         shutdown_terminal();
                         return;
                     }
@@ -195,12 +195,12 @@ void computer::use()
                     return;
                 } else { // Successful hack attempt
                     security = 0;
-                    query_any( _( "Login successful.  Press any key..." ) );
+                    query_any( _( "Login successful.  Press any key…" ) );
                     reset_terminal();
                 }
         }
     } else { // No security
-        query_any( _( "Login successful.  Press any key..." ) );
+        query_any( _( "Login successful.  Press any key…" ) );
         reset_terminal();
     }
 
@@ -401,7 +401,7 @@ void computer::activate_function( computer_action action )
         /* fallthrough */
         case COMPACT_OPEN:
             g->m.translate_radius( t_door_metal_locked, t_floor, 25.0, g->u.pos(), true );
-            query_any( _( "Doors opened.  Press any key..." ) );
+            query_any( _( "Doors opened.  Press any key…" ) );
             break;
 
         //LOCK AND UNLOCK are used to build more complex buildings
@@ -411,7 +411,7 @@ void computer::activate_function( computer_action action )
         // player position to determine which terrain tiles to edit.
         case COMPACT_LOCK:
             g->m.translate_radius( t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos(), true );
-            query_any( _( "Lock enabled.  Press any key..." ) );
+            query_any( _( "Lock enabled.  Press any key…" ) );
             break;
 
         // UNLOCK_DISARM falls through to just UNLOCK
@@ -420,14 +420,14 @@ void computer::activate_function( computer_action action )
         /* fallthrough */
         case COMPACT_UNLOCK:
             g->m.translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos(), true );
-            query_any( _( "Lock disabled.  Press any key..." ) );
+            query_any( _( "Lock disabled.  Press any key…" ) );
             break;
 
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
                            //~ the sound of a church bell ringing
-                           _( "Bohm...  Bohm...  Bohm..." ), true, "environment", "church_bells" );
+                           _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
@@ -469,7 +469,7 @@ void computer::activate_function( computer_action action )
             sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
-            query_any( _( "Containment shields opened.  Press any key..." ) );
+            query_any( _( "Containment shields opened.  Press any key…" ) );
             break;
 
         // COMPACT_RELEASE_DISARM falls through to just COMPACT_RELEASE_BIONICS
@@ -480,7 +480,7 @@ void computer::activate_function( computer_action action )
             sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                            "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
-            query_any( _( "Containment shields opened.  Press any key..." ) );
+            query_any( _( "Containment shields opened.  Press any key…" ) );
             break;
 
         case COMPACT_TERMINATE:
@@ -497,7 +497,7 @@ void computer::activate_function( computer_action action )
                     mon->die( &g->u );
                 }
             }
-            query_any( _( "Subjects terminated.  Press any key..." ) );
+            query_any( _( "Subjects terminated.  Press any key…" ) );
             break;
 
         case COMPACT_PORTAL: {
@@ -549,12 +549,12 @@ void computer::activate_function( computer_action action )
             print_text( "%s", log );
             // One's an anomaly
             if( alerts == 0 ) {
-                query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key..." ) );
+                query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key…" ) );
                 alerts ++;
             } else {
                 // Two's a trend.
                 query_any(
-                    _( "Warning: anomalous archive-access activity detected at this node.  Press any key..." ) );
+                    _( "Warning: anomalous archive-access activity detected at this node.  Press any key…" ) );
                 alerts ++;
             }
         }
@@ -568,10 +568,10 @@ void computer::activate_function( computer_action action )
             print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
             if( one_in( 3 ) ) {
-                query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key..." ) );
+                query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key…" ) );
                 alerts ++;
             } else {
-                query_any( _( "Press any key..." ) );
+                query_any( _( "Press any key…" ) );
             }
             sfx::fade_audio_channel( sfx::channel::radio, 100 );
         }
@@ -582,7 +582,7 @@ void computer::activate_function( computer_action action )
             const tripoint center = g->u.global_omt_location();
             overmap_buffer.reveal( center.xy(), 40, 0 );
             query_any(
-                _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key..." ) );
+                _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
             remove_option( COMPACT_MAPS );
             alerts ++;
         }
@@ -601,7 +601,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             }
-            query_any( _( "Sewage map data downloaded.  Press any key..." ) );
+            query_any( _( "Sewage map data downloaded.  Press any key…" ) );
             remove_option( COMPACT_MAP_SEWER );
         }
         break;
@@ -619,7 +619,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             }
-            query_any( _( "Subway map data downloaded.  Press any key..." ) );
+            query_any( _( "Subway map data downloaded.  Press any key…" ) );
             remove_option( COMPACT_MAP_SUBWAY );
         }
         break;
@@ -726,11 +726,11 @@ void computer::activate_function( computer_action action )
                 print_line( "%s", name );
             }
             if( more > 0 ) {
-                print_line( ngettext( "%d OTHER FOUND...", "%d OTHERS FOUND...", more ), more );
+                print_line( ngettext( "%d OTHER FOUND…", "%d OTHERS FOUND…", more ), more );
             }
 
             print_newline();
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
         }
         break;
 
@@ -740,7 +740,7 @@ void computer::activate_function( computer_action action )
                     g->m.ter_set( p, t_elevator_control );
                 }
             }
-            query_any( _( "Elevator activated.  Press any key..." ) );
+            query_any( _( "Elevator activated.  Press any key…" ) );
             break;
 
         case COMPACT_AMIGARA_LOG: {
@@ -790,7 +790,7 @@ void computer::activate_function( computer_action action )
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
-            print_error( _( "FILE CORRUPTED, PRESS ANY KEY..." ) );
+            print_error( _( "FILE CORRUPTED, PRESS ANY KEY…" ) );
             inp_mngr.wait_for_any_key();
             reset_terminal();
             break;
@@ -829,7 +829,7 @@ void computer::activate_function( computer_action action )
                                                  commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
                     if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                         miss->step_complete( 1 );
-                        print_error( _( "Repeater mod installed..." ) );
+                        print_error( _( "Repeater mod installed…" ) );
                         print_error( _( "Mission Complete!" ) );
                         g->u.use_amount( "radio_repeater_mod", 1 );
                         inp_mngr.wait_for_any_key();
@@ -839,7 +839,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             } else {
-                print_error( _( "You do not have a repeater mod to install..." ) );
+                print_error( _( "You do not have a repeater mod to install…" ) );
                 inp_mngr.wait_for_any_key();
                 break;
             }
@@ -905,7 +905,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             }
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
             break;
 
         case COMPACT_DATA_ANAL:
@@ -934,7 +934,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             }
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
             break;
 
         case COMPACT_DISCONNECT:
@@ -944,7 +944,7 @@ void computer::activate_function( computer_action action )
                            "UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n"
                            "SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n"
                            "  \n" ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_EMERG_MESS:
@@ -959,7 +959,7 @@ void computer::activate_function( computer_action action )
                            "5. AWAIT FURTHER INSTRUCTIONS.\n"
                            "\n"
                            "  \n" ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_EMERG_REF_CENTER:
@@ -976,58 +976,58 @@ void computer::activate_function( computer_action action )
                            "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED.\n"
                            "  \n"
                            "  \n" ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR1_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr1_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR2_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr2_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR3_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr3_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR4_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr4_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_1_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_1_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_2_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_1_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_2_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_3_MESS:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_3_mess" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_SEAL_ORDER:
             reset_terminal();
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_seal_order" ) ) );
-            query_any( _( "Press any key to continue..." ) );
+            query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_SEAL:
@@ -1070,7 +1070,7 @@ void computer::activate_function( computer_action action )
                     }
                 }
             }
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
             break;
 
         //irradiates food at t_rad_platform, adds radiation
@@ -1095,7 +1095,7 @@ void computer::activate_function( computer_action action )
                                 explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
-                                print_error( _( "  >> Initialize secondary sensors: Geiger profiling..." ) );
+                                print_error( _( "  >> Initialize secondary sensors: Geiger profiling…" ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
                                 print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
@@ -1115,7 +1115,7 @@ void computer::activate_function( computer_action action )
                                 } else {
                                     g->u.irradiate( rng_float( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
                                 }
-                                query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
+                                query_any( _( "EMERGENCY SHUTDOWN!  Press any key…" ) );
                                 error = true;
                                 options.clear(); // Disable the terminal.
                                 activate_failure( COMPFAIL_SHUTDOWN );
@@ -1132,7 +1132,7 @@ void computer::activate_function( computer_action action )
                             }
                         }
                         if( !error && platform_exists ) {
-                            print_error( _( "PROCESSING...  CYCLE COMPLETE." ) );
+                            print_error( _( "PROCESSING…  CYCLE COMPLETE." ) );
                             print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), g->m.get_radiation( dest ) );
                         }
                     }
@@ -1140,10 +1140,10 @@ void computer::activate_function( computer_action action )
             }
             if( !platform_exists ) {
                 print_error(
-                    _( "CRITICAL ERROR...  RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
+                    _( "CRITICAL ERROR…  RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
             }
             if( !error ) {
-                query_any( _( "Press any key..." ) );
+                query_any( _( "Press any key…" ) );
             }
             break;
         }
@@ -1176,14 +1176,14 @@ void computer::activate_function( computer_action action )
                         peak_rad = g->m.get_radiation( platform );
                     }
                 }
-                print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );
-                print_error( _( "GEIGER COUNTER @ ZONE:... MAX %s mSv/h." ), peak_rad );
+                print_error( _( "GEIGER COUNTER @ ZONE:… AVG %s mSv/h." ), sum_rads / tiles_counted );
+                print_error( _( "GEIGER COUNTER @ ZONE:… MAX %s mSv/h." ), peak_rad );
                 print_newline();
             }
-            print_error( _( "GEIGER COUNTER @ CONSOLE: .... %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
-            print_error( _( "PERSONAL DOSIMETRY: .... %s mSv." ), g->u.radiation );
+            print_error( _( "GEIGER COUNTER @ CONSOLE:… %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
+            print_error( _( "PERSONAL DOSIMETRY:… %s mSv." ), g->u.radiation );
             print_newline();
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
             break;
         }
 
@@ -1211,7 +1211,7 @@ void computer::activate_function( computer_action action )
             }
             if( !l_exists || !p_exists || !u_exists ) {
                 print_error( _( "Conveyor belt malfunction.  Consult maintenance team." ) );
-                query_any( _( "Press any key..." ) );
+                query_any( _( "Press any key…" ) );
                 break;
             }
             auto items = g->m.i_at( platform );
@@ -1236,7 +1236,7 @@ void computer::activate_function( computer_action action )
                 }
             }
             g->m.i_clear( loading );
-            query_any( _( "Conveyor belt cycle complete.  Press any key..." ) );
+            query_any( _( "Conveyor belt cycle complete.  Press any key…" ) );
             break;
         }
         // toggles reinforced glass shutters open->closed and closed->open depending on their current state
@@ -1244,7 +1244,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 300;
             g->m.translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0, g->u.pos(),
                                    true, true );
-            query_any( _( "Toggling shutters.  Press any key..." ) );
+            query_any( _( "Toggling shutters.  Press any key…" ) );
             break;
         // extract radiation source material from irradiator
         case COMPACT_EXTRACT_RAD_SOURCE:
@@ -1263,9 +1263,9 @@ void computer::activate_function( computer_action action )
                     g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
                     remove_option( COMPACT_IRRADIATOR );
                     remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                    query_any( _( "Extraction sequence complete...  Press any key." ) );
+                    query_any( _( "Extraction sequence complete…  Press any key." ) );
                 } else {
-                    query_any( _( "ERROR!  Radiation platform unresponsive...  Press any key." ) );
+                    query_any( _( "ERROR!  Radiation platform unresponsive…  Press any key." ) );
                 }
             }
             break;
@@ -1283,7 +1283,7 @@ void computer::activate_function( computer_action action )
                 }
                 g->m.remove_field( dest, fd_shock_vent );
             }
-            print_line( _( "Initiating POWER-DIAG ver.2.34 ..." ) );
+            print_line( _( "Initiating POWER-DIAG ver.2.34…" ) );
             if( has_vent ) {
                 print_error( _( "Short circuit detected!" ) );
                 print_error( _( "Short circuit rerouted." ) );
@@ -1299,7 +1299,7 @@ void computer::activate_function( computer_action action )
             } else {
                 print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
             }
-            query_any( _( "Press any key..." ) );
+            query_any( _( "Press any key…" ) );
             break;
 
     } // switch (action)
@@ -1495,7 +1495,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT..." ) );
+    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;
@@ -1528,10 +1528,10 @@ void computer::mark_refugee_center()
                    "4PM AT 555-0164.\n"
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
-                   "TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
+                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ), rl_dist( g->u.pos(), mission_target ),
                 direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
 
-    query_any( _( "Press any key to continue..." ) );
+    query_any( _( "Press any key to continue…" ) );
 }
 
 template<typename ...Args>

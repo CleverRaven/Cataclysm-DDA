@@ -134,7 +134,7 @@ void defense_game::per_turn()
     if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
-            popup( _( "A caravan approaches!  Press spacebar..." ) );
+            popup( _( "A caravan approaches!  Press spacebar…" ) );
             caravan();
         }
         spawn_wave();
@@ -1261,6 +1261,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     mvwputch( w, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), col, LINE_XOOX );
 
     // Quick reminded about help.
+    // NOLINTNEXTLINE(cata-text-style): literal question mark
     mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
     wrefresh( w );
 }

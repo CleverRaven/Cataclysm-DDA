@@ -309,13 +309,17 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -326,13 +330,17 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 2 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -343,14 +351,18 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 4 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],
       [ [ "cable", 5 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   }
 ]

@@ -17,20 +17,25 @@ args = argparse.ArgumentParser(description="Confirm that every talk topic in eve
                                            "TALK_DONE and every topic is reachable from an NPC's"
                                            "starting topic.  Reports nothing on success.")
 args.add_argument("dialogue_json", nargs="+", action="store",
-                  help="specify json file or files to validate.  Use 'data/json/npcs/* "
-                  "data/json/npcs/*/* data/json/npcs/*/*/*' to validate the "
-                  "dialogue in the vanilla game.")
+                  help="specify json folder to validate.  The valdiator will walk the folder's "
+                  "tree and validate all JSON files in it.  Use 'data/json/npcs/ "
+                  "to validate the dialogue in the vanilla game.")
 argsDict = vars(args.parse_args())
 
 def get_dialogue_from_json():
     dialogue = []
 
-    for path in argsDict.get("dialogue_json", []):
-        if path == "data/json/npcs/TALK_TEST.json":
-           continue
-        if path.endswith(".json"):
-            with open(path) as dialogue_file:
-                dialogue += json.load(dialogue_file)
+    for arg_path in argsDict.get("dialogue_json", []):
+        if arg_path.endswith("/"):
+            arg_path = arg_path[:-1]
+        for subdir_path, dirnames, filenames in os.walk(arg_path):
+           for filename in filenames:
+               path = subdir_path + "/" + filename
+               if path == "data/json/npcs/TALK_TEST.json":
+                   continue
+               if path.endswith(".json"):
+                   with open(path) as dialogue_file:
+                       dialogue += json.load(dialogue_file)
  
     return dialogue
 

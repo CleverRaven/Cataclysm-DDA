@@ -165,7 +165,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
     if( !obj.has_object( key ) ) {
         return;
     }
-    auto src = obj.get_object( key );
+    JsonObject src = obj.get_object( key );
 
     auto sk = src.get_array( "skills" );
     if( !sk.empty() ) {
@@ -974,7 +974,7 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    const auto add_part_obj = [&]( JsonObject part, point pos ) {
+    const auto add_part_obj = [&]( JsonObject & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );
