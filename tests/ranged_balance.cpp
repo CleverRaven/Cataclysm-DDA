@@ -316,8 +316,8 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 18, 20, 140 );
         test_fast_shooting( shooter, 20, 0.6 );
     }
-    SECTION( "an expert shooter with an auto shotgun" ) {
-        arm_shooter( shooter, "abzats", { "holo_sight" } );
+    SECTION( "an expert shooter with an excellent shotgun" ) {
+        arm_shooter( shooter, "m1014", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
