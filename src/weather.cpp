@@ -383,17 +383,18 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
-      p == PRECIP_LIGHT ? 1.5 :
-      p == PRECIP_HEAVY ? 3   :
-                          0;
+        p == PRECIP_LIGHT ? 1.5 :
+        p == PRECIP_HEAVY ? 3   :
+        0;
 }
 
 void do_rain( weather_type const w )
 {
-    if (! weather::rains(w) || weather::precip(w) == PRECIP_NONE )
+    if( ! weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
         return;
-    fill_water_collectors( precip_mm_per_hour(weather::precip(w)), weather::acidic(w) );
-    bool light = weather::precip(w) == PRECIP_LIGHT;
+    }
+    fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
+    bool light = weather::precip( w ) == PRECIP_LIGHT;
     g->m.decay_fields_and_scent( light ? 15_turns : 45_turns );
     wet_player( light ? 30 : 60 );
 }

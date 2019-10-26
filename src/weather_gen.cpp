@@ -18,13 +18,13 @@ namespace
 {
 constexpr double tau = 2 * M_PI;
 constexpr double coldest_hour = 5;
-  // Out of 24 hours
+// Out of 24 hours
 constexpr double daily_magnitude_K = 5;
-   // Greatest absolute change from a day's average temperature, in kelvins
+// Greatest absolute change from a day's average temperature, in kelvins
 constexpr double seasonality_magnitude_K = 15;
-   // Greatest absolute change from the year's average temperature, in kelvins
+// Greatest absolute change from the year's average temperature, in kelvins
 constexpr double noise_magnitude_K = 8;
-   // Greatest absolute day-to-day noise, in kelvins
+// Greatest absolute day-to-day noise, in kelvins
 } //namespace
 
 weather_generator::weather_generator() = default;
@@ -55,11 +55,11 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
-    result.cyf = cos( tau * (year_fraction + .125) ); // [-1, 1]
-      // We add one-eighth to line up `cyf` so that 1 is at
-      // midwinter and -1 at midsummer. (Cataclsym DDA years
-      // start when spring starts. Gregorian years start when
-      // winter starts.)
+    result.cyf = cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
+    // We add one-eighth to line up `cyf` so that 1 is at
+    // midwinter and -1 at midsummer. (Cataclsym DDA years
+    // start when spring starts. Gregorian years start when
+    // winter starts.)
     result.season = season_of_year( t );
 
     return result;
@@ -74,11 +74,11 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
 
     const unsigned modSEED = common.modSEED;
     const double seasonality = -common.cyf;
-      // -1 in midwinter, +1 in midsummer
+    // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
-    const double dayv = cos( tau * (dayFraction + .5 - coldest_hour / 24) );
-      // -1 at coldest_hour, +1 twelve hours later
+    const double dayv = cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
+    // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
     const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
@@ -86,7 +86,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
         wg.base_temperature +
         seasonal_temp_mod[ season ] +
         dayv * daily_magnitude_K +
-        seasonality * seasonality_magnitude_K);
+        seasonality * seasonality_magnitude_K );
 
     const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
@@ -111,7 +111,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const unsigned modSEED = common.modSEED;
     const double cyf( common.cyf );
     const double seasonality = -common.cyf;
-      // -1 in midwinter, +1 in midsummer
+    // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
 
     // Noise factors
@@ -131,17 +131,17 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         mod_h += autumn_humidity_manual_mod;
     }
     // Relative humidity, a percentage.
-    double H = std::min(100., std::max(0.,
-        base_humidity + mod_h + 100 * (
-            .15 * seasonality +
-            raw_noise_4d( x, y, z, modSEED + 101 ) *
-            .2 * (-seasonality + 2))));
+    double H = std::min( 100., std::max( 0.,
+                                         base_humidity + mod_h + 100 * (
+                                                 .15 * seasonality +
+                                                 raw_noise_4d( x, y, z, modSEED + 101 ) *
+                                                 .2 * ( -seasonality + 2 ) ) ) );
 
     // Pressure
     double P =
         base_pressure +
         raw_noise_4d( x, y, z, modSEED + 211 ) *
-        10 * (-seasonality + 2);
+        10 * ( -seasonality + 2 );
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
