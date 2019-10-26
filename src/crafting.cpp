@@ -1072,6 +1072,16 @@ void player::complete_craft( item &craft, const tripoint &loc )
     bool first = true;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
+
+        // Points to newit unless newit is a non-empty container, then it points to newit's contents.
+        // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
+        item *content_ptr;
+        if( newit.is_container() && !newit.contents.empty() ) {
+            content_ptr = &newit.contents.back();
+        } else {
+            content_ptr = &newit;
+        }
+
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
             first = false;
@@ -1114,34 +1124,34 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( component.has_flag( "FIT" ) ) {
                     newit.item_tags.insert( "FIT" );
                 }
-                if( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
+                if( !content_ptr->has_flag( "NO_CRAFT_INHERIT" ) ) {
                     for( const std::string &f : component.item_tags ) {
                         if( json_flag::get( f ).craft_inherit() ) {
-                            newit.set_flag( f );
+                            content_ptr->set_flag( f );
                         }
                     }
                     for( const std::string &f : component.type->item_tags ) {
                         if( json_flag::get( f ).craft_inherit() ) {
-                            newit.set_flag( f );
+                            content_ptr->set_flag( f );
                         }
                     }
                 }
                 if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    newit.poison = component.poison;
+                    content_ptr->poison = component.poison;
                 }
             }
         }
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !newit.count_by_charges() &&
+        if( recipe_dictionary::get_uncraft( making.result() ) && !content_ptr->count_by_charges() &&
             making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( newit.components, used, batch_size, newit_counter );
+            set_components( content_ptr->components, used, batch_size, newit_counter );
             newit_counter++;
-        } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        } else if( content_ptr->is_food() && !content_ptr->has_flag( "NUTRIENT_OVERRIDE" ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1157,27 +1167,19 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( newit.components, used, batch_size, newit_counter );
+            set_components( content_ptr->components, used, batch_size, newit_counter );
             // store the number of charges the recipe creates
-            newit.recipe_charges = newit.charges / batch_size;
+            content_ptr->recipe_charges = content_ptr->charges / batch_size;
             newit_counter++;
         }
 
-        if( newit.goes_bad() ) {
-            newit.set_relative_rot( relative_rot );
-        } else {
-            if( newit.is_container() ) {
-                for( item &in : newit.contents ) {
-                    if( in.goes_bad() ) {
-                        in.set_relative_rot( relative_rot );
-                    }
-                }
-            }
+        if( content_ptr->goes_bad() ) {
+            content_ptr->set_relative_rot( relative_rot );
         }
 
-        if( newit.has_temperature() ) {
+        if( content_ptr->has_temperature() ) {
             if( should_heat ) {
-                newit.heat_up();
+                content_ptr->heat_up();
             } else {
                 // Really what we should be doing is averaging the temperatures
                 // between the recipe components if we don't have a heat tool, but
@@ -1186,12 +1188,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                newit.set_item_temperature( 293.15 );
-                newit.reset_temp_check();
+                content_ptr->set_item_temperature( 293.15 );
+                content_ptr->reset_temp_check();
             }
         }
 
-        finalize_crafted_item( newit, get_faction() );
+        finalize_crafted_item( *content_ptr, get_faction() );
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
