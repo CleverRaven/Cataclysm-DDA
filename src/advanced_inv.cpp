@@ -198,9 +198,9 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
 
 bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
-    for( size_t i = 0; i < squares.size(); i++ ) {
-        if( squares[i].actionname == action ) {
-            ret = screen_relative_location( squares[i].id );
+    for( advanced_inv_area &s : squares ) {
+        if( s.actionname == action ) {
+            ret = screen_relative_location( s.id );
             return true;
         }
     }
