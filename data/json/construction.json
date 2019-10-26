@@ -866,7 +866,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "WELD", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small"
@@ -877,7 +877,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "WELD", "level": 1 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small_d"

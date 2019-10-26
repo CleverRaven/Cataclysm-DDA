@@ -3671,19 +3671,6 @@
   },
   {
     "type": "recipe",
-    "result": "railroad_rail_small",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "steel_standard", 10 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "railroad_track_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3691,9 +3678,10 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "using": [ [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 16 ] ], [ [ "nail", 40 ] ], [ [ "railroad_rail_small", 2 ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
   },
   {
     "type": "recipe",
