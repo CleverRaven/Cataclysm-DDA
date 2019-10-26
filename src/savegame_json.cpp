@@ -464,6 +464,7 @@ void Character::load( JsonObject &data )
 
     //energy
     data.read( "stim", stim );
+    data.read( "stamina", stamina );
 
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
@@ -1058,7 +1059,7 @@ void avatar::load( JsonObject &data )
         per_upgrade = -per_upgrade;
     }
 
-    data.read( "stamina", stamina );
+    data.read( "magic", magic );
 
     set_highest_cat_level();
     drench_mut_calc();

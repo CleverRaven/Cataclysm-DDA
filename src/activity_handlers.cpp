@@ -1770,7 +1770,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 p->practice( skill_survival, 2, 2 );
             }
 
-            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
+            float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
             if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
@@ -2884,10 +2884,10 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
     if( p->is_player() ) {
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
-                act->values.push_back( p->stamina );
+                act->values.push_back( p->get_stamina() );
             }
-            p->stamina = act->values[0] - 1;
-            act->values[0] = p->stamina;
+            p->set_stamina( act->values[0] - 1 );
+            act->values[0] = p->get_stamina();
         }
     } else {
         p->moves = 0;
@@ -2979,10 +2979,10 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
         stamina_threshold = act->values[0];
         // remember initial stamina, only for waiting-with-threshold
         if( act->values.size() == 1 ) {
-            act->values.push_back( p->stamina );
+            act->values.push_back( p->get_stamina() );
         }
     }
-    if( p->stamina >= stamina_threshold ) {
+    if( p->get_stamina() >= stamina_threshold ) {
         wait_stamina_finish( act, p );
     }
 }
@@ -2991,12 +2991,12 @@ void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
     if( !act->values.empty() ) {
         const int stamina_threshold = act->values[0];
-        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->stamina;
-        if( p->stamina < stamina_threshold && p->stamina <= stamina_initial ) {
+        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->get_stamina();
+        if( p->get_stamina() < stamina_threshold && p->get_stamina() <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
-                      act->values.front(), p->stamina );
+                      act->values.front(), p->get_stamina() );
         }
-    } else if( p->stamina < p->get_stamina_max() ) {
+    } else if( p->get_stamina() < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
     } else {
         p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );

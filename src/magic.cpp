@@ -621,7 +621,7 @@ bool spell::can_cast( const player &p ) const
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
         case stamina_energy:
-            return p.stamina >= energy_cost( p );
+            return p.get_stamina() >= energy_cost( p );
         case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( energy_cost( p ) < p.hp_cur[i] ) {
@@ -812,7 +812,7 @@ std::string spell::energy_cur_string( const player &p ) const
         return colorize( to_string( p.magic.available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
-        auto pair = get_hp_bar( p.stamina, p.get_stamina_max() );
+        auto pair = get_hp_bar( p.get_stamina(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == hp_energy ) {
@@ -1388,7 +1388,7 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
         case bionic_energy:
             return p.get_power_level() >= units::from_kilojoule( cost );
         case stamina_energy:
-            return p.stamina >= cost;
+            return p.get_stamina() >= cost;
         case hp_energy:
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( p.hp_cur[i] > cost ) {
