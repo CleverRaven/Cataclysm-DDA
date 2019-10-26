@@ -227,7 +227,7 @@ class zone_data
 
     public:
         zone_data() : type( zone_type_id( "" ) ), invert( false ), enabled( false ), is_vehicle( false ),
-            start( tripoint_zero ), end( tripoint_zero ), options( nullptr ) {
+            options( nullptr ) {
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
