@@ -464,6 +464,7 @@ void Character::load( JsonObject &data )
 
     //energy
     data.read( "stim", stim );
+    data.read( "stamina", stamina );
 
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
@@ -1058,7 +1059,7 @@ void avatar::load( JsonObject &data )
         per_upgrade = -per_upgrade;
     }
 
-    data.read( "stamina", stamina );
+    data.read( "magic", magic );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -3681,8 +3682,8 @@ void submap::store( JsonOut &jsout ) const
     }
 
     // Output base camp if any
-    if( camp.is_valid() ) {
-        jsout.member( "camp", camp );
+    if( camp ) {
+        jsout.member( "camp", *camp );
     }
 }
 
@@ -3950,7 +3951,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             legacy_computer->load_data( computer_data );
         }
     } else if( member_name == "camp" ) {
-        jsin.read( camp );
+        camp = std::make_unique<basecamp>();
+        jsin.read( *camp );
     } else {
         jsin.skip_value();
     }

@@ -387,6 +387,7 @@
     "quench": 15,
     "healthy": -8,
     "addiction_potential": 60,
+    "calories": 49,
     "description": "A potent cocktail of amphetamines, caffeine and corn syrup, this stuff puts a spring in your step, a fire in your eye, and a bad case of tachycardia tremors in your somersaulting heart.",
     "price": 9000,
     "material": "junk",

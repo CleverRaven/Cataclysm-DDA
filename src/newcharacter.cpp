@@ -2433,6 +2433,9 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             if( const auto name = query_for_template_name() ) {
                 ::save_template( you, *name, points );
             }
+            // redraw after saving template
+            draw_character_tabs( w, _( "DESCRIPTION" ) );
+            draw_points( w, points );
             redraw = true;
         } else if( action == "PICK_RANDOM_NAME" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name

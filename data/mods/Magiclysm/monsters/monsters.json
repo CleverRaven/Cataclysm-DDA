@@ -71,10 +71,10 @@
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
-    "id": "mon_nothic",
-    "name": "nothic",
-    "description": "A baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.",
-    "symbol": "N",
+    "id": "mon_krabgek",
+    "name": "krabgek",
+    "description": "A large baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.  The eye oozes some pinkish liquid, and the weirdly humanoid figure is covered in sharp blue-black triangular plates.",
+    "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
@@ -105,7 +105,7 @@
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
-      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5, "monster_message": "The nothic gazes at %3$s!" }
+      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5, "monster_message": "The krabgek gazes at %3$s!" }
     ]
   },
   {
