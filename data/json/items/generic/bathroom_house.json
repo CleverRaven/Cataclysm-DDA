@@ -197,7 +197,7 @@
     "volume": 2,
     "material": [ "plastic", "steel" ],
     "bashing": 3,
-    "to_hit": 0
+    "to_hit": -1
   },
   {
     "id": "curling_iron",
