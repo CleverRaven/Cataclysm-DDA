@@ -3586,7 +3586,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
-        g->m.destroy( elem );
+        g->m.batter( elem, 300, 5 );
         g->m.ter_set( elem, t_trunk );
     }
 
