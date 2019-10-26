@@ -1066,7 +1066,10 @@ void avatar::load( JsonObject &data )
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
         g->scen = &string_id<scenario>( scen_ident ).obj();
-        start_location = g->scen->start_location();
+
+        if( !g->scen->allowed_start( start_location ) ) {
+            start_location = g->scen->start_location();
+        }
     } else {
         const scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
