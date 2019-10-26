@@ -4247,7 +4247,7 @@ void game::monmove()
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
             if( turns == 9 ) {
-                debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
                           guy.name );
                 debug_mode = true;
             }

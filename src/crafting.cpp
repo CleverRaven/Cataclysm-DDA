@@ -993,7 +993,7 @@ void item::set_next_failure_point( const player &crafter )
 static void destroy_random_component( item &craft, const player &crafter )
 {
     if( craft.components.empty() ) {
-        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
         return;
     }
 
