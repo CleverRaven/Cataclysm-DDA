@@ -9088,6 +9088,11 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab( OBJECT_NONE );
     }
 
+    if( u.get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_THIN_OBSTACLE, dest_loc ) ) {
+        add_msg ( m_warning, _( "You can't fit there." ) );
+        return false; // character too large to fit through a tight passage
+    }
+
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
