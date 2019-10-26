@@ -28,7 +28,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
-void advanced_inv();
+void create_advanced_inv();
 
 /**
  * Cancels ongoing move all action.

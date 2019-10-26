@@ -2,7 +2,6 @@
 #ifndef ADVANCED_INV_AREA_H
 #define ADVANCED_INV_AREA_H
 
-//#include "advanced_inv.h"
 #include "cursesdef.h"
 #include "point.h"
 #include "units.h"
@@ -82,13 +81,14 @@ class advanced_inv_area
         // used for isometric view
         const aim_location relative_location;
 
-        advanced_inv_area( aim_location id ) : id( id ), relative_location(id){}
+        advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
                            const std::string &name, const std::string &shortname, std::string minimapname,
-                           std::string actionname, aim_location relative_location) : id( id ),
+                           std::string actionname, aim_location relative_location ) : id( id ),
             hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
             canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
-            weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ), relative_location(relative_location) {
+            weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
+            relative_location( relative_location ) {
         }
 
         void init();

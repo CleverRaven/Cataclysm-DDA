@@ -62,6 +62,12 @@
 #   include <SDL_keyboard.h>
 #endif
 
+void create_advanced_inv()
+{
+    advanced_inventory advinv;
+    advinv.display();
+}
+
 enum aim_exit {
     exit_none = 0,
     exit_okay,
@@ -199,6 +205,54 @@ bool advanced_inventory::get_square( const std::string &action, aim_location &re
         }
     }
     return false;
+}
+
+aim_location advanced_inventory::screen_relative_location( aim_location area )
+{
+    if( use_tiles && tile_iso ) {
+        return squares[area].relative_location;
+    } else {
+        return area;
+    }
+}
+
+inline std::string advanced_inventory::get_location_key( aim_location area )
+{
+    return squares[area].minimapname;
+}
+
+void advanced_inventory::init()
+{
+    for( auto &square : squares ) {
+        square.init();
+    }
+
+    load_settings();
+
+    src = static_cast<side>( uistate.adv_inv_src );
+    dest = static_cast<side>( uistate.adv_inv_dest );
+
+    w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
+    w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
+              static_cast<int>( TERMX );
+
+    headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
+    colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
+
+    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
+    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
+                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
+    minimap = catacurses::newwin( minimap_height, minimap_width,
+                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
+    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+                                      headstart + head_height ) );
+    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+                                       headstart + head_height ) );
+
+    itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
+
+    panes[left].window = left_window;
+    panes[right].window = right_window;
 }
 
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
@@ -509,11 +563,6 @@ struct advanced_inv_sorter {
     }
 };
 
-inline std::string advanced_inventory::get_location_key( aim_location area )
-{
-    return squares[area].minimapname;
-}
-
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
 {
     const catacurses::window &window = pane.window;
@@ -544,41 +593,6 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     }
     return squares[AIM_INVENTORY].hscreen.y + ofs;
 }
-
-void advanced_inventory::init()
-{
-    for( auto &square : squares ) {
-        square.init();
-    }
-
-    load_settings();
-
-    src  = static_cast<side>( uistate.adv_inv_src );
-    dest = static_cast<side>( uistate.adv_inv_dest );
-
-    w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
-    w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-              static_cast<int>( TERMX );
-
-    headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
-    colstart = TERMX > w_width ? ( TERMX - w_width ) / 2 : 0;
-
-    head = catacurses::newwin( head_height, w_width - minimap_width, point( colstart, headstart ) );
-    mm_border = catacurses::newwin( minimap_height + 2, minimap_width + 2,
-                                    point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
-    minimap = catacurses::newwin( minimap_height, minimap_width,
-                                  point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
-    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
-                                      headstart + head_height ) );
-    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
-                                       headstart + head_height ) );
-
-    itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
-
-    panes[left].window = left_window;
-    panes[right].window = right_window;
-}
-
 
 void advanced_inventory::recalc_pane( side p )
 {
@@ -1676,12 +1690,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     return true;
 }
 
-void advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
-}
-
 void advanced_inventory::refresh_minimap()
 {
     // don't update ui if processing demands
@@ -1787,17 +1795,6 @@ void advanced_inventory::do_return_entry()
 bool advanced_inventory::is_processing() const
 {
     return uistate.adv_inv_re_enter_move_all != ENTRY_START;
-}
-
-aim_location advanced_inventory::screen_relative_location( aim_location area )
-{
-
-    if(use_tiles && tile_iso) {
-        return squares[area].relative_location;
-    }
-    else {
-        return area;
-    }
 }
 
 void cancel_aim_processing()

@@ -2689,7 +2689,7 @@ void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    advanced_inv();
+    create_advanced_inv();
 }
 
 void activity_handlers::drive_do_turn( player_activity *act, player *p )
