@@ -1922,7 +1922,7 @@ void fake_spell::load( JsonObject &jo )
     }
     optional( jo, false, "min_level", level, 0 );
     if( jo.has_string( "level" ) ) {
-        debugmsg( "level member for fake_spell was renamed to min_level. id: %s", temp_id );
+        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s", temp_id );
     }
 }
 

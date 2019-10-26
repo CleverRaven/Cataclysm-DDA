@@ -1005,7 +1005,7 @@ void player::process_bionic( int b )
             }
             if( calendar::once_every( 60_turns ) ) {
                 bool try_to_heal_bleeding = true;
-                if( get_stored_kcal() >= 5 && damaged_hp_parts.size() > 0 ) {
+                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const hp_part part_to_heal = static_cast<hp_part>( damaged_hp_parts[ rng( 0,
                                                       damaged_hp_parts.size() - 1 ) ] );
                     heal( part_to_heal, 1 );
