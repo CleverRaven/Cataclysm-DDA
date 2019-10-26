@@ -27,7 +27,7 @@
 #include "vpart_position.h"
 
 class basecamp;
-class recepie;
+class recipe;
 struct dialogue;
 
 const efftype_id effect_currently_busy( "currently_busy" );
