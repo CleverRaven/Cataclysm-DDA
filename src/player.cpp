@@ -192,9 +192,6 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
 const efftype_id effect_pet( "pet" );
 
-const matype_id style_none( "style_none" );
-const matype_id style_kicks( "style_kicks" );
-
 const species_id ROBOT( "ROBOT" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -492,8 +489,6 @@ player::player() :
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    style_selected = style_none;
-    keep_hands_free = false;
     focus_pool = 100;
     last_item = itype_id( "null" );
     sight_max = 9999;
@@ -532,11 +527,6 @@ player::player() :
 
     recalc_sight_limits();
     reset_encumbrance();
-
-    ma_styles = {{
-            style_none, style_kicks
-        }
-    };
 }
 
 player::~player() = default;
@@ -546,8 +536,6 @@ player &player::operator=( player && ) = default;
 void player::normalize()
 {
     Character::normalize();
-
-    style_selected = style_none;
 
     recalc_hp();
 
@@ -645,8 +633,8 @@ void player::process_turn()
     for( auto &style : autolearn_martialart_types() ) {
         const matype_id &ma( style );
 
-        if( !has_martialart( ma ) && can_autolearn( ma ) ) {
-            add_martialart( ma );
+        if( !martial_arts_data.has_martialart( ma ) && can_autolearn( ma ) ) {
+            martial_arts_data.add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
@@ -2278,7 +2266,7 @@ void player::pause()
     }
 
     // on-pause effects for martial arts
-    ma_onpause_effects();
+    martial_arts_data.ma_onpause_effects( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
@@ -2458,7 +2446,7 @@ void player::on_dodge( Creature *source, float difficulty )
     difficulty = std::max( difficulty, 0.0f );
     practice( skill_dodge, difficulty * 2, difficulty );
 
-    ma_ondodge_effects();
+    martial_arts_data.ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
@@ -6151,11 +6139,6 @@ bool player::can_interface_armor() const
     return okay;
 }
 
-const martialart &player::get_combat_style() const
-{
-    return style_selected.obj();
-}
-
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
@@ -7112,7 +7095,7 @@ static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_zui_quan" }
     }};
 
-bool player::pick_style() // Style selection menu
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
 {
     enum style_selection {
         KEEP_HANDS_FREE = 0,
@@ -7123,7 +7106,8 @@ bool player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    const std::vector<matype_id> &selectable_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles :
+    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
+                bio_cqb ) ? bio_cqb_styles :
             ma_styles;
 
     input_context ctxt( "MELEE_STYLE_PICKER" );
@@ -7160,7 +7144,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-        martialart_use_message();
+        martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {

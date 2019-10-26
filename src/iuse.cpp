@@ -2229,12 +2229,7 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->ma_styles.push_back( style_to_learn );
-
-    p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
-                          ma.name );
-    p->add_msg_if_player( m_info, _( "%s to select martial arts style." ),
-                          press_x( ACTION_PICK_STYLE ) );
+    p->martial_arts_data.learn_style( style_to_learn, p->is_avatar() );
 
     return 1;
 }

@@ -1981,9 +1981,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( ma_id.is_valid() ) {
         const auto &mastyle = ma_id.obj();
         // Trained martial arts,
-        add_msg( m_good, _( "You learn %s." ), mastyle.name );
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
-        p->add_martialart( mastyle.id );
+        p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
     } else if( !magic_train( act, p ) ) {
         debugmsg( "train_finish without a valid skill or style or spell name" );
     }
