@@ -215,6 +215,7 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_harnessed( "harnessed" );
@@ -747,7 +748,7 @@ bool game::start_game()
 
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
-    u.stamina = u.get_stamina_max();
+    u.set_stamina( u.get_stamina_max() );
     weather.temperature = SPRING_TEMPERATURE;
     weather.update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
@@ -1007,7 +1008,7 @@ bool game::cleanup_at_end()
                 iNameLine = vRip.size();
                 vRip.emplace_back( "|                                        <" );
                 vRip.emplace_back( "|                                        |" );
-                iMaxWidth = vRip[vRip.size() - 1].length();
+                iMaxWidth = utf8_width( vRip.back() );
                 vRip.emplace_back( "|                                        |" );
                 vRip.emplace_back( "|_____.-._____              __/|_________|" );
                 vRip.emplace_back( "              |            |" );
@@ -1041,7 +1042,7 @@ bool game::cleanup_at_end()
                 iNameLine = vRip.size();
                 vRip.emplace_back( "|                                         <" );
                 vRip.emplace_back( "|                                         |" );
-                iMaxWidth = vRip[vRip.size() - 1].length();
+                iMaxWidth = utf8_width( vRip.back() );
                 vRip.emplace_back( "|                                         |" );
                 vRip.emplace_back( "|_____.-._______            __/|__________|" );
                 vRip.emplace_back( "             % / `_-.   _  |%" );
@@ -1064,7 +1065,7 @@ bool game::cleanup_at_end()
             vRip.emplace_back( R"(|                                   |)" );
             vRip.emplace_back( R"(|   _                               |)" );
             vRip.emplace_back( R"(|__/                                |)" );
-            iMaxWidth = vRip[vRip.size() - 1].length();
+            iMaxWidth = utf8_width( vRip.back() );
             vRip.emplace_back( R"( / `--.                             |)" );
             vRip.emplace_back( R"(|                                  ( )" );
             iInfoLine = vRip.size();
@@ -1091,27 +1092,30 @@ bool game::cleanup_at_end()
         sfx::fade_audio_group( sfx::group::fatigue, 2000 );
 
         for( size_t iY = 0; iY < vRip.size(); ++iY ) {
-            for( size_t iX = 0; iX < vRip[iY].length(); ++iX ) {
-                char cTemp = vRip[iY][iX];
-                if( cTemp != ' ' ) {
+            size_t iX = 0;
+            const char *str = vRip[iY].data();
+            for( int slen = vRip[iY].size(); slen > 0; ) {
+                const uint32_t cTemp = UTF8_getch( &str, &slen );
+                if( cTemp != U' ' ) {
                     nc_color ncColor = c_light_gray;
 
-                    if( cTemp == '%' ) {
+                    if( cTemp == U'%' ) {
                         ncColor = c_green;
 
-                    } else if( cTemp == '_' || cTemp == '|' ) {
+                    } else if( cTemp == U'_' || cTemp == U'|' ) {
                         ncColor = c_white;
 
-                    } else if( cTemp == '@' ) {
+                    } else if( cTemp == U'@' ) {
                         ncColor = c_brown;
 
-                    } else if( cTemp == '*' ) {
+                    } else if( cTemp == U'*' ) {
                         ncColor = c_red;
                     }
 
                     mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
-                              vRip[iY][iX] );
+                              cTemp );
                 }
+                iX += mk_wcwidth( cTemp );
             }
         }
 
@@ -1532,7 +1536,7 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
     monmove();
-    if( calendar::once_every( 3_minutes ) ) {
+    if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
@@ -9833,10 +9837,18 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( str_req > u.get_str() ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            u.moves -= 100;
-            add_msg( m_bad, _( "The %s is too heavy for you to budge." ),
-                     furntype.name() );
-            return true;
+            if( u.get_str() >= str_req - 3 ) {
+                u.moves -= std::max( 3000, move_penalty * 10 );
+                add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
+                if( one_in( 3 ) ) {
+                    add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
+                    return true;
+                }
+            } else {
+                u.moves -= 100;
+                add_msg( m_bad, _( "The %s is too heavy for you to budge." ), furntype.name() );
+                return true;
+            }
         }
         u.moves -= move_penalty;
         if( move_penalty > 500 ) {
@@ -9963,7 +9975,7 @@ void game::on_move_effects()
         if( !u.can_run() ) {
             u.toggle_run_mode();
         }
-        if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {
+        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
             u.add_effect( effect_winded, 10_turns );
         }
     }
@@ -10345,7 +10357,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            if( critter.has_effect( effect_ridden ) ) {
+            if( critter.has_effect( effect_ridden ) || critter.has_effect( effect_tied ) ) {
                 continue;
             }
             int turns = critter.turns_to_reach( to.xy() );
@@ -10369,14 +10381,16 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_walking_with() && !np->is_mounted() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
+                   rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
             if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
-                    critter.has_effect( effect_pet ) && critter.friendly == -1 ) ) {
+                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
+                    !critter.has_effect( effect_tied ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }

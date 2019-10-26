@@ -457,7 +457,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
             // Some helpers to reduce repetition:
             auto length = []( const std::pair<npc *, std::string> &elem ) {
-                return elem.first->disp_name().size() + elem.second.size();
+                return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
@@ -474,7 +474,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
+                return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -613,7 +613,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-        if( g->u.stamina < g->u.get_stamina_max() / 10 ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
@@ -1085,6 +1085,8 @@ void avatar::update_mental_focus()
 
 void avatar::reset_stats()
 {
+    const int current_stim = get_stim();
+
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -1157,12 +1159,12 @@ void avatar::reset_stats()
     set_fake_effect_dur( effect_sad, 1_turns * -morale );
 
     // Stimulants
-    set_fake_effect_dur( effect_stim, 1_turns * stim );
-    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    set_fake_effect_dur( effect_stim, 1_turns * current_stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -current_stim );
     if( has_trait( trait_STIMBOOST ) ) {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 60 ) );
     } else {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
     const float bmi = get_bmi();

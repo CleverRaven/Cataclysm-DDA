@@ -167,6 +167,7 @@
     "color": "pink",
     "name": "faux fur pelt",
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
+    "flags": [ "NO_SALVAGE" ],
     "material": [ "faux_fur" ]
   },
   {
@@ -282,6 +283,7 @@
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "material": "chitin",
+    "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -311,6 +313,7 @@
     "name_plural": "chunks of biosilicified chitin",
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
     "material": "acidchitin",
+    "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },
     "relative": { "bashing": 2 }
   },
@@ -2275,6 +2278,7 @@
     "name": "cigar butt",
     "color": "dark_gray",
     "symbol": "!",
+    "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2308,6 +2312,7 @@
     "symbol": "!",
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2340,6 +2345,7 @@
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {

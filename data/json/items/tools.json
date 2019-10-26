@@ -454,7 +454,7 @@
     "type": "TOOL",
     "name": "bear trap",
     "description": "This is a spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
-    "weight": "11793 g",
+    "weight": "14000 g",
     "volume": "1500 ml",
     "price": 6000,
     "to_hit": -2,
@@ -1192,7 +1192,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": { "type": "WATER_PURIFIER", "moves": 70 }
+    "use_action": "WATER_PURIFIER"
   },
   {
     "id": "char_smoker",
@@ -3287,7 +3287,7 @@
     "category": "spare_parts",
     "name": "Kevlar plate",
     "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
-    "weight": "360 g",
+    "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
     "material": "kevlar",
@@ -4105,7 +4105,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
+      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -4159,7 +4159,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
+      "materials": [ "cotton", "lycra", "nylon", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -4849,20 +4849,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
     "magazine_well": 1
   },
   {
@@ -5184,7 +5171,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
+      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -5269,7 +5256,6 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
-      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,
@@ -5741,7 +5727,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
+        "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
@@ -5749,7 +5735,21 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
       }

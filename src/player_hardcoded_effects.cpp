@@ -785,8 +785,8 @@ void player::hardcoded_effects( effect &it )
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
             focus_pool--;
         }
-        if( dur > 200_minutes && one_in( 48 ) && stim < 20 ) {
-            stim++;
+        if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
+            mod_stim( 1 );
         }
         if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
             focus_pool--;

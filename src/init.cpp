@@ -142,7 +142,7 @@ static void load_ignored_type( JsonObject &jo )
     // This does nothing!
     // This function is used for types that are to be ignored
     // (for example for testing or for unimplemented types)
-    ( void ) jo;
+    jo.allow_omitted_members();
 }
 
 void DynamicDataLoader::add( const std::string &type,

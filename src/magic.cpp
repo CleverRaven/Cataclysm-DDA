@@ -16,6 +16,7 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
@@ -620,7 +621,7 @@ bool spell::can_cast( const player &p ) const
         case mana_energy:
             return p.magic.available_mana() >= energy_cost( p );
         case stamina_energy:
-            return p.stamina >= energy_cost( p );
+            return p.get_stamina() >= energy_cost( p );
         case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( energy_cost( p ) < p.hp_cur[i] ) {
@@ -811,7 +812,7 @@ std::string spell::energy_cur_string( const player &p ) const
         return colorize( to_string( p.magic.available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
-        auto pair = get_hp_bar( p.stamina, p.get_stamina_max() );
+        auto pair = get_hp_bar( p.get_stamina(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == hp_energy ) {
@@ -1190,6 +1191,7 @@ void known_magic::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    json.member( "invlets", invlets );
 
     json.end_object();
 }
@@ -1211,6 +1213,7 @@ void known_magic::deserialize( JsonIn &jsin )
             spellbook.emplace( sp, spell( sp, xp ) );
         }
     }
+    data.read( "invlets", invlets );
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
@@ -1385,7 +1388,7 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
         case bionic_energy:
             return p.get_power_level() >= units::from_kilojoule( cost );
         case stamina_energy:
-            return p.stamina >= cost;
+            return p.get_stamina() >= cost;
         case hp_energy:
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( p.hp_cur[i] > cost ) {
@@ -1414,11 +1417,11 @@ int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) cons
                          ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
 }
 
-size_t known_magic::get_spellname_max_width()
+int known_magic::get_spellname_max_width()
 {
-    size_t width = 0;
+    int width = 0;
     for( const spell *sp : get_spells() ) {
-        width = std::max( width, sp->name().length() );
+        width = std::max( width, utf8_width( sp->name() ) );
     }
     return width;
 }
@@ -1429,15 +1432,35 @@ class spellcasting_callback : public uilist_callback
         std::vector<spell *> known_spells;
         void draw_spell_info( const spell &sp, const uilist *menu );
     public:
+        // invlets reserved for special functions
+        const std::set<int> reserved_invlets{ 'I', '=' };
         bool casting_ignore;
 
         spellcasting_callback( std::vector<spell *> &spells,
                                bool casting_ignore ) : known_spells( spells ),
             casting_ignore( casting_ignore ) {}
-        bool key( const input_context &, const input_event &event, int /*entnum*/,
+        bool key( const input_context &, const input_event &event, int entnum,
                   uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'I' ) {
                 casting_ignore = !casting_ignore;
+                return true;
+            }
+            if( event.get_first_input() == '=' ) {
+                int invlet = 0;
+                invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
+                if( inv_chars.valid( invlet ) ) {
+                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
+                                            reserved_invlets );
+                    if( !invlet_set ) {
+                        popup( _( "Hotkey already used." ) );
+                    } else {
+                        popup( _( "%c set.  Close and reopen spell menu to refresh list with changes." ),
+                               invlet );
+                    }
+                } else {
+                    popup( _( "Hotkey removed." ) );
+                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                }
                 return true;
             }
             return false;
@@ -1454,6 +1477,9 @@ class spellcasting_callback : public uilist_callback
                                         _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
+            const std::string assign_letter = _( "Assign Hotkey [=]" );
+            mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
+                       assign_letter );
             draw_spell_info( *known_spells[entnum], menu );
         }
 };
@@ -1513,6 +1539,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     const int h_offset = menu->w_width - menu->pad_right + 1;
     // includes spaces on either side for readability
     const int info_width = menu->pad_right - 4;
+    const int win_height = menu->w_height;
     const int h_col1 = h_offset + 1;
     const int h_col2 = h_offset + ( info_width / 2 );
     const catacurses::window w_menu = menu->window;
@@ -1532,8 +1559,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
                             enumerate_spell_data( sp ) );
-
-    line++;
+    if( line <= win_height / 3 ) {
+        line++;
+    }
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
@@ -1552,21 +1580,30 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
-    line++;
+    if( line <= win_height / 2 ) {
+        line++;
+    }
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
+    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( " (%s current)",
+                             sp.energy_cur_string( g->u ) );
+    if( !sp.can_cast( g->u ) ) {
+        cost_string = colorize( _( "Not Enough Energy" ), c_red );
+        energy_cur = "";
+    }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
-                                       sp.energy_cost_string( g->u ), sp.energy_string(),
-                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
-                                               sp.energy_cur_string( g->u ) ) ) );
+                        string_format( "%s: %s %s%s", cost_string,
+                                       sp.energy_cost_string( g->u ), sp.energy_string(), energy_cur ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
-    line++;
+    if( line <= win_height * 3 / 4 ) {
+        line++;
+    }
 
     std::string targets;
     if( sp.is_valid_target( target_none ) ) {
@@ -1577,7 +1614,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
-    line++;
+    if( line <= win_height * 3 / 4 ) {
+        line++;
+    }
 
     const int damage = sp.damage();
     std::string damage_string;
@@ -1631,6 +1670,20 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
 }
 
+bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
+{
+    if( used_invlets.count( invlet ) > 0 ) {
+        return false;
+    }
+    invlets[sp] = invlet;
+    return true;
+}
+
+void known_magic::rem_invlet( const spell_id &sp )
+{
+    invlets.erase( sp );
+}
+
 int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
@@ -1664,21 +1717,21 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 int known_magic::select_spell( const player &p )
 {
     // max width of spell names
-    const size_t max_spell_name_length = get_spellname_max_width();
+    const int max_spell_name_length = get_spellname_max_width();
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height = 24;
-    spell_menu.w_width = 80;
+    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+    spell_menu.w_width = std::max( 80, TERMX * 3 / 8 );
     spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
     spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
-    spell_menu.pad_right = spell_menu.w_width - static_cast<int>( max_spell_name_length ) - 5;
+    spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
     spell_menu.title = _( "Choose a Spell" );
+    spell_menu.hilight_disabled = true;
     spellcasting_callback cb( known_spells, casting_ignore );
     spell_menu.callback = &cb;
 
-    std::set<int> used_invlets;
-    used_invlets.emplace( 'I' );
+    std::set<int> used_invlets{ cb.reserved_invlets };
 
     for( size_t i = 0; i < known_spells.size(); i++ ) {
         spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( p ),
@@ -1761,8 +1814,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     const std::string spell_class = sp.spell_class == trait_id( "NONE" ) ? _( "Classless" ) :
                                     sp.spell_class->name();
     print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
-    print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
-                        spell_class );
+    print_colored_text( w, point( menu->pad_left - utf8_width( spell_class ) - 1, line++ ), yellow,
+                        yellow, spell_class );
     line++;
     line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
@@ -1800,8 +1853,15 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     line++;
 
     print_colored_text( w, point( start_x, line++ ), gray, gray,
-                        string_format( "%-10s %-7s %-7s %-7s", _( "Stat Gain" ), _( "lvl 0" ), _( "per lvl" ),
-                                       _( "max lvl" ) ) );
+                        string_format( "%s %s %s %s",
+                                       //~ translation should not exceed 10 console cells
+                                       left_justify( _( "Stat Gain" ), 10 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "lvl 0" ), 7 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "per lvl" ), 7 ),
+                                       //~ translation should not exceed 7 console cells
+                                       left_justify( _( "max lvl" ), 7 ) ) );
     std::vector<std::tuple<std::string, int, float, int>> rows;
 
     if( sp.max_damage != 0 && sp.min_damage != 0 && !damage_string.empty() ) {

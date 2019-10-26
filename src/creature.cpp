@@ -127,6 +127,7 @@ void Creature::reset_bonuses()
     hit_bonus = 0;
     bash_bonus = 0;
     cut_bonus = 0;
+    size_bonus = 0;
 
     bash_mult = 1.0f;
     cut_mult = 1.0f;
@@ -244,7 +245,7 @@ bool Creature::sees( const Creature &critter ) const
             return false;
         }
     }
-    return sees( critter.pos(), ch != nullptr ) && visible( ch );
+    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
@@ -1473,6 +1474,7 @@ void Creature::set_armor_cut_bonus( int ncutarm )
     armor_cut_bonus = ncutarm;
 }
 
+
 void Creature::set_speed_base( int nspeed )
 {
     speed_base = nspeed;
@@ -1485,6 +1487,7 @@ void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;
@@ -1524,6 +1527,10 @@ void Creature::mod_bash_bonus( int nbash )
 void Creature::mod_cut_bonus( int ncut )
 {
     cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 void Creature::set_bash_mult( float nbashmult )

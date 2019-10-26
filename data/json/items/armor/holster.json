@@ -102,7 +102,7 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 1900,
-    "material": "plastic",
+    "material": "lycra",
     "covers": [ "LEGS" ],
     "encumbrance": 1,
     "use_action": {

@@ -202,6 +202,7 @@ void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
 void toolmod_add_finish( player_activity *act, player *p );
 void clear_rubble_finish( player_activity *act, player *p );
+void heat_item_finish( player_activity *act, player *p );
 void meditate_finish( player_activity *act, player *p );
 void read_finish( player_activity *act, player *p );
 void wait_finish( player_activity *act, player *p );

@@ -1358,7 +1358,6 @@
     "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "strictly_unarmed": true,
     "weighting": 2,
     "take_weapon": true,
     "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
@@ -1440,6 +1439,26 @@
   },
   {
     "type": "technique",
+    "id": "tec_tiger_palm",
+    "name": "Tiger Palm",
+    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_takedown",
+    "name": "Tiger Takedown",
+    "messages": [ "You slam %s to the ground", "<npcname> slams %s to the ground" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
     "id": "tec_zuiquan_feint",
     "name": "Drunk feint",
     "min_unarmed": 3,
@@ -1458,15 +1477,6 @@
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_tiger_grab",
-    "name": "Tiger Takedown",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "down_dur": 1,
-    "messages": [ "You grab and ground %s", "<npcname> grabs and grounds %s" ]
   },
   {
     "type": "technique",

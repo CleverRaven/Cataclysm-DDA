@@ -92,7 +92,6 @@
     "coverage": 60,
     "required_str": 16,
     "max_volume": 4000,
-    "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -138,7 +137,6 @@
     "coverage": 60,
     "required_str": 16,
     "max_volume": 4000,
-    "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
     "deconstruct": {
@@ -183,7 +181,6 @@
     "coverage": 80,
     "required_str": 18,
     "max_volume": 7000,
-    "insulation": 6,
     "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {

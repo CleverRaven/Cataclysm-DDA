@@ -5285,7 +5285,7 @@
     "name": "Ectothermic",
     "points": 0,
     "mixed_effect": true,
-    "description": "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
     "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
     "purifiable": false,

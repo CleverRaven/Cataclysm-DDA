@@ -343,6 +343,13 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
         extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
         extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
+        // creature stats mod
+        extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
+        extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
+        extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
+        extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
+        extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
+
         return true;
     } else {
         return false;

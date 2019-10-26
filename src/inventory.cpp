@@ -391,14 +391,14 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, const player *pl,
+void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {
     form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, const player *pl,
+void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {

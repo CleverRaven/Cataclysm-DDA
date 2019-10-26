@@ -195,6 +195,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
+    "craft_inherit": true,
     "info": "This item is <bad>filthy</bad>."
   },
   {
@@ -693,5 +694,24 @@
   {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag"
+  },
+  {
+    "id": "NO_CRAFT_INHERIT",
+    "type": "json_flag",
+    "//": "Crafted items with this flag won't inherit flags with craft_inherit from their components."
+  },
+  {
+    "id": "HIDDEN_HALLU",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true,
+    "//": "Contains hallucinogenic compounds from foraged foods."
+  },
+  {
+    "id": "HIDDEN_POISON",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true,
+    "//": "Contains poisonous compounds from foraged foods."
   }
 ]

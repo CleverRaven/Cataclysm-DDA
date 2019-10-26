@@ -93,6 +93,8 @@ const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 const skill_id skill_swimming( "swimming" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 const zone_type_id z_camp_food( "CAMP_FOOD" );
@@ -440,6 +442,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
             entry = entry + " [" +
                     to_string( comp->companion_mission_time_ret - calendar::turn ) +
                     _( " left]\n" );
+            avail = g->u.has_trait( trait_DEBUG_HS );
         }
     }
     entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -2576,7 +2579,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ) {
         std::string description = _( "NPC Overview:\n\n" );
-        description += string_format( _( "Name:  %20s\n\n" ), recruit->name );
+        description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->name, 20 ) );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
         description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
         description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
@@ -2590,11 +2593,11 @@ void basecamp::recruit_return( const std::string &task, int score )
             return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
         } );
 
-        description += string_format( "%12s:          %4d\n", skillslist[0]->name(),
+        description += string_format( "%s:          %4d\n", right_justify( skillslist[0]->name(), 12 ),
                                       recruit->get_skill_level( skillslist[0]->ident() ) );
-        description += string_format( "%12s:          %4d\n", skillslist[1]->name(),
+        description += string_format( "%s:          %4d\n", right_justify( skillslist[1]->name(), 12 ),
                                       recruit->get_skill_level( skillslist[1]->ident() ) );
-        description += string_format( "%12s:          %4d\n\n", skillslist[2]->name(),
+        description += string_format( "%s:          %4d\n\n", right_justify( skillslist[2]->name(), 12 ),
                                       recruit->get_skill_level( skillslist[2]->ident() ) );
 
         description += _( "Asking for:\n" );
@@ -3430,10 +3433,10 @@ std::string camp_trip_description( const time_duration &total_time,
         entry += string_format( _( ">One Way: %15d (trips)\n" ), trips );
         entry += string_format( _( ">Covered: %15d (m)\n" ), dist_m * trips );
     }
-    entry += string_format( _( ">Travel:  %23s\n" ), to_string( travel_time ) );
-    entry += string_format( _( ">Working: %23s\n" ), to_string( working_time ) );
+    entry += string_format( _( ">Travel:  %s\n" ), right_justify( to_string( travel_time ), 23 ) );
+    entry += string_format( _( ">Working: %s\n" ), right_justify( to_string( working_time ), 23 ) );
     entry += "----                   ----\n";
-    entry += string_format( _( "Total:    %23s\n" ), to_string( total_time ) );
+    entry += string_format( _( "Total:    %s\n" ), right_justify( to_string( total_time ), 23 ) );
     entry += string_format( _( "Food:     %15d (kcal)\n\n" ), need_food );
     return entry;
 }
@@ -3593,28 +3596,28 @@ std::string basecamp::farm_description( const tripoint &farm_pos, size_t &plots_
 
 std::string camp_car_description( vehicle *car )
 {
-    std::string entry = string_format( _( "Name:     %25s\n" ), car->name );
+    std::string entry = string_format( _( "Name:     %s\n" ), right_justify( car->name, 25 ) );
     entry += _( "----          Engines          ----\n" );
     for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
         const vehicle_part &pt = vpr.part();
         const vpart_info &vp = pt.info();
-        entry += string_format( _( "Engine:  %25s\n" ), vp.name() );
+        entry += string_format( _( "Engine:   %s\n" ), right_justify( vp.name(), 25 ) );
         entry += string_format( _( ">Status:  %24d%%\n" ),
                                 static_cast<int>( 100 * pt.health_percent() ) );
-        entry += string_format( _( ">Fuel:    %25s\n" ), vp.fuel_type );
+        entry += string_format( _( ">Fuel:    %s\n" ), right_justify( item::nname( vp.fuel_type ), 25 ) );
     }
     std::map<itype_id, int> fuels = car->fuels_left();
     entry += _( "----  Fuel Storage & Battery   ----\n" );
     for( auto &fuel : fuels ) {
         std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
                                                 car->fuel_capacity( fuel.first ) );
-        entry += string_format( ">%s:%*s\n", item( fuel.first ).tname(),
-                                33 - item( fuel.first ).tname().length(), fuel_entry );
+        entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
+                                right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
     }
     for( auto &pt : car->parts ) {
         if( pt.is_battery() ) {
             const vpart_info &vp = pt.info();
-            entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - vp.name().length(),
+            entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
                                     static_cast<int>( 100.0 * pt.ammo_remaining() /
                                             pt.ammo_capacity() ) );
         }
