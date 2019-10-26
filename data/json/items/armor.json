@@ -2571,7 +2571,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER"]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "lame_saber",
