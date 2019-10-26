@@ -850,10 +850,10 @@ bool player::has_grab_break_tec() const
     return false;
 }
 
-ma_technique player::get_grab_break_tec() const
+ma_technique player::get_grab_break_tec( const item &weap ) const
 {
     ma_technique tec;
-    for( auto &technique : get_all_techniques( item() ) ) {
+    for( auto &technique : get_all_techniques( weap ) ) {
         if( technique.obj().grab_break ) {
             tec = technique.obj();
             break;
@@ -862,13 +862,13 @@ ma_technique player::get_grab_break_tec() const
     return tec;
 }
 
-bool player::can_grab_break() const
+bool player::can_grab_break( const item &weap ) const
 {
     if( !has_grab_break_tec() ) {
         return false;
     }
 
-    ma_technique tec = get_grab_break_tec();
+    ma_technique tec = get_grab_break_tec( weap );
 
     return tec.is_valid_player( *this );
 }
