@@ -129,6 +129,10 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
+    if( get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_THIN_OBSTACLE, p ) ) {
+        return false; // if a large critter, can't move through tight passages
+    }
+
     // Various avoiding behaviors.
 
     bool avoid_fire = has_flag( MF_AVOID_FIRE );
