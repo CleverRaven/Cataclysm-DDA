@@ -661,7 +661,7 @@ void input_context::register_manual_key( manual_key mk )
     registered_manual_keys.push_back( mk );
 }
 
-void input_context::register_manual_key( int key, const std::string text )
+void input_context::register_manual_key( const int &key, const std::string &text )
 {
     // Prevent duplicates
     for( const manual_key &manual_key : registered_manual_keys )
