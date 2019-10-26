@@ -3802,6 +3802,32 @@
   },
   {
     "type": "profession",
+    "ident": "fencer",
+    "name": "Competetive Fencer",
+    "description": "You were an avid sport fencer, always practicing at local clubs and competing in tournaments.  You were on your way to have a few bouts at the club when the world ended.  Now you're in your most important tournament, the refs are all dead, and none of your opponents follow the rules.",
+    "points": 5,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
+    "traits": [ "MARTIAL_FENCING" ],
+    "items": {
+      "both": {
+        "items": [
+          "fencing_pants",
+          "fencing_jacket",
+          "gauntlet_fencing",
+          "plastron_cotton",
+          "under_armor_shorts",
+          "socks",
+          "sneakers",
+          "fencing_epee",
+          "duffelbag"
+        ],
+        "entries": [ { "item": "fencing_mask", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "female": [ "plastron_plastic" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "politician",
     "name": "Career Politician",
     "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
