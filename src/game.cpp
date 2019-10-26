@@ -9088,7 +9088,7 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab( OBJECT_NONE );
     }
 
-    if( u.get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_THIN_OBSTACLE, dest_loc ) ) {
+    if( u.get_size() > MS_MEDIUM && m.has_flag_ter( TFLAG_THIN_OBSTACLE, dest_loc ) ) {
         add_msg ( m_warning, _( "You can't fit there." ) );
         return false; // character too large to fit through a tight passage
     }
