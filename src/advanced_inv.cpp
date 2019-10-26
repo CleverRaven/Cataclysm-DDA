@@ -45,10 +45,6 @@
 #include "map_selector.h"
 #include "pimpl.h"
 
-#if defined(__ANDROID__)
-#   include <SDL_keyboard.h>
-#endif
-
 #include <algorithm>
 #include <cassert>
 #include <cstring>
@@ -61,6 +57,10 @@
 #include <memory>
 #include <unordered_map>
 #include <utility>
+
+#if defined(__ANDROID__)
+#   include <SDL_keyboard.h>
+#endif
 
 enum aim_exit {
     exit_none = 0,
@@ -84,35 +84,23 @@ advanced_inventory::advanced_inventory()
     , squares( {
     {
         //               hx  hy
-        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ) },
-        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ) },
-        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" )  },
-        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ) },
-        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" )  },
-        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ) },
-        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" )  },
-        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ) },
-        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" )  },
-        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ) },
-        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ) },
-        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ) },
-        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ) },
-        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ) }
+        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I" },
+        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1" },
+        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2" },
+        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3" },
+        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4" },
+        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5" },
+        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6" },
+        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7" },
+        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8" },
+        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9" },
+        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D" },
+        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A" },
+        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C" },
+        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W" }
     }
 } )
 {
-    // initialize screen coordinates for small overview 3x3 grid, depending on control scheme
-    if( tile_iso && use_tiles ) {
-        // Rotate the coordinates.
-        squares[1].hscreen.x = 33;
-        squares[2].hscreen.x = 36;
-        squares[3].hscreen.y = 2;
-        squares[4].hscreen.y = 3;
-        squares[6].hscreen.y = 1;
-        squares[7].hscreen.y = 2;
-        squares[8].hscreen.x = 30;
-        squares[9].hscreen.x = 33;
-    }
 }
 // *INDENT-ON*
 
@@ -546,65 +534,9 @@ struct advanced_inv_sorter {
     }
 };
 
-inline char advanced_inventory::get_location_key( aim_location area )
+inline std::string advanced_inventory::get_location_key( aim_location area )
 {
-    switch( area ) {
-        case AIM_INVENTORY:
-            return 'I';
-        case AIM_WORN:
-            return 'W';
-        case AIM_CENTER:
-            return '5';
-        case AIM_ALL:
-            return 'A';
-        case AIM_DRAGGED:
-            return 'D';
-        case AIM_CONTAINER:
-            return 'C';
-        case AIM_NORTH:
-        case AIM_SOUTH:
-        case AIM_EAST:
-        case AIM_WEST:
-        case AIM_NORTHEAST:
-        case AIM_NORTHWEST:
-        case AIM_SOUTHEAST:
-        case AIM_SOUTHWEST:
-            return  get_direction_key( area );
-        default:
-            debugmsg( "invalid [aim_location] in get_location_key()!" );
-            return ' ';
-    }
-}
-
-char advanced_inventory::get_direction_key( aim_location area )
-{
-
-    if( area == screen_relative_location( AIM_SOUTHWEST ) ) {
-        return '1';
-    }
-    if( area == screen_relative_location( AIM_SOUTH ) ) {
-        return '2';
-    }
-    if( area == screen_relative_location( AIM_SOUTHEAST ) ) {
-        return '3';
-    }
-    if( area == screen_relative_location( AIM_WEST ) ) {
-        return '4';
-    }
-    if( area == screen_relative_location( AIM_EAST ) ) {
-        return '6';
-    }
-    if( area == screen_relative_location( AIM_NORTHWEST ) ) {
-        return '7';
-    }
-    if( area == screen_relative_location( AIM_NORTH ) ) {
-        return '8';
-    }
-    if( area == screen_relative_location( AIM_NORTHEAST ) ) {
-        return '9';
-    }
-    debugmsg( "invalid [aim_location] in get_direction_key()!" );
-    return '0';
+    return squares[area].minimapname;
 }
 
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
@@ -614,21 +546,25 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
-        const char key = get_location_key( static_cast<aim_location>( i ) );
-        const char *bracket = squares[i].can_store_in_vehicle() ? "<>" : "[]";
-        bool in_vehicle = pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL;
-        bool all_brackets = area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST );
+        int data_location = screen_relative_location( static_cast<aim_location>( i ) );
+        const char *bracket = squares[data_location].can_store_in_vehicle() ? "<>" : "[]";
+        bool in_vehicle = pane.in_vehicle() && squares[data_location].id == area && sel == area &&
+                          area != AIM_ALL;
+        bool all_brackets = area == AIM_ALL && ( data_location >= AIM_SOUTHWEST &&
+                            data_location <= AIM_NORTHEAST );
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        if( squares[i].canputitems( pane.get_cur_item_ptr() ) ) {
+        if( squares[data_location].canputitems( pane.get_cur_item_ptr() ) ) {
             bcolor = in_vehicle ? c_light_blue :
-                     area == i || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == i ? c_white : sel == i ? c_light_gray : c_dark_gray;
+                     area == data_location || all_brackets ? c_light_gray : c_dark_gray;
+            kcolor = area == data_location ? c_white : sel == data_location ? c_light_gray : c_dark_gray;
         }
+
+        const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const int x = squares[i].hscreen.x + ofs;
         const int y = squares[i].hscreen.y;
         mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
-        wprintz( window, kcolor, "%c", in_vehicle && sel != AIM_DRAGGED ? 'V' : key );
+        wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
     return squares[AIM_INVENTORY].hscreen.y + ofs;
@@ -1542,7 +1478,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
                   static_cast <aim_location>( menu->selected + 1 ) );
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = advanced_inventory::screen_relative_location( static_cast <aim_location>( i ) );
-        char key = advanced_inventory::get_location_key( loc );
+        std::string key = _adv_inv.get_location_key( loc );
         advanced_inv_area &square = _adv_inv.get_one_square( loc );
         bool in_vehicle = square.can_store_in_vehicle();
         const char *bracket = in_vehicle ? "<>" : "[]";
@@ -1553,7 +1489,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
         const int x = square.hscreen.x + ofs;
         const int y = square.hscreen.y + 5;
         mvwprintz( menu->window, point( x, y ), bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%c", key );
+        wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }
 }
@@ -1591,7 +1527,7 @@ bool advanced_inventory::query_destination( aim_location &def )
             }
             menu.addentry( ordered_loc,
                            s.canputitems() && s.id != panes[src].get_area(),
-                           get_location_key( ordered_loc ),
+                           get_location_key( ordered_loc )[0],
                            prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
         }
     }
@@ -1910,7 +1846,7 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
         case AIM_NORTHEAST:
             return AIM_EAST;
 
-        default :
+        default:
             return area;
     }
 }
