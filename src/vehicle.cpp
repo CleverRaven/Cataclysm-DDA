@@ -1101,10 +1101,12 @@ bool vehicle::is_alternator_on( const int a ) const
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
-    for( int s : speciality ) {
-        if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
-            found_security = true;
-            break;
+    if( fuel_left( fuel_type_battery ) > 0 ) {
+        for( int s : speciality ) {
+            if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
+                found_security = true;
+                break;
+            }
         }
     }
     return found_security;
@@ -4601,7 +4603,6 @@ void vehicle::update_alternator_load()
 void vehicle::power_parts()
 {
     update_alternator_load();
-
     // Things that drain energy: engines and accessories.
     int engine_epower = total_engine_epower_w();
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
