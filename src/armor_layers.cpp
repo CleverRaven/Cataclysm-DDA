@@ -165,8 +165,7 @@ sort_armor_col_data get_col_data( int col_idx )
     static std::array< sort_armor_col_data, column_num_entries> col_data = { {
             {
                 3, translate_marker( "condition" ),
-                string_format( translate_marker( "clothing conditions:\n\t<color_%s>x</color> - poor fit\n\t<color_%s>f</color> - filthy" ),
-                               string_from_color( c_red ), string_from_color( c_cyan ) )
+                string_format( translate_marker( "clothing conditions:\n\t<color_c_red>x</color> - poor fit\n\t<color_c_red>f</color> - filthy\n\t<color_c_cyan>w</color> - waterproof" ) )
             },
             {8, translate_marker( "encumberance" ), translate_marker( "encumberance." )},
             {7, translate_marker( "storage" ), translate_marker( "storage." ) },
@@ -253,13 +252,18 @@ class layering_item_info
                         int pos_x = right_bound + col_w - 1;
                         char cond;
 
-                        print_col2 = is_selected ? hilite( c_cyan ) : c_cyan;
+                        print_col2 = is_selected ? hilite( c_red ) : c_red;
                         cond = ( itm.is_filthy() ? 'f' : ' ' );
                         mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "%c", cond );
                         pos_x--;
 
                         print_col2 = is_selected ? hilite( c_red ) : c_red;
                         cond = ( itm.has_flag( "FIT" ) || !itm.has_flag( "VARSIZE" ) ) ? ' ' : 'x';
+                        mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "%c", cond );
+                        pos_x--;
+
+                        print_col2 = is_selected ? hilite( c_cyan ) : c_cyan;
+                        cond = itm.has_flag( "WATERPROOF" ) ? 'w' : ' ';
                         mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "%c", cond );
                         pos_x--;
                     }
@@ -622,9 +626,9 @@ void player::sort_armor()
         items_by_category[bp].set_print_constats( win_w - 1, data_max_y, is_compact );
     }
 
-    layering_group_info *cur_grp = &items_by_category[0];
+    layering_group_info *cur_grp = nullptr;
     int min_print_line = 0;
-    int selected_line = 1;
+    int selected_line = -1;
     bool is_moving = false;
 
     bool exit = false;
@@ -729,9 +733,21 @@ void player::sort_armor()
                 bp_idx++;
                 items_by_category[bp_idx].is_skipped = true;
             }
+
+            if( cur_grp == nullptr && l.num_items() > 0 ) {
+                cur_grp = &l;
+                selected_line = cur_print_line + 1;
+            }
+
             l.set_combined( combined );
             l.set_print_vars( selected_line, is_moving, min_print_line, compact_display_tab );
             l.print_data( cur_print_line, print_y, w_sort_armor );
+        }
+
+        if( cur_grp == nullptr || cur_grp->num_items() == 0 ) {
+            add_msg_if_player( _( "You are not wearing any clothes." ) );
+            add_msg_if_npc( _( "%s is not wearing any clothes." ), name );
+            return;
         }
 
         // data bottom
@@ -768,7 +784,9 @@ void player::sort_armor()
             }
 
             grp = &items_by_category[cur_idx];
-            if( grp->is_skipped ) {
+            if( grp == cur_grp ) { //did a full wrap around without finding anythig
+                return grp;
+            } else if( grp->is_skipped || grp->num_items() < 1 ) {
                 return get_neighbour_grp( grp, direction );
             } else {
                 return grp;
@@ -896,6 +914,9 @@ void player::sort_armor()
                     return;
                 }
                 g->u.cancel_activity();
+                // Reset when interacting with npc, this will mimic behavior as player
+                cur_grp = nullptr;
+                selected_line = 1;
             }
         } else if( action == "DROP" ) { //same as TAKE_OFF
             if( g->u.query_yn( _( "Drop selected armor?" ) ) ) {
@@ -906,6 +927,8 @@ void player::sort_armor()
                     return;
                 }
                 g->u.cancel_activity();
+                cur_grp = nullptr;
+                selected_line = 1;
             }
         }
 
@@ -925,7 +948,7 @@ void player::sort_armor()
             }
             help_str += "\n";
             help_str += colorize( _( "Encumbrance explanation:\n" ), c_white );
-            help_str += colorize( _( "\ttotal encumbrance = clothing encumbrance + additional penalty\n" ),
+            help_str += colorize( _( " total encumbrance = clothing encumbrance + additional penalty\n" ),
                                   c_light_gray );
             help_str += colorize( _( "Penalty is caused by wearing multiple items on the same layer or\n" ),
                                   c_light_gray );
