@@ -248,7 +248,6 @@
     "name": "stirge",
     "description": "This horrid flying creature looks like a cross between a large bat and oversized mosquito.",
     "default_faction": "magical_beast",
-    "bodytype": "flying insect",
     "species": [ "MAGICAL_BEAST" ],
     "diff": 2,
     "volume": "1000 ml",
