@@ -161,7 +161,7 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
     }
 
     if( !( active_conditions.first == has::HELD ||
-           ( active_conditions.first == has::WIELD && &guy.weapon == &parent ) ||
+           ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
            ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
         return false;
     }
@@ -250,21 +250,11 @@ void enchantment::serialize( JsonOut &jsout ) const
     jsout.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
 
     if( !hit_you_effect.empty() ) {
-        jsout.member( "hit_you_effect" );
-        jsout.start_array();
-        for( const fake_spell &sp : hit_you_effect ) {
-            sp.serialize( jsout );
-        }
-        jsout.end_array();
+        jsout.member( "hit_you_effect", hit_you_effect );
     }
 
     if( !hit_me_effect.empty() ) {
-        jsout.member( "hit_me_effect" );
-        jsout.start_array();
-        for( const fake_spell &sp : hit_me_effect ) {
-            sp.serialize( jsout );
-        }
-        jsout.end_array();
+        jsout.member( "hit_me_effect", hit_me_effect );
     }
 
     if( !intermittent_activation.empty() ) {

@@ -1353,51 +1353,109 @@
   },
   {
     "type": "technique",
-    "id": "tec_taichi_disarm",
-    "name": "disarm",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "disarms": true,
-    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_taichi_precise",
-    "name": "precise strike",
+    "id": "tec_taekwondo_disarm",
+    "name": "Snatch Weapon",
+    "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 2,
-    "messages": [ "You strike %s", "<npcname> strikes %s" ]
+    "weighting": 2,
+    "take_weapon": true,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_precise",
-    "name": "axe-kick",
-    "min_unarmed": 2,
+    "name": "Axe-kick",
+    "messages": [ "You raise your heel and axe-kick %s", "<npcname> raises their heel and axe-kicks %s" ],
+    "min_unarmed": 5,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2,
-    "messages": [ "You axe-kick %s", "<npcname> axe-kicks %s" ]
+    "stun_dur": 2
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_push",
-    "name": "side kick",
-    "min_unarmed": 3,
+    "name": "Side Kick",
+    "min_unarmed": 0,
     "unarmed_allowed": true,
-    "messages": [ "You side-kick %s", "<npcname> side-kicks %s" ],
-    "stun_dur": 1,
+    "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
     "knockback_dist": 1
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_sweep",
-    "name": "sweep kick",
+    "name": "Sweep Kick",
+    "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_disarm",
+    "name": "Disarm",
+    "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "disarms": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_palm",
+    "name": "Palm Strike",
+    "messages": [ "You palm strike %s", "<npcname> palm strikes %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_counter",
+    "name": "Grasp the Sparrow's Tail",
+    "messages": [ "You divert %s's attack and lead them to the ground", "<npcname> diverts %s's attack and lead them to the ground" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_precise",
+    "name": "Double Palm Strike",
+    "messages": [ "You double-handed palm strike %s", "<npcname> double-handed palm strikes %s" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
-    "down_dur": 2
+    "crit_tec": true,
+    "req_buffs": [ "buff_tai_chi_onpause" ],
+    "knockback_dist": 1,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_palm",
+    "name": "Tiger Palm",
+    "messages": [ "You land a heavy tiger palm on %s", "<npcname> lands a heavy tiger palm on %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_takedown",
+    "name": "Tiger Takedown",
+    "messages": [ "You slam %s to the ground", "<npcname> slams %s to the ground" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1
   },
   {
     "type": "technique",
@@ -1419,15 +1477,6 @@
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_tiger_grab",
-    "name": "Tiger Takedown",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "down_dur": 1,
-    "messages": [ "You grab and ground %s", "<npcname> grabs and grounds %s" ]
   },
   {
     "type": "technique",

@@ -110,6 +110,21 @@
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
   },
   {
+    "id": "knife_combat_mod",
+    "copy-from": "knife_combat",
+    "type": "TOOL",
+    "name": "modified combat knife",
+    "name_plural": "modified combat knives",
+    "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "dispersion_modifier": 10,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+    },
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
+  },
+  {
     "id": "knife_hunting",
     "type": "TOOL",
     "category": "weapons",
@@ -651,6 +666,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "arming_sword",
     "name": "arming sword",
     "description": "This is a dull, cheaply made replica of a classic medieval sword, just the right size to use one-handed.",
     "price": 10000,
@@ -670,6 +686,7 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "arming_sword",
     "name": "arming sword",
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price": 100000,
@@ -788,6 +805,14 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "copy-from": "sword_bayonet",
+    "type": "TOOL",
+    "name": "modified sword bayonet",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "tanto",

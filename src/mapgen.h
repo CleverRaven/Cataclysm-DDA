@@ -286,7 +286,7 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
-        bool setup_common( JsonObject jo );
+        bool setup_common( JsonObject &jo );
         void setup_setmap( JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;

@@ -383,7 +383,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc ) ) {
+                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }
@@ -480,6 +480,18 @@ class comestible_inventory_preset : public inventory_selector_preset
                 //~ Used for permafood shelf life in the Eat menu
                 return std::string( _( "indefinite" ) );
             }, _( "SHELF LIFE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const item &it = get_consumable_item( loc );
+
+                int converted_volume_scale = 0;
+                const int charges = std::max( it.charges, 1 );
+                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
+                                                &converted_volume_scale ), 2 );
+
+                //~ Eat menu Volume: <num><unit>
+                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
+            }, _( "VOLUME" ) );
 
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
@@ -815,7 +827,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
             } else if( uses.size() > 1 ) {
-                return _( "..." );
+                return _( "…" );
             }
 
             return std::string();
@@ -1433,7 +1445,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
-                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                               _( "Enter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
@@ -1602,8 +1614,10 @@ class bionic_install_preset: public inventory_selector_preset
             const bionic_id &bid = itemtype->bionic->id;
 
             if( it->has_flag( "FILTHY" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\" ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
@@ -1921,14 +1935,16 @@ class bionic_sterilize_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
-
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return pgettext( "volume of water", "2 L" );
-            }
-
             if( loc.get_item()->has_flag( "FILTHY" ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }
+            if( loc.get_item()->has_flag( "NO_PACKED" ) ) {
+                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
+            }
+            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+                return _( "You need at least 2L of water." );
+            }
+
             return std::string();
         }
 

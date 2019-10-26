@@ -736,6 +736,10 @@ struct npc_chatbin {
      * The martial art style this NPC offers to train.
      */
     matype_id style;
+    /**
+     * The spell this NPC offers to train
+     */
+    spell_id dialogue_spell;
     std::string first_topic = "TALK_NONE";
 
     npc_chatbin() = default;
@@ -1006,6 +1010,8 @@ class npc : public player
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
+        int calc_spell_training_cost( bool knows, int difficulty, int level );
+
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
 
@@ -1092,6 +1098,8 @@ class npc : public player
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // Same as if the player pressed '.'
         void move_pause();
+
+        void set_movement_mode( character_movemode mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;

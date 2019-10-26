@@ -82,7 +82,6 @@
     "id": "bio_batteries",
     "type": "bionic",
     "name": "Battery System",
-    "capacity": 10,
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
@@ -136,7 +135,6 @@
     "id": "bio_cable",
     "type": "bionic",
     "name": "Cable Charger System",
-    "capacity": 10,
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
@@ -624,15 +622,18 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": "Repair Nanobots",
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP/s and stopping bleeding at the cost of power.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "80 J",
+    "react_cost": "4 J",
+    "time": 1
   },
   {
     "id": "bio_night",
     "type": "bionic",
     "name": "Artificial Night Generator",
-    "description": "When active, this bionic eliminates all light within a 15 tile radius through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "9 kJ",
@@ -1016,6 +1017,9 @@
     "name": "Joint Torsion Ratchet",
     "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
+    "fuel_options": [ "muscle" ],
+    "fuel_efficiency": 0.125,
+    "passive_fuel_efficiency": 0.00625,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {

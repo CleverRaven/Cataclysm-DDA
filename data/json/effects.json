@@ -1775,10 +1775,36 @@
   },
   {
     "type": "effect_type",
+    "id": "grown_of_fuse",
+    "name": [ "Grown of Fusion" ],
+    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "//": "stats modified by the zombie_fuse special attack.",
+    "//1": "scaling:",
+    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/160 HP: +1 size",
+    "max_intensity": 480,
+    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
+    "scaling_mods": {
+      "hit_mod": [ 0.0104 ],
+      "dodge_mod": [ 0.0104 ],
+      "speed_mod": [ 0.1042 ],
+      "bash_mod": [ 0.08333 ],
+      "size_mod": [ 0.00625 ]
+    },
+    "int_decay_step": 0
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "ignore_fall_damage",
+    "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

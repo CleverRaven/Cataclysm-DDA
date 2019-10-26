@@ -157,7 +157,6 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
     { activity_id( "ACT_TRAVELLING" ), travel_do_turn },
     { activity_id( "ACT_AUTODRIVE" ), drive_do_turn },
-    { activity_id( "ACT_CHURN" ), churn_do_turn },
     { activity_id( "ACT_FIELD_DRESS" ), butcher_do_turn },
     { activity_id( "ACT_SKIN" ), butcher_do_turn },
     { activity_id( "ACT_QUARTER" ), butcher_do_turn },
@@ -216,6 +215,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_CRACKING" ), cracking_finish },
     { activity_id( "ACT_OPEN_GATE" ), open_gate_finish },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
+    { activity_id( "ACT_HEATING" ), heat_item_finish },
     { activity_id( "ACT_MEND_ITEM" ), mend_item_finish },
     { activity_id( "ACT_GUNMOD_ADD" ), gunmod_add_finish },
     { activity_id( "ACT_TOOLMOD_ADD" ), toolmod_add_finish },
@@ -455,7 +455,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -467,7 +467,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1526,9 +1526,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
-    //Gaming takes time, not speed
-    act->moves_left -= 100;
-
     item &game_item = p->i_at( act->position );
 
     //Deduct 1 battery charge for every minute spent playing
@@ -1678,7 +1675,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
     }
 }
 
@@ -1771,7 +1768,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 p->practice( skill_survival, 2, 2 );
             }
 
-            float stamina_ratio = static_cast<float>( p->stamina ) / p->get_stamina_max();
+            float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
             moves += 100 / std::max( 0.25f, stamina_ratio );
             if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
@@ -1929,6 +1926,35 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     }
 }
 
+static bool magic_train( player_activity *act, player *p )
+{
+    if( !p ) {
+        return false;
+    }
+    const spell_id &sp_id = spell_id( act->name );
+    if( sp_id.is_valid() ) {
+        const bool knows = g->u.magic.knows_spell( sp_id );
+        if( knows ) {
+            spell &studying = p->magic.get_spell( sp_id );
+            const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
+            const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
+            studying.gain_exp( xp );
+            p->add_msg_if_player( m_good, _( "You learn a little about the spell : %s" ),
+                                  sp_id->name.translated() );
+        } else {
+            p->magic.learn_spell( act->name, *p );
+            // you can decline to learn this spell , as it may lock you out of other magic.
+            if( p->magic.knows_spell( sp_id ) ) {
+                add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
+            } else {
+                act->set_to_null();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
@@ -1956,8 +1982,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         add_msg( m_good, _( "You learn %s." ), mastyle.name );
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
-    } else {
-        debugmsg( "train_finish without a valid skill or style name" );
+    } else if( !magic_train( act, p ) ) {
+        debugmsg( "train_finish without a valid skill or style or spell name" );
     }
 
     act->set_to_null();
@@ -2009,7 +2035,6 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    act->moves_left -= 100;
     item &hand_crank_item = p ->i_at( act->position );
 
     if( calendar::once_every( 144_seconds ) ) {
@@ -2033,8 +2058,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    act->moves_left -= 100;
-
     item &vibrator_item = p->i_at( act->position );
 
     if( ( p->is_wearing( "rebreather" ) ) || ( p->is_wearing( "rebreather_xl" ) ) ||
@@ -2062,8 +2085,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
-
-    p->pause();
 }
 
 void activity_handlers::start_engines_finish( player_activity *act, player *p )
@@ -2392,6 +2413,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
+        g->draw();
         auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2408,7 +2430,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
-        g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2438,6 +2459,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
+            g->draw();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -2458,6 +2480,35 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
+}
+
+void activity_handlers::heat_item_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    if( act->targets.size() != 1 ) {
+        debugmsg( "invalid arguments to ACT_HEATING" );
+        return;
+    }
+    item_location &loc = act->targets[ 0 ];
+    item *heat = loc.get_item();
+    if( heat == nullptr ) {
+        return;
+    }
+    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    if( target.item_tags.count( "FROZEN" ) ) {
+        target.apply_freezerburn();
+        if( target.has_flag( "EATEN_COLD" ) ) {
+            target.cold_up();
+            p->add_msg_if_player( m_info,
+                                  _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
+        } else {
+            target.heat_up();
+            p->add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
+        }
+    } else {
+        target.heat_up();
+        p->add_msg_if_player( m_info, _( "You heat up the food." ) );
+    }
 }
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
@@ -2659,12 +2710,14 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
+        player_veh->is_autodriving = false;
         act->set_to_null();
         p->cancel_activity();
         return;
     }
     if( player_veh->omt_path.empty() ) {
         act->set_to_null();
+        player_veh->is_autodriving = false;
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
     }
@@ -2829,14 +2882,10 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
     if( p->is_player() ) {
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
-                act->values.push_back( p->stamina );
+                act->values.push_back( p->get_stamina() );
             }
-            p->stamina = act->values[0] - 1;
-            act->values[0] = p->stamina;
-        }
-        if( p->stamina < p->get_stamina_max() / 10 ) {
-            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
-            act->set_to_null();
+            p->set_stamina( act->values[0] - 1 );
+            act->values[0] = p->get_stamina();
         }
     } else {
         p->moves = 0;
@@ -2917,7 +2966,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
 
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    p->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
     act->set_to_null();
 }
 
@@ -2928,10 +2977,10 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
         stamina_threshold = act->values[0];
         // remember initial stamina, only for waiting-with-threshold
         if( act->values.size() == 1 ) {
-            act->values.push_back( p->stamina );
+            act->values.push_back( p->get_stamina() );
         }
     }
-    if( p->stamina >= stamina_threshold ) {
+    if( p->get_stamina() >= stamina_threshold ) {
         wait_stamina_finish( act, p );
     }
 }
@@ -2940,12 +2989,12 @@ void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
     if( !act->values.empty() ) {
         const int stamina_threshold = act->values[0];
-        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->stamina;
-        if( p->stamina < stamina_threshold && p->stamina <= stamina_initial ) {
+        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->get_stamina();
+        if( p->get_stamina() < stamina_threshold && p->get_stamina() <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
-                      act->values.front(), p->stamina );
+                      act->values.front(), p->get_stamina() );
         }
-    } else if( p->stamina < p->get_stamina_max() ) {
+    } else if( p->get_stamina() < p->get_stamina_max() ) {
         p->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
     } else {
         p->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
@@ -2967,7 +3016,7 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
             p->fall_asleep();
             p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
-            p->add_msg_if_player( _( "You toss and turn..." ) );
+            p->add_msg_if_player( _( "You toss and turn…" ) );
         }
         if( calendar::once_every( 30_minutes ) ) {
             try_sleep_query( act, p );
@@ -3100,7 +3149,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( p->has_bionic( bid ) ) {
                 p->perform_uninstall( bid, act->values[0], act->values[1],
-                                      act->values[2], act->values[3] );
+                                      units::from_millijoule( act->values[2] ), act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ),
                           act->str_values[cbm_id] );
@@ -3164,13 +3213,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         p->add_effect( effect_narcosis, time_left );
         p->add_effect( effect_sleep, time_left );
     }
-    p->set_moves( 0 );
 }
 
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+        p->add_msg_if_player( _( "You try to sleep, but can't…" ) );
     }
     act->set_to_null();
 }
@@ -3218,12 +3266,6 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
     resume_for_multi_activities( *p );
-}
-
-void activity_handlers::churn_do_turn( player_activity *act, player *p )
-{
-    ( void )act;
-    p->set_moves( 0 );
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -4086,15 +4128,12 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         act->set_to_null();
         return;
     }
 
     // TODO: Add some kind of chance of getting the target's attention
-
-    // Allow time to pass
-    p->pause();
 }
 
 void activity_handlers::robot_control_finish( player_activity *act, player *p )
@@ -4110,7 +4149,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         return;
     }
 
@@ -4141,7 +4180,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
-            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            p->add_msg_if_player( _( "…and turns friendly!" ) );
             if( one_in( 3 ) ) { //did the robot became friendly permanently?
                 z->friendly = -1; //it did
             } else {
@@ -4149,7 +4188,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             }
         }
     } else {
-        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+        p->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
 }
@@ -4438,7 +4477,7 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
         return;
     }
     item &data_card = *act->targets[0];
-    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear();
     data_card.put_in( item( "mind_scan_robofac" ) );

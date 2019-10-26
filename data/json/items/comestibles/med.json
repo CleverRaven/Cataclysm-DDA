@@ -56,7 +56,7 @@
     "comestible_type": "MED",
     "name": "antibiotics",
     "name_plural": "antibiotics",
-    "description": "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection.  It's the quickest and most reliable way to cure any infections you might have.  One dose lasts twelve hours.",
+    "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 9000,
@@ -387,6 +387,7 @@
     "quench": 15,
     "healthy": -8,
     "addiction_potential": 60,
+    "calories": 49,
     "description": "A potent cocktail of amphetamines, caffeine and corn syrup, this stuff puts a spring in your step, a fire in your eye, and a bad case of tachycardia tremors in your somersaulting heart.",
     "price": 9000,
     "material": "junk",
@@ -1437,5 +1438,22 @@
       "move_cost": 100,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
+  },
+  {
+    "id": "strong_antibiotic",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "destragon",
+    "description": "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection.  It contains nearly toxic levels of antibiotics, but can treat any bacterial infections you may encounter.  One dose lasts twelve hours.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 15000,
+    "charges": 5,
+    "stack_size": 200,
+    "symbol": "!",
+    "color": "white",
+    "healthy": -10,
+    "flags": "NPC_SAFE",
+    "use_action": { "type": "STRONG_ANTIBIOTIC" }
   }
 ]

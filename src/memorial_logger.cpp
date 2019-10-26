@@ -160,7 +160,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
                            getVersionString() ) << eol;
     file << eol;
     file << string_format( _( "In memory of: %s" ), u.name ) << eol;
-    if( epitaph.length() > 0 ) {  //Don't record empty epitaphs
+    if( !epitaph.empty() ) {  //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
     }

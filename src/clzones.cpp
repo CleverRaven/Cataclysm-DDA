@@ -160,6 +160,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
                    zone_type( translate_marker( "Vehicle Repair Zone" ),
                               translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
+    types.emplace( zone_type_id( "VEHICLE_PATROL" ),
+                   zone_type( translate_marker( "Vehicle Patrol Zone" ),
+                              translate_marker( "Vehicles with an autopilot will patrol in this zone." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -334,9 +337,9 @@ bool loot_options::query()
 std::string loot_options::get_zone_name_suggestion() const
 {
     if( !mark.empty() ) {
-        return string_format( _( "Loot: Custom : %s" ), mark );
+        return string_format( _( "Loot: Custom: %s" ), mark );
     }
-    return _( "Loot: Custom : No Filter" );
+    return _( "Loot: Custom: No Filter" );
 }
 
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const

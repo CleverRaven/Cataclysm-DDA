@@ -1002,7 +1002,7 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
     get( npc_om_pos ).insert_npc( who );
 }
 
-std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id id )
+std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
         if( const auto p = it.second->erase_npc( id ) ) {

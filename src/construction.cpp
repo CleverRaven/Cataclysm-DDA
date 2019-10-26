@@ -871,10 +871,10 @@ void complete_construction( player *p )
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
-                add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
+                add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
                 //NPC near you isn't skilled enough to help
-                add_msg( m_info, _( "%s watches you work..." ), elem->name );
+                add_msg( m_info, _( "%s watches you work…" ), elem->name );
             }
 
             award_xp( *elem );
@@ -1170,7 +1170,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+        if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
             g->m.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "style_swordsmanship",
+    "copy-from": "style_swordsmanship",
+    "type": "martial_art",
+    "name": "Medieval Swordsmanship",
+    "extend": { "weapons": [ "laevateinn_replica" ] }
+  },
+  {
+    "id": "style_ninjutsu",
+    "copy-from": "style_ninjutsu",
+    "type": "martial_art",
+    "name": "Ninjutsu",
+    "extend": { "weapons": [ "laevateinn_replica" ] }
+  },
+  {
+    "id": "style_silat",
+    "copy-from": "style_silat",
+    "type": "martial_art",
+    "name": "Silat",
+    "extend": { "weapons": [ "gungnir_replica" ] }
+  },
+  {
+    "id": "style_sojutsu",
+    "copy-from": "style_sojutsu",
+    "type": "martial_art",
+    "name": "Sojutsu",
+    "extend": { "weapons": [ "gungnir_replica" ] }
+  }
+]

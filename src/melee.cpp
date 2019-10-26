@@ -372,12 +372,15 @@ static void melee_train( player &p, int lo, int hi, const item &weap )
     int bash = weap.damage_melee( DT_BASH ) + ( weap.is_null() ? 1 : 0 );
 
     float total = std::max( cut + stab + bash, 1 );
-    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
-    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
-    // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
-                ceil( bash / total * rng( lo, hi ) ), hi );
+    // Unarmed may deal cut, stab, and bash damage depending on the weapon
+    if( weap.is_unarmed_weapon() ) {
+        p.practice( skill_unarmed, ceil( 1 * rng( lo, hi ) ), hi );
+    } else {
+        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
+        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
+        p.practice( skill_bashing, ceil( bash / total * rng( lo, hi ) ), hi );
+    }
 }
 
 void player::melee_attack( Creature &t, bool allow_special )
@@ -479,6 +482,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             technique_id = force_technique;
         } else {
             technique_id = tec_none;
+        }
+
+        // if you have two broken arms you aren't doing any martial arts
+        // and your hits are not going to hurt very much
+        if( get_working_arm_count() < 1 ) {
+            technique_id = tec_none;
+            d.mult_damage( 0.1 );
         }
 
         const ma_technique &technique = technique_id.obj();
@@ -1085,6 +1095,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        if( ( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) ) {
+            continue;
+        }
+
         // Don't apply humanoid-only techniques to non-humanoids
         if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
@@ -1360,6 +1374,19 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     player *p = dynamic_cast<player *>( &t );
+
+    if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
+        if( p->is_player() ) {
+            add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
+        } else {
+            add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
+                                   _( "<npcname> disarms %s and takes their weapon!" ),
+                                   p->name );
+        }
+        item it = p->remove_weapon();
+        wield( it );
+    }
+
     if( technique.disarms && p != nullptr && p->is_armed() ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
@@ -1372,11 +1399,11 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     //AOE attacks, feel free to skip over this lump
-    if( technique.aoe.length() > 0 ) {
+    if( !technique.aoe.empty() ) {
         // Remember out moves and stamina
         // We don't want to consume them for every attack!
         const int temp_moves = moves;
-        const int temp_stamina = stamina;
+        const int temp_stamina = get_stamina();
 
         std::vector<Creature *> targets;
 
@@ -1399,7 +1426,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
-        stamina = temp_stamina;
+        set_stamina( temp_stamina );
     }
 
     //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -1616,8 +1643,12 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
-    if( tec != tec_none ) {
-        melee_attack( *source, false, tec );
+    if( tec != tec_none && !is_dead_state() ) {
+        if( get_stamina() < get_stamina_max() / 3 ) {
+            add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+        } else {
+            melee_attack( *source, false, tec );
+        }
     }
 
     return true;
@@ -2031,7 +2062,7 @@ void player_hit_message( player *attacker, const std::string &message,
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
+            msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
@@ -2081,7 +2112,8 @@ int player::attack_speed( const item &weap ) const
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
-    const float stamina_ratio = static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() );
+    const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
+                                ( get_stamina_max() );
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
     const float ma_mult = mabuff_attack_cost_mult();
@@ -2109,7 +2141,7 @@ int player::attack_speed( const item &weap ) const
 
 double player::weapon_value( const item &weap, int ammo ) const
 {
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2123,7 +2155,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

@@ -19,6 +19,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -79,7 +80,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         return false;
     }
 
@@ -277,7 +278,7 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
     return total_multi;
 }
 
-bool player::has_morale_to_craft() const
+bool Character::has_morale_to_craft() const
 {
     return get_morale_level() >= -50;
 }
@@ -404,7 +405,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         if( charges_to_store > 0 ) {
             if( !query_yn(
-                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared!  Proceed?" ),
                     prod.tname() ) ) {
                 return false;
             }
@@ -875,17 +876,17 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
                 }
                 if( batch_size == 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
                 }
             }
         }
@@ -914,7 +915,7 @@ double player::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
             break;
         }
     }
@@ -1113,11 +1114,19 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( component.has_flag( "FIT" ) ) {
                     newit.item_tags.insert( "FIT" );
                 }
-                if( component.has_flag( "HIDDEN_HALLU" ) ) {
-                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                if( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
+                    for( const std::string &f : component.item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            newit.set_flag( f );
+                        }
+                    }
+                    for( const std::string &f : component.type->item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            newit.set_flag( f );
+                        }
+                    }
                 }
                 if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    newit.item_tags.insert( "HIDDEN_POISON" );
                     newit.poison = component.poison;
                 }
             }

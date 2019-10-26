@@ -53,7 +53,7 @@ static void reveal_route( mission *miss, const tripoint &destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it..." ), p->name );
+        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
     }
 }
 
@@ -440,6 +440,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     bool defer = false;
     mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
     if( defer ) {
+        jo.allow_omitted_members();
         return false;
     }
 
@@ -460,7 +461,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject jo,
+bool mission_util::load_funcs( JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {

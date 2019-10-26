@@ -250,6 +250,15 @@ void npc_class::load( JsonObject &jo, const std::string & )
         traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
     }
 
+    if( jo.has_array( "spells" ) ) {
+        JsonArray array = jo.get_array( "spells" );
+        while( array.has_more() ) {
+            JsonObject subobj = array.next_object();
+            const int level = subobj.get_int( "level" );
+            const spell_id sp = spell_id( subobj.get_string( "id" ) );
+            _starting_spells.emplace( sp, level );
+        }
+    }
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },

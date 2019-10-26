@@ -376,7 +376,7 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
+        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death();
 
         // Other
@@ -394,6 +394,7 @@ class monster : public Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+
         /**
          * Makes monster react to heard sound
          *
@@ -420,7 +421,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        player *mounted_player = nullptr; // player that is mounting this creature
+        Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster

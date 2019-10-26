@@ -788,8 +788,6 @@ bool oter_t::is_hardcoded() const
         "lab_stairs",
         "lab_finale",
         "looted_building",  // pseudo-terrain
-        "megastore",
-        "megastore_entrance",
         "mine",
         "mine_down",
         "mine_entrance",
@@ -1458,7 +1456,7 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    dbg( D_INFO ) << "overmap::generate start...";
+    dbg( D_INFO ) << "overmap::generate start…";
 
     populate_connections_out_from_neighbors( north, east, south, west );
 
@@ -1600,14 +1598,6 @@ bool overmap::generate_sub( const int z )
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), tripoint( i * 2, j * 2, z ), 2, 200 ) );
-            } else if( oter_above == "silo" ) {
-                // NOLINTNEXTLINE(misc-redundant-expression)
-                if( rng( 2, 7 ) < abs( z ) || rng( 2, 7 ) < abs( z ) ) {
-                    ter_set( p, oter_id( "silo_finale" ) );
-                } else {
-                    ter_set( p, oter_id( "silo" ) );
-                    requires_sub = true;
-                }
             }
         }
     }
