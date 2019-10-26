@@ -75,15 +75,18 @@ class advanced_inv_area
         units::mass weight;
         // maximal count / volume of items there.
         int max_size;
-        // Appears as part of the legend at the top right
+        // appears as part of the legend at the top right
         const std::string minimapname;
+        // user commant that corresponds to this location
+        const std::string actionname;
 
         advanced_inv_area( aim_location id ) : id( id ) {}
         advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
-                           const std::string &name, const std::string &shortname, std::string minimapname ) : id( id ),
+                           const std::string &name, const std::string &shortname, std::string minimapname,
+                           std::string actionname ) : id( id ),
             hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
             canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
-            weight( 0_gram ), max_size( 0 ), minimapname( minimapname ) {
+            weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ) {
         }
 
         void init();

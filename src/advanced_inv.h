@@ -144,7 +144,7 @@ class advanced_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        static bool get_square( const std::string &action, aim_location &ret );
+        bool get_square( const std::string &action, aim_location &ret );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.

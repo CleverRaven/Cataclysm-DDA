@@ -84,20 +84,20 @@ advanced_inventory::advanced_inventory()
     , squares( {
     {
         //               hx  hy
-        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I" },
-        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1" },
-        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2" },
-        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3" },
-        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4" },
-        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5" },
-        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6" },
-        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7" },
-        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8" },
-        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9" },
-        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D" },
-        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A" },
-        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C" },
-        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W" }
+        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY" },
+        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW" },
+        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S" },
+        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE" },
+        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W" },
+        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE" },
+        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E" },
+        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW" },
+        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N" },
+        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE" },
+        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER" },
+        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND" },
+        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER" },
+        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN" }
     }
 } )
 {
@@ -192,38 +192,13 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
 
 bool advanced_inventory::get_square( const std::string &action, aim_location &ret )
 {
-    if( action == "ITEMS_INVENTORY" ) {
-        ret = AIM_INVENTORY;
-    } else if( action == "ITEMS_WORN" ) {
-        ret = AIM_WORN;
-    } else if( action == "ITEMS_NW" ) {
-        ret = screen_relative_location( AIM_NORTHWEST );
-    } else if( action == "ITEMS_N" ) {
-        ret = screen_relative_location( AIM_NORTH );
-    } else if( action == "ITEMS_NE" ) {
-        ret = screen_relative_location( AIM_NORTHEAST );
-    } else if( action == "ITEMS_W" ) {
-        ret = screen_relative_location( AIM_WEST );
-    } else if( action == "ITEMS_CE" ) {
-        ret = AIM_CENTER;
-    } else if( action == "ITEMS_E" ) {
-        ret = screen_relative_location( AIM_EAST );
-    } else if( action == "ITEMS_SW" ) {
-        ret = screen_relative_location( AIM_SOUTHWEST );
-    } else if( action == "ITEMS_S" ) {
-        ret = screen_relative_location( AIM_SOUTH );
-    } else if( action == "ITEMS_SE" ) {
-        ret = screen_relative_location( AIM_SOUTHEAST );
-    } else if( action == "ITEMS_AROUND" ) {
-        ret = AIM_ALL;
-    } else if( action == "ITEMS_DRAGGED_CONTAINER" ) {
-        ret = AIM_DRAGGED;
-    } else if( action == "ITEMS_CONTAINER" ) {
-        ret = AIM_CONTAINER;
-    } else {
-        return false;
+    for( size_t i = 0; i < squares.size(); i++ ) {
+        if( squares[i].actionname == action ) {
+            ret = screen_relative_location( squares[i].id );
+            return true;
+        }
     }
-    return true;
+    return false;
 }
 
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
