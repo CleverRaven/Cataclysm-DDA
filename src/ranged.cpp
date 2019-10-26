@@ -72,6 +72,7 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -565,8 +566,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     const skill_id &skill_used = skill_throw;
-    const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-
+    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
