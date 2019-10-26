@@ -23,8 +23,11 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "text_style_check.h"
 #include "cursesdef.h"
 #include "cata_utility.h"
+
+#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -425,6 +428,10 @@ void translation::make_plural()
 
 void translation::deserialize( JsonIn &jsin )
 {
+#ifndef CATA_IN_TOOL
+    bool check_style = false;
+    std::function<void( const std::string &msg )> throw_error;
+#endif
     if( jsin.test_string() ) {
         ctxt = cata::nullopt;
         raw = jsin.get_string();
@@ -433,6 +440,12 @@ void translation::deserialize( JsonIn &jsin )
             raw_pl = raw + "s";
         }
         needs_translation = true;
+#ifndef CATA_IN_TOOL
+        check_style = true;
+        throw_error = [&jsin]( const std::string & msg ) {
+            jsin.error( msg );
+        };
+#endif
     } else {
         JsonObject jsobj = jsin.get_object();
         if( jsobj.has_string( "ctxt" ) ) {
@@ -452,7 +465,58 @@ void translation::deserialize( JsonIn &jsin )
             jsobj.throw_error( "str_pl not supported here", "str_pl" );
         }
         needs_translation = true;
+#ifndef CATA_IN_TOOL
+        check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
+        throw_error = [&jsobj]( const std::string & msg ) {
+            jsobj.throw_error( msg, "str" );
+        };
+#endif
     }
+#ifndef CATA_IN_TOOL
+    // Check text style in translatable json strings.
+    // Strings with plural forms are (for now) only simple names, and thus do
+    // not require styling.
+    if( !raw_pl && check_style ) {
+
+        const auto text_style_callback =
+            [&throw_error]
+            ( const text_style_fix type, const std::string & msg,
+              const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
+              const std::u32string::const_iterator & /*at*/,
+              const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
+              const std::string & fix
+        ) {
+            std::ostringstream err;
+            switch( type ) {
+                case text_style_fix::removal:
+                    err << msg << ":\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n";
+                    break;
+                case text_style_fix::insertion:
+                    err << msg << ":\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Suggested fix: insert \"" << fix << "\"\n";
+                    break;
+                case text_style_fix::replacement:
+                    err << msg << ":\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
+                        << "with \"" << fix << "\"\n";
+                    break;
+            }
+            try {
+                throw_error( err.str() );
+            } catch( const JsonError &e ) {
+                debugmsg( "%s", e.what() );
+            }
+        };
+
+        const std::u32string raw32 = utf8_to_utf32( raw );
+        text_style_check<std::u32string::const_iterator>( raw32.cbegin(), raw32.cend(),
+                fix_end_of_string_spaces::yes, escape_unicode::no, text_style_callback );
+    }
+#endif
 }
 
 std::string translation::translated( const int num ) const

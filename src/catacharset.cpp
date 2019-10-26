@@ -454,6 +454,29 @@ std::string utf8_to_native( const std::string &str )
 #endif
 }
 
+std::string utf32_to_utf8( const std::u32string &str )
+{
+    std::string ret;
+    ret.reserve( str.length() );
+    for( auto it = str.begin(); it < str.end(); ++it ) {
+        ret += utf32_to_utf8( *it );
+    }
+    return ret;
+}
+
+std::u32string utf8_to_utf32( const std::string &str )
+{
+    int len = str.length();
+    const char *dat = str.data();
+    std::u32string ret;
+    ret.reserve( len );
+    while( len > 0 ) {
+        ret.push_back( UTF8_getch( &dat, &len ) );
+    }
+    ret.shrink_to_fit();
+    return ret;
+}
+
 int center_text_pos( const char *text, int start_pos, int end_pos )
 {
     int full_screen = end_pos - start_pos + 1;
