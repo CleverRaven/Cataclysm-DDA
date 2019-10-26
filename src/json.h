@@ -35,7 +35,10 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
-namespace cata { template <typename T> class optional; }
+namespace cata
+{
+template <typename T> class optional;
+}
 
 template<typename T>
 class string_id;

@@ -4158,7 +4158,7 @@ namespace Generators {
         GeneratorWrapper<T> m_generator;
         bool m_used_up = false;
     public:
-        ChunkGenerator(size_t size, GeneratorWrapper<T> generator) :
+        ChunkGenerator(size_t size, GeneratorWrapper<T> &generator) :
             m_chunk_size(size), m_generator(std::move(generator))
         {
             m_chunk.reserve(m_chunk_size);
