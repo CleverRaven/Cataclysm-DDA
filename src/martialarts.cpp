@@ -857,10 +857,10 @@ bool player::has_grab_break_tec() const
     return false;
 }
 
-ma_technique player::get_grab_break_tec() const
+ma_technique player::get_grab_break_tec( const item &weap ) const
 {
     ma_technique tec;
-    for( auto &technique : get_all_techniques( item() ) ) {
+    for( auto &technique : get_all_techniques( weap ) ) {
         if( technique.obj().grab_break ) {
             tec = technique.obj();
             break;
@@ -869,26 +869,15 @@ ma_technique player::get_grab_break_tec() const
     return tec;
 }
 
-bool player::can_grab_break() const
+bool player::can_grab_break( const item &weap ) const
 {
     if( !has_grab_break_tec() ) {
         return false;
     }
 
-    ma_technique tec = get_grab_break_tec();
-    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
+    ma_technique tec = get_grab_break_tec( weap );
 
-    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
-
-    // Failure conditions.
-    for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
-            return false;
-        }
-    }
-
-    // otherwise, can grab break
-    return true;
+    return tec.is_valid_player( *this );
 }
 
 bool player::can_miss_recovery( const item &weap ) const
@@ -898,19 +887,8 @@ bool player::can_miss_recovery( const item &weap ) const
     }
 
     ma_technique tec = get_miss_recovery_tec( weap );
-    bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
 
-    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
-
-    // Failure conditions.
-    for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : get_skill_level( pr.first ) ) < pr.second ) {
-            return false;
-        }
-    }
-
-    // otherwise, can miss recovery
-    return true;
+    return tec.is_valid_player( *this );
 }
 
 bool player::can_leg_block() const
