@@ -79,6 +79,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
@@ -243,7 +244,6 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
-    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
@@ -407,14 +407,21 @@ bool ma_requirements::is_valid_player( const player &u ) const
     bool cqb = u.has_active_bionic( bionic_id( "bio_cqb" ) );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    bool valid_weapon =
-        ( !u.style_selected.obj().strictly_melee && unarmed_allowed &&
-          ( !u.is_armed() || ( u.unarmed_attack() && unarmed_weapons_allowed ) ) ) ||
-        ( !u.style_selected.obj().strictly_unarmed && melee_allowed &&
-          is_valid_weapon( u.weapon ) &&
-          ( u.style_selected.obj().has_weapon( u.weapon.typeId() ) ||
-            u.style_selected.obj().allow_melee ) );
-    if( !valid_weapon ) {
+    bool melee_style = u.style_selected.obj().strictly_melee;
+    bool is_armed = u.is_armed();
+    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( "UNARMED_WEAPON" );
+    bool forced_unarmed = u.style_selected.obj().force_unarmed;
+    bool weapon_ok = is_valid_weapon( u.weapon );
+    bool style_weapon = u.style_selected.obj().has_weapon( u.weapon.typeId() );
+    bool all_weapons = u.style_selected.obj().allow_melee;
+
+    bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
+    bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
+
+    bool valid_unarmed = !melee_style && unarmed_allowed && unarmed_ok;
+    bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
+
+    if( !valid_unarmed && !valid_melee ) {
         return false;
     }
 
