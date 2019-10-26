@@ -215,6 +215,7 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_harnessed( "harnessed" );
@@ -10356,7 +10357,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            if( critter.has_effect( effect_ridden ) ) {
+            if( critter.has_effect( effect_ridden ) || critter.has_effect( effect_tied ) ) {
                 continue;
             }
             int turns = critter.turns_to_reach( to.xy() );
@@ -10380,14 +10381,16 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_walking_with() && !np->is_mounted() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
+                   rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
             if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
-                    critter.has_effect( effect_pet ) && critter.friendly == -1 ) ) {
+                    critter.has_effect( effect_pet ) && critter.friendly == -1 &&
+                    !critter.has_effect( effect_tied ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }
