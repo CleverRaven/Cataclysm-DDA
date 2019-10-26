@@ -18,7 +18,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"

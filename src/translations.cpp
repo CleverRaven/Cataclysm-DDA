@@ -266,7 +266,6 @@ std::string getOSXSystemLang()
 #else // !LOCALIZE
 
 #include <cstring> // strcmp
-#include <map>
 
 bool isValidLanguage( const std::string &/*lang*/ )
 {

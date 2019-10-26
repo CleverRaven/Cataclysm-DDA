@@ -5,9 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <set>
 
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -16,7 +14,6 @@
 #include "event_bus.h"
 #include "line.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -25,9 +22,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "requirements.h"
 #include "rng.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
 #include "auto_pickup.h"

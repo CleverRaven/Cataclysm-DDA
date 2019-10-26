@@ -1,35 +1,16 @@
 #include <cstddef>
-#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <type_traits>
 #include <utility>
 
 #include "debug.h"
 // for legacy classdata loaders
-#include "item.h"
-#include "calendar.h"
-#include "itype.h"
-#include "json.h"
-#include "mongroup.h"
 #include "npc.h"
-#include "options.h"
-#include "overmap.h"
 #include "player_activity.h"
 #include "cata_utility.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "monster.h"
-#include "regional_settings.h"
 #include "rng.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 namespace std
 {

@@ -1,6 +1,5 @@
 #include "overlay_ordering.h"
 
-#include <set>
 #include <utility>
 
 #include "json.h"

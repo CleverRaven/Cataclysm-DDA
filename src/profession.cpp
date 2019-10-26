@@ -13,7 +13,6 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "mtype.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"

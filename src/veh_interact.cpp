@@ -18,7 +18,6 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
 #include "debug.h"
 #include "fault.h"
 #include "game.h"
@@ -51,15 +50,12 @@
 #include "units.h"
 #include "item.h"
 #include "string_id.h"
-#include "colony.h"
 #include "flat_set.h"
 #include "mapdata.h"
 #include "point.h"
 #include "material.h"
 
 const efftype_id effect_riding( "riding" );
-
-class player;
 
 static inline std::string status_color( bool status )
 {

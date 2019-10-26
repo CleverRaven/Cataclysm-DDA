@@ -1,6 +1,5 @@
 #include "dialogue.h" // IWYU pragma: associated
 
-#include <climits>
 #include <cmath>
 #include <cstddef>
 #include <algorithm>
@@ -32,7 +31,6 @@
 #include "json.h"
 #include "line.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -43,7 +41,6 @@
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "recipe.h"
 #include "rng.h"
 #include "skill.h"
@@ -55,7 +52,6 @@
 #include "ui.h"
 #include "units.h"
 #include "vehicle.h"
-#include "vpart_position.h"
 #include "auto_pickup.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -64,16 +60,12 @@
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
-#include "int_id.h"
-#include "mapdata.h"
 #include "material.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
-
-class basecamp;
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );

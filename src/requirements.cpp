@@ -9,7 +9,6 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <unordered_map>
 
 #include "avatar.h"
 #include "cata_utility.h"

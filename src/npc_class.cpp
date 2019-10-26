@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <array>
 #include <iterator>
-#include <set>
 #include <utility>
 
 #include "debug.h"

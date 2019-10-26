@@ -6,7 +6,6 @@
 #include "pldata.h" // IWYU pragma: associated
 
 #include <limits.h>
-#include <cctype>
 #include <cstddef>
 #include <algorithm>
 #include <limits>
@@ -94,7 +93,6 @@
 #include "vpart_position.h"
 
 struct oter_type_t;
-struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

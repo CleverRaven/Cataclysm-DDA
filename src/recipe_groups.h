@@ -5,10 +5,10 @@
 #include <string>
 #include <map>
 
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+class translation;
 
 namespace recipe_group
 {

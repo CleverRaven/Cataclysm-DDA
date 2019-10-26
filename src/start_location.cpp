@@ -7,7 +7,7 @@
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "map.h"

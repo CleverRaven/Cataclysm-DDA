@@ -38,8 +38,8 @@
 #include <locale>
 #include <memory>
 #include <sstream>
+#include <stdexcept>
 #include <string>
-#include <exception>
 
 bool trigdist;
 bool use_tiles;

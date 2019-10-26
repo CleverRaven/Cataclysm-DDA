@@ -22,7 +22,6 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "string_id.h"
-#include "enums.h"
 
 const skill_id skill_swimming( "swimming" );
 

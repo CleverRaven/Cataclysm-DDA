@@ -61,9 +61,6 @@
  * Latest version: http://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c
  */
 
-#include <cstdint>
-#include <cwchar>
-
 struct interval {
     uint32_t first;
     uint32_t last;

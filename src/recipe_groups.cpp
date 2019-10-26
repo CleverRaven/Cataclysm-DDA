@@ -1,12 +1,12 @@
 #include "recipe_groups.h"
 
 #include <string>
-#include <vector>
 #include <set>
 #include <utility>
 
 #include "generic_factory.h"
 #include "json.h"
+#include "translations.h"
 #include "debug.h"
 #include "overmap.h"
 #include "string_id.h"

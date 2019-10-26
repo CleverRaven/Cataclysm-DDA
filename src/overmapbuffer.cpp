@@ -3,7 +3,6 @@
 #include <climits>
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
 #include <iterator>
 #include <list>
 #include <map>

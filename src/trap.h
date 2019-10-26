@@ -9,8 +9,6 @@
 #include <tuple>
 
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"

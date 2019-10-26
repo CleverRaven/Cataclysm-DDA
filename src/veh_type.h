@@ -27,7 +27,7 @@
 using itype_id = std::string;
 
 class JsonObject;
-class Character;
+class player;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
