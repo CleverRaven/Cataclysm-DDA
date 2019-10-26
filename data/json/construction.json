@@ -867,7 +867,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small"
   },
@@ -878,7 +878,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_railroad_track_small_d"
   },
