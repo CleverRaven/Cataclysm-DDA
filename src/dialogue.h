@@ -7,7 +7,6 @@
 #include <vector>
 #include <set>
 #include <type_traits>
-#include <unordered_set>
 #include <utility>
 
 #include "dialogue_win.h"

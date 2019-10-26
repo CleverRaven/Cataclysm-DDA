@@ -45,12 +45,9 @@
 #include "ret_val.h"
 #include "units.h"
 #include "type_id.h"
-#include "clzones.h"
 #include "colony.h"
-#include "faction.h"
 #include "item_stack.h"
 #include "map_selector.h"
-#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 

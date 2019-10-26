@@ -1,6 +1,5 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cmath>
 #include <cstdlib>
 
 #include "avatar.h"

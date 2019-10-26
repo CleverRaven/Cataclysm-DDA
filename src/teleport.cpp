@@ -1,6 +1,5 @@
 #include "teleport.h"
 
-#include "character.h"
 #include "avatar.h"
 #include "creature.h"
 #include "player.h"

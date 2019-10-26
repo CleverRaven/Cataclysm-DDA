@@ -5,7 +5,6 @@
 #include <chrono>
 #include <cmath>
 #include <memory>
-#include <ostream>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
@@ -31,9 +30,7 @@
 #include "weather.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "creature.h"
 #include "game_constants.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "units.h"
@@ -42,7 +39,6 @@
 #include "veh_type.h"
 #include "type_id.h"
 #include "point.h"
-#include "string_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

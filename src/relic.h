@@ -9,7 +9,6 @@
 #include <vector>
 
 class Creature;
-class islot_relic;
 class JsonIn;
 class JsonObject;
 class JsonOut;

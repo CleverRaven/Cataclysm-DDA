@@ -29,7 +29,6 @@
 #include "item.h"
 #include "pldata.h"
 #include "units.h"
-#include "translations.h"
 #include "type_id.h"
 #include "point.h"
 #include "weather.h"

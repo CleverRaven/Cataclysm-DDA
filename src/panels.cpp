@@ -42,7 +42,6 @@
 #include "compatibility.h"
 #include "debug.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "omdata.h"
 #include "pldata.h"
 #include "string_formatter.h"

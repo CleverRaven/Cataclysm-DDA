@@ -1,12 +1,10 @@
 #include "ranged.h"
 
 #include <cstdio>
-#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <string>
 #include <vector>
-#include <array>
 #include <iterator>
 #include <list>
 #include <map>

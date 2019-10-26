@@ -1,6 +1,5 @@
 #include "npctrade.h"
 
-#include <limits.h>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
@@ -30,7 +29,6 @@
 #include "visitable.h"
 #include "type_id.h"
 #include "faction.h"
-#include "pimpl.h"
 
 const skill_id skill_barter( "barter" );
 

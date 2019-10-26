@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"

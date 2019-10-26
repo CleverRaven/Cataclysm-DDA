@@ -10,17 +10,15 @@
 #include <algorithm>
 
 #include "ammo.h"
-#include "avatar.h"
-#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
-#include "game.h"
 #include "init.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "player.h"
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"

@@ -26,7 +26,6 @@
 #include "item_group.h"
 #include "item_stack.h"
 #include "line.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "units.h"
 #include "item_location.h"

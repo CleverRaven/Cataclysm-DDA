@@ -1,7 +1,6 @@
 #include "trap.h"
 
 #include <vector>
-#include <set>
 
 #include "debug.h"
 #include "event_bus.h"
