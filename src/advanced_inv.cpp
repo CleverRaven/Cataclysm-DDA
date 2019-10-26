@@ -84,20 +84,20 @@ advanced_inventory::advanced_inventory()
     , squares( {
     {
         //               hx  hy
-        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY" },
-        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW" },
-        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S" },
-        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE" },
-        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W" },
-        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE" },
-        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E" },
-        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW" },
-        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N" },
-        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE" },
-        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER" },
-        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND" },
-        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER" },
-        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN" }
+        { AIM_INVENTORY, 25, 2, tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
+        { AIM_SOUTHWEST, 30, 3, tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
+        { AIM_SOUTH,     33, 3, tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
+        { AIM_SOUTHEAST, 36, 3, tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
+        { AIM_WEST,      30, 2, tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
+        { AIM_CENTER,    33, 2, tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
+        { AIM_EAST,      36, 2, tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
+        { AIM_NORTHWEST, 30, 1, tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
+        { AIM_NORTH,     33, 1, tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
+        { AIM_NORTHEAST, 36, 1, tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
+        { AIM_DRAGGED,   25, 1, tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
+        { AIM_ALL,       22, 3, tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
+        { AIM_CONTAINER, 22, 1, tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_WORN,      25, 3, tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
 {
@@ -1449,10 +1449,10 @@ void query_destination_callback::draw_squares( const uilist *menu )
 {
     assert( menu->entries.size() >= 9 );
     int ofs = -25 - 4;
-    int sel = advanced_inventory::screen_relative_location(
+    int sel = _adv_inv.screen_relative_location(
                   static_cast <aim_location>( menu->selected + 1 ) );
     for( int i = 1; i < 10; i++ ) {
-        aim_location loc = advanced_inventory::screen_relative_location( static_cast <aim_location>( i ) );
+        aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
         std::string key = _adv_inv.get_location_key( loc );
         advanced_inv_area &square = _adv_inv.get_one_square( loc );
         bool in_vehicle = square.can_store_in_vehicle();
@@ -1792,37 +1792,11 @@ bool advanced_inventory::is_processing() const
 aim_location advanced_inventory::screen_relative_location( aim_location area )
 {
 
-    if( !( tile_iso && use_tiles ) ) {
-        return area;
+    if(use_tiles && tile_iso) {
+        return squares[area].relative_location;
     }
-    switch( area ) {
-
-        case AIM_SOUTHWEST:
-            return AIM_WEST;
-
-        case AIM_SOUTH:
-            return AIM_SOUTHWEST;
-
-        case AIM_SOUTHEAST:
-            return AIM_SOUTH;
-
-        case AIM_WEST:
-            return AIM_NORTHWEST;
-
-        case AIM_EAST:
-            return AIM_SOUTHEAST;
-
-        case AIM_NORTHWEST:
-            return AIM_NORTH;
-
-        case AIM_NORTH:
-            return AIM_NORTHEAST;
-
-        case AIM_NORTHEAST:
-            return AIM_EAST;
-
-        default:
-            return area;
+    else {
+        return area;
     }
 }
 

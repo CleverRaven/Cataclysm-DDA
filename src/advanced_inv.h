@@ -48,7 +48,7 @@ class advanced_inventory
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
         */
-        static aim_location screen_relative_location( aim_location area );
+        aim_location screen_relative_location( aim_location area );
         std::string get_location_key( aim_location area );
 
         advanced_inv_area &get_one_square( const aim_location &loc ) {
