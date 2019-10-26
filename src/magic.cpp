@@ -1539,6 +1539,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     const int h_offset = menu->w_width - menu->pad_right + 1;
     // includes spaces on either side for readability
     const int info_width = menu->pad_right - 4;
+    const int win_height = menu->w_height;
     const int h_col1 = h_offset + 1;
     const int h_col2 = h_offset + ( info_width / 2 );
     const catacurses::window w_menu = menu->window;
@@ -1558,8 +1559,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     line += fold_and_print( w_menu, point( h_col1, line ), info_width, gray,
                             enumerate_spell_data( sp ) );
-
-    line++;
+    if( line <= win_height / 3 ) {
+        line++;
+    }
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
@@ -1578,21 +1580,30 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
-    line++;
+    if( line <= win_height / 2 ) {
+        line++;
+    }
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
+    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( " (%s current)",
+                             sp.energy_cur_string( g->u ) );
+    if( !sp.can_cast( g->u ) ) {
+        cost_string = colorize( _( "Not Enough Energy" ), c_red );
+        energy_cur = "";
+    }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s %s%s", cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" ),
-                                       sp.energy_cost_string( g->u ), sp.energy_string(),
-                                       sp.energy_source() == hp_energy ? "" :  string_format( " ( %s current )",
-                                               sp.energy_cur_string( g->u ) ) ) );
+                        string_format( "%s: %s %s%s", cost_string,
+                                       sp.energy_cost_string( g->u ), sp.energy_string(), energy_cur ) );
     const bool c_t_encumb = casting_time_encumbered( sp, g->u );
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
                                            moves_to_string( sp.casting_time( g->u ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
-    line++;
+    if( line <= win_height * 3 / 4 ) {
+        line++;
+    }
 
     std::string targets;
     if( sp.is_valid_target( target_none ) ) {
@@ -1603,7 +1614,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
 
-    line++;
+    if( line <= win_height * 3 / 4 ) {
+        line++;
+    }
 
     const int damage = sp.damage();
     std::string damage_string;
@@ -1708,8 +1721,8 @@ int known_magic::select_spell( const player &p )
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height = 24;
-    spell_menu.w_width = 80;
+    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+    spell_menu.w_width = std::max( 80, TERMX * 3 / 8 );
     spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
     spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
     spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;
