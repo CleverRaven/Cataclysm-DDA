@@ -217,6 +217,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_CRACKING" ), cracking_finish },
     { activity_id( "ACT_OPEN_GATE" ), open_gate_finish },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
+    { activity_id( "ACT_HEATING" ), heat_item_finish },
     { activity_id( "ACT_MEND_ITEM" ), mend_item_finish },
     { activity_id( "ACT_GUNMOD_ADD" ), gunmod_add_finish },
     { activity_id( "ACT_TOOLMOD_ADD" ), toolmod_add_finish },
@@ -2481,6 +2482,35 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
+}
+
+void activity_handlers::heat_item_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    if( act->targets.size() != 1 ) {
+        debugmsg( "invalid arguments to ACT_HEATING" );
+        return;
+    }
+    item_location &loc = act->targets[ 0 ];
+    item *heat = loc.get_item();
+    if( heat == nullptr ) {
+        return;
+    }
+    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    if( target.item_tags.count( "FROZEN" ) ) {
+        target.apply_freezerburn();
+        if( target.has_flag( "EATEN_COLD" ) ) {
+            target.cold_up();
+            p->add_msg_if_player( m_info,
+                                  _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
+        } else {
+            target.heat_up();
+            p->add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
+        }
+    } else {
+        target.heat_up();
+        p->add_msg_if_player( m_info, _( "You heat up the food." ) );
+    }
 }
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
