@@ -71,10 +71,10 @@
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
   },
   {
-    "id": "mon_nothic",
-    "name": "nothic",
-    "description": "A baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.",
-    "symbol": "N",
+    "id": "mon_krabgek",
+    "name": "krabgek",
+    "description": "A large baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.  The eye oozes some pinkish liquid, and the weirdly humanoid figure is covered in sharp blue-black triangular plates.",
+    "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
