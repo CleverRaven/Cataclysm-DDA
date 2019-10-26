@@ -1092,7 +1092,6 @@ class Character : public Creature, public visitable<Character>
         stomach_contents guts;
 
         int oxygen;
-        int stamina;
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
@@ -1165,6 +1164,14 @@ class Character : public Creature, public visitable<Character>
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
+
+        int get_stamina() const;
+        int get_stamina_max() const;
+        void set_stamina( int new_stamina );
+        void mod_stamina( int mod );
+        void burn_move_stamina( int moves );
+        /** Regenerates stamina */
+        void update_stamina( int turns );
 
     protected:
         void on_stat_change( const std::string &, int ) override {}
@@ -1378,6 +1385,7 @@ class Character : public Creature, public visitable<Character>
 
         int hunger;
         int thirst;
+        int stamina;
 
         int fatigue;
         int sleep_deprivation;
