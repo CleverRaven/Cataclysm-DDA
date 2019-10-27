@@ -430,6 +430,22 @@ void Character::load( JsonObject &data )
     data.read( "oxygen", oxygen );
     data.read( "pkill", pkill );
 
+    if( data.has_array( "ma_styles" ) ) {
+        std::vector<matype_id> temp_styles;
+        data.read( "ma_styles", temp_styles );
+        bool temp_keep_hands_free;
+        data.read( "keep_hands_free", temp_keep_hands_free );
+        matype_id temp_selected_style;
+        data.read( "style_selected", temp_selected_style );
+        if( !temp_selected_style.is_valid() ) {
+            temp_selected_style = matype_id( "style_none" );
+        }
+        martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
+                            temp_keep_hands_free );
+    } else {
+        data.read( "martial_arts_data", martial_arts_data );
+    }
+
     JsonObject vits = data.get_object( "vitamin_levels" );
     for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
@@ -679,6 +695,7 @@ void Character::store( JsonOut &json ) const
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
     json.member( "magic", magic );
+    json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
 
@@ -753,8 +770,6 @@ void player::store( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
-
-    json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
@@ -845,15 +860,6 @@ void player::load( JsonObject &data )
         setID( tmpid );
     }
 
-    data.read( "ma_styles", ma_styles );
-    // Fix up old ma_styles that doesn't include fake styles
-    if( std::find( ma_styles.begin(), ma_styles.end(), style_kicks ) == ma_styles.end() &&
-        style_kicks.is_valid() ) {
-        ma_styles.insert( ma_styles.begin(), style_kicks );
-    }
-    if( std::find( ma_styles.begin(), ma_styles.end(), matype_id::NULL_ID() ) == ma_styles.end() ) {
-        ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
-    }
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
     JsonArray traps = data.get_array( "known_traps" );
@@ -963,8 +969,6 @@ void avatar::store( JsonOut &json ) const
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
-    json.member( "style_selected", style_selected );
-    json.member( "keep_hands_free", keep_hands_free );
 
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
@@ -1042,8 +1046,6 @@ void avatar::load( JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
-    data.read( "style_selected", style_selected );
-    data.read( "keep_hands_free", keep_hands_free );
 
     // stats through kills
     data.read( "str_upgrade", str_upgrade );

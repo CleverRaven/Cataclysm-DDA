@@ -17,10 +17,16 @@ class character_martial_arts
 {
     private:
         std::vector<matype_id> ma_styles;
-        matype_id style_selected;
-        bool keep_hands_free;
+        matype_id style_selected = matype_id( "style_none" );
+        bool keep_hands_free = false;
     public:
         character_martial_arts::character_martial_arts();
+        character_martial_arts::character_martial_arts( const std::vector<matype_id> &styles,
+                const matype_id &style_selected, bool keep_hands_free )
+            : ma_styles( styles ), style_selected( style_selected ), keep_hands_free( keep_hands_free ) {}
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 
         void reset_style();
         // checks that style selected is one that is known, otherwise resets it
