@@ -119,7 +119,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_TRADER",
-    "dynamic_line": { "I am a member of the Free Merchants. Care to trade?" },
+    "dynamic_line": { "I am a member of the Free Merchants.  Care to trade?" },
     "responses": [
       { "text": "Free Merchants?", "topic": "TALK_TRADER_WHAT" },
       { "text": "What are you doing here?", "topic": "TALK_TRADER_WHY" },
