@@ -68,6 +68,7 @@
     "stackable": true,
     "price": 0,
     "volume": 0,
+    "flags": [ "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
