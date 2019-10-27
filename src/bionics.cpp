@@ -845,17 +845,18 @@ bool player::burn_fuel( int b, bool start )
         return true;
     }
     const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
+    const std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
+    const float fuel_efficiency = bio.info().fuel_efficiency;
 
-
-    if( start && get_fuel_available( bio.id ).empty() ) {
+    if( start && fuel_available.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
                                _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
         deactivate_bionic( b );
         return false;
     }
     if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
-        for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
-            const item tmp_fuel( fuel );
+        for( const itype_id &fuel : fuel_available ) {
+            const int fuel_energy = item( fuel ).fuel_energy();
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
@@ -864,7 +865,7 @@ bool player::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency
+            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
                 > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
@@ -875,20 +876,19 @@ bool player::burn_fuel( int b, bool start )
                 if( current_fuel_stock > 0 ) {
 
                     if( is_metabolism_powered ) {
-                        const int kcal_consumed = tmp_fuel.fuel_energy();
-                        const units::energy power_gain = kcal_consumed * 4184_J *
-                                                         bio.info().fuel_efficiency; // 1kcal = 4187 J
-                        mod_stored_kcal( kcal_consumed );
+                        const int kcal_consumed = fuel_energy;
+                        const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency; // 1kcal = 4187 J
+                        mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else {
                         current_fuel_stock -= 1;
                         set_value( fuel, std::to_string( current_fuel_stock ) );
                         update_fuel_storage( fuel );
-                        mod_power_level( units::from_kilojoule( tmp_fuel.fuel_energy() ) * bio.info().fuel_efficiency );
+                        mod_power_level( units::from_kilojoule( fuel_energy ) * fuel_efficiency );
                     }
 
                     if( bio.info().exothermic_power_gen ) {
-                        const int heat_prod = tmp_fuel.fuel_energy() * ( 1 - bio.info().fuel_efficiency );
+                        const int heat_prod = fuel_energy * ( 1 - fuel_efficiency );
                         const int heat_level = std::min( heat_prod / 10, 4 );
                         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
                         const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
