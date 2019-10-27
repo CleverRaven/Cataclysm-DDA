@@ -18,6 +18,8 @@
 
 #include "cata_utility.h"
 
+extern bool test_mode;
+
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
@@ -99,7 +101,8 @@ JsonObject::JsonObject( JsonIn &j )
 void JsonObject::finish()
 {
 #ifndef CATA_IN_TOOL
-    if( report_unvisited_members && !reported_unvisited_members && !std::uncaught_exception() ) {
+    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+        !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<std::string, int> &p : positions ) {
             const std::string &name = p.first;
