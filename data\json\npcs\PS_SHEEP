@@ -186,7 +186,7 @@
 	"end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 4 } ] },
     "dialogue": {
       "describe": "I'm running low on bolts for my crossbow.",
-      "offer": "I've been hunting for a while now, and good quality steel bolts are really hard to come by these days. Could you bring me, let's say, 50 steel bolts? You'd be a real lifesaver. I have some Hub coins for your troubles.",
+      "offer": "I've been hunting for a while now, and good quality steel bolts are really hard to come by these days.  Could you bring me, let's say, 50 steel bolts?  You'd be a real lifesaver.  I have some Hub coins for your troubles.",
       "accepted": "Thanks, it's good to know that kindness is not gone from this world.",
       "rejected": "That's fine, you cannot expect a stranger to care.",
       "advice": "There must be some hunting gear in survival shops, but towns can be very dangerous these days.",
