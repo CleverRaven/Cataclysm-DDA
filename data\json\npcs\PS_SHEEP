@@ -114,7 +114,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SHEEP_KNOW",
-    "dynamic_line": "Yes. They hold the secret. The world rests on a very delicate equilibrium and the key is to count them, at all times. I keep a detailed log in my head... we may still be able to undo everything! When the time is right, I'll publish a paper, reveal the secret to the broader scientific community and we'll work together to stop the cataclysm.",
+    "dynamic_line": "Yes.  They hold the secret.  The world rests on a very delicate equilibrium and the key is to count them, at all times.  I keep a detailed log in my head… we may still be able to undo everything!  When the time is right, I'll publish a paper, reveal the secret to the broader scientific community and we'll work together to stop the cataclysm.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_SHEEP" },
 	  { "text": "You do realise that there is no scientific community to speak of anymore, right?", "topic": "TALK_SHEEP_SCIENCE" }
