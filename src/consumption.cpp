@@ -1317,8 +1317,6 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::reactor;
     }
 
-    const int furnace_energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
-
     if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
