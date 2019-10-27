@@ -96,7 +96,6 @@ const bionic_id bio_advreactor( "bio_advreactor" );
 const bionic_id bio_batteries( "bio_batteries" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
 
 // active defense CBMs - activate when in danger
@@ -157,7 +156,6 @@ const std::vector<bionic_id> power_cbms = { {
         bio_batteries,
         bio_ethanol,
         bio_furnace,
-        bio_metabolics,
         bio_reactor,
     }
 };
@@ -1685,8 +1683,6 @@ bool npc::recharge_cbm()
         mod_power_level( get_max_power_level() );
         return true;
     }
-
-    use_bionic_by_id( bio_metabolics );
 
     for( bionic_id &bid : get_fueled_bionics() ) {
         if( !get_fuel_available( bid ).empty() ) {
