@@ -1193,7 +1193,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
         }
 
-        finalize_crafted_item( *content_ptr, get_faction() );
+        finalize_crafted_item( newit, get_faction() );
+        // If these aren't equal, newit is a container, so finalize its contents too.
+        if( &newit != content_ptr ) {
+            finalize_crafted_item( *content_ptr, get_faction() );
+        }
+
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
