@@ -1056,7 +1056,8 @@
       [ "tongs", 10 ],
       [ "carver_off", 5 ],
       [ "meat", 1 ],
-      [ "hacksaw", 10 ]
+      [ "hacksaw", 10 ],
+      [ "chainmail_hands", 10 ]
     ]
   }
 ]
