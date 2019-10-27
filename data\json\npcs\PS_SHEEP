@@ -169,7 +169,7 @@
     "type": "talk_topic",
     "id": "TALK_SHEEP_BYE",
     "dynamic_line": "I'll be counting.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   
   {
