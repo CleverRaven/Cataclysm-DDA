@@ -1427,7 +1427,7 @@
       {
         "id": "buff_wingchun_onpause",
         "name": "Biu Ji",
-        "description": "Through the perfect application of the Thrusting Fingers form, you can strike your opponents' weak points, force them away, and follow!\n\n Accuracy increased by 20%% of Perception, Enables \"Straight Punch (Knockback)\" and \"L-Hook (Knockback)\" techniques.\nLasts 2 turns.",
+        "description": "Through the perfect application of the Thrusting Fingers form, you can strike your opponents' weak points, force them away, and follow!\n\nAccuracy increased by 20%% of Perception, Enables \"Straight Punch (Knockback)\" and \"L-Hook (Knockback)\" techniques.\nLasts 2 turns.",
         "min_unarmed": 4,
         "unarmed_allowed": true,
         "buff_duration": 2,
