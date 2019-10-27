@@ -159,7 +159,7 @@
     "dynamic_line": "Stupid is as stupid does.  I guess you just can't grasp the secret.  I don't blame you, takes a titanic intellect to do so.",
     "responses": [
       { "text": "Of course.", "topic": "TALK_SHEEP" },
-	  { "text": "There are... no words.", "topic": "TALK_DONE" },
+	  { "text": "There are… no words.", "topic": "TALK_DONE" },
 	  { "text": "Uh, huh.", "topic": "TALK_SHEEP" },
       { "text": "Okay, I'm done.", "topic": "TALK_DONE" }
     ]
