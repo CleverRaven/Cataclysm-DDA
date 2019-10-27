@@ -332,6 +332,73 @@
     "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
   },
   {
+    "result": "chainmail_suit_full",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "28 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "chainmail_feet", 1 ] ],
+      [ [ "chainmail_hands", 1 ] ],
+      [ [ "gambeson", 1 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_suit_full",
+    "type": "recipe",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "6 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_hauberk", 1 ] ],
+      [ [ "chainmail_feet", 1 ] ],
+      [ [ "chainmail_hands", 1 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_suit_full",
+    "type": "recipe",
+    "id_suffix": "suit",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "4 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "chainmail_suit", 1 ] ],
+      [ [ "chainmail_feet", 1 ] ],
+      [ [ "chainmail_hands", 1 ] ]
+    ]
+  },
+  {
+    "result": "chainmail_suit_faraday",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "12 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "chainmail_suit_full", 1 ] ], [ [ "cable", 50 ] ] ]
+  },
+  {
     "result": "cloak",
     "type": "recipe",
     "category": "CC_ARMOR",
