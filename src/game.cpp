@@ -3301,7 +3301,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
 
-    if( u.sees_with_infrared( critter ) ) {
+    if( u.sees_with_infrared( critter ) || u.sees_with_specials( critter ) ) {
         mvwputch( w_terrain, point( mx, my ), c_red, '?' );
     }
 }

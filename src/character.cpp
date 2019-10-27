@@ -70,6 +70,7 @@ static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -116,6 +117,8 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_winded( "winded" );
 
+const species_id ROBOT( "ROBOT" );
+
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
@@ -129,6 +132,7 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
@@ -3602,6 +3606,32 @@ int Character::visibility( bool, int ) const
     // if ( dark_clothing() && light check ...
     int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
     return clamp( 100 - stealth_modifier, 40, 160 );
+}
+
+bool Character::sees_with_specials( const Creature &critter ) const
+{
+    // electroreceptors grants vision of robots and electric monsters through walls
+    if( has_trait( trait_ELECTRORECEPTORS ) &&
+        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        return true;
+    }
+
+    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
+        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
+        // walls don't block sonar which is transmitted in the ground, not the air.
+        // TODO: this might need checks whether the player is in the air, or otherwise not connected
+        // to the ground. It also might need a range check.
+        return true;
+    }
+
+    if( is_player() || critter.is_player() ) {
+        // Players should not use map::sees
+        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
+        return g->m.pl_line_of_sight( critter.pos(),
+                                      sight_range( current_daylight_level( calendar::turn ) ) );
+    }
+
+    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
 
 bool Character::pour_into( item &container, item &liquid )
