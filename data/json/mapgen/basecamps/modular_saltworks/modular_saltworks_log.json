@@ -31,6 +31,20 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "fbmsw_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "fbms_saltpan_log",
     "object": {
       "mapgensize": [ 7, 7 ],

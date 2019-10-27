@@ -13,12 +13,12 @@
     "blueprint_name": "Saltworks survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "fbms_0" } ]
+    "blueprint_provides": [ { "id": "fbmsw_0" } ]
   },
     {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbms_0",
+    "nested_mapgen_id": "fbmsw_0",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
@@ -36,7 +36,7 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_base_saltworks_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_0" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
   },
   {
     "type": "recipe",
@@ -48,7 +48,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_saltpan_wood_northeast",
     "blueprint_name": "northeast saltpan",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbms_northeast" }, { "id": "Salt_Pan" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
     "blueprint_autocalc": true
@@ -63,7 +63,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_shack_wood_southeast",
     "blueprint_name": "southeast storage room",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
     "blueprint_excludes": [ { "id": "fbms_southeast" } ],
     "blueprint_autocalc": true

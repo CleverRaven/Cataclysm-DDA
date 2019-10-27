@@ -12,7 +12,7 @@
     "blueprint_name": "Saltworks survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "fbms_0" } ]
+    "blueprint_provides": [ { "id": "fbmsw_0" } ]
   },
   {
     "type": "recipe",
@@ -24,7 +24,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_saltpan_log_northeast",
     "blueprint_name": "northeast saltpan",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbms_northeast" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
     "blueprint_autocalc": true
@@ -39,7 +39,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_shack_log_southeast",
     "blueprint_name": "southeast storage room",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
     "blueprint_excludes": [ { "id": "fbms_southeast" } ],
     "blueprint_autocalc": true
