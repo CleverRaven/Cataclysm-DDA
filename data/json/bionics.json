@@ -608,6 +608,9 @@
     "name": "Metabolic Interchange",
     "description": "Your digestive system and power supply are interconnected; bionic energy is replenished by burning calories.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
+    "fuel_options": [ "metabolism" ],
+    "fuel_efficiency": 1,
+    "passive_fuel_efficiency": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
