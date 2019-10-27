@@ -145,7 +145,7 @@
   {
       "type": "talk_topic",
     "id": "TALK_SHEEP_WHY",
-    "dynamic_line": "I'm counting sheep. I'm also hunting and fishing around these parts. But I never kill sheep. I just count them. Very important. You can kill, I can't, but I must count. Must. Always.",
+    "dynamic_line": "I'm counting sheep.  I'm also hunting and fishing around these parts.  But I never kill sheep.  I just count them.  Very important.  You can kill, I can't, but I must count.  Must.  Always.",
     "responses": [
       { "text": "Great.", "topic": "TALK_SHEEP" },
       { "text": "Okay, I'm done.", "topic": "TALK_DONE" }
