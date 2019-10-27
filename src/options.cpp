@@ -1887,6 +1887,20 @@ void options_manager::add_options_debug()
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
        );
+
+    add( "JSON_REPORT_UNVISITED_MEMBERS", "debug",
+         translate_marker( "Report unvisited json members" ),
+         translate_marker( "If true, unvisited json members will be reported to debug.log when loading json files." ),
+         false
+       );
+    add( "JSON_POSITION_OF_UNVISITED_MEMBERS", "debug",
+         translate_marker( "Show position of unvisited json members" ),
+         translate_marker( "If true, position of unvisited json members will be reported to debug.log when loading json files.  Hinders performance A LOT!" ),
+         false
+       );
+
+    get_option( "JSON_POSITION_OF_UNVISITED_MEMBERS" ).setPrerequisite( "JSON_REPORT_UNVISITED_MEMBERS" );
+
 }
 
 void options_manager::add_options_world_default()
