@@ -430,16 +430,16 @@ void translation::deserialize( JsonIn &jsin )
 {
 #ifndef CATA_IN_TOOL
     bool check_style = false;
-    std::function<void( const std::string &msg )> throw_error;
+    std::function<void( const std::string &msg, int offset )> throw_error;
 #endif
     if( jsin.test_string() ) {
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             const int origin = jsin.tell();
             check_style = true;
-            throw_error = [&jsin, origin]( const std::string & msg ) {
+            throw_error = [&jsin, origin]( const std::string & msg, const int offset ) {
                 jsin.seek( origin );
-                jsin.error( msg );
+                jsin.error( msg, offset );
             };
         }
 #endif
@@ -472,8 +472,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-            throw_error = [&jsobj]( const std::string & msg ) {
-                jsobj.throw_error( msg, "str" );
+            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+                jsobj.get_raw( "str" )->error( msg, offset );
             };
         }
 #endif
@@ -495,26 +495,30 @@ void translation::deserialize( JsonIn &jsin )
             std::ostringstream err;
             switch( type ) {
                 case text_style_fix::removal:
-                    err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
-                        << "Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n";
+                    err << msg << "\n"
+                        << "    Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
+                        << "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::insertion:
-                    err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
-                        << "Suggested fix: insert \"" << fix << "\"\n";
+                    err << msg << "\n"
+                        << "    Suggested fix: insert \"" << fix << "\"\n"
+                        << "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::replacement:
-                    err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
-                        << "Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
-                        << "with \"" << fix << "\"\n";
+                    err << msg << "\n"
+                        << "    Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) )
+                        << "\" with \"" << fix << "\"\n"
+                        << "    At the following position (marked with caret)";
                     break;
             }
             try {
-                throw_error( err.str() );
+                const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
+                // +1 for the starting quotation mark
+                //@todo: properly handle escape sequences inside strings, instead
+                //of using `length()` here.
+                throw_error( err.str(), 1 + str_before.length() );
             } catch( const JsonError &e ) {
-                debugmsg( "%s", e.what() );
+                debugmsg( "\n%s", e.what() );
             }
         };
 
