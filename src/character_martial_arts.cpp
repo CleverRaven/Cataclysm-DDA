@@ -135,9 +135,11 @@ std::vector<matype_id> character_martial_arts::get_unknown_styles( const charact
 
 void character_martial_arts::serialize( JsonOut &json ) const
 {
+    json.start_object();
     json.member( "ma_styles", ma_styles );
     json.member( "keep_hands_free", keep_hands_free );
     json.member( "style_selected", style_selected );
+    json.end_object();
 }
 
 void character_martial_arts::deserialize( JsonIn &jsin )
