@@ -1442,6 +1442,7 @@
     "type": "terrain",
     "id": "t_street_light",
     "name": "street light",
+    "looks_like": "t_utility_pole",
     "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
     "symbol": "T",
     "color": "grey",
@@ -1466,6 +1467,7 @@
     "type": "terrain",
     "id": "t_traffic_light",
     "name": "traffic light",
+    "looks_like": "t_utility_pole",
     "description": "Signalling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity..",
     "symbol": "F",
     "color": "grey",
@@ -1509,4 +1511,4 @@
       ]
     }
   }
-]  
+]
