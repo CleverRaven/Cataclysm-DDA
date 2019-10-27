@@ -27,8 +27,6 @@
 #include "cursesdef.h"
 #include "cata_utility.h"
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
@@ -435,6 +433,16 @@ void translation::deserialize( JsonIn &jsin )
     std::function<void( const std::string &msg )> throw_error;
 #endif
     if( jsin.test_string() ) {
+#ifndef CATA_IN_TOOL
+        if( test_mode ) {
+            const int origin = jsin.tell();
+            check_style = true;
+            throw_error = [&jsin, origin]( const std::string & msg ) {
+                jsin.seek( origin );
+                jsin.error( msg );
+            };
+        }
+#endif
         ctxt = cata::nullopt;
         raw = jsin.get_string();
         // if plural form is enabled
@@ -442,14 +450,6 @@ void translation::deserialize( JsonIn &jsin )
             raw_pl = raw + "s";
         }
         needs_translation = true;
-#ifndef CATA_IN_TOOL
-        if( test_mode ) {
-            check_style = true;
-            throw_error = [&jsin]( const std::string & msg ) {
-                jsin.error( msg );
-            };
-        }
-#endif
     } else {
         JsonObject jsobj = jsin.get_object();
         if( jsobj.has_string( "ctxt" ) ) {
@@ -496,17 +496,17 @@ void translation::deserialize( JsonIn &jsin )
             switch( type ) {
                 case text_style_fix::removal:
                     err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
                         << "Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n";
                     break;
                 case text_style_fix::insertion:
                     err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
                         << "Suggested fix: insert \"" << fix << "\"\n";
                     break;
                 case text_style_fix::replacement:
                     err << msg << ":\n"
-                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, from ) ) << "<---\n"
+                        << "Here: \"" << utf32_to_utf8( std::u32string( beg, to ) ) << "<---\n"
                         << "Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
                         << "with \"" << fix << "\"\n";
                     break;
