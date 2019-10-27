@@ -86,7 +86,7 @@
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_SHEEP",
-    "faction": "wasteland_scavengers",
+    "faction": "no_faction",
     "mission_offered": "MISSION_SHEEP_GATHER"
   },
 {
