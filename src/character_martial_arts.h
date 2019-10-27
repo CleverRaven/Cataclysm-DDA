@@ -10,6 +10,8 @@ class avatar;
 class Character;
 class effects_map;
 class item;
+class JsonOut;
+class JsonIn;
 
 using itype_id = std::string;
 
