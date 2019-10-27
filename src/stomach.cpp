@@ -253,49 +253,6 @@ void stomach_contents::absorb_water( player &p, units::volume amount )
     p.mod_thirst( -units::to_milliliter( amount ) / 5 );
 }
 
-void stomach_contents::absorb_kcal( int amount )
-{
-    if( amount <= 0 ) {
-        return;
-    }
-    calories_absorbed += amount;
-    calories -= amount;
-    if( calories < 0 ) { // just a little trickery to avoid overflow
-        calories_absorbed += calories;
-        calories = 0;
-    }
-}
-
-bool stomach_contents::absorb_vitamin( const vitamin_id &vit, int amount )
-{
-    if( amount <= 0 ) {
-        return false;
-    }
-    vitamins_absorbed[vit] += amount;
-    vitamins[vit] -= amount;
-    if( vitamins[vit] < 0 ) {
-        vitamins_absorbed[vit] += vitamins[vit];
-        vitamins[vit] = amount;
-    }
-    return true;
-}
-
-bool stomach_contents::absorb_vitamin( const std::pair<vitamin_id, int> &vit )
-{
-    return absorb_vitamin( vit.first, vit.second );
-}
-
-bool stomach_contents::absorb_vitamins( const std::map<vitamin_id, int> &vitamins )
-{
-    bool absorbed = false;
-    for( const std::pair<vitamin_id, int> vit : vitamins ) {
-        if( absorb_vitamin( vit ) ) {
-            absorbed = true;
-        }
-    }
-    return absorbed;
-}
-
 stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
 {
     stomach_pass_rates rates;
@@ -378,11 +335,6 @@ void stomach_contents::mod_calories( int cal )
     calories += cal;
 }
 
-void stomach_contents::set_calories( int cal )
-{
-    calories = cal;
-}
-
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
@@ -420,11 +372,6 @@ int stomach_contents::get_calories_absorbed() const
     return calories_absorbed;
 }
 
-void stomach_contents::set_calories_absorbed( int cal )
-{
-    calories_absorbed = cal;
-}
-
 units::volume stomach_contents::get_water() const
 {
     return water;
@@ -445,7 +392,7 @@ void Character::initialize_stomach_contents()
 {
     stomach = stomach_contents( 2500_ml );
     guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
+    guts.mod_calories( 300 );
+    stomach.mod_calories( 800 );
     stomach.mod_contents( 475_ml );
 }

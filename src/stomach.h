@@ -73,13 +73,10 @@ class stomach_contents
 
         int get_calories() const;
         int get_calories_absorbed() const;
-        void set_calories_absorbed( int cal );
         units::volume get_water() const;
 
         // changes calorie amount
         void mod_calories( int calories );
-        // sets calories amount
-        void set_calories( int cal );
 
         // changes calorie amount based on old nutr value
         void mod_nutr( int nutr );
@@ -130,22 +127,5 @@ class stomach_contents
         units::volume contents;
         // when did this stomach_contents call stomach_contents::ingest()
         time_point last_ate;
-
-        // turns calories into absorbed calories.
-        // they are not added to your fat stores just yet
-        // only does anything if the input is a positive number
-        void absorb_kcal( int amount );
-        // absorbs a single vitamin.
-        // does not add it to player vitamins yet
-        // returns true if vitamins are absorbed
-        bool absorb_vitamin( const vitamin_id &vit, int amount );
-        // absorbs a single vitamin
-        // does not add it to player vitamins yet
-        // returns true if vitamins are absorbed
-        bool absorb_vitamin( const std::pair<vitamin_id, int> &vit );
-        // absorbs multiple vitamins
-        // does not add it to player vitamins yet
-        // returns true if any vitamins are absorbed
-        bool absorb_vitamins( const std::map<vitamin_id, int> &vitamins );
 
 };
