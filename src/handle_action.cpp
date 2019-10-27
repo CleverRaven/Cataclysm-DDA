@@ -404,7 +404,7 @@ static void pldrive( int x, int y )
     }
     if( !veh ) {
         dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
-        debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
+        debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
         return;
     }

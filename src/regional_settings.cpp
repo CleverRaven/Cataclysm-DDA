@@ -725,7 +725,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         } else if( fid.is_valid() ) {
             tf_id.furn = fid.id();
         } else {
-            debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
+            debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
         wtotal += static_cast<int>( it->second * 10000.0 );
@@ -747,7 +747,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         } else if( fid.is_valid() ) {
             tf_id.furn = fid.id();
         } else {
-            debugmsg( "No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
+            debugmsg( "No clue what '%s' is!  No such terrain or furniture", it->first.c_str() );
             continue;
         }
         btotal += static_cast<int>( it->second * 10000.0 );

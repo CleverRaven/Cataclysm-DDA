@@ -783,7 +783,9 @@ class JsonObject
         int end;
         bool final_separator;
         bool report_unvisited_members = true;
+#ifndef CATA_IN_TOOL
         bool reported_unvisited_members = false;
+#endif
         JsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true );

@@ -53,16 +53,16 @@ zone_manager::zone_manager()
                               translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
     types.emplace( zone_type_id( "LOOT_UNSORTED" ),
                    zone_type( translate_marker( "Loot: Unsorted" ),
-                              translate_marker( "Place to drop unsorted loot. You can use \"sort out loot\" zone-action to sort items inside. It can overlap with Loot zones of different types." ) ) );
+                              translate_marker( "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types." ) ) );
     types.emplace( zone_type_id( "LOOT_FOOD" ),
                    zone_type( translate_marker( "Loot: Food" ),
-                              translate_marker( "Destination for comestibles. If more specific food zone is not defined, all food is moved here." ) ) );
+                              translate_marker( "Destination for comestibles.  If more specific food zone is not defined, all food is moved here." ) ) );
     types.emplace( zone_type_id( "LOOT_PFOOD" ),
                    zone_type( translate_marker( "Loot: P.Food" ),
-                              translate_marker( "Destination for perishable comestibles. Does include perishable drinks if such zone is not specified." ) ) );
+                              translate_marker( "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_DRINK" ),
                    zone_type( translate_marker( "Loot: Drink" ),
-                              translate_marker( "Destination for drinks. Does include perishable drinks if such zone is not specified." ) ) );
+                              translate_marker( "Destination for drinks.  Does include perishable drinks if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_PDRINK" ),
                    zone_type( translate_marker( "Loot: P.Drink" ),
                               translate_marker( "Destination for perishable drinks." ) ) );
@@ -83,7 +83,7 @@ zone_manager::zone_manager()
                               translate_marker( "Destination for tools." ) ) );
     types.emplace( zone_type_id( "LOOT_CLOTHING" ),
                    zone_type( translate_marker( "Loot: Clothing" ),
-                              translate_marker( "Destination for clothing. Does include filthy clothing if such zone is not specified." ) ) );
+                              translate_marker( "Destination for clothing.  Does include filthy clothing if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FCLOTHING" ),
                    zone_type( translate_marker( "Loot: F.Clothing" ),
                               translate_marker( "Destination for filthy clothing." ) ) );
@@ -128,7 +128,7 @@ zone_manager::zone_manager()
                               translate_marker( "Destination for corpses" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ),
                    zone_type( translate_marker( "Loot: Armor" ),
-                              translate_marker( "Destination for armor. Does include filthy armor if such zone is not specified." ) ) );
+                              translate_marker( "Destination for armor.  Does include filthy armor if such zone is not specified." ) ) );
     types.emplace( zone_type_id( "LOOT_FARMOR" ),
                    zone_type( translate_marker( "Loot: F.Armor" ),
                               translate_marker( "Destination for filthy armor." ) ) );
@@ -143,7 +143,7 @@ zone_manager::zone_manager()
                               translate_marker( "Items inside of this zone are ignored by \"sort out loot\" zone-action." ) ) );
     types.emplace( zone_type_id( "SOURCE_FIREWOOD" ),
                    zone_type( translate_marker( "Source: Firewood" ),
-                              translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires. "
+                              translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
                                       "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
     types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                    zone_type( translate_marker( "Construction: Blueprint" ),
