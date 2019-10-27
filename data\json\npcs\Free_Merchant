@@ -139,7 +139,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TRADER_WHY",
-    "dynamic_line": "Got my own little shop here, survivors around know where to find me. When they gather a nice loot, they sell it, and when they're starving or bleeding, they come here to get what they need. Simple.",
+    "dynamic_line": "Got my own little shop here, survivors around know where to find me.  When they gather a nice loot, they sell it, and when they're starving or bleeding, they come here to get what they need.  Simple.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_TRADER" },
     ]
