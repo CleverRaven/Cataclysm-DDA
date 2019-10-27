@@ -377,7 +377,7 @@
         "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_faction_rep": -75 } ] }
       },
       {
-        "text": "Look, I really need this. Please let me have it.",
+        "text": "Look, I really need this.  Please let me have it.",
         "condition": "u_has_stolen_item",
         "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
         "success": { "topic": "TALK_ALLOW_KEEP_ITEM", "effect": { "u_faction_rep": -1 } },

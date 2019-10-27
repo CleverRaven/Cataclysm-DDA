@@ -271,7 +271,7 @@
     "id": "wind_mill",
     "type": "TOOL",
     "name": "wind mill",
-    "description": "A small wind-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
     "price": 100000,

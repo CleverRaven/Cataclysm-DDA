@@ -2508,7 +2508,7 @@
     "id": "MARLOSS_BLUE",
     "name": "Marloss Vessel",
     "points": 4,
-    "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+    "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and… sap?",
     "purifiable": false,
     "valid": false,
     "category": [ "MARLOSS" ],
