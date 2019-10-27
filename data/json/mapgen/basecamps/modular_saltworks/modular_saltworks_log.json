@@ -42,6 +42,15 @@
         "      ",
         "      "
       ],
+      "palettes": [ "fbms_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_saltworks_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
+  },
   {
     "type": "mapgen",
     "method": "json",
