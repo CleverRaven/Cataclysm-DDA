@@ -130,7 +130,7 @@
     {
     "type": "talk_topic",
     "id": "TALK_TRADER_WHAT",
-    "dynamic_line": "We are a loose organisation, if you can even call us one. Survivors need food, medicine, clothes, scrap - and we can provide it. I made myself known to the local hunters and scavengers - they sell what they can gather, and buy what they need. Win-win.",
+    "dynamic_line": "We are a loose organisation, if you can even call us one.  Survivors need food, medicine, clothes, scrap - and we can provide it.  I made myself known to the local hunters and scavengers - they sell what they can gather, and buy what they need.  Win-win.",
     "responses": [
       { "text": "Cheers for the free trade!", "topic": "TALK_TRADER" },
       { "text": "Nah, I don't need anything.", "topic": "TALK_DONE" }
