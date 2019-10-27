@@ -1437,5 +1437,76 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_street_light",
+    "name": "street light",
+    "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
+    "symbol": "T",
+    "color": "grey",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_traffic_light",
+    "name": "traffic light",
+    "description": "Signalling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity..",
+    "symbol": "F",
+    "color": "grey",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_utility_pole",
+    "name": "utility pole",
+    "description": "A long wooden post which used to support overhead power lines and other public utilities, but it doesn't work anymore.",
+    "symbol": "I",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 5 ] }
+      ]
+    }
   }
-]
+]  
