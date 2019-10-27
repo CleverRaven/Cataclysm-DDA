@@ -193,7 +193,7 @@
       "inquire": "Do you have the bolts?",
       "success": "Thanks! You're absolutely amazing!",
       "success_lie": "OK, then hand them over.",
-      "failure": "That's fine. I know it's not an easy task."
+      "failure": "That's fine.  I know it's not an easy task."
     }
   }
 ]
