@@ -15,6 +15,9 @@
 class JsonIn;
 class JsonOut;
 
+extern bool opt_report_unvisited_members;
+extern bool opt_report_unvisited_member_positions;
+
 class options_manager
 {
     public:

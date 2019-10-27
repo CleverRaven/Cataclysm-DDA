@@ -51,6 +51,9 @@ int message_cooldown;
 bool fov_3d;
 int fov_3d_z_range;
 bool tile_iso;
+bool opt_report_unvisited_members;
+bool opt_report_unvisited_member_positions;
+
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -2840,6 +2843,8 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    opt_report_unvisited_members = ::get_option<int>( "JSON_REPORT_UNVISITED_MEMBERS" );
+    opt_report_unvisited_member_positions = ::get_option<int>( "JSON_POSITION_OF_UNVISITED_MEMBERS" );
 
     update_music_volume();
 

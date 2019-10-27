@@ -101,14 +101,14 @@ void JsonObject::finish()
 {
 #ifndef CATA_IN_TOOL
     if( report_unvisited_members && !reported_unvisited_members && !std::uncaught_exception() &&
-        get_option<bool>( "JSON_REPORT_UNVISITED_MEMBERS" ) ) {
+        opt_report_unvisited_members ) {
         reported_unvisited_members = true;
         for( const std::pair<std::string, int> &p : positions ) {
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
                 dbg( D_ERROR ) << "Failed to visit member '" << name << "' in JsonObject at "
-                               << ( get_option<bool>( "JSON_POSITION_OF_UNVISITED_MEMBERS" ) ?
+                               << ( opt_report_unvisited_member_positions ?
                                     jsin->line_number( start ) : "line 0:0,0" )
                                << ":\n" << str() << std::endl;
             }
