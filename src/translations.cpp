@@ -29,6 +29,8 @@
 
 #define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
+extern bool test_mode;
+
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
 // names.
@@ -441,10 +443,12 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
 #ifndef CATA_IN_TOOL
-        check_style = true;
-        throw_error = [&jsin]( const std::string & msg ) {
-            jsin.error( msg );
-        };
+        if( test_mode ) {
+            check_style = true;
+            throw_error = [&jsin]( const std::string & msg ) {
+                jsin.error( msg );
+            };
+        }
 #endif
     } else {
         JsonObject jsobj = jsin.get_object();
@@ -466,17 +470,19 @@ void translation::deserialize( JsonIn &jsin )
         }
         needs_translation = true;
 #ifndef CATA_IN_TOOL
-        check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-        throw_error = [&jsobj]( const std::string & msg ) {
-            jsobj.throw_error( msg, "str" );
-        };
+        if( test_mode ) {
+            check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
+            throw_error = [&jsobj]( const std::string & msg ) {
+                jsobj.throw_error( msg, "str" );
+            };
+        }
 #endif
     }
 #ifndef CATA_IN_TOOL
     // Check text style in translatable json strings.
     // Strings with plural forms are (for now) only simple names, and thus do
     // not require styling.
-    if( !raw_pl && check_style ) {
+    if( test_mode && !raw_pl && check_style ) {
 
         const auto text_style_callback =
             [&throw_error]
