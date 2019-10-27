@@ -602,22 +602,22 @@
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
-{
-  "type": "overmap_terrain",
-  "id": "faction_base_saltworks_0",
-  "name": "saltworks survey",
-  "sym": "+",
-  "color": "red",
-  "see_cost": 5,
-  "flags": [ "NO_ROTATE" ]
-},
-{
-  "type": "overmap_terrain",
-  "id": "faction_base_canteen_0",
-  "name": "canteen survey",
-  "sym": "+",
-  "color": "i_green",
-  "see_cost": 5,
-  "flags": [ "NO_ROTATE" ]
-}
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_saltworks_0",
+    "name": "saltworks survey",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_canteen_0",
+    "name": "canteen survey",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  }
 ]
