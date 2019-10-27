@@ -760,12 +760,12 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
 {
     const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
     if( sp.effect_data().empty() ) {
-        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. None specified.",
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str.  None specified.",
                   sp.id().c_str() );
         return;
     }
     if( !morale_type( sp.effect_data() ).is_valid() ) {
-        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. %s is invalid.", sp.id().c_str(),
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str.  %s is invalid.", sp.id().c_str(),
                   sp.effect_data() );
         return;
     }

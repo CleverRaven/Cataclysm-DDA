@@ -840,7 +840,7 @@ void overmap_terrains::check_consistency()
 
         if( exists_loaded ) {
             if( test_mode && exists_hardcoded ) {
-                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.",
+                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
             }
         } else if( !exists_hardcoded ) {
@@ -858,8 +858,8 @@ void overmap_terrains::finalize()
     }
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
-        debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'),"
-                  " cataclysm pending. And not the fun kind." );
+        debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
+                  "cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {

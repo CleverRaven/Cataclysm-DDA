@@ -4247,7 +4247,7 @@ void game::monmove()
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
             if( turns == 9 ) {
-                debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
                           guy.name );
                 debug_mode = true;
             }
@@ -10357,7 +10357,11 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            if( critter.has_effect( effect_ridden ) || critter.has_effect( effect_tied ) ) {
+            // if its a ladder instead of stairs - most zombies cant climb that.
+            // unless that have a special flag to allow them to do so.
+            if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.has_flag( MF_CLIMBS ) ) ||
+                critter.has_effect( effect_ridden ) ||
+                critter.has_effect( effect_tied ) ) {
                 continue;
             }
             int turns = critter.turns_to_reach( to.xy() );
@@ -10387,7 +10391,11 @@ void game::vertical_move( int movez, bool force )
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
+        bool ladder = m.has_flag( "DIFFICULT_Z", u.pos() );
         for( monster &critter : all_monsters() ) {
+            if( ladder && !critter.has_flag( MF_CLIMBS ) ) {
+                continue;
+            }
             if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
                     critter.has_effect( effect_pet ) && critter.friendly == -1 &&
                     !critter.has_effect( effect_tied ) ) ) {

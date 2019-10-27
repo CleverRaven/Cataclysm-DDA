@@ -1101,10 +1101,12 @@ bool vehicle::is_alternator_on( const int a ) const
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
-    for( int s : speciality ) {
-        if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
-            found_security = true;
-            break;
+    if( fuel_left( fuel_type_battery ) > 0 ) {
+        for( int s : speciality ) {
+            if( part_flag( s, "SECURITY" ) && parts[ s ].is_available() ) {
+                found_security = true;
+                break;
+            }
         }
     }
     return found_security;
@@ -4601,7 +4603,6 @@ void vehicle::update_alternator_load()
 void vehicle::power_parts()
 {
     update_alternator_load();
-
     // Things that drain energy: engines and accessories.
     int engine_epower = total_engine_epower_w();
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
@@ -6387,7 +6388,7 @@ bool vehicle::refresh_zones()
 
             const int part_idx = part_with_feature( z.first, "CARGO", false );
             if( part_idx == -1 ) {
-                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
+                debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone.  Removing loot zone.",
                           z.first.x, z.first.y, this->name );
 
                 // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.

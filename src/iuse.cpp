@@ -5094,11 +5094,11 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
     }
 
     if( !it->is_artifact() ) {
-        debugmsg( "iuse::artifact called on a non-artifact item! %s",
+        debugmsg( "iuse::artifact called on a non-artifact item!  %s",
                   it->tname() );
         return 0;
     } else if( !it->is_tool() ) {
-        debugmsg( "iuse::artifact called on a non-tool artifact! %s",
+        debugmsg( "iuse::artifact called on a non-tool artifact!  %s",
                   it->tname() );
         return 0;
     }

@@ -498,9 +498,9 @@ class player : public Character
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec() const;
+        ma_technique get_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break() const;
+        bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has the leg block technique available */

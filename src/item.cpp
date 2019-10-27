@@ -2758,6 +2758,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             const bionic_id bid = type->bionic->id;
 
+            if( bid->capacity > 0_mJ ) {
+                info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), " <num> mJ",
+                                          iteminfo::no_newline, units::to_millijoule( bid->capacity ) ) );
+            }
+
             if( !bid->encumbrance.empty() ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
                                           iteminfo::no_newline ) );
@@ -7845,7 +7850,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
-            debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
@@ -7916,7 +7921,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
+                    debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature
