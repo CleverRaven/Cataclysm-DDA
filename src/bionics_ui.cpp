@@ -52,7 +52,7 @@ bionic_col_data get_col_data( int col_idx )
     static std::array< bionic_col_data, column_num_entries> col_data = { {
             {
                 3, translate_marker( "Status" ),
-                translate_marker( "CBM Status:\n\t<color_c_green>+</color> - activated\n\t<color_c_red>x</color> - incapacitated.  This CBM cannot be used for some time." )
+                translate_marker( "CBM Status:\n <color_c_green>+</color> - activated\n <color_c_red>x</color> - incapacitated.  This CBM cannot be used for some time." )
             },
             {8, translate_marker( "Activation" ), translate_marker( "Amount of Bionic Power required to activeate this CBM." )},
             {8, translate_marker( "Turn Cost" ), translate_marker( "Amount of Bionic Power this CBM consumes every turn while activated.  Values like 1 /600 mean that 1 Power will be consumed every 600 turns." ) }
