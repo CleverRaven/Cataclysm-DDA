@@ -1930,7 +1930,7 @@
   {
     "type": "item_group",
     "id": "museum_armor_feet",
-    "items": [ [ "boots_plate", 60 ], [ "boots_larmor", 40 ] ]
+    "items": [ [ "boots_plate", 60 ], [ "boots_larmor", 40 ], [ "chainmail_feet", 40 ] ]
   },
   {
     "type": "item_group",
@@ -1953,7 +1953,8 @@
       [ "armguard_larmor", 40 ],
       [ "vambrace_larmor", 20 ],
       [ "gloves_plate", 60 ],
-      [ "chainmail_arms", 30 ]
+      [ "chainmail_arms", 30 ],
+      [ "chainmail_hands", 30 ]
     ]
   },
   {
