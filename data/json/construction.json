@@ -3043,11 +3043,13 @@
     "time": "30m",
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 1 } ],
-    "byproducts": [ { "item": "material_soil", "count": [ 8, 12 ] },
+    "byproducts": [
+      { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 } ],
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "post_terrain": "t_pit_shallow"
   },
@@ -3061,11 +3063,13 @@
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 2 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
-    "byproducts": [ { "item": "material_soil", "count": [ 8, 12 ] },
+    "byproducts": [
+      { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 } ],
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ],
     "post_terrain": "t_pit"
   },
   {
