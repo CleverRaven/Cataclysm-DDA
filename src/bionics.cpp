@@ -841,7 +841,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
 bool player::burn_fuel( int b, bool start )
 {
     bionic &bio = ( *my_bionics )[b];
-    if( bio.info().fuel_opts.empty() || bio.is_muscle_powered() ) {
+    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ) {
         return true;
     }
 
@@ -2257,10 +2257,10 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
-bool bionic::is_muscle_powered() const
+bool bionic::is_this_fuel_powered( const itype_id this_fuel ) const
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
-    return std::find( fuel_op.begin(), fuel_op.end(), "muscle" ) != fuel_op.end();
+    return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
 }
 
 void bionic::serialize( JsonOut &json ) const
