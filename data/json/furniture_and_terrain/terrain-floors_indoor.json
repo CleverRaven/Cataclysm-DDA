@@ -568,7 +568,7 @@
     "id": "t_rad_platform",
     "looks_like": "t_blue_floor",
     "name": "radiation platform",
-    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within. Operated from external console.",
+    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within.  Operated from external console.",
     "symbol": "0",
     "color": "light_blue",
     "move_cost": 100,

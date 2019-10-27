@@ -395,7 +395,7 @@
     "looks_like": "offal",
     "name": "raw brains",
     "name_plural": "raw brains",
-    "description": "The brain from an animal.  You wouldn't want to eat this raw...",
+    "description": "The brain from an animal.  You wouldn't want to eat this raw…",
     "color": "light_gray",
     "healthy": -15,
     "quench": 10,
@@ -461,7 +461,7 @@
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
     "fun": -4,
-    "description": "Normally a delicacy, it needs a little... something.",
+    "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0
   },
   {
@@ -781,7 +781,7 @@
     "healthy": -10,
     "calories": 347,
     "quench": 20,
-    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies…",
     "price": 6500,
     "material": [ "flesh" ],
     "volume": "1 L",

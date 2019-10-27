@@ -6,7 +6,7 @@
     "responses": [
       { "text": "What came of it?", "topic": "BGSS_SCIENTIST_1_STORY2" },
       {
-        "text": "If I got you the right stuff, do you think you'd be able to like...  do science to it?",
+        "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -20,7 +20,7 @@
     "responses": [
       { "text": "What happened with your leadership run?", "topic": "BGSS_SCIENTIST_1_STORY3" },
       {
-        "text": "If I got you the right stuff, do you think you'd be able to like...  do science to it?",
+        "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -34,7 +34,7 @@
     "//": "TK, this survivor could give a quest to locate the other survivor.",
     "responses": [
       {
-        "text": "If I got you the right stuff, do you think you'd be able to like...  do science to it?",
+        "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
       { "text": "I'm sorry to hear that.  <done_conversation_section>", "topic": "TALK_FRIEND" },

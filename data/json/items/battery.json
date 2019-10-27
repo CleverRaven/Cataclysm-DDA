@@ -299,7 +299,7 @@
     "category": "spare_parts",
     "name": "heavy disposable battery",
     "name_plural": "heavy disposable batteries",
-    "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools. The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "weight": "950 g",
     "volume": "1000ml",
     "price": 10000,

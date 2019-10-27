@@ -169,7 +169,7 @@
     "type": "talk_topic",
     "dynamic_line": "Alright.  You can lead now.",
     "responses": [
-      { "text": "Good.  Something else...", "topic": "TALK_FRIEND" },
+      { "text": "Good.  Something else…", "topic": "TALK_FRIEND" },
       { "text": "Alright, let's go.", "topic": "TALK_NONE" }
     ]
   },
@@ -271,7 +271,7 @@
     "id": "TALK_DENY_PERSONAL",
     "type": "talk_topic",
     "dynamic_line": "I'd prefer to keep that to myself.",
-    "responses": [ { "text": "I understand...", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "I understand…", "topic": "TALK_FRIEND" } ]
   },
   {
     "id": "TALK_SHARE_EQUIPMENT",
@@ -305,7 +305,7 @@
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
       },
       {
-        "text": "Well, I am helping you out...",
+        "text": "Well, I am helping you out…",
         "switch": true,
         "default": true,
         "condition": { "or": [ "has_assigned_mission", "has_many_assigned_missions" ] },
@@ -384,14 +384,14 @@
         "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "anger": 2 }, "effect": { "u_faction_rep": -15 } }
       },
       {
-        "text": "What, this? It's not the same one, you are mistaken.",
+        "text": "What, this?  It's not the same one, you are mistaken.",
         "condition": "u_has_stolen_item",
         "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 3 ] ] },
         "success": { "topic": "TALK_DONE", "effect": "remove_stolen_status" },
         "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "value": -1, "anger": 2 } }
       },
       {
-        "text": "I'm sorry. Look, I already dropped it, okay?",
+        "text": "I'm sorry.  Look, I already dropped it, okay?",
         "topic": "TALK_DONE",
         "effect": [ "remove_stolen_status", { "u_faction_rep": -5 } ],
         "condition": { "not": "u_has_stolen_item" }
@@ -402,7 +402,7 @@
     "id": "TALK_DISALLOW_KEEP_ITEM",
     "type": "talk_topic",
     "dynamic_line": "Don't try and talk yourself out of this, drop it now.",
-    "responses": [ { "text": "Okay, I'm dropping it...", "effect": "drop_stolen_item", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Okay, I'm dropping it…", "effect": "drop_stolen_item", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ALLOW_KEEP_ITEM",
@@ -441,6 +441,6 @@
     "id": "TALK_DELIVER_CONFIRM",
     "type": "talk_topic",
     "dynamic_line": "Pleasure doing business!",
-    "responses": [ { "text": "You might be seeing more of me...", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" } ]
+    "responses": [ { "text": "You might be seeing more of me…", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" } ]
   }
 ]
