@@ -617,6 +617,12 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
 }
 
+/**
+ * @brief Round the item's birthday forward to the nearest hour.
+ * The purpose of this is so that items with close birthdays will stack more readily.
+ *
+ * @param newit
+ */
 static void set_item_food( item &newit )
 {
     // TODO: encapsulate this into some function
@@ -624,6 +630,12 @@ static void set_item_food( item &newit )
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
 }
 
+/**
+ * @brief Calls set_item_food on the item if it's food, and set item's faction.
+ *
+ * @param newit The item for modification
+ * @param maker_fac The faction the item should belong to
+ */
 static void finalize_crafted_item( item &newit, faction *maker_fac )
 {
     if( newit.is_food() ) {
