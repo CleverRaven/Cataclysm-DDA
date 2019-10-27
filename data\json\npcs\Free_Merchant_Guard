@@ -85,7 +85,7 @@
     "type": "talk_topic",
     "id": "TALK_TRADER_GUARD",
     "dynamic_line": { "Talk to the boss." },
-	"responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
     ]
   }
   
