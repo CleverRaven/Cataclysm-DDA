@@ -195,9 +195,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     if( cbm_weapon_index >= 0 ) {
         return;
     }
-    const int curr_power = units::to_joule( get_power_level() );
-    const int min_pow_allowed = units::to_joule( get_max_power_level() ) * static_cast<int>
-                                ( rules.cbm_reserve ) / 100;
+    const int curr_power = units::to_millijoule( get_power_level() );
+    const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+    const int min_pow_allowed = units::to_millijoule( get_max_power_level() ) * allowed_ratio;
     const int free_power = std::max( 0, curr_power - min_pow_allowed );
     if( free_power == 0 ) {
         return;
