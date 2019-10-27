@@ -1646,9 +1646,10 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-    const int curr_power = units::to_millijoule( get_power_level() );
+    const units::energy curr_power =  get_power_level();
     const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
-    const int max_pow_allowed = units::to_millijoule( get_max_power_level() ) * allowed_ratio;
+    const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
+
     bool no_fueled_cbm = true;
     for( const bionic_id bid : get_fueled_bionics() ) {
         no_fueled_cbm = false;
@@ -1666,10 +1667,8 @@ bool npc::wants_to_recharge_cbm()
 
 bool npc::can_use_offensive_cbm() const
 {
-    const int curr_power = units::to_millijoule( get_power_level() );
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
-    const int min_pow_allowed = units::to_millijoule( get_max_power_level() ) * allowed_ratio;
-    return curr_power > min_pow_allowed;
+    return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )

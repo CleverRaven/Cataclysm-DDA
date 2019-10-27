@@ -195,11 +195,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     if( cbm_weapon_index >= 0 ) {
         return;
     }
-    const int curr_power = units::to_millijoule( get_power_level() );
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
-    const int min_pow_allowed = units::to_millijoule( get_max_power_level() ) * allowed_ratio;
-    const int free_power = std::max( 0, curr_power - min_pow_allowed );
-    if( free_power == 0 ) {
+    const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
+    if( free_power <= 0_mJ ) {
         return;
     }
 
@@ -231,7 +229,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( ups_drain > 0 ) {
             ammo_count = std::min( ammo_count, ups_charges / ups_drain );
         }
-        int cbm_ammo = free_power / units::to_kilojoule( bionics[bio.id].power_activate );
+        int cbm_ammo = free_power /  bionics[bio.id].power_activate;
 
         if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             real_weapon = weapon;
@@ -239,7 +237,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             cbm_weapon_index = index;
         }
     } else if( bionics[bio.id].weapon_bionic && !weapon.has_flag( "NO_UNWIELD" ) &&
-               units::from_kilojoule( free_power ) > bionics[bio.id].power_activate ) {
+               free_power > bionics[bio.id].power_activate ) {
         if( is_armed() ) {
             stow_item( weapon );
         }
