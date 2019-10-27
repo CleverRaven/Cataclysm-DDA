@@ -125,7 +125,7 @@
      {
     "type": "talk_topic",
     "id": "TALK_SHEEP_SCIENCE",
-    "dynamic_line": "There is a Hub of world's greatest minds out there. They told me to keep counting for now, and so I shall. I do not intend to let them down, I must keep a very detailed log, in my head, so no one can take it from me.",
+    "dynamic_line": "There is a Hub of world's greatest minds out there.  They told me to keep counting for now, and so I shall.  I do not intend to let them down, I must keep a very detailed log, in my head, so no one can take it from me.",
     "responses": [
       { "text": "How many sheep have you counted so far?", "topic": "TALK_SHEEP_MANY" },
       { "text": "Okay, I'm done.", "topic": "TALK_DONE" }
