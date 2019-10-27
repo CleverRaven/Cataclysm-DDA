@@ -1,0 +1,92 @@
+[ 
+ {
+    "type": "npc_class",
+    "id": "Free_Merchant_Guard",
+    "name": "Free Merchant Guard",
+    "job_description": "I am defending the merchant.",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "LIGHTSTEP" }
+    ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "worn_override": "TRADER_GUARD_worn",
+    "weapon_override": "TRADER_GUARD_wield",
+    "shopkeeper_item_group": "TRADER_GUARD_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TRADER_GUARD_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+	  { "item": "jeans" },
+      { "item": "cloak" },
+      { "item": "hsurvivor_suit" },
+      { "item": "gloves_lsurvivor" },
+      { "item": "boots_hsurvivor" },
+      { "item": "survivor_goggles" },
+      { "item": "survivor_pack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TRADER_GUARD_wield",
+    "subtype": "collection",
+    "entries": [ 
+	{ "item": "m4a1" }
+	]
+  },
+  {
+    "type": "item_group",
+    "id": "TRADER_GUARD_misc",
+    "items": [
+	
+      [ "mre_chicken_box", 15 ],
+      [ "mre_beeftaco_box", 15 ],
+      [ "mre_beef_box", 15 ],
+      [ "con_milk", 10 ],
+      [ "sports_drink", 40 ],
+      [ "water_clean", 90 ]
+	  [ "meat_smoked", 10 ],
+	  [ "meat_smoked", 10 ],
+	  [ "FMCNote", 90 ],
+	  [ "FMCNote", 90 ],
+	  [ "FMCNote", 90 ],
+	  [ "FMCNote", 90 ],
+	  [ "FMCNote", 90 ],
+	  [ "FMCNote", 90 ]
+    ]
+  },
+  
+  {
+    "type": "npc",
+    "id": "FREE_MERCHANT_GUARD",
+    "//": "Protects the merchant.",
+    "gender": "male",
+    "class": "Free_Merchant_Guard",
+    "attitude": 7,
+    "mission": 3,
+    "chat": "TALK_TRADER_GUARD",
+    "faction": "free_merchants",
+  },
+{
+    "type": "talk_topic",
+    "id": "TALK_TRADER_GUARD",
+    "dynamic_line": { "Talk to the boss." },
+	"responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+    ]
+  }
+  
+]
