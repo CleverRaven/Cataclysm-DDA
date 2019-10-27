@@ -380,11 +380,7 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "chainmail_suit", 1 ] ],
-      [ [ "chainmail_feet", 1 ] ],
-      [ [ "chainmail_hands", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_suit", 1 ] ], [ [ "chainmail_feet", 1 ] ], [ [ "chainmail_hands", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_faraday",
