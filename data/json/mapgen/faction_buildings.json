@@ -2440,11 +2440,11 @@
       ],
       "palettes": [ "acidia_camp_palette" ]
     }
-   },
-   {
+  },
+  {
     "type": "mapgen",
     "om_terrain": "faction_base_saltworks_0",
-      "method": "json",
+    "method": "json",
     "faction_owner": { "id": "your_followers", "area": [ { "x": 0, "y": 0, "x2": 23, "y2": 23 } ] },
     "weight": 250,
     "object": {
