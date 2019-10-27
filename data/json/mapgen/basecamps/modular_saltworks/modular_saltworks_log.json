@@ -12,7 +12,6 @@
       "^": "t_floor_primitive",
       "s": "t_floor_primitive",
       "~": "t_swater_sh",
-      "#": "f_counter",
       "o": "t_window_no_curtains",
       "w": "t_wall_log",
       "+": "t_door_c"
@@ -22,6 +21,7 @@
       "r": "f_rack",
       "t": "f_table",
       "#": "f_stool",
+      "c": "f_counter",
       "H": "f_wood_keg",
       "O": "f_fvat_empty",
       "^": "f_still",
@@ -60,7 +60,7 @@
       "rows": [
         "wwwowww",
         "w.....w",
-        "w.#.#.w",
+        "w.c.c.w",
         "o.~t~.o",
         "w.~#~.w",
         "w.....w",
