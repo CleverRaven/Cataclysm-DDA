@@ -137,7 +137,7 @@
     "id": "TALK_SHEEP_MANY",
     "dynamic_line": "Sixty-eight white, eleven brown, eight black, three red, two pink and one blue. See? Very detailed.",
     "responses": [
-      { "text": "That's... fascinating.", "topic": "TALK_SHEEP" },
+      { "text": "That's… fascinating.", "topic": "TALK_SHEEP" },
       { "text": "Okay, I'm done.", "topic": "TALK_DONE" }
     ]
   },
