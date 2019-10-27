@@ -854,7 +854,7 @@ bool player::burn_fuel( int b, bool start )
     if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
         for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
             const item tmp_fuel( fuel );
-            int temp = std::stoi( get_value( fuel ) );
+            int current_fuel_stock = std::stoi( get_value( fuel ) );
             if( get_power_level() + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency
                 > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
@@ -863,10 +863,10 @@ bool player::burn_fuel( int b, bool start )
                 deactivate_bionic( b, true );
                 return false;
             } else {
-                if( temp > 0 ) {
-                    temp -= 1;
+                if( current_fuel_stock > 0 ) {
+                    current_fuel_stock -= 1;
                     mod_power_level( units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency );
-                    set_value( fuel, std::to_string( temp ) );
+                    set_value( fuel, std::to_string( current_fuel_stock ) );
                     update_fuel_storage( fuel );
                     if( bio.info().exothermic_power_gen ) {
                         const int heat_prod = tmp_fuel.fuel_energy() * ( 1 - bio.info().fuel_efficiency );
