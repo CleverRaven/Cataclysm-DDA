@@ -93,7 +93,6 @@ const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_batteries( "bio_batteries" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_reactor( "bio_reactor" );
@@ -153,7 +152,6 @@ namespace
 {
 const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
-        bio_batteries,
         bio_ethanol,
         bio_furnace,
         bio_reactor,
@@ -1726,17 +1724,6 @@ bool npc::recharge_cbm()
             return true;
         } else {
             complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_batteries ) ) {
-        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
-            return it.typeId() == itype_id( "battery" );
-        };
-        if( consume_cbm_items( battery_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
         }
     }
 
