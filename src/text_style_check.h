@@ -66,14 +66,15 @@ void text_style_check( Iter beg, Iter end,
     // always put the longest (in u32) symbols at the front, since we'll iterate
     // and search for them in this order.
     // *INDENT-OFF*
-    static const std::array<punctuation, 13> punctuations = {{
+    static const std::array<punctuation, 14> punctuations = {{
         // symbol,follow,    spaces,                                 replace,
         //                    check,  len, num spc,  end,start,before    yes,   string,     escaped,  symbol desc,      replc desc
         { U"...",    U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2, 0 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
         { U"::",     U"",   { false,                              }, { false,                                                      } },
+        { U"!=",     U"",   { false,                              }, { false,                                                      } },
         { U"\r\n",   U"",   { false,                              }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
         { U"\u2026", U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2, 0 }, { false,                                                      } },
-        { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2, 0, 0, 1 }, { false,                                                      } },
+        { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2, 0, 0, 0 }, { false,                                                      } },
         { U";",      U"",   {  true, 0, 1, 1, 2, 1, 1, 1, 0, 0, 1 }, { false,                                                      } },
         { U"!",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0, 1 }, { false,                                                      } },
         { U"?",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0, 1 }, { false,                                                      } },
