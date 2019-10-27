@@ -896,16 +896,39 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
+std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
+    const std::string &path )
+{
+    // Use local map as build_resource_list will clear the first parameter
+    std::map<std::string, std::string> local_tilesets;
+    auto tileset_names = build_resource_list( local_tilesets, "tileset", path, "tileset-conf" );
+
+    // Copy found tilesets
+    TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
+
+    return tileset_names;
+}
+
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
-    auto tileset_names = build_resource_list( TILESETS, "tileset",
-                         "gfxdir", "tileset-conf" );
+    // Clear tilesets
+    TILESETS.clear();
+    std::vector<id_and_option> result;
 
-    if( tileset_names.empty() ) {
-        tileset_names.emplace_back( "hoder", to_translation( "Hoder's" ) );
-        tileset_names.emplace_back( "deon", to_translation( "Deon's" ) );
+    // Load from data directory
+    auto data_tilesets = load_tilesets_from( "gfxdir" );
+    result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
+
+    // Load from user directory
+    auto user_tilesets = load_tilesets_from( "user_gfx" );
+    result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
+
+    // Default values
+    if( result.empty() ) {
+        result.emplace_back( "hoder", to_translation( "Hoder's" ) );
+        result.emplace_back( "deon", to_translation( "Deon's" ) );
     }
-    return tileset_names;
+    return result;
 }
 
 std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
