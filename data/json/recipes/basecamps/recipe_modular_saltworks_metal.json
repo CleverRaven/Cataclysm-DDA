@@ -1,5 +1,4 @@
 [
-  [
   {
     "type": "recipe",
     "result": "faction_base_saltworks_0",
@@ -16,12 +15,6 @@
     "blueprint_provides": [ { "id": "fbmsw_0" } ]
   },
   {
-    "type": "mapgen",
-    "update_mapgen_id": "faction_base_saltworks_0",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
-  },
-  {
     "type": "recipe",
     "result": "faction_base_modular_saltpan_metal_northeast",
     "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs",
@@ -32,7 +25,7 @@
     "construction_blueprint": "fbms_saltpan_metal_northeast",
     "blueprint_name": "northeast saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbms_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_provides": [ { "id": "fbms_northeast" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
     "blueprint_autocalc": true
   },
@@ -61,7 +54,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_brewery0_metal_southwest",
     "blueprint_name": "southwest brewery",
-    "blueprint_requires": [ { "faction_base_saltworks_0" } ],
+    "blueprint_requires": [ { "id": "faction_base_saltworks_0" } ],
     "blueprint_provides": [ { "id": "fbms_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
     "blueprint_autocalc": true

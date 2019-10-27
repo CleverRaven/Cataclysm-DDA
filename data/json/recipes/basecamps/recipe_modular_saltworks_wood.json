@@ -1,5 +1,4 @@
 [
-  [
   {
     "type": "recipe",
     "result": "faction_base_saltworks_0",
@@ -15,7 +14,7 @@
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_provides": [ { "id": "fbmsw_0" } ]
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_0",
@@ -78,7 +77,7 @@
     "never_learn": true,
     "construction_blueprint": "fbms_brewery0_wood_southwest",
     "blueprint_name": "southwest brewery",
-    "blueprint_requires": [  "faction_base_saltworks_0"  ],
+    "blueprint_requires": [ "faction_base_saltworks_0" ],
     "blueprint_provides": [ { "id": "fbms_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
     "blueprint_autocalc": true
