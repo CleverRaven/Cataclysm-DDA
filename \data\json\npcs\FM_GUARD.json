@@ -1,11 +1,11 @@
-[ 
+[
   {
     "type": "item_group",
     "id": "TRADER_GUARD_worn",
     "subtype": "collection",
     "entries": [
       { "item": "socks" },
-	  { "item": "jeans" },
+      { "item": "jeans" },
       { "item": "cloak" },
       { "item": "hsurvivor_suit" },
       { "item": "gloves_lsurvivor" },
@@ -18,32 +18,28 @@
     "type": "item_group",
     "id": "TRADER_GUARD_wield",
     "subtype": "collection",
-    "entries": [ 
-	{ "item": "m4a1" }
-	]
+    "entries": [ { "item": "m4a1" } ]
   },
   {
     "type": "item_group",
     "id": "TRADER_GUARD_misc",
     "items": [
-	
       [ "mre_chicken_box", 15 ],
       [ "mre_beeftaco_box", 15 ],
       [ "mre_beef_box", 15 ],
       [ "con_milk", 10 ],
       [ "sports_drink", 40 ],
       [ "water_clean", 90 ],
-	  [ "meat_smoked", 10 ],
-	  [ "meat_smoked", 10 ],
-	  [ "FMCNote", 90 ],
-	  [ "FMCNote", 90 ],
-	  [ "FMCNote", 90 ],
-	  [ "FMCNote", 90 ],
-	  [ "FMCNote", 90 ],
-	  [ "FMCNote", 90 ]
+      [ "meat_smoked", 10 ],
+      [ "meat_smoked", 10 ],
+      [ "FMCNote", 90 ],
+      [ "FMCNote", 90 ],
+      [ "FMCNote", 90 ],
+      [ "FMCNote", 90 ],
+      [ "FMCNote", 90 ],
+      [ "FMCNote", 90 ]
     ]
   },
-  
   {
     "type": "npc",
     "id": "FREE_MERCHANT_GUARD",
@@ -55,18 +51,14 @@
     "chat": "TALK_TRADER_GUARD",
     "faction": "free_merchants"
   },
-{
+  {
     "type": "talk_topic",
     "id": "TALK_TRADER_GUARD",
-        "dynamic_line": {
+    "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Speak with the boss, Marshal.",
-      "no": {
-        "u_male": "Speak with the boss, Sir.",
-        "no": "Speak with the boss, Ma'am."
-      }
-	  },
-	"responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+      "no": { "u_male": "Speak with the boss, Sir.", "no": "Speak with the boss, Ma'am." }
+    },
+    "responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
   }
-  
 ]
