@@ -844,6 +844,8 @@ bool player::burn_fuel( int b, bool start )
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ) {
         return true;
     }
+    const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
+
 
     if( start && get_fuel_available( bio.id ).empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
@@ -854,7 +856,14 @@ bool player::burn_fuel( int b, bool start )
     if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
         for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
             const item tmp_fuel( fuel );
-            int current_fuel_stock = std::stoi( get_value( fuel ) );
+
+            int current_fuel_stock;
+            if( is_metabolism_powered ) {
+                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
+            } else {
+                current_fuel_stock = std::stoi( get_value( fuel ) );
+            }
+
             if( get_power_level() + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency
                 > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
@@ -864,10 +873,20 @@ bool player::burn_fuel( int b, bool start )
                 return false;
             } else {
                 if( current_fuel_stock > 0 ) {
-                    current_fuel_stock -= 1;
-                    mod_power_level( units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency );
-                    set_value( fuel, std::to_string( current_fuel_stock ) );
-                    update_fuel_storage( fuel );
+
+                    if( is_metabolism_powered ) {
+                        const int kcal_consumed = tmp_fuel.fuel_energy();
+                        const units::energy power_gain = kcal_consumed * 4184_J *
+                                                         bio.info().fuel_efficiency; // 1kcal = 4187 J
+                        mod_stored_kcal( kcal_consumed );
+                        mod_power_level( power_gain );
+                    } else {
+                        current_fuel_stock -= 1;
+                        set_value( fuel, std::to_string( current_fuel_stock ) );
+                        update_fuel_storage( fuel );
+                        mod_power_level( units::from_kilojoule( tmp_fuel.fuel_energy() ) * bio.info().fuel_efficiency );
+                    }
+
                     if( bio.info().exothermic_power_gen ) {
                         const int heat_prod = tmp_fuel.fuel_energy() * ( 1 - bio.info().fuel_efficiency );
                         const int heat_level = std::min( heat_prod / 10, 4 );
@@ -880,9 +899,18 @@ bool player::burn_fuel( int b, bool start )
                     }
                     g->m.emit_field( pos(), bio.info().power_gen_emission );
                 } else {
-                    remove_value( fuel );
-                    add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                           _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+
+                    if( is_metabolism_powered ) {
+                        add_msg_player_or_npc( m_info,
+                                               _( "Stored calories are below the safe threshold, your %s shuts down to preserve your health." ),
+                                               _( "Stored calories are below the safe threshold, <npcname>'s %s shuts down to preserve their health." ),
+                                               bio.info().name );
+                    } else {
+                        remove_value( fuel );
+                        add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
+                                               _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                    }
+
                     bio.powered = false;
                     deactivate_bionic( b, true );
                     return false;
