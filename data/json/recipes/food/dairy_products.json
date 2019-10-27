@@ -11,5 +11,32 @@
     "qualities": [ { "id": "CHURN", "level": 1 } ],
     "autolearn": true,
     "components": [ [ [ "milk_raw", 45 ] ] ]
-  }
+  },
+  {
+      "type": "recipe",
+      "result": "milk_cream_rising",
+      "category": "CC_FOOD",
+      "subcategory": "CSC_FOOD_DAIRY",
+      "skill_used": "cooking",
+      "difficulty": 5,
+      "time": "5 m",
+      "autolearn": true,
+      "qualities": [ { "id": "COOK", "level": 3 } ],
+      "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+      "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "milk_raw", 12 ] ] ]
+    },
+    {
+      "type": "recipe",
+      "result": "milk_cream",
+      "result_mult": 5,
+      "byproducts": [ [ "milk", 7 ] ],
+      "category": "CC_FOOD",
+      "subcategory": "CSC_FOOD_DAIRY",
+      "skill_used": "cooking",
+      "difficulty": 5,
+      "time": "30 m",
+      "autolearn": true,
+      "qualities": [ { "id": "COOK", "level": 1 } ],
+      "components": [ [ [ "milk_cream_jar", 1 ] ] ]
+    }
 ]
