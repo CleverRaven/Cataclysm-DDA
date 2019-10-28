@@ -188,7 +188,7 @@
       { "item": "towel", "count": [ 1, 3 ] },
       { "item": "brush" },
       { "item": "brush", "prob": 85 },
-      { "item": "bleach", "prob": 75 },
+      { "item": "bleach", "prob": 75, "charges-min": 1 },
       { "item": "ammonia", "prob": 65, "charges-min": 1 }
     ]
   }

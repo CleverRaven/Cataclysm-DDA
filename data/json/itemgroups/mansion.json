@@ -1063,10 +1063,10 @@
     "items": [
       [ "broom", 40 ],
       [ "mop", 40 ],
-      { "item": "ammonia", "prob": 24, "charges-min": 1 ],
+      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
-      [ "bleach", 20 ],
+      { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
