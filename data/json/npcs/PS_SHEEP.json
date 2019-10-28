@@ -156,7 +156,7 @@
     "name": "I need new bolts for my crossbow.",
     "description": "Help the odd hunter by finding 50 steel bolts for his crossbow.",
     "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
+    "difficulty": 3,
     "value": 800,
     "item": "bolt_metal",
     "count": 50,
