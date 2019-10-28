@@ -3549,7 +3549,7 @@ void map::batter( const tripoint &p, int power, int tries, const bool silent )
 {
     int count = 0;
     while( count < tries && bash( p, power, silent ).success ) {
-       count++;
+        count++;
     }
 }
 
