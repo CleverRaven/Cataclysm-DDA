@@ -256,7 +256,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_44",
-    "text": "     Became a runner for the Refutee Center and died after a few months."
+    "text": "     Became a runner for the Refugee Center and died after a few months."
   },
   {
     "type": "epilogue",
@@ -305,6 +305,24 @@
     "group": "male",
     "id": "npc_male_52",
     "text": "     Died en route to California, deliriously dreaming of a better life as he was slowly devoured by spiders."
+  },
+  {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_53",
+    "text": "     He tried to cope with loneliness after your death, but failed.  He was blind drunk when a group of zombies found his hideout and didn't stand a chance."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_54",
+    "text": "     He didn't survive for long, waking up to a horde of zombies.  They smashed through his fortified windows in a pinch and only the last bullet prevented him from being devoured alive."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_55",
+    "text": "     He got sick soon after your death, and died without any medical help.  His last words were 'Why did I live long enough to suffer like that?'"
   },
   {
     "type": "epilogue",
