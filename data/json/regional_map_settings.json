@@ -820,8 +820,8 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
-        "parking_garage": 200
-		"s_garage_trader": 40
+        "parking_garage": 200,
+		    "s_garage_trader": 40
       }
     },
     "weather": {
