@@ -22,7 +22,7 @@
   {
     "id": "22_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".22 LR casing",
     "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
@@ -32,7 +32,7 @@
   {
     "id": "3006_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".30-06 casing",
     "description": "An empty casing from a .30-06 round.",
@@ -42,7 +42,7 @@
   {
     "id": "270win_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".270 Winchester casing",
     "description": "An empty casing from a .270 Winchester round.",
@@ -52,7 +52,7 @@
   {
     "id": "300_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".300 Win Mag casing",
     "description": "An empty casing from a .300 Winchester Magnum round.",
@@ -62,7 +62,7 @@
   {
     "id": "308_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".308 casing",
     "description": "An empty casing from a .308 round.",
@@ -72,7 +72,7 @@
   {
     "id": "762_51_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": "7.62x51mm casing",
     "description": "An empty casing from a 7.62x51mm M80 round.",
@@ -82,7 +82,7 @@
   {
     "id": "32_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".32 ACP casing",
     "description": "An empty casing from a .32 ACP round.",
@@ -92,7 +92,7 @@
   {
     "id": "38_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".38 Special casing",
     "description": "An empty casing from a .38 Special round.",
@@ -102,7 +102,7 @@
   {
     "id": "38super_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".38 Super casing",
     "description": "An empty casing from a .38 Super round.",
@@ -112,7 +112,7 @@
   {
     "id": "40_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".40 S&W casing",
     "description": "An empty casing from a .40 S&W round.",
@@ -122,7 +122,7 @@
   {
     "id": "10mm_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "10mm Auto casing",
     "description": "An empty casing from a 10mm Auto round.",
@@ -144,7 +144,7 @@
   {
     "id": "44_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".44 Magnum casing",
     "description": "An empty casing from a .44 Magnum round.",
@@ -154,7 +154,7 @@
   {
     "id": "454_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".454 Casull casing",
     "description": "An empty casing from a .454 Casull round.",
@@ -164,7 +164,7 @@
   {
     "id": "45_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".45 ACP casing",
     "description": "An empty casing from a .45 ACP round.",
@@ -174,7 +174,7 @@
   {
     "id": "45colt_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".45 Colt casing",
     "description": "An empty casing from a .45 Colt round.",
@@ -184,7 +184,7 @@
   {
     "id": "4570_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".45-70 casing",
     "description": "An empty casing from a .45-70 Government round.",
@@ -194,7 +194,7 @@
   {
     "id": "46mm_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "4.6x30mm casing",
     "description": "An empty casing from a 4.6x30mm round.",
@@ -204,7 +204,7 @@
   {
     "id": "460_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".460 Rowland casing",
     "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45ACP casing.",
@@ -214,7 +214,7 @@
   {
     "id": "5x50_hull",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "5x50mm hull",
     "description": "An empty plastic hull from a 5x50mm flechette round.",
@@ -226,7 +226,7 @@
   {
     "id": "500_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".500 S&W Magnum casing",
     "description": "An empty casing from a .500 S&W Magnum round.",
@@ -236,7 +236,7 @@
   {
     "id": "50_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".50 BMG casing",
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto these.",
@@ -246,7 +246,7 @@
   {
     "id": "545_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "5.45x39mm casing",
     "description": "An empty casing from a 5.45x39mm round.",
@@ -256,7 +256,7 @@
   {
     "id": "57mm_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "5.7x28mm casing",
     "description": "An empty casing from a 5.7x28mm round.",
@@ -266,7 +266,7 @@
   {
     "id": "700nx_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".700 NX casing",
     "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
@@ -276,7 +276,7 @@
   {
     "id": "762R_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": "7.62x54mmR casing",
     "description": "An empty casing from a 7.62x54mmR round.",
@@ -286,7 +286,7 @@
   {
     "id": "762_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": "7.62x39mm casing",
     "description": "An empty casing from a 7.62x39mm round.",
@@ -296,7 +296,7 @@
   {
     "id": "762_25_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "7.62x25mm casing",
     "description": "An empty casing from a 7.62x25mm round.",
@@ -315,7 +315,7 @@
   {
     "id": "357sig_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".357 SIG casing",
     "description": "An empty casing from a .357 SIG round.",
@@ -325,7 +325,7 @@
   {
     "id": "357mag_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".357 magnum casing",
     "description": "An empty casing from a .357 magnum round.",
@@ -335,7 +335,7 @@
   {
     "id": "9x18mm_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": "9x18mm casing",
     "description": "An empty casing from a 9x18mm round.",
@@ -345,7 +345,7 @@
   {
     "id": "380_casing",
     "copy-from": "casing",
-	"looks_like": "9mm_casing",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "name": ".380 ACP casing",
     "description": "An empty casing from a .380 ACP round.",
@@ -388,14 +388,14 @@
     "stackable": true,
     "material": "plastic",
     "symbol": "=",
-	"looks_like": "shot_hull",
+    "looks_like": "shot_hull",
     "color": "red",
     "damage_states": [ 0, 0 ]
   },
   {
     "id": "300blk_casing",
     "copy-from": "casing",
-	"looks_like": "223_casing",
+    "looks_like": "223_casing",
     "type": "GENERIC",
     "name": ".300BLK casing",
     "description": "An empty casing from a .300 AAC Blackout round.",
