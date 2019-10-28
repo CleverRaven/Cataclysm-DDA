@@ -1063,7 +1063,7 @@
     "items": [
       [ "broom", 40 ],
       [ "mop", 40 ],
-      [ "ammonia", 24 ],
+      { "item": "ammonia", "prob": 24, "charges-min": 1 ],
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
       [ "bleach", 20 ],
