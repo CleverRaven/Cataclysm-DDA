@@ -127,6 +127,47 @@
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] } ]
     }
   },
+    {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin" ],
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_floor",
+	  "faction_owner": [
+        { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+		],
+      "rows": [
+        ".*********.~~.*********.",
+        ".*********.~~.*********.",
+        ".*********.~~.*********.",
+        "..........~~~~~~~~~~~~~~",
+        ".o-------o    o-------o~",
+        ".-                    -~",
+        ".-   at          cttc -~",
+        ".##w###w###++###w###w##~",
+        ".#L CCC L#Y     lttl 4#~",
+        ".#       +    o  tt  5w~",
+        ".#RRRLRRR#    A  l   Vw~",
+        ".#########    A      F#~",
+        ".#rrr a       A      u#~",
+        ".wrSr d       o   o123w~",
+        ".wrrr                 w~",
+        ".#OOO    AcccA        #~",
+        ".#####=#######=####=###~",
+        ".#D    AAdd#     D#  T#~",
+        ".#BB     cd#BB    #s  +~",
+        ".#BB      A#BB  AA# hh#.",
+        ".###ww#ww#####ww#######.",
+        ".*********************..",
+        "************************",
+        "************************"
+      ],
+      "palettes": [ "cabin_palette" ],
+      "place_loot": [ { "group": "guns_rifle_common", "x": 9, "y": 15, "chance": 50, "ammo": 50, "magazine": 100 } ],
+      "place_npcs": [ { "class": "hunter_cabin", "x": [ 4, 17 ], "y": [ 4, 17 ] } ]
+    }
+  },
   {
     "method": "json",
     "object": {
