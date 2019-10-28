@@ -123,6 +123,7 @@
       "Got anything to trade?",
       "Good to see a friendly face.",
       "Not many people left to trade with.",
+      "Hunting gives me hope that we can beat this.",
       "One morning I shot an elk in my pajamas.  How he got into my pajamas I'll never know.",
       { "u_male": [ "Sir.  Care to trade?" ], "no": [ "Ma'am.  Care to trade?." ] }
     ],
