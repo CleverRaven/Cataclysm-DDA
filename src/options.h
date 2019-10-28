@@ -31,6 +31,8 @@ class options_manager
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
+        static std::vector<id_and_option> load_tilesets_from(
+            const std::string &path );
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
 
