@@ -1070,6 +1070,19 @@
   },
   {
     "type": "snippet",
+    "category": "<need_batteries>",
+    "//": "NPC complaint when they are low on CBM power and have a battery charger system.  Additional versions should continue to specify that the NPC needs batteries and they need them to recharge their power CBMs.",
+    "text": [
+      "I need some batteries to power my CBMs.",
+      "I can't recharge my CBMs without some batteries.",
+      "Hey, <name_g>, can I get some batteries here?  I need to recharge.",
+      "Internal batteries running low. How many batteries can you spare right now?",
+      "I can do a lot more for you if you pass me a couple batteries to recharge.",
+      "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<need_booze>",
     "//": "NPC complaint when they are low on CBM power and have an ethanol burner system.  Additional versions should continue to specify that the NPC needs alcohol and they need them to recharge their power CBMs.",
     "text": [

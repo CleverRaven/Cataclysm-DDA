@@ -1710,7 +1710,12 @@ bool npc::recharge_cbm()
                 use_bionic_by_id( bid );
                 return true;
             } else {
-                complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
+                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+                } else {
+                    complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                }
             }
         }
     }
