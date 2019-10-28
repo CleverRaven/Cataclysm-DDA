@@ -59,6 +59,20 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for CBMs that are metabolism-powered",
+    "id": "metabolism",
+    "symbol": "?",
+    "color": "white",
+    "name": "metabolism",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",

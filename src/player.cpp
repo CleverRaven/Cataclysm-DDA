@@ -230,7 +230,6 @@ static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
@@ -571,12 +570,6 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( bio_metabolics ) && !is_max_power() &&
-        0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
-        // Efficiency is approximately 25%, power output is ~60W
-        mod_stored_kcal( -1 );
-        mod_power_level( 1_kJ );
-    }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
     }
