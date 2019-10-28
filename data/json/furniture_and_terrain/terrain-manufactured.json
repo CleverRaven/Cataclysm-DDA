@@ -1445,7 +1445,7 @@
     "looks_like": "t_utility_pole",
     "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
     "symbol": "T",
-    "color": "grey",
+    "color": "light_gray",
     "move_cost": 0,
     "coverage": 40,
     "flags": [ "BASHABLE" ],
