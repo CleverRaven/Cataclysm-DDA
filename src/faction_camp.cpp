@@ -471,7 +471,7 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
     if( bcp ) {
         return bcp;
     }
-    g->m.add_camp( p.pos(), "faction_camp" );
+    g->m.add_camp( omt_pos, "faction_camp" );
     bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
         return cata::nullopt;
