@@ -132,7 +132,7 @@
     "id": "two_way_radio",
     "type": "TOOL",
     "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
+    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays…",
     "weight": "431 g",
     "volume": "500 ml",
     "price": 2000,

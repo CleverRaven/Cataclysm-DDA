@@ -304,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     int z = veh->sm_pos.z;
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
                   veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
         z = veh->sm_pos.z = abs_sub.z;
@@ -334,7 +334,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
               veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }
@@ -2949,13 +2949,17 @@ int map::collapse_check( const tripoint &p )
 
 // there is still some odd behavior here and there and you can get floating chunks of
 // unsupported floor, but this is much better than it used to be
-void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting )
+void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
+                       const bool destroy_pos )
 {
     const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
     const bool wall = was_supporting || has_flag( "WALL", p );
-    destroy( p, silent );
-    crush( p );
-    make_rubble( p );
+    // don't bash again if the caller already bashed here
+    if( destroy_pos ) {
+        destroy( p, silent );
+        crush( p );
+        make_rubble( p );
+    }
     const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
 
     // If something supporting the roof collapsed, see what else collapses
@@ -3414,8 +3418,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash->explosive, 0.8, false );
     }
 
-    if( will_collapse ) {
-        collapse_at( p, params.silent, true );
+    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
+        collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
 
     params.did_bash = true;
@@ -3537,6 +3541,14 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     while( count <= 25 && furn( p ) != f_null && bash( p, 999, silent, true ).success ) {
+        count++;
+    }
+}
+
+void map::batter( const tripoint &p, int power, int tries, const bool silent )
+{
+    int count = 0;
+    while( count < tries && bash( p, power, silent ).success ) {
         count++;
     }
 }
@@ -5624,14 +5636,13 @@ computer *map::computer_at( const tripoint &p )
 
 void map::remove_submap_camp( const tripoint &p )
 {
-    basecamp camp;
-    get_submap_at( p )->camp = camp;
+    get_submap_at( p )->camp.reset();
 }
 
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    basecamp camp = get_submap_at( p )->camp;
-    return camp;
+    basecamp *pcamp = get_submap_at( p )->camp.get();
+    return pcamp ? *pcamp : basecamp();
 }
 
 void map::add_camp( const tripoint &p, const std::string &name )

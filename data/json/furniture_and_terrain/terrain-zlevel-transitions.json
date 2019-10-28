@@ -153,7 +153,7 @@
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",
@@ -163,7 +163,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",
@@ -193,7 +193,7 @@
     "symbol": "<",
     "color": "white",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",

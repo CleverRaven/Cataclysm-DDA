@@ -485,7 +485,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = get_consumable_item( loc );
 
                 int converted_volume_scale = 0;
-                const double converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                const int charges = std::max( it.charges, 1 );
+                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
                                                 &converted_volume_scale ), 2 );
 
                 //~ Eat menu Volume: <num><unit>

@@ -18,6 +18,12 @@ class StringLiteralIterator
         // This assumes that ind points to the start of a valid utf8 sequence
         StringLiteralIterator( const StringLiteral &str, size_t ind );
 
+        // Get the source location corresponding to the character pointed to
+        // by the iterator.
+        // Do note that clang crashes when the string literal is a predefined
+        // expression such as __func__, so you may want to exclude them using
+        // the matcher `unless( hasAncestor( predefinedExpr() ) )` or something
+        // to that effect.
         SourceLocation toSourceLocation( const SourceManager &SrcMgr, const LangOptions &LangOpts,
                                          const TargetInfo &Info ) const;
 

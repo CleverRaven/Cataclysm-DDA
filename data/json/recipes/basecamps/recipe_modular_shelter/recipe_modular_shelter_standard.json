@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_bedroom1",
-    "description": "Let's build some living quarters so we can expand. We will start in the southeast corner.",
+    "description": "Let's build some living quarters so we can expand.  We will start in the southeast corner.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -17,7 +17,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_bedroom2",
-    "description": "Let's build some living quarters so we can expand. We will continue along the same wall.",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the same wall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -32,7 +32,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_bedroom3",
-    "description": "Let's build some living quarters so we can expand. We will continue along the other wall.",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -47,7 +47,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_bedroom4",
-    "description": "Let's build some living quarters so we can expand. We will continue along the other wall.",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -62,7 +62,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_bedroom5",
-    "description": "Let's build some living quarters so we can expand. We will continue along the other wall.",
+    "description": "Let's build some living quarters so we can expand.  We will continue along the other wall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

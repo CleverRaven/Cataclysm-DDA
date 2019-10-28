@@ -334,7 +334,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Fingerhack CBM",
-    "description": "A miniature electrohack, surgically embedded in a finger of the right hand. This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
+    "description": "A miniature electrohack, surgically embedded in a finger of the right hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
     "price": 350000,
     "weight": "100 g",
     "difficulty": 2
@@ -601,7 +601,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Power Armor Mk. II Interface CBM",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks. Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
+    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
     "price": 1000000,
     "weight": "400 g",
     "difficulty": 8
@@ -1002,7 +1002,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Glowy Thing",
-    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
+    "description": "It's a… thing?  And it glows, at least it did when it was plugged in.",
     "weight": "5 g",
     "difficulty": 3
   },

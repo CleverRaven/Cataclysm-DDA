@@ -303,7 +303,7 @@
     "symbol": "(",
     "color": "yellow",
     "name": "self bow",
-    "description": "A primitive bow fashioned from a single piece of wood, made specifically for the person using it.  Weak and wildly inaccurate, it doesn't work that well, unfortunately...",
+    "description": "A primitive bow fashioned from a single piece of wood, made specifically for the person using it.  Weak and wildly inaccurate, it doesn't work that well, unfortunately…",
     "price": 10000,
     "//": "Not exactly something that would have high resale value, I'm afraid.",
     "material": "wood",

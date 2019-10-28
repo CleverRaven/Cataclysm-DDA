@@ -5094,11 +5094,11 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
     }
 
     if( !it->is_artifact() ) {
-        debugmsg( "iuse::artifact called on a non-artifact item! %s",
+        debugmsg( "iuse::artifact called on a non-artifact item!  %s",
                   it->tname() );
         return 0;
     } else if( !it->is_tool() ) {
-        debugmsg( "iuse::artifact called on a non-tool artifact! %s",
+        debugmsg( "iuse::artifact called on a non-tool artifact!  %s",
                   it->tname() );
         return 0;
     }
@@ -5400,7 +5400,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_STAMINA_EMPTY:
                 p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
-                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+                p->set_stamina( p->get_stamina() * 1 / ( rng( 3, 8 ) ) );
                 break;
 
             case AEA_FUN:
@@ -5487,29 +5487,16 @@ static bool heat_item( player &p )
         return false;
     }
     item &target = heat->is_food_container() ? heat->contents.front() : *heat;
-    p.mod_moves( -to_turns<int>( 3_seconds ) ); //initial preparations
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
-    int move_mod = to_turns<int>( time_duration::from_seconds( to_gram( target.weight() ) ) );
-    if( target.item_tags.count( "FROZEN" ) ) {
-        target.apply_freezerburn();
-
-        if( target.has_flag( "EATEN_COLD" ) ) {
-            target.cold_up();
-            p.add_msg_if_player( m_info,
-                                 _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
-        } else {
-            p.add_msg_if_player( m_info, _( "You defrost and heat up the food." ) );
-            target.heat_up();
-            // x2 because we have to defrost and heat
-            move_mod *= 2;
-        }
-    } else {
-        p.add_msg_if_player( m_info, _( "You heat up the food." ) );
-        target.heat_up();
+    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target.weight() ) ) ) * 10;
+    if( target.item_tags.count( "FROZEN" ) && !target.has_flag( "EATEN_COLD" ) ) {
+        duration *= 2;
     }
-    p.mod_moves( -move_mod ); // time needed to actually heat up
+    p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
+    p.assign_activity( activity_id( "ACT_HEATING" ), duration );
+    p.activity.targets.push_back( item_location( p, &target ) );
     return true;
 }
 
@@ -5757,7 +5744,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
-        p->stamina = p->get_stamina_max();
+        p->set_stamina( p->get_stamina_max() );
     }
     return it->type->charges_to_use();
 }

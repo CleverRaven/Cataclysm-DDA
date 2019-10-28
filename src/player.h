@@ -252,8 +252,7 @@ class player : public Character
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** Regenerates stamina */
-        void update_stamina( int turns );
+
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
 
@@ -498,9 +497,9 @@ class player : public Character
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec() const;
+        ma_technique get_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break() const;
+        bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has the leg block technique available */
@@ -1424,8 +1423,6 @@ class player : public Character
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
         int get_hp_max() const override;
-        int get_stamina_max() const;
-        void burn_move_stamina( int moves );
 
         //message related stuff
         using Character::add_msg_if_player;

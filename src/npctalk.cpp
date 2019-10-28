@@ -882,7 +882,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
-            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%s) or topic(%s)",
+            debugmsg( "Bug in npctalk.cpp:dynamic_line.  Wrong mission_id(%s) or topic(%s)",
                       type.id.c_str(), topic.c_str() );
             return "";
         }
@@ -1574,7 +1574,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             tmp.charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( !tag.empty() ) {
-            debugmsg( "Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb );
+            debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
         }
     } while( fa != std::string::npos && fb != std::string::npos );
@@ -3204,7 +3204,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
-                reason = _( "It doesn't look like a good idea to consume this.." );
+                reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
         }
