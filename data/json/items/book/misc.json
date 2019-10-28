@@ -1261,6 +1261,26 @@
       {
         "id": "philosophy40",
         "text": "This is a copy of \"Up-Wingers: A Futurist Manifesto\" by FM-2030.  It seems that the author's real name is Fereidoun M. Esfandiary."
+      },
+	  	  {
+        "id": "philosophy41",
+        "text": "This is a copy of \"The Bastiat Collection\" , a large collection of essays by Frederic Bastiat."
+      },
+	  	  {
+        "id": "philosophy42",
+        "text": "This is a copy of \"Anarchy, State, and Utopia\"  by Robert Nozick, one of the most influential books of modern libertarianism."
+      },
+	  	  	  {
+        "id": "philosophy43",
+        "text": "This is a copy of \"Socialism\"  by Ludwig von Mises, a critical examination of socialism."
+      },
+	  {
+        "id": "philosophy44",
+        "text": "This is a copy of \"The ABC of Communism\"  by Nikolai Bukharin, one of the most influential books of early Marxism-Leninism."
+      },
+	  {
+        "id": "philosophy45",
+        "text": "This is a copy of \"Anti-Capitalist Mentality\"  by Ludwig von Mises."
       }
     ],
     "weight": "350 g",
@@ -1570,7 +1590,31 @@
         "text": "This is a hardcover copy of \"The Gates Have Opened\" by Arianna Methusalah.  You feel like you've read this before, but can't remember where.  Something about the book fills you with unease."
       },
       { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Dumas." },
-      { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." }
+      { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." },
+	  { "id": "classic31", "text": "This is a copy of \"Lieutenant Hornblower\" by C.S. Forester." },
+	  { "id": "classic32", "text": "This is a copy of \"Master and Commander\" by Patrick O'Brian." },
+	  { "id": "classic33", "text": "This is a copy of \"The Warden\" by Anthony Trollope." },
+	  { "id": "classic34", "text": "This is a copy of \"The Far Side of the World \" by Patrick O'Brian." },
+	  { "id": "classic35", "text": "This is a copy of \"HMS Surprise\" by Patrick O'Brian." },
+	  { "id": "classic36", "text": "This is a copy of \"Barchester Towers \" by Anthony Trollope." },
+	  { "id": "classic37", "text": "This is a copy of \"The Land Ironclads\" by H.G. Wells." },
+	  { "id": "classic38", "text": "This is a copy of \"The Great Boer War\" by Arthur Conan Doyle." },
+	  { "id": "classic39", "text": "This is a copy of \"The Crime of the Congo\" by Arthur Conan Doyle." },
+	  { "id": "classic40", "text": "This is a copy of \"The Parasite\" by Arthur Conan Doyle." },
+	  { "id": "classic41", "text": "This is a copy of \"By Stroke of Sword \" by Andrew Balfour." },
+	  { "id": "classic42", "text": "This is a copy of \"The Secret Agent\" by Joseph Conrad." },
+	  { "id": "classic43", "text": "This is a copy of \"Lord Jim\" by Joseph Conrad." },
+	  { "id": "classic44", "text": "This is a copy of \"Vanity Fair\" by William Makepeace Thackeray." },
+	  { "id": "classic45", "text": "This is a copy of \"The Luck of Barry Lyndon\" by William Makepeace Thackeray." },
+	  { "id": "classic46", "text": "This is a copy of \"North and South\" by Elizabeth Gaskell." },
+	  { "id": "classic47", "text": "This is a copy of \"The Mayor of Casterbridge\" by Thomas Hardy." },
+	  { "id": "classic48", "text": "This is a copy of \"Wessex Tales\" by Thomas Hardy." },
+	  { "id": "classic49", "text": "This is a copy of \"Far from the Madding Crowd\" by Thomas Hardy." },
+	  { "id": "classic50", "text": "This is a copy of \"Captains Courageous \" by Rudyard Kipling." },
+	  { "id": "classic51", "text": "This is a copy of \"The Canterbury Tales\" by Geoffrey Chaucer." },
+	  { "id": "classic52", "text": "This is a copy of \"Harold, the Last of the Saxons\" by Edward Bulwer-Lytton." },
+	  { "id": "classic53", "text": "This is a copy of \"Mr Midshipman Easy\" by Frederick Marryat." },
+	  { "id": "classic54", "text": "This is a copy of \"Peter Simple \" by Frederick Marryat." }
     ],
     "weight": "350 g",
     "volume": "750 ml",
