@@ -8,8 +8,8 @@
     "mission": 3,
     "chat": "TALK_HUNTER_CABIN",
     "faction": "wasteland_scavengers",
-	"shopkeeper_item_group": "NC_HUNTER_misc",
-	"weapon_override": "NC_HUNTER_archery"
+    "shopkeeper_item_group": "NC_HUNTER_misc",
+    "weapon_override": "NC_HUNTER_archery"
   },
   {
     "type": "item_group",
@@ -80,22 +80,22 @@
     "items": [
       [ "sinew", 10 ],
       [ "water_clean", 60 ],
-	  [ "water_clean", 60 ],
-	  [ "water_clean", 60 ],
-	  [ "water_clean", 60 ],
-	  [ "water_clean", 60 ],
+      [ "water_clean", 60 ],
+      [ "water_clean", 60 ],
+      [ "water_clean", 60 ],
+      [ "water_clean", 60 ],
       [ "meat_cooked", 40 ],
       [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
-	  [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
+      [ "meat", 40 ],
       [ "fish_cooked", 40 ],
       [ "fish", 10 ],
       [ "tallow", 10 ],
@@ -107,34 +107,31 @@
       [ "salt", 10 ],
       [ "pepper", 10 ],
       [ "meat_smoked", 50 ],
-	  [ "meat_smoked", 50 ],
-	  [ "meat_smoked", 30 ],
-	  [ "meat_smoked", 30 ],
+      [ "meat_smoked", 50 ],
+      [ "meat_smoked", 30 ],
+      [ "meat_smoked", 30 ],
       [ "bone", 10 ],
       [ "fur", 60 ]
     ]
   },
-    {
+  {
     "id": "TALK_HUNTER_CABIN",
     "type": "talk_topic",
     "dynamic_line": [
       "Hunting is becoming harder and harder these days.",
       "Did you come here to trade?",
-	  "Got anything to trade?",
-	  "Good to see a friendly face.",
-	  "Not many people left to trade with.",
+      "Got anything to trade?",
+      "Good to see a friendly face.",
+      "Not many people left to trade with.",
       "One morning I shot an elk in my pajamas.  How he got into my pajamas I'll never know.",
-      {
-        "u_male": [ "Sir.  Care to trade?" ],
-        "no": [ "Ma'am.  Care to trade?." ]
-      }
+      { "u_male": [ "Sir.  Care to trade?" ], "no": [ "Ma'am.  Care to trade?." ] }
     ],
-    "responses": [ 
-	{ "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_HUNTER_ELSE" },
-	{ "text": "See you.", "topic": "TALK_DONE" } 
-	]
+    "responses": [
+      { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_HUNTER_ELSE" },
+      { "text": "See you.", "topic": "TALK_DONE" }
+    ]
   },
-    {
+  {
     "type": "talk_topic",
     "id": "TALK_HUNTER_ELSE",
     "dynamic_line": "Anything else I can do for you?",
