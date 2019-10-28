@@ -91,7 +91,7 @@
     "id": "TALK_TRADER",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "Marshal,  I am a member of the Free Merchants, care to trade?",
+      "yes": "Marshal, I am a member of the Free Merchants, care to trade?",
       "no": {
         "u_male": "Good to see you, Sir. I am an authorised member of the Free Merchants, care to trade?",
         "no": "Good to see you, Ma'am. I am a member of the Free Merchants, care to trade?"
