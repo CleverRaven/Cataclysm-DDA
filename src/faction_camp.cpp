@@ -477,7 +477,7 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
         return cata::nullopt;
     }
     basecamp *temp_camp = *bcp;
-    temp_camp->define_camp( p, camp_type );
+    temp_camp->define_camp( omt_pos, camp_type );
     return temp_camp;
 }
 

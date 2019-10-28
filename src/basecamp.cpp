@@ -164,10 +164,9 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
     update_resources( bldg );
 }
 
-void basecamp::define_camp( npc &p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint omt_pos, const std::string &camp_type )
 {
     query_new_name();
-    omt_pos = p.global_omt_location();
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
