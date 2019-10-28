@@ -1468,7 +1468,7 @@
     "id": "t_traffic_light",
     "name": "traffic light",
     "looks_like": "t_utility_pole",
-    "description": "Signalling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity..",
+    "description": "Signalling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity.",
     "symbol": "F",
     "color": "grey",
     "move_cost": 0,
