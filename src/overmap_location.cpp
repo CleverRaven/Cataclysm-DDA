@@ -5,6 +5,7 @@
 
 #include "generic_factory.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "rng.h"
 #include "debug.h"
 #include "json.h"
@@ -43,10 +44,10 @@ oter_type_id overmap_location::get_random_terrain() const
 
 void overmap_location::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "terrains", terrains );
-
-    if( terrains.empty() ) {
-        jo.throw_error( "At least one terrain must be specified." );
+    optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "terrains", terrains );
+    if( flags.empty() && terrains.empty() ) {
+        jo.throw_error( "At least one flag or terrain must be specified." );
     }
 }
 
@@ -55,6 +56,22 @@ void overmap_location::check() const
     for( const auto &element : terrains ) {
         if( !element.is_valid() ) {
             debugmsg( "In overmap location \"%s\", terrain \"%s\" is invalid.", id.c_str(), element.c_str() );
+        }
+    }
+}
+
+void overmap_location::finalize()
+{
+    for( const std::string &elem : flags ) {
+        auto it = oter_flags_map.find( elem );
+        if( it == oter_flags_map.end() ) {
+            continue;
+        }
+        oter_flags check_flag = it->second;
+        for( const oter_t &ter_elem : overmap_terrains::get_all() ) {
+            if( ter_elem.has_flag( check_flag ) ) {
+                terrains.push_back( ter_elem.get_type_id() );
+            }
         }
     }
 }
@@ -72,4 +89,12 @@ void overmap_locations::check_consistency()
 void overmap_locations::reset()
 {
     locations.reset();
+}
+
+void overmap_locations::finalize()
+{
+    locations.finalize();
+    for( const overmap_location &elem : locations.get_all() ) {
+        const_cast<overmap_location &>( elem ).finalize(); // This cast is ugly, but safe.
+    }
 }

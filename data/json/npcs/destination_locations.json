@@ -2,84 +2,126 @@
   {
     "type": "overmap_location",
     "id": "source_of_anything",
-    "terrains": [
-      "house",
-      "s_gas",
-      "s_pharm",
-      "s_hardware",
-      "s_sports",
-      "s_liquor",
-      "s_gun",
-      "s_library",
-      "megastore_1_2_0",
-      "fire_station",
-      "mil_surplus",
-      "mansion_entry"
-    ]
+    "flags": [ "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_ammo",
-    "terrains": [ "house", "s_gun", "mil_surplus", "mansion_entry" ]
+    "flags": [ "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_location",
-    "id": "source_of_gun",
-    "terrains": [ "s_gun", "pawn", "hdwr_large_entrance", "mansion_entry" ]
+    "id": "source_of_guns",
+    "flags": [ "SOURCE_GUN" ]
   },
   {
     "type": "overmap_location",
-    "id": "source_of_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware", "megastore_1_2_0", "hdwr_large_entrance", "fire_station", "mansion_entry" ]
+    "id": "source_of_weapons",
+    "flags": [ "SOURCE_WEAPON", "SOURCE_GUN" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_drink",
-    "terrains": [
-      "s_gas",
-      "s_pharm",
-      "s_pharm_1",
-      "s_restaurant",
-      "s_restaurant_1",
-      "s_restaurant_2",
-      "s_restaurant_3",
-      "s_restaurant_coffee",
-      "s_restaurant_coffee_1",
-      "s_restaurant_coffee_2",
-      "s_teashop",
-      "s_teashop_1",
-      "bar",
-      "bar_1",
-      "s_liquor",
-      "s_grocery",
-      "megastore_1_2_0",
-      "mansion_entry"
-    ]
+    "flags": [ "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_food",
-    "terrains": [
-      "s_grocery",
-      "farm_1",
-      "2farm_1",
-      "dairy_farm_NW",
-      "sugar_house",
-      "orchard_stall",
-      "s_restaurant",
-      "s_restaurant_1",
-      "s_restaurant_2",
-      "s_restaurant_3",
-      "s_restaurant_fast",
-      "s_restaurant_fast_1",
-      "s_butcher",
-      "s_butcher_1",
-      "s_butcher_2",
-      "s_pizza_parlor",
-      "s_pizza_parlor_1",
-      "megastore_1_2_0",
-      "bakery",
-      "mansion_entry"
-    ]
+    "flags": [ "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_fuel",
+    "flags": [ "SOURCE_FUEL" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_farming",
+    "flags": [ "SOURCE_FARMING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_fabricaton",
+    "flags": [ "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_books",
+    "flags": [ "SOURCE_BOOKS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_forage",
+    "flags": [ "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_cooking",
+    "flags": [ "SOURCE_COOKING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_tailoring",
+    "flags": [ "SOURCE_TAILORING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_vehicles",
+    "flags": [ "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_electronics",
+    "flags": [ "SOURCE_ELECTRONICS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_construction",
+    "flags": [ "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_chemistry",
+    "flags": [ "SOURCE_CHEMISTRY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_clothing",
+    "flags": [ "SOURCE_CLOTHING" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_safety",
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_animals",
+    "flags": [ "SOURCE_ANIMALS" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_medicine",
+    "flags": [ "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_luxuries",
+    "flags": [ "SOURCE_LUXURY" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "source_of_people",
+    "flags": [ "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "risk_high",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "risk_low",
+    "flags": [ "RISK_LOW" ]
   }
 ]

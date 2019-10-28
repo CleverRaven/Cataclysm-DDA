@@ -3872,7 +3872,11 @@ void npc::reach_omt_destination()
                 }
             }
         } else {
-            revert_after_activity();
+            // for now - they just travel to a nearby place they want as a base.
+            // and chill there indefinitely, the plan is to add systems for them to build
+            // up their base, then go out on looting missions,
+            // then return to base afterwards.
+            set_mission( NPC_MISSION_GUARD );
         }
         return;
     }
