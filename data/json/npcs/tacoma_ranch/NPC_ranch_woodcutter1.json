@@ -17,7 +17,7 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_RANCH_WOODCUTTER_JOB" },
       { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_WOODCUTTER_HIRE" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {

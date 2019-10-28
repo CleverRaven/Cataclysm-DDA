@@ -229,7 +229,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": "PPA-5",
-    "description": "Portable Plasma Accelerator Model Five, developed by Lockheed Martin Corporation. This device uses highly advanced capacitor banks to create a torus of superheated hydrogen plasma and accelerate it to incredible speed. It was designed to take down heavy vehicles, and was expected to fully enter US Army service not long before the Cataclysm.",
+    "description": "Portable Plasma Accelerator Model Five, developed by Lockheed Martin Corporation.  This device uses highly advanced capacitor banks to create a torus of superheated hydrogen plasma and accelerate it to incredible speed.  It was designed to take down heavy vehicles, and was expected to fully enter US Army service not long before the Cataclysm.",
     "price": 980000,
     "material": [ "steel", "plastic" ],
     "ammo_effects": [ "PLASMA", "FLAME", "EMP", "EXPLOSIVE_SMALL" ],

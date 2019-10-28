@@ -1220,7 +1220,7 @@
     "type": "terrain",
     "id": "t_column_halfway",
     "name": "half-built column",
-    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation. It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
+    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation.  It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
     "symbol": "*",
     "color": "light_gray",
     "move_cost": 5,

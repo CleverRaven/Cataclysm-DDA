@@ -771,7 +771,7 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -911,7 +911,7 @@
     ],
     "responses": [
       {
-        "text": "Oh you know, not bad, not bad...",
+        "text": "Oh you know, not bad, not bad…",
         "topic": "TALK_DONE",
         "switch": true,
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
