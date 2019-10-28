@@ -31,10 +31,8 @@ static void pass_time( player &p, time_duration amt )
 
 static void clear_stomach( player &p )
 {
-    p.guts.set_calories( 0 );
-    p.stomach.set_calories( 0 );
-    p.stomach.bowel_movement();
-    p.guts.bowel_movement();
+    p.stomach.empty();
+    p.guts.empty();
 }
 
 static void set_all_vitamins( int target, player &p )
@@ -63,9 +61,8 @@ static void print_stomach_contents( player &p, const bool print )
     if( !print ) {
         return;
     }
-    printf( "stomach: %d/%d guts: %d/%d player: %d/%d hunger: %d\n", p.stomach.get_calories(),
-            p.stomach.get_calories_absorbed(), p.guts.get_calories(),
-            p.guts.get_calories_absorbed(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
+    printf( "stomach: %d guts: %d player: %d/%d hunger: %d\n", p.stomach.get_calories(),
+            p.guts.get_calories(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
     printf( "stomach: %d mL/ %d mL guts %d mL/ %d mL\n",
             units::to_milliliter<int>( p.stomach.contains() ),
             units::to_milliliter<int>( p.stomach.capacity() ),

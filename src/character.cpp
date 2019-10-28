@@ -4494,8 +4494,7 @@ void Character::vomit()
     g->events().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
-        // empty stomach contents
-        stomach.bowel_movement();
+        stomach.empty();
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }

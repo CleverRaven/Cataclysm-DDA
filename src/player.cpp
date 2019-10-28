@@ -3232,19 +3232,21 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
+    const int half_hours = ticks_between( from, to, 30_minutes );
 
     if( five_mins > 0 ) {
-        stomach.absorb_water( *this, 250_ml * five_mins );
-        guts.absorb_water( *this, 250_ml * five_mins );
-    }
-    if( ticks_between( from, to, 30_minutes ) > 0 ) {
-        // the stomach does not currently have rates of absorption, but this is where it goes
-        stomach.calculate_absorbed( stomach.get_absorb_rates( true, rates ) );
-        guts.calculate_absorbed( guts.get_absorb_rates( false, rates ) );
-        stomach.store_absorbed( *this );
-        guts.store_absorbed( *this );
-        guts.bowel_movement( guts.get_pass_rates( false ) );
-        stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
+        // Digest nutrients in stomach, they are destined for the guts (except water)
+        nutrients digested_to_guts = stomach.digest( *this, five_mins, half_hours );
+        // Digest nutrients in guts, they will be distributed to needs levels
+        nutrients digested_to_body = guts.digest( *this, five_mins, half_hours );
+        // Water from stomach skips guts and gets absorbed by body
+        set_thirst( std::max(
+                        -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
+        guts.ingest( digested_to_guts );
+        if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
+            mod_stored_kcal( digested_to_body.kcal );
+            vitamins_mod( digested_to_body.vitamins, false );
+        }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
         if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
@@ -3257,12 +3259,10 @@ void player::update_stomach( const time_point &from, const time_point &to )
             // that's really all the food you need to feel full
             set_hunger( -1 );
         } else if( stomach.contains() == 0_ml ) {
-            if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
-                get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
+            if( guts.get_calories() == 0 && get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
                 // there's no food except what you have stored in fat
                 set_hunger( 300 );
             } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
-                                                 guts.get_calories_absorbed() == 0 &&
                                                  get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
                 set_hunger( 100 );
             } else if( get_hunger() < 0 ) {
