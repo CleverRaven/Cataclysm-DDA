@@ -158,6 +158,156 @@
   },
   {
     "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_28",
+    "text": "     Became a hunter after your death, living alone in the woods.  Traced back to his cabin, he was murdered and devoured in his sleep by an actual cannibal."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_29",
+    "text": "     Survived for many years, and became a renowned scavenger, eventually setting up a small shop in a Free Merchant outpost.  Survived by two sons, he died after a rare artifact poisoned his blood with acid."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_30",
+    "text": "     He wandered and scavenged the land for years after your death, eventually becoming a skilled mechanic.  Employed by the Free Merchants, he lived a comfortable, if rather uneventful life, dying of cancer, a rare luxury these days."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_31",
+    "text": "     Became truly depressed after your death and hid in the woods.  If rumours are to be believed, he spent years living as a deranged hermit in a distant cave, worshipping stones and sacrificing dogs."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_32",
+    "text": "     After your death, he became obsessed with preserving old knowledge and eventually became known as 'the lorekeeper'.  Hired by the Old Guard as a librarian, he spent his life amongst dusty old books, trying to convince others of their value.  He even changed his name to Frederic Bastiat, in honour of an old French philosopher."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_33",
+    "text": "     He found faith after your death, eventually joining an Anglican community and becoming a Vicar.  The crucifix provided him with a sense of meaning, before dying horribly at the hands of raiders.  He was still praying when they roasted him alive."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_34",
+    "text": "     Lost and damned, he joined a bloody cult after your death, kidnapping and sacrificing young women.  His entire group was killed after being discovered by the Old Guard.  His head was put on a spike as a reminder that cultists will not be tolerated."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_35",
+    "text": "     He did not survive for long after your death.  Electrocuted in an old cellar, he kept screaming your name.  His body was never found."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_36",
+    "text": "     Survived you by just a few days, he drowned trying to escape from a horde."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_37",
+    "text": "     He wandered alone for days, before finding a Free Merchant outpost.  He spent a few years as a caravan guard, often drinking himself half blind and enjoying any woman he could find.  Booze made his grip unsteady and he was eventually fired.  He died of alcohol poisoning the same day."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_38",
+    "text": "     Obsessed with the idea of settling down, he eventually found love and retired to a farm in the middle of nowhere.  Relatively safe from the monsters, he thrived for years. Survived by seven sons and two daughters."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_39",
+    "text": "     Became famous in the wastes after finding an old brewery and copying their recipe.  His chilled beer, a known delicacy, is traded far and wide by the Free Merchants."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_40",
+    "text": "     Found a whole cellar of single malt whisky. Drank himself to death."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_41",
+    "text": "     Depressed after your death, he would hang himself after just a few days."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_42",
+    "text": "     Wandered for months, before finding a small community that would accept him.  Became a farmer and spent the rest of his uneventful life tending to crops, glad that he was no longer alone."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_43",
+    "text": "     Obsessed with finding the cure, he died a few weeks later in an old lab, torn to shreds by a security turret."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_44",
+    "text": "     Became a runner for the Refutee Center and died after a few months."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_45",
+    "text": "     Joined a raider gang and died in a firefight a few weeks later, trying to rob a Free Merchant caravan."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_46",
+    "text": "     Travelled north, he eventually found an intact baseball field and built a prosperous farming community there."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_47",
+    "text": "     He spent the rest of his short life looking for a new fix.  Died of an overdose in an abandoned basement."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_48",
+    "text": "     Travelled south, and joined a small fishing village.  Died a few years later in a raider attack."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_49",
+    "text": "     Thoroughly terrified by your death, he retired to an old LMOE shelter, vowing never to leave.  He died of starvation inside."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_50",
+    "text": "     He became a very prosperous game hunter, trading meat and furs, and providing many settlements with food in exchange for booze and male company. He died years later of an STD."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_51",
+    "text": "     Retired to the woods, he spent the rest of his life fishing and hunting in a desolate cabin, rarely interacting with anyone else."
+  },
+    {
+    "type": "epilogue",
+    "group": "male",
+    "id": "npc_male_52",
+    "text": "     Died en route to California, deliriously dreaming of a better life as he was slowly devoured by spiders."
+  },
+  {
+    "type": "epilogue",
     "group": "female",
     "id": "npc_female_1",
     "text": "     Committed suicide rather than fall into the hands of the Hell's Raiders.  Till the end, she held out hope that her son was still alive in the wasteland."
@@ -311,5 +461,155 @@
     "group": "female",
     "id": "npc_female_26",
     "text": "     Was detained and incarcerated by a police robot on multiple counts of looting and vandalism that were tracked and recorded by the few remaining security systems.  Trapped in a cell awaiting police review, she spent weeks crying out for help and slowly consuming what supplies she carried.  Two weeks after being dragged to her cell she died from dehydration."
-  }
+  },
+    {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_27",
+    "text": "     Shot by the Old Guard a few weeks later, hunted down after she robbed an important caravan."
+  },
+    {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_28",
+    "text": "     Travelled north, she eventually found a quiet community there and spent the rest of her life farming.  She's survived by four daughters."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_29",
+    "text": "     She became a runner for the Old Guard and was eventually permitted to join.  She spent the rest of her life hunting raiders.  She died in a skirmish after a few years, sacrificing her life to let her unit retreat.  Her name is venerated in songs and inscriptions."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_30",
+    "text": "     Shortly after your death she joined the Free Merchants, becoming a caravan guard and after a few months became the new liaison in the Refugee Center.  She died a few years later of a mysterious ilness."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_31",
+    "text": "     She was found half-dead by the Old Guard who took her in.  She became a famous scavenger, known for finding an intact stash of antibiotics."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_32",
+    "text": "     She retired to the forest, building her own cabin and spending the rest of her life fishing."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_33",
+    "text": "     Captured by raiders, she spent the rest of her miserable life as a slave.  Hopeless, she slit her wrists with a rusty knife."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_34",
+    "text": "     Depressed, she joined a protestant community and became a paragon of virtue.  Devoting her life to bible study, she spent the rest of her life in relative peace."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_35",
+    "text": "     Killed and devoured by a cannibal just a few days after your death, hardly anyone remembers her name."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_36",
+    "text": "     Became a renowned merchant after your death, she built her own outpost in the west.  An avid book collector, she established a great library to keep the flame of knowledge burning."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_37",
+    "text": "     Travelled around for months before finding an old farm.  She spent a few years tending to her crops and living the life of a hermit before being killed by raiders for fun."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_38",
+    "text": "     Travelled south and joined a settlement there.  She became a renowned engineer, building the largest steam engine in New England."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_39",
+    "text": "     Joined a gang after your death, she spent months preying on the innocent, before dying in a dispute with a fellow brute."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_40",
+    "text": "     Devoured alive by a group of zombies, she kept thinking of you as she died."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_41",
+    "text": "     She found an abandoned APC and spent years travelling around and collecting personal stories.  She wrote one of the few post-apocalyptic books, detailing the life after the end."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_42",
+    "text": "     Kept wandering for years. Her life was cut short when a group of raiders used her as a target practice."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_43",
+    "text": "     She became a skilled game hunter and one of the best shots in the wasteland.  Years later she joined the Old Guard and was given the position of Marshal."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_44",
+    "text": "     Desperate to save humanity from extinction, she organised her own group of survivors, whose job was to hunt bandits and decorate roads with their mutilated bodies.  She died in a skirmish a few months later."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_45",
+    "text": "     She became an arsonist but burned alive a few weeks later."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_46",
+    "text": "     She kept wandering for a few weeks but eventually died after drinking untreated water."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_47",
+    "text": "     She wandered north and joined a local community there.  She became known for her trapping skills and ensured that the locals always had fresh meat on their tables."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_48",
+    "text": "     She joined the Free Merchants and led their first caravan to Canada.  She died a few years later of dysentery."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_49",
+    "text": "     She built a boat and sailed east towards Europe, hoping that it was not affected by the apocalypse.  She was never heard from again."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_50",
+    "text": "     She led a doomsday cult for a few years, she was sacrificed to their gods after a particularly terrible harvest."
+  },
+      {
+    "type": "epilogue",
+    "group": "female",
+    "id": "npc_female_51",
+    "text": "     Obsessed with chems, she died of an overdose a few months later."
+  },
 ]
