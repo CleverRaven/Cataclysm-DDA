@@ -10106,7 +10106,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         round( rl_dist_exact( pos(), critter.pos() ) ) <= range &&
-        ( sees( critter ) || sees_with_infrared( critter ) || sees_with_specials( critter ) );
+        ( sees( critter ) || sees_with_infrared( critter ) );
     } );
 }
 
