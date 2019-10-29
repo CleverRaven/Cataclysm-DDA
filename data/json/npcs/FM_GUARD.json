@@ -18,7 +18,7 @@
     "type": "item_group",
     "id": "TRADER_GUARD_wield",
     "subtype": "collection",
-    "entries": [ { "item": "m4a1" } ]
+    "entries": [ { "item": "m4a1", "charges": 30, "ammo-item": "223" } ]
   },
   {
     "type": "item_group",
