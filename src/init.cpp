@@ -295,9 +295,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
     add( "MIGRATION", []( JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
