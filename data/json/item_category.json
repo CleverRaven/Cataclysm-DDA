@@ -124,5 +124,17 @@
     "type": "ITEM_CATEGORY",
     "name": "ARMOR",
     "sort_rank": 20
+  },
+  {
+    "id": "ITEMS_WORN",
+    "type": "ITEM_CATEGORY",
+    "name": "ITEMS WORN",
+    "sort_rank": -100
+  },
+  {
+    "id": "WEAPON_HELD",
+    "type": "ITEM_CATEGORY",
+    "name": "WEAPON HELD",
+    "sort_rank": -200
   }
 ]

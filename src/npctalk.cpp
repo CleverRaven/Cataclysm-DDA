@@ -3076,14 +3076,14 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
                 switch_done |= repeat.response.gen_repeat_response( d, item_id, switch_done );
             }
         }
-        for( const std::string &category_id : repeat.for_category ) {
+        for( const item_category_id &category_id : repeat.for_category ) {
             const bool include_containers = repeat.include_containers;
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().id() == category_id;
+                    return it.get_category().get_id() == category_id;
                 }
-                return it.type && it.type->category && it.type->category->id() == category_id;
+                return it.type && it.type->category_force == category_id;
             } );
             for( const auto &it : items_with ) {
                 switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );

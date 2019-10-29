@@ -4398,9 +4398,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->get_comestible() ) {
-        if( subject->get_category().id() == "food" ) {
+        if( subject->get_category().get_id() == "food" ) {
             return bottom - 3;
-        } else if( subject->get_category().id() == "drugs" ) {
+        } else if( subject->get_category().get_id() == "drugs" ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -5513,7 +5513,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().id() == "maps";
+    return get_category().get_id() == "maps";
 }
 
 bool item::is_container() const
@@ -7606,7 +7606,7 @@ const item_category &item::get_category() const
     }
 
     static item_category null_category;
-    return type->category ? *type->category : null_category;
+    return type->category_force.is_valid() ? type->category_force.obj() : null_category;
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
