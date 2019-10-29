@@ -1599,7 +1599,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
             } else {
-                g->reload( pc.get_item_position( relevant ), true );
+                const int pos = pc.get_item_position( relevant );
+                const item it = g->u.i_at( pos );
+                if( it.typeId() == "null" ) {
+                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
+                } else {
+                    g->reload( pos, true );
+                }
                 ret.clear();
                 break;
             }
