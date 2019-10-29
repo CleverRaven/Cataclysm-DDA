@@ -384,7 +384,7 @@
     "skills_required": [ "gun", 2 ],
     "difficulty": 5,
     "time": "45 m",
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "element", 2 ], [ "hotplate", 1 ] ], [ [ "cable", 2 ] ] ]
@@ -1415,7 +1415,7 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -2090,7 +2090,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
@@ -2422,7 +2422,7 @@
       [ "textbook_armeast", 5 ],
       [ "textbook_armwest", 5 ]
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ]
   },
@@ -2476,7 +2476,7 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2523,7 +2523,7 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2534,7 +2534,7 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
   {
@@ -2547,7 +2547,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2560,7 +2560,7 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -2573,7 +2573,7 @@
     "difficulty": 2,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "scrap", 1 ] ] ]
@@ -2587,7 +2587,7 @@
     "difficulty": 4,
     "time": "5 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2603,7 +2603,7 @@
     "//": "not so much the engineering as hardening the edge",
     "time": "6 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 4 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
@@ -2617,7 +2617,7 @@
     "difficulty": 4,
     "time": "4 h 40 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_fabrication", 2 ], [ "textbook_fabrication", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -2632,7 +2632,7 @@
     "difficulty": 7,
     "time": "5 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
@@ -2646,7 +2646,7 @@
     "difficulty": 5,
     "time": "5 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -2661,7 +2661,7 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -2677,7 +2677,7 @@
     "time": "7 h",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ] ]
@@ -2692,7 +2692,7 @@
     "time": "7 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 3 ] ] ]
@@ -2706,7 +2706,7 @@
     "difficulty": 6,
     "time": "8 h 40 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 22 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
   },
@@ -2882,7 +2882,7 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 15 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2969,7 +2969,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -3049,7 +3049,7 @@
     "difficulty": 8,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 16 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -3063,7 +3063,7 @@
     "difficulty": 8,
     "time": "4 h 22 m 30 s",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -3534,7 +3534,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -3622,7 +3622,7 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -3635,7 +3635,7 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -3648,7 +3648,7 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -3931,7 +3931,7 @@
     "time": "7 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 8 ], [ "textbook_fabrication", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 17 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -4577,7 +4577,7 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
