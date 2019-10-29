@@ -492,7 +492,7 @@
     "wealth": 10000,
     "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
   },
-    {
+  {
     "type": "faction",
     "id": "hunters",
     "name": "Wasteland Hunters",
