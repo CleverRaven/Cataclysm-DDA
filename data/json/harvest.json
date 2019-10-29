@@ -459,7 +459,7 @@
     "entries": [
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
@@ -472,7 +472,7 @@
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 },
