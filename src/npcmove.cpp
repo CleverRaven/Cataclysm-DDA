@@ -3877,7 +3877,7 @@ void npc::reach_omt_destination()
             // up their base, then go out on looting missions,
             // then return to base afterwards.
             set_mission( NPC_MISSION_GUARD );
-            if( !needs.empty() && needs[0] == need_safety ){
+            if( !needs.empty() && needs[0] == need_safety ) {
                 // we found our base.
                 base_location = global_omt_location();
             }
