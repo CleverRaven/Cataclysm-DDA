@@ -1,0 +1,59 @@
+[
+  { 
+	"id": "lizardfolk_club",
+    "type": "GENERIC",
+    "name": "greatclub",
+    "category": "weapons",
+	"copy-from": "shillelagh",
+    "//": "A heavier version of the standard shillelagh (from melee.json) with a different description to match the lizardfolk lore.  Not craftable, but wieldable if discovered.",
+    "description": "A stout knotty club with a large knob at the top.  While it's very heavy and cumbersome to wield, it's a very effective weapon in the hands of a strong opponent.",
+    "weight": "6000 g",
+    "volume": "8000 ml",
+    "price": 5000,
+    "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "NO_PICKUP", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
+    "bashing": 22,
+    "to_hit": 2
+  },
+  {
+    "id": "lizardfolk_trident",
+    "type": "GENERIC",
+    "name": "wood trident",
+	"copy-from": "spear_forked",
+    "description": "A wooden melee weapon with a hand-forged steel forked spearhead attached to the end.  It can be used for stabbing opponents either in close-range or as a thrown weapon, and in the right hands can also readily disarm opponents.",
+    "weight": "1650 g",
+    "to_hit": 2,
+    "techniques": [ "WBLOCK_2", "DEF_DISARM", "IMPALE" ],
+    "volume": "3000 ml",
+    "cutting": 29,
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "price": 15000
+  },
+  { 
+	"id": "lizardfolk_javelin",
+    "type": "GENERIC",
+    "name": "barbed dart",
+    "category": "weapons",
+	"copy-from": "javelin",
+    "//": "A barbed version of the standard javelin (from spears_and_polearms.json) with a different description to match the lizardfolk lore.  Not craftable, but wieldable if discovered.",
+    "description": "A relative of the javelin, this weapon measures about 3 feet in length and is fletched like an arrow for better accuracy.  The business end of the dart has wicked-looking barbs which could cause significant bleeding.",
+    "weight": "2500 g",
+    "volume": "2830 ml",
+    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN", "TRADER_AVOID", "BLEED", "NO_REPAIR" ]
+  },
+  { 
+	"id": "lizardfolk_barbed_dart",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": "barbed dart",
+    "description": "Fake gun that fires barbed darts.",
+    "flags": [ "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 10,
+    "dispersion": 10,
+    "body_parts": [ [ "TORSO", 1 ] ],
+    "ranged_damage": [ { "damage_type": "stab", "amount": 5 } ]
+  }
+]
+
+
