@@ -712,7 +712,7 @@
     "difficulty": 2,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 10 ], [ "steel_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -726,7 +726,7 @@
     "difficulty": 2,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
