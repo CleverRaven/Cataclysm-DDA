@@ -45,7 +45,7 @@
     "id": "garage_guard",
     "//": "Protects the merchant.",
     "gender": "male",
-    "class": "Free_Merchant_Guard",
+    "class": "FM_GUARD",
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_TRADER_GUARD",
