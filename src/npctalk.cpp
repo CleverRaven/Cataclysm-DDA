@@ -882,7 +882,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
-            debugmsg( "Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%s) or topic(%s)",
+            debugmsg( "Bug in npctalk.cpp:dynamic_line.  Wrong mission_id(%s) or topic(%s)",
                       type.id.c_str(), topic.c_str() );
             return "";
         }
@@ -1574,7 +1574,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             tmp.charges = u.charges_of( item_type );
             phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( !tag.empty() ) {
-            debugmsg( "Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb );
+            debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
         }
     } while( fa != std::string::npos && fb != std::string::npos );
@@ -1766,7 +1766,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     return effects.apply( *this );
 }
 
-talk_trial::talk_trial( JsonObject jo )
+talk_trial::talk_trial( JsonObject &jo )
 {
     static const std::unordered_map<std::string, talk_trial_type> types_map = { {
 #define WRAP(value) { #value, TALK_TRIAL_##value }
@@ -1840,7 +1840,7 @@ void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
     };
 }
 
-void talk_effect_fun_t::set_add_effect( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
@@ -1864,7 +1864,7 @@ void talk_effect_fun_t::set_add_effect( JsonObject jo, const std::string &member
     };
 }
 
-void talk_effect_fun_t::set_remove_effect( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::string old_effect = jo.get_string( member );
     function = [is_npc, old_effect]( const dialogue & d ) {
@@ -1876,7 +1876,7 @@ void talk_effect_fun_t::set_remove_effect( JsonObject jo, const std::string &mem
     };
 }
 
-void talk_effect_fun_t::set_add_trait( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_trait( JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::string new_trait = jo.get_string( member );
     function = [is_npc, new_trait]( const dialogue & d ) {
@@ -1888,7 +1888,7 @@ void talk_effect_fun_t::set_add_trait( JsonObject jo, const std::string &member,
     };
 }
 
-void talk_effect_fun_t::set_remove_trait( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_trait( JsonObject &jo, const std::string &member, bool is_npc )
 {
     std::string old_trait = jo.get_string( member );
     function = [is_npc, old_trait]( const dialogue & d ) {
@@ -1900,7 +1900,7 @@ void talk_effect_fun_t::set_remove_trait( JsonObject jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_add_var( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_var( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const std::string &value = jo.get_string( "value" );
@@ -1913,7 +1913,7 @@ void talk_effect_fun_t::set_add_var( JsonObject jo, const std::string &member, b
     };
 }
 
-void talk_effect_fun_t::set_remove_var( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_var( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     function = [is_npc, var_name]( const dialogue & d ) {
@@ -1925,7 +1925,7 @@ void talk_effect_fun_t::set_remove_var( JsonObject jo, const std::string &member
     };
 }
 
-void talk_effect_fun_t::set_adjust_var( JsonObject jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_adjust_var( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const int value = jo.get_int( "adjustment" );
@@ -2023,7 +2023,7 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     };
 }
 
-void talk_effect_fun_t::set_consume_item( JsonObject jo, const std::string &member, int count,
+void talk_effect_fun_t::set_consume_item( JsonObject &jo, const std::string &member, int count,
         bool is_npc )
 {
     const std::string &item_name = jo.get_string( member );
@@ -2048,7 +2048,7 @@ void talk_effect_fun_t::set_consume_item( JsonObject jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_remove_item_with( JsonObject jo, const std::string &member,
+void talk_effect_fun_t::set_remove_item_with( JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     const std::string &item_name = jo.get_string( member );
@@ -2190,7 +2190,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
     };
 }
 
-void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &member )
+void talk_effect_fun_t::set_mapgen_update( JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<std::string> update_ids;
@@ -2412,7 +2412,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_effect_t::talk_effect_t( JsonObject jo )
+talk_effect_t::talk_effect_t( JsonObject &jo )
 {
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
@@ -2422,7 +2422,7 @@ talk_effect_t::talk_effect_t( JsonObject jo )
     }
 }
 
-void talk_effect_t::parse_sub_effect( JsonObject jo )
+void talk_effect_t::parse_sub_effect( JsonObject &jo )
 {
     talk_effect_fun_t subeffect_fun;
     const bool is_npc = true;
@@ -2711,7 +2711,7 @@ talk_response::talk_response()
     dialogue_spell = spell_id();
 }
 
-talk_response::talk_response( JsonObject jo )
+talk_response::talk_response( JsonObject &jo )
 {
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
@@ -2725,10 +2725,12 @@ talk_response::talk_response( JsonObject jo )
         };
     }
     if( jo.has_member( "trial" ) ) {
-        trial = talk_trial( jo.get_object( "trial" ) );
+        JsonObject trial_obj = jo.get_object( "trial" );
+        trial = talk_trial( trial_obj );
     }
     if( jo.has_member( "success" ) ) {
-        success = talk_effect_t( jo.get_object( "success" ) );
+        JsonObject success_obj = jo.get_object( "success" );
+        success = talk_effect_t( success_obj );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
@@ -2740,7 +2742,8 @@ talk_response::talk_response( JsonObject jo )
         jo.throw_error( "the failure effect is mandatory if a talk_trial has been defined" );
     }
     if( jo.has_member( "failure" ) ) {
-        failure = talk_effect_t( jo.get_object( "failure" ) );
+        JsonObject failure_obj = jo.get_object( "failure" );
+        failure = talk_effect_t( failure_obj );
     }
 
     // TODO: mission_selected
@@ -2777,13 +2780,14 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
         jo.throw_error( "Repeat response with empty repeat information!" );
     }
     if( jo.has_object( "response" ) ) {
-        response = json_talk_response( jo.get_object( "response" ) );
+        JsonObject response_obj = jo.get_object( "response" );
+        response = json_talk_response( response_obj );
     } else {
         jo.throw_error( "Repeat response with no response!" );
     }
 }
 
-json_talk_response::json_talk_response( JsonObject jo )
+json_talk_response::json_talk_response( JsonObject &jo )
     : actual_response( jo )
 {
     load_condition( jo );
@@ -2975,7 +2979,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
     };
 }
 
-json_dynamic_line_effect::json_dynamic_line_effect( JsonObject jo, const std::string &id )
+json_dynamic_line_effect::json_dynamic_line_effect( JsonObject &jo, const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
@@ -3022,18 +3026,21 @@ void json_talk_topic::load( JsonObject &jo )
             id = jo.get_array( "id" ).next_string();
         }
         if( jo.has_object( "speaker_effect" ) ) {
-            speaker_effects.emplace_back( jo.get_object( "speaker_effect" ), id );
+            JsonObject speaker_effect = jo.get_object( "speaker_effect" );
+            speaker_effects.emplace_back( speaker_effect, id );
         } else if( jo.has_array( "speaker_effect" ) ) {
             JsonArray ja = jo.get_array( "speaker_effect" );
             while( ja.has_more() ) {
-                speaker_effects.emplace_back( ja.next_object(), id );
+                JsonObject speaker_effect = ja.next_object();
+                speaker_effects.emplace_back( speaker_effect, id );
             }
         }
     }
     JsonArray ja = jo.get_array( "responses" );
     responses.reserve( responses.size() + ja.size() );
     while( ja.has_more() ) {
-        responses.emplace_back( ja.next_object() );
+        JsonObject response = ja.next_object();
+        responses.emplace_back( response );
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
@@ -3197,7 +3204,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
-                reason = _( "It doesn't look like a good idea to consume this.." );
+                reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
         }

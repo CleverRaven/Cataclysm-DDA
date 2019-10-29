@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "dynamic_line": "Oh, that's quite the story.  <the_cataclysm> happened on my wedding day.",
     "responses": [
-      { "text": "Oh, I'm sorry...", "topic": "BGSS_WEDDING_1_STORY2" },
+      { "text": "Oh, I'm sorry…", "topic": "BGSS_WEDDING_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

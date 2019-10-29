@@ -1206,15 +1206,28 @@ bool monster::bash_at( const tripoint &p )
     }
 
     bool try_bash = !can_move_to( p ) || one_in( 3 );
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
-
-    if( try_bash && can_bash ) {
-        int bashskill = group_bash_skill( p );
-        g->m.bash( p, bashskill );
-        moves -= 100;
-        return true;
+    if( !try_bash ) {
+        return false;
     }
-    return false;
+
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    if( !can_bash ) {
+        return false;
+    }
+
+    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
+    if( flat_ground ) {
+        bool can_bash_ter = g->m.is_bashable_ter( p );
+        bool try_bash_ter = one_in( 50 );
+        if( !( can_bash_ter && try_bash_ter ) ) {
+            return false;
+        }
+    }
+
+    int bashskill = group_bash_skill( p );
+    g->m.bash( p, bashskill );
+    moves -= 100;
+    return true;
 }
 
 int monster::bash_estimate()

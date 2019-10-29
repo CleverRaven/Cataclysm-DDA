@@ -98,7 +98,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
       { "text": "Get away from me.", "topic": "TALK_DONE", "opinion": { "trust": -1, "value": -1, "anger": 1 } },
-      { "text": "...", "topic": "TALK_DONE" }
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {

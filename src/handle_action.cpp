@@ -404,7 +404,7 @@ static void pldrive( int x, int y )
     }
     if( !veh ) {
         dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
-        debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
+        debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
         return;
     }
@@ -798,7 +798,7 @@ static void wait()
         }
 
     } else {
-        if( g->u.stamina < g->u.get_stamina_max() ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }

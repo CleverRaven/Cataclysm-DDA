@@ -727,10 +727,10 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
     gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules..." );
-    CHECK( d.responses[1].text == "Change your aiming rules..." );
+    CHECK( d.responses[0].text == "Change your engagement rules…" );
+    CHECK( d.responses[1].text == "Change your aiming rules…" );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_false_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[5].text == "Use only silent weapons." );
     CHECK( d.responses[6].text == "Don't use grenades anymore." );
@@ -801,9 +801,11 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_adjust_var test response that decrements by 1." );
     CHECK( d.responses[3].text == "This is a npc_adjust_var test response that increments by 1." );
     CHECK( d.responses[4].text == "This is a npc_adjust_var test response that decrements by 1." );
+    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[5].text == "This is a u_compare_var test response for != 0." );
     CHECK( d.responses[6].text == "This is a u_compare_var test response for >= 0." );
     CHECK( d.responses[7].text == "This is a u_compare_var test response for > 0." );
+    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[8].text == "This is a npc_compare_var test response for != 0." );
     CHECK( d.responses[9].text == "This is a npc_compare_var test response for >= 0." );
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for > 0." );
@@ -823,9 +825,11 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_adjust_var test response that decrements by 1." );
     CHECK( d.responses[3].text == "This is a npc_adjust_var test response that increments by 1." );
     CHECK( d.responses[4].text == "This is a npc_adjust_var test response that decrements by 1." );
+    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[5].text == "This is a u_compare_var test response for != 0." );
     CHECK( d.responses[6].text == "This is a u_compare_var test response for <= 0." );
     CHECK( d.responses[7].text == "This is a u_compare_var test response for < 0." );
+    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[8].text == "This is a npc_compare_var test response for != 0." );
     CHECK( d.responses[9].text == "This is a npc_compare_var test response for <= 0." );
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for < 0." );

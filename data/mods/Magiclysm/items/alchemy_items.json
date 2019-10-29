@@ -182,5 +182,21 @@
     "charges": 1,
     "phase": "liquid",
     "freezing_point": -100
+  },
+  {
+    "id": "stirge_proboscis",
+    "type": "GENERIC",
+    "name": "stirge proboscis",
+    "name_plural": "stirge proboscises",
+    "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
+    "volume": "100 ml",
+    "weight": "100 g",
+    "price": 2000,
+    "symbol": ",",
+    "color": "red",
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "cutting": 7,
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   }
 ]

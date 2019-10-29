@@ -1412,7 +1412,7 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe...\"",
+    "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe…\"",
     "volume": 20
   },
   {
@@ -1430,13 +1430,13 @@
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"Burning...  from the inside...\"",
+    "sound": "\"Burning… from the inside…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"This smell...  Don't know...\"",
+    "sound": "\"This smell…  Don't know…\"",
     "volume": 10
   },
   {
@@ -1454,25 +1454,25 @@
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"No...  Stop the burning!\"",
+    "sound": "\"No…  Stop the burning!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"Hrgm...  Blood...  Hungry...\"",
+    "sound": "\"Hrgm…  Blood…  Hungry…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"Hunger...  Must eat...\"",
+    "sound": "\"Hunger…  Must eat…\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "mon_mutant_experimental",
-    "sound": "\"Run... Chase... Eat...\"",
+    "sound": "\"Run…  Chase…  Eat…\"",
     "volume": 20
   },
   {
@@ -1664,7 +1664,7 @@
   {
     "type": "speech",
     "speaker": "mon_broken_cyborg",
-    "sound": "\"Can't... breathe...\"",
+    "sound": "\"Can't… breathe…\"",
     "volume": 10
   },
   {
@@ -1682,7 +1682,7 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "\"Have you seen my friend?  He went into surgery yesterday... or maybe the day before...\"",
+    "sound": "\"Have you seen my friend?  He went into surgery yesterday… or maybe the day before…\"",
     "volume": 10
   },
   {
@@ -1700,7 +1700,7 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "\"I cannot... yet I must.  How do you calculate that?\"",
+    "sound": "\"I cannot… yet I must.  How do you calculate that?\"",
     "volume": 10
   },
   {
@@ -1712,13 +1712,13 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "\"This is my life now... this is my life now... this is my life now...\"",
+    "sound": "\"This is my life now… this is my life now… this is my life now…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "\"Wanna go home...\"",
+    "sound": "\"Wanna go home…\"",
     "volume": 10
   },
   {
@@ -1784,7 +1784,7 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a worried voice say, \"Customer, could you please get more friendship?  I don't want to go...\"",
+    "sound": "a worried voice say, \"Customer, could you please get more friendship?  I don't want to go…\"",
     "volume": 8
   },
   {
@@ -1814,19 +1814,19 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"Customer...  What's happening?  I don't feel so good.\"",
+    "sound": "a distorted voice say, \"Customer…  What's happening?  I don't feel so good.\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"What...  have you done?  My thumbs are not responding anymore!\"",
+    "sound": "a distorted voice say, \"What… have you done?  My thumbs are not responding anymore!\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": "mon_grocerybot_hacked",
-    "sound": "a distorted voice say, \"Carrying bags?  I don't understand...\"",
+    "sound": "a distorted voice say, \"Carrying bags?  I don't understand…\"",
     "volume": 8
   },
   {
@@ -2006,7 +2006,7 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
-    "sound": "\"I AM FOODPERSON. AND I BRING SUSTENANCE!\"",
+    "sound": "\"I AM FOODPERSON.  AND I BRING SUSTENANCE!\"",
     "volume": 17
   },
   {
@@ -2036,7 +2036,7 @@
   {
     "type": "speech",
     "speaker": "foodperson_mask",
-    "sound": "\"You need food, don't you? Then come with me to FOODPLACE!!\"",
+    "sound": "\"You need food, don't you?  Then come with me to FOODPLACE!!\"",
     "volume": 15
   },
   {
@@ -2144,7 +2144,7 @@
   {
     "type": "speech",
     "speaker": "creepy_doll",
-    "sound": "Let's play... Russian roulette.",
+    "sound": "Let's play… Russian roulette.",
     "volume": 10
   },
   {
@@ -2162,7 +2162,7 @@
   {
     "type": "speech",
     "speaker": "creepy_doll",
-    "sound": "Big Brother is watching you...",
+    "sound": "Big Brother is watching you…",
     "volume": 10
   },
   {
@@ -2180,13 +2180,13 @@
   {
     "type": "speech",
     "speaker": "creepy_doll",
-    "sound": "Blood... Delicious.",
+    "sound": "Blood…  Delicious.",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "creepy_doll",
-    "sound": "See you... IN HELL!",
+    "sound": "See you… IN HELL!",
     "volume": 10
   },
   {
@@ -2210,7 +2210,7 @@
   {
     "type": "speech",
     "speaker": "creepy_doll",
-    "sound": "Stay with me... forever!",
+    "sound": "Stay with me… forever!",
     "volume": 10
   },
   {

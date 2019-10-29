@@ -37,6 +37,14 @@
     "min_skills": [ [ "weapon", 2 ] ]
   },
   {
+    "id": "muzzle_brake_mod",
+    "copy-from": "muzzle_brake",
+    "type": "GUNMOD",
+    "name": "modified muzzle brake",
+    "description": "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing bulk, noise, and reducing accuracy slightly.  This one was modified and customized to mount on pretty much any firearm other than launchers, if you so want.",
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ]
+  },
+  {
     "id": "crafted_suppressor",
     "type": "GUNMOD",
     "name": "homemade suppressor",

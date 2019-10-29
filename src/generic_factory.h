@@ -778,11 +778,13 @@ class generic_typed_reader
                 return false;
             } else {
                 if( jo.has_object( "extend" ) ) {
-                    auto tmp = jo.get_object( "extend" );
+                    JsonObject tmp = jo.get_object( "extend" );
+                    tmp.allow_omitted_members();
                     derived.insert_values_from( tmp, member_name, container );
                 }
                 if( jo.has_object( "delete" ) ) {
-                    auto tmp = jo.get_object( "delete" );
+                    JsonObject tmp = jo.get_object( "delete" );
+                    tmp.allow_omitted_members();
                     derived.erase_values_from( tmp, member_name, container );
                 }
                 return true;

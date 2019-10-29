@@ -441,6 +441,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     bool defer = false;
     mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
     if( defer ) {
+        jo.allow_omitted_members();
         return false;
     }
 
@@ -461,7 +462,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject jo,
+bool mission_util::load_funcs( JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {

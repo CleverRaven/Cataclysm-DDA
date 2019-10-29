@@ -59,6 +59,7 @@
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "COMESTIBLE",
+    "cooks_like": "human_cooked",
     "name": "human flesh",
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
@@ -69,6 +70,7 @@
   {
     "id": "human_cooked",
     "copy-from": "human_flesh",
+    "calories": 402,
     "type": "COMESTIBLE",
     "name": "cooked creep",
     "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
@@ -221,7 +223,7 @@
     "volume": "250 ml",
     "price": 200,
     "spoils_in": "8 hours",
-    "calories": 40,
+    "calories": 60,
     "quench": 1,
     "healthy": -1,
     "fun": -15
@@ -372,7 +374,7 @@
     "name": "raw liver",
     "description": "The liver from an animal.  Although many dislike the texture, it's one of the more vitamin rich parts of the animal.  It is very good in sausages, but maybe a little less appetizing when cooked on its own.",
     "quench": -4,
-    "calories": 73,
+    "calories": 92,
     "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
   },
   {
@@ -393,7 +395,7 @@
     "looks_like": "offal",
     "name": "raw brains",
     "name_plural": "raw brains",
-    "description": "The brain from an animal.  You wouldn't want to eat this raw...",
+    "description": "The brain from an animal.  You wouldn't want to eat this raw…",
     "color": "light_gray",
     "healthy": -15,
     "quench": 10,
@@ -459,7 +461,7 @@
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
     "fun": -4,
-    "description": "Normally a delicacy, it needs a little... something.",
+    "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0
   },
   {
@@ -564,7 +566,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
+    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_meat_tainted"
   },
   {
@@ -627,7 +629,7 @@
     "symbol": "%",
     "quench": -10,
     "healthy": -2,
-    "calories": 52,
+    "calories": 18,
     "description": "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
     "price": 0,
     "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
@@ -640,18 +642,10 @@
   {
     "type": "COMESTIBLE",
     "id": "stomach_boiled",
+    "copy-from": "small_stomach_boiled",
     "name": "large boiled stomach",
-    "weight": "145 g",
-    "color": "red",
-    "spoils_in": "1 day",
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "calories": 260,
     "description": "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
-    "price": 750,
-    "material": "flesh",
-    "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
     "fun": -5
   },
   {
@@ -671,7 +665,7 @@
     "spoils_in": "1 day",
     "comestible_type": "FOOD",
     "symbol": ",",
-    "calories": 130,
+    "calories": 60,
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 375,
     "material": "flesh",
@@ -787,7 +781,7 @@
     "healthy": -10,
     "calories": 347,
     "quench": 20,
-    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies…",
     "price": 6500,
     "material": [ "flesh" ],
     "volume": "1 L",

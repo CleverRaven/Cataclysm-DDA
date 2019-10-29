@@ -16,7 +16,7 @@
     "dynamic_line": "I'm sorry, I don't have time to see you at the moment.",
     "responses": [
       { "text": "For the right price could I borrow your services?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
-      { "text": "...", "topic": "TALK_DONE" }
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -25,11 +25,11 @@
     "dynamic_line": "I imagine we might be able to work something out.",
     "responses": [
       {
-        "text": "I was wondering if you could install a cybernetic implant...",
+        "text": "I was wondering if you could install a cybernetic implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_install"
       },
-      { "text": "I need help removing an implant...", "topic": "TALK_DONE", "effect": "bionic_remove" }
+      { "text": "I need help removing an implant…", "topic": "TALK_DONE", "effect": "bionic_remove" }
     ]
   }
 ]

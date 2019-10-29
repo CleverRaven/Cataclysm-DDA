@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "dynamic_line": "My story.  Huh.  It's nothing special.  I had people, but they've risen to be with the Lord.  I don't understand why He didn't take me too, but I suppose it'll all be clear in time.",
     "responses": [
-      { "text": "Do you mean in a religious sense, or...?", "topic": "BGSS_RELIGIOUS_1_STORY2" },
+      { "text": "Do you mean in a religious sense, or…?", "topic": "BGSS_RELIGIOUS_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

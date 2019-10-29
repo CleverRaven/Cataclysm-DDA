@@ -24,6 +24,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_black_pudding", "freq": 14, "cost_multiplier": 0.8, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_stirge", "freq": 7, "cost_multiplier": 1, "pack_size": [ 2, 8 ] },
       { "monster": "mon_wisp", "freq": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_wisp", "freq": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "freq": 2, "cost_multiplier": 50 },
@@ -35,7 +36,11 @@
     "name": "GROUP_CAVE",
     "default": "mon_null",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] } ]
+    "monsters": [
+      { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_shrieker", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_lemure", "freq": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
+    ]
   },
   {
     "type": "monstergroup",

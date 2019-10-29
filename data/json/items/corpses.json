@@ -118,7 +118,7 @@
     "id": "corpse_painful",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "A dead body with a frightful grimace. He appears to have been horribly mangled prior to his death.",
+    "description": "A dead body with a frightful grimace.  He appears to have been horribly mangled prior to his death.",
     "looks_like": "corpse",
     "material": "hflesh"
   },
@@ -156,7 +156,7 @@
     "id": "corpse_halved_upper",
     "copy-from": "corpse",
     "name": "corpse",
-    "description": "The upper half of a dead body, as if torn apart with enormous force. Some organs are hanging out.",
+    "description": "The upper half of a dead body, as if torn apart with enormous force.  Some organs are hanging out.",
     "looks_like": "corpse",
     "volume": "30000 ml",
     "weight": "40000 g",
