@@ -435,7 +435,7 @@
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
-	  "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
@@ -506,8 +506,8 @@
       },
       "place_npcs": [
         { "class": "garage_guard", "x": 9, "y": 10 },
-		{ "class": "garage_guard", "x": 7, "y": 10 },
-		{ "class": "garage_merchant", "x": 8, "y": 9 }
+        { "class": "garage_guard", "x": 7, "y": 10 },
+        { "class": "garage_merchant", "x": 8, "y": 9 }
       ]
     }
   },
