@@ -11135,11 +11135,12 @@ void game::perhaps_add_random_npc()
         }
         spawn_point = tripoint( rng( 0, 179 ), rng( 0, 179 ), 0 );
         spawn_point.z = 0;
-        const auto oter = overmap_buffer.ter( spawn_point );
+        const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldnt spawn on lakes or rivers.
         if( !is_river_or_lake( oter ) ) {
             spawn_allowed = true;
         }
+        counter += 1;
     }
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
@@ -11154,7 +11155,7 @@ void game::perhaps_add_random_npc()
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
     tmp->spawn_at_sm( submap_spawn.x, submap_spawn.y, 0 );
     overmap_buffer.insert_npc( tmp );
-    tmp->form_opinion( g->u );
+    tmp->form_opinion( u );
     tmp->mission = NPC_MISSION_NULL;
     tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),

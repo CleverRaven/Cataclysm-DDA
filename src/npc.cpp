@@ -1464,7 +1464,6 @@ void npc::decide_needs()
         needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
     if( !base_location ) {
-        add_msg( "need safety = 1" );
         needrank[need_safety] = 1;
     }
 
@@ -1506,9 +1505,6 @@ void npc::decide_needs()
                 needs.push_back( static_cast<npc_need>( i ) );
             }
         }
-    }
-    for( const auto elem : needs ) {
-        add_msg( "need = %s", get_need_str_id( elem ) );
     }
 }
 
