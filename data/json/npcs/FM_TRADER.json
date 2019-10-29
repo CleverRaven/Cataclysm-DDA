@@ -100,6 +100,7 @@
     "responses": [
       { "text": "Free Merchants?", "topic": "TALK_TRADER_WHAT" },
       { "text": "What are you doing here?", "topic": "TALK_TRADER_WHY" },
+      { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_TRADER" },
       { "text": "See you later.", "topic": "TALK_DONE" }
     ]
   },
