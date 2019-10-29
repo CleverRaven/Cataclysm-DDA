@@ -56,6 +56,16 @@
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
+    "id": "human_fat",
+    "copy-from": "fat",
+    "type": "COMESTIBLE",
+    "cooks_like": "human_cooked",
+    "name": "chunk of human fat",
+    "name_plural": "chunks of human fat",
+    "description": "Freshly harvested from a human body.",
+    "material": "hflesh"
+  },
+  {
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "COMESTIBLE",
