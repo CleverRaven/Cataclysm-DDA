@@ -222,5 +222,26 @@
     "remove_message": "Your fear dissipates.",
     "rating": "bad",
     "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shaman_entangled",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle you." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Roots and vines entangle you and slow you down!",
+    "remove_message": "The roots and vines wither up and die.",
+    "base_mods": { "speed_mod": [ -60 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_shaman_healed",
+    "name": [ "Reptilian Healing" ],
+    "desc": [ "A minor healing spell." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "The shaman casts a healing spell!"
   }
 ]
