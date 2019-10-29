@@ -7125,48 +7125,7 @@
     "ammo": "tinder",
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": [
-      {
-        "target": "hobo_stove_on",
-        "msg": "The hobo stove is lit.",
-        "need_fire": 1,
-        "need_fire_msg": "You need a source of fire!",
-        "active": false,
-        "menu_text": "Light",
-        "type": "transform"
-      }
-    ]
-  },
-  {
-    "id": "hobo_stove_on",
-    "type": "TOOL",
-    "name": "hobo stove (lit)",
-    "name_plural": "hobo stoves (lit)",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": "500 g",
-    "volume": "250 ml",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "max_charges": 100,
-    "charges_per_use": 25,
-    "turns_per_charge": 300,
-    "revert_to": "hobo_stove",
-    "use_action": [
-      "HOTPLATE",
-      {
-        "target": "hobo_stove",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
-    ],
-    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+    "use_action": "HOTPLATE",
   },
   {
     "id": "tinderbox",
