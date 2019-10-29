@@ -4271,7 +4271,7 @@ void game::monmove()
 void game::overmap_npc_move()
 {
     std::vector<npc *> travelling_npcs;
-    for( auto &elem : overmap_buffer.get_npcs_near_player( 75 ) ) {
+    for( auto &elem : overmap_buffer.get_npcs_near_player( 121 ) ) {
         if( !elem ) {
             continue;
         }
@@ -4283,6 +4283,10 @@ void game::overmap_npc_move()
     }
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
+            if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
+                //recalculate path, we got distracted doing something else probably
+                elem->omt_path.clear();
+            }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
             } else {
@@ -11113,9 +11117,7 @@ void game::perhaps_add_random_npc()
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
-    // TODO: This is inaccurate when the player is near a overmap border, and it will
-    //immediately spawn new npcs upon entering a new overmap. Rather use number of npcs *nearby*.
-    const int npc_num = get_cur_om().get_npcs().size();
+    const int npc_num = overmap_buffer.get_npcs_near_player( 60 ).size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
@@ -11124,38 +11126,20 @@ void game::perhaps_add_random_npc()
     if( !x_in_y( density, 100 ) ) {
         return;
     }
-
-    //tmp->stock_missions();
-    // Create the NPC in one of the outermost submaps,
-    // hopefully far away to be invisible to the player,
-    // to prevent NPCs appearing out of thin air.
-    // This can be changed to let the NPC spawn further away,
-    // so it does not became active immediately.
-    int msx = get_levx();
-    int msy = get_levy();
-    switch( rng( 0, 4 ) ) { // on which side of the map to spawn
-        case 0:
-            msy += rng( 0, MAPSIZE - 1 );
-            break;
-        case 1:
-            msx += MAPSIZE - 1;
-            msy += rng( 0, MAPSIZE - 1 );
-            break;
-        case 2:
-            msx += rng( 0, MAPSIZE - 1 );
-            break;
-        case 3:
-            msy += MAPSIZE - 1;
-            msx += rng( 0, MAPSIZE - 1 );
-            break;
-        default:
-            break;
-    }
-    tripoint omt_pos = sm_to_omt_copy( tripoint( msx, msy, 0 ) );
-    const auto oter = overmap_buffer.ter( omt_pos );
-    // shouldnt spawn on lakes or rivers.
-    if( is_river_or_lake( oter ) ) {
-        return;
+    bool spawn_allowed = false;
+    tripoint spawn_point;
+    int counter = 0;
+    while( !spawn_allowed ) {
+        if( counter >= 10 ) {
+            return;
+        }
+        spawn_point = tripoint( rng( 0, 179 ), rng( 0, 179 ), 0 );
+        spawn_point.z = 0;
+        const auto oter = overmap_buffer.ter( spawn_point );
+        // shouldnt spawn on lakes or rivers.
+        if( !is_river_or_lake( oter ) ) {
+            spawn_allowed = true;
+        }
     }
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
@@ -11167,13 +11151,15 @@ void game::perhaps_add_random_npc()
                             faction_id( "no_faction" ) );
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
-    tmp->spawn_at_sm( msx, msy, 0 );
+    tripoint submap_spawn = omt_to_sm_copy( spawn_point );
+    tmp->spawn_at_sm( submap_spawn.x, submap_spawn.y, 0 );
     overmap_buffer.insert_npc( tmp );
-    tmp->form_opinion( u );
+    tmp->form_opinion( g->u );
     tmp->mission = NPC_MISSION_NULL;
+    tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
-    // This will make the new NPC active
+    // This will make the new NPC active- if its nearby to the player
     load_npcs();
 }
 

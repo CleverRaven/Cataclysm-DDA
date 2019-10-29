@@ -822,10 +822,14 @@ static omt_find_params assign_params(
     const cata::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
-    params.type = type;
+    std::vector<std::pair<std::string, ot_match_type>> temp_types;
+    std::pair<std::string, ot_match_type> temp_pair;
+    temp_pair.first = type;
+    temp_pair.second = match_type;
+    temp_types.push_back( temp_pair );
+    params.types = temp_types;
     params.search_range = radius;
     params.must_see = must_be_seen;
-    params.match_type = match_type;
     params.existing_only = existing_overmaps_only;
     params.om_special = om_special;
     return params;
@@ -835,9 +839,19 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const omt_fi
 {
     bool type_matches = false;
     if( params.existing_only ) {
-        type_matches = check_ot_existing( params.type, params.match_type, location );
+        for( const std::pair<std::string, ot_match_type> &elem : params.types ) {
+            type_matches = check_ot_existing( elem.first, elem.second, location );
+            if( type_matches ) {
+                break;
+            }
+        }
     } else {
-        type_matches = check_ot( params.type, params.match_type, location );
+        for( const std::pair<std::string, ot_match_type> &elem : params.types ) {
+            type_matches = check_ot( elem.first, elem.second, location );
+            if( type_matches ) {
+                break;
+            }
+        }
     }
     if( !type_matches ) {
         return false;
@@ -875,6 +889,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
                                    existing_overmaps_only, om_special );
     return find_closest( origin, params );
 }
+
 tripoint overmapbuffer::find_closest( const tripoint &origin, const omt_find_params &params )
 {
     // Check the origin before searching adjacent tiles!
