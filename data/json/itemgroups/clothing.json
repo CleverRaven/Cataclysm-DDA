@@ -2096,7 +2096,7 @@
     "//": "clothing and wearable items for domestic desks, tables, etc.",
     "subtype": "collection",
     "items": [
-      { "group": "accesories_personal_unisex", "prob": 70, "repeat": [ 1, 4 ] },
+      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
       { "group": "accesories_personal_womens", "prob": 50 },
       { "group": "accesories_personal_mens", "prob": 50 },
       { "group": "masks_unisex", "prob": 20 },
@@ -2330,25 +2330,25 @@
     "//": "unisex shirts",
     "subtype": "distribution",
     "items": [
-      { "item": "longshirt", "prob": 70, "repeat": [ 1, 4 ] },
+      { "item": "longshirt", "prob": 70, "count": [ 1, 4 ] },
       { "item": "arm_warmers", "prob": 20 },
       { "item": "armguard_soft", "prob": 10 },
-      { "item": "dress_shirt", "prob": 50, "repeat": [ 1, 4 ] },
+      { "item": "dress_shirt", "prob": 50, "count": [ 1, 4 ] },
       { "item": "flag_shirt", "prob": 15 },
-      { "item": "jersey", "prob": 30, "repeat": [ 1, 4 ] },
+      { "item": "jersey", "prob": 30, "count": [ 1, 4 ] },
       { "item": "linuxtshirt", "prob": 10 },
-      { "item": "polo_shirt", "prob": 30, "repeat": [ 1, 4 ] },
-      { "item": "thermal_shirt", "prob": 20, "repeat": [ 1, 2 ] },
+      { "item": "polo_shirt", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "thermal_shirt", "prob": 20, "count": [ 1, 2 ] },
       { "item": "sleeveless_tunic", "prob": 10 },
-      { "item": "sweater", "prob": 40, "repeat": [ 1, 2 ] },
-      { "item": "sweatshirt", "prob": 50, "repeat": [ 1, 2 ] },
-      { "item": "tank_top", "prob": 30, "repeat": [ 1, 4 ] },
-      { "item": "tshirt", "prob": 80, "repeat": [ 1, 4 ] },
-      { "item": "tshirt_text", "prob": 50, "repeat": [ 1, 4 ] },
+      { "item": "sweater", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "sweatshirt", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "tank_top", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "tshirt", "prob": 80, "count": [ 1, 4 ] },
+      { "item": "tshirt_text", "prob": 50, "count": [ 1, 4 ] },
       { "item": "tunic", "prob": 10 },
       { "item": "waistcoat", "prob": 10 },
       { "item": "wool_hoodie", "prob": 10 },
-      { "item": "hoodie", "prob": 40, "repeat": [ 1, 4 ] }
+      { "item": "hoodie", "prob": 40, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -2366,11 +2366,11 @@
     "items": [
       { "item": "thermal_suit", "prob": 15 },
       { "item": "thermal_outfit", "prob": 5 },
-      { "item": "long_undertop", "prob": 30, "repeat": [ 1, 4 ] },
-      { "item": "under_armor", "prob": 10, "repeat": [ 1, 4 ] },
-      { "item": "undershirt", "prob": 40, "repeat": [ 1, 4 ] },
-      { "item": "under_armor_shorts", "prob": 10, "repeat": [ 1, 4 ] },
-      { "item": "long_underpants", "prob": 30, "repeat": [ 1, 4 ] }
+      { "item": "long_undertop", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "under_armor", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "undershirt", "prob": 40, "count": [ 1, 4 ] },
+      { "item": "under_armor_shorts", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "long_underpants", "prob": 30, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -2379,18 +2379,18 @@
     "//": "womens underwear.",
     "subtype": "distribution",
     "items": [
-      { "item": "bikini_bottom", "prob": 20, "repeat": [ 1, 2 ] },
-      { "item": "boy_shorts", "prob": 30, "repeat": [ 1, 4 ] },
-      { "item": "bra", "prob": 60, "repeat": [ 1, 4 ] },
-      { "item": "panties", "prob": 70, "repeat": [ 1, 4 ] },
-      { "item": "bikini_top", "prob": 20, "repeat": [ 1, 4 ] },
+      { "item": "bikini_bottom", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "boy_shorts", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "bra", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "panties", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "bikini_top", "prob": 20, "count": [ 1, 4 ] },
       { "item": "bikini_top_fur", "prob": 5 },
       { "item": "bikini_top_leather", "prob": 10 },
-      { "item": "camisole", "prob": 30, "repeat": [ 1, 4 ] },
+      { "item": "camisole", "prob": 30, "count": [ 1, 4 ] },
       { "item": "corset", "prob": 10 },
-      { "item": "sports_bra", "prob": 50, "repeat": [ 1, 4 ] },
-      { "item": "stockings", "prob": 20, "repeat": [ 1, 2 ] },
-      { "item": "tights", "prob": 20, "repeat": [ 1, 2 ] }
+      { "item": "sports_bra", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "stockings", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "tights", "prob": 20, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -2399,9 +2399,9 @@
     "//": "mens underwear.",
     "subtype": "distribution",
     "items": [
-      { "item": "boxer_briefs", "prob": 30, "repeat": [ 1, 4 ] },
-      { "item": "boxer_shorts", "prob": 50, "repeat": [ 1, 4 ] },
-      { "item": "briefs", "prob": 50, "repeat": [ 1, 4 ] },
+      { "item": "boxer_briefs", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "boxer_shorts", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "briefs", "prob": 50, "count": [ 1, 4 ] },
       { "item": "trunks", "prob": 10 }
     ]
   },
@@ -2439,18 +2439,18 @@
           }
         ]
       },
-      { "item": "jeans", "prob": 80, "repeat": [ 1, 4 ] },
+      { "item": "jeans", "prob": 80, "count": [ 1, 4 ] },
       { "item": "jeans_red", "prob": 20 },
-      { "item": "leg_warmers", "prob": 20, "repeat": [ 1, 4 ] },
+      { "item": "leg_warmers", "prob": 20, "count": [ 1, 4 ] },
       { "item": "leggings", "prob": 30 },
       { "item": "legguard_hard", "prob": 3 },
-      { "item": "pants", "prob": 70, "repeat": [ 1, 4 ] },
-      { "item": "pants_cargo", "prob": 60, "repeat": [ 1, 4 ] },
-      { "item": "pants_leather", "prob": 20, "repeat": [ 1, 2 ] },
-      { "item": "shorts", "prob": 50, "repeat": [ 1, 2 ] },
-      { "item": "shorts_cargo", "prob": 60, "repeat": [ 1, 2 ] },
-      { "item": "shorts_denim", "prob": 40, "repeat": [ 1, 2 ] },
-      { "item": "b_shorts", "prob": 60, "repeat": [ 1, 2 ] }
+      { "item": "pants", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "pants_cargo", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "pants_leather", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "shorts", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "shorts_cargo", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "shorts_denim", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "b_shorts", "prob": 60, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -2460,7 +2460,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "nanoskirt", "prob": 10 },
-      { "item": "skirt", "prob": 50, "repeat": [ 1, 3 ] },
+      { "item": "skirt", "prob": 50, "count": [ 1, 3 ] },
       { "item": "skirt_leather", "prob": 10 }
     ]
   },
@@ -2611,9 +2611,9 @@
     "subtype": "distribution",
     "items": [
       { "item": "dress_wedding", "prob": 5 },
-      { "item": "sundress", "prob": 60, "repeat": [ 1, 4 ] },
-      { "item": "gown", "prob": 20, "repeat": [ 1, 2 ] },
-      { "item": "dress", "prob": 60, "repeat": [ 1, 4 ] },
+      { "item": "sundress", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "gown", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "dress", "prob": 60, "count": [ 1, 4 ] },
       { "item": "veil_wedding", "prob": 5 }
     ]
   },
@@ -2823,10 +2823,10 @@
         "distribution": [
           {
             "collection": [
-              { "item": "ring_wedding", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "copper_ring", "prob": 80, "repeat": [ 1, 3 ] },
-              { "item": "silver_ring", "prob": 50, "repeat": [ 1, 3 ] },
-              { "item": "gold_ring", "prob": 40, "repeat": [ 1, 3 ] },
+              { "item": "ring_wedding", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
+              { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
+              { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
               { "item": "diamond_ring", "prob": 10 },
               { "item": "platinum_ring", "prob": 10 }
             ],
@@ -2838,11 +2838,11 @@
         "distribution": [
           {
             "collection": [
-              { "item": "ear_spool", "prob": 20, "repeat": [ 1, 2 ] },
-              { "item": "bead_ear", "prob": 70, "repeat": [ 1, 2 ] },
-              { "item": "copper_ear", "prob": 60, "repeat": [ 1, 2 ] },
-              { "item": "silver_ear", "prob": 40, "repeat": [ 1, 2 ] },
-              { "item": "gold_ear", "prob": 40, "repeat": [ 1, 2 ] },
+              { "item": "ear_spool", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "bead_ear", "prob": 70, "count": [ 1, 2 ] },
+              { "item": "copper_ear", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_ear", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_ear", "prob": 40, "count": [ 1, 2 ] },
               { "item": "platinum_ear", "prob": 10 },
               { "item": "ear_plugs", "prob": 40 },
               { "item": "attached_ear_plugs_off", "prob": 30 }
@@ -2855,11 +2855,11 @@
         "distribution": [
           {
             "collection": [
-              { "item": "bead_bracelet", "prob": 80, "repeat": [ 1, 2 ] },
-              { "item": "bracelet_friendship", "prob": 60, "repeat": [ 1, 2 ] },
-              { "item": "copper_bracelet", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "silver_bracelet", "prob": 40, "repeat": [ 1, 2 ] },
-              { "item": "gold_bracelet", "prob": 10, "repeat": [ 1, 2 ] },
+              { "item": "bead_bracelet", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "bracelet_friendship", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "copper_bracelet", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
               { "item": "platinum_bracelet", "prob": 10 }
             ],
             "prob": 50
@@ -2870,8 +2870,8 @@
         "distribution": [
           {
             "collection": [
-              { "item": "gold_dental_grill", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "platinum_dental_grill", "prob": 30, "repeat": [ 1, 2 ] },
+              { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
               { "item": "diamond_dental_grill", "prob": 10 }
             ],
             "prob": 10
@@ -2882,15 +2882,15 @@
         "distribution": [
           {
             "collection": [
-              { "item": "bead_necklace", "prob": 80, "repeat": [ 1, 2 ] },
-              { "item": "copper_necklace", "prob": 60, "repeat": [ 1, 2 ] },
-              { "item": "silver_necklace", "prob": 40, "repeat": [ 1, 2 ] },
-              { "item": "gold_necklace", "prob": 20, "repeat": [ 1, 2 ] },
-              { "item": "platinum_necklace", "prob": 10, "repeat": [ 1, 2 ] },
-              { "item": "copper_locket", "prob": 60, "repeat": [ 1, 2 ] },
-              { "item": "silver_locket", "prob": 40, "repeat": [ 1, 2 ] },
-              { "item": "gold_locket", "prob": 20, "repeat": [ 1, 2 ] },
-              { "item": "platinum_locket", "prob": 10, "repeat": [ 1, 2 ] },
+              { "item": "bead_necklace", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "copper_necklace", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_necklace", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_necklace", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "platinum_necklace", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "copper_locket", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_locket", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_locket", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "platinum_locket", "prob": 10, "count": [ 1, 2 ] },
               { "item": "collarpin", "prob": 10 },
               { "item": "bronze_medal", "prob": 6 },
               { "item": "silver_medal", "prob": 4 },
@@ -2907,15 +2907,15 @@
         "distribution": [
           {
             "collection": [
-              { "item": "faux_fur_cat_ears", "prob": 80, "repeat": [ 1, 2 ] },
-              { "item": "leather_cat_ears", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "fur_cat_ears", "prob": 10, "repeat": [ 1, 2 ] },
-              { "item": "faux_fur_cat_tail", "prob": 80, "repeat": [ 1, 2 ] },
-              { "item": "leather_cat_tail", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "fur_cat_tail", "prob": 10, "repeat": [ 1, 2 ] },
-              { "item": "faux_fur_collar", "prob": 80, "repeat": [ 1, 2 ] },
-              { "item": "leather_collar", "prob": 50, "repeat": [ 1, 2 ] },
-              { "item": "fur_collar", "prob": 10, "repeat": [ 1, 2 ] }
+              { "item": "faux_fur_cat_ears", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_cat_ears", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_cat_ears", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "faux_fur_cat_tail", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_cat_tail", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_cat_tail", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "faux_fur_collar", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_collar", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_collar", "prob": 10, "count": [ 1, 2 ] }
             ],
             "prob": 10
           }
