@@ -462,8 +462,8 @@
   },
   {
     "type": "npc_class",
-    "id": "FM_GARAGE",
-    "name": "FM_GARAGE",
+    "id": "FM_TRADER",
+    "name": "FM_TRADER",
     "job_description": "I am trading stuff",
     "traits": [ { "trait": "OUTDOORSMAN" }, { "trait": "HEAVYSLEEPER" }, { "trait": "GOODCARDIO" }, { "trait": "LIGHTSTEP" } ],
     "common": false,
