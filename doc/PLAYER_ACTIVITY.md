@@ -14,7 +14,7 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 
 * verb: A descriptive term to describe the activity to be used in the query to stop the activity, and strings that describe it, example : `"verb": "mining"` or `"verb": { "ctxt": "instrument", "str": "playing" }`.
 * suspendable (true): If true, the activity can be continued without starting from scratch again. This is only possible if `can_resume_with()` returns true.
-* rooted (false): If true, then during the activity, recoil is reduced, plant mutants sink their roots into the ground, etc.
+* rooted (false): If true, then during the activity, recoil is reduced, and plant mutants sink their roots into the ground. Should be true if the activity lasts longer than a few minutes, and could be performed without moving your feet for a long time.
 * based_on: Can be 'time', 'speed', or 'neither'.
 	* time: The amount that `player_activity::moves_left` is decremented by is independent from the character's speed.
 	* speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
