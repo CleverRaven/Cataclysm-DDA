@@ -7,5 +7,11 @@
     "type": "SPECIES",
     "id": "DRAGON",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
+  },
+  { 
+	"type": "SPECIES",
+    "id": "LIZARDFOLK",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE" ]
   }
 ]

@@ -6,11 +6,16 @@
   {
     "type": "MONSTER_FACTION",
     "name": "dragon_black",
-    "friendly": [ "ooze" ]
+    "friendly": [ "ooze", "lizardfolk" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "ooze",
-    "friendly": [ "dragon_black" ]
+    "friendly": [ "dragon_black", "lizardfolk", "ooze" ]
+  },
+  { 
+	"type": "MONSTER_FACTION",
+    "name": "lizardfolk",
+    "friendly": [ "dragon_black", "ooze", "lizardfolk" ]
   }
 ]

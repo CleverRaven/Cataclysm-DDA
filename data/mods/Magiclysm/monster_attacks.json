@@ -1,0 +1,37 @@
+[
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "skewer",
+    "cooldown": 20,
+    "move_cost": 180,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 15, "armor_multiplier": 0.5 } ],
+    "body_parts": [ [ "TORSO", 1 ] ],
+    "effects": [ { "id": "bleed", "duration": 100, "bp": "TORSO" }, { "id": "downed", "duration": 3 } ],
+    "hit_dmg_u": "The %1$s impales your torso with its trident!",
+    "hit_dmg_npc": "The %1$s impales <npcname>'s torso with its trident!",
+    "no_dmg_msg_u": "The %1$s tries to impale you with its trident, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s with its trident, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "crush",
+    "cooldown": 20,
+    "move_cost": 180,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ],
+	"effects": [ { "id": "downed", "duration": 3 } ],
+    "body_parts": [
+      [ "HEAD", 3 ],
+      [ "EYES", 2 ],
+      [ "MOUTH", 1 ],
+      [ "ARM_L", 3 ],
+      [ "ARM_R", 3 ],
+      [ "TORSO", 4 ]
+    ],
+    "hit_dmg_u": "The %1$s crushes you with its greatclub!",
+    "hit_dmg_npc": "The %1$s crushes <npcname> with its greatclub!",
+    "no_dmg_msg_u": "The %1$s tries to crush you with its greatclub, but swings wide and stumbles.",
+    "no_dmg_msg_npc": "The %1$s tries to crush <npcname> with its greatclub, but swings wide and stumbles."
+  }
+]
