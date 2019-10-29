@@ -1447,41 +1447,52 @@
     "type": "martial_art",
     "id": "style_zui_quan",
     "name": "Zui Quan",
-    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodge bonus and accuracy bonus based on your intelligence.  Moving gives you additional dodge attempts and each time you dodge, you inflict more damage with your counterattack for until the end of your next turn.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "learn_difficulty": 8,
-    "arm_block": 99,
-    "leg_block": 99,
     "static_buffs": [
       {
-        "id": "zuiquan_static",
-        "name": "Zui Quan",
-        "description": "Intelligence increases dodging ability",
+        "id": "buff_zuiquan_static",
+        "name": "Zui Quan Stance",
+        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm easier.\n\nDodging Skill increased by 15%% of Intelligence.",
+        "min_unarmed": 0,
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "dodge", "int", 0.12 ] ]
+        "flat_bonuses": [ [ "dodge", "int", 0.15 ] ]
+      },
+      {
+        "id": "buff_zuiquan_static2",
+        "name": "Advanced Zui Quan",
+        "description": "You have a greater understanding of Zui Quan.  Your skills at dodging and landing attacks are much better as a result.\n\n+1 Dodge attempts, Accuracy increased by 15%% of Intelligence.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "hit", "int", 0.15 ] ]
       }
     ],
-    "onattack_buffs": [
+    "onmove_buffs": [
       {
-        "id": "zuiquan_attack_buff",
-        "name": "Drunken Dodging",
-        "description": "Unlimited dodges after attacking",
-        "buff_duration": 4,
+        "id": "buff_zuiquan_onmove",
+        "name": "Drunken Stumble",
+        "description": "With a few quick steps, you can completely change your orientation and dodge additional attacks.\n\n+2 Dodge attempts.\nLasts 3 turns.",
+        "min_unarmed": 5,
         "unarmed_allowed": true,
-        "bonus_dodges": 100
+        "buff_duration": 3,
+        "bonus_dodges": 2
       }
     ],
     "ondodge_buffs": [
       {
-        "id": "zuiquan_dodge_buff",
-        "name": "Counter Strike",
-        "description": "Extra damage and to-hit after successful dodge",
+        "id": "buff_zuiquan_ondodge",
+        "name": "Drunken Dodging",
+        "description": "Each time you dodge, your positional advantage increases against your opponents.  This makes your attacks hit harder with each successful dodge.\n\nGain Armor Penetration equal to 25%% of Intelligence.\nLasts 1 turn.  Stacks 4 times.",
+        "min_unarmed": 1,
         "unarmed_allowed": true,
-        "max_stacks": 2,
-        "flat_bonuses": [ [ "damage", "bash", "int", 0.5 ], [ "hit", "int", 0.2 ] ]
+        "buff_duration": 1,
+        "max_stacks": 4,
+        "flat_bonuses": [ [ "arpen", "bash", "int", 0.25 ], [ "arpen", "cut", "int", 0.25 ], [ "arpen", "stab", "int", 0.25 ] ]
       }
     ],
-    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_break", "tec_zuiquan_counter" ]
   },
   {
     "type": "martial_art",

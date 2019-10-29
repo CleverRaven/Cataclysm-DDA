@@ -1529,23 +1529,34 @@
   {
     "type": "technique",
     "id": "tec_zuiquan_feint",
-    "name": "Drunk feint",
-    "min_unarmed": 3,
+    "name": "Drunken Feint",
+    "messages": [ "You stumble and leer at %s", "<npcname> stumbles and leers at %s" ],
+    "min_unarmed": 2,
     "unarmed_allowed": true,
     "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You stumble and leer at %s", "<npcname> stumbles and leers at %s" ]
+    "miss_recovery": true
   },
   {
     "type": "technique",
     "id": "tec_zuiquan_counter",
-    "name": "Drunk counter",
-    "min_unarmed": 4,
+    "name": "Drunk Counter",
+    "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ],
+    "min_unarmed": 0,
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
-    "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_zuiquan_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you stumble away!", "The %s tries to grab <npcname>, but they stumble away!" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
   },
   {
     "type": "technique",
