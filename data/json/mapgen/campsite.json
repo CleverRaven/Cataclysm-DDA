@@ -76,7 +76,7 @@
     "om_terrain": [ "campsite" ],
     "weight": 500,
     "object": {
-      "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "hunters", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         "........................",
         "........................",

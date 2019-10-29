@@ -7,7 +7,7 @@
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_HUNTER_CABIN",
-    "faction": "wasteland_scavengers",
+    "faction": "hunters",
     "shopkeeper_item_group": "NC_HUNTER_misc",
     "weapon_override": "NC_HUNTER_archery"
   },

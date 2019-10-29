@@ -491,5 +491,18 @@
     "food_supply": 20000,
     "wealth": 10000,
     "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
+  },
+    {
+    "type": "faction",
+    "id": "hunters",
+    "name": "Wasteland Hunters",
+    "likes_u": 35,
+    "respects_u": 35,
+    "known_by_u": false,
+    "size": 20,
+    "power": 50,
+    "food_supply": 20000,
+    "wealth": 10000,
+    "description": "Usually pre-apocalypse pro hunters whose skills are now indispensable to humanity's survival."
   }
 ]
