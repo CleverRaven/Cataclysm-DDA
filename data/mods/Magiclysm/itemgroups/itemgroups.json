@@ -221,6 +221,7 @@
     "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access. Includes lower tier group, plus the best magic items.",
     "items": [
       { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
+      { "item": "dragon_black_scale", "count": [ 48, 120 ] },
       { "group": "enchanted_tokens_weapon", "prob": 30 },
       { "group": "enchanted_rings_common", "prob": 40 },
       { "group": "enchanted_rings_uncommon", "prob": 30 },
