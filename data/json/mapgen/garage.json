@@ -427,5 +427,132 @@
       "palettes": [ "roof_palette" ],
       "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+	  "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE   ",
+        "    eEEEEEE   eEEEEEEEEE",
+        " ----======----======--E",
+        " |S.eM#MM#M...eM#MM#M.|E",
+        " |S..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..MMMMMMMMMMMMMMMM.|E",
+        " |....................|E",
+        " |---l...........HHHHH|E",
+        " |ts|c...........HLLLL|E",
+        " |-+|p...........Hbbbb|E",
+        "4|...............$....+E",
+        " |^W|............Hhbbb|E",
+        " |xx|cccccSScccccH6LLL|E",
+        " |----::::--::::------|E",
+        "                  EU<UEE",
+        "                  EUEEEE",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "E": "t_pavement",
+        "U": "t_pavement",
+        "$": "t_door_glass_c",
+        "+": "t_door_c",
+        "-": "t_brick_wall",
+        ".": "t_thconc_floor",
+        "6": "t_console_broken",
+        ":": "t_window",
+        "=": "t_door_metal_locked",
+        "A": "t_m_frame",
+        "H": "t_wall_glass",
+        "e": "t_gates_mech_control",
+        "|": "t_brick_wall",
+        "W": "t_chainfence_h",
+        "^": "t_chaingate_c",
+        "M": "t_metal_floor",
+        "#": "t_grate",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
+      },
+      "furniture": {
+        "A": "f_air_conditioner",
+        "L": "f_locker",
+        "b": "f_bench",
+        "c": "f_counter",
+        "s": "f_sink",
+        "S": "f_utility_shelf",
+        "p": "f_hydraulic_press",
+        "l": "f_heavy_lathe",
+        "t": "f_toilet",
+        "x": "f_crate_c",
+        "h": "f_chair",
+        "U": [ "f_dumpster", "f_recycle_bin" ]
+      },
+      "items": {
+        "L": { "item": "clothing_work_set", "chance": 25 },
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
+      },
+      "place_npcs": [
+        { "class": "garage_guard", "x": 9, "y": 10 },
+		{ "class": "garage_guard", "x": 7, "y": 10 },
+		{ "class": "garage_merchant", "x": 8, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_garage_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....&...............3 ",
+        " 5....................3 ",
+        " |..........AA........3 ",
+        " |.=..................3 ",
+        " |----------------##### ",
+        "                  ##>## ",
+        "                  ####  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 40 ], [ "roof_2x2_utilities_c", 40 ] ],
+          "x": [ 3, 15 ],
+          "y": [ 8, 12 ]
+        }
+      ]
+    }
   }
 ]

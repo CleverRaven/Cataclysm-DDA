@@ -438,5 +438,59 @@
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
     ]
+  },
+   {
+    "type": "npc_class",
+    "id": "FM_GUARD",
+    "name": "FM_GUARD",
+    "job_description": "I am defending the merchant.",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "LIGHTSTEP" }
+    ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "worn_override": "TRADER_GUARD_worn",
+    "weapon_override": "TRADER_GUARD_wield",
+    "shopkeeper_item_group": "TRADER_GUARD_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  
+  {
+    "type": "npc_class",
+    "id": "FM_GARAGE",
+    "name": "FM_GARAGE",
+    "job_description": "I am trading stuff",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "LIGHTSTEP" }
+    ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "worn_override": "TRADER_worn",
+    "weapon_override": "TRADER_wield",
+    "shopkeeper_item_group": "TRADER_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } }
+    ]
   }
 ]
