@@ -251,10 +251,12 @@
     "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "mjolnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 7, [ "bashing", 6 ] ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
@@ -275,6 +277,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 7, [ "piercing", 6 ] ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
@@ -289,6 +292,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 7, [ "cutting", 6 ] ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
@@ -303,6 +307,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 7, [ "archery", 6 ] ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
@@ -313,29 +318,11 @@
   },
   {
     "type": "recipe",
-    "result": "arrow_odin",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
-    "using": [ [ "forging_standard", 1 ] ],
-    "difficulty": 5,
-    "time": "30 m",
-    "book_learn": [ [ "book_mythological", 9 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "orichalcum_sliver", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ] ],
-      [ [ "fletching", 1, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "laevateinn",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 7 ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
@@ -343,5 +330,25 @@
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_odin",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ], [ "spellcraft", 5 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "book_learn": [ [ "book_mythological", 9 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "orichalcum_sliver", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
   }
 ]

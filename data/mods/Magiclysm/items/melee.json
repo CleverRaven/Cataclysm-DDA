@@ -48,9 +48,11 @@
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
     "price": 160000,
     "material": [ "steel", "gold", "orichalcum_metal" ],
+    "flags": [ "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
     "weight": 1860,
     "bashing": 20,
-    "cutting": 35
+    "cutting": 35,
+    "use_action": { "type": "cast_spell", "spell_id": "ethereal_grasp", "no_fail": true, "level": 10, "need_wielding": true }
   }
 ]
