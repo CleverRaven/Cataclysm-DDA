@@ -439,17 +439,12 @@
       { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
     ]
   },
-   {
+  {
     "type": "npc_class",
     "id": "FM_GUARD",
     "name": "FM_GUARD",
     "job_description": "I am defending the merchant.",
-    "traits": [
-      { "trait": "OUTDOORSMAN" },
-      { "trait": "HEAVYSLEEPER" },
-      { "trait": "GOODCARDIO" },
-      { "trait": "LIGHTSTEP" }
-    ],
+    "traits": [ { "trait": "OUTDOORSMAN" }, { "trait": "HEAVYSLEEPER" }, { "trait": "GOODCARDIO" }, { "trait": "LIGHTSTEP" } ],
     "common": false,
     "bonus_per": { "rng": [ 0, 4 ] },
     "bonus_str": { "rng": [ 0, 4 ] },
@@ -465,18 +460,12 @@
       { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } }
     ]
   },
-  
   {
     "type": "npc_class",
     "id": "FM_GARAGE",
     "name": "FM_GARAGE",
     "job_description": "I am trading stuff",
-    "traits": [
-      { "trait": "OUTDOORSMAN" },
-      { "trait": "HEAVYSLEEPER" },
-      { "trait": "GOODCARDIO" },
-      { "trait": "LIGHTSTEP" }
-    ],
+    "traits": [ { "trait": "OUTDOORSMAN" }, { "trait": "HEAVYSLEEPER" }, { "trait": "GOODCARDIO" }, { "trait": "LIGHTSTEP" } ],
     "common": false,
     "bonus_per": { "rng": [ 0, 4 ] },
     "bonus_str": { "rng": [ 0, 4 ] },
