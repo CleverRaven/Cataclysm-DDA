@@ -23,7 +23,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_saltpan_rock_northeast",
-    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs",
+    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in a stone building.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -53,7 +53,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_rock_southwest",
-    "description": "We could take advantage of the the designation of this area to build a brewery.",
+    "description": "We could take advantage of the the designation of this area to build a stone brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

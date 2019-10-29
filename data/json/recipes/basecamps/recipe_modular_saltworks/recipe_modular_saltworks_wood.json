@@ -40,7 +40,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_saltpan_wood_northeast",
-    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs",
+    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in a wooden shed.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -70,7 +70,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_wood_southwest",
-    "description": "We could take advantage of the the designation of this area to build a brewery.",
+    "description": "We could take advantage of the the designation of this area to build a wooden brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
