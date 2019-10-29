@@ -80,7 +80,7 @@
     "id": "garage_merchant",
     "//": "Trades in most common goods.",
     "gender": "male",
-    "class": "Free_Merchant_Garage",
+    "class": "FM_TRADER",
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_TRADER",
