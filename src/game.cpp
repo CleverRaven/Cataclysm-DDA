@@ -9031,6 +9031,20 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc )
 {
+    if( m.has_flag_ter( "THIN_OBSTACLE", dest_loc ) ) {
+        if( u.get_size() > MS_MEDIUM ) {
+            add_msg ( m_warning, _( "You can't fit there." ) );
+            return false; // character too large to fit through a tight passage
+        }
+        if( u.is_mounted() ) {
+            monster* mount = u.mounted_creature.get();
+            if( mount->get_size() > MS_MEDIUM ) {
+                add_msg ( m_warning, _( "You're mount can't fit there." ) );
+                return false; // char's mount is too large for tight passages
+            }
+        }
+    }
+
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -9086,11 +9100,6 @@ bool game::walk_move( const tripoint &dest_loc )
     if( u.grab_point != tripoint_zero && !grabbed ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( OBJECT_NONE );
-    }
-
-    if( u.get_size() > MS_MEDIUM && m.has_flag_ter( TFLAG_THIN_OBSTACLE, dest_loc ) ) {
-        add_msg ( m_warning, _( "You can't fit there." ) );
-        return false; // character too large to fit through a tight passage
     }
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
