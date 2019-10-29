@@ -18,7 +18,7 @@
     "type": "item_group",
     "id": "TRADER_wield",
     "subtype": "collection",
-    "entries": [ { "item": "m9" } ]
+    "entries": [ { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" }, ]
   },
   {
     "type": "item_group",
