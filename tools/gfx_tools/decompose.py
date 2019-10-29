@@ -26,8 +26,10 @@ def write_to_json(pathname, data, prettify=False):
             json.dump(data, fp)
         except ValueError:
             fp.write(json.dumps(data))
-    cmd = ["./tools/format/json_formatter.cgi", pathname]
-    if prettify:
+
+    json_formatter = "./tools/format/json_formatter.cgi"
+    if prettify and os.path.isfile(json_formatter):
+        cmd = [json_formatter, pathname]
         subprocess.call(cmd)
 
 
@@ -53,9 +55,9 @@ class TileSheetData(object):
         self.ts_pathname = refs.tileset_pathname + "/" + self.ts_filename
         self.ts_image = Vips.Image.pngload(self.ts_pathname)
         self.ts_width = self.ts_image.width
-        self.ts_tiles_per_row = math.floor(self.ts_width / self.sprite_width)
+        self.ts_tiles_per_row = int(math.floor(self.ts_width / self.sprite_width))
         self.ts_height = self.ts_image.height
-        self.ts_rows = math.floor(self.ts_height / self.sprite_height)
+        self.ts_rows = int(math.floor(self.ts_height / self.sprite_height))
         self.pngnum_min = refs.last_pngnum
         self.pngnum_max = refs.last_pngnum + self.ts_tiles_per_row * self.ts_rows - 1
         #print("\t{}x{}; {} rows; spans {} to {}".format(self.ts_width, self.ts_height,
