@@ -204,7 +204,7 @@ void item_action_generator::check_consistency() const
     for( const auto &elem : item_actions ) {
         const auto &action = elem.second;
         if( !item_controller->has_iuse( action.id ) ) {
-            debugmsg( "Item action \"%s\" isn't known to the game. Check item action definitions in JSON.",
+            debugmsg( "Item action \"%s\" isn't known to the game.  Check item action definitions in JSON.",
                       action.id.c_str() );
         }
     }
@@ -331,7 +331,7 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<bool> iuse_actor::can_use( const player &, const item &, bool, const tripoint & ) const
+ret_val<bool> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
 {
     return ret_val<bool>::make_success();
 }

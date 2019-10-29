@@ -59,6 +59,20 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for CBMs that are metabolism-powered",
+    "id": "metabolism",
+    "symbol": "?",
+    "color": "white",
+    "name": "metabolism",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -126,7 +140,7 @@
     "symbol": "-",
     "color": "pink",
     "name": "foodplace loyalty card",
-    "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything...",
+    "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything…",
     "price": 0,
     "material": "paper",
     "flags": "TRADER_AVOID",
@@ -167,6 +181,7 @@
     "color": "pink",
     "name": "faux fur pelt",
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
+    "flags": [ "NO_SALVAGE" ],
     "material": [ "faux_fur" ]
   },
   {
@@ -282,6 +297,7 @@
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "material": "chitin",
+    "flags": [ "NO_SALVAGE" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -295,7 +311,7 @@
     "color": "light_gray",
     "name": "set of 100 ceramic disk",
     "name_plural": "ceramic disks",
-    "description": "A set of small slightly elongated disks, made of high-grade ceramic. They remind you of scales",
+    "description": "A set of small slightly elongated disks, made of high-grade ceramic.  They remind you of scales.",
     "price": 0,
     "material": "lightceramic",
     "weight": "100 g",
@@ -311,6 +327,7 @@
     "name_plural": "chunks of biosilicified chitin",
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
     "material": "acidchitin",
+    "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },
     "relative": { "bashing": 2 }
   },
@@ -1808,7 +1825,7 @@
     "color": "white",
     "name": "Science SD-Memory card",
     "name_plural": "Science SD-Memory cards",
-    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks * Interesting *, though...",
+    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks *Interesting*, though…",
     "price": 10000,
     "price_postapoc": 0,
     "material": "plastic",
@@ -1900,8 +1917,7 @@
   {
     "type": "GENERIC",
     "id": "chamomile",
-    "name": "handful of chamomile flowers",
-    "name_plural": "handfuls of chamomile flowers",
+    "name": { "str": "chamomile flowers", "str_pl": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
     "weight": "50 g",
     "color": "white",
@@ -2275,6 +2291,7 @@
     "name": "cigar butt",
     "color": "dark_gray",
     "symbol": "!",
+    "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2306,8 +2323,9 @@
     "name": "cigarette butt",
     "color": "dark_gray",
     "symbol": "!",
-    "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
+    "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2340,6 +2358,7 @@
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
+    "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2359,8 +2378,7 @@
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
-    "name": "raw tobacco",
-    "name_plural": "handfuls of raw tobacco",
+    "name": { "str": "raw tobacco", "str_pl": "raw tobacco" },
     "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
     "looks_like": "wild_herbs",
     "price": 300,

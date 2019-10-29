@@ -115,7 +115,7 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
                                         "Crossed a threshold" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
-                                      translate_marker( "Oh, yeah! That's the stuff!" ) );
+                                      translate_marker( "Oh, yeah!  That's the stuff!" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }

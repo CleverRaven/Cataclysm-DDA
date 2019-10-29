@@ -17,7 +17,7 @@ std::map<std::string, std::string> FILENAMES;
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
-        const char ch = path.at( path.length() - 1 );
+        const char ch = path.back();
         if( ch != '/' && ch != '\\' ) {
             path.push_back( '/' );
         }
@@ -168,6 +168,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
     update_pathname( "templatedir", FILENAMES["user_dir"] + "templates/" );
     update_pathname( "user_sound", FILENAMES["user_dir"] + "sound/" );
+    update_pathname( "user_gfx", FILENAMES["user_dir"] + "gfx/" );
 #if defined(USE_XDG_DIR)
     const char *user_dir;
     std::string dir;

@@ -1202,8 +1202,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     }
 
                     // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
-                                               1.0 );
+                    float ambient = g->m.ambient_light_at( {x, y, center.z} );
+                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
 
                     auto tile_pos = player_to_screen( point( x, y ) );
 
@@ -1215,7 +1215,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                     // string overlay
                     overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
-                                             formatted_text( string_format( "%.1f", lighting ), catacurses::black, NORTH ) );
+                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, NORTH ) );
                 }
             }
 
@@ -3240,7 +3240,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
-        const int full_text_length = iter->getText().length();
+        const int full_text_length = utf8_width( iter->getText() );
 
         int iOffsetX = 0;
         int iOffsetY = 0;

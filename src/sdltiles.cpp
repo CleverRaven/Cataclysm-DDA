@@ -53,6 +53,7 @@
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "wcwidth.h"
 #include "json.h"
 #include "optional.h"
 #include "point.h"
@@ -854,7 +855,7 @@ static void find_videodisplays()
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
-                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
+                       translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
@@ -1086,10 +1087,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
             }
 
-            for( size_t i = 0; i < text.display_width(); ++i ) {
+            int width = 0;
+            for( size_t i = 0; i < text.size(); ++i ) {
                 const int x0 = win->pos.x * fontwidth;
                 const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
+                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->fontwidth + coord.x;
                 const int y = y0 + coord.y;
 
                 // Clip to window bounds.
@@ -1099,11 +1101,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color );
+                const uint32_t ch = text.at( i );
+                map_font->OutputChar( utf32_to_utf8( ch ), x, y, ft.color );
+                width += mk_wcwidth( ch );
             }
 
             prev_coord = coord;
-            x_offset = text.display_width();
+            x_offset = width;
         }
 
         invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
@@ -2141,7 +2145,7 @@ void draw_quick_shortcuts()
         float text_scale = default_text_scale;
         if( text.empty() || text == " " ) {
             text = inp_mngr.get_keyname( key, event.type );
-            text_scale = std::min( text_scale, 0.75f * ( width / ( font->fontwidth * text.length() ) ) );
+            text_scale = std::min( text_scale, 0.75f * ( width / ( font->fontwidth * utf8_width( text ) ) ) );
         }
         hovered = is_quick_shortcut_touch && hovered_quick_shortcut == &event;
         show_hint = hovered &&
@@ -2211,10 +2215,10 @@ void draw_quick_shortcuts()
         SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
         int text_x, text_y;
         if( shortcut_right ) {
-            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->fontwidth * text.length() ) * text_scale *
-                       0.5f ) / text_scale;
+            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->fontwidth * utf8_width(
+                           text ) ) * text_scale * 0.5f ) / text_scale;
         } else {
-            text_x = ( ( i + 0.5f ) * width - ( font->fontwidth * text.length() ) * text_scale * 0.5f ) /
+            text_x = ( ( i + 0.5f ) * width - ( font->fontwidth * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
         }
         text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
@@ -2335,7 +2339,7 @@ bool is_string_input( input_context &ctx )
 
 int get_key_event_from_string( const std::string &str )
 {
-    if( str.length() ) {
+    if( !str.empty() ) {
         return str[0];
     }
     return -1;

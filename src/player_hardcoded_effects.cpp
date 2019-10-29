@@ -255,7 +255,7 @@ static void eff_fun_hallu( player &u, effect &it )
             static const std::array<std::string, 4> npc_hallu = {{
                     translate_marker( "\"I think it's starting to kick in.\"" ),
                     translate_marker( "\"Oh God, what's happening?\"" ),
-                    translate_marker( "\"Of course... it's all fractals!\"" ),
+                    translate_marker( "\"Of course… it's all fractals!\"" ),
                     translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
@@ -339,7 +339,7 @@ static void eff_fun_cold( player &u, effect &it )
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
             { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
             { { bp_mouth, 2 }, { 0, 0, 0, 1, "", 0, "" } },
-            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold. You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
             { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
             { { bp_arm_l, 3 }, { 0, 2, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
             { { bp_arm_l, 2 }, { 0, 1, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
@@ -785,8 +785,8 @@ void player::hardcoded_effects( effect &it )
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
             focus_pool--;
         }
-        if( dur > 200_minutes && one_in( 48 ) && stim < 20 ) {
-            stim++;
+        if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
+            mod_stim( 1 );
         }
         if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
             focus_pool--;

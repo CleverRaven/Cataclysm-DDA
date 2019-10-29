@@ -419,6 +419,11 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    if( !assure_dir_exist( FILENAMES["user_gfx"] ) ) {
+        popup( _( "Unable to make graphics directory.  Check permissions." ) );
+        return false;
+    }
+
     load_char_templates();
 
     ctxt.register_cardinal();
@@ -538,7 +543,7 @@ bool main_menu::opening_screen()
                 for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
                     std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
                     special_names.push_back( spec_name );
-                    xlen += spec_name.size() + 2;
+                    xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
                 }
                 xlen += special_names.size() - 1;
                 point offset( menu_offset + point( -( xlen / 4 ) + 32 + extra_w / 2, -2 ) );
@@ -595,7 +600,8 @@ bool main_menu::opening_screen()
                 int xlen = 0;
                 for( int i = 0; i < settings_subs_to_display; ++i ) {
                     settings_subs.push_back( vSettingsSubItems[i] );
-                    xlen += vSettingsSubItems[i].size() + 2; // Open and close brackets added
+                    // Open and close brackets added
+                    xlen += utf8_width( shortcut_text( c_white, vSettingsSubItems[i] ), true ) + 2;
                 }
                 xlen += settings_subs.size() - 1;
                 point offset = menu_offset + point( 46 + extra_w / 2 - ( xlen / 4 ), -2 );

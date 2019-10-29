@@ -70,7 +70,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Hi-Point CF-380",
-    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable. Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "709 g",
     "volume": "539 ml",
     "price": 7500,
@@ -83,5 +83,27 @@
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
+  },
+  {
+    "id": "taurus_spectrum",
+    "copy-from": "pistol_backup",
+    "type": "GUN",
+    "name": "Taurus Spectrum",
+    "name_plural": "Taurus Spectrum",
+    "description": "A .380 subcompact pistol.  Designed for concealed carry and built from high-quality, durable materials.",
+    "weight": "283 g",
+    "volume": "187 ml",
+    "price": 64000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "380",
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 225,
+    "magazine_well": 1,
+    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
   }
 ]

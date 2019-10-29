@@ -201,7 +201,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, partial_con> partial_constructions;
-        basecamp camp;  // only allowing one basecamp per submap
+        std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
     private:
         std::map<point, computer> computers;
