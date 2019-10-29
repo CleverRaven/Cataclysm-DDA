@@ -9039,7 +9039,7 @@ bool game::walk_move( const tripoint &dest_loc )
         if( u.is_mounted() ) {
             monster* mount = u.mounted_creature.get();
             if( mount->get_size() > MS_MEDIUM ) {
-                add_msg ( m_warning, _( "You're mount can't fit there." ) );
+                add_msg ( m_warning, _( "Your mount can't fit there." ) );
                 return false; // char's mount is too large for tight passages
             }
         }
