@@ -146,7 +146,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
 
     if( show_prompt ) {
         // set up window
-        catacurses::window wf_win = catacurses::newwin( TERMY, TERMX, point_zero );
+        catacurses::window wf_win = catacurses::newwin( TERMY, TERMX / 2, point( TERMX / 4, 0 ) );
 
         int curtab = 0;
         int lasttab = 0; // give placement memory to menus, sorta.
@@ -390,17 +390,17 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     size_t sel = 0, selpage = 0;
 
-    catacurses::window w_worlds_border = catacurses::newwin( TERMY, TERMX, point_zero );
-    catacurses::window w_worlds_tooltip = catacurses::newwin( iTooltipHeight, TERMX - 2,
-                                          point( 1, 1 ) );
-    catacurses::window w_worlds_header = catacurses::newwin( 1, TERMX - 2,
-                                         point( 1, 1 + iTooltipHeight ) );
-    catacurses::window w_worlds = catacurses::newwin( iContentHeight, TERMX - 2,
-                                  point( 1, iTooltipHeight + 2 ) );
+    catacurses::window w_worlds_border = catacurses::newwin( TERMY, TERMX / 2, point( TERMX / 4, 0 ) );
+    catacurses::window w_worlds_tooltip = catacurses::newwin( iTooltipHeight, TERMX / 2 - 2,
+                                          point( 1 + TERMX / 4, 1 ) );
+    catacurses::window w_worlds_header = catacurses::newwin( 1, TERMX / 2 - 2,
+                                         point( 1 + TERMX / 4, 1 + iTooltipHeight ) );
+    catacurses::window w_worlds = catacurses::newwin( iContentHeight, TERMX / 2 - 2,
+                                  point( 1 + TERMX / 4, iTooltipHeight + 2 ) );
 
     draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
     mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w_worlds_border, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_worlds_border, point( TERMX / 2 - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
     for( auto &mapLine : mapLines ) {
         mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
@@ -409,7 +409,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     wrefresh( w_worlds_border );
 
-    for( int i = 0; i < 78; i++ ) {
+    for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
         if( mapLines[i] ) {
             mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
         } else {
@@ -432,7 +432,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     while( true ) {
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
+            for( int j = 0; j < getmaxx( w_worlds ); j++ ) {
                 if( mapLines[j] ) {
                     mvwputch( w_worlds, point( j, i ), BORDER_COLOR, LINE_XOXO );
                 } else {
@@ -712,8 +712,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
 {
-    catacurses::window w_border = catacurses::newwin( 13, TERMX / 2 - 3, point( 0, 4 ) );
-    catacurses::window w_mods = catacurses::newwin( TERMY - 13, TERMX / 2 - 4, point( 0, 5 ) );
+    catacurses::window w_border = catacurses::newwin( 13, TERMX / 4 - 3, point( TERMX / 4, 4 ) );
+    catacurses::window w_mods = catacurses::newwin( TERMY - 13, TERMX / 4 - 4, point( TERMX / 4, 5 ) );
 
     int start = 0;
     int cursor = 0;
@@ -784,17 +784,18 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
     ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
 
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-
     // lots of small windows so that each section can be drawn to independently of the others as necessary
-    catacurses::window w_header1 = catacurses::newwin( 1, TERMX / 2 - 5, point( 1, 3 ) );
-    catacurses::window w_header2 = catacurses::newwin( 1, TERMX / 2 - 4, point( TERMX / 2 + 3, 3 ) );
-    catacurses::window w_shift   = catacurses::newwin( TERMY - 11, 5, point( TERMX / 2 - 3, 3 ) );
-    catacurses::window w_list    = catacurses::newwin( TERMY - 13, TERMX / 2 - 4, point( 0, 5 ) );
-    catacurses::window w_active  = catacurses::newwin( TERMY - 13, TERMX / 2 - 4,
-                                   point( TERMX / 2 + 2, 5 ) );
-    catacurses::window w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
+    catacurses::window w_header1 = catacurses::newwin( 1, TERMX / 4 - 5, point( 1 + TERMX / 4, 3 ) );
+    catacurses::window w_header2 = catacurses::newwin( 1, TERMX / 4 - 4,
+                                   point( TERMX / 4 + 3 + TERMX / 4, 3 ) );
+    catacurses::window w_shift   = catacurses::newwin( TERMY - 11, 5, point( TERMX / 4 - 3 + TERMX / 4,
+                                   3 ) );
+    catacurses::window w_list    = catacurses::newwin( TERMY - 13, TERMX / 4 - 4, point( TERMX / 4,
+                                   5 ) );
+    catacurses::window w_active  = catacurses::newwin( TERMY - 13, TERMX / 4 - 4,
+                                   point( TERMX / 4 + 2 + TERMX / 4, 5 ) );
+    catacurses::window w_description = catacurses::newwin( 4, TERMX / 2 - 4, point( 1 + TERMX / 4,
+                                       TERMY - 5 ) );
 
 
     draw_modselection_borders( win, ctxt );
@@ -1090,8 +1091,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     const char *line_of_32_underscores = "________________________________";
 
-    catacurses::window w_confirmation = catacurses::newwin( iContentHeight, TERMX - 2,
-                                        point( 1, iTooltipHeight + 2 ) );
+    catacurses::window w_confirmation = catacurses::newwin( iContentHeight, TERMX / 2 - 2,
+                                        point( 1 + TERMX / 4, iTooltipHeight + 2 ) );
 
     int namebar_y = 1;
     int namebar_x = 3 + utf8_width( _( "World Name:" ) );
@@ -1209,9 +1210,9 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
         const input_context &ctxtp )
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
-    std::array<int, 5> xs = {{1, 1, TERMX / 2 + 2, TERMX / 2 - 4, TERMX / 2 + 2}};
+    std::array<int, 5> xs = {{1, 1, TERMX / 4 + 2, TERMX / 4 - 4, TERMX / 4 + 2}};
     std::array<int, 5> ys = {{TERMY - 8, 4, 4, 3, 3}};
-    std::array<int, 5> ls = {{TERMX - 2, TERMX / 2 - 4, TERMX / 2 - 3, TERMY - 11, 1}};
+    std::array<int, 5> ls = {{TERMX / 2 - 2, TERMX / 4 - 4, TERMX / 4 - 3, TERMY - 11, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
@@ -1232,18 +1233,18 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // Add in connective characters
     mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO );
     mvwputch( win, point( 0, TERMY - 8 ), BORDER_COLOR, LINE_XXXO );
-    mvwputch( win, point( TERMX / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO );
+    mvwputch( win, point( TERMX / 4 + 2, 4 ), BORDER_COLOR, LINE_XXXO );
 
-    mvwputch( win, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX );
-    mvwputch( win, point( TERMX - 1, TERMY - 8 ), BORDER_COLOR, LINE_XOXX );
-    mvwputch( win, point( TERMX / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX );
+    mvwputch( win, point( TERMX / 2 - 1, 4 ), BORDER_COLOR, LINE_XOXX );
+    mvwputch( win, point( TERMX / 2 - 1, TERMY - 8 ), BORDER_COLOR, LINE_XOXX );
+    mvwputch( win, point( TERMX / 4 - 4, 4 ), BORDER_COLOR, LINE_XOXX );
 
-    mvwputch( win, point( TERMX / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
-    mvwputch( win, point( TERMX / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwputch( win, point( TERMX / 4 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwputch( win, point( TERMX / 4 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
 
-    mvwputch( win, point( TERMX / 2 - 4, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( TERMX / 4 - 4, TERMY - 8 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
-    mvwputch( win, point( TERMX / 2 + 2, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( TERMX / 4 + 2, TERMY - 8 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
