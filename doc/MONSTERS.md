@@ -37,7 +37,8 @@ In-game description for the monster.
 
 A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
 
-TODO: document species.
+In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
+
 
 ## "categories"
 (array of strings, optional)
@@ -62,7 +63,8 @@ The materials the monster is primarily composed of. Must contain valid material 
 ## "phase"
 (string, optional)
 
-It describes monster's state of matter. However, it doesn't seem to have any gameplay purpose.
+It describes monster's body state of matter. However, it doesn't seem to have any gameplay purpose, right now.
+It can be SOLID, LIQUID, GAS, PLASMA or NULL.
 
 ## "default_faction"
 (string)
@@ -399,7 +401,7 @@ Makes the monster leap a few tiles. It supports the following additional propert
 Doesn't allow to choose target.
 
 ### "move_cost"
-Time needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 #### "min_consider_range", "max_consider_range"
 Minimal range and maximal range to consider for using specific attack.
@@ -414,7 +416,7 @@ Max damage it can deal on one bite.
 How hard is to get free of bite without killing.
 
 ### "move_cost"
-Time needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 ### "accuracy"
 How accurate it is.
