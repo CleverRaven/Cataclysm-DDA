@@ -4560,7 +4560,6 @@
         },
         { "id": "heatpack", "fg": 1532, "rotates": false },
         { "id": [ "hobo_stove", "esbit_stove" ], "fg": 1533, "rotates": false },
-        { "id": "hobo_stove_on", "fg": 1534, "rotates": false },
         { "id": "hoe", "fg": 1535, "rotates": false },
         { "id": [ "horn_car", "horn_big", "beeper", "chimes", "horn_bicycle" ], "fg": 1536, "rotates": false },
         { "id": [ "gasoline_cooker", "oil_cooker", "hotplate" ], "fg": 1537, "rotates": false },
