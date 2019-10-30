@@ -56,6 +56,23 @@
     "sym": "O",
     "color": "white"
   },
+    {
+    "type": "overmap_terrain",
+    "id": "garage_trader",
+    "copy-from": "generic_city_building",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
+    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
+  },
+    {
+    "type": "overmap_terrain",
+    "id": "garage_trader_roof",
+    "copy-from": "generic_city_building",
+    "name": "garage roof",
+    "sym": "O",
+    "color": "white"
+  },
   {
     "type": "overmap_terrain",
     "id": "s_garage_1",
