@@ -1088,7 +1088,7 @@
     "addiction_potential": 5,
     "calories": 79,
     "description": "A bottle of fine Irish whiskey.",
-    "price": 2400,
+    "price": 2600,
     "material": "alcohol",
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
