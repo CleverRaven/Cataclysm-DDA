@@ -712,7 +712,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
 {
-    catacurses::window w_border = catacurses::newwin( TERMY - 11, TERMX / 4 - 3, point( TERMX / 4, 4 ) );
+    catacurses::window w_border = catacurses::newwin( TERMY - 11, TERMX / 4 - 3, point( TERMX / 4,
+                                  4 ) );
     catacurses::window w_mods = catacurses::newwin( TERMY - 13, TERMX / 4 - 4, point( TERMX / 4, 5 ) );
 
     int start = 0;
@@ -1114,10 +1115,11 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     do {
         mvwprintz( w_confirmation, point( 2, namebar_y ), c_white, _( "World Name:" ) );
         mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
-        fold_and_print( w_confirmation, point( 2, 3 ), 76, c_light_gray,
+        fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
                         _( "Press <color_yellow>%s</color> to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
-        fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), 76, c_light_gray,
+        fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), getmaxx( w_confirmation ) - 2,
+                        c_light_gray,
                         _( "Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready "
                            "to continue, or <color_yellow>%s</color> to go back and review your world." ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
