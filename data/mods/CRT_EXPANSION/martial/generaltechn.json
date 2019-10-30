@@ -54,11 +54,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.10 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ],
-    "flat_bonuses": [
-      [ "movecost", "str", -0.25 ],
-      [ "damage", "bash", "str", 0.25 ]
-    ],
+    "mult_bonuses": [ [ "movecost", 1.1 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ],
+    "flat_bonuses": [ [ "movecost", "str", -0.25 ], [ "damage", "bash", "str", 0.25 ] ],
     "messages": [ "You grip your weapon with two hands and slam it into %s", "<npcname> smashes their weapon onto %s" ],
     "description": "Crit!, 110% AP cost, 125% Bash, 110% Cut and Stab, STR (C) reduces AP cost and amps (C) bash damage, melee (2)"
   },
