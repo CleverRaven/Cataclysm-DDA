@@ -86,7 +86,7 @@
     "blueprint_name": "southwest brewery2",
     "blueprint_requires": [ { "id": "fbmsw_southwest1" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest2" } ],
-    "blueprint_excludes": [ { "id": "fbmsw_souththwest2" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southwest2" } ],
     "blueprint_autocalc": true
   }
 ]
