@@ -431,8 +431,8 @@ static void eff_fun_frostbite( player &u, effect &it )
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
-        if( buff->is_valid_player( *this ) ) {
-            buff->apply_player( *this );
+        if( buff->is_valid_character( *this ) ) {
+            buff->apply_character( *this );
         } else {
             it.set_duration( 0_turns ); // removes the effect
         }

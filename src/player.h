@@ -371,8 +371,6 @@ class player : public Character
         bool sight_impaired() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
-        /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
-        bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -415,56 +413,10 @@ class player : public Character
         void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp
-        /** Fires all non-triggered martial arts events */
-        void ma_static_effects();
-        /** Fires all move-triggered martial arts events */
-        void ma_onmove_effects();
-        /** Fires all pause-triggered martial arts events */
-        void ma_onpause_effects();
-        /** Fires all hit-triggered martial arts events */
-        void ma_onhit_effects();
-        /** Fires all attack-triggered martial arts events */
-        void ma_onattack_effects();
-        /** Fires all dodge-triggered martial arts events */
-        void ma_ondodge_effects();
-        /** Fires all block-triggered martial arts events */
-        void ma_onblock_effects();
-        /** Fires all get hit-triggered martial arts events */
-        void ma_ongethit_effects();
-        /** Fires all miss-triggered martial arts events */
-        void ma_onmiss_effects();
-        /** Fires all crit-triggered martial arts events */
-        void ma_oncrit_effects();
-        /** Fires all kill-triggered martial arts events */
-        void ma_onkill_effects();
 
-        /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( const mabuff_id &buff_id ) const;
-        /** Returns true if the player has access to the entered martial art */
-        bool has_martialart( const matype_id &ma_id ) const;
-        /** Adds the entered martial art to the player's list */
-        void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
-        /** Displays a message if the player can or cannot use the martial art */
-        void martialart_use_message() const;
 
-        /** Returns the to hit bonus from martial arts buffs */
-        float mabuff_tohit_bonus() const;
-        /** Returns the dodge bonus from martial arts buffs */
-        float mabuff_dodge_bonus() const;
-        /** Returns the block bonus from martial arts buffs */
-        int mabuff_block_bonus() const;
-        /** Returns the speed bonus from martial arts buffs */
-        int mabuff_speed_bonus() const;
-        /** Returns the damage multiplier to given type from martial arts buffs */
-        float mabuff_damage_mult( damage_type type ) const;
-        /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
-        int mabuff_damage_bonus( damage_type type ) const;
-        /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
-        int mabuff_attack_cost_penalty() const;
-        /** Returns the multiplier on move cost of attacks. */
-        float mabuff_attack_cost_mult() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns value of player's stable footing */
@@ -490,26 +442,10 @@ class player : public Character
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
 
-        /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec( const item &weap ) const;
-        /** Returns the technique used for miss recovery */
-        ma_technique get_miss_recovery_tec( const item &weap ) const;
-        /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const override;
-        /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a grab breaking technique */
         bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
-        /** Returns true if the player has the leg block technique available */
-        bool can_leg_block() const;
-        /** Returns true if the player has the arm block technique available */
-        bool can_arm_block() const;
-        /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block() const;
-        /** Returns true if the current style forces unarmed attack techniques */
-        bool is_force_unarmed() const;
 
         // melee.cpp
         /** Returns the best item for blocking with */
@@ -606,10 +542,6 @@ class player : public Character
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
-        std::vector<matec_id> get_all_techniques( const item &weap ) const;
-
-        /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id &id, const item &weap ) const;
         /** Returns a random valid technique */
         matec_id pick_technique( Creature &t, const item &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
@@ -891,8 +823,6 @@ class player : public Character
 
         bool unwield();
 
-        /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style();
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
          * @param it Thing to be reloaded
@@ -1139,8 +1069,6 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
-        // Returns the combat style object
-        const martialart &get_combat_style() const;
         // Inventory + weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
         // Put corpse+inventory on map at the place where this is.
@@ -1382,9 +1310,6 @@ class player : public Character
 
         int focus_pool;
 
-        std::vector<matype_id> ma_styles;
-        matype_id style_selected;
-        bool keep_hands_free;
         bool reach_attacking = false;
         bool manual_examine = false;
 

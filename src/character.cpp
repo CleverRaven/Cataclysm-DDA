@@ -2219,6 +2219,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
+    martial_arts_data.reset_style();
     weapon   = item( "null", 0 );
 
     recalc_hp();
