@@ -18,7 +18,7 @@ namespace
 {
 
 constexpr int START_LINE = 1;
-constexpr int MIN_BOX_HEIGHT = 11;
+constexpr int MIN_BOX_HEIGHT = 12;
 
 } //namespace
 
@@ -32,7 +32,6 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     if( !enabled ) {
         return 0;
     }
-
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
     const int line_limit = max_height - 2;
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
