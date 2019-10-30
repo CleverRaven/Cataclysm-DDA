@@ -7111,7 +7111,7 @@
     "ammo": "tinder",
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": "HOTPLATE",
+    "use_action": "HOTPLATE"
   },
   {
     "id": "tinderbox",
