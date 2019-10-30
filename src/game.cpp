@@ -2166,7 +2166,6 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
     cata::optional<tripoint> liveview_pos;
     auto& mgr = panel_manager::get_manager();
-    int spacer = get_option<bool>("SIDEBAR_SPACERS") ? 1 : 0;
     const bool sidebar_right = get_option<std::string>("SIDEBAR_POSITION") == "right";
     int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
     do {
