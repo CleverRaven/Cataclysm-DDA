@@ -164,7 +164,9 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
+#if defined(TILES) || defined(_WIN32)
             handle_redraw();
+#endif
             return nullptr;
         }
     }
@@ -749,7 +751,9 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
+#if defined(TILES) || defined(_WIN32)
             handle_redraw();
+#endif
             break;
         }
     }

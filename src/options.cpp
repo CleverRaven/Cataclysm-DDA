@@ -2585,7 +2585,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+#if defined(TILES) || defined(_WIN32)
             handle_redraw();
+#endif
             return action;
         }
 
@@ -2673,7 +2675,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+#if defined(TILES) || defined(_WIN32)
             handle_redraw();
+#endif
             break;
         }
     }
