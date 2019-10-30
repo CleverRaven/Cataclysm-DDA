@@ -63,6 +63,7 @@ void harvest_ter_nectar( player &p, const tripoint &examp );
 void harvest_ter( player &p, const tripoint &examp );
 void harvested_plant( player &p, const tripoint &examp );
 void locked_object( player &p, const tripoint &examp );
+void locked_object_pickable( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );

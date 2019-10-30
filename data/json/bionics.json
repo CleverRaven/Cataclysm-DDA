@@ -41,7 +41,7 @@
     "id": "bio_armor_arms",
     "type": "bionic",
     "name": "Alloy Plating - Arms",
-    "description": "The flesh on your arms has been surgically replaced by alloy plating. Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "The flesh on your arms has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -66,7 +66,7 @@
     "id": "bio_armor_legs",
     "type": "bionic",
     "name": "Alloy Plating - Legs",
-    "description": "The flesh on your legs has been surgically replaced by alloy plating. Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "The flesh on your legs has been surgically replaced by alloy plating.  Provides passive protection and can be used in conjunction with bionic martial arts.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -608,6 +608,9 @@
     "name": "Metabolic Interchange",
     "description": "Your digestive system and power supply are interconnected; bionic energy is replenished by burning calories.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
+    "fuel_options": [ "metabolism" ],
+    "fuel_efficiency": 0.25,
+    "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -622,9 +625,12 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": "Repair Nanobots",
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP/s and stopping bleeding at the cost of power.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": "80 J",
+    "react_cost": "4 J",
+    "time": 1
   },
   {
     "id": "bio_night",
@@ -717,16 +723,16 @@
     "id": "bio_power_storage",
     "type": "bionic",
     "name": "Power Storage",
-    "capacity": 100,
-    "description": "A Compact Bionics Module that increases your power capacity by 100 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
+    "capacity": "100 kJ",
+    "description": "A Compact Bionics Module that increases your power capacity by 100 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_power_storage_mkII",
     "type": "bionic",
     "name": "Power Storage Mk. II",
-    "capacity": 250,
-    "description": "A Compact Bionics Module that increases your power capacity by 250 units.",
+    "capacity": "250 kJ",
+    "description": "A Compact Bionics Module that increases your power capacity by 250 kJ.",
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1081,7 +1087,7 @@
     "id": "bio_fuel_cell_gasoline",
     "type": "bionic",
     "name": "Gasoline Fuel Cell CBM",
-    "description": "A small gasoline fuel cell fixed to your scapula. Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
+    "description": "A small gasoline fuel cell fixed to your scapula.  Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
     "encumbrance": [ [ "TORSO", 5 ] ],
     "fuel_options": [ "gasoline" ],
@@ -1119,7 +1125,7 @@
     "id": "bio_taste_blocker",
     "type": "bionic",
     "name": "Taste Modifier",
-    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull. The active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  The active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
     "occupied_bodyparts": [ [ "HEAD", 1 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },

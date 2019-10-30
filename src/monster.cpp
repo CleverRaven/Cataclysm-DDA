@@ -620,6 +620,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
+    if( size_bonus > 0 ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
+    }
+
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
@@ -2293,6 +2297,11 @@ void monster::process_one_effect( effect &it, bool is_new )
     };
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2528,17 +2537,17 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return units::operator*( type->weight, get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2616,7 +2625,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close

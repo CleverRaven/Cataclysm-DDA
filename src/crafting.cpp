@@ -278,7 +278,7 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
     return total_multi;
 }
 
-bool player::has_morale_to_craft() const
+bool Character::has_morale_to_craft() const
 {
     return get_morale_level() >= -50;
 }
@@ -993,7 +993,7 @@ void item::set_next_failure_point( const player &crafter )
 static void destroy_random_component( item &craft, const player &crafter )
 {
     if( craft.components.empty() ) {
-        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
         return;
     }
 

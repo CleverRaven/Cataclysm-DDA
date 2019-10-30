@@ -1512,6 +1512,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "power_armor", slot.power_armor, strict );
+    assign( jo, "valid_mods", slot.valid_mods, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
@@ -1669,6 +1670,11 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 {
     bool strict = src == "dda";
 
+    JsonObject relative = jo.get_object( "relative" );
+    JsonObject proportional = jo.get_object( "proportional" );
+    relative.allow_omitted_members();
+    proportional.allow_omitted_members();
+
     assign( jo, "comestible_type", slot.comesttype, strict );
     assign( jo, "tool", slot.tool, strict );
     assign( jo, "charges", slot.def_charges, strict, 1 );
@@ -1716,12 +1722,12 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
         slot.kcal = jo.get_int( "calories" );
         got_calories = true;
 
-    } else if( jo.get_object( "relative" ).has_int( "calories" ) ) {
-        slot.kcal += jo.get_object( "relative" ).get_int( "calories" );
+    } else if( relative.has_int( "calories" ) ) {
+        slot.kcal += relative.get_int( "calories" );
         got_calories = true;
 
-    } else if( jo.get_object( "proportional" ).has_float( "calories" ) ) {
-        slot.kcal *= jo.get_object( "proportional" ).get_float( "calories" );
+    } else if( proportional.has_float( "calories" ) ) {
+        slot.kcal *= proportional.get_float( "calories" );
         got_calories = true;
 
     } else if( jo.has_int( "nutrition" ) ) {
@@ -1746,15 +1752,14 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             }
         }
 
-    } else if( jo.has_object( "relative" ) ) {
-        auto rel = jo.get_object( "relative" );
-        if( rel.has_int( "vitamins" ) ) {
+    } else {
+        if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
             for( auto &v : vitamin::all() ) {
-                slot.vitamins[ v.first ] += rel.get_int( "vitamins" );
+                slot.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
-        } else if( rel.has_array( "vitamins" ) ) {
-            auto vits = rel.get_array( "vitamins" );
+        } else if( relative.has_array( "vitamins" ) ) {
+            auto vits = relative.get_array( "vitamins" );
             while( vits.has_more() ) {
                 auto pair = vits.next_array();
                 slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] += pair.get_int( 1 );
@@ -2197,10 +2202,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
-
-    // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );
-    load_slot_optional( def.mod, jo, "gunmod_data", src );
+    load_slot_optional( def.mod, jo, "mod_data", src );
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );

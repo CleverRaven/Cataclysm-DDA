@@ -64,7 +64,7 @@ void mapgendata::set_dir( int dir_in, int val )
             nw_fac = val;
             break;
         default:
-            debugmsg( "Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in );
+            debugmsg( "Invalid direction for mapgendata::set_dir.  dir_in = %d", dir_in );
             break;
     }
 }
@@ -101,7 +101,7 @@ int &mapgendata::dir( int dir_in )
         case 7:
             return nw_fac;
         default:
-            debugmsg( "Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in );
+            debugmsg( "Invalid direction for mapgendata::set_dir.  dir_in = %d", dir_in );
             //return something just so the compiler doesn't freak out. Not really correct, though.
             return n_fac;
     }

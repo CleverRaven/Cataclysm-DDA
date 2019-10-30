@@ -134,8 +134,6 @@ struct special_attack {
     damage_instance damage;
 };
 
-class player_morale;
-
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
@@ -227,10 +225,6 @@ class player : public Character
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Ticks down morale counters and removes them */
-        void update_morale();
-        /** Ensures persistent morale effects are up-to-date */
-        void apply_persistent_morale();
         /** Maintains body temperature */
         void update_bodytemp();
         /** Define color for displaying the body temperature */
@@ -258,8 +252,7 @@ class player : public Character
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** Regenerates stamina */
-        void update_stamina( int turns );
+
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
 
@@ -324,7 +317,8 @@ class player : public Character
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill );
+        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+                                int pl_skill );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
@@ -503,9 +497,9 @@ class player : public Character
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec() const;
+        ma_technique get_grab_break_tec( const item &weap ) const;
         /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break() const;
+        bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has the leg block technique available */
@@ -710,12 +704,6 @@ class player : public Character
 
         void add_pain_msg( int val, body_part bp ) const;
 
-        /** Modifies intensity of painkillers  */
-        void mod_painkiller( int npkill );
-        /** Sets intensity of painkillers  */
-        void set_painkiller( int npkill );
-        /** Returns intensity of painkillers  */
-        int get_painkiller() const;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -781,8 +769,6 @@ class player : public Character
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
         void modify_addiction( const islot_comestible &comest );
-        /** Used to apply morale modifications from food and medication **/
-        void modify_morale( item &food, int nutr = 0 );
 
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
@@ -804,8 +790,6 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
         /**
@@ -905,7 +889,6 @@ class player : public Character
         /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
 
-        bool is_wielding( const item &target ) const;
         bool unwield();
 
         /** Creates the UI and handles player input for picking martial arts styles */
@@ -1117,17 +1100,6 @@ class player : public Character
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
-        int get_morale_level() const; // Modified by traits, &c
-        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
-                         const time_duration &duration = 1_hours,
-                         const time_duration &decay_start = 30_minutes, bool capped = false,
-                         const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
-        void clear_morale();
-        bool has_morale_to_read() const;
-        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
@@ -1264,7 +1236,6 @@ class player : public Character
         int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
@@ -1359,7 +1330,7 @@ class player : public Character
 
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
-                              const player_activity &destination_activity = player_activity() );
+                              const player_activity &new_destination_activity = player_activity() );
         void clear_destination();
         bool has_distant_destination() const;
 
@@ -1372,20 +1343,6 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
-
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         */
-        virtual tripoint global_square_location() const;
-        /**
-        * Returns the location of the player in global submap coordinates.
-        */
-        tripoint global_sm_location() const;
-        /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
-        tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
 
@@ -1466,8 +1423,6 @@ class player : public Character
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
         int get_hp_max() const override;
-        int get_stamina_max() const;
-        void burn_move_stamina( int moves );
 
         //message related stuff
         using Character::add_msg_if_player;
@@ -1630,14 +1585,9 @@ class player : public Character
          */
         bool consume_med( item &target );
 
-        void react_to_felt_pain( int intensity );
-
-        int pkill;
-
     private:
 
         std::vector<tripoint> auto_move_route;
-        player_activity destination_activity;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
@@ -1651,11 +1601,6 @@ class player : public Character
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-    protected:
-        // TODO: move this to avatar
-        pimpl<player_morale> morale;
-    private:
-
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
@@ -1666,10 +1611,6 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
-    private:
-
-        /** Amount of time the player has spent in each overmap tile. */
-        std::unordered_map<point, time_duration> overmap_time;
 };
 
 #endif

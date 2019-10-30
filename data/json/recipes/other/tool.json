@@ -417,7 +417,7 @@
     "batch_time_factors": [ 50, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "splinter", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ], [ [ "pine_bough", 2 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ], [ [ "pine_bough", 2 ] ] ]
   },
   {
     "type": "recipe",

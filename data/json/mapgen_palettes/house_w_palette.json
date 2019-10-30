@@ -19,7 +19,7 @@
       "L": "f_table",
       "M": "f_displaycase",
       "N": "f_workbench",
-      "O": [ "f_wardrobe", "f_dresser" ],
+      "O": "f_dresser",
       "P": "f_locker",
       "Q": "f_rack",
       "R": "f_bookcase",
@@ -90,7 +90,7 @@
       "K": "f_cupboard",
       "L": "f_table",
       "N": "f_workbench",
-      "O": [ "f_wardrobe", "f_dresser" ],
+      "O": "f_wardrobe",
       "P": "f_locker",
       "Q": "f_rack",
       "R": "f_bookcase",
@@ -186,13 +186,7 @@
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
-      "O": [
-        { "item": "victoria_shop", "chance": 40 },
-        { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "hatstore_accessories", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "dresser", "chance": 20 }
-      ],
+      "O": [ { "item": "wardrobe_mens", "chance": 50 }, { "item": "wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },

@@ -50,6 +50,7 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
+class player_morale;
 struct points_left;
 class faction;
 struct construction;
@@ -569,6 +570,21 @@ class Character : public Creature, public visitable<Character>
         inline void setpos( const tripoint &p ) override {
             position = p;
         }
+
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint global_omt_location() const;
+
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -1076,7 +1092,6 @@ class Character : public Creature, public visitable<Character>
         stomach_contents guts;
 
         int oxygen;
-        int stamina;
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
@@ -1150,6 +1165,14 @@ class Character : public Creature, public visitable<Character>
         void set_stim( int new_stim );
         void mod_stim( int mod );
 
+        int get_stamina() const;
+        int get_stamina_max() const;
+        void set_stamina( int new_stamina );
+        void mod_stamina( int mod );
+        void burn_move_stamina( int moves );
+        /** Regenerates stamina */
+        void update_stamina( int turns );
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
@@ -1159,6 +1182,8 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_wear( const item & ) {}
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
+
+        bool is_wielding( const item &target ) const;
 
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
@@ -1179,6 +1204,14 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        /** Modifies intensity of painkillers  */
+        void mod_painkiller( int npkill );
+        /** Sets intensity of painkillers  */
+        void set_painkiller( int npkill );
+        /** Returns intensity of painkillers  */
+        int get_painkiller() const;
+        void react_to_felt_pain( int intensity );
+
         void spores();
         void blossoms();
 
@@ -1192,6 +1225,9 @@ class Character : public Creature, public visitable<Character>
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
+        player_activity get_destination_activity() const;
+        void set_destination_activity( const player_activity &new_destination_activity );
+        void clear_destination_activity();
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**
@@ -1219,6 +1255,29 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        /** Ticks down morale counters and removes them */
+        void update_morale();
+        /** Ensures persistent morale effects are up-to-date */
+        void apply_persistent_morale();
+        /** Used to apply morale modifications from food and medication **/
+        void modify_morale( item &food, int nutr = 0 );
+        int get_morale_level() const; // Modified by traits, &c
+        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
+                         const time_duration &duration = 1_hours,
+                         const time_duration &decay_start = 30_minutes, bool capped = false,
+                         const itype *item_type = nullptr );
+        int has_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
+        void clear_morale();
+        bool has_morale_to_read() const;
+        bool has_morale_to_craft() const;
+        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
+        void check_and_recover_morale();
+
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
+
     protected:
         Character();
         Character( Character && );
@@ -1307,11 +1366,13 @@ class Character : public Creature, public visitable<Character>
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
+        pimpl<player_morale> morale;
+
     private:
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         enchantment enchantment_cache;
-
+        player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 
@@ -1324,12 +1385,18 @@ class Character : public Creature, public visitable<Character>
 
         int hunger;
         int thirst;
+        int stamina;
 
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance;
 
         int stim;
+        int pkill;
+
+    protected:
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<point, time_duration> overmap_time;
 };
 
 template<>

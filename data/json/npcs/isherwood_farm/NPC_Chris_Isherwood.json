@@ -46,7 +46,7 @@
     },
     "responses": [
       {
-        "text": "...",
+        "text": "…",
         "topic": "TALK_LEAVE_NOW",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
@@ -139,7 +139,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You should leave before my family sees you.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

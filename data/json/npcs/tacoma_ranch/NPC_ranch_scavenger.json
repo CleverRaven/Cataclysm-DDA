@@ -19,7 +19,7 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
       { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {

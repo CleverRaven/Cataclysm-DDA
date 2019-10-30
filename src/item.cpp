@@ -1877,7 +1877,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                                iteminfo::show_plus, mod.handling );
         }
-        if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
+        if( is_gun() && !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
             for( const ammotype &at : type->mod->ammo_modifier ) {
                 info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
                                           at->name() ) ) );
@@ -2759,6 +2759,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
 
             const bionic_id bid = type->bionic->id;
+
+            if( bid->capacity > 0_mJ ) {
+                info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), " <num> mJ",
+                                          iteminfo::no_newline, units::to_millijoule( bid->capacity ) ) );
+            }
 
             if( !bid->encumbrance.empty() ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
@@ -6085,7 +6090,10 @@ damage_instance item::gun_damage( bool with_ammo ) const
     if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
-            du.amount -= item_damage * 2;
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
         }
     }
 
@@ -7844,7 +7852,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
-            debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
@@ -7915,7 +7923,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
+                    debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature

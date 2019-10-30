@@ -16,7 +16,6 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRE" ],
     "initial_charges": 60,
-    "charges": 60,
     "max_charges": 60,
     "charges_per_use": 1,
     "sub": "hotplate",
@@ -32,7 +31,7 @@
         "menu_text": "Activate torch mode",
         "moves": 150
       },
-      { "type": "firestarter", "moves_cost": 5 },
+      { "type": "firestarter" },
       { "flame": false, "type": "cauterize" }
     ]
   },

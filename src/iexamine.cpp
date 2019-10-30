@@ -1230,7 +1230,7 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
 }
 
 /**
- * Checks PC has a crowbar then calls iuse.crowbar.
+ * Checks whether PC has a crowbar then calls iuse.crowbar.
  */
 void iexamine::locked_object( player &p, const tripoint &examp )
 {
@@ -1240,7 +1240,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( prying_items.empty() ) {
-        add_msg( m_info, _( "If only you had something to pry with…" ) );
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
+                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
         return;
     }
 
@@ -1258,6 +1259,49 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     iuse dummy;
     item temporary_item( prying_items[0]->type );
     dummy.crowbar( &p, &temporary_item, false, examp );
+}
+
+/**
+* Checks whether PC has picklocks then calls pick_lock_actor.
+*/
+void iexamine::locked_object_pickable( player &p, const tripoint &examp )
+{
+    std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
+        // Don't search for worn items such as hairpins
+        if( p.get_item_position( &it ) >= -1 ) {
+            return it.type->get_use( "picklock" ) != nullptr;
+        }
+        return false;
+    } );
+
+    if( picklocks.empty() ) {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
+                 g->m.tername( examp ) );
+        return;
+    }
+
+    // Sort by their picklock level.
+    std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
+        const auto actor_a = dynamic_cast<const pick_lock_actor *>
+                             ( a->type->get_use( "picklock" )->get_actor_ptr() );
+        const auto actor_b = dynamic_cast<const pick_lock_actor *>
+                             ( b->type->get_use( "picklock" )->get_actor_ptr() );
+        return actor_a->pick_quality > actor_b->pick_quality;
+    } );
+
+    for( item *it : picklocks ) {
+        const auto actor = dynamic_cast<const pick_lock_actor *>
+                           ( it->type->get_use( "picklock" )->get_actor_ptr() );
+        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+                             g->m.tername( examp ), it->tname() );
+        const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+        if( can_use.success() ) {
+            actor->use( p, *it, false, examp );
+            return;
+        } else {
+            p.add_msg_if_player( m_bad, can_use.str() );
+        }
+    }
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
@@ -5645,6 +5689,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "gunsafe_ml", &iexamine::gunsafe_ml },
             { "gunsafe_el", &iexamine::gunsafe_el },
             { "locked_object", &iexamine::locked_object },
+            { "locked_object_pickable", &iexamine::locked_object_pickable },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },

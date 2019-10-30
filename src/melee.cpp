@@ -1405,7 +1405,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         // Remember out moves and stamina
         // We don't want to consume them for every attack!
         const int temp_moves = moves;
-        const int temp_stamina = stamina;
+        const int temp_stamina = get_stamina();
 
         std::vector<Creature *> targets;
 
@@ -1428,7 +1428,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
-        stamina = temp_stamina;
+        set_stamina( temp_stamina );
     }
 
     //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -1646,7 +1646,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none && !is_dead_state() ) {
-        if( stamina < get_stamina_max() / 3 ) {
+        if( get_stamina() < get_stamina_max() / 3 ) {
             add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
         } else {
             melee_attack( *source, false, tec );
@@ -2114,7 +2114,8 @@ int player::attack_speed( const item &weap ) const
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
-    const float stamina_ratio = static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() );
+    const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
+                                ( get_stamina_max() );
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
     const float ma_mult = mabuff_attack_cost_mult();
@@ -2142,7 +2143,7 @@ int player::attack_speed( const item &weap ) const
 
 double player::weapon_value( const item &weap, int ammo ) const
 {
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
         if( cached_value != cached_info.end() ) {
             return cached_value->second;
@@ -2156,7 +2157,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
-    if( &weapon == &weap ) {
+    if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
     return my_val;

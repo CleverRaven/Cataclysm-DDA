@@ -419,6 +419,11 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    if( !assure_dir_exist( FILENAMES["user_gfx"] ) ) {
+        popup( _( "Unable to make graphics directory.  Check permissions." ) );
+        return false;
+    }
+
     load_char_templates();
 
     ctxt.register_cardinal();

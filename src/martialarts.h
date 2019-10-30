@@ -31,6 +31,7 @@ struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
+    bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
 
     /** Minimum amount of given skill to trigger this bonus */
@@ -48,6 +49,7 @@ struct ma_requirements {
         unarmed_allowed = false;
         melee_allowed = false;
         unarmed_weapons_allowed = true;
+        strictly_unarmed = false;
         wall_adjacent = false;
     }
 
@@ -191,8 +193,7 @@ class ma_buff
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
-        bool strictly_unarmed; // can we use unarmed weapons?
-        bool strictly_melee; // can we use it without weapons?
+        bool strictly_melee; // can we only use it with weapons?
         bool stealthy; // do we make less noise when moving?
 
         void load( JsonObject &jo, const std::string &src );
