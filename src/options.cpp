@@ -2402,24 +2402,19 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     const int iWorldOffset = world_options_only ? 2 : 0;
 
     const int iTooltipHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight - iWorldOffset;
-
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) +
-                         iWorldOffset;
+    const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          point( iOffsetX, iOffsetY - iWorldOffset ) );
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2,
-                                           point( 1 + iOffsetX, 1 + iOffsetY ) );
-    catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2,
-                                          point( 1 + iOffsetX, 1 + iTooltipHeight + iOffsetY ) );
-    catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                   point( 1 + iOffsetX, iTooltipHeight + 2 + iOffsetY ) );
+    catacurses::window w_options_border = catacurses::newwin( TERMY, TERMX, point_zero );
+    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, TERMX - 2,
+                                           point( 1, 1 + iWorldOffset ) );
+    catacurses::window w_options_header = catacurses::newwin( 1, TERMX - 2,
+                                          point( 1, 1 + iTooltipHeight + iWorldOffset ) );
+    catacurses::window w_options = catacurses::newwin( iContentHeight, TERMX - 2,
+                                   point( 1, iTooltipHeight + 2 + iWorldOffset ) );
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
@@ -2448,7 +2443,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
+            for( int j = 0; j < TERMX - 2; j++ ) {
                 if( mapLines[j] ) {
                     mvwputch( w_options, point( j, i ), BORDER_COLOR, LINE_XOXO );
                 } else {
@@ -2544,7 +2539,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_x;
             new_window_width = projected_window_width();
 
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white,
+            fold_and_print( w_options_tooltip, point_zero, TERMX - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
@@ -2560,7 +2555,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_y;
             new_window_height = projected_window_height();
 
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white,
+            fold_and_print( w_options_tooltip, point_zero, TERMX - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
@@ -2570,7 +2565,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         } else
 #endif
         {
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white, "%s #%s",
+            fold_and_print( w_options_tooltip, point_zero, TERMX - 2, c_white, "%s #%s",
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
         }
@@ -2590,6 +2585,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+            handle_redraw();
             return action;
         }
 
@@ -2677,6 +2673,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+            handle_redraw();
             break;
         }
     }
