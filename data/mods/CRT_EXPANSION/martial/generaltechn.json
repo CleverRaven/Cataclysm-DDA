@@ -3,11 +3,11 @@
     "type": "technique",
     "id": "HOOK",
     "name": "HOOK",
-    "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.76 ], [ "damage", "stab", 0.86 ] ],
+    "mult_bonuses": [ [ "movecost", 0.77 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "flat_bonuses": [ [ "movecost", "str", -0.25 ] ],
     "down_dur": 2,
     "messages": [ "Your hooking attack makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "85% moves, 66% Bash, 76% Cut, 86% Stab, Down two turns, STR (C) greatly reduces action cost"
+    "description": "77% AP cost, 66% DMG, Down (2) , STR reduces AP cost"
   },
   {
     "type": "technique",
@@ -16,7 +16,7 @@
     "min_melee": 4,
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "knockback_dist": 1,
+    "knockback_dist": 2,
     "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
     "flat_bonuses": [
       [ "movecost", "str", -1.0 ],
@@ -26,7 +26,7 @@
     ],
     "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
-    "description": "75% moves, 60% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
+    "description": "75% AP cost, 50% DMG, WIDE, Knockback (2), STR (S) reduces AP cost, and amps (C) DMG, melee (4)"
   },
   {
     "type": "technique",
@@ -36,16 +36,15 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.18 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "cut", 1.15 ], [ "damage", "stab", 1.15 ] ],
     "flat_bonuses": [
       [ "movecost", "dex", -0.2 ],
-      [ "movecost", "per", -0.125 ],
-      [ "damage", "bash", "per", 0.15 ],
+      [ "damage", "bash", "per", 0.1 ],
       [ "damage", "cut", "per", 0.3 ],
-      [ "damage", "stab", "per", 0.15 ]
+      [ "damage", "stab", "per", 0.2 ]
     ],
     "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
-    "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "Crit!, 120% AP cost, 115% Cut and Stab, DEX (D) reduces action cost and amps (B) damage, melee (2)"
   },
   {
     "type": "technique",
@@ -55,16 +54,13 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 1.18 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 1.10 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [
-      [ "movecost", "dex", -0.2 ],
-      [ "movecost", "str", -0.125 ],
-      [ "damage", "bash", "str", 0.25 ],
-      [ "damage", "cut", "str", 0.15 ],
-      [ "damage", "stab", "str", 0.15 ]
+      [ "movecost", "str", -0.25 ],
+      [ "damage", "bash", "str", 0.25 ]
     ],
     "messages": [ "You grip your weapon with two hands and slam it into %s", "<npcname> smashes their weapon onto %s" ],
-    "description": "Crit only, 110% move cost, 120% Bash, 105% Stab, 110% Cut, DEX (C) and STR (D) reduces action cost and increases overall (C) damage, min 2 melee"
+    "description": "Crit!, 110% AP cost, 125% Bash, 110% Cut and Stab, STR (C) reduces AP cost and amps (C) bash damage, melee (2)"
   },
   {
     "type": "technique",
