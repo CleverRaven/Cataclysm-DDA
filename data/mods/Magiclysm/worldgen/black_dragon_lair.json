@@ -387,8 +387,6 @@
         ".": [ { "item": "lair_black_dragon", "chance": 15, "repeat": [ 0, 2 ] } ],
         " ": [
           { "item": "lair_black_dragon", "chance": 10, "repeat": [ 0, 2 ] },
-          { "item": "magic_weapons_loot_1", "chance": 15, "repeat": [ 0, 1 ] },
-          { "item": "magic_weapons_loot_2", "chance": 15, "repeat": [ 0, 1 ] },
           { "item": "spellbook_loot_1", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "spellbook_loot_2", "chance": 20, "repeat": [ 1, 2 ] }
         ]
