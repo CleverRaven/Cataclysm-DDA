@@ -59,11 +59,27 @@
     "id": "human_fat",
     "copy-from": "fat",
     "type": "COMESTIBLE",
-    "cooks_like": "human_cooked",
     "name": "chunk of human fat",
     "name_plural": "chunks of human fat",
     "description": "Freshly harvested from a human body.",
     "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_tallow",
+    "name": "human tallow",
+    "copy-from":"tallow",
+    "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "//": "*May* have been commercially traded.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_lard",
+    "name": "human lard",
+    "copy-from": "human_tallow",
+    "description": "A smooth white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "id": "human_flesh",
