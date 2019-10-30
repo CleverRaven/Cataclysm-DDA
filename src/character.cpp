@@ -4325,6 +4325,7 @@ void Character::update_stamina( int turns )
                         get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
+    if( stamina_recovery < 0 ) { stamina_recovery = 0 };
 
     // stim recovers stamina (or impairs recovery)
     if( current_stim > 0 ) {
