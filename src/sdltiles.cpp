@@ -1689,12 +1689,17 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
-        SetupRenderTarget();
-        game_ui::init_ui();
+        handle_redraw();
 
         return true;
     }
     return false;
+}
+
+void handle_redraw()
+{
+    SetupRenderTarget();
+    game_ui::init_ui();
 }
 
 void toggle_fullscreen_window()
