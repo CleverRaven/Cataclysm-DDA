@@ -1212,7 +1212,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{1, 1, TERMX / 4 + 2, TERMX / 4 - 4, TERMX / 4 + 2}};
     std::array<int, 5> ys = {{TERMY - 8, 4, 4, 3, 3}};
-    std::array<int, 5> ls = {{TERMX / 2 - 2, TERMX / 4 - 4, TERMX / 4 - 3, TERMY - 11, 1}};
+    std::array<int, 5> ls = {{TERMX / 2 - 2, TERMX / 4 - 4, TERMX / 4 - 2, TERMY - 11, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
@@ -1221,7 +1221,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
         int l = ls[i];
         if( hv[i] ) {
             for( int j = 0; j < l; ++j ) {
-                mvwputch( win, point( x + j, y ), BORDER_COLOR, LINE_OXOX ); // _
+                mvwputch( win, point( x + j, y ), BORDER_COLOR, LINE_OXOX ); // -
             }
         } else {
             for( int j = 0; j < l; ++j ) {
