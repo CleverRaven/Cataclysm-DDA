@@ -35,6 +35,12 @@
     "components": [ [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_357sig",
+    "type": "requirement",
+    "//": "Components required for .357 SIG ammo",
+    "components": [ [ [ "357sig_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_10mm",
     "type": "requirement",
     "//": "Components required for 10mm Auto ammo",
