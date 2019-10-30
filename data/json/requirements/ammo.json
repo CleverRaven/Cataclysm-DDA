@@ -38,7 +38,7 @@
     "id": "ammo_357sig",
     "type": "requirement",
     "//": "Components required for .357 SIG ammo",
-    "components": [ [ [ "357sig_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+    "components": [ [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_10mm",
