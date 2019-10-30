@@ -228,6 +228,9 @@
       { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
       { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
       { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+	  { "item": "sherry", "prob": 10, "container-group": "wine_glasses" },
+	  { "item": "madeira", "prob": 10, "container-group": "wine_glasses" },
+	  { "item": "bristol_sherry", "prob": 10, "container-group": "wine_glasses" },
       { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
     ]
   },
@@ -244,6 +247,11 @@
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
       { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
+	  { "item": "single_pot_whiskey", "prob": 10, "count": [ 1, 12 ] },
+	  { "item": "canadian_whiskey", "prob": 10, "count": [ 1, 12 ] },
+	  { "item": "sherry", "prob": 10, "count": [ 1, 12 ] },
+	  { "item": "bristol_sherry", "prob": 10, "count": [ 1, 12 ] },	
+	  { "item": "madeira", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
