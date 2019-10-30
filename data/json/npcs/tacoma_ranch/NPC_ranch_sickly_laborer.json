@@ -18,7 +18,7 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
       { "text": "What's wrong?", "topic": "TALK_RANCH_ILL_1_SICK" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {

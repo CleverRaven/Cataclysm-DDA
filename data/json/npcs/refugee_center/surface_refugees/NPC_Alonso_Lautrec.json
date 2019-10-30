@@ -62,7 +62,7 @@
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
     "responses": [
-      { "text": "You seem a little forward...", "topic": "TALK_REFUGEE_Alonso_Forward" },
+      { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
         "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
         "topic": "TALK_REFUGEE_Alonso_CalledOut1",

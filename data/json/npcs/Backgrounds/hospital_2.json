@@ -45,7 +45,7 @@
     "dynamic_line": "No.  I can't.  Just, no.",
     "responses": [
       {
-        "text": "Sorry... I'll let you be.",
+        "text": "Sorry…  I'll let you be.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 },
         "topic": "TALK_DONE"
       }

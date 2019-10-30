@@ -75,7 +75,7 @@
     "symbol": "v",
     "color": "red",
     "name": "clairvoyance rod",
-    "description": "Item to test aep_clairvoyance_plus flag. If this spawns randomly, then it's a bug.",
+    "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
     "price": 5000,
     "material": [ "steel" ],
     "weight": "150 g",

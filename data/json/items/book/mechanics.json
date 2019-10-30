@@ -71,7 +71,7 @@
     "copy-from": "recipe_lab_cvd",
     "name": "lab journal-Curie",
     "name_plural": "lab journals-Curie",
-    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful...",
+    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful…",
     "skill": "mechanics",
     "required_level": 6
   },

@@ -131,7 +131,7 @@
     "dynamic_line": "All three are easy to locally produce in significant quantities and are non-perishable.  We have a local farmer or two and a few hunter types that have been making attempts to provide us with the nutritious supplies.  We do always need more suppliers though.  This stuff is rather cheap in bulk, so I can pay a premium for any you have on you.  Canned food and other edibles are handled by the merchant in the front in trade.",
     "responses": [
       { "text": "Are you looking to buy anything else?", "topic": "TALK_FREE_MERCHANT_STOCKS_ALL" },
-      { "text": "Very well... let's talk about something else.", "topic": "TALK_FREE_MERCHANT_STOCKS" }
+      { "text": "Very well… let's talk about something else.", "topic": "TALK_FREE_MERCHANT_STOCKS" }
     ]
   },
   {

@@ -1308,7 +1308,8 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
 {
     std::vector<itype_id> stored_fuels;
     for( const itype_id fuel : bio->fuel_opts ) {
-        if( !get_value( fuel ).empty() || fuel == itype_id( "muscle" ) ) {
+        const item tmp_fuel( fuel );
+        if( !get_value( fuel ).empty() || tmp_fuel.has_flag( "PERPETUAL" ) ) {
             stored_fuels.emplace_back( fuel );
         }
     }

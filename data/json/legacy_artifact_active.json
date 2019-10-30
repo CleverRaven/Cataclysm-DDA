@@ -408,7 +408,7 @@
     "valid_targets": [ "self" ],
     "min_aoe": 20,
     "max_aoe": 20,
-    "message": "You have a vision of the surrounding area...",
+    "message": "You have a vision of the surrounding area…",
     "base_casting_time": 100
   },
   {
