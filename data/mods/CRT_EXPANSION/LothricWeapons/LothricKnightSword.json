@@ -11,7 +11,7 @@
     "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ] ],
     "flat_bonuses": [ [ "movecost", "dex", -0.8 ], [ "arpen", "cut", 5 ] ],
     "messages": [ "You lunge forward with all your weight and guard-break %s", "<npcname> swings upwards with all their weight at %s" ],
-    "description": "Crit!, 120% AP, 125% DMG, Stun (2), DEX (A) reduces AP cost, min melee 1"
+    "description": "Crit!, 120% AP, 125% DMG, Stun (2), DEX (A) reduces AP cost, melee (1)"
   },
   {
     "type": "technique",
@@ -24,6 +24,6 @@
     "mult_bonuses": [ [ "movecost", 1.3 ], [ "damage", "bash", 0 ], [ "damage", "cut", 0 ] ],
     "flat_bonuses": [ [ "movecost", "dex", -1 ], [ "damage", "stab", 55 ], [ "arpen", "stab", 10 ] ],
     "messages": [ "You dash forward and stab upwards at %s", "<npcname> swings upwards with all their weight at %s" ],
-    "description": "Crit!, 130% AP, 120% DMG, STAB DMG, DEX (S) reduces AP cost, min melee 1"
+    "description": "Crit!, 130% AP, 120% DMG, STAB DMG, DEX (S) reduces AP cost, melee (1)"
   }
 ]
