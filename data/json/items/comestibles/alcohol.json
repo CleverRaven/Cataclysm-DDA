@@ -1070,7 +1070,7 @@
     "charges": 7,
     "fun": 17
   },
-    {
+  {
     "type": "COMESTIBLE",
     "id": "single_pot_whiskey",
     "name": "single pot still irish whiskey",
@@ -1097,7 +1097,7 @@
     "charges": 7,
     "fun": 20
   },
-      {
+  {
     "type": "COMESTIBLE",
     "id": "cheap_whiskey",
     "name": "cheap whiskey",
@@ -1124,7 +1124,7 @@
     "charges": 7,
     "fun": 12
   },
-      {
+  {
     "type": "COMESTIBLE",
     "id": "canadian_whiskey",
     "name": "canadian whiskey",
@@ -1151,7 +1151,7 @@
     "charges": 7,
     "fun": 17
   },
-      {
+  {
     "type": "COMESTIBLE",
     "id": "sherry",
     "name": "sherry",
@@ -1178,7 +1178,7 @@
     "charges": 7,
     "fun": 17
   },
-        {
+  {
     "type": "COMESTIBLE",
     "id": "bristol_sherry",
     "name": "bristol sherry",
@@ -1205,7 +1205,7 @@
     "charges": 7,
     "fun": 18
   },
-          {
+  {
     "type": "COMESTIBLE",
     "id": "madeira",
     "name": "madera",
