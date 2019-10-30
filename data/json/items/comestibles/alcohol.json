@@ -1223,7 +1223,7 @@
     "addiction_potential": 5,
     "calories": 99,
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
-    "price": 200,
+    "price": 400,
     "material": "alcohol",
     "volume": "750 ml",
     "flags": [ "EATEN_COLD" ],
