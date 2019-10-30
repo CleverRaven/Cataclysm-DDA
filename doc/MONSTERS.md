@@ -39,7 +39,6 @@ A list of species ids. One can add or remove entries in mods via "add:species" a
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
-
 ## "categories"
 (array of strings, optional)
 
@@ -413,13 +412,13 @@ Makes monster use teeth to bite opponent. Some monsters can give infection by do
 Max damage it can deal on one bite.
 
 ### "min_mul", "max_mul"
-How hard is to get free of bite without killing.
+How hard is to get free of bite without killing attacker.
 
 ### "move_cost"
 Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 ### "accuracy"
-How accurate it is.
+(Integer) How accurate it is. Not many monsters use it though.
 
 ### "no_infection_chance"
 Chance to not give infection.
