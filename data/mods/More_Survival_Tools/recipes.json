@@ -192,7 +192,7 @@
     "time": 45000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
-    "using": [ "forging_standard", 5 ],
+    "using": [ [ "forging_standard", 5 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "copper", 50 ], [ "tin", 50 ], [ "bismuth", 50 ], [ "solder_wire", 50 ], [ "silver_small", 50 ], [ "scrap", 1 ] ]
