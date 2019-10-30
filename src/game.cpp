@@ -159,7 +159,6 @@ class inventory;
 #endif
 #   include <tchar.h>
 #endif
-
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const int core_version = 6;
@@ -2165,7 +2164,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
     cata::optional<tripoint> liveview_pos;
-    auto& mgr = panel_manager::get_manager();
+    auto& mgr = panel_manager::get_manager();    
     int spacer = get_option<bool>("SIDEBAR_SPACERS") ? 1 : 0;
     const bool sidebar_right = get_option<std::string>("SIDEBAR_POSITION") == "right";
     int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
@@ -3243,7 +3242,7 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
             }
             h += spacer;
             if( panel.toggle && panel.render() && h > 0 ) {
-                if( panel.always_draw || draw_this_turn )  {
+                if( panel.always_draw || draw_this_turn ) {
                     panel.draw( u, catacurses::newwin( h, panel.get_width(),
                                                        point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
                 }

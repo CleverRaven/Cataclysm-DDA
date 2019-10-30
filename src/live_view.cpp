@@ -12,6 +12,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "cursesdef.h"
 
 namespace
 {
@@ -31,11 +32,13 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     if( !enabled ) {
         return 0;
     }
+
     // -1 for border. -1 because getmaxy() actually returns height, not y position.
     const int line_limit = max_height - 2;
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
     int line_out = START_LINE;
     g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
+
     const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
 #if defined(TILES) || defined(_WIN32)
@@ -54,9 +57,11 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     draw_border( win );
     center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
     wrefresh(win);
+
 #if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
+
     return live_view_box_height;
 }
 
