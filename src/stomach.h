@@ -1,11 +1,8 @@
 #pragma once
 
 #include <map>
-#include <utility>
 
 #include "units.h"
-#include "calendar.h"
-#include "type_id.h"
 
 struct needs_rates;
 class player;

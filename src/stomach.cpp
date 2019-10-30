@@ -1,23 +1,13 @@
-#include <algorithm>
-#include <memory>
 #include <string>
-#include <cmath>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_utility.h"
 #include "json.h"
 #include "player.h"
 #include "stomach.h"
 #include "units.h"
-#include "compatibility.h"
 #include "game.h"
-#include "item.h"
 #include "itype.h"
-#include "optional.h"
-#include "rng.h"
-#include "character.h"
-#include "options.h"
 
 stomach_contents::stomach_contents() = default;
 
