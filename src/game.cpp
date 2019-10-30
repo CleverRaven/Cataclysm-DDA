@@ -2167,6 +2167,8 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     cata::optional<tripoint> liveview_pos;
     auto& mgr = panel_manager::get_manager();
     int spacer = get_option<bool>("SIDEBAR_SPACERS") ? 1 : 0;
+    const bool sidebar_right = get_option<std::string>("SIDEBAR_POSITION") == "right";
+    int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
@@ -2174,18 +2176,9 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
-                int Y = 0;
-                for (const window_panel& panel : mgr.get_current_layout()) {                    
-                    if (panel.get_name() == "Mouse View"){
-                        int h = std::min(panel.get_height(), TERMY);
-                        const bool sidebar_right = get_option<std::string>("SIDEBAR_POSITION") == "right";
-                        panel.draw(u, catacurses::newwin(h, panel.get_width(),
-                            point(sidebar_right ? TERMX - panel.get_width() : 0, Y)));
-                        break;
-                    }
-                    Y += panel.get_height(); // +spacer;
-                }
-                //draw_panels(true);
+                draw_panels(true);
+                catacurses::window& w = catacurses::newwin(TERMY/2, width, point(sidebar_right ? TERMX - width : 0, 0));                
+                g->liveview.draw(w, TERMY/2);
             } else if( !mouse_pos ) {
                 liveview_pos.reset();
                 liveview.hide();
@@ -3236,13 +3229,13 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
     int log_height = 0;
     for( const window_panel &panel : mgr.get_current_layout() ) {
-        if( panel.get_height() != -2 && panel.toggle && panel.render() && panel.get_name() != "Mouse View") {
+        if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
     for( const window_panel &panel : mgr.get_current_layout() ) {
-        if( panel.render() && panel.get_name() != "Mouse View") {
+        if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
             if( h == -2 ) {

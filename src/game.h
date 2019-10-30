@@ -919,7 +919,6 @@ class game
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
         pimpl<avatar> u_ptr;
-        friend static void draw_mouse_view(const player& u, const catacurses::window& w);
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;

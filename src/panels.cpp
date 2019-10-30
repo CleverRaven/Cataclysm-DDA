@@ -1945,13 +1945,6 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
     print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
-static void draw_mouse_view( const player& u, const catacurses::window& w )
-{
-    werase(w);
-    int i = g->liveview.draw( w, 12 );
-    wrefresh(w);
-}
-
 // ============
 // INITIALIZERS
 // ============
@@ -1986,7 +1979,6 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
-    ret.emplace_back( window_panel( draw_mouse_view, translate_marker( "Mouse View" ), 12, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
                                     default_render, true ) );
