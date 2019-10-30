@@ -300,7 +300,7 @@
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
-	  "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         "____:]:____:____:]:____]",
         "____]]]____:____]]]____]",
