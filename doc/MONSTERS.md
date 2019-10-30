@@ -397,7 +397,7 @@ Makes the monster leap a few tiles. It supports the following additional propert
 (Required) Minimal range needed for attack.
 
 ### "allow_no_target"
-Doesn't allow to choose target.
+This prevents monster from using the ability on empty space.
 
 ### "move_cost"
 Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
