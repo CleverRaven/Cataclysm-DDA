@@ -193,6 +193,7 @@ enum ter_bitflags : int {
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
     TFLAG_RAIL,
+    TFLAG_THIN_OBSTACLE,
 
     NUM_TERFLAGS
 };

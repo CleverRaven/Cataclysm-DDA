@@ -3301,7 +3301,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
 
-    if( u.sees_with_infrared( critter ) ) {
+    if( u.sees_with_infrared( critter ) || u.sees_with_specials( critter ) ) {
         mvwputch( w_terrain, point( mx, my ), c_red, '?' );
     }
 }
@@ -8749,8 +8749,8 @@ void game::wield( item_location &loc )
         u.unwield();
 
         if( is_unwielding ) {
-            if( u.style_selected != matype_id( "style_none" ) ) {
-                u.martialart_use_message();
+            if( !u.martial_arts_data.selected_is_none() ) {
+                u.martial_arts_data.martialart_use_message( u );
             }
             return;
         }
@@ -9031,6 +9031,20 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc )
 {
+    if( m.has_flag_ter( "THIN_OBSTACLE", dest_loc ) ) {
+        if( u.get_size() > MS_MEDIUM ) {
+            add_msg( m_warning, _( "You can't fit there." ) );
+            return false; // character too large to fit through a tight passage
+        }
+        if( u.is_mounted() ) {
+            monster *mount = u.mounted_creature.get();
+            if( mount->get_size() > MS_MEDIUM ) {
+                add_msg( m_warning, _( "Your mount can't fit there." ) );
+                return false; // char's mount is too large for tight passages
+            }
+        }
+    }
+
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -9981,7 +9995,7 @@ void game::on_move_effects()
     }
 
     // apply martial art move bonuses
-    u.ma_onmove_effects();
+    u.martial_arts_data.ma_onmove_effects( u );
 
     sfx::do_ambient();
 }

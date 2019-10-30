@@ -73,9 +73,9 @@
     "difficulty": 8,
     "time": "164 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_standard", 13 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 52 ], [ "steel_standard", 13 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -140,8 +140,7 @@
     "difficulty": 2,
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ]
   }
 ]
