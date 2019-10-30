@@ -197,7 +197,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_decorative1_northwest",
-    "description": "Some benches around the outside would be nice. Build some to the northwest.",
+    "description": "Some benches around the outside would be nice.  Build some to the northwest.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -212,7 +212,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_decorative2_northeast",
-    "description": "Some benches around the outside would be nice. Build some to the northeast.",
+    "description": "Some benches around the outside would be nice.  Build some to the northeast.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -227,7 +227,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_decorative3_southeast",
-    "description": "Some benches around the outside would be nice. Build some to the southeast.",
+    "description": "Some benches around the outside would be nice.  Build some to the southeast.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -242,7 +242,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_decorative4_southwest",
-    "description": "Some benches around the outside would be nice. Build some to the southwest.",
+    "description": "Some benches around the outside would be nice.  Build some to the southwest.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

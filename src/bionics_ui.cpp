@@ -166,7 +166,11 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p )
     fuel_stream << _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
-            fuel_stream << item( fuel ).tname() << ": " << "<color_green>" << p->get_value(
+            const item temp_fuel( fuel ) ;
+            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                continue;
+            }
+            fuel_stream << temp_fuel.tname() << ": " << "<color_green>" << p->get_value(
                             fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
         }
     }

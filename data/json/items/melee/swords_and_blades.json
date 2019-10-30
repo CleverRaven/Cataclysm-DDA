@@ -553,7 +553,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "estoc",
-    "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords. It seems a bit too bendy.",
+    "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price": 13500,
     "price_postapoc": 0,
     "material": "budget_steel",

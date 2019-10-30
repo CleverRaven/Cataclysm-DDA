@@ -161,7 +161,7 @@ struct bionic {
 
     int get_quality( const quality_id &quality ) const;
 
-    bool is_muscle_powered() const;
+    bool is_this_fuel_powered( const itype_id this_fuel ) const;
 
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );

@@ -53,7 +53,8 @@
     "id": "guns_pistol_rare",
     "items": [
       { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 },
+      { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -100,10 +101,10 @@
     "type": "item_group",
     "id": "magic_shop_books",
     "items": [
-      { "group": "spellbook_tier_0", "prob": 60 },
-      { "group": "spellbook_tier_1", "prob": 50 },
-      { "group": "spellbook_tier_2", "prob": 35 },
-      { "group": "spellbook_tier_3", "prob": 20 },
+      { "group": "spellbook_loot_1", "prob": 60 },
+      { "group": "spell_scroll_tier_0", "prob": 80 },
+      { "group": "spell_scroll_tier_1", "prob": 60 },
+      { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 }
     ]
   },
@@ -211,6 +212,339 @@
       { "group": "remains_human_generic", "prob": 5, "count-min": 1, "count-max": 2 },
       { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "enchanted_misc",
+    "type": "item_group",
+    "//": "all enchanted miscellanious items",
+    "subtype": "collection",
+    "items": [
+      { "item": "heat_cube", "prob": 10 },
+      { "item": "mkey_opening", "prob": 10 },
+      { "item": "mtorch_everburning", "prob": 10 },
+      { "item": "mflask_hip_whiskey", "prob": 10 },
+      { "item": "mtailors_kit", "prob": 10 },
+      { "item": "mspider_box", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_tokens_weapon",
+    "type": "item_group",
+    "//": "all the melee weapon tokens",
+    "subtype": "collection",
+    "items": [
+      { "item": "mtoken_longsword", "prob": 10 },
+      { "item": "mtoken_arming_sword", "prob": 10 },
+      { "item": "mtoken_broadsword", "prob": 10 },
+      { "item": "mtoken_battleaxe", "prob": 10 },
+      { "item": "mtoken_pike", "prob": 10 },
+      { "item": "mtoken_mace", "prob": 10 },
+      { "item": "mtoken_q_staff", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_tokens_tool",
+    "type": "item_group",
+    "//": "all the tool tokens",
+    "subtype": "collection",
+    "items": [
+      { "item": "mtoken_toolbox", "prob": 5 },
+      { "item": "mtoken_hammer", "prob": 20 },
+      { "item": "mtoken_screwdriver_set", "prob": 30 },
+      { "item": "mtoken_crowbar", "prob": 20 }
+    ]
+  },
+  {
+    "id": "enchanted_rings_common",
+    "type": "item_group",
+    "//": "all the common enchanted rings",
+    "subtype": "collection",
+    "items": [
+      { "item": "mring_blades_lesser", "prob": 5 },
+      { "item": "mring_strength_1", "prob": 10 },
+      { "item": "mring_dexterity_1", "prob": 10 },
+      { "item": "mring_intelligence_1", "prob": 10 },
+      { "item": "mring_perception_1", "prob": 10 },
+      { "item": "mring_speed_3", "prob": 10 },
+      { "item": "mring_protection_2", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_rings_uncommon",
+    "type": "item_group",
+    "//": "all the uncommon enchanted rings",
+    "subtype": "collection",
+    "items": [
+      { "item": "mring_strength_2", "prob": 10 },
+      { "item": "mring_dexterity_2", "prob": 10 },
+      { "item": "mring_intelligence_2", "prob": 10 },
+      { "item": "mring_perception_2", "prob": 10 },
+      { "item": "mring_speed_5", "prob": 10 },
+      { "item": "mring_protection_4", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_rings_rare_unusual",
+    "type": "item_group",
+    "//": "all the unusual enchanted rings",
+    "subtype": "collection",
+    "items": [
+      { "item": "mring_strength_3", "prob": 10 },
+      { "item": "mring_dexterity_3", "prob": 10 },
+      { "item": "mring_intelligence_3", "prob": 10 },
+      { "item": "mring_perception_3", "prob": 10 },
+      { "item": "mring_speed_7", "prob": 10 },
+      { "item": "mring_protection_6", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_rings_rare",
+    "type": "item_group",
+    "//": "all the rare enchanted rings. High end loot for boss fights, treasure rooms, etc.",
+    "subtype": "collection",
+    "items": [
+      { "item": "mring_strength_4", "prob": 10 },
+      { "item": "mring_dexterity_4", "prob": 10 },
+      { "item": "mring_intelligence_4", "prob": 10 },
+      { "item": "mring_perception_4", "prob": 10 },
+      { "item": "mring_speed_10", "prob": 10 },
+      { "item": "mring_protection_8", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_minor",
+    "type": "item_group",
+    "//": "minor enchanted wands",
+    "subtype": "collection",
+    "items": [
+      { "item": "wand_magic_missile_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_fireball_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_mana_beam_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_minor", "prob": 20, "charges-min": 3, "charges-max": 20 },
+      { "item": "wand_disp_cone_cold_minor", "prob": 20, "charges-min": 3, "charges-max": 20 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_lesser",
+    "type": "item_group",
+    "//": "lesser enchanted wands",
+    "subtype": "collection",
+    "items": [
+      { "item": "wand_magic_missile_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_fireball_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_mana_beam_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_point_flare_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_lesser", "prob": 20, "charges-min": 3, "charges-max": 20 },
+      { "item": "wand_disp_cone_cold_lesser", "prob": 20, "charges-min": 3, "charges-max": 20 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_greater",
+    "type": "item_group",
+    "//": "rare enchanted wands. High end loot for boss fights, treasure rooms, etc.",
+    "subtype": "collection",
+    "items": [
+      { "item": "wand_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_fireball_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_mana_beam_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_point_flare_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_greater", "prob": 20, "charges-min": 3, "charges-max": 20 },
+      { "item": "wand_disp_cone_cold_greater", "prob": 20, "charges-min": 3, "charges-max": 20 }
+    ]
+  },
+  {
+    "id": "enchanted_masks",
+    "type": "item_group",
+    "//": "all enchanted masks. High end loot for boss fights, treasure rooms, etc.",
+    "subtype": "collection",
+    "items": [ { "item": "mmask_disappearance", "prob": 5 }, { "item": "mmask_vision", "prob": 10 } ]
+  },
+  {
+    "id": "enchanted_bracers_lesser",
+    "type": "item_group",
+    "//": "lesser enchanted bracers",
+    "subtype": "collection",
+    "items": [ { "item": "mbracer_defense_lesser", "prob": 10 }, { "item": "mbracer_lightning_lesser", "prob": 10 } ]
+  },
+  {
+    "id": "enchanted_bracers_greater",
+    "type": "item_group",
+    "//": "greater enchanted bracers",
+    "subtype": "collection",
+    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+  },
+  {
+    "id": "enchanted_boots",
+    "type": "item_group",
+    "//": "all enchanted boots",
+    "subtype": "collection",
+    "items": [
+      { "item": "mboots_haste", "prob": 10 },
+      { "item": "mboots_sevenleague", "prob": 10 },
+      { "item": "mboots_escape", "prob": 10 },
+      { "item": "mboots_grounding", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_belts",
+    "type": "item_group",
+    "//": "all enchanted belts",
+    "subtype": "collection",
+    "items": [
+      { "item": "magi_staff_minor", "prob": 10 },
+      { "item": "wizard_hat", "prob": 20 },
+      { "item": "mbelt_haste", "prob": 5 },
+      { "item": "mbelt_thor", "prob": 1 },
+      { "item": "mbelt_pockets_lesser", "prob": 10 },
+      { "item": "mbelt_pockets_greater", "prob": 5 },
+      { "item": "mbelt_weaponry", "prob": 10 },
+      { "item": "mbelt_technomancer_toolbelt", "prob": 5 },
+      { "item": "mbelt_iron_whip", "prob": 5 }
+    ]
+  },
+  {
+    "id": "enchanted_melee_weapons_plus1",
+    "type": "item_group",
+    "//": "plus 1 enchanted melee weapons",
+    "subtype": "collection",
+    "items": [
+      { "item": "cudgel_plus_one", "prob": 10 },
+      { "item": "q_staff_plus_one", "prob": 10 },
+      { "item": "i_staff_plus_one", "prob": 10 },
+      { "item": "longsword_plus_one", "prob": 5 },
+      { "item": "sledge_plus_one", "prob": 8 },
+      { "item": "warhammer_plus_one", "prob": 8 },
+      { "item": "bat_plus_one", "prob": 10 },
+      { "item": "bat_metal_plus_one", "prob": 8 },
+      { "item": "spear_steel_plus_one", "prob": 8 },
+      { "item": "qiang_plus_one", "prob": 8 },
+      { "item": "halberd_plus_one", "prob": 8 },
+      { "item": "glaive_plus_one", "prob": 8 },
+      { "item": "naginata_plus_one", "prob": 5 },
+      { "item": "mace_plus_one", "prob": 5 },
+      { "item": "morningstar_plus_one", "prob": 5 },
+      { "item": "jian_plus_one", "prob": 5 },
+      { "item": "scimitar_plus_one", "prob": 5 },
+      { "item": "estoc_plus_one", "prob": 5 },
+      { "item": "arming_sword_plus_one", "prob": 5 },
+      { "item": "broadsword_plus_one", "prob": 5 },
+      { "item": "battleaxe_plus_one", "prob": 5 },
+      { "item": "cavalry_sabre_plus_one", "prob": 5 },
+      { "item": "crowbar_plus_one", "prob": 10 },
+      { "item": "cutlass_plus_one", "prob": 5 },
+      { "item": "fire_ax_plus_one", "prob": 8 },
+      { "item": "katana_plus_one", "prob": 5 },
+      { "item": "knife_combat_plus_one", "prob": 8 },
+      { "item": "knife_hunting_plus_one", "prob": 8 },
+      { "item": "knife_rambo_plus_one", "prob": 5 },
+      { "item": "knife_trench_plus_one", "prob": 5 },
+      { "item": "kris_plus_one", "prob": 5 },
+      { "item": "kukri_plus_one", "prob": 5 },
+      { "item": "nodachi_plus_one", "prob": 5 },
+      { "item": "pickaxe_plus_one", "prob": 8 },
+      { "item": "pike_plus_one", "prob": 5 },
+      { "item": "rapier_plus_one", "prob": 5 },
+      { "item": "tanto_plus_one", "prob": 5 },
+      { "item": "wakizashi_plus_one", "prob": 5 },
+      { "item": "zweihander_plus_one", "prob": 5 },
+      { "item": "khopesh_plus_one", "prob": 5 },
+      { "item": "sword_xiphos_plus_one", "prob": 5 },
+      { "item": "dao_plus_one", "prob": 5 },
+      { "item": "gunblade", "prob": 5 }
+    ]
+  },
+  {
+    "id": "enchanted_melee_weapons_plus2",
+    "type": "item_group",
+    "//": "plus 2 enchanted melee weapons. High end loot for boss fights, treasure rooms, etc.",
+    "subtype": "collection",
+    "items": [
+      { "item": "cudgel_plus_two", "prob": 10 },
+      { "item": "q_staff_plus_two", "prob": 10 },
+      { "item": "i_staff_plus_two", "prob": 10 },
+      { "item": "longsword_plus_two", "prob": 5 },
+      { "item": "sledge_plus_two", "prob": 8 },
+      { "item": "warhammer_plus_two", "prob": 8 },
+      { "item": "bat_plus_two", "prob": 10 },
+      { "item": "bat_metal_plus_two", "prob": 8 },
+      { "item": "spear_steel_plus_two", "prob": 8 },
+      { "item": "qiang_plus_two", "prob": 8 },
+      { "item": "halberd_plus_two", "prob": 8 },
+      { "item": "glaive_plus_two", "prob": 8 },
+      { "item": "naginata_plus_two", "prob": 5 },
+      { "item": "mace_plus_two", "prob": 5 },
+      { "item": "morningstar_plus_two", "prob": 5 },
+      { "item": "jian_plus_two", "prob": 5 },
+      { "item": "scimitar_plus_two", "prob": 5 },
+      { "item": "estoc_plus_two", "prob": 5 },
+      { "item": "arming_sword_plus_two", "prob": 5 },
+      { "item": "broadsword_plus_two", "prob": 5 },
+      { "item": "battleaxe_plus_two", "prob": 5 },
+      { "item": "cavalry_sabre_plus_two", "prob": 5 },
+      { "item": "crowbar_plus_two", "prob": 10 },
+      { "item": "cutlass_plus_two", "prob": 5 },
+      { "item": "fire_ax_plus_two", "prob": 8 },
+      { "item": "katana_plus_two", "prob": 5 },
+      { "item": "knife_combat_plus_two", "prob": 8 },
+      { "item": "knife_hunting_plus_two", "prob": 8 },
+      { "item": "knife_rambo_plus_two", "prob": 5 },
+      { "item": "knife_trench_plus_two", "prob": 5 },
+      { "item": "kris_plus_two", "prob": 5 },
+      { "item": "kukri_plus_two", "prob": 5 },
+      { "item": "nodachi_plus_two", "prob": 5 },
+      { "item": "pickaxe_plus_two", "prob": 8 },
+      { "item": "pike_plus_two", "prob": 5 },
+      { "item": "rapier_plus_two", "prob": 5 },
+      { "item": "tanto_plus_two", "prob": 5 },
+      { "item": "wakizashi_plus_two", "prob": 5 },
+      { "item": "zweihander_plus_two", "prob": 5 },
+      { "item": "khopesh_plus_two", "prob": 5 },
+      { "item": "sword_xiphos_plus_two", "prob": 5 },
+      { "item": "dao_plus_two", "prob": 5 }
+    ]
+  },
+  {
+    "id": "enchanted_small_items",
+    "//": "A distribution of small magical items for general loot areas like desks, shelves, personal items.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_tokens_tool", "prob": 20 },
+      { "group": "enchanted_tokens_weapon", "prob": 1 },
+      { "group": "enchanted_rings_common", "prob": 15 },
+      { "group": "enchanted_rings_uncommon", "prob": 1 },
+      { "group": "enchanted_wands_minor", "prob": 5 },
+      { "group": "enchanted_masks", "prob": 1 },
+      { "group": "magic_shop_potions", "prob": 20 },
+      { "group": "spellbook_loot_1", "prob": 30 },
+      { "group": "magic_CBM", "prob": 1 },
+      [ "crystallized_mana", 10 ],
+      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 }
+    ]
+  },
+  {
+    "id": "enchanted_worn_items",
+    "//": "A distribution of wearable magical items for  loot areas like dressers, wardrobes, coat racks.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_bracers_lesser", "prob": 20 },
+      { "group": "enchanted_boots", "prob": 5 },
+      { "group": "enchanted_belts", "prob": 5 }
+    ]
+  },
+  {
+    "id": "enchanted_combat_items",
+    "//": "A distribution of magical items for combat loot.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_bracers_lesser", "prob": 20 },
+      { "group": "enchanted_worn_items", "prob": 10 },
+      { "group": "enchanted_melee_weapons_plus1", "prob": 2 },
+      { "group": "enchanted_small_items", "prob": 1 }
     ]
   }
 ]

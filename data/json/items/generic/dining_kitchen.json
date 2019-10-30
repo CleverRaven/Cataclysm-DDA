@@ -356,7 +356,7 @@
     "category": "other",
     "id": "fork",
     "name": "fork",
-    "description": "A fork, if you stab something with it you eat it right away.  Wait...  nevermind.",
+    "description": "A fork, if you stab something with it you eat it right away.  Wait… nevermind.",
     "copy-from": "base_silverware",
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },

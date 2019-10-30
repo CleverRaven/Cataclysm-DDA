@@ -299,8 +299,7 @@
   {
     "type": "COMESTIBLE",
     "id": "salsify_raw",
-    "name": "salsify",
-    "name_plural": "handfuls of salsify",
+    "name": { "str": "salsify", "str_pl": "salsify" },
     "weight": "133 g",
     "color": "green",
     "spoils_in": "30 days",
@@ -320,8 +319,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_raw",
-    "name": "chicory",
-    "name_plural": "handfuls of chicory",
+    "name": { "str": "chicory", "str_pl": "chicory" },
     "weight": "60 g",
     "color": "cyan",
     "spoils_in": "30 days",
@@ -535,8 +533,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_dandelion",
-    "name": "handful of dandelions",
-    "name_plural": "handfuls of dandelions",
+    "name": { "str": "dandelions", "str_pl": "dandelions" },
     "weight": "58 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
@@ -763,8 +760,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_raw",
-    "name": "handful of fiddleheads",
-    "name_plural": "handfuls of fiddleheads",
+    "name": { "str": "fiddleheads", "str_pl": "fiddleheads" },
     "weight": "50 g",
     "flags": [ "FREEZERBURN" ],
     "color": "light_green",

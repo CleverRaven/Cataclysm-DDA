@@ -2158,6 +2158,7 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2239,6 +2240,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE" ],
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 30,
       "str_max": 210,
