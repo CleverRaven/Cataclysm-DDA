@@ -53,7 +53,8 @@
     "id": "guns_pistol_rare",
     "items": [
       { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 },
+      { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -450,7 +451,8 @@
       { "item": "zweihander_plus_one", "prob": 5 },
       { "item": "khopesh_plus_one", "prob": 5 },
       { "item": "sword_xiphos_plus_one", "prob": 5 },
-      { "item": "dao_plus_one", "prob": 5 }
+      { "item": "dao_plus_one", "prob": 5 },
+      { "item": "gunblade", "prob": 5 }
     ]
   },
   {
