@@ -270,7 +270,8 @@ Do note that currently the JSON syntax is only supported for some JSON values,
 which are listed below. If you want other json strings to use this format,
 refer to `translations.h|cpp` and migrate the corresponding code. Afterwards
 you may also want to test `update_pot.sh` to ensure that the strings are
-correctly extracted for translation.
+correctly extracted for translation, and run the unit test to fix text styling
+issues reported by the `translation` class.
 
 | Supported JSON values
 |---

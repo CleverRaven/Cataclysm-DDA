@@ -78,6 +78,7 @@
     "components": [
       [
         [ "tallow", 1 ],
+        [ "mutant_tallow", 1 ],
         [ "cooking_oil", 8 ],
         [ "cooking_oil2", 8 ],
         [ "wax", 1 ],

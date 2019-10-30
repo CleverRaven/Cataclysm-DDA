@@ -181,7 +181,7 @@
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [
       [ [ "liver", 8 ] ],
-      [ [ "fat", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 2, "LIST" ], [ "lard", 2 ], [ "mutant_lard", 2 ] ],
       [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour", 2 ] ],

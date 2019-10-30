@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "character_martial_arts.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -380,6 +381,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks is_invisible() as well as other factors */
         int visibility( bool check_color = false, int stillness = 0 ) const;
 
+        bool sees_with_specials( const Creature &critter ) const;
+
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
         body_part_set exclusive_flag_coverage( const std::string &flag ) const;
 
@@ -619,6 +622,31 @@ class Character : public Creature, public visitable<Character>
         // gets add and mult value from enchantment cache
         double calculate_by_enchantment( double modify, enchantment::mod value,
                                          bool round_output = false ) const;
+
+        /** Returns true if the player has any martial arts buffs attached */
+        bool has_mabuff( const mabuff_id &buff_id ) const;
+        /** Returns true if the player has a grab breaking technique available */
+        bool has_grab_break_tec() const override {
+            return martial_arts_data.has_grab_break_tec();
+        };
+
+        /** Returns the to hit bonus from martial arts buffs */
+        float mabuff_tohit_bonus() const;
+        /** Returns the dodge bonus from martial arts buffs */
+        float mabuff_dodge_bonus() const;
+        /** Returns the block bonus from martial arts buffs */
+        int mabuff_block_bonus() const;
+        /** Returns the speed bonus from martial arts buffs */
+        int mabuff_speed_bonus() const;
+        /** Returns the damage multiplier to given type from martial arts buffs */
+        float mabuff_damage_mult( damage_type type ) const;
+        /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
+        int mabuff_damage_bonus( damage_type type ) const;
+        /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
+        int mabuff_attack_cost_penalty() const;
+        /** Returns the multiplier on move cost of attacks. */
+        float mabuff_attack_cost_mult() const;
+
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
@@ -871,6 +899,8 @@ class Character : public Creature, public visitable<Character>
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
+        /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
+        bool unarmed_attack() const;
         /// Checks for items, tools, and vehicles with the Lifting quality near the character
         /// returning the highest quality in range.
         int best_nearby_lifting_assist() const;
@@ -1087,6 +1117,7 @@ class Character : public Creature, public visitable<Character>
         item weapon;
 
         pimpl<bionic_collection> my_bionics;
+        character_martial_arts martial_arts_data;
 
         stomach_contents stomach;
         stomach_contents guts;

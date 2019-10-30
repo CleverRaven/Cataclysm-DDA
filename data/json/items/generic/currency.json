@@ -53,5 +53,18 @@
     "color": "white",
     "symbol": "$",
     "material": [ "paper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "icon",
+    "name": "icon",
+    "description": "This is a small picture, about the same size as an ID card, symbolizing a religious figure.  On the back, there is a text that faintly reads 'New England Church Community'.",
+    "price": 200,
+    "price_postapoc": 320,
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "$",
+    "material": [ "paper" ]
   }
 ]
