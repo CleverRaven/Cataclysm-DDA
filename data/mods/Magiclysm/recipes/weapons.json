@@ -256,7 +256,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 7, ] [ "bashing", 6 ] ],
+    "skills_required": [ [ "spellcraft", 7 ], [ "bashing", 6 ] ],
     "difficulty": 10,
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
