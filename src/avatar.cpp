@@ -947,16 +947,16 @@ void avatar::disp_morale()
     int equilibrium = calc_focus_equilibrium();
 
     int fatigue_penalty = 0;
-    if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+    if( get_fatigue() >= MASSIVE_FATIGUE && equilibrium > 20 ) {
         fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
-    } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+    } else if( get_fatigue() >= EXHAUSTED && equilibrium > 40 ) {
         fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
-    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+    } else if( get_fatigue() >= DEAD_TIRED && equilibrium > 60 ) {
         fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
-    } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+    } else if( get_fatigue() >= TIRED && equilibrium > 80 ) {
         fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
