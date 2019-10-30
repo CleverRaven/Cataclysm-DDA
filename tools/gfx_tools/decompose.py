@@ -322,7 +322,7 @@ class PngRefs(object):
                 del_ranges = json.load(del_file)
                 for delete_range in del_ranges:
                     if not isinstance(delete_range, list):
-                        contineu
+                        continue
                     min_png = delete_range[0]
                     max_png = min_png
                     if len(delete_range) > 1:
@@ -344,7 +344,7 @@ class PngRefs(object):
                 return
         raise KeyError("index %s out of range", pngnum)
 
-    def convert_index(self, read_pngnums, new_index, new_id):
+    def convert_index(self, read_pngnums, new_index):
         if isinstance(read_pngnums, list):
             for pngnum in read_pngnums:
                 if isinstance(pngnum, dict):
@@ -353,39 +353,39 @@ class PngRefs(object):
                         new_sprites = []
                         for sprite_id in sprite_ids:
                             if sprite_id >= 0 and sprite_id not in self.delete_pngnums:
-                                if not new_id:
-                                    new_id = self.pngnum_to_pngname[sprite_id]
                                 new_sprites.append(self.pngnum_to_pngname[sprite_id])
                         pngnum["sprite"] = new_sprites
                     else:
                         if sprite_ids >= 0 and sprite_ids not in self.delete_pngnums:
-                            if not new_id:
-                                new_id = self.pngnum_to_pngname[sprite_ids]
                             pngnum["sprite"] = self.pngnum_to_pngname[sprite_ids]
                     new_index.append(pngnum)
                 elif pngnum >= 0 and pngnum not in self.delete_pngnums:
-                    if not new_id:
-                        new_id = self.pngnum_to_pngname[pngnum]
                     new_index.append(self.pngnum_to_pngname[pngnum])
         elif read_pngnums >= 0 and read_pngnums not in self.delete_pngnums:
-            if not new_id:
-                new_id = self.pngnum_to_pngname[read_pngnums]
             new_index.append(self.pngnum_to_pngname[read_pngnums])
-        return new_id
 
     def convert_pngnum_to_pngname(self, tile_entry):
         new_fg = []
-        new_id = ""
         fg_id = tile_entry.get("fg", -10)
-        new_id = self.convert_index(fg_id, new_fg, new_id)
+        self.convert_index(fg_id, new_fg)
         bg_id = tile_entry.get("bg", -10)
         new_bg = []
-        new_id = self.convert_index(bg_id, new_bg, new_id)
+        self.convert_index(bg_id, new_bg)
         add_tile_entrys = tile_entry.get("additional_tiles", [])
         for add_tile_entry in add_tile_entrys:
             self.convert_pngnum_to_pngname(add_tile_entry)
         tile_entry["fg"] = new_fg
         tile_entry["bg"] = new_bg
+
+        new_id = ""
+        entity_id = tile_entry["id"]
+        if isinstance(entity_id, list):
+            # we have to truncate the name since it could get really long, which means
+            # this still may not be unique in the case of a bunch instances like this
+            # but it's better than nothing...
+            new_id = "_".join(entity_id)[0:150]
+        else:
+            new_id = entity_id
 
         return new_id, tile_entry
 
@@ -450,12 +450,14 @@ for ts_filename in ts_sequence:
 
     for tile_id, tile_entrys in out_data.ts_data.tile_id_to_tile_entrys.items():
         #print("tile id {} with {} entries".format(tile_id, len(tile_entrys)))
-        for tile_entry in tile_entrys:
+        for idx, tile_entry in enumerate(tile_entrys):
             subdir_pathname = out_data.increment_dir()
             tile_entry_name, tile_entry = refs.convert_pngnum_to_pngname(tile_entry)
             if not tile_entry_name:
                 continue
-            tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + ".json"
+            tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + "_" + str(idx) + ".json"
+            #if os.path.isfile(tile_entry_pathname):
+            #    print("overwriting {}".format(tile_entry_pathname))
             write_to_json(tile_entry_pathname, tile_entry)
     out_data.write_images(refs)
 
