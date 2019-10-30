@@ -35,7 +35,7 @@
     "skills_required": [ "spellcraft", 2 ],
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "alchemy_basic", 4 ] ],
+    "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 } ],
     "components": [ [ [ "copper_bracelet", 1 ] ] ]
   },
