@@ -1875,7 +1875,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                                iteminfo::show_plus, mod.handling );
         }
-        if( is_gun() && !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
+        if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
             for( const ammotype &at : type->mod->ammo_modifier ) {
                 info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
                                           at->name() ) ) );
@@ -2512,11 +2512,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         //lets display which martial arts styles character can use with this weapon
         if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-            const std::vector<matype_id> &styles = g->u.ma_styles;
-            const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
-            [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
-            } );
+            const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
             if( !valid_styles.empty() ) {
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -3234,7 +3230,7 @@ nc_color item::color_in_inventory() const
                 u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !u.has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !u.martial_arts_data.has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u.get_skill_level_object( tmp.skill ).can_train() &&
@@ -3346,8 +3342,8 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( p.style_selected != matype_id( "style_none" ) ) {
-        p.martialart_use_message();
+    if( p.martial_arts_data.selected_is_none() ) {
+        p.martial_arts_data.martialart_use_message( p );
     }
 
     // Update encumbrance in case we were wearing it

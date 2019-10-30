@@ -2223,18 +2223,12 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 
     const matype_id style_to_learn = martial_art_learned_from( *it->type );
 
-    const martialart &ma = style_to_learn.obj();
     if( !style_to_learn.is_valid() ) {
-        // debugmsg will already have been sent by .obj call
+        debugmsg( "ERROR: Invalid martial art" );
         return 0;
     }
 
-    p->ma_styles.push_back( style_to_learn );
-
-    p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
-                          ma.name );
-    p->add_msg_if_player( m_info, _( "%s to select martial arts style." ),
-                          press_x( ACTION_PICK_STYLE ) );
+    p->martial_arts_data.learn_style( style_to_learn, p->is_avatar() );
 
     return 1;
 }

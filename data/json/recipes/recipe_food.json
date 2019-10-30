@@ -124,6 +124,18 @@
     "components": [ [ [ "meat_scrap", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "mutant_meat_cooked",
+    "copy-from": "meat_cooked",
+    "components": [ [ [ "mutant_meat", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_meat_scrap_cooked",
+    "copy-from": "meat_scrap_cooked",
+    "components": [ [ [ "mutant_meat_scrap", 1 ] ] ]
+  },
+  {
     "result": "offal_canned",
     "type": "recipe",
     "id_suffix": "jarred",
@@ -288,6 +300,22 @@
   },
   {
     "type": "recipe",
+    "result": "mutant_tallow",
+    "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_lard",
+    "copy-from": "lard",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_fat", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "cooking_oil",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -322,7 +350,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -423,7 +451,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -748,7 +776,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -773,7 +801,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -798,7 +826,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -901,7 +929,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
       [ [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -1981,6 +2009,7 @@
       [
         [ "meat_red", 1, "LIST" ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "can_salmon", 2 ],
         [ "can_herring", 2 ],
         [ "fish", 2 ],
@@ -2049,7 +2078,7 @@
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
       ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
   },
   {
@@ -2113,7 +2142,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "fat", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2128,7 +2157,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
@@ -2772,8 +2801,8 @@
         [ "honey_bottled", 2 ],
         [ "honey_glassed", 2 ]
       ],
-      [ [ "meat", 1 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "meat", 1 ], [ "mutant_meat", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "pepper", 1 ] ]
     ]
@@ -2794,7 +2823,7 @@
     "components": [
       [ [ "syrup", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 6 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
@@ -3540,6 +3569,7 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -3581,6 +3611,7 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -4381,7 +4412,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 2 ], [ "meat_scrap", 20 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4826,7 +4857,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
+      [ [ "meat_red_raw", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
     ]
   },
@@ -5578,7 +5609,7 @@
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ]
       ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
@@ -5605,7 +5636,7 @@
         [ "dry_hflesh", 1 ],
         [ "human_canned", 1 ]
       ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
@@ -6039,7 +6070,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
+      [ [ "meat_red_raw", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -6159,7 +6190,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6287,7 +6318,7 @@
     "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "meat", 1 ], [ "human_flesh", 1 ], [ "rehydrated_meat", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "rehydrated_meat", 1 ], [ "rehydrated_hflesh", 1 ] ],
       [ [ "slime_scrap", 2 ] ],
       [ [ "water", 1 ] ]
     ]
@@ -6354,7 +6385,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
   },
   {
@@ -7274,7 +7305,7 @@
     "components": [
       [ [ "oatmeal", 1 ], [ "flour", 5 ], [ "buckwheat", 1 ] ],
       [ [ "dry_fruit", 1 ] ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "sugar", 10 ],
         [ "syrup", 1 ],
@@ -7786,7 +7817,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "jerky_human", 1 ], [ "dry_hflesh", 1 ], [ "human_smoked", 1 ] ],
       [
         [ "dry_veggy", 2 ],
@@ -7867,7 +7898,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 12 ], [ "meat_scrap", 120 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -8061,7 +8092,7 @@
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "meat", 12 ], [ "meat_scrap", 120 ] ],
+      [ [ "meat_red_raw", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]
   },
@@ -8813,9 +8844,8 @@
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
         [ "butter", 1 ],
-        [ "fat", 1 ],
-        [ "lard", 1 ],
-        [ "tallow", 1 ],
+        [ "edible_fat", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ],
         [ "ghee", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -8840,9 +8870,8 @@
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
         [ "butter", 1 ],
-        [ "fat", 1 ],
-        [ "lard", 1 ],
-        [ "tallow", 1 ],
+        [ "edible_fat", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ],
         [ "ghee", 1 ]
       ]
     ]
