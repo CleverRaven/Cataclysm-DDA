@@ -51,7 +51,6 @@
 #include "magic.h"
 #include "point.h"
 #include "string_id.h"
-#include "live_view.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
