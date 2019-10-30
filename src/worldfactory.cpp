@@ -712,7 +712,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
 void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods )
 {
-    catacurses::window w_border = catacurses::newwin( 13, TERMX / 4 - 3, point( TERMX / 4, 4 ) );
+    catacurses::window w_border = catacurses::newwin( TERMY - 11, TERMX / 4 - 3, point( TERMX / 4, 4 ) );
     catacurses::window w_mods = catacurses::newwin( TERMY - 13, TERMX / 4 - 4, point( TERMX / 4, 5 ) );
 
     int start = 0;
@@ -748,6 +748,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
+            handle_redraw();
             break;
         }
     }
