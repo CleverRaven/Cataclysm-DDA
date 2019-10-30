@@ -51,20 +51,12 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     // be a different code path here that works for ncurses.
     const int original_height = win.get<cata_cursesport::WINDOW>()->height;
     win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;
-<<<<<<< HEAD
     g->draw_panels();
-=======
-    g->draw_panels();   
->>>>>>> 8e86973c2d891afca56abf3355c367ee898dbc3c
 #endif
 
     draw_border( win );
     center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
-<<<<<<< HEAD
     wrefresh( win );
-=======
-    wrefresh(win);
->>>>>>> 8e86973c2d891afca56abf3355c367ee898dbc3c
 
 #if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
