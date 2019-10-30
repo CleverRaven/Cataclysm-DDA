@@ -1234,9 +1234,9 @@
   },
           {
     "type": "COMESTIBLE",
-    "id": "cointreau",
-    "name": "cointreau",
-    "name_plural": "cointreau",
+    "id": "triple_sec_liqueur",
+    "name": "triple sec liqueur",
+    "name_plural": "triple sec liqueur",
     "weight": "120 g",
     "color": "brown",
     "addiction_type": "alcohol",
