@@ -292,5 +292,63 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gas_1" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+	  "faction_owner": [ { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "____:]:____:____:]:____]",
+        "____]]]____:____]]]____]",
+        "____!#!____:____!#!____]",
+        "____]]]____:____]]]____]",
+        "____:]:____:____:]:____]",
+        "____]]]____:____]]]____]",
+        "____!#!____:____!#!____]",
+        "____]]]____:____]]]____]",
+        "____:]:____:____:]:____]",
+        "]]]]]]]]]]]]]]]]]]]]]]]]",
+        "]]]]]]]]]]]]]Pr]]]]]]]]]",
+        "#xxxxxxxxx///xxxxxxxxx#]",
+        "#1.......&...&.......1#]",
+        "#r...................{#]",
+        "#r..rrrrr.....rrrrr..{#]",
+        "#r..rrrrr.....rrrrr..{#]",
+        "#r...................{#]",
+        "#r...................{#]",
+        "#&.AFFD#.CCCCC#rrrrrr1#]",
+        "##+#####...s..#########]",
+        "#S.#...+......+.......~]",
+        "#T.#TSl#.rrrrr#HHtcCfl#]",
+        "########~##############]",
+        " 4      ]]]]]]]]]]]]]]]]"
+      ],
+      "palettes": [ "road" ],
+      "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
+      "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
+      "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
+      "place_loot": [
+        { "group": "snacks", "x": [ 14, 18 ], "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "magazines", "x": [ 4, 8 ], "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "softdrugs", "x": 1, "y": [ 13, 17 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "behindcounter", "x": [ 9, 13 ], "y": 21, "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "road", "x": [ 7, 15 ], "y": [ 0, 8 ], "chance": 30, "repeat": [ 1, 2 ] },
+        { "group": "gas_charging_rack", "x": [ 15, 20 ], "y": 18, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "gas_charging_rack", "x": 14, "y": 10, "chance": 50 },
+        { "group": "dining", "x": 17, "y": 21, "chance": 45 },
+        { "group": "bed", "x": [ 15, 16 ], "y": 21, "chance": 70 },
+        { "item": "microwave", "x": 19, "y": 21, "chance": 80 },
+        { "item": "laptop", "x": 11, "y": 18, "chance": 70 }
+      ],
+      "place_npcs": [
+        { "class": "garage_guard", "x": 9, "y": 16 },
+        { "class": "garage_guard", "x": 11, "y": 16 },
+        { "class": "garage_merchant", "x": 10, "y": 15 }
+      ]
+    }
   }
 ]
