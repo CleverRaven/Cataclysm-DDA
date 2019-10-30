@@ -4271,7 +4271,8 @@ void game::monmove()
 void game::overmap_npc_move()
 {
     std::vector<npc *> travelling_npcs;
-    for( auto &elem : overmap_buffer.get_npcs_near_player( 121 ) ) {
+    static constexpr int move_search_radius = 120;
+    for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {
         if( !elem ) {
             continue;
         }
@@ -11117,7 +11118,8 @@ void game::perhaps_add_random_npc()
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
-    const int npc_num = overmap_buffer.get_npcs_near_player( 60 ).size();
+    static constexpr int density_search_radius = 60;
+    const int npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );
