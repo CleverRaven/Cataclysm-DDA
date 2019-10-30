@@ -12,13 +12,12 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "cursesdef.h"
 
 namespace
 {
 
 constexpr int START_LINE = 1;
-constexpr int MIN_BOX_HEIGHT = 12;
+constexpr int MIN_BOX_HEIGHT = 3;
 
 } //namespace
 
@@ -37,7 +36,6 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
     int line_out = START_LINE;
     g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
-
     const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
 #if defined(TILES) || defined(_WIN32)
@@ -50,15 +48,15 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     // be a different code path here that works for ncurses.
     const int original_height = win.get<cata_cursesport::WINDOW>()->height;
     win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;
+    g->draw_panels();   
 #endif
 
     draw_border( win );
     center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
-
+    wrefresh(win);
 #if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
-
     return live_view_box_height;
 }
 
