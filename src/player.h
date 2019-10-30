@@ -243,7 +243,7 @@ class player : public Character
         void update_stomach( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
-        needs_rates calc_needs_rates();
+        needs_rates calc_needs_rates() const;
 
         /**
           * Handles passive regeneration of pain and maybe hp.

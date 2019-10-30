@@ -125,20 +125,21 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
     mod_calories( p.kcal_for( comest ) );
 }
 
-void stomach_contents::ingest( nutrients ingested )
+void stomach_contents::ingest( const nutrients &ingested )
 {
     contents += ingested.solids;
     water += ingested.water;
     calories += ingested.kcal;
-    for( auto &vit : ingested.vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : ingested.vitamins ) {
         vitamins[vit.first] += vit.second;
     }
 }
 
-nutrients stomach_contents::digest( player &owner, int five_mins, int half_hours )
+nutrients stomach_contents::digest( const needs_rates &metabolic_rates,
+                                    int five_mins, int half_hours )
 {
     nutrients digested;
-    stomach_digest_rates rates = get_digest_rates( owner );
+    stomach_digest_rates rates = get_digest_rates( metabolic_rates );
 
     // Digest water, but no more than in stomach.
     digested.water = std::min( water, rates.water * five_mins );
@@ -149,7 +150,7 @@ nutrients stomach_contents::digest( player &owner, int five_mins, int half_hours
         // We need to initialize these to zero first, though.
         digested.kcal = 0;
         digested.solids = 0_ml;
-        for( const auto &vit : digested.vitamins ) {
+        for( const std::pair<const vitamin_id, int> &vit : digested.vitamins ) {
             digested.vitamins[vit.first] = 0;
         }
         return digested;
@@ -166,7 +167,7 @@ nutrients stomach_contents::digest( player &owner, int five_mins, int half_hours
     calories -= digested.kcal;
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
-    for( const auto &vit : vitamins ) {
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
         digested.vitamins[vit.first] = half_hours * clamp( rates.min_vitamin,
                                        static_cast<int>( round( vit.second * rates.percent_vitamin ) ), vit.second );
         vitamins[vit.first] -= digested.vitamins[vit.first];
@@ -183,7 +184,7 @@ void stomach_contents::empty()
     vitamins.clear();
 }
 
-stomach_digest_rates stomach_contents::get_digest_rates( player &owner )
+stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates )
 {
     stomach_digest_rates rates;
     if( stomach ) {
@@ -196,7 +197,6 @@ stomach_digest_rates stomach_contents::get_digest_rates( player &owner )
         rates.min_kcal = 5;
         rates.percent_kcal = 1.0f / 6.0f;
     } else {
-        const needs_rates metabolic_rates = owner.calc_needs_rates();
         // The guts are focused on absorption into the body, we don't care about passing rates.
         // Solids rate doesn't do anything impactful here so just make it big enough to avoid overflow.
         rates.solids = 250_ml;

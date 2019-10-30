@@ -51,16 +51,18 @@ class stomach_contents
         void ingest( player &p, item &food, int charges );
 
         // Directly adds nutrients to stomach contents
-        void ingest( nutrients ingested );
+        void ingest( const nutrients &ingested );
 
         /**
          * @brief Processes food and outputs nutrients that are finished processing
-         * @param owner The owner of this stomach
+         * Metabolic rates are required because they determine the rate of absorption of
+         * nutrients into the body.
+         * @param metabolic_rates The metabolic rates of the owner of this stomach
          * @param five_mins Five-minute intervals passed since this method was last called
          * @param half_hours Half-hour intervals passed since this method was last called
          * @return nutrients that are done processing in this stomach
          */
-        nutrients digest( player &owner, int five_mins, int half_hours );
+        nutrients digest( const needs_rates &metabolic_rates, int five_mins, int half_hours );
 
         // Empties the stomach of all contents.
         void empty();
@@ -121,6 +123,6 @@ class stomach_contents
         time_point last_ate;
 
         // Gets the rates at which this stomach will digest things.
-        stomach_digest_rates get_digest_rates( player &owner );
+        stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates );
 
 };

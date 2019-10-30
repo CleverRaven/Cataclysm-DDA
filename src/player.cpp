@@ -3236,9 +3236,9 @@ void player::update_stomach( const time_point &from, const time_point &to )
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
-        nutrients digested_to_guts = stomach.digest( *this, five_mins, half_hours );
+        nutrients digested_to_guts = stomach.digest( rates, five_mins, half_hours );
         // Digest nutrients in guts, they will be distributed to needs levels
-        nutrients digested_to_body = guts.digest( *this, five_mins, half_hours );
+        nutrients digested_to_body = guts.digest( rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         set_thirst( std::max(
                         -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
@@ -3539,9 +3539,9 @@ void player::check_needs_extremes()
 
 }
 
-needs_rates player::calc_needs_rates()
+needs_rates player::calc_needs_rates() const
 {
-    effect &sleep = get_effect( effect_sleep );
+    const effect &sleep = get_effect( effect_sleep );
     const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
 
