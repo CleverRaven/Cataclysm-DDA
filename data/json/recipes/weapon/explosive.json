@@ -31,9 +31,8 @@
       [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
       [
         [ "soap", 3 ],
-        [ "tallow", 2 ],
+        [ "edible_tallow_lard", 2, "LIST" ],
         [ "tallow_tainted", 2 ],
-        [ "lard", 2 ],
         [ "cooking_oil", 16 ],
         [ "cooking_oil2", 16 ]
       ]

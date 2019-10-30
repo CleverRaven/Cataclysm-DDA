@@ -33,7 +33,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ], [ "mutant_lard", 4 ] ] ]
   },
   {
     "type": "recipe",

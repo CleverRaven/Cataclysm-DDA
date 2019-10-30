@@ -1355,7 +1355,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wax", 1 ], [ "tallow", 4 ], [ "tallow_tainted", 4 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "any_tallow", 4, "LIST" ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3853,7 +3853,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_hide", 6 ] ]
     ]
   },
@@ -3892,7 +3892,7 @@
       [ [ "water_clean", 2 ], [ "water", 2 ] ],
       [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
       [ [ "cured_pelt", 6 ] ]
     ]
   },
