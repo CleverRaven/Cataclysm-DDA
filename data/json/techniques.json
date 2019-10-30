@@ -301,6 +301,7 @@
     "min_unarmed": 5,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
     "stun_dur": 1,
@@ -396,8 +397,7 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "min_melee": 8,
     "melee_allowed": true,
-    "disarms": true,
-    "crit_ok": true
+    "disarms": true
   },
   {
     "type": "technique",
@@ -406,8 +406,7 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "min_unarmed": 8,
     "unarmed_allowed": true,
-    "disarms": true,
-    "crit_ok": true
+    "disarms": true
   },
   {
     "type": "technique",
@@ -699,6 +698,7 @@
     "min_melee": 4,
     "melee_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "down_dur": 2,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
   },
@@ -1398,7 +1398,6 @@
     "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
     "min_unarmed": 3,
     "unarmed_allowed": true,
-    "crit_ok": true,
     "disarms": true
   },
   {
