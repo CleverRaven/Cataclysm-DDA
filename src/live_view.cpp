@@ -18,7 +18,7 @@ namespace
 {
 
 constexpr int START_LINE = 1;
-constexpr int MIN_BOX_HEIGHT = 11;
+constexpr int MIN_BOX_HEIGHT = 3;
 
 } //namespace
 
@@ -51,10 +51,12 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     // be a different code path here that works for ncurses.
     const int original_height = win.get<cata_cursesport::WINDOW>()->height;
     win.get<cata_cursesport::WINDOW>()->height = live_view_box_height;
+    g->draw_panels();
 #endif
 
     draw_border( win );
     center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
+    wrefresh( win );
 
 #if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;

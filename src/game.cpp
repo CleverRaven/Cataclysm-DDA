@@ -2165,6 +2165,9 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
     cata::optional<tripoint> liveview_pos;
+    auto &mgr = panel_manager::get_manager();
+    const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
+    int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
@@ -2172,9 +2175,14 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
+                draw_panels( true );
+                catacurses::window &w = catacurses::newwin( TERMY / 2, width,
+                                        point( sidebar_right ? TERMX - width : 0, 0 ) );
+                g->liveview.draw( w, TERMY / 2 );
             } else if( !mouse_pos ) {
                 liveview_pos.reset();
                 liveview.hide();
+                draw_panels( true );
             }
         }
     } while( action == "MOUSE_MOVE" ); // Freeze animation when moving the mouse
