@@ -57,7 +57,6 @@ const efftype_id effect_fungus( "fungus" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 
 const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_batteries( "bio_batteries" );
 const bionic_id bio_digestion( "bio_digestion" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
@@ -1164,43 +1163,6 @@ hint_rating player::rate_action_eat( const item &it ) const
     return HINT_IFFY;
 }
 
-bool player::can_feed_battery_with( const item &it ) const
-{
-    if( !it.is_ammo() || can_eat( it ).success() || !has_active_bionic( bio_batteries ) ) {
-        return false;
-    }
-
-    return it.ammo_type() == ammotype( "battery" );
-}
-
-bool player::feed_battery_with( item &it )
-{
-    if( !can_feed_battery_with( it ) ) {
-        return false;
-    }
-
-    const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int profitable_energy = std::min( energy,
-                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
-
-    if( profitable_energy <= 0 ) {
-        add_msg_player_or_npc( m_info,
-                               _( "Your internal power storage is fully powered." ),
-                               _( "<npcname>'s internal power storage is fully powered." ) );
-        return false;
-    }
-
-    mod_power_level( units::from_kilojoule( it.charges ) );
-    it.charges -= profitable_energy;
-
-    add_msg_player_or_npc( m_info,
-                           _( "You recharge your battery system with the %s." ),
-                           _( "<npcname> recharges their battery system with the %s." ),
-                           it.tname() );
-    mod_moves( -250 );
-    return true;
-}
-
 bool player::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
@@ -1359,12 +1321,7 @@ rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
         return rechargeable_cbm::reactor;
     }
 
-    const int battery_energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int furnace_energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
-
-    if( can_feed_battery_with( it ) && battery_energy >= furnace_energy ) {
-        return rechargeable_cbm::battery;
-    } else if( can_feed_furnace_with( it ) ) {
+    if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
 
@@ -1380,9 +1337,6 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
     switch( cbm ) {
         case rechargeable_cbm::none:
             break;
-
-        case rechargeable_cbm::battery:
-            return std::min( it.charges, std::numeric_limits<int>::max() );
 
         case rechargeable_cbm::reactor:
             if( it.charges > 0 ) {
