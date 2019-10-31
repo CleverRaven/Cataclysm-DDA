@@ -567,7 +567,7 @@
     "id": "t_railroad_track_small",
     "type": "terrain",
     "name": "small railroad track",
-    "description": "Like a railroad track, only smaller. You could probably run a small vehicle on this.",
+    "description": "Like a railroad track, only smaller.  You could probably run a small vehicle on this.",
     "symbol": "=",
     "color": [ "cyan" ],
     "move_cost": 3,
