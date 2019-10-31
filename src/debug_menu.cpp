@@ -142,6 +142,7 @@ enum debug_menu_index {
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VEHICLE_AI,
     DEBUG_DISPLAY_VISIBILITY,
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
@@ -201,6 +202,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
@@ -1174,7 +1176,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    u.add_martialart( style );
+                    u.martial_arts_data.add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1365,6 +1367,9 @@ void debug()
         case DEBUG_DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
             break;
+        case DEBUG_DISPLAY_VEHICLE_AI:
+            g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
+            break;
         case DEBUG_DISPLAY_VISIBILITY:
             g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
             break;
@@ -1554,8 +1559,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            weather_generator weathergen;
-            weathergen.test_weather();
+            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 

@@ -628,19 +628,19 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
-    for( auto &t : get_base_traits() ) {
+    for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
-        for( auto &s : t->initial_ma_styles ) {
-            if( !has_martialart( s ) ) {
+        for( const matype_id &s : t->initial_ma_styles ) {
+            if( !martial_arts_data.has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const auto ma_type = choose_ma_style( type, styles );
-            ma_styles.push_back( ma_type );
-            style_selected = ma_type;
+            const matype_id ma_type = choose_ma_style( type, styles );
+            martial_arts_data.add_martialart( ma_type );
+            martial_arts_data.set_style( ma_type );
         }
     }
 

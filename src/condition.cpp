@@ -272,7 +272,7 @@ template<class T>
 void conditional_t<T>::set_has_item_category( JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string category_id = jo.get_string( member );
+    const item_category_id category_id = item_category_id( jo.get_string( member ) );
 
     size_t count = 1;
     if( jo.has_int( "count" ) ) {
@@ -288,7 +288,7 @@ void conditional_t<T>::set_has_item_category( JsonObject &jo, const std::string 
             actor = dynamic_cast<player *>( d.beta );
         }
         const auto items_with = actor->items_with( [category_id]( const item & it ) {
-            return it.get_category().id() == category_id;
+            return it.get_category().get_id() == category_id;
         } );
         return items_with.size() >= count;
     };

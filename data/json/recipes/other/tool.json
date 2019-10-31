@@ -311,9 +311,7 @@
     "difficulty": 2,
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   },
   {
     "result": "crowbar",

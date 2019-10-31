@@ -561,7 +561,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     g->u.remove_items_with( []( const item & it ) {
-        return it.get_category().id() == "books" || it.get_category().id() == "food" ||
+        return it.get_category().get_id() == item_category_id( "books" ) ||
+               it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == "bottle_glass";
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
@@ -801,11 +802,9 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_adjust_var test response that decrements by 1." );
     CHECK( d.responses[3].text == "This is a npc_adjust_var test response that increments by 1." );
     CHECK( d.responses[4].text == "This is a npc_adjust_var test response that decrements by 1." );
-    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[5].text == "This is a u_compare_var test response for != 0." );
     CHECK( d.responses[6].text == "This is a u_compare_var test response for >= 0." );
     CHECK( d.responses[7].text == "This is a u_compare_var test response for > 0." );
-    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[8].text == "This is a npc_compare_var test response for != 0." );
     CHECK( d.responses[9].text == "This is a npc_compare_var test response for >= 0." );
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for > 0." );
@@ -825,11 +824,9 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a u_adjust_var test response that decrements by 1." );
     CHECK( d.responses[3].text == "This is a npc_adjust_var test response that increments by 1." );
     CHECK( d.responses[4].text == "This is a npc_adjust_var test response that decrements by 1." );
-    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[5].text == "This is a u_compare_var test response for != 0." );
     CHECK( d.responses[6].text == "This is a u_compare_var test response for <= 0." );
     CHECK( d.responses[7].text == "This is a u_compare_var test response for < 0." );
-    // NOLINTNEXTLINE(cata-text-style): not an exclamation mark
     CHECK( d.responses[8].text == "This is a npc_compare_var test response for != 0." );
     CHECK( d.responses[9].text == "This is a npc_compare_var test response for <= 0." );
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for < 0." );

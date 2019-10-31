@@ -2721,6 +2721,11 @@ int monster::get_hp() const
     return hp;
 }
 
+float monster::get_mountable_weight_ratio() const
+{
+    return type->mountable_weight_ratio;
+}
+
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {

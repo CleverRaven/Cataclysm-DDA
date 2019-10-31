@@ -355,7 +355,8 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
     } else if( bio.id == "bio_cqb" ) {
-        if( !pick_style() ) {
+        const avatar *you = as_avatar();
+        if( you && !martial_arts_data.pick_style( *you ) ) {
             bio.powered = false;
             add_msg_if_player( m_info, _( "You change your mind and turn it off." ) );
             return false;
@@ -803,18 +804,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
             invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
-        // check if player knows current style naturally, otherwise drop them back to style_none
-        if( style_selected != matype_id( "style_none" ) && style_selected != matype_id( "style_kicks" ) ) {
-            bool has_style = false;
-            for( auto &elem : ma_styles ) {
-                if( elem == style_selected ) {
-                    has_style = true;
-                }
-            }
-            if( !has_style ) {
-                style_selected = matype_id( "style_none" );
-            }
-        }
+        martial_arts_data.selected_style_check();
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
             g->setremoteveh( nullptr );

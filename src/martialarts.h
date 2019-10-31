@@ -19,7 +19,7 @@
 enum damage_type : int;
 class JsonObject;
 class effect;
-class player;
+class Character;
 class item;
 struct itype;
 
@@ -55,7 +55,7 @@ struct ma_requirements {
 
     std::string get_description( bool buff = false ) const;
 
-    bool is_valid_player( const player &u ) const;
+    bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
     void load( JsonObject &jo, const std::string &src );
@@ -77,13 +77,13 @@ class ma_technique
 
         std::string goal; // the melee goal this achieves
 
-        // given a player's state, does this bonus apply to him?
-        bool is_valid_player( const player &u ) const;
+        // given a Character's state, does this bonus apply to him?
+        bool is_valid_character( const Character &u ) const;
 
         std::set<std::string> flags;
 
-        // message to be displayed when player or npc uses the technique
-        std::string player_message;
+        // message to be displayed when Character or npc uses the technique
+        std::string avatar_message;
         std::string npc_message;
 
         bool defensive;
@@ -100,7 +100,7 @@ class ma_technique
         float knockback_spread; // adding randomness to knockback, like tec_throw
         bool powerful_knockback;
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
-        bool knockback_follow; // player follows the knocked-back party into their former tile
+        bool knockback_follow; // Character follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm
@@ -122,11 +122,11 @@ class ma_technique
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
 
-        float damage_bonus( const player &u, damage_type type ) const;
-        float damage_multiplier( const player &u, damage_type type ) const;
-        float move_cost_multiplier( const player &u ) const;
-        float move_cost_penalty( const player &u ) const;
-        float armor_penetration( const player &u, damage_type type ) const;
+        float damage_bonus( const Character &u, damage_type type ) const;
+        float damage_multiplier( const Character &u, damage_type type ) const;
+        float move_cost_multiplier( const Character &u ) const;
+        float move_cost_penalty( const Character &u ) const;
+        float armor_penetration( const Character &u, damage_type type ) const;
 };
 
 class ma_buff
@@ -136,29 +136,29 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff( player &u ) const;
+        void apply_buff( Character &u ) const;
 
-        // given a player's state, does this bonus apply to him?
-        bool is_valid_player( const player &u ) const;
+        // given a Character's state, does this bonus apply to him?
+        bool is_valid_character( const Character &u ) const;
 
-        // apply static bonuses to a player
-        void apply_player( player &u ) const;
+        // apply static bonuses to a Character
+        void apply_character( Character &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
-        int hit_bonus( const player &u ) const;
-        int dodge_bonus( const player &u ) const;
-        int speed_bonus( const player &u ) const;
-        int block_bonus( const player &u ) const;
+        int hit_bonus( const Character &u ) const;
+        int dodge_bonus( const Character &u ) const;
+        int speed_bonus( const Character &u ) const;
+        int block_bonus( const Character &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
         int armor_bonus( const Character &guy, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const player &u, damage_type dt ) const;
+        float damage_bonus( const Character &u, damage_type dt ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const player &u, damage_type dt ) const;
+        float damage_mult( const Character &u, damage_type dt ) const;
 
         // returns various boolean flags
         bool is_throw_immune() const;
@@ -206,37 +206,37 @@ class martialart
 
         void load( JsonObject &jo, const std::string &src );
 
-        // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs( player &u ) const;
+        // modifies a Character's "current" stats with various types of bonuses
+        void apply_static_buffs( Character &u ) const;
 
-        void apply_onmove_buffs( player &u ) const;
+        void apply_onmove_buffs( Character &u ) const;
 
-        void apply_onpause_buffs( player &u ) const;
+        void apply_onpause_buffs( Character &u ) const;
 
-        void apply_onhit_buffs( player &u ) const;
+        void apply_onhit_buffs( Character &u ) const;
 
-        void apply_onattack_buffs( player &u ) const;
+        void apply_onattack_buffs( Character &u ) const;
 
-        void apply_ondodge_buffs( player &u ) const;
+        void apply_ondodge_buffs( Character &u ) const;
 
-        void apply_onblock_buffs( player &u ) const;
+        void apply_onblock_buffs( Character &u ) const;
 
-        void apply_ongethit_buffs( player &u ) const;
+        void apply_ongethit_buffs( Character &u ) const;
 
-        void apply_onmiss_buffs( player &u ) const;
+        void apply_onmiss_buffs( Character &u ) const;
 
-        void apply_oncrit_buffs( player &u ) const;
+        void apply_oncrit_buffs( Character &u ) const;
 
-        void apply_onkill_buffs( player &u ) const;
+        void apply_onkill_buffs( Character &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, const matec_id &tec_id ) const;
+        bool has_technique( const Character &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
         bool has_weapon( const std::string &itt ) const;
         // Is this weapon OK with this art?
         bool weapon_valid( const item &it ) const;
-        // Getter for player style change message
-        std::string get_initiate_player_message() const;
+        // Getter for Character style change message
+        std::string get_initiate_avatar_message() const;
         // Getter for NPC style change message
         std::string get_initiate_npc_message() const;
 

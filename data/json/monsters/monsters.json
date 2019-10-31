@@ -1760,7 +1760,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "armor_bash": 2,
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "death_function": [ "NORMAL" ],
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
   },
@@ -2794,7 +2794,7 @@
     "armor_bash": 8,
     "armor_cut": 2,
     "vision_day": 30,
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -3012,7 +3012,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 3,
     "armor_bash": 2,
-    "harvest": "meatslug",
+    "harvest": "mutant_meatslug",
     "death_function": [ "WORM" ],
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
   },

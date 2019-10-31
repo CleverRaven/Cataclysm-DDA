@@ -295,9 +295,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
     add( "MIGRATION", []( JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
@@ -572,6 +571,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
+            { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
