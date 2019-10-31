@@ -156,20 +156,6 @@
     ]
   },
   {
-    "result": "boots_survivor_roller_off",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "skills_required": [ "fabrication", 2 ],
-    "time": "1 h",
-    "autolearn": true,
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "boots_lsurvivor", 1 ] ], [ [ "roller_shoes_off", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "boots_plate",
     "type": "recipe",
     "category": "CC_ARMOR",
