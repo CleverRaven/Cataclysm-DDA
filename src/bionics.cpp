@@ -854,7 +854,8 @@ bool player::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
+            if( bio.has_flag( "SAFE_FUEL_ON" ) &&
+                get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
                 > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
@@ -2301,6 +2302,9 @@ bool bionic::is_this_fuel_powered( const itype_id this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
+    if( !info().power_source ) {
+        return;
+    }
     if( !has_flag( "SAFE_FUEL_ON" ) ) {
         set_flag( "SAFE_FUEL_ON" );
     } else {
@@ -2343,8 +2347,7 @@ void bionic::deserialize( JsonIn &jsin )
     if( jo.has_array( "bionic_tags" ) ) {
         JsonArray jsar = jo.get_array( "bionic_tags" );
         while( jsar.has_more() ) {
-            JsonArray ja = jsar.next_array();
-            bionic_tags.insert( ja.get_string( 0 ) );
+            bionic_tags.insert( jsar.next_string() );
         }
     }
 
