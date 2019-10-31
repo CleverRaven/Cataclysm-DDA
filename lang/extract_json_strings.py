@@ -854,7 +854,7 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
                 # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
                 str_pl = "{}s".format(string["str"])
         elif "str_pl" in string:
-            raise WrongJSONItem("ERROR: str_pl not supported here", string)
+            str_pl = string["str_pl"]
         writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
         return
     elif type(string) is not str and plural is not None:
