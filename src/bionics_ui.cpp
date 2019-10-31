@@ -60,11 +60,14 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
 {
     werase( window );
     std::ostringstream fuel_stream;
+    bool fuel_available = false;
     fuel_stream << _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
-            const item temp_fuel( fuel ) ;
+            fuel_available = true;
+            const item temp_fuel( fuel );
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                fuel_stream << "<color_green>" << temp_fuel.tname() << "</color>";
                 continue;
             }
             fuel_stream << temp_fuel.tname() << ": " << "<color_green>" << p->get_value(
@@ -72,6 +75,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         }
     }
     std::string fuel_string = fuel_stream.str();
+    if( !fuel_available ) {
+        fuel_string.clear();
+    }
     std::string power_string;
     const int curr_power = units::to_millijoule( p->get_power_level() );
     const int kilo = curr_power / units::to_millijoule( 1_kJ );
