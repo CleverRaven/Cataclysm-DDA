@@ -2178,7 +2178,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
                 liveview.show( *liveview_pos );
                 draw_panels( true );
                 const catacurses::window &w = catacurses::newwin( TERMY / 2, width,
-                                        point( sidebar_right ? TERMX - width : 0, 0 ) );
+                                              point( sidebar_right ? TERMX - width : 0, 0 ) );
                 liveview.draw( w, TERMY / 2 );
             } else if( !mouse_pos ) {
                 liveview_pos.reset();
