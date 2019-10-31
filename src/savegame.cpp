@@ -1585,7 +1585,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
 ///// mapbuffer
 
 ///////////////////////////////////////////////////////////////////////////////////////
-///// master.gsav
+///// SAVE_MASTER (i.e. master.gsav)
 
 void mission::unserialize_all( JsonIn &jsin )
 {
@@ -1626,7 +1626,7 @@ void game::unserialize_master( std::istream &fin )
             }
         }
     } catch( const JsonError &e ) {
-        debugmsg( "error loading master.gsav: %s", e.c_str() );
+        debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
@@ -1656,7 +1656,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.end_object();
     } catch( const JsonError &e ) {
-        debugmsg( "error saving to master.gsav: %s", e.c_str() );
+        debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
