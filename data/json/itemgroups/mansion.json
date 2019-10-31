@@ -702,6 +702,12 @@
       [ "fencing_jacket", 10 ],
       [ "fencing_mask", 10 ],
       [ "fencing_pants", 10 ],
+      [ "lame_foil", 10 ],
+      [ "lame_saber", 10 ],
+      [ "plastron_cotton", 10 ],
+      [ "plastron_plastic", 10 ],
+      [ "gauntlet_fencing", 9 ],
+      [ "gauntlet_fencing_l", 1 ],
       [ "iceaxe", 4 ]
     ]
   },
