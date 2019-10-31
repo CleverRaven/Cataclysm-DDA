@@ -82,7 +82,7 @@
     "type": "BOOK",
     "name": { "str": "The Weapons of Asgard and Beyond", "str_pl": "copies of The Weapons of Asgard and Beyond" },
     "max_level": 10,
-    "description": "An ornate book which appears to be written in Norse runes. Based on the detailed illustrations, it appears to contain information about crafting numerous weapons used by various Gods.",
+    "description": "An ornate book which appears to be written in Norse runes.  Based on the detailed illustrations, it appears to contain information about crafting numerous weapons used by various Gods.",
     "weight": 654,
     "color": "light_blue",
     "intelligence": 9,
