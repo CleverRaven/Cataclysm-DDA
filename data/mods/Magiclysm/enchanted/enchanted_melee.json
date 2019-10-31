@@ -824,7 +824,7 @@
     "cutting": 29,
     "material": [ "wood", "steel" ],
     "symbol": "/",
-    "color": "gray",
+    "color": "light_gray",
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": "WEATHER_TOOL",
@@ -863,7 +863,7 @@
     "cutting": 13,
     "material": [ "wood", "steel" ],
     "symbol": ";",
-    "color": "gray",
+    "color": "light_gray",
     "techniques": [ "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
