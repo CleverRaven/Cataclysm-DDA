@@ -55,20 +55,30 @@ class stomach_contents
          * nutrients into the body.
          * All returned values are >= 0, with the exception of water, which
          * can be negative in some circumstances (i.e. after eating dry/salty food).
+         * TODO: Update stomach capacity upon mutation changes, instead of calculating every time we
+         * need it, so we can get rid of 'owner' parameter here.
+         * @param owner The owner of this stomach
          * @param metabolic_rates The metabolic rates of the owner of this stomach
          * @param five_mins Five-minute intervals passed since this method was last called
          * @param half_hours Half-hour intervals passed since this method was last called
          * @return nutrients that are done processing in this stomach
          */
-        nutrients digest( const needs_rates &metabolic_rates, int five_mins, int half_hours );
+        nutrients digest( const Character &owner, const needs_rates &metabolic_rates,
+                          int five_mins, int half_hours );
 
         // Empties the stomach of all contents.
         void empty();
 
-        // calculates max volume for a stomach_contents
-        units::volume capacity() const;
+        /**
+         * @brief Calculates the capacity of this stomach.
+         * This function needs a ref to the stomach's owner so it can account for relevant mutations.
+         * TODO: JSONize stomach capacity multipliers.
+         * @param owner This stomach's owner
+         * @return This stomach's capacity, in units::volume
+         */
+        units::volume capacity( const Character &owner ) const;
         // how much stomach capacity you have left before you puke from stuffing your gob
-        units::volume stomach_remaining() const;
+        units::volume stomach_remaining( const Character &owner ) const;
         // how much volume is in the stomach_contents
         units::volume contains() const;
 
@@ -121,6 +131,7 @@ class stomach_contents
         time_point last_ate;
 
         // Gets the rates at which this stomach will digest things.
-        stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates );
+        stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates,
+                                               const Character &owner );
 
 };

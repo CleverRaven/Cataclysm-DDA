@@ -1250,7 +1250,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         // previously used to set hunger to -10. with the new system, needs to do something
         // else that actually makes sense, so it is a little bit more involved.
-        units::volume fulfill_vol = std::max( p.stomach.capacity() / 8 - p.stomach.contains(), 0_ml );
+        units::volume fulfill_vol = std::max( p.stomach.capacity( p ) / 8 - p.stomach.contains(), 0_ml );
         if( fulfill_vol != 0_ml ) {
             p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
             int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );

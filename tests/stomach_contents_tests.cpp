@@ -65,9 +65,9 @@ static void print_stomach_contents( player &p, const bool print )
             p.guts.get_calories(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
     printf( "stomach: %d mL/ %d mL guts %d mL/ %d mL\n",
             units::to_milliliter<int>( p.stomach.contains() ),
-            units::to_milliliter<int>( p.stomach.capacity() ),
+            units::to_milliliter<int>( p.stomach.capacity( p ) ),
             units::to_milliliter<int>( p.guts.contains() ),
-            units::to_milliliter<int>( p.guts.capacity() ) );
+            units::to_milliliter<int>( p.guts.capacity( p ) ) );
     printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
 }
 

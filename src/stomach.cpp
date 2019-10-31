@@ -54,27 +54,27 @@ void stomach_contents::deserialize( JsonIn &json )
     jo.read( "last_ate", last_ate );
 }
 
-units::volume stomach_contents::capacity() const
+units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
-    if( g->u.has_trait( trait_id( "GIZZARD" ) ) ) {
+    if( owner.has_trait( trait_id( "GIZZARD" ) ) ) {
         max_mod *= 0.9;
     }
-    if( g->u.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
+    if( owner.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
         max_mod *= 3;
     }
-    if( g->u.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( owner.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
         max_mod *= 2;
     }
-    if( g->u.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( owner.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;
 }
 
-units::volume stomach_contents::stomach_remaining() const
+units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
-    return capacity() - contents - water;
+    return capacity( owner ) - contents - water;
 }
 
 units::volume stomach_contents::contains() const
@@ -93,11 +93,11 @@ void stomach_contents::ingest( const nutrients &ingested )
     ate();
 }
 
-nutrients stomach_contents::digest( const needs_rates &metabolic_rates,
+nutrients stomach_contents::digest( const Character &owner, const needs_rates &metabolic_rates,
                                     int five_mins, int half_hours )
 {
     nutrients digested;
-    stomach_digest_rates rates = get_digest_rates( metabolic_rates );
+    stomach_digest_rates rates = get_digest_rates( metabolic_rates, owner );
 
     // Digest water, but no more than in stomach.
     digested.water = std::min( water, rates.water * five_mins );
@@ -142,13 +142,14 @@ void stomach_contents::empty()
     vitamins.clear();
 }
 
-stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates )
+stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates,
+        const Character &owner )
 {
     stomach_digest_rates rates;
     if( stomach ) {
         // The stomach is focused on passing material on to the guts.
         // 3 hours to empty in 30 minute increments
-        rates.solids = capacity() / 6;
+        rates.solids = capacity( owner ) / 6;
         rates.water = 250_ml; // Water is special, passes very quickly, in 5 minute intervals
         rates.min_vitamin = 1;
         rates.percent_vitamin = 1.0f / 6.0f;
