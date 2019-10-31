@@ -619,23 +619,28 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         return false;
     }
 
+    std::vector<std::string> messages;
+
     for( std::pair<gun_mode_id, gun_mode> mode_map : weapon.gun_all_modes() ) {
         bool fireable = true;
         // check that a valid mode was returned and we are able to use it
         if( !( mode_map.second && you.can_use( *mode_map.second ) ) ) {
-            add_msg( m_info, _( "You can no longer fire." ) );
+            messages.push_back( string_format( _( "You can no longer fire your %s." ),
+                                               mode_map.second->tname() ) );
             fireable = false;
         }
 
         const optional_vpart_position vp = m.veh_at( you.pos() );
         if( vp && vp->vehicle().player_in_control( you ) && mode_map.second->is_two_handed( you ) ) {
-            add_msg( m_info, _( "You need a free arm to drive!" ) );
+            messages.push_back( string_format( _( "You can't use your %s while driving!" ),
+                                               mode_map.second->tname() ) );
             fireable = false;
         }
 
         if( mode_map.second->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
                 you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
-            add_msg( m_info, _( "You need two free hands to fire your %s." ), mode_map.second->tname() );
+            messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
+                                               mode_map.second->tname() ) );
             fireable = false;
         }
 
@@ -643,10 +648,10 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         if( args.mode != TARGET_MODE_TURRET_MANUAL ) {
             if( !mode_map.second->ammo_sufficient() && !mode_map.second->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 if( !mode_map.second->ammo_remaining() ) {
-                    add_msg( m_info, _( "You need to reload!" ) );
+                    messages.push_back( string_format( _( "Your %s is empty!" ), mode_map.second->tname() ) );
                 } else {
-                    add_msg( m_info, _( "Your %s needs %i charges to fire!" ),
-                             mode_map.second->tname(), mode_map.second->ammo_required() );
+                    messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),
+                                                       mode_map.second->tname(), mode_map.second->ammo_required() ) );
                 }
                 fireable = false;
             }
@@ -666,14 +671,15 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                            you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                            ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
-                        add_msg( m_info,
-                                 _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
-                                 ups_drain, adv_ups_drain );
+                        messages.push_back( string_format(
+                                                _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire the %s!" ),
+                                                mode_map.second->tname(), ups_drain, adv_ups_drain ) );
                         fireable = false;
                     }
                 } else {
                     if( !you.has_charges( "UPS", ups_drain ) ) {
-                        add_msg( m_info, _( "Your mech has an empty battery, its weapon will not fire." ) );
+                        messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
+                                                           mode_map.second->tname() ) );
                         fireable = false;
                     }
                 }
@@ -684,8 +690,9 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                                          true ) );
                 bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
                 if( !t_mountable && !v_mountable ) {
-                    add_msg( m_info,
-                             _( "You must stand near acceptable terrain or furniture to use this weapon.  A table, a mound of dirt, a broken window, etc." ) );
+                    messages.push_back( string_format(
+                                            _( "You must stand near acceptable terrain or furniture to use this %s.  A table, a mound of dirt, a broken window, etc." ),
+                                            mode_map.second->tname() ) );
                     fireable = false;
                 }
             }
@@ -695,7 +702,10 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         }
     }
 
-    return true;
+    for( std::string message : messages ) {
+        add_msg( m_info, message );
+    }
+    return false;
 }
 
 bool avatar_action::fire( avatar &you, map &m )
