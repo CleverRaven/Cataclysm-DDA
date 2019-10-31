@@ -66,7 +66,7 @@
     "type": "SPELL",
     "name": "Debug Stamina Spell",
     "description": "Uses a little stamina",
-    "message": "Debug spell [ %s ] has no effect. Debug warning is expected.",
+    "message": "Debug spell [ %s ] has no effect.  Debug warning is expected.",
     "valid_targets": [ "self" ],
     "effect": "none",
     "min_range": 1,
