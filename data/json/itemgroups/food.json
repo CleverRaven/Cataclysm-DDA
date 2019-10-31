@@ -148,5 +148,92 @@
       [ "garlic", 3 ],
       [ "pine_nuts", 2 ]
     ]
+  },
+    {
+    "type": "item_group",
+    "id": "alcohol",
+    "items": [
+      { "group": "liquor", "prob": 30 },
+      { "group": "beer", "prob": 30 },
+      { "group": "wines_worthy", "prob": 30 },
+      { "group": "mixed_drinks", "prob": 20 },
+      { "group": "misc_alcohol", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "alcohol_bottled_canned",
+    "items": [ { "group": "liquor", "prob": 30 }, { "group": "beer", "prob": 30 }, { "group": "wines_worthy", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wines_worthy",
+    "items": [
+      [ "wine_riesling", 20 ],
+      [ "wine_chardonnay", 30 ],
+      [ "wine_cabernet", 30 ],
+      [ "wine_noir", 20 ],
+      [ "wine_vermouth", 25 ],
+      [ "wine_marsala", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "liquor",
+    "items": [
+      [ "vodka", 20 ],
+      [ "gin", 20 ],
+      [ "whiskey", 16 ],
+      [ "rum", 14 ],
+      [ "tequila", 12 ],
+      [ "triple_sec", 12 ],
+      [ "brandy", 12 ],
+      [ "single_malt_whiskey", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "beer",
+    "items": [
+      [ "beer", 35 ],
+      [ "european_pilsner", 25 ],
+      [ "pale_ale", 25 ],
+      [ "india_pale_ale", 25 ],
+      [ "stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "imperial_stout", 4 ],
+      [ "wine_barley", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mixed_drinks",
+    "items": [
+      [ "drink_rumcola", 12 ],
+      [ "drink_screwdriver", 12 ],
+      [ "drink_hobo", 10 ],
+      [ "drink_kalimotxo", 10 ],
+      [ "drink_wild_apple", 8 ],
+      [ "drink_beeknees", 8 ],
+      [ "drink_wsour", 8 ],
+      [ "long_island", 6 ],
+      [ "drink_strawberry_surprise", 6 ],
+      [ "drink_boozeberry", 6 ],
+      [ "eggnog_spiked", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "misc_alcohol",
+    "items": [
+      [ "bum_wine", 20 ],
+      [ "fruit_wine", 12 ],
+      [ "mead", 10 ],
+      [ "dandelion_wine", 8 ],
+      [ "hb_beer", 8 ],
+      [ "moonshine", 8 ],
+      [ "pine_wine", 6 ],
+      [ "chem_ethanol", 2 ]
+    ]
   }
 ]
