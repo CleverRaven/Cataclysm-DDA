@@ -3,7 +3,6 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "json.h"
-#include "player.h"
 #include "stomach.h"
 #include "units.h"
 #include "game.h"
@@ -83,38 +82,6 @@ units::volume stomach_contents::contains() const
     return contents + water;
 }
 
-void stomach_contents::ingest( player &p, item &food, int charges = 1 )
-{
-    item comest;
-    if( food.is_container() ) {
-        comest = food.get_contained();
-    } else {
-        comest = food;
-    }
-    if( charges == 0 ) {
-        // if charges is 0, it means the item is not count_by_charges
-        charges = 1;
-    }
-    // maybe move tapeworm to digestion
-    for( const auto &v : p.vitamins_from( comest ) ) {
-        vitamins[v.first] += p.has_effect( efftype_id( "tapeworm" ) ) ? v.second / 2 : v.second;
-    }
-    auto &comest_t = comest.type->comestible;
-    const units::volume add_water = std::max( 0_ml, comest_t->quench * 5_ml );
-    // if this number is negative, we decrease the quench/increase the thirst of the player
-    if( comest_t->quench < 0 ) {
-        p.mod_thirst( -comest_t->quench );
-    } else {
-        mod_quench( comest_t->quench );
-    }
-    // @TODO: Move quench values to mL and remove the magic number here
-    mod_contents( comest.base_volume() * charges - add_water );
-
-    ate();
-
-    mod_calories( p.kcal_for( comest ) );
-}
-
 void stomach_contents::ingest( const nutrients &ingested )
 {
     contents += ingested.solids;
@@ -123,6 +90,7 @@ void stomach_contents::ingest( const nutrients &ingested )
     for( const std::pair<const vitamin_id, int> &vit : ingested.vitamins ) {
         vitamins[vit.first] += vit.second;
     }
+    ate();
 }
 
 nutrients stomach_contents::digest( const needs_rates &metabolic_rates,

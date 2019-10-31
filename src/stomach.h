@@ -5,7 +5,6 @@
 #include "units.h"
 
 struct needs_rates;
-class player;
 class JsonIn;
 class JsonOut;
 class item;
@@ -43,17 +42,19 @@ class stomach_contents
          */
         stomach_contents( units::volume max_volume, bool is_stomach );
 
-        // turns an item into stomach contents
-        // will still add contents if past maximum volume.
-        void ingest( player &p, item &food, int charges );
-
-        // Directly adds nutrients to stomach contents
+        /**
+         * @brief Directly adds nutrients to stomach contents.
+         * Will still add contents if past maximum volume. Also updates last_ate to current turn.
+         * @param ingested The nutrients to be ingested
+         */
         void ingest( const nutrients &ingested );
 
         /**
          * @brief Processes food and outputs nutrients that are finished processing
          * Metabolic rates are required because they determine the rate of absorption of
          * nutrients into the body.
+         * All returned values are >= 0, with the exception of water, which
+         * can be negative in some circumstances (i.e. after eating dry/salty food).
          * @param metabolic_rates The metabolic rates of the owner of this stomach
          * @param five_mins Five-minute intervals passed since this method was last called
          * @param half_hours Half-hour intervals passed since this method was last called

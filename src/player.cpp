@@ -3243,6 +3243,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         set_thirst( std::max(
                         -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
         guts.ingest( digested_to_guts );
+        // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled. 
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
             mod_stored_kcal( digested_to_body.kcal );
             vitamins_mod( digested_to_body.vitamins, false );

@@ -1139,8 +1139,21 @@ bool player::consume_effects( item &food )
         // Note: We want this here to prevent "you can't finish this" messages
         set_hunger( capacity );
     }
+
+    // Set up food for ingestion
+    nutrients ingested;
+    const item &contained_food = food.is_container() ? food.get_contained() : food;
+    // maybe move tapeworm to digestion
+    for( const std::pair<vitamin_id, int> &v : vitamins_from( contained_food ) ) {
+        ingested.vitamins[v.first] += has_effect( efftype_id( "tapeworm" ) ) ? v.second / 2 : v.second;
+    }
+    // @TODO: Move quench values to mL and remove the magic number here
+    ingested.water = contained_food.type->comestible->quench * 5_ml;
+    ingested.solids = contained_food.base_volume() - std::max(ingested.water, 0_ml);
+    ingested.kcal = kcal_for( contained_food );
+
     // GET IN MAH BELLY!
-    stomach.ingest( *this, food, 1 );
+    stomach.ingest( ingested );
     return true;
 }
 
