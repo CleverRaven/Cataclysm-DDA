@@ -1085,19 +1085,19 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             continue;
         } else {
             for( const point &pt_elem : elem.v->collision_check_points ) {
-                collision_checkpoints.insert( pt_elem );
+                collision_checkpoints.insert( g->m.getlocal( pt_elem ) );
             }
         }
     }
     if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
         for( const point &pt_elem : collision_checkpoints ) {
             overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
-                                     formatted_text( "O", catacurses::yellow,
+                                     formatted_text( "CHECK", catacurses::yellow,
                                              NORTH ) );
         }
         for( const point &pt_elem : target_points ) {
             overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
-                                     formatted_text( "T", catacurses::red,
+                                     formatted_text( "TARGET", catacurses::red,
                                              NORTH ) );
         }
     }

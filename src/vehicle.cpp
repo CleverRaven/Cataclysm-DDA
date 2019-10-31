@@ -723,7 +723,8 @@ std::set<point> vehicle::immediate_path( int rotate )
     collision_vector.init( adjusted_angle );
     point top_left_actual = global_pos3().xy() + coord_translate( front_left );
     point top_right_actual = global_pos3().xy() + coord_translate( front_right );
-    std::vector<point> front_row = line_to( top_left_actual, top_right_actual );
+    std::vector<point> front_row = line_to( g->m.getabs( top_left_actual ),
+                                            g->m.getabs( top_right_actual ) );
     for( const point &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
@@ -769,7 +770,8 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
 
-    for( const point &elem : points_to_check ) {
+    for( const point &pt_elem : points_to_check ) {
+        point elem = g->m.getlocal( pt_elem );
         if( stop ) {
             break;
         }
