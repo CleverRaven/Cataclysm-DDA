@@ -25,3 +25,7 @@ Contains json data for all recipes, sorted by category or niche.
 ### vehicles
 
 Contains json data for vehicles, vehicle parts, and vehicle spawn groups.
+
+### npcs
+
+Contains json data for npcs, factions, and design document for any new factions
