@@ -668,7 +668,6 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
@@ -691,10 +690,12 @@ void Character::store( JsonOut &json ) const
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
+
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
     json.member( "backlog", backlog );
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
@@ -993,15 +994,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "dex_upgrade", abs( dex_upgrade ) );
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
-
-    // "The cold wakes you up."
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
-
-    // crafting etc
-    json.member( "activity", activity );
-    json.member( "backlog", backlog );
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
