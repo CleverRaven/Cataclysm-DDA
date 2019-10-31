@@ -343,12 +343,12 @@
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
     "using": [ [ "chainmail_standard", 20 ] ],
     "components": [
-      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1] ],
-      [ [ "link_sheet", 7 ], [ "chainmail_vest", 1] ],
-      [ [ "link_sheet", 3 ], [ "chainmail_arms", 1] ],
-      [ [ "link_sheet", 4 ], [ "chainmail_legs", 1] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
+      [ [ "link_sheet", 7 ], [ "chainmail_vest", 1 ] ],
+      [ [ "link_sheet", 3 ], [ "chainmail_arms", 1 ] ],
+      [ [ "link_sheet", 4 ], [ "chainmail_legs", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
       [ [ "chain_link", 500 ] ],
       [ [ "wire", 5 ] ],
       [ [ "rag", 26 ] ]
