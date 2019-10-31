@@ -681,6 +681,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 40,
+    "required_str": 32,
     "flags": [ "BASHABLE" ],
     "bash": {
       "str_min": 30,
@@ -707,6 +708,7 @@
     "color": "grey",
     "move_cost_mod": -1,
     "coverage": 40,
+    "required_str": 32,
     "flags": [ "BASHABLE" ],
     "bash": {
       "str_min": 30,
@@ -732,6 +734,7 @@
     "color": "brown",
     "move_cost_mod": -1,
     "coverage": 40,
+    "required_str": 26,
     "flags": [ "BASHABLE" ],
     "bash": {
       "str_min": 20,
