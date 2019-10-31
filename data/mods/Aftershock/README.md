@@ -28,4 +28,4 @@ Contains json data for vehicles, vehicle parts, and vehicle spawn groups.
 
 ### npcs
 
-Contains json data for npcs, factions, and design document for any new factions
+Contains json data for npcs, factions, and design document for any new factions, specific new faction PrepPhyle.  Bionic Preppers living simple farming life with bionic upgrades, prefer to upgrade animals instead of relying on robots.
