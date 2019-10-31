@@ -1,4 +1,5 @@
-[  {
+[
+  {
     "id": "CBM_DOG",
     "type": "harvest",
     "entries": [
@@ -14,18 +15,18 @@
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
       },
-        { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-        { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-        { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
-        { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-        { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
-        { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
-        { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
-        { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-        { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-        { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
-        { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
-      ]
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
   }
 ]
