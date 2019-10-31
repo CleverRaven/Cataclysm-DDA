@@ -616,7 +616,7 @@
     "name": "Puño Strike",
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "min_bashing_damage": 2,
+    "weapon_damage_requirements": [ { "type": "bash", "min": 2 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
