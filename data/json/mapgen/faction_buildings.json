@@ -2447,7 +2447,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": { "id": "your_followers", "area": [ { "x": 0, "y": 0, "x2": 23, "y2": 23 } ] },
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
