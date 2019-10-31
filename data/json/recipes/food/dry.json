@@ -29,6 +29,7 @@
   {
     "type": "recipe",
     "result": "dry_beans",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -42,6 +43,7 @@
   {
     "type": "recipe",
     "result": "dry_beans",
+    "charges": 1,
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -145,7 +147,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -159,7 +161,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "result": "dry_meat_tainted",
@@ -218,6 +220,7 @@
   {
     "type": "recipe",
     "result": "dry_veggy",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -231,6 +234,7 @@
   {
     "type": "recipe",
     "result": "dry_veggy",
+    "charges": 1,
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -244,6 +248,7 @@
   },
   {
     "result": "dry_veggy_tainted",
+    "charges": 1,
     "type": "recipe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -257,6 +262,7 @@
   },
   {
     "result": "dry_veggy_tainted",
+    "charges": 1,
     "type": "recipe",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -276,6 +282,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 4,
     "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
@@ -291,6 +298,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 4,
     "time": "9 m",
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
@@ -363,13 +371,13 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 3,
+    "charges": 4,
     "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -379,17 +387,18 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 3,
+    "charges": 4,
     "time": "9 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "dry_lentils",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -403,6 +412,7 @@
   {
     "type": "recipe",
     "result": "dry_lentils",
+    "charges": 1,
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",

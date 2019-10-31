@@ -2512,11 +2512,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         //lets display which martial arts styles character can use with this weapon
         if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-            const std::vector<matype_id> &styles = g->u.ma_styles;
-            const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
-            [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
-            } );
+            const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
             if( !valid_styles.empty() ) {
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -2757,6 +2753,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
 
             const bionic_id bid = type->bionic->id;
+
+            if( bid->capacity > 0_mJ ) {
+                info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), " <num> mJ",
+                                          iteminfo::no_newline, units::to_millijoule( bid->capacity ) ) );
+            }
 
             if( !bid->encumbrance.empty() ) {
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
@@ -3229,7 +3230,7 @@ nc_color item::color_in_inventory() const
                 u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !u.has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !u.martial_arts_data.has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u.get_skill_level_object( tmp.skill ).can_train() &&
@@ -3341,8 +3342,8 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( p.style_selected != matype_id( "style_none" ) ) {
-        p.martialart_use_message();
+    if( p.martial_arts_data.selected_is_none() ) {
+        p.martial_arts_data.martialart_use_message( p );
     }
 
     // Update encumbrance in case we were wearing it
@@ -6083,7 +6084,10 @@ damage_instance item::gun_damage( bool with_ammo ) const
     if( item_damage > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
-            du.amount -= item_damage * 2;
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
         }
     }
 
@@ -7842,7 +7846,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
-            debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            debugmsg( "Temperature flag enum not valid.  Using current temperature." );
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
@@ -7913,7 +7917,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
+                    debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature

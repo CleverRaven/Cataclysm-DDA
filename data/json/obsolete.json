@@ -404,7 +404,7 @@
     "id": "fault_gun_clogged",
     "type": "fault",
     "name": "Dusty",
-    "description": "It's dusty. Has no effect - obsolete fault.",
+    "description": "It's dusty.  Has no effect - obsolete fault.",
     "time": "1 s"
   }
 ]

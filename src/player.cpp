@@ -192,9 +192,6 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
 const efftype_id effect_pet( "pet" );
 
-const matype_id style_none( "style_none" );
-const matype_id style_kicks( "style_kicks" );
-
 const species_id ROBOT( "ROBOT" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -230,7 +227,6 @@ static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
@@ -262,7 +258,6 @@ static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
-static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -474,7 +469,6 @@ player::player() :
     blocks_left = 1;
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
-    stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
     radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
@@ -494,8 +488,6 @@ player::player() :
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    style_selected = style_none;
-    keep_hands_free = false;
     focus_pool = 100;
     last_item = itype_id( "null" );
     sight_max = 9999;
@@ -534,11 +526,6 @@ player::player() :
 
     recalc_sight_limits();
     reset_encumbrance();
-
-    ma_styles = {{
-            style_none, style_kicks
-        }
-    };
 }
 
 player::~player() = default;
@@ -549,12 +536,10 @@ void player::normalize()
 {
     Character::normalize();
 
-    style_selected = style_none;
-
     recalc_hp();
 
     temp_conv.fill( BODYTEMP_NORM );
-    stamina = get_stamina_max();
+    set_stamina( get_stamina_max() );
 }
 
 void player::process_turn()
@@ -573,12 +558,6 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( bio_metabolics ) && !is_max_power() &&
-        0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
-        // Efficiency is approximately 25%, power output is ~60W
-        mod_stored_kcal( -1 );
-        mod_power_level( 1_kJ );
-    }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
     }
@@ -647,8 +626,8 @@ void player::process_turn()
     for( auto &style : autolearn_martialart_types() ) {
         const matype_id &ma( style );
 
-        if( !has_martialart( ma ) && can_autolearn( ma ) ) {
-            add_martialart( ma );
+        if( !martial_arts_data.has_martialart( ma ) && can_autolearn( ma ) ) {
+            martial_arts_data.add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
@@ -1568,8 +1547,8 @@ int player::run_cost( int base_cost, bool diag ) const
         }
         // Both walk and run speed drop to half their maximums as stamina approaches 0.
         // Convert stamina to a float first to allow for decimal place carrying
-        float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
-        if( move_mode == CMM_RUN && stamina > 0 ) {
+        float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+        if( move_mode == CMM_RUN && get_stamina() > 0 ) {
             // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
             stamina_modifier *= 2.0;
         }
@@ -1598,7 +1577,7 @@ int player::swim_speed() const
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
-            ret += get_weight() / 120_gram - 50 * mon->get_size();
+            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
             return ret;
         }
     }
@@ -1842,12 +1821,12 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        if( stamina + modifier < 0 ) {
+        if( get_stamina() + modifier < 0 ) {
             add_effect( effect_winded, 10_turns );
         }
-        stamina += modifier;
-        stamina = std::min( stamina, get_stamina_max() );
-        stamina = std::max( 0, stamina );
+        mod_stamina( modifier );
+        set_stamina( std::min( get_stamina(), get_stamina_max() ) );
+        set_stamina( std::max( 0, get_stamina() ) );
     } else {
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
@@ -2280,7 +2259,7 @@ void player::pause()
     }
 
     // on-pause effects for martial arts
-    ma_onpause_effects();
+    martial_arts_data.ma_onpause_effects( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
@@ -2460,14 +2439,14 @@ void player::on_dodge( Creature *source, float difficulty )
     difficulty = std::max( difficulty, 0.0f );
     practice( skill_dodge, difficulty * 2, difficulty );
 
-    ma_ondodge_effects();
+    martial_arts_data.ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
         matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
 
         if( tec != tec_none && !is_dead_state() ) {
-            if( stamina < get_stamina_max() / 3 ) {
+            if( get_stamina() < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
             } else {
                 melee_attack( *source, false, tec );
@@ -2903,6 +2882,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
         if( !can_wield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
+            i_rem( &weapon );
         }
         if( has_effect( effect_mending, hurt ) ) {
             effect &e = get_effect( effect_mending, hurt );
@@ -3813,54 +3793,6 @@ void player::regen( int rate_multiplier )
     }
 }
 
-void player::update_stamina( int turns )
-{
-    const int current_stim = get_stim();
-    float stamina_recovery = 0.0f;
-    // Recover some stamina every turn.
-    // Mutated stamina works even when winded
-    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
-                               mutation_value( "stamina_regen_modifier" );
-    // But mouth encumbrance interferes, even with mutated stamina.
-    stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
-    // TODO: recovering stamina causes hunger/thirst/fatigue.
-    // TODO: Tiredness slowing recovery
-
-    // stim recovers stamina (or impairs recovery)
-    if( current_stim > 0 ) {
-        // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
-    } else if( current_stim < 0 ) {
-        // Affect it less near 0 and more near full
-        // Negative stim kill at -200
-        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
-        // effectivly countering stamina gain of default 20,
-        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * stamina / get_stamina_max() ;
-    }
-
-    const int max_stam = get_stamina_max();
-    if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
-        int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
-                                   max_stam - stamina - stamina_recovery * turns );
-        // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>
-                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
-        if( bonus > 0 ) {
-            stamina_recovery += bonus;
-            bonus /= 10;
-            bonus = std::max( bonus, 1 );
-            mod_power_level( units::from_kilojoule( -bonus ) );
-        }
-    }
-
-    stamina += roll_remainder( stamina_recovery * turns );
-    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
-    // Cap at max
-    stamina = std::min( std::max( stamina, 0 ), max_stam );
-}
-
 bool player::is_hibernating() const
 {
     // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
@@ -3971,7 +3903,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 void player::cough( bool harmful, int loudness )
 {
     if( harmful ) {
-        const int stam = stamina;
+        const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stat( "stamina", -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
@@ -4266,7 +4198,7 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            mod_stat( "stamina", bound_mod_to_vals( stamina, val,
+            mod_stat( "stamina", bound_mod_to_vals( get_stamina(), val,
                                                     it.get_max_val( "STAMINA", reduced ),
                                                     it.get_min_val( "STAMINA", reduced ) ) );
         }
@@ -6200,11 +6132,6 @@ bool player::can_interface_armor() const
     return okay;
 }
 
-const martialart &player::get_combat_style() const
-{
-    return style_selected.obj();
-}
-
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
@@ -6527,10 +6454,8 @@ bool player::consume_item( item &target )
         return false;
     }
     if( consume_med( comest ) ||
-        eat( comest ) ||
-        feed_battery_with( comest ) ||
-        feed_reactor_with( comest ) ||
-        feed_furnace_with( comest ) || fuel_bionic_with( comest ) ) {
+        eat( comest ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
+        fuel_bionic_with( comest ) ) {
 
         if( target.is_container() ) {
             target.on_contents_changed();
@@ -7117,11 +7042,6 @@ ret_val<bool> player::can_unwield( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
-bool player::is_wielding( const item &target ) const
-{
-    return &weapon == &target;
-}
-
 bool player::unwield()
 {
     if( weapon.is_null() ) {
@@ -7166,7 +7086,7 @@ static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_zui_quan" }
     }};
 
-bool player::pick_style() // Style selection menu
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
 {
     enum style_selection {
         KEEP_HANDS_FREE = 0,
@@ -7177,7 +7097,8 @@ bool player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    const std::vector<matype_id> &selectable_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles :
+    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
+                bio_cqb ) ? bio_cqb_styles :
             ma_styles;
 
     input_context ctxt( "MELEE_STYLE_PICKER" );
@@ -7214,7 +7135,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-        martialart_use_message();
+        martialart_use_message( you );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -9890,46 +9811,6 @@ int player::get_hp_max( hp_part bp ) const
     return hp_total;
 }
 
-int player::get_stamina_max() const
-{
-    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
-    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
-    return maxStamina;
-}
-
-void player::burn_move_stamina( int moves )
-{
-    int overburden_percentage = 0;
-    units::mass current_weight = weight_carried();
-    units::mass max_weight = weight_capacity();
-    if( current_weight > max_weight ) {
-        overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
-    }
-
-    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
-        if( has_active_bionic( bid ) ) {
-            burn_ratio = burn_ratio * 2 - 3;
-        }
-    }
-    burn_ratio += overburden_percentage;
-    if( move_mode == CMM_RUN ) {
-        burn_ratio = burn_ratio * 7;
-    }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
-    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
-    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
-    // Starts at 1 in 25, goes down by 5 for every 50% more carried
-    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || stamina == 0 ) &&
-        one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
-        add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
-        // 1 more pain for every 800 grams more (5 per extra STR needed)
-        if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
-            mod_pain( 1 );
-        }
-    }
-}
-
 Creature::Attitude player::attitude_to( const Creature &other ) const
 {
     const auto m = dynamic_cast<const monster *>( &other );
@@ -10003,13 +9884,7 @@ bool player::sees( const Creature &critter ) const
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
-    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
-        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
-        // walls don't block sonar which is transmitted in the ground, not the air.
-        // TODO: this might need checks whether the player is in the air, or otherwise not connected
-        // to the ground. It also might need a range check.
-        return true;
-    }
+
     return Creature::sees( critter );
 }
 
@@ -10302,12 +10177,6 @@ void player::place_corpse( const tripoint &om_target )
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
-    // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
-        return true;
-    }
-
     if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
     }
@@ -10353,7 +10222,7 @@ float player::speed_rating() const
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
     if( move_mode != CMM_RUN ) {
-        ret *= 1.0f + ( static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ) );
+        ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
 }

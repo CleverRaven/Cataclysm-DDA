@@ -68,6 +68,7 @@
   {
     "type": "recipe",
     "result": "liver_onion",
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -77,7 +78,7 @@
     "book_learn": [ [ "scots_cookbook", 2 ], [ "family_cookbook", 0 ], [ "cookbook", 0 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "liver", 2 ] ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ]
+    "components": [ [ [ "liver", 8 ] ], [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -180,7 +181,7 @@
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [
       [ [ "liver", 8 ] ],
-      [ [ "fat", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 2, "LIST" ], [ "lard", 2 ], [ "mutant_lard", 2 ] ],
       [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour", 2 ] ],
@@ -235,6 +236,7 @@
   {
     "type": "recipe",
     "result": "grilled_sweetbread",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",

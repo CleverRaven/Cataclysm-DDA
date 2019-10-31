@@ -650,6 +650,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
+    assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
+
     assign( jo, "attack_cost", attack_cost, strict, 0 );
     assign( jo, "melee_skill", melee_skill, strict, 0 );
     assign( jo, "melee_dice", melee_dice, strict, 0 );
@@ -726,11 +728,13 @@ void mtype::load( JsonObject &jo, const std::string &src )
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
-            auto tmp = jo.get_object( "extend" );
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
             add_special_attacks( tmp, "special_attacks", src );
         }
         if( jo.has_object( "delete" ) ) {
-            auto tmp = jo.get_object( "delete" );
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
@@ -896,7 +900,7 @@ void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
     attack_map.emplace( wrapper->id, wrapper );
 }
 
-mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::string &src ) const
+mtype_special_attack MonsterGenerator::create_actor( JsonObject &obj, const std::string &src ) const
 {
     // Legacy support: tolerate attack types being specified as the type
     const std::string type = obj.get_string( "type", "monster_attack" );

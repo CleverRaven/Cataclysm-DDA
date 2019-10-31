@@ -25,7 +25,7 @@
     "description": "A splintered piece of wood, could be used as a skewer or for kindling.",
     "category": "other",
     "material": "wood",
-    "weight": "453 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1,

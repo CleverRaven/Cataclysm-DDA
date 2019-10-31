@@ -93,10 +93,8 @@ const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_batteries( "bio_batteries" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
 
 // active defense CBMs - activate when in danger
@@ -154,10 +152,8 @@ namespace
 {
 const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
-        bio_batteries,
         bio_ethanol,
         bio_furnace,
-        bio_metabolics,
         bio_reactor,
     }
 };
@@ -359,7 +355,7 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int def_radius = 6;
+    int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
@@ -798,6 +794,11 @@ void npc::move()
             action = address_player();
             print_action( "address_player %s", action );
         }
+    }
+
+    if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
+        rl_dist( pos(), g->u.pos() ) > follow_distance() ) {
+        action = npc_follow_player;
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
@@ -1641,17 +1642,29 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
+    const units::energy curr_power =  get_power_level();
+    const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
+    const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
+
+    bool no_fueled_cbm = true;
     for( const bionic_id bid : get_fueled_bionics() ) {
-        return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
-                !use_bionic_by_id( bid ) );
+        no_fueled_cbm = false;
+        if( get_fuel_available( bid ).empty() ) {
+            return true;
+        } else if( curr_power < max_pow_allowed && !use_bionic_by_id( bid ) ) {
+            return true;
+        }
     }
-    return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
+    if( no_fueled_cbm ) {
+        return curr_power < max_pow_allowed;
+    }
+    return false;
 }
 
 bool npc::can_use_offensive_cbm() const
 {
-    return get_power_level() > ( get_max_power_level() * static_cast<int>( rules.cbm_reserve ) / 100 );
+    const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+    return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
@@ -1681,8 +1694,6 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    use_bionic_by_id( bio_metabolics );
-
     for( bionic_id &bid : get_fueled_bionics() ) {
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
@@ -1699,7 +1710,12 @@ bool npc::recharge_cbm()
                 use_bionic_by_id( bid );
                 return true;
             } else {
-                complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
+                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+                } else {
+                    complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                }
             }
         }
     }
@@ -1713,17 +1729,6 @@ bool npc::recharge_cbm()
             return true;
         } else {
             complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_batteries ) ) {
-        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
-            return it.typeId() == itype_id( "battery" );
-        };
-        if( consume_cbm_items( battery_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
         }
     }
 

@@ -328,6 +328,9 @@
       "scissors",
       "screwdriver",
       "sharp_toothbrush",
+      "shillelagh",
+      "shillelagh_fake",
+      "shillelagh_weighted",
       "shishkebab_off",
       "shishkebab_on",
       "shocktonfa_off",
@@ -407,6 +410,9 @@
       "PR24-extended",
       "rapier",
       "rapier_fake",
+      "shillelagh",
+      "shillelagh_fake",
+      "shillelagh_weighted",
       "sword_cane",
       "umbrella"
     ]
@@ -914,6 +920,9 @@
       "scimitar",
       "scimitar_fake",
       "scimitar_inferior",
+      "shillelagh",
+      "shillelagh_fake",
+      "shillelagh_weighted",
       "shishkebab_off",
       "shishkebab_on",
       "shock_staff",
@@ -1143,6 +1152,9 @@
       "shocktonfa_off",
       "shocktonfa_on",
       "sickle",
+      "shillelagh",
+      "shillelagh_fake",
+      "shillelagh_weighted",
       "shishkebab_off",
       "shishkebab_on",
       "spear_knife",
@@ -1283,10 +1295,9 @@
       {
         "id": "buff_taekwondo_static2",
         "name": "Unhindered",
-        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33%% bash damage when not using a weapon.",
         "unarmed_allowed": true,
         "min_unarmed": 0,
-        "strictly_unarmed": true,
         "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
       }
     ],
@@ -1377,6 +1388,60 @@
       }
     ],
     "techniques": [ "tec_tiger_palm", "tec_tiger_takedown" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_wingchun",
+    "name": "Wing Chun",
+    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
+    "initiate": [
+      "You take your stance and prepare to receive the gift of violence.",
+      "%s patiently assumes a curiously pigeon-toed stance."
+    ],
+    "learn_difficulty": 8,
+    "arm_block": 2,
+    "leg_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_wingchun_static",
+        "name": "Chi-Sao Sensitivity",
+        "description": "You have a greater understanding of balance and technique.  This gives you a better chance to avoid your opponent's attacks.\n\n Dodging Skill increased by 15%% of Perception.  Blocked damage reduced by 50%% of Perception.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "per", 0.5 ], [ "dodge", "per", 0.15 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_wingchun_onhit",
+        "name": "Chain Punch",
+        "description": "Your punches are properly timed to give your opponent no rest from your strikes.\n\n-10%% move cost.\nLasts 1 turn.  Stacks 3 times.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "movecost", 0.9 ] ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_wingchun_onpause",
+        "name": "Biu Ji",
+        "description": "Through the perfect application of the Thrusting Fingers form, you can strike your opponents' weak points, force them away, and follow!\n\nAccuracy increased by 20%% of Perception, Enables \"Straight Punch (Knockback)\" and \"L-Hook (Knockback)\" techniques.\nLasts 2 turns.",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "hit", "per", 0.2 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_wingchun_punch",
+      "tec_wingchun_hook",
+      "tec_wingchun_punch_knockback",
+      "tec_wingchun_hook_knockback",
+      "tec_wingchun_feint",
+      "tec_wingchun_counter"
+    ]
   },
   {
     "type": "martial_art",
@@ -1476,37 +1541,5 @@
       }
     ],
     "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_wingchun",
-    "name": "Wing Chun",
-    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
-    "initiate": [
-      "You take your stance and prepare to receive the gift of violence.",
-      "%s patiently assumes a curiously pigeon-toed stance."
-    ],
-    "learn_difficulty": 8,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "wingchun_static",
-        "name": "Chi-Sao Sensitivity",
-        "description": "Perception increases dodging ability, +1 dodges per turn",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
-        "bonus_dodges": 1
-      }
-    ],
-    "techniques": [
-      "tec_wingchun_chainpunch",
-      "tec_wingchun_break",
-      "tec_wingchun_feint",
-      "tec_wingchun_stumble",
-      "tec_wingchun_counter",
-      "tec_wingchun_disarm"
-    ],
-    "weapons": [ "butterfly_swords", "long_pole" ]
   }
 ]

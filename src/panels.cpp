@@ -954,7 +954,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 27, 2 ), morale_pair.first, smiley );
 
     // print stamina
-    const auto &stamina = get_hp_bar( u.stamina, u.get_stamina_max() );
+    const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
     mvwprintz( w, point( 22, 0 ), c_light_gray, _( "STM" ) );
     mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
@@ -1214,8 +1214,8 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
-    auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                      get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                      get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     const int width = utf8_width( needs_pair.second );
     for( int i = 0; i < 5 - width; i++ ) {
@@ -1258,8 +1258,8 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 38, 0 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
 
     // print stamina
-    auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                      get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                      get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     const int width = utf8_width( needs_pair.second );
     for( int i = 0; i < 5 - width; i++ ) {
@@ -1414,7 +1414,7 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     wrefresh( w );
 }
 
@@ -1474,7 +1474,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     nc_color color = c_light_gray;
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     // style
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
@@ -1591,8 +1591,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
 
     // print stamina
-    auto pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
     mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
     const int width = utf8_width( pair.second );
@@ -1856,17 +1856,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
-    std::string style;
-    const auto &cur_style = u.style_selected.obj();
-    if( !u.weapon.is_gun() ) {
-        if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = cur_style.name.translated();
-        } else if( u.is_armed() ) {
-            style = _( "Normal" );
-        } else {
-            style = _( "No Style" );
-        }
-    }
+    const std::string style = u.martial_arts_data.selected_style_name( u );
 
     if( !style.empty() ) {
         const auto style_color = u.is_armed() ? c_red : c_blue;
@@ -2216,6 +2206,8 @@ void panel_manager::deserialize( JsonIn &jsin )
             JsonObject joPanel = jaPanels.next_object();
 
             std::string name = joPanel.get_string( "name" );
+            bool toggle = joPanel.get_bool( "toggle" );
+
             for( auto it2 = layout.begin() + std::distance( layout.begin(), it ); it2 != layout.end(); ++it2 ) {
                 if( it2->get_name() == name ) {
                     if( it->get_name() != name ) {
@@ -2223,7 +2215,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                         layout.erase( it2 );
                         it = layout.insert( it, panel );
                     }
-                    it->toggle = joPanel.get_bool( "toggle" );
+                    it->toggle = toggle;
                     ++it;
                     break;
                 }

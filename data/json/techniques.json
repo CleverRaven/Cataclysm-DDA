@@ -301,6 +301,7 @@
     "min_unarmed": 5,
     "unarmed_allowed": true,
     "dodge_counter": true,
+    "crit_ok": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
     "stun_dur": 1,
@@ -396,8 +397,7 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "min_melee": 8,
     "melee_allowed": true,
-    "disarms": true,
-    "crit_ok": true
+    "disarms": true
   },
   {
     "type": "technique",
@@ -406,8 +406,7 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "min_unarmed": 8,
     "unarmed_allowed": true,
-    "disarms": true,
-    "crit_ok": true
+    "disarms": true
   },
   {
     "type": "technique",
@@ -699,6 +698,7 @@
     "min_melee": 4,
     "melee_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "down_dur": 2,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
   },
@@ -1358,7 +1358,6 @@
     "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "strictly_unarmed": true,
     "weighting": 2,
     "take_weapon": true,
     "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
@@ -1399,7 +1398,6 @@
     "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
     "min_unarmed": 3,
     "unarmed_allowed": true,
-    "crit_ok": true,
     "disarms": true
   },
   {
@@ -1460,6 +1458,75 @@
   },
   {
     "type": "technique",
+    "id": "tec_wingchun_punch",
+    "name": "Straight Punch",
+    "messages": [ "You deliver a vertical straight punch to %s", "<npcname> delivers a vertical straight punch to %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_punch_knockback",
+    "name": "Straight Punch (Knockback)",
+    "messages": [ "You force %s back with a vertical straight punch", "<npcname> forces %s back with a vertical straight punch" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_wingchun_onpause" ],
+    "weighting": 2,
+    "knockback_dist": 1,
+    "knockback_follow": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_hook",
+    "name": "L-hook",
+    "messages": [ "You deliver a solid L-hook to %s", "<npcname> delivers a solid L-hook to %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_hook_knockback",
+    "name": "L-hook (Knockback)",
+    "messages": [ "You knock %s back with a solid L-hook", "<npcname> knocks %s back with a solid L-hook" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_wingchun_onpause" ],
+    "weighting": 2,
+    "crit_tec": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "knockback_follow": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_feint",
+    "name": "Feint",
+    "messages": [ "Your attack misses %s but you don't let up", "<npcname>'s attack misses %s but they don't let up" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_counter",
+    "name": "Receive and Counter",
+    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_zuiquan_feint",
     "name": "Drunk feint",
     "min_unarmed": 3,
@@ -1501,68 +1568,5 @@
     "flat_bonuses": [ [ "arpen", "bash", 10 ], [ "arpen", "bash", "per", 1 ] ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_chainpunch",
-    "name": "Chain Punch",
-    "min_unarmed": 1,
-    "unarmed_allowed": true,
-    "knockback_dist": 1,
-    "knockback_spread": 1,
-    "knockback_follow": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
-    "description": "50% moves, 66% damage, knockback and follow"
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_break",
-    "name": "Grab Break",
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true,
-    "messages": [ "You position yourself well and slip out of a grab", "<npcname> slips out of a grab" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_feint",
-    "name": "ask the way",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_stumble",
-    "name": "White Crane stumble",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "down_dur": 1,
-    "messages": [ "You stumble %s with your onslaught", "<npcname> stumbles %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_counter",
-    "name": "Receive and Counter",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ],
-    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_wingchun_disarm",
-    "name": "disarm",
-    "min_unarmed": 6,
-    "unarmed_allowed": true,
-    "disarms": true,
-    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   }
 ]

@@ -32,8 +32,8 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "charges": 4,
-    "components": [ [ [ "flour", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "salt", 5 ] ], [ [ "sugar", 16 ] ] ]
+    "charges": 8,
+    "components": [ [ [ "flour", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "salt", 1 ] ], [ [ "sugar", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -122,6 +122,18 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "meat_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_meat_cooked",
+    "copy-from": "meat_cooked",
+    "components": [ [ [ "mutant_meat", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_meat_scrap_cooked",
+    "copy-from": "meat_scrap_cooked",
+    "components": [ [ [ "mutant_meat_scrap", 1 ] ] ]
   },
   {
     "result": "offal_canned",
@@ -288,6 +300,22 @@
   },
   {
     "type": "recipe",
+    "result": "mutant_tallow",
+    "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_lard",
+    "copy-from": "lard",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_fat", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "cooking_oil",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -322,7 +350,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -346,7 +374,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dry_fish", 2 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_fish", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -358,7 +386,7 @@
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dry_hflesh", 2 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_hflesh", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -370,7 +398,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dry_veggy", 2 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_veggy", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -382,7 +410,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dry_fruit", 2 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -423,7 +451,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -748,7 +776,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -773,7 +801,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "can_chicken", 2 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -798,7 +826,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -901,7 +929,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
       [ [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
         [ "soysauce", 2 ],
@@ -1210,7 +1238,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1250,7 +1278,7 @@
     "time": "5 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "frozen_dinner", 1 ] ] ]
+    "components": [ [ [ "frozen_dinner", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1288,13 +1316,19 @@
     "difficulty": 3,
     "time": "16 m",
     "autolearn": true,
+    "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the potato.",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
+    "components": [
+      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
+      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
+      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
     "result": "fried_seeds",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -1316,7 +1350,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "tortilla_corn", 1 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
+    "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1368,7 +1402,7 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "time": "20 m",
-    "charges": 3,
+    "charges": 5,
     "book_learn": [ [ "cookbook_human", 0 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
@@ -1394,16 +1428,21 @@
   {
     "type": "recipe",
     "result": "fresh_fries",
+    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "16 m",
     "autolearn": true,
-    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the potatoes",
+    "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the potato.",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
+    "components": [
+      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
+      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1432,6 +1471,7 @@
   {
     "type": "recipe",
     "result": "popcorn2",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -1652,6 +1692,8 @@
   {
     "type": "recipe",
     "result": "almond_milk",
+    "result_mult": 3,
+    "byproducts": [ [ "almond_pulp" ] ],
     "id_suffix": "mortar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1661,11 +1703,13 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "autolearn": true,
-    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "almond_milk",
+    "result_mult": 3,
+    "byproducts": [ [ "almond_pulp" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1674,7 +1718,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
     "autolearn": true,
-    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "almond_unshelled", 2 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1718,18 +1762,18 @@
     "type": "recipe",
     "result": "milk_reconstituted",
     "id_suffix": "from_condensed",
-    "result_mult": 2,
+    "result_mult": 4,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "con_milk", 5 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "con_milk", 5 ] ], [ [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "can_coconut",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1738,7 +1782,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "coconut", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coconut", 2 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1800,7 +1844,7 @@
   {
     "type": "recipe",
     "result": "cranberry_juice",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1809,12 +1853,12 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "cranberries", 1 ], [ "irradiated_cranberries", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "cranberries", 3 ], [ "irradiated_cranberries", 3 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
     "result": "apple_cider",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1823,11 +1867,12 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "irradiated_apple", 3 ], [ "apple", 3 ] ] ]
+    "components": [ [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "lemonade",
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1835,7 +1880,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 2 ], [ "lemon", 2 ] ], [ [ "sugar", 10 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar", 10 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1964,6 +2009,7 @@
       [
         [ "meat_red", 1, "LIST" ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "can_salmon", 2 ],
         [ "can_herring", 2 ],
         [ "fish", 2 ],
@@ -2032,7 +2078,7 @@
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
       ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
   },
   {
@@ -2096,7 +2142,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "fat", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2111,7 +2157,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "jerky", 2 ],
         [ "dry_meat", 2 ],
@@ -2147,7 +2193,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 2,
+    "charges": 3,
     "time": "5 m",
     "autolearn": true,
     "components": [
@@ -2162,24 +2208,24 @@
     "result": "V8",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
-    "container": "jar_glass_sealed",
+    "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": "30 m",
-    "charges": 2,
+    "time": "40 m",
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "irradiated_tomato", 2 ], [ "can_tomato", 2 ], [ "tomato", 2 ] ],
-      [ [ "irradiated_broccoli", 1 ], [ "broccoli", 1 ] ],
-      [ [ "irradiated_zucchini", 1 ], [ "zucchini", 1 ] ]
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "water", 16 ], [ "water_clean", 16 ] ],
+      [ [ "irradiated_tomato", 4 ], [ "can_tomato", 4 ], [ "tomato", 4 ] ],
+      [ [ "irradiated_broccoli", 4 ], [ "broccoli", 4 ] ],
+      [ [ "irradiated_zucchini", 4 ], [ "zucchini", 4 ] ]
     ]
   },
   {
@@ -2755,8 +2801,8 @@
         [ "honey_bottled", 2 ],
         [ "honey_glassed", 2 ]
       ],
-      [ [ "meat", 1 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "meat", 1 ], [ "mutant_meat", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "pepper", 1 ] ]
     ]
@@ -2777,7 +2823,7 @@
     "components": [
       [ [ "syrup", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 6 ] ],
-      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 10 ],
         [ "soysauce", 1 ],
@@ -2809,13 +2855,13 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 10,
-    "time": "18 m",
-    "batch_time_factors": [ 50, 4 ],
+    "charges": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ], [ [ "cornmeal", 9 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "cornmeal", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2824,13 +2870,13 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 1,
-    "charges": 5,
+    "charges": 1,
     "time": "18 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cornmeal", 5 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "cornmeal", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2859,7 +2905,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "28 m",
-    "charges": 8,
+    "charges": 10,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -2906,6 +2952,7 @@
   {
     "type": "recipe",
     "result": "lentils_cooked",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -3232,6 +3279,7 @@
   {
     "type": "recipe",
     "result": "buckwheat_cooked",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -3521,6 +3569,7 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -3562,6 +3611,7 @@
       [
         [ "bacon", 2 ],
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -3798,7 +3848,6 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "difficulty": 1,
-    "result_mult": 2,
     "time": "6 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -3812,7 +3861,7 @@
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "difficulty": 1,
-    "result_mult": 2,
+    "charges": 2,
     "time": "6 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -4363,7 +4412,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 2 ], [ "meat_scrap", 20 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4386,6 +4435,7 @@
   {
     "type": "recipe",
     "result": "human_canned",
+    "result_mult": 2,
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
@@ -4807,7 +4857,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ],
+      [ [ "meat_red_raw", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
     ]
   },
@@ -4922,6 +4972,7 @@
   {
     "type": "recipe",
     "result": "fried_spam",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4960,6 +5011,7 @@
   {
     "type": "recipe",
     "result": "cornmeal",
+    "charges": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -5557,7 +5609,7 @@
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ]
       ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
@@ -5584,7 +5636,7 @@
         [ "dry_hflesh", 1 ],
         [ "human_canned", 1 ]
       ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "flour", 1 ], [ "cornmeal", 1 ] ],
       [ [ "mushroom", 2 ], [ "dry_mushroom", 2 ] ]
     ]
@@ -5722,7 +5774,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "sauce_red", 1 ], [ "irradiated_tomato", 2 ], [ "can_tomato", 1 ], [ "tomato", 2 ] ],
+      [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
     ]
   },
@@ -5740,7 +5792,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "sauce_red", 1 ], [ "irradiated_tomato", 2 ], [ "can_tomato", 1 ], [ "tomato", 2 ] ],
+      [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ]
     ]
   },
@@ -6018,7 +6070,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 2 ], [ "meat_scrap", 20 ] ],
+      [ [ "meat_red_raw", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -6138,7 +6190,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6248,11 +6300,12 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
+    "charges": 3,
     "time": "3 m 30 s",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "sugar", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "sugar", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6265,7 +6318,7 @@
     "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "meat", 1 ], [ "human_flesh", 1 ], [ "rehydrated_meat", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "rehydrated_meat", 1 ], [ "rehydrated_hflesh", 1 ] ],
       [ [ "slime_scrap", 2 ] ],
       [ [ "water", 1 ] ]
     ]
@@ -6332,7 +6385,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
   },
   {
@@ -7026,7 +7079,7 @@
     "time": "3 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ] ] ]
+    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey", 3 ], [ "single_malt_whiskey", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -7117,7 +7170,7 @@
   {
     "type": "recipe",
     "result": "honey_bottled",
-    "byproducts": [ [ "wax", 4 ] ],
+    "charges": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -7126,7 +7179,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "honeycomb", 2 ] ] ]
+    "components": [ [ [ "honeycomb", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7136,7 +7189,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "charges": 5,
+    "charges": 14,
     "time": "20 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
@@ -7252,7 +7305,7 @@
     "components": [
       [ [ "oatmeal", 1 ], [ "flour", 5 ], [ "buckwheat", 1 ] ],
       [ [ "dry_fruit", 1 ] ],
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "sugar", 10 ],
         [ "syrup", 1 ],
@@ -7275,7 +7328,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "honey_bottled", 5 ] ], [ [ "sugar", 35 ] ] ]
+    "components": [ [ [ "honey_bottled", 14 ] ] ]
   },
   {
     "type": "recipe",
@@ -7390,6 +7443,7 @@
     "result": "cornmeal",
     "type": "recipe",
     "id_suffix": "with_from_food_processor",
+    "charges": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -7690,6 +7744,7 @@
     "type": "recipe",
     "result": "cornmeal",
     "id_suffix": "mortar",
+    "charges": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -7762,7 +7817,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "jerky_human", 1 ], [ "dry_hflesh", 1 ], [ "human_smoked", 1 ] ],
       [
         [ "dry_veggy", 2 ],
@@ -7843,7 +7898,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 12 ], [ "meat_scrap", 120 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -8037,7 +8092,7 @@
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "meat", 12 ], [ "meat_scrap", 120 ] ],
+      [ [ "meat_red_raw", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]
   },
@@ -8437,7 +8492,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
-    "charges": 4,
+    "charges": 2,
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8477,6 +8532,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
+    "result_mult": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8788,9 +8844,8 @@
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
         [ "butter", 1 ],
-        [ "fat", 1 ],
-        [ "lard", 1 ],
-        [ "tallow", 1 ],
+        [ "edible_fat", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ],
         [ "ghee", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -8815,9 +8870,8 @@
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
         [ "butter", 1 ],
-        [ "fat", 1 ],
-        [ "lard", 1 ],
-        [ "tallow", 1 ],
+        [ "edible_fat", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ],
         [ "ghee", 1 ]
       ]
     ]

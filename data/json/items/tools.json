@@ -256,7 +256,7 @@
     "id": "water_mill",
     "type": "TOOL",
     "name": "water mill",
-    "description": "A small water-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "description": "A small water-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
     "price": 100000,
@@ -271,7 +271,7 @@
     "id": "wind_mill",
     "type": "TOOL",
     "name": "wind mill",
-    "description": "A small wind-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
     "price": 100000,
@@ -287,7 +287,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "atomic coffee maker",
-    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee. Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
     "weight": "6102 g",
     "volume": "1000 ml",
     "price": 100000,
@@ -924,7 +924,7 @@
     "type": "TOOL",
     "name": "electric carver (off)",
     "name_plural": "electric carvers (off)",
-    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham...  even zombies!",
+    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "weight": "1106 g",
     "volume": "1500 ml",
     "price": 2000,
@@ -1178,7 +1178,7 @@
     "id": "lifestraw",
     "type": "TOOL",
     "name": "lifestraw",
-    "description": "Set the lifestraw in suspect water, let sit for one minute then drink. The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
+    "description": "Set the lifestraw in suspect water, let sit for one minute then drink.  The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "104 g",
     "volume": "592 ml",
     "price": 4000,
@@ -1192,7 +1192,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": { "type": "WATER_PURIFIER", "moves": 70 }
+    "use_action": "WATER_PURIFIER"
   },
   {
     "id": "char_smoker",
@@ -1914,7 +1914,7 @@
     "type": "TOOL",
     "name": "electronic handcuffs",
     "name_plural": "electronic handcuffs",
-    "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative...",
+    "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
     "volume": "250 ml",
     "price": 0,
@@ -2894,7 +2894,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "grappling hook",
-    "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls. Can be used in place of a long rope for butchering, in a pinch.",
+    "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
     "weight": "760 g",
     "volume": "750 ml",
     "price": 25000,
@@ -4803,7 +4803,7 @@
     "id": "sponge",
     "type": "TOOL",
     "name": "sponge",
-    "description": "A sponge is a tool or cleaning aid made of soft, porous material. Typically used for cleaning impervious surfaces.",
+    "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 0,
@@ -4849,20 +4849,7 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
     "magazine_well": 1
   },
   {
@@ -5269,7 +5256,6 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
-      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,
@@ -6136,7 +6122,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "black gunpowder charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes...",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with black gunpowder and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Should explode in a few minutes…",
     "weight": "5000 g",
     "volume": "4 L",
     "price": 20000,
@@ -7382,7 +7368,7 @@
     "category": "weapons",
     "id": "grip_hook",
     "name": "grip hook",
-    "description": "A simple steel meathook with a circular steel handle. Makes a passable melee weapon.",
+    "description": "A simple steel meathook with a circular steel handle.  Makes a passable melee weapon.",
     "weight": "900 g",
     "to_hit": 1,
     "color": "light_gray",

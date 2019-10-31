@@ -130,7 +130,7 @@
     "id": "TALK_REFUGEE_Garry_Background",
     "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our... with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then... everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back... not enough.",
     "responses": [
-      { "text": "You lost someone...", "topic": "TALK_REFUGEE_Garry_Background_loss" },
+      { "text": "You lost someone…", "topic": "TALK_REFUGEE_Garry_Background_loss" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]

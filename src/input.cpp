@@ -199,6 +199,13 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         // JSON object representing the action
         JsonObject action = jsin.get_object();
 
+        const std::string type = action.get_string( "type", "keybinding" );
+        if( type != "keybinding" ) {
+            debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
+                      "keybindings file '%s'", type, file_name );
+            continue;
+        }
+
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];

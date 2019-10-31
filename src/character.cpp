@@ -70,6 +70,8 @@ static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_tools( "bio_tools" );
@@ -115,11 +117,14 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_winded( "winded" );
 
+const species_id ROBOT( "ROBOT" );
+
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
+static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
@@ -127,6 +132,7 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
@@ -193,6 +199,7 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     set_stim( 0 );
+    set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     pkill = 0;
     // 45 days to starve to death
     healthy_calories = 55000;
@@ -716,7 +723,7 @@ bool Character::is_limb_broken( hp_part limb ) const
 
 bool Character::can_run()
 {
-    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
 bool Character::move_effects( bool attacking )
@@ -1305,7 +1312,8 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
 {
     std::vector<itype_id> stored_fuels;
     for( const itype_id fuel : bio->fuel_opts ) {
-        if( !get_value( fuel ).empty() || fuel == itype_id( "muscle" ) ) {
+        const item tmp_fuel( fuel );
+        if( !get_value( fuel ).empty() || tmp_fuel.has_flag( "PERPETUAL" ) ) {
             stored_fuels.emplace_back( fuel );
         }
     }
@@ -2215,6 +2223,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
+    martial_arts_data.reset_style();
     weapon   = item( "null", 0 );
 
     recalc_hp();
@@ -3601,6 +3610,32 @@ int Character::visibility( bool, int ) const
     return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
+bool Character::sees_with_specials( const Creature &critter ) const
+{
+    // electroreceptors grants vision of robots and electric monsters through walls
+    if( has_trait( trait_ELECTRORECEPTORS ) &&
+        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        return true;
+    }
+
+    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
+        // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
+        // walls don't block sonar which is transmitted in the ground, not the air.
+        // TODO: this might need checks whether the player is in the air, or otherwise not connected
+        // to the ground. It also might need a range check.
+        return true;
+    }
+
+    if( is_player() || critter.is_player() ) {
+        // Players should not use map::sees
+        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
+        return g->m.pl_line_of_sight( critter.pos(),
+                                      sight_range( current_daylight_level( calendar::turn ) ) );
+    }
+
+    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
+}
+
 bool Character::pour_into( item &container, item &liquid )
 {
     std::string err;
@@ -4220,6 +4255,109 @@ void Character::set_stim( int new_stim )
 void Character::mod_stim( int mod )
 {
     stim += mod;
+}
+
+int Character::get_stamina() const
+{
+    return stamina;
+}
+
+int Character::get_stamina_max() const
+{
+    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
+    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
+    return maxStamina;
+}
+
+void Character::set_stamina( int new_stamina )
+{
+    stamina = new_stamina;
+}
+
+void Character::mod_stamina( int mod )
+{
+    stamina += mod;
+}
+
+void Character::burn_move_stamina( int moves )
+{
+    int overburden_percentage = 0;
+    units::mass current_weight = weight_carried();
+    units::mass max_weight = weight_capacity();
+    if( current_weight > max_weight ) {
+        overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
+    }
+
+    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
+    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
+        if( has_active_bionic( bid ) ) {
+            burn_ratio = burn_ratio * 2 - 3;
+        }
+    }
+    burn_ratio += overburden_percentage;
+    if( move_mode == CMM_RUN ) {
+        burn_ratio = burn_ratio * 7;
+    }
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
+    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
+    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
+    // Starts at 1 in 25, goes down by 5 for every 50% more carried
+    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
+        one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
+        add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
+        // 1 more pain for every 800 grams more (5 per extra STR needed)
+        if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
+            mod_pain( 1 );
+        }
+    }
+}
+
+void Character::update_stamina( int turns )
+{
+    const int current_stim = get_stim();
+    float stamina_recovery = 0.0f;
+    // Recover some stamina every turn.
+    // Mutated stamina works even when winded
+    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
+                               mutation_value( "stamina_regen_modifier" );
+    // But mouth encumbrance interferes, even with mutated stamina.
+    stamina_recovery += stamina_multiplier * std::max( 1.0f,
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
+    // TODO: recovering stamina causes hunger/thirst/fatigue.
+    // TODO: Tiredness slowing recovery
+
+    // stim recovers stamina (or impairs recovery)
+    if( current_stim > 0 ) {
+        // TODO: Make stamina recovery with stims cost health
+        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+    } else if( current_stim < 0 ) {
+        // Affect it less near 0 and more near full
+        // Negative stim kill at -200
+        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+        // effectivly countering stamina gain of default 20,
+        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+    }
+
+    const int max_stam = get_stamina_max();
+    if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
+        int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
+                                   max_stam - get_stamina() - stamina_recovery * turns );
+        // so the effective recovery is up to 5x default
+        bonus = std::min( bonus, 4 * static_cast<int>
+                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+        if( bonus > 0 ) {
+            stamina_recovery += bonus;
+            bonus /= 10;
+            bonus = std::max( bonus, 1 );
+            mod_power_level( units::from_kilojoule( -bonus ) );
+        }
+    }
+
+    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
+    // Cap at max
+    set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
@@ -5591,4 +5729,9 @@ void Character::set_painkiller( int npkill )
 int Character::get_painkiller() const
 {
     return pkill;
+}
+
+bool Character::is_wielding( const item &target ) const
+{
+    return &weapon == &target;
 }

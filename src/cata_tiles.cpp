@@ -1202,8 +1202,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     }
 
                     // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
-                                               1.0 );
+                    float ambient = g->m.ambient_light_at( {x, y, center.z} );
+                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
 
                     auto tile_pos = player_to_screen( point( x, y ) );
 
@@ -1215,7 +1215,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                     // string overlay
                     overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
-                                             formatted_text( string_format( "%.1f", lighting ), catacurses::black, NORTH ) );
+                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, NORTH ) );
                 }
             }
 
@@ -1223,7 +1223,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
-                    ( critter && g->u.sees_with_infrared( *critter ) ) ) {
+                    ( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) ) {
 
                     invisible[0] = true;
                 } else {
@@ -2613,7 +2613,8 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     // Check if the player can actually see the critter. We don't care if
     // it's via infrared or not, just whether or not they're seen. If not,
     // we can bail.
-    if( !g->u.sees( *critter ) && !g->u.sees_with_infrared( *critter ) ) {
+    if( !g->u.sees( *critter ) && !( g->u.sees_with_infrared( *critter ) ||
+                                     g->u.sees_with_specials( *critter ) ) ) {
         return false;
     }
 
@@ -2672,7 +2673,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         const Creature &critter = *pcritter;
 
         if( !g->u.sees( critter ) ) {
-            if( g->u.sees_with_infrared( critter ) ) {
+            if( g->u.sees_with_infrared( critter ) || g->u.sees_with_specials( critter ) ) {
                 return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
                                             LL_LIT, false, height_3d );
             }
@@ -2732,7 +2733,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     } else { // invisible
         const Creature *critter = g->critter_at( p, true );
-        if( critter && g->u.sees_with_infrared( *critter ) ) {
+        if( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0, LL_LIT, false,

@@ -129,7 +129,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             for( const auto &elem : data ) {
                 discarded << elem.first;
             }
-            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
                       data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
@@ -142,7 +142,7 @@ static void load_ignored_type( JsonObject &jo )
     // This does nothing!
     // This function is used for types that are to be ignored
     // (for example for testing or for unimplemented types)
-    ( void ) jo;
+    jo.allow_omitted_members();
 }
 
 void DynamicDataLoader::add( const std::string &type,

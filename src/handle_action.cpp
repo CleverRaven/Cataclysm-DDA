@@ -404,7 +404,7 @@ static void pldrive( int x, int y )
     }
     if( !veh ) {
         dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
-        debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
+        debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
         return;
     }
@@ -798,7 +798,7 @@ static void wait()
         }
 
     } else {
-        if( g->u.stamina < g->u.get_stamina_max() ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
@@ -1946,7 +1946,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICK_STYLE:
-                u.pick_style();
+                u.martial_arts_data.pick_style( u );
                 break;
 
             case ACTION_RELOAD_ITEM:
@@ -2099,10 +2099,10 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
-                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
-                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
+                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else {
                     control_vehicle();
                 }

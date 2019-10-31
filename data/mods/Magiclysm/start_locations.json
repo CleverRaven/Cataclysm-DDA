@@ -28,5 +28,11 @@
     "ident": "magic_basement",
     "name": "Wizard's Secret Basement Study",
     "target": "magic_basement"
+  },
+  {
+    "type": "start_location",
+    "ident": "lake_retreat",
+    "name": "Wizard's lake retreat",
+    "target": "lake_retreat_ground"
   }
 ]

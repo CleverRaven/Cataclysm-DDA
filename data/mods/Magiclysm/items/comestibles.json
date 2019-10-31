@@ -60,5 +60,13 @@
     "name_plural": "dragon meat",
     "description": "The meat from a slain dragon.  It does not seem to respond to cooking the same way as other meat, making it obvious that it still retains some magical properties.",
     "parasites": 0
+  },
+  {
+    "id": "scream_mush",
+    "type": "COMESTIBLE",
+    "copy-from": "mushroom",
+    "name": "scream mushroom",
+    "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
+    "price": 1400
   }
 ]

@@ -71,6 +71,15 @@
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
   },
   {
+    "result": "scrap_cotton",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "earthbag",
     "type": "uncraft",
     "skill_used": "fabrication",

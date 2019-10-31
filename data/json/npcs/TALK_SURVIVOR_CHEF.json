@@ -49,7 +49,7 @@
     "id": "TALK_NC_SURVIVOR_CHEF_STORY2",
     "dynamic_line": "Some lunatic covered in a film of goo, black as oil, had fallen through one of the large glass windows.  There were glass shards stuck in its head and neck.  I thought the poor guy, girl-thing-whatever was dead.  People began to crowd around it, some were taking pictures.",
     "responses": [
-      { "text": "Horrible. Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
+      { "text": "Horrible.  Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
       { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }

@@ -83,12 +83,10 @@
     "difficulty": 7,
     "time": "180 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [
-      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "armguard_metal",
@@ -100,9 +98,8 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
+    "using": [ [ "cordage", 1 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
     "result": "armguard_paper",

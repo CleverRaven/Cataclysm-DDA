@@ -482,14 +482,80 @@
   {
     "type": "faction",
     "id": "gods_community",
-    "name": "God's Community",
-    "likes_u": 35,
-    "respects_u": 35,
+    "name": "New England Church Community",
+    "likes_u": 30,
+    "respects_u": 20,
     "known_by_u": false,
-    "size": 20,
-    "power": 50,
-    "food_supply": 20000,
-    "wealth": 10000,
+    "size": 25,
+    "power": 20,
+    "currency": "icon",
+    "food_supply": 87500,
+    "wealth": 82500,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "isherwood_family": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
     "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
   }
 ]

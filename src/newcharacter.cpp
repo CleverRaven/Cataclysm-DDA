@@ -628,19 +628,19 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
-    for( auto &t : get_base_traits() ) {
+    for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
-        for( auto &s : t->initial_ma_styles ) {
-            if( !has_martialart( s ) ) {
+        for( const matype_id &s : t->initial_ma_styles ) {
+            if( !martial_arts_data.has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const auto ma_type = choose_ma_style( type, styles );
-            ma_styles.push_back( ma_type );
-            style_selected = ma_type;
+            const matype_id ma_type = choose_ma_style( type, styles );
+            martial_arts_data.add_martialart( ma_type );
+            martial_arts_data.set_style( ma_type );
         }
     }
 
@@ -2218,8 +2218,11 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
-            select_location.entries.emplace_back( loc.name() );
-            if( loc.ident() == you.start_location ) {
+            uilist_entry entry( loc.ident().get_cid(), true, -1, loc.name() );
+
+            select_location.entries.emplace_back( entry );
+
+            if( loc.ident().get_cid() == you.start_location.get_cid() ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2433,6 +2436,9 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             if( const auto name = query_for_template_name() ) {
                 ::save_template( you, *name, points );
             }
+            // redraw after saving template
+            draw_character_tabs( w, _( "DESCRIPTION" ) );
+            draw_points( w, points );
             redraw = true;
         } else if( action == "PICK_RANDOM_NAME" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
@@ -2445,8 +2451,9 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             select_location.query();
             if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_location::get_all() ) {
-                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                    if( loc.ident().get_cid() == select_location.ret ) {
                         you.start_location = loc.ident();
+                        break;
                     }
                 }
             }
@@ -2625,6 +2632,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
+        jsout.member( "start_location", u.start_location );
         jsout.end_object();
 
         u.serialize( jsout );
@@ -2652,6 +2660,16 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.trait_points = jobj.get_int( "trait_points" );
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
+
+            const std::string jobj_start_location = jobj.get_string( "start_location", "" );
+
+            // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
+            for( const auto &loc : start_location::get_all() ) {
+                if( loc.ident().str() == jobj_start_location ) {
+                    this->start_location = loc.ident();
+                    break;
+                }
+            }
 
             if( jsin.end_array() ) {
                 return;

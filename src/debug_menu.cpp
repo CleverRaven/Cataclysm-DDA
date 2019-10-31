@@ -566,10 +566,10 @@ void character_edit_menu()
         break;
         case D_STAMINA:
             int value;
-            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.stamina,
+            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.get_stamina(),
                            p.get_stamina_max() ) ) {
                 if( value >= 0 && value <= p.get_stamina_max() ) {
-                    p.stamina = value;
+                    p.set_stamina( value );
                 } else {
                     add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
                 }
@@ -1174,7 +1174,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    u.add_martialart( style );
+                    u.martial_arts_data.add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );

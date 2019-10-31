@@ -854,6 +854,17 @@
   },
   {
     "type": "effect_type",
+    "id": "motor_seizure",
+    "name": [ "Seizure" ],
+    "//": "Intended to be applied with downed to make it nearly impossible for player to stand.",
+    "rating": "bad",
+    "remove_message": "You regain control of your muscles!",
+    "desc": [ "Your muscles have seized up, and you can't control them!" ],
+    "miss_messages": [ [ "Your muscles won't cooperate!", 20 ] ],
+    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "bleed",
     "name": [ "Bleeding", "Bad Bleeding", "Heavy Bleeding" ],
     "desc": [ "You are slowly losing blood.", "You are losing blood.", "You are rapidly losing blood." ],
@@ -1572,6 +1583,19 @@
   },
   {
     "type": "effect_type",
+    "id": "toxin_buildup",
+    "name": [ "", "Concerning symptoms", "Unnerving symptoms" ],
+    "desc": [
+      "",
+      "Your muscles keep twitching strangely.",
+      "Your nervous system is malfunctioning, almost like it's being torn apart from the inside."
+    ],
+    "base_mods": { "h_mod_min": [ -1 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 5 ], "h_mod_tick": [ 1800 ] },
+    "max_intensity": 3,
+    "scaling_mods": { "h_mod_min": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
@@ -1789,7 +1813,7 @@
       "dodge_mod": [ 0.0104 ],
       "speed_mod": [ 0.1042 ],
       "bash_mod": [ 0.08333 ],
-      "growth_mod": [ 0.00625 ]
+      "size_mod": [ 0.00625 ]
     },
     "int_decay_step": 0
   },

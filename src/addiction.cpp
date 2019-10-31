@@ -361,8 +361,8 @@ std::string addiction_text( const addiction &cur )
                 ADD_PKILLER, translate_marker( "Strength - 1;   Perception - 1;   Dexterity - 1;\nDepression and physical pain to some degree.  Frequent cravings.  Vomiting." )
             },
             { ADD_SPEED, translate_marker( "Strength - 1;   Intelligence - 1;\nMovement rate reduction.  Depression.  Weak immune system.  Frequent cravings." ) },
-            { ADD_COKE, translate_marker( "Perception - 1;   Intelligence - 1;  Frequent cravings." ) },
-            { ADD_CRACK, translate_marker( "Perception - 2;   Intelligence - 2;  Frequent cravings." ) },
+            { ADD_COKE, translate_marker( "Perception - 1;   Intelligence - 1;   Frequent cravings." ) },
+            { ADD_CRACK, translate_marker( "Perception - 2;   Intelligence - 2;   Frequent cravings." ) },
             { ADD_MUTAGEN, translate_marker( "You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want." ) },
             {
                 ADD_DIAZEPAM, translate_marker( "Perception - 1;   Intelligence - 1;\nAnxiety, nausea, hallucinations, and general malaise." )

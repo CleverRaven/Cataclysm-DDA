@@ -383,7 +383,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc ) ) {
+                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }
@@ -485,7 +485,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = get_consumable_item( loc );
 
                 int converted_volume_scale = 0;
-                const double converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                const int charges = std::max( it.charges, 1 );
+                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
                                                 &converted_volume_scale ), 2 );
 
                 //~ Eat menu Volume: <num><unit>
@@ -521,9 +522,6 @@ class comestible_inventory_preset : public inventory_selector_preset
 
                 switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
-                        break;
-                    case rechargeable_cbm::battery:
-                        cbm_name = _( "Battery" );
                         break;
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
@@ -574,8 +572,6 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::battery && p.is_max_power() ) {
-                return _( "You're fully charged" );
             } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
                 return string_format( _( "No space to store more %s" ), it.tname() );
             }

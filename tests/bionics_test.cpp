@@ -47,9 +47,16 @@ static void give_and_activate( player &p, bionic_id const &bioid )
 
     // turn on if possible
     if( bio.id->toggled && !bio.powered ) {
+        const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
+        if( !fuel_opts.empty() ) {
+            p.set_value( fuel_opts.front(), "2" );
+        }
         p.activate_bionic( bioindex );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
+        if( !fuel_opts.empty() ) {
+            p.remove_value( fuel_opts.front() );
+        }
     }
 }
 
