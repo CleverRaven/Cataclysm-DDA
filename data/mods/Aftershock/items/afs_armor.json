@@ -14,7 +14,6 @@
     "symbol": "[",
     "color": "cyan",
     "covers": [ "TORSO" ],
-    "looks_like": "molle_pack",
     "coverage": 30,
     "encumbrance": 10,
     "storage": 400,
