@@ -11239,6 +11239,13 @@ void game::display_temperature()
     }
 }
 
+void game::display_vehicle_ai()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
+    }
+}
+
 void game::display_visibility()
 {
     if( use_tiles ) {
