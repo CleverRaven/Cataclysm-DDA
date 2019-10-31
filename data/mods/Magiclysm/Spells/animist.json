@@ -170,7 +170,7 @@
     "id": "create_rune_animist",
     "type": "SPELL",
     "name": "Animist Rune",
-    "description": "This ritual creates a small pebble attuned to Animists. You can use the rune as a catalyst for recipes.",
+    "description": "This ritual creates a small pebble attuned to Animists.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,

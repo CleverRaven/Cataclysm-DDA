@@ -151,7 +151,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_blinding_flash",
     "name": "Scroll of Blinding Flash",
-    "description": "Blind enemies for a short time with a sudden, dazzling light. Higher levels deal slightly higher damage.",
+    "description": "Blind enemies for a short time with a sudden, dazzling light.  Higher levels deal slightly higher damage.",
     "use_action": { "type": "learn_spell", "spells": [ "blinding_flash" ] }
   },
   {
@@ -159,7 +159,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_ethereal_grasp",
     "name": "Scroll of Ethereal Grasp",
-    "description": "A mass of spectral hands emerge from the ground, slowing everything in range. Higher levels allow a bigger AoE, and longer effect.",
+    "description": "A mass of spectral hands emerge from the ground, slowing everything in range.  Higher levels allow a bigger AoE, and longer effect.",
     "use_action": { "type": "learn_spell", "spells": [ "ethereal_grasp" ] }
   },
   {
@@ -615,7 +615,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_purification_seed",
     "name": "Scroll of Purification Seed",
-    "description": "You summon a gift of the earth which will purify water. Greater levels yield greater numbers of seeds.",
+    "description": "You summon a gift of the earth which will purify water.  Greater levels yield greater numbers of seeds.",
     "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
   },
   {

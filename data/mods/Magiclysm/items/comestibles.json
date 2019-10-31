@@ -47,7 +47,7 @@
     "symbol": "0",
     "name": "hairball",
     "name_plural": "hairballs",
-    "description": "A big, ugly ball of animal spit and licked-off hairs. Don't swallow it.",
+    "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
     "price": 0,
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
