@@ -478,6 +478,19 @@ void Character::load( JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
+    // status
+    temp_cur.fill( 5000 );
+    data.read( "temp_cur", temp_cur );
+
+    temp_conv.fill( 5000 );
+    data.read( "temp_conv", temp_conv );
+
+    frostbite_timer.fill( 0 );
+    data.read( "frostbite_timer", frostbite_timer );
+
+    body_wetness.fill( 0 );
+    data.read( "body_wetness", body_wetness );
+
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
@@ -655,11 +668,16 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
     json.member( "healed_24h", healed_total );
+
+    // status
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
+    json.member( "body_wetness", body_wetness );
 
     // needs
     json.member( "thirst", thirst );
@@ -672,10 +690,12 @@ void Character::store( JsonOut &json ) const
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
+
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
     json.member( "backlog", backlog );
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
@@ -754,7 +774,6 @@ void player::store( JsonOut &json ) const
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
-    json.member( "body_wetness", body_wetness );
 
     // gender
     json.member( "male", male );
@@ -976,11 +995,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
 
-    // "The cold wakes you up."
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1081,17 +1095,6 @@ void avatar::load( JsonObject &data )
         }
         g->scen = generic_scenario;
     }
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
-    body_wetness.fill( 0 );
-    data.read( "body_wetness", body_wetness );
 
     data.read( "learned_recipes", *learned_recipes );
     valid_autolearn_skills->clear(); // Invalidates the cache
