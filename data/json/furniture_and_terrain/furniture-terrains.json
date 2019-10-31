@@ -679,7 +679,7 @@
     "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
     "symbol": "T",
     "color": "light_gray",
-    "move_cost": 0,
+    "move_cost_mod": -1,
     "coverage": 40,
     "flags": [ "BASHABLE" ],
     "bash": {
@@ -705,7 +705,7 @@
     "description": "Signalling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity.",
     "symbol": "F",
     "color": "grey",
-    "move_cost": 0,
+    "move_cost_mod": -1,
     "coverage": 40,
     "flags": [ "BASHABLE" ],
     "bash": {
@@ -730,7 +730,7 @@
     "description": "A long wooden post which used to support overhead power lines and other public utilities, but it doesn't work anymore.",
     "symbol": "I",
     "color": "brown",
-    "move_cost": 0,
+    "move_cost_mod": -1,
     "coverage": 40,
     "flags": [ "BASHABLE" ],
     "bash": {
