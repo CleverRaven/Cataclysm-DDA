@@ -1057,7 +1057,7 @@
       [ "carver_off", 5 ],
       [ "meat", 1 ],
       [ "hacksaw", 10 ],
-      [ "chainmail_hands", 10 ]
+      [ "gloves_cut_resistant", 10 ]
     ]
   }
 ]
