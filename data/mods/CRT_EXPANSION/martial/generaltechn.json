@@ -26,7 +26,7 @@
     ],
     "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
-    "description": "75% AP cost, 50% DMG, WIDE, Knockback (2), STR (S) reduces AP cost, and amps (C) DMG, melee (4)"
+    "description": "60% AP cost, 50% DMG, WIDE, Knockback (2), STR (S) reduces AP cost, and amps (C) DMG, melee (4)"
   },
   {
     "type": "technique",
@@ -67,14 +67,14 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "stun_dur": 1.5,
+    "stun_dur": 2,
     "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ],
     "flat_bonuses": [ [ "movecost", "str", -0.8 ] ],
     "messages": [
       "You lunge forward with all your weight and swing upwards at %s",
       "<npcname> swings upwards with all their weight at %s"
     ],
-    "description": "Crit only, 120% moves, 125% damage, Stun for 1.5 turns, STR (A) dramatically reduces action cost, min melee 1"
+    "description": "Crit!, 120% AP cost, 125% DMG, Stun (2), STR (A) reduces AP cost, melee (1)"
   },
   {
     "type": "technique",
@@ -84,10 +84,10 @@
     "melee_allowed": true,
     "knockback_dist": 2,
     "stun_dur": 1,
-    "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.15 ], [ "damage", "stab", 0.35 ] ],
-    "flat_bonuses": [ [ "movecost", "str", -0.15 ], [ "movecost", "dex", -0.1 ] ],
+    "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
+    "flat_bonuses": [ [ "movecost", "str", -0.2 ], [ "movecost", "dex", -0.1 ], [ "movecost", "per", -0.1 ], [ "movecost", "int", -0.1 ] ],
     "messages": [ "You quickly shove %s out of the way", "<npcname> quickly shoves %s" ],
-    "description": "65% moves, dramatically reduced damage, knockback 2 tiles, stun 1 turn, STR (D) and DEX (E) reduce action cost"
+    "description": "65% AP cost, 50% DMG, knockback (2), stun (1), STR (D), DEX, PER, and INT (E) reduces AP cost"
   },
   {
     "type": "technique",
@@ -100,7 +100,7 @@
     "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.1 ], [ "damage", "cut", 0 ], [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "movecost", "str", -0.3 ], [ "movecost", "dex", -0.15 ] ],
     "messages": [ "You quickly shove %s out of the way with your weapon", "<npcname> quickly shoves %s" ],
-    "description": "75% moves, no cut damage, 110% Bash and Stab damage, knockback 2 tiles, STR (B) and DEX (C) reduce action cost, min melee 1"
+    "description": "75% AP cost, 0% Cut DMG, 110% Bash and Stab DMG, knockback (2), STR (B) and DEX (C) reduces action cost, melee (1)"
   },
   {
     "type": "technique",
@@ -113,6 +113,6 @@
     "weighting": 2,
     "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.15 ] ],
     "messages": [ "You stab into %s and rake your blade out", "<npcname> tears into %s flesh" ],
-    "description": "Crit only, 110% Cut, 115% Stab, min melee 2"
+    "description": "Crit!, 110% Cut and Stab DMG, melee (2)"
   }
 ]
