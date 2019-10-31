@@ -900,12 +900,14 @@ class game
         std::map<action_id, bool> displaying_overlays{
             { ACTION_DISPLAY_SCENT, false },
             { ACTION_DISPLAY_TEMPERATURE, false },
+            { ACTION_DISPLAY_VEHICLE_AI, false },
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
             { ACTION_DISPLAY_RADIATION, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
+        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map

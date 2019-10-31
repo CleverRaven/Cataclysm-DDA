@@ -1818,7 +1818,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
-                    advanced_inv();
+                    create_advanced_inv();
                 }
                 break;
 
@@ -2380,7 +2380,12 @@ bool game::handle_action()
                 }
                 display_temperature();
                 break;
-
+            case ACTION_DISPLAY_VEHICLE_AI:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_vehicle_ai();
+                break;
             case ACTION_DISPLAY_VISIBILITY:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger

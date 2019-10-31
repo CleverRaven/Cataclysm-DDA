@@ -723,7 +723,8 @@ std::set<point> vehicle::immediate_path( int rotate )
     collision_vector.init( adjusted_angle );
     point top_left_actual = global_pos3().xy() + coord_translate( front_left );
     point top_right_actual = global_pos3().xy() + coord_translate( front_right );
-    std::vector<point> front_row = line_to( top_left_actual, top_right_actual );
+    std::vector<point> front_row = line_to( g->m.getabs( top_left_actual ),
+                                            g->m.getabs( top_right_actual ) );
     for( const point &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
@@ -731,13 +732,24 @@ std::set<point> vehicle::immediate_path( int rotate )
             points_to_check.emplace( point_to_add );
         }
     }
+    collision_check_points = points_to_check;
     return points_to_check;
+}
+
+void vehicle::stop_autodriving()
+{
+    is_autodriving = false;
+    is_patrolling = false;
+    is_following = false;
+    autopilot_on = false;
+    autodrive_local_target = tripoint_zero;
+    collision_check_points.clear();
 }
 
 void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol )
 {
     if( follow_protocol && g->u.in_vehicle ) {
-        is_following = false;
+        stop_autodriving();
         return;
     }
     refresh();
@@ -758,7 +770,8 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
 
-    for( const point &elem : points_to_check ) {
+    for( const point &pt_elem : points_to_check ) {
+        point elem = g->m.getlocal( pt_elem );
         if( stop ) {
             break;
         }
@@ -806,11 +819,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
             follow_protocol ||
             is_patrolling ? autodrive( 0, 10 ) : pldrive( point( 0, 10 ) );
         }
-        is_autodriving = false;
-        is_patrolling = false;
-        is_following = false;
-        autopilot_on = false;
-        autodrive_local_target = tripoint_zero;
+        stop_autodriving();
         return;
     }
     int turn_x = 0;
@@ -866,22 +875,25 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
 void vehicle::do_autodrive()
 {
     if( omt_path.empty() ) {
-        is_autodriving = false;
-        autodrive_local_target = tripoint_zero;
-        return;
+        stop_autodriving();
     }
     tripoint vehpos = global_pos3();
     tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
-    if( veh_omt_pos == omt_path.back() ) {
+    if( ( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) &&
+        veh_omt_pos == omt_path.back() ) {
+        g->u.omt_path.pop_back();
         omt_path.pop_back();
+    }
+    if( omt_path.empty() ) {
+        stop_autodriving();
+        return;
     }
 
     point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
     if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
-        is_autodriving = false;
-        autodrive_local_target = tripoint_zero;
+        stop_autodriving();
         return;
     }
     int x_side = 0;
@@ -906,14 +918,6 @@ void vehicle::do_autodrive()
     tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
     autodrive_local_target = g->m.getabs( autodrive_temp_target );
-    if( rl_dist( g->m.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
-        if( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) {
-            g->u.omt_path.pop_back();
-            omt_path.pop_back();
-        }
-        autodrive_local_target = tripoint_zero;
-        return;
-    }
     drive_to_local_target( autodrive_local_target, false );
 }
 
@@ -5939,7 +5943,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     }
     // If auto-driving and damage happens, bail out
     if( is_autodriving ) {
-        is_autodriving = false;
+        stop_autodriving();
     }
     g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {

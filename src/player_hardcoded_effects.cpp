@@ -1006,7 +1006,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_sleep ) {
         set_moves( 0 );
 #if defined(TILES)
-        if( is_player() && calendar::once_every( 10_minutes ) ) {
+        if( is_player() ) {
             SDL_PumpEvents();
         }
 #endif // TILES
