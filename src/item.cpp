@@ -3342,7 +3342,7 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( p.martial_arts_data.selected_is_none() ) {
+    if( !p.martial_arts_data.selected_is_none() ) {
         p.martial_arts_data.martialart_use_message( p );
     }
 
