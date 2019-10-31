@@ -8,5 +8,25 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_MID",
     "monsters": [ { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 } ]
-  }
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PrepNet",
+    "default": "mon_cyber_mastiff",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 20, "cost_multiplier": 10, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_cyber_mastiff", "freq": 15, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_cyber_mastiff_pup", "freq": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_chicken", "freq": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "monster": "mon_cow", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
+      { "monster": "mon_horse", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 72, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 168, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 672, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 2160, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_sheep", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] }
+    ]
 ]

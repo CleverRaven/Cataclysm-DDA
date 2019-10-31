@@ -1,6 +1,6 @@
 [
   {
-    "id": "mon_cyber_mastiff",
+    "id": "afs_mon_cyber_mastiff",
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "Cyber Mastiff", "str_pl": "Cyber Mastifs" },
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "id": "mon_cyber_mastiff_pups_pup",
+    "id": "afs_mon_cyber_mastiff_pup",
     "type": "MONSTER",
     "name": { "str": "Cyber Mastiff puppy", "str_pl": "Cyber Mastiff puppies" },
     "description": "An adorable, defenseless Cyber Mastiff puppy.  Much safer to tame than an adult dog. CBMs are implanted but immature in growth with the puppy.",
