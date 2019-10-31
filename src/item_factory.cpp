@@ -2204,8 +2204,13 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.relic_data, jo, "relic_data", src );
 
     // optional gunmod slot may also specify mod data
-    load_slot_optional( def.gunmod, jo, "gunmod_data", src );
-    load_slot_optional( def.mod, jo, "gunmod_data", src );
+    if( jo.has_member( "gunmod_data" ) ) {
+        // use the same JsonObject for the two load_slot calls to avoid
+        // warnings about unvisited Json members
+        JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
+        load_slot( def.gunmod, jo_gunmod, src );
+        load_slot( def.mod, jo_gunmod, src );
+    }
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );
