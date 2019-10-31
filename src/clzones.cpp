@@ -827,7 +827,8 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
-    auto cat = it.get_category();
+    const item_category &cat = it.get_category();
+
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
         for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
             ( void )elem;
@@ -843,6 +844,10 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
             return zone_type_id( "LOOT_CORPSE" );
         }
+    }
+
+    if( cat.zone() ) {
+        return *cat.zone();
     }
 
     if( cat.get_id() == "food" ) {
