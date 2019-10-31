@@ -1556,6 +1556,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
+        do_rain( weather.weather );
         weather::effect( weather.weather )();
     }
 

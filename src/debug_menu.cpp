@@ -1554,8 +1554,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            weather_generator weathergen;
-            weathergen.test_weather();
+            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 
