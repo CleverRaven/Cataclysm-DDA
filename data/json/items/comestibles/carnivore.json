@@ -68,7 +68,7 @@
     "type": "COMESTIBLE",
     "id": "human_tallow",
     "name": "human tallow",
-    "copy-from":"tallow",
+    "copy-from": "tallow",
     "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "//": "*May* have been commercially traded.",
