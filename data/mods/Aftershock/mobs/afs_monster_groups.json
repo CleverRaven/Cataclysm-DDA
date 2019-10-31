@@ -29,4 +29,5 @@
       { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 2160, "pack_size": [ 1, 6 ] },
       { "monster": "mon_sheep", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] }
     ]
+  }
 ]
