@@ -1199,6 +1199,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                          formatted_text( std::to_string( temp_value ), color,
                                                  NORTH ) );
             }
+
             if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
                 g->displaying_visibility_creature && !invisible[0] ) {
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
