@@ -661,7 +661,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
                 bool is_mech_weapon = false;
                 if( you.is_mounted() ) {
-                    auto mons = g->u.mounted_creature.get();
+                    monster *mons = g->u.mounted_creature.get();
                     if( !mons->type->mech_weapon.empty() ) {
                         is_mech_weapon = true;
                     }
