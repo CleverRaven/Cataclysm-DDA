@@ -1818,7 +1818,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
-                    advanced_inv();
+                    create_advanced_inv();
                 }
                 break;
 
