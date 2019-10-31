@@ -248,12 +248,20 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
                           sheltered );
-    // Reset nearby scents to zero
-    for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
-        sblk.apply_gas( tmp );
-    }
 
     const int current_intensity = cur.get_field_intensity();
+    const field_type_id ft_id = cur.get_field_type();
+
+    const int scent_neutralize = ft_id->get_intensity_level( current_intensity -
+                                 1 ).scent_neutralization;
+
+    if( scent_neutralize > 0 ) {
+        // modify scents by neutralization value (minus)
+        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+            sblk.apply_gas( tmp, scent_neutralize );
+        }
+    }
+
     // Dissipate faster outdoors.
     if( is_outside( p ) ) {
         const time_duration current_age = cur.get_field_age();
@@ -1420,7 +1428,7 @@ void map::player_in_field( player &u )
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
             if( !u.in_vehicle ) {
-                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
                 u.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
             }

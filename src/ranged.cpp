@@ -72,6 +72,7 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -463,7 +464,7 @@ static int throw_cost( const player &c, const item &to_throw )
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
                                     ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = static_cast<float>( c.stamina ) / c.get_stamina_max();
+    const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
@@ -565,8 +566,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     const skill_id &skill_used = skill_throw;
-    const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-
+    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
@@ -782,7 +786,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim. (10 moves)" ),
+        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
                    front_or( "AIM", ' ' ) );
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
@@ -1184,7 +1188,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
 
     // TODO: last_target should be member of target_handler
@@ -1590,12 +1594,21 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
+                if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+                    relevant->gun_cycle_mode();
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
             } else {
-                g->reload( pc.get_item_position( relevant ), true );
+                const int pos = pc.get_item_position( relevant );
+                const item it = g->u.i_at( pos );
+                if( it.typeId() == "null" ) {
+                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
+                } else {
+                    g->reload( pos, true );
+                }
                 ret.clear();
                 break;
             }
@@ -1924,7 +1937,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
                 casting.effect() == "ter_transform" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
-                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
+                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
             } else if( casting.effect() == "cone_attack" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Cone Arc: %s degrees" ), casting.aoe_string() );

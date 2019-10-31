@@ -69,6 +69,17 @@ The special prefixes `overlay_wielded_`, `overlay_female_wielded_`, `overlay_mal
 
 `"multitle"` is an *optional* field.  If it is present and `true`, there must be an `additional_tiles` list with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above.
 
+Each `tile_entry.json` file can have a single object in it, or a list of 1 or more objects like so:
+```C++
+[
+    { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg", "rotates": false },
+    { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg", "rotates": false },
+    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse", "bg": [], "rotates": false }
+]
+```
+
+Having a list of tile entries in a file may be useful for organization, but completely unrelated entries may all exist in the same file without any complications.
+
 #### expansion `tile_entry` JSON
 Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion `tile_entry` JSON are the only `tile_entry` JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion `tile_entry` JSONs must be located at the top layer of each image directory.
 
@@ -110,6 +121,8 @@ Each compositing tileset *must* have a `tile_info.json`, laid out like so:
 The first dictionary is mandatory, and gives the default sprite width and sprite height for all tilesheets in the tileset.  Each of the image directories must have a separate dictionary, containing the tilesheet png name as its key.  If the tilesheet has the default sprite dimensions and no special offsets, it can have an empty dictionary as the value for the tilesheet name key.  Otherwise, it should have a dictionary of the sprite offsets, height, and width.
 
 A special key is `"fallback"` which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+
+A special is `"filler"` which should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
 ## Legacy tilesets
 ### tilesheets

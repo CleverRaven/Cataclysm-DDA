@@ -53,6 +53,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
+    int scent_neutralization = 0;
     field_effect_data field_effect;
 };
 

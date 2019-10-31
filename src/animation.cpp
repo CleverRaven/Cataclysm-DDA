@@ -48,7 +48,7 @@ class basic_animation
             g->draw_panels();
 
             query_popup()
-            .wait_message( "%s", _( "Hang on a bit..." ) )
+            .wait_message( "%s", _( "Hang on a bit…" ) )
             .on_top( true )
             .show();
 

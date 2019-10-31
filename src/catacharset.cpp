@@ -167,6 +167,35 @@ int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
     return utf8_width( str.c_str(), ignore_tags );
 }
 
+std::string left_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    int str_width = utf8_width( str, ignore_tags );
+    if( str_width >= width ) {
+        return str;
+    } else {
+        return str + std::string( width - str_width, ' ' );
+    }
+}
+
+std::string right_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    int str_width = utf8_width( str, ignore_tags );
+    if( str_width >= width ) {
+        return str;
+    } else {
+        return std::string( width - str_width, ' ' ) + str;
+    }
+}
+
+std::string utf8_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    if( width < 0 ) {
+        return left_justify( str, -width, ignore_tags );
+    } else {
+        return right_justify( str, width, ignore_tags );
+    }
+}
+
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
 //If the cursor is not on the first half of the character,
@@ -247,7 +276,7 @@ static void build_base64_decoding_table()
 std::string base64_encode( const std::string &str )
 {
     //assume it is already encoded
-    if( str.length() > 0 && str[0] == '#' ) {
+    if( !str.empty() && str[0] == '#' ) {
         return str;
     }
 
@@ -281,7 +310,7 @@ std::string base64_encode( const std::string &str )
 std::string base64_decode( const std::string &str )
 {
     // do not decode if it is not base64
-    if( str.length() == 0 || str[0] != '#' ) {
+    if( str.empty() || str[0] != '#' ) {
         return str;
     }
 
@@ -423,6 +452,29 @@ std::string utf8_to_native( const std::string &str )
 #else
     return str;
 #endif
+}
+
+std::string utf32_to_utf8( const std::u32string &str )
+{
+    std::string ret;
+    ret.reserve( str.length() );
+    for( auto it = str.begin(); it < str.end(); ++it ) {
+        ret += utf32_to_utf8( *it );
+    }
+    return ret;
+}
+
+std::u32string utf8_to_utf32( const std::string &str )
+{
+    int len = str.length();
+    const char *dat = str.data();
+    std::u32string ret;
+    ret.reserve( len );
+    while( len > 0 ) {
+        ret.push_back( UTF8_getch( &dat, &len ) );
+    }
+    ret.shrink_to_fit();
+    return ret;
 }
 
 int center_text_pos( const char *text, int start_pos, int end_pos )

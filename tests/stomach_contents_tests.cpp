@@ -78,23 +78,24 @@ static void print_stomach_contents( player &p, const bool print )
 // accounting for appropriate vitamins
 static void eat_all_nutrients( player &p )
 {
-    item f( "pizza_veggy" );
+    // Absorption rates are imperfect for now, so target is 140% DV (== 135 vitamin units if rate is 15m)
+    item f( "fried_brain" );
     p.eat( f );
-    f = item( "pizza_veggy" );
+    f = item( "carrot" );
     p.eat( f );
-    f = item( "pizza_veggy" );
+    f = item( "carrot" );
     p.eat( f );
-    f = item( "pizza_veggy" );
+    f = item( "hotdogs_cooked" );
     p.eat( f );
-    f = item( "fried_livers" );
+    f = item( "veggy" );
     p.eat( f );
-    f = item( "chips3" );
+    f = item( "can_herring" );
     p.eat( f );
-    f = item( "chips3" );
+    f = item( "can_herring" );
     p.eat( f );
-    f = item( "chips3" );
+    f = item( "can_herring" );
     p.eat( f );
-    f = item( "chips3" );
+    f = item( "junk_burrito" );
     p.eat( f );
 }
 
@@ -195,12 +196,13 @@ TEST_CASE( "all_nutrition_starve_test" )
         printf( "\n" );
     }
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
-    // since vitamins drain very quickly, it is almost impossible to remain at 0
-    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -2 );
+    // We need to account for a day's worth of error since we're passing a day at a time and we are
+    // close to 0 which is the max value for some vitamins
+    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -100 );
 }
 
 // reasonable length of time to pass before hunger sets in

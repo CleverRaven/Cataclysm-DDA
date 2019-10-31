@@ -878,5 +878,233 @@
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
     }
+  },
+  {
+    "id": "f_hanging_meathook",
+    "type": "furniture",
+    "name": "hanging meathook",
+    "description": "A hefty hook suspended from a chain for stringing up corpses.",
+    "symbol": "g",
+    "required_str": -1,
+    "move_cost_mod": 2,
+    "color": "light_gray",
+    "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_wind_mill",
+    "name": "wind mill",
+    "description": "A small wind-powered mill that can convert starchy products into flour.",
+    "symbol": "T",
+    "bgcolor": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": "quern_examine",
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
+    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
+    "bash": {
+      "str_min": 16,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "rock", "count": [ 8, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wind_mill_active",
+    "name": "active wind mill",
+    "description": "A small wind-powered mill that can convert starchy products into flour.  Its brake has been removed and it is turning.",
+    "symbol": "T",
+    "bgcolor": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": "quern_examine",
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
+    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
+    "bash": {
+      "str_min": 16,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "rock", "count": [ 8, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_mill",
+    "name": "water mill",
+    "description": "A small water-powered mill that can convert starchy products into flour.",
+    "symbol": "*",
+    "bgcolor": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": "quern_examine",
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
+    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "nail", "charges": [ 5, 15 ] },
+        { "item": "splinter", "count": [ 20, 30 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 3, 5 ] },
+        { "item": "rock", "count": [ 8, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_mill_active",
+    "name": "active water mill",
+    "description": "A small water-powered mill that can convert starchy products into flour.  Its brake has been removed and it is turning.",
+    "symbol": "*",
+    "bgcolor": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "examine_action": "quern_examine",
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
+    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "nail", "charges": [ 5, 15 ] },
+        { "item": "splinter", "count": [ 20, 30 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 3, 5 ] },
+        { "item": "rock", "count": [ 8, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aut_gas_console",
+    "name": "automated gas console",
+    "description": "Automated gas flow control console.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
+    "examine_action": "pay_gas",
+    "bash": { "str_min": 7, "str_max": 30, "sound": "glass breaking!", "sound_fail": "whack!", "furn_set": "f_aut_gas_console_o" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aut_gas_console_o",
+    "name": "broken automated gas console",
+    "description": "Automated gas flow control console.  Broken.  This is not a good thing.",
+    "symbol": "9",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 20,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_reinforced",
+    "name": "reinforced vending machine",
+    "description": "A bit tougher to crack open than regular vending machines.  That just makes it all the sweeter a target, doesn't it?",
+    "symbol": "{",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 30,
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
+    "examine_action": "vending",
+    "bash": {
+      "str_min": 150,
+      "str_max": 520,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "furn_set": "f_vending_o",
+      "items": [
+        { "item": "glass_shard", "count": [ 8, 25 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_c",
+    "name": "vending machine",
+    "symbol": "{",
+    "description": "Buy stuff with a cash card.",
+    "color": "light_cyan",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 12,
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "examine_action": "vending",
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_vending_o",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_o",
+    "name": "broken vending machine",
+    "description": "Ponder if you could buy stuff, as it's broken.  Maybe if you broke it more, you wouldn't need to pay at all!",
+    "symbol": "{",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 12,
+    "flags": [ "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]

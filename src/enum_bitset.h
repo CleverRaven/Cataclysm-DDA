@@ -12,7 +12,7 @@ class enum_bitset
 {
         static_assert( std::is_enum<E>::value, "the template argument is not an enum." );
         static_assert( has_enum_traits<E>::value,
-                       "a specialization of 'enum_traits<E>' template containing 'last' element of the enum must be defined somewhere. "
+                       "a specialization of 'enum_traits<E>' template containing 'last' element of the enum must be defined somewhere.  "
                        "The `last` constant must be of the same type as the enum iteslf."
                      );
 

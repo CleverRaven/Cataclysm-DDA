@@ -275,10 +275,10 @@ int main( int argc, const char *argv[] )
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
         printf( "CataclysmDDA specific options:\n" );
-        printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
+        printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
+        printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
         return result;
     }

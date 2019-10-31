@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "craft_command.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -79,7 +80,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         return false;
     }
 
@@ -277,7 +278,7 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
     return total_multi;
 }
 
-bool player::has_morale_to_craft() const
+bool Character::has_morale_to_craft() const
 {
     return get_morale_level() >= -50;
 }
@@ -404,7 +405,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         if( charges_to_store > 0 ) {
             if( !query_yn(
-                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared!  Proceed?" ),
                     prod.tname() ) ) {
                 return false;
             }
@@ -616,6 +617,12 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
 }
 
+/**
+ * @brief Round the item's birthday forward to the nearest hour.
+ * The purpose of this is so that items with close birthdays will stack more readily.
+ *
+ * @param newit
+ */
 static void set_item_food( item &newit )
 {
     // TODO: encapsulate this into some function
@@ -623,6 +630,12 @@ static void set_item_food( item &newit )
     newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
 }
 
+/**
+ * @brief Calls set_item_food on the item if it's food, and set item's faction.
+ *
+ * @param newit The item for modification
+ * @param maker_fac The faction the item should belong to
+ */
 static void finalize_crafted_item( item &newit, faction *maker_fac )
 {
     if( newit.is_food() ) {
@@ -875,17 +888,17 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
                 }
                 if( batch_size == 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
                 }
             }
         }
@@ -914,7 +927,7 @@ double player::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
             break;
         }
     }
@@ -992,7 +1005,7 @@ void item::set_next_failure_point( const player &crafter )
 static void destroy_random_component( item &craft, const player &crafter )
 {
     if( craft.components.empty() ) {
-        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
         return;
     }
 
@@ -1071,6 +1084,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
     bool first = true;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
+
+        // Points to newit unless newit is a non-empty container, then it points to newit's contents.
+        // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
+        item &food_contained = ( newit.is_container() && !newit.contents.empty() ) ?
+                               newit.contents.back() : newit;
+
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
             first = false;
@@ -1113,26 +1132,34 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( component.has_flag( "FIT" ) ) {
                     newit.item_tags.insert( "FIT" );
                 }
-                if( component.has_flag( "HIDDEN_HALLU" ) ) {
-                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                if( !food_contained.has_flag( "NO_CRAFT_INHERIT" ) ) {
+                    for( const std::string &f : component.item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            food_contained.set_flag( f );
+                        }
+                    }
+                    for( const std::string &f : component.type->item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            food_contained.set_flag( f );
+                        }
+                    }
                 }
                 if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    newit.item_tags.insert( "HIDDEN_POISON" );
-                    newit.poison = component.poison;
+                    food_contained.poison = component.poison;
                 }
             }
         }
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !newit.count_by_charges() &&
+        if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
             making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( newit.components, used, batch_size, newit_counter );
+            set_components( food_contained.components, used, batch_size, newit_counter );
             newit_counter++;
-        } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        } else if( food_contained.is_food() && !food_contained.has_flag( "NUTRIENT_OVERRIDE" ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1148,27 +1175,19 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( newit.components, used, batch_size, newit_counter );
+            set_components( food_contained.components, used, batch_size, newit_counter );
             // store the number of charges the recipe creates
-            newit.recipe_charges = newit.charges / batch_size;
+            food_contained.recipe_charges = food_contained.charges / batch_size;
             newit_counter++;
         }
 
-        if( newit.goes_bad() ) {
-            newit.set_relative_rot( relative_rot );
-        } else {
-            if( newit.is_container() ) {
-                for( item &in : newit.contents ) {
-                    if( in.goes_bad() ) {
-                        in.set_relative_rot( relative_rot );
-                    }
-                }
-            }
+        if( food_contained.goes_bad() ) {
+            food_contained.set_relative_rot( relative_rot );
         }
 
-        if( newit.has_temperature() ) {
+        if( food_contained.has_temperature() ) {
             if( should_heat ) {
-                newit.heat_up();
+                food_contained.heat_up();
             } else {
                 // Really what we should be doing is averaging the temperatures
                 // between the recipe components if we don't have a heat tool, but
@@ -1177,12 +1196,17 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                newit.set_item_temperature( 293.15 );
-                newit.reset_temp_check();
+                food_contained.set_item_temperature( 293.15 );
+                food_contained.reset_temp_check();
             }
         }
 
         finalize_crafted_item( newit, get_faction() );
+        // If these aren't equal, newit is a container, so finalize its contents too.
+        if( &newit != &food_contained ) {
+            finalize_crafted_item( food_contained, get_faction() );
+        }
+
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {

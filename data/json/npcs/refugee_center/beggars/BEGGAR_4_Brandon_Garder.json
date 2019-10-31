@@ -105,7 +105,7 @@
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
       },
-      { "text": "I could maybe help you out... want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
+      { "text": "I could maybe help you out… want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
       { "text": "What's wrong with you?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK2" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },

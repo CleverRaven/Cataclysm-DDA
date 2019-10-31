@@ -13,6 +13,7 @@
     "material": [ "iflesh" ],
     "symbol": ".",
     "color": "brown",
+    "looks_like": "mon_centipede_giant",
     "melee_cut": 0,
     "dodge": 1,
     "harvest": "arachnid",
@@ -47,8 +48,7 @@
   {
     "id": "mon_dragonfly",
     "type": "MONSTER",
-    "name": "dragonfly",
-    "name_plural": "dragonflies",
+    "name": { "str": "dragonfly", "str_pl": "dragonflies" },
     "description": "A thin-bodied insectoid predator with a large wingspan and big compound eyes.",
     "default_faction": "vermin",
     "species": [ "INSECT" ],

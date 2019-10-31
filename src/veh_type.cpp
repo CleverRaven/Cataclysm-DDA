@@ -103,6 +103,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
     { "RAIL", VPFLAG_RAIL },
+    { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
 };
 
 static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
@@ -164,7 +165,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
     if( !obj.has_object( key ) ) {
         return;
     }
-    auto src = obj.get_object( key );
+    JsonObject src = obj.get_object( key );
 
     auto sk = src.get_array( "skills" );
     if( !sk.empty() ) {
@@ -676,7 +677,7 @@ void vpart_info::check()
             }
         }
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
-            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel. THIS WILL CRASH!",
+            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
                       part.id.c_str(), part.item );
         }
         for( auto &q : part.qualities ) {
@@ -973,7 +974,7 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    const auto add_part_obj = [&]( JsonObject part, point pos ) {
+    const auto add_part_obj = [&]( JsonObject & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );

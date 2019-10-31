@@ -313,6 +313,8 @@
       [ "postman_shirt", 50 ],
       [ "postman_shorts", 30 ],
       [ "robe", 45 ],
+      [ "leotard", 5 ],
+      [ "zentai", 5 ],
       [ "kimono", 25 ],
       [ "yukata", 20 ],
       [ "coat_lab", 20 ],

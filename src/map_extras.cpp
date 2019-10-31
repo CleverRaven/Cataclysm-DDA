@@ -950,7 +950,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     const int num_mines = rng( 6, 20 );
-    const std::string text = _( "DANGER! MINEFIELD!" );
+    const std::string text = _( "DANGER!  MINEFIELD!" );
     int x, y, x1, y1 = 0;
 
     if( bridge_at_north && !bridge_at_center && road_at_south ) {

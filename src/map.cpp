@@ -304,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     int z = veh->sm_pos.z;
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
                   veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
         z = veh->sm_pos.z = abs_sub.z;
@@ -334,7 +334,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
               veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }
@@ -2905,7 +2905,22 @@ int map::collapse_check( const tripoint &p )
     const bool collapses = has_flag( "COLLAPSES", p );
     const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
 
-    int num_supports = 0;
+    int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
+    // if there's support below, things are less likely to collapse
+    if( p.z > -OVERMAP_DEPTH ) {
+        const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
+        for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
+            if( has_flag( "SUPPORTS_ROOF", pbelow ) ) {
+                num_supports += 1;
+                if( has_flag( "WALL", pbelow ) ) {
+                    num_supports = 2;
+                }
+                if( tbelow == pbelow ) {
+                    num_supports += 2;
+                }
+            }
+        }
+    }
 
     for( const tripoint &t : points_in_radius( p, 1 ) ) {
         if( p == t ) {
@@ -2919,8 +2934,12 @@ int map::collapse_check( const tripoint &p )
                 num_supports += 2;
             }
         } else if( supports_roof ) {
-            if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
-                num_supports += 3;
+            if( has_flag( "SUPPORTS_ROOF", t ) ) {
+                if( has_flag( "WALL", t ) ) {
+                    num_supports += 4;
+                } else if( !has_flag( "COLLAPSES", t ) ) {
+                    num_supports += 3;
+                }
             }
         }
     }
@@ -2928,23 +2947,47 @@ int map::collapse_check( const tripoint &p )
     return 1.7 * num_supports;
 }
 
-void map::collapse_at( const tripoint &p, const bool silent )
+// there is still some odd behavior here and there and you can get floating chunks of
+// unsupported floor, but this is much better than it used to be
+void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
+                       const bool destroy_pos )
 {
-    destroy( p, silent );
-    crush( p );
-    make_rubble( p );
-    for( const tripoint &t : points_in_radius( p, 1 ) ) {
-        if( p == t ) {
-            continue;
-        }
-        if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
-            destroy( t, silent );
-            // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-        } else if( has_flag( "FLAT", t ) && one_in( 8 ) ) {
-            crush( t );
-            make_rubble( t );
+    const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
+    const bool wall = was_supporting || has_flag( "WALL", p );
+    // don't bash again if the caller already bashed here
+    if( destroy_pos ) {
+        destroy( p, silent );
+        crush( p );
+        make_rubble( p );
+    }
+    const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
+
+    // If something supporting the roof collapsed, see what else collapses
+    if( supports && !still_supports ) {
+        for( const tripoint &t : points_in_radius( p, 1 ) ) {
+            const tripoint &tz = tripoint( t.xy(), t.z + 1 );
+            // if nothing above us had the chance of collapsing, move on
+            if( !one_in( collapse_check( tz ) ) ) {
+                continue;
+            }
+            // if a wall collapses, walls without support from below risk collapsing and
+            //propogate the collapse upwards
+            if( wall && p == t && has_flag( "WALL", tz ) ) {
+                collapse_at( tz, silent );
+            }
+            // floors without support from below risk collapsing into open air and can propogate
+            // the collapse horizontally but not vertically
+            if( p != t && ( has_flag( "SUPPORTS_ROOF", t ) && has_flag( "COLLAPSES", t ) ) ) {
+                collapse_at( t, silent );
+            }
+            // this tile used to support a roof, now it doesn't, which means there is only
+            // open air above us
+            ter_set( tz, t_open_air );
+            furn_set( tz, f_null );
         }
     }
+    // it would be great to check if collapsing ceilings smashed through the floor, but
+    // that's not handled for now
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
@@ -3266,10 +3309,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     soundfxid = "smash_success";
     sound = bash->sound;
     // Set this now in case the ter_set below changes this
-    const bool collapses = smash_ter && has_flag( "COLLAPSES", p );
-    const bool supports = smash_ter && has_flag( "SUPPORTS_ROOF", p );
-
+    const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
+
     // Special code to collapse the tent if destroyed
     if( tent ) {
         // Get ids of possible centers
@@ -3376,20 +3418,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash->explosive, 0.8, false );
     }
 
-    if( collapses ) {
-        collapse_at( p, params.silent );
-    }
-    // Check the flag again to ensure the new terrain doesn't support anything
-    if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        for( const tripoint &t : points_in_radius( p, 1 ) ) {
-            if( p == t || !has_flag( "COLLAPSES", t ) ) {
-                continue;
-            }
-
-            if( one_in( collapse_check( t ) ) ) {
-                collapse_at( t, params.silent );
-            }
-        }
+    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
+        collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
 
     params.did_bash = true;
@@ -3511,6 +3541,14 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     while( count <= 25 && furn( p ) != f_null && bash( p, 999, silent, true ).success ) {
+        count++;
+    }
+}
+
+void map::batter( const tripoint &p, int power, int tries, const bool silent )
+{
+    int count = 0;
+    while( count < tries && bash( p, power, silent ).success ) {
         count++;
     }
 }
@@ -3682,17 +3720,22 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( terrain == t_wall_glass  ||
                terrain == t_wall_glass_alarm ||
-               terrain == t_door_glass_c ) {
+               terrain == t_door_glass_c ||
+               terrain == t_laminated_glass ) {
         if( ammo_effects.count( "LASER" ) ) {
             dam -= rng( 0, 5 );
         } else {
             dam -= rng( 1, 8 );
             if( dam > 0 ) {
-                break_glass( p, 16 );
-                ter_set( p, t_floor );
+                if( terrain != t_laminated_glass || one_in( 40 ) ) {
+                    break_glass( p, 16 );
+                    ter_set( p, t_floor );
+                }
             }
         }
-    } else if( terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c ) {
+    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
+               terrain == t_reinforced_door_glass_c
+               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if( ammo_effects.count( "LASER" ) ) {
@@ -3701,10 +3744,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             //Greatly weakens power of bullets
             dam -= 40;
             if( dam <= 0 && g->u.sees( p ) ) {
-                if( terrain == t_reinforced_glass ) {
-                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
-                } else {
+                if( terrain == t_reinforced_door_glass_c ) {
                     add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
+                } else {
+                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
                 }
             } else if( dam >= 40 ) {
                 //high powered bullets penetrate the glass, but only extremely strong
@@ -3814,9 +3857,21 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         return;
     }
 
+    // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
+    std::string damage_message;
+    if( ammo_effects.count( "LASER" ) ) {
+        damage_message = _( "laser beam" );
+    } else if( ammo_effects.count( "LIGHTNING" ) ) {
+        damage_message = _( "bolt of electricity" );
+    } else if( ammo_effects.count( "PLASMA" ) ) {
+        damage_message = _( "bolt of plasma" );
+    } else {
+        damage_message = _( "flying projectile" );
+    }
+
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, _( "flying projectile" ) );
+    smash_items( p, dam / 3, damage_message );
 }
 
 bool map::hit_with_acid( const tripoint &p )
@@ -4418,6 +4473,11 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
+            //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
+            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
+                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
+        }
         new_item.active = true;
     }
 
@@ -5168,53 +5228,6 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, safe_reference<item> &item_ref,
-                                const tripoint &pos, const std::string &signal,
-                                const float, const temperature_flag flag )
-{
-    bool trigger_item = false;
-    if( item_ref->has_flag( "RADIO_ACTIVATION" ) && item_ref->has_flag( signal ) ) {
-        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
-        if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
-            // Invoke twice: first to transform, then later to proc
-            // Can't use process_item here - invalidates our iterator
-            item_ref->process( nullptr, pos, true );
-        }
-        if( item_ref->has_flag( "BOMB" ) ) {
-            // Set charges to 0 to ensure it detonates now
-            item_ref->charges = 0;
-            item_ref->item_counter = 0;
-        }
-        trigger_item = true;
-    } else if( item_ref->has_flag( "RADIO_CONTAINER" ) && !item_ref->contents.empty() ) {
-        auto it = std::find_if( item_ref->contents.begin(),
-        item_ref->contents.end(), [ &signal ]( const item & c ) {
-            return c.has_flag( signal );
-        } );
-        if( it != item_ref->contents.end() ) {
-            item_ref->convert( it->typeId() );
-            if( item_ref->has_flag( "RADIO_INVOKE_PROC" ) ) {
-                item_ref->process( nullptr, pos, true );
-            }
-
-            // Clear possible mods to prevent unnecessary pop-ups.
-            item_ref->contents.clear();
-
-            item_ref->charges = 0;
-            trigger_item = true;
-        }
-    }
-    if( trigger_item ) {
-        return process_item( items, item_ref, pos, true, 1, flag );
-    }
-    return false;
-}
-
-void map::trigger_rc_items( const std::string &signal )
-{
-    process_items( false, trigger_radio_item, signal );
-}
-
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -5623,19 +5636,17 @@ computer *map::computer_at( const tripoint &p )
 
 void map::remove_submap_camp( const tripoint &p )
 {
-    basecamp camp;
-    get_submap_at( p )->camp = camp;
+    get_submap_at( p )->camp.reset();
 }
 
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    basecamp camp = get_submap_at( p )->camp;
-    return camp;
+    basecamp *pcamp = get_submap_at( p )->camp.get();
+    return pcamp ? *pcamp : basecamp();
 }
 
-void map::add_camp( const tripoint &p, const std::string &name )
+void map::add_camp( const tripoint &omt_pos, const std::string &name )
 {
-    tripoint omt_pos = ms_to_omt_copy( getabs( p ) );
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     g->u.camps.insert( omt_pos );
@@ -6872,7 +6883,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
-        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
+        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
 
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
@@ -8013,7 +8024,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent

@@ -237,7 +237,7 @@
     "quench": 36,
     "healthy": 3,
     "calories": 11,
-    "description": "Toasted, ground chicory root steeped in boiling water. This bitter brew is used as a coffee substitute, though it tastes nothing like coffee.",
+    "description": "Toasted, ground chicory root steeped in boiling water.  This bitter brew is used as a coffee substitute, though it tastes nothing like coffee.",
     "price": 125,
     "volume": "250 ml",
     "material": [ "water" ],

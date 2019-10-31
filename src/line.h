@@ -117,6 +117,7 @@ int square_dist( const tripoint &loc1, const tripoint &loc2 );
 // Choose between the above two according to the "circular distances" option
 int rl_dist( const point &a, const point &b );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
+float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
 

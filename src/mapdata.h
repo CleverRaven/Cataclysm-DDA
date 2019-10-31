@@ -193,6 +193,7 @@ enum ter_bitflags : int {
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
     TFLAG_RAIL,
+    TFLAG_THIN_OBSTACLE,
 
     NUM_TERFLAGS
 };
@@ -415,8 +416,8 @@ extern ter_id t_null,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
-       t_reinforced_door_glass_o,
-       t_reinforced_door_glass_c,
+       t_laminated_glass, t_ballistic_glass,
+       t_reinforced_door_glass_o, t_reinforced_door_glass_c,
        t_bars,
        t_reb_cage,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,

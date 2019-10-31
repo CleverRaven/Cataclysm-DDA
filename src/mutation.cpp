@@ -477,8 +477,9 @@ void player::activate_mutation( const trait_id &mut )
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
         if( one_in( 3 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "wow! you look just like me! we should look out for each other!" ) );
+            add_msg_if_player( m_good,
+                               //~ Usual enthusiastic slimespring small voices! :D
+                               _( "wow!  you look just like me!  we should look out for each other!" ) );
         } else if( one_in( 2 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
@@ -916,7 +917,7 @@ bool Character::mutate_towards( const trait_id &mut )
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( threshold ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
     if( profession ) {
@@ -932,7 +933,7 @@ bool Character::mutate_towards( const trait_id &mut )
 
     // No crossing The Threshold by simply not having it
     if( !has_threshreq && !threshreq.empty() ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
 
@@ -1338,10 +1339,10 @@ mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category )
 {
     // Threshold-check.  You only get to cross once!
-    if( p.crossed_threshold() ) {
+    if( guy.crossed_threshold() ) {
         return;
     }
 
@@ -1354,11 +1355,11 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
     std::string mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
-        total += p.mutation_category_level[ iter.first ];
+        total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
-    const std::string &primary = p.get_highest_category();
-    int breach_power = p.mutation_category_level[primary];
+    const std::string &primary = guy.get_highest_category();
+    int breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
     // That said, you're required to have hit third-stage dreams first.
@@ -1373,33 +1374,33 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         }
         int breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
-            p.add_msg_if_player( m_good,
-                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
-            p.set_mutation( mutation_thresh );
-            g->events().send<event_type::crosses_mutation_threshold>( p.getID(), m_category.id );
+            guy.add_msg_if_player( m_good,
+                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+            guy.set_mutation( mutation_thresh );
+            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
-                p.unset_mutation( trait_CARNIVORE );
-                p.add_msg_if_player( _( "Your appetite for blood fades." ) );
+            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
+                guy.unset_mutation( trait_CARNIVORE );
+                guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
-    } else if( p.has_trait( trait_NOPAIN ) ) {
+    } else if( guy.has_trait( trait_NOPAIN ) ) {
         //~NOPAIN is a post-Threshold trait, so you shouldn't
         //~legitimately have it and get here!
-        p.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+        guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
     } else if( breach_power > 100 ) {
-        p.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
-        p.mod_pain_noresist( 8 );
-        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+        guy.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        guy.mod_pain_noresist( 8 );
+        guy.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
     } else if( breach_power > 80 ) {
-        p.add_msg_if_player( m_bad,
-                             _( "Your head throbs with memories of your life, before all this..." ) );
-        p.mod_pain_noresist( 6 );
-        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+        guy.add_msg_if_player( m_bad,
+                               _( "Your head throbs with memories of your life, before all this…" ) );
+        guy.mod_pain_noresist( 6 );
+        guy.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
     } else if( breach_power > 60 ) {
-        p.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
-        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+        guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
 }

@@ -171,7 +171,7 @@
     "name": "gelato",
     "name_plural": "gelato scoops",
     "description": "Italian-style ice cream.  Less airy, and more dense, giving it a richer flavor and texture.",
-    "calories": 328,
+    "calories": 240,
     "price": 300,
     "weight": "90 g",
     "primary_material": "ice_cream",

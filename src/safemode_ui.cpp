@@ -194,7 +194,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             mvwprintz( w, point( 15, 8 ), c_white, _( "Please load a character first to use this page!" ) );
         } else if( empty() ) {
             mvwprintz( w, point( 15, 8 ), c_white, _( "Safe Mode manager currently inactive." ) );
-            mvwprintz( w, point( 15, 9 ), c_white, _( "Default rules are used. Add a rule to activate." ) );
+            mvwprintz( w, point( 15, 9 ), c_white, _( "Default rules are used.  Add a rule to activate." ) );
             mvwprintz( w, point( 15, 10 ), c_white, _( "Press ~ to add a default ruleset to get started." ) );
         }
 
@@ -301,7 +301,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
-                                    "* is used as a Wildcard. A few Examples:\n"
+                                    "* is used as a Wildcard.  A few Examples:\n"
                                     "\n"
                                     "human          matches every NPC\n"
                                     "zombie         matches the monster name exactly\n"
@@ -422,7 +422,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     }
 
     if( g->u.name.empty() ) {
-        popup( _( "No monsters loaded. Please start a game first." ) );
+        popup( _( "No monsters loaded.  Please start a game first." ) );
         return;
     }
 
@@ -518,7 +518,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
-        query_yn( _( "Safe Mode is not enabled in the options. Enable it now?" ) ) ) {
+        query_yn( _( "Safe Mode is not enabled in the options.  Enable it now?" ) ) ) {
         get_options().get_option( "SAFEMODE" ).setNext();
         get_options().save();
     }
