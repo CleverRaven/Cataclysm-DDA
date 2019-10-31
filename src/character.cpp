@@ -4295,14 +4295,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
         return true;
     }
 
-    if( is_player() || critter.is_player() ) {
-        // Players should not use map::sees
-        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return g->m.pl_line_of_sight( critter.pos(),
-                                      sight_range( current_daylight_level( calendar::turn ) ) );
-    }
-
-    return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
+    return false;
 }
 
 bool Character::pour_into( item &container, item &liquid )
