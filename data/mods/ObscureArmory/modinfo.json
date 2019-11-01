@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+	"ident": "armorytwist",
+	"name": "Obscure Military Armory",
+	"authors": [ "RickyVanz" ],
+	"description": "add some new melee and a twist to military weapons with this mod.",
+	"category": "items",
+	"dependencies": [ "dda" ]
+  }
+]

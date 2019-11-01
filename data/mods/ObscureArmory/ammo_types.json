@@ -1,0 +1,26 @@
+[
+  {
+    "type": "ammunition_type",
+	"id": "550arlov",
+	"name": "550 Arlov",
+	"default": "550arlov"
+  },
+  {
+    "type": "ammunition_type",
+	"id": "20mm",
+	"name": "20mm Vulcan",
+	"default": "20mm"
+  },
+  {
+    "type": "ammunition_type",
+	"id": "9x39",
+	"name": "9x39mm",
+	"default": "9x39"
+  },
+  {
+    "type": "ammunition_type",
+	"id": "cannonball",
+	"name": "Cannon Ball",
+	"default": "cannonball"
+  }
+]
