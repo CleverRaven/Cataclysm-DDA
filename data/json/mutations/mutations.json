@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "BIOLUM1",
-    "name": "Minor bioluminescence",
+    "name": "Minor Bioluminescence",
     "points": 2,
     "description": "Your can make your skin glow.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
     "active": true,
