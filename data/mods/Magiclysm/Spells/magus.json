@@ -182,7 +182,7 @@
     "id": "create_rune_magus",
     "type": "SPELL",
     "name": "Magus Rune",
-    "description": "This ritual creates a small pebble attuned to Magi. You can use the rune as a catalyst for recipes.",
+    "description": "This ritual creates a small pebble attuned to Magi.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,

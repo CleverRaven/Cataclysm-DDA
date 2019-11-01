@@ -216,7 +216,7 @@
     "id": "mon_troll",
     "type": "MONSTER",
     "name": "troll",
-    "description": "Monstrous, green-skinned humanoid. Trolls are renowned for their thick hides and natural regenerative ability.",
+    "description": "Monstrous, green-skinned humanoid.  Trolls are renowned for their thick hides and natural regenerative ability.",
     "default_faction": "magical_beast",
     "bodytype": "human",
     "species": [ "MAGICAL_BEAST" ],

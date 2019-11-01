@@ -811,9 +811,6 @@ struct itype {
         // nname() is used for display purposes
         translation name = no_translation( "none" );
 
-        /** If set via JSON forces item category to this (preventing automatic assignment) */
-        std::string category_force;
-
     public:
         itype() {
             melee.fill( 0 );
@@ -921,7 +918,8 @@ struct itype {
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
-        const item_category *category = nullptr; // category pointer or NULL for automatic selection
+        /** If set via JSON forces item category to this (preventing automatic assignment) */
+        item_category_id category_force;
 
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)

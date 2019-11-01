@@ -43,6 +43,9 @@ using gun_mode_id = string_id<gun_mode>;
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
 
+class item_category;
+using item_category_id = string_id<item_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 

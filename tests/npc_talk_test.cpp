@@ -561,7 +561,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     g->u.remove_items_with( []( const item & it ) {
-        return it.get_category().id() == "books" || it.get_category().id() == "food" ||
+        return it.get_category().get_id() == item_category_id( "books" ) ||
+               it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == "bottle_glass";
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );

@@ -20,8 +20,7 @@
     "storage": 400,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ],
-    "looks_like": "portal"
+    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
   },
   {
     "id": "afs_boot_quiver",

@@ -638,6 +638,16 @@
   },
   {
     "type": "mutation",
+    "id": "MARTIAL_FENCING",
+    "name": "Competitive Fencer",
+    "points": 0,
+    "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
+    "starting_trait": false,
+    "initial_ma_styles": [ "style_fencing" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "WEAKSCENT",
     "name": "Weak Scent",
     "points": 1,

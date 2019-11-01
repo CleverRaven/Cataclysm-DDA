@@ -380,6 +380,39 @@ class item : public visitable<item>
         */
         std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
+        /* type specific helper functions for info() that should probably be in itype() */
+        void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                       int batch, bool debug ) const;
+        void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                        int batch, bool debug ) const;
+        void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const;
+        void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool debug ) const;
+        void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                           bool debug ) const;
+        void container_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
+        void qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.

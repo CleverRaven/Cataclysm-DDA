@@ -1075,7 +1075,32 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             g->displaying_visibility_creature = nullptr;
         }
     }
-
+    std::unordered_set<point> collision_checkpoints;
+    std::unordered_set<point> target_points;
+    for( const wrapped_vehicle &elem : g->m.get_vehicles() ) {
+        if( elem.v->get_autodrive_target() != tripoint_zero ) {
+            target_points.insert( g->m.getlocal( elem.v->get_autodrive_target().xy() ) );
+        }
+        if( elem.v->collision_check_points.empty() ) {
+            continue;
+        } else {
+            for( const point &pt_elem : elem.v->collision_check_points ) {
+                collision_checkpoints.insert( g->m.getlocal( pt_elem ) );
+            }
+        }
+    }
+    if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
+        for( const point &pt_elem : collision_checkpoints ) {
+            overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
+                                     formatted_text( "CHECK", catacurses::yellow,
+                                             NORTH ) );
+        }
+        for( const point &pt_elem : target_points ) {
+            overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
+                                     formatted_text( "TARGET", catacurses::red,
+                                             NORTH ) );
+        }
+    }
     static const point neighborhood[4] = {
         point_south, point_east, point_west, point_north
     };
