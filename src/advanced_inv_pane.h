@@ -59,9 +59,8 @@ class advanced_inventory_pane
         bool in_vehicle() const {
             return viewing_cargo;
         }
-        bool on_ground() const {
-            return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        }
+        void save_settings(int side);
+        void load_settings(int side, const std::array<advanced_inv_area, NUM_AIM_LOCATIONS>& squares, bool is_re_enter);
         /**
          * Index of the selected item (index of @ref items),
          */

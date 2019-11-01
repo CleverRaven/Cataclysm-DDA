@@ -137,10 +137,7 @@ void advanced_inventory::save_settings( bool only_panes )
         uistate.adv_inv_dest = dest;
     }
     for( int i = 0; i < NUM_PANES; ++i ) {
-        uistate.adv_inv_in_vehicle[i] = panes[i].in_vehicle();
-        uistate.adv_inv_area[i] = panes[i].get_area();
-        uistate.adv_inv_index[i] = panes[i].index;
-        uistate.adv_inv_filter[i] = panes[i].filter;
+        panes[i].save_settings(i);
     }
 }
 
@@ -148,25 +145,7 @@ void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>( uistate.adv_inv_exit_code );
     for( int i = 0; i < NUM_PANES; ++i ) {
-        aim_location location;
-        if( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) {
-            location = static_cast<aim_location>( uistate.adv_inv_default_areas[i] );
-        } else {
-            location = static_cast<aim_location>( uistate.adv_inv_area[i] );
-        }
-        auto square = squares[location];
-        // determine the square's vehicle/map item presence
-        bool has_veh_items = square.can_store_in_vehicle() ?
-                             !square.veh->get_items( square.vstor ).empty() : false;
-        bool has_map_items = !g->m.i_at( square.pos ).empty();
-        // determine based on map items and settings to show cargo
-        bool show_vehicle = aim_code == exit_re_entry ?
-                            uistate.adv_inv_in_vehicle[i] : has_veh_items ? true :
-                            has_map_items ? false : square.can_store_in_vehicle();
-        panes[i].set_area( square, show_vehicle );
-        panes[i].sortby = static_cast<advanced_inv_sortby>( uistate.adv_inv_sort[i] );
-        panes[i].index = uistate.adv_inv_index[i];
-        panes[i].filter = uistate.adv_inv_filter[i];
+        panes[i].load_settings(i, squares, aim_code == exit_re_entry);
     }
     uistate.adv_inv_exit_code = exit_none;
 }
