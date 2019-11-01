@@ -194,15 +194,15 @@
     "id": "lair_loot_generic",
     "//": "Stuff you would find in any dragon lair, gold, jewelry, etc.",
     "items": [
-      { "group": "jewelry_safe", "prob": 50 },
+      { "group": "jewelry_safe", "prob": 30 },
       { "group": "jewelry_front", "prob": 8 },
-      { "item": "bone_human", "prob": 20, "count-min": 1, "count-max": 5 }
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "lair_black_dragon",
-    "//": "Stuff you would find in any dragon lair, gold, jewelry, etc.",
+    "//": "Stuff you would find in any dragon deeper lair level. Gold, jewelry, weapons etc. Should require a bit of a fight or risk to access.",
     "items": [
       { "item": "bone_human", "prob": 30, "count-min": 1, "count-max": 5 },
       { "group": "archery", "prob": 1 },
@@ -211,7 +211,34 @@
       { "group": "corpses", "prob": 20 },
       { "group": "remains_human_generic", "prob": 5, "count-min": 1, "count-max": 2 },
       { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
-      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 }
+      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
+      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
+      { "group": "enchanted_combat_items", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lair_black_dragon_treasure",
+    "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access. Includes lower tier group, plus the best magic items.",
+    "items": [
+      { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
+      { "item": "dragon_black_scale", "count": [ 48, 120 ] },
+      { "group": "enchanted_tokens_weapon", "prob": 30 },
+      { "group": "enchanted_rings_common", "prob": 40 },
+      { "group": "enchanted_rings_uncommon", "prob": 30 },
+      { "group": "enchanted_rings_unusual", "prob": 20 },
+      { "group": "enchanted_rings_rare", "prob": 10 },
+      { "group": "enchanted_melee_weapons_plus1", "prob": 30 },
+      { "group": "enchanted_melee_weapons_plus2", "prob": 10 },
+      { "group": "enchanted_wands_minor", "prob": 40 },
+      { "group": "enchanted_wands_lesser", "prob": 20 },
+      { "group": "enchanted_wands_greater", "prob": 10 },
+      { "group": "enchanted_masks", "prob": 10 },
+      { "group": "enchanted_bracers_lesser", "prob": 20 },
+      { "group": "enchanted_bracers_greater", "prob": 10 },
+      { "group": "enchanted_boots", "prob": 15 },
+      { "group": "enchanted_belts", "prob": 15 },
+      { "group": "spellbook_loot_2", "prob": 20 }
     ]
   },
   {
@@ -285,7 +312,7 @@
     ]
   },
   {
-    "id": "enchanted_rings_rare_unusual",
+    "id": "enchanted_rings_unusual",
     "type": "item_group",
     "//": "all the unusual enchanted rings",
     "subtype": "collection",
@@ -408,7 +435,6 @@
     "id": "enchanted_melee_weapons_plus1",
     "type": "item_group",
     "//": "plus 1 enchanted melee weapons",
-    "subtype": "collection",
     "items": [
       { "item": "cudgel_plus_one", "prob": 10 },
       { "item": "q_staff_plus_one", "prob": 10 },
@@ -459,7 +485,6 @@
     "id": "enchanted_melee_weapons_plus2",
     "type": "item_group",
     "//": "plus 2 enchanted melee weapons. High end loot for boss fights, treasure rooms, etc.",
-    "subtype": "collection",
     "items": [
       { "item": "cudgel_plus_two", "prob": 10 },
       { "item": "q_staff_plus_two", "prob": 10 },

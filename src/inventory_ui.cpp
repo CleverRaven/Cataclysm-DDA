@@ -745,7 +745,7 @@ void inventory_column::prepare_paging( const std::string &filter )
             to->update_cache();
             std::advance( to, 1 );
         }
-        if( ordered_categories.count( from->get_category_ptr()->id() ) == 0 ) {
+        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
             std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last
@@ -1060,10 +1060,10 @@ static std::vector<std::list<item *>> restack_items( const item_stack::const_ite
 const item_category *inventory_selector::naturalize_category( const item_category &category,
         const tripoint &pos )
 {
-    const auto find_cat_by_id = [ this ]( const std::string & id ) {
+    const auto find_cat_by_id = [ this ]( const item_category_id & id ) {
         const auto iter = std::find_if( categories.begin(),
         categories.end(), [ &id ]( const item_category & cat ) {
-            return cat.id() == id;
+            return cat.get_id() == id;
         } );
         return iter != categories.end() ? &*iter : nullptr;
     };
@@ -1072,7 +1072,8 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
     if( dist != 0 ) {
         const std::string suffix = direction_suffix( u.pos(), pos );
-        const std::string id = string_format( "%s_%s", category.id().c_str(), suffix.c_str() );
+        const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
+                                    suffix.c_str() ) );
 
         const auto existing = find_cat_by_id( id );
         if( existing != nullptr ) {
@@ -1085,7 +1086,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
         categories.push_back( new_category );
     } else {
-        const auto existing = find_cat_by_id( category.id() );
+        const item_category *const existing = find_cat_by_id( category.get_id() );
         if( existing != nullptr ) {
             return existing;
         }
@@ -1147,15 +1148,13 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category items_worn_category( "ITEMS_WORN", to_translation( "ITEMS WORN" ),
-            -100 );
-    static const item_category weapon_held_category( "WEAPON_HELD", to_translation( "WEAPON HELD" ),
-            -200 );
     character.visit_items( [ this, &character ]( item * it ) {
         if( it == &character.weapon ) {
-            add_item( own_gear_column, item_location( character, it ), &weapon_held_category );
+            add_item( own_gear_column, item_location( character, it ),
+                      &item_category_id( "WEAPON_HELD" ).obj() );
         } else if( character.is_worn( *it ) ) {
-            add_item( own_gear_column, item_location( character, it ), &items_worn_category );
+            add_item( own_gear_column, item_location( character, it ),
+                      &item_category_id( "ITEMS_WORN" ).obj() );
         }
         return VisitResponse::NEXT;
     } );

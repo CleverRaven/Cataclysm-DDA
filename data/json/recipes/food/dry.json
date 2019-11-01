@@ -147,7 +147,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -161,7 +161,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
     "result": "dry_meat_tainted",

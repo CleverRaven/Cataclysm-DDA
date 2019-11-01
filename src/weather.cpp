@@ -378,25 +378,25 @@ static void wet_player( int amount )
     g->u.drench( amount, drenched_parts, false );
 }
 
-/**
- * Main routine for wet effects caused by weather.
- */
-static void generic_wet( bool acid )
+double precip_mm_per_hour( precip_class const p )
+// Precipitation rate expressed as the rainfall equivalent if all
+// the precipitation were rain (rather than snow).
 {
-    fill_water_collectors( 4, acid );
-    g->m.decay_fields_and_scent( 15_turns );
-    wet_player( 30 );
+    return
+        p == PRECIP_LIGHT ? 1.5 :
+        p == PRECIP_HEAVY ? 3   :
+        0;
 }
 
-/**
- * Main routine for very wet effects caused by weather.
- * Similar to generic_wet() but with more aggressive numbers.
- */
-static void generic_very_wet( bool acid )
+void do_rain( weather_type const w )
 {
-    fill_water_collectors( 8, acid );
-    g->m.decay_fields_and_scent( 45_turns );
-    wet_player( 60 );
+    if( ! weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+        return;
+    }
+    fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
+    bool light = weather::precip( w ) == PRECIP_LIGHT;
+    g->m.decay_fields_and_scent( light ? 15_turns : 45_turns );
+    wet_player( light ? 30 : 60 );
 }
 
 void weather_effect::none()
@@ -408,24 +408,6 @@ void weather_effect::flurry()    {}
 void weather_effect::sunny()
 {
     glare( sun_intensity::high );
-}
-
-/**
- * Wet.
- * @see generic_wet
- */
-void weather_effect::wet()
-{
-    generic_wet( false );
-}
-
-/**
- * Very wet.
- * @see generic_very_wet
- */
-void weather_effect::very_wet()
-{
-    generic_very_wet( false );
 }
 
 void weather_effect::snow()
@@ -443,7 +425,6 @@ void weather_effect::snowstorm()
  */
 void weather_effect::thunder()
 {
-    very_wet();
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( THUNDER_CHANCE ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
@@ -485,7 +466,6 @@ void weather_effect::lightning()
  */
 void weather_effect::light_acid()
 {
-    generic_wet( true );
     if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
@@ -532,7 +512,6 @@ void weather_effect::acid()
             }
         }
     }
-    generic_very_wet( true );
 }
 
 static std::string to_string( const weekdays &d )

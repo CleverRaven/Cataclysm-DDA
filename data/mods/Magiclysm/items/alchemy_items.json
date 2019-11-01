@@ -47,7 +47,7 @@
     "category": "armor",
     "name": "copper circlet",
     "name_plural": "copper circlets",
-    "description": "A wooden band with copper trimmings to be worn on the head. Touching your temples with it on makes you feel very calm.",
+    "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
     "weight": 700,
     "volume": "600ml",
     "price": 1500,
@@ -87,7 +87,7 @@
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
     "name": "potion starter",
-    "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form. You can still drink it, if you want."
+    "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
     "id": "adrenal_gland_large",
@@ -95,7 +95,7 @@
     "type": "COMESTIBLE",
     "name": "large adrenal gland",
     "name_plural": "large adrenal glands",
-    "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone. This one is huge, whether by nature or mutation.",
+    "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
     "price": 2000
   },

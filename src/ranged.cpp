@@ -1594,6 +1594,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
+                if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+                    relevant->gun_cycle_mode();
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {

@@ -284,7 +284,7 @@
       [ "towel", 15 ],
       [ "soap", 15 ],
       [ "detergent", 15 ],
-      [ "bleach", 15 ],
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
       [ "hat_ball", 19 ],
@@ -416,7 +416,7 @@
       [ "detergent", 8 ],
       [ "rag", 15 ],
       [ "broom", 8 ],
-      [ "bleach", 8 ],
+      { "item": "bleach", "prob": 8, "charges-min": 1 },
       [ "hotplate", 1 ],
       [ "vinegar", 3 ]
     ]
@@ -533,7 +533,7 @@
       [ "soap", 30 ],
       [ "detergent", 30 ],
       [ "rag", 30 ],
-      [ "bleach", 30 ],
+      { "item": "bleach", "prob": 30, "charges-min": 1 },
       [ "vinegar", 30 ],
       [ "backpack", 5 ]
     ]
