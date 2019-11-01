@@ -499,7 +499,7 @@ std::string ma_requirements::get_description( bool buff ) const
 
         dump << enumerate_as_string( min_damage.begin(),
         min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
-            return string_format( "%s: <stat>%d</stat>", name_by_dt(pr.first), pr.second );
+            return string_format( "%s: <stat>%d</stat>", name_by_dt( pr.first ), pr.second );
         }, enumeration_conjunction::none ) << std::endl;
     }
 
