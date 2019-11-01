@@ -13,6 +13,32 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM1",
+    "name": "Minor bioluminescence",
+    "points": 2,
+    "description": "Your can make your skin glow.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
+    "active": true,
+    "cost": 10,
+    "hunger": true,
+    "changes_to": [ "BIOLUM2" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": 8
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2",
+    "name": "Bioluminescence",
+    "points": 3,
+    "description": "Your can make your skin glow very bright.",
+    "active": true,
+    "cost": 25,
+    "hunger": true,
+    "prereqs": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": 20
+  },
+  {
+    "type": "mutation",
     "id": "GOODHEARING",
     "name": "Good Hearing",
     "points": 1,
