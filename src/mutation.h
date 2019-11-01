@@ -137,6 +137,7 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        float lumination = 0.0f;
         int bleed_resist = 0;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/

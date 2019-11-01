@@ -4304,6 +4304,15 @@ float Character::active_light() const
 
     lumination = static_cast<float>( maxlum );
 
+    float mut_lum = 0.0f;
+    for( const auto &mut : my_mutations ) {
+        if( mut.second.powered ) {
+            mut_lum += mut.first->lumination;
+        }
+    }
+
+    lumination = std::max( lumination, mut_lum );
+
     if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
         lumination = 60;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
