@@ -107,6 +107,7 @@ advanced_inventory::advanced_inventory()
     }
 } )
 {
+    save_state = &uistate.transfer_save;
 }
 // *INDENT-ON*
 
@@ -137,16 +138,15 @@ void advanced_inventory::save_settings( bool only_panes )
         uistate.adv_inv_dest = dest;
     }
     for( int i = 0; i < NUM_PANES; ++i ) {
-        panes[i].save_settings(i);
+        panes[i].save_settings();
     }
 }
 
 void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>( uistate.adv_inv_exit_code );
-    for( int i = 0; i < NUM_PANES; ++i ) {
-        panes[i].load_settings(i, squares, aim_code == exit_re_entry);
-    }
+    panes[left].load_settings(save_state->saved_area, squares, aim_code == exit_re_entry);
+    panes[right].load_settings(save_state->saved_area_right, squares, aim_code == exit_re_entry);
     uistate.adv_inv_exit_code = exit_none;
 }
 
@@ -206,10 +206,13 @@ void advanced_inventory::init()
         square.init();
     }
 
+    panes[left].save_state = &save_state->pane;
+    panes[right].save_state = &save_state->pane_right;
+
     load_settings();
 
-    src = static_cast<side>( uistate.adv_inv_src );
-    dest = static_cast<side>( uistate.adv_inv_dest );
+    src = static_cast<side>(uistate.adv_inv_src);
+    dest = static_cast<side>(uistate.adv_inv_dest);
 
     w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
     w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
@@ -1065,7 +1068,8 @@ void advanced_inventory::display()
                      left, right
                  } ) {
                 auto &pane = panes[cside];
-                aim_location location = static_cast<aim_location>( uistate.adv_inv_default_areas[cside] );
+                int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
+                aim_location location = static_cast<aim_location>(i_location);
                 if( pane.get_area() != location || location == AIM_ALL ) {
                     pane.recalc = true;
                 }
@@ -1073,8 +1077,8 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "SAVE_DEFAULT" ) {
-            uistate.adv_inv_default_areas[left] = panes[left].get_area();
-            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            save_state->saved_area = panes[left].get_area();
+            save_state->saved_area_right = panes[right].get_area();
             popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
@@ -1280,7 +1284,6 @@ void advanced_inventory::display()
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
                 recalc = true;
-                uistate.adv_inv_sort[src] = spane.sortby;
             }
             redraw = true;
         } else if( action == "FILTER" ) {

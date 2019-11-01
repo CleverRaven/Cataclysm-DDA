@@ -116,6 +116,7 @@ class advanced_inventory
 
         bool exit;
 
+        advanced_inv_save_state* save_state;
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
@@ -176,8 +177,6 @@ class advanced_inventory
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, int &amount );
-
-        static char get_direction_key( aim_location area );
 };
 
 #endif

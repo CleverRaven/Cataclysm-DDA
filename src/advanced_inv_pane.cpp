@@ -41,23 +41,19 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
-void advanced_inventory_pane::save_settings(int side)
+void advanced_inventory_pane::save_settings()
 {
-    uistate.adv_inv_in_vehicle[side] = in_vehicle();
-    uistate.adv_inv_area[side] = get_area();
-    uistate.adv_inv_index[side] = index;
-    uistate.adv_inv_filter[side] = filter;
+    save_state->in_vehicle = in_vehicle();
+    save_state->area_idx = get_area();
+    save_state->selected_idx = index;
+    save_state->filter = filter;
+    save_state->sort_idx = sortby;
 }
 
-void advanced_inventory_pane::load_settings(int side, const std::array<advanced_inv_area, NUM_AIM_LOCATIONS>& squares, bool is_re_enter)
+void advanced_inventory_pane::load_settings(int saved_area_idx, const std::array<advanced_inv_area, NUM_AIM_LOCATIONS>& squares, bool is_re_enter)
 {
-    aim_location location;
-    if (get_option<bool>("OPEN_DEFAULT_ADV_INV")) {
-        location = static_cast<aim_location>(uistate.adv_inv_default_areas[side]);
-    }
-    else {
-        location = static_cast<aim_location>(uistate.adv_inv_area[side]);
-    }
+    const int i_location = (get_option<bool>("OPEN_DEFAULT_ADV_INV")) ? saved_area_idx : save_state->area_idx;
+    const aim_location location = static_cast<aim_location>(i_location);
     auto square = squares[location];
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
@@ -65,12 +61,12 @@ void advanced_inventory_pane::load_settings(int side, const std::array<advanced_
     bool has_map_items = !g->m.i_at(square.pos).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = is_re_enter ?
-        uistate.adv_inv_in_vehicle[side] : has_veh_items ? true :
+        save_state->in_vehicle : has_veh_items ? true :
         has_map_items ? false : square.can_store_in_vehicle();
     set_area(square, show_vehicle);
-    sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[side]);
-    index = uistate.adv_inv_index[side];
-    filter = uistate.adv_inv_filter[side];
+    sortby = static_cast<advanced_inv_sortby>(save_state->sort_idx);
+    index = save_state->selected_idx;
+    filter = save_state->filter;
 }
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const

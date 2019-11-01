@@ -59,8 +59,9 @@ class advanced_inventory_pane
         bool in_vehicle() const {
             return viewing_cargo;
         }
-        void save_settings(int side);
-        void load_settings(int side, const std::array<advanced_inv_area, NUM_AIM_LOCATIONS>& squares, bool is_re_enter);
+        advanced_inv_pane_save_state* save_state;
+        void save_settings();
+        void load_settings(int saved_area_idx, const std::array<advanced_inv_area, NUM_AIM_LOCATIONS>& squares, bool is_re_enter);
         /**
          * Index of the selected item (index of @ref items),
          */
