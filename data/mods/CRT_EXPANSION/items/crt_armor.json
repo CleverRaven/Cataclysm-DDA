@@ -65,30 +65,6 @@
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ]
   },
   {
-    "id": "crt_backpack",
-    "copy-from": "molle_pack",
-    "type": "ARMOR",
-    "name": "CRIT backpack",
-    "description": "C.R.I.T standard-issue pack. Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
-    "color": "dark_gray",
-    "storage": 36,
-    "encumbrance": 7,
-    "material_thickness": 2,
-    "material": [ "leather", "kevlar" ],
-    "use_action": { "type": "holster", "max_volume": 13, "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
-  },
-  {
-    "id": "crt_chestrig",
-    "copy-from": "chestrig",
-    "type": "ARMOR",
-    "name": "CRIT chestrig",
-    "description": "C.R.I.T standard-issue chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
-    "color": "dark_gray",
-    "material": [ "kevlar", "plastic" ],
-    "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
-  },
-  {
     "id": "crt_legguard",
     "copy-from": "legguard_hard",
     "type": "ARMOR",
@@ -125,16 +101,6 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "crt_belt",
-    "copy-from": "survivor_belt_notools",
-    "type": "ARMOR",
-    "name": "CRIT web belt",
-    "description": "C.R.I.T standard-issue belt. Keeps your trousers up and your weapons on your hip.",
-    "color": "dark_gray",
-    "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
   },
   {
     "id": "crt_iduster",
