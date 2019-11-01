@@ -8329,7 +8329,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
     const Skill &skill = id.obj();
     std::string skill_name = skill.name();
 
-    if( !level.can_train() ) {
+    if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;
