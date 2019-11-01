@@ -2302,7 +2302,7 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( !info().power_source ) {
+    if( info().fuel_opts.empty() ) {
         return;
     }
     if( !has_flag( "SAFE_FUEL_OFF" ) ) {

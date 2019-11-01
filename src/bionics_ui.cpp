@@ -135,7 +135,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
     }
-    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && bio.info().power_source ) {
+    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
         properties.push_back( _( "(fuel saving mode ON)" ) );
     }
 
@@ -630,7 +630,7 @@ void player::power_bionics()
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( action == "TOGGLE_SAFE_FUEL" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
-                if( tmp->info().power_source ) {
+                if( !tmp->info().fuel_opts.empty() ) {
                     tmp->toggle_safe_fuel_mod();
                     g->refresh_all();
                     redraw = true;
