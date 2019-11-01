@@ -1373,12 +1373,6 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges( const item &it, bool show_msg ) const;
-
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
 

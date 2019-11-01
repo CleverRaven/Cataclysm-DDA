@@ -782,6 +782,12 @@ class Character : public Creature, public visitable<Character>
         }
 
         /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+         */
+        bool has_enough_charges( const item &it, bool show_msg ) const;
+
+        /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
