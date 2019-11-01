@@ -173,7 +173,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "connects_to": "t_dirt",
+    "connects_to": "FLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
   },
   {
