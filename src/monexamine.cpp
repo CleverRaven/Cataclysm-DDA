@@ -398,7 +398,7 @@ bool Character::can_mount( const monster &critter ) const
              !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() / 5 );
+                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
 }
 
 void monexamine::mount_pet( monster &z )

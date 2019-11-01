@@ -85,7 +85,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->get_calories();
+            kcal += it.type->comestible->get_calories() * it.charges;
         }
     }
     return kcal;
@@ -109,10 +109,12 @@ static item food_or_food_container( const item &it )
 TEST_CASE( "recipe_permutations" )
 {
     // Are these tests failing? Here's how to fix that:
-    // If the average is greater than the upper bound, you need to increase the calories
-    // for the item that is causing the test to fail
-    // If the average is greater than the lower bound, you need to decrease the calories
-    // for the item that is causing the test to fail
+    // If the average is over the upper bound, you need to increase the calories for the item
+    // that is causing the test to fail (or decrease the total calories of the ingredients)
+    // If the average is under the lower bound, you need to decrease the calories for the item
+    // that is causing the test to fail (or increase the total calories of the ingredients)
+    // If it doesn't make sense for your component and resultant calories to match, you probably
+    // want to add the NUTRIENT_OVERRIDE flag to the resultant item.
     for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
         const recipe &recipe_obj = recipe_pair.first.obj();
@@ -120,8 +122,13 @@ TEST_CASE( "recipe_permutations" )
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
         if( is_food && !has_override ) {
+            // Collection of kcal values of all ingredient permutations
             all_stats mystats = run_stats( recipe_permutations( recipe_obj.requirements().get_components() ),
                                            byproduct_calories( recipe_obj ) );
+            if( mystats.calories.n() < 2 ) {
+                continue;
+            }
+            // The calories of the result
             int default_calories = 0;
             if( res_it.type->comestible ) {
                 default_calories = res_it.type->comestible->get_calories();
@@ -129,20 +136,19 @@ TEST_CASE( "recipe_permutations" )
             if( res_it.charges > 0 ) {
                 default_calories *= res_it.charges;
             }
+            // Make the range of acceptable average calories of permutations, using result's calories
             const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
                                                 default_calories * 0.8 );
             const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
                                                 default_calories * 1.2 );
-            if( mystats.calories.min() != mystats.calories.max() ) {
-                if( mystats.calories.min() < 0 || lower_bound >= mystats.calories.avg() ||
-                    mystats.calories.avg() >= upper_bound ) {
-                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
-                            recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
-                            upper_bound );
-                }
-                CHECK( mystats.calories.min() >= 0 );
-                CHECK( lower_bound < mystats.calories.avg() );
-                CHECK( mystats.calories.avg() < upper_bound );
+            CHECK( mystats.calories.min() >= 0 );
+            CHECK( lower_bound <= mystats.calories.avg() );
+            CHECK( mystats.calories.avg() <= upper_bound );
+            if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
+                mystats.calories.avg() > upper_bound ) {
+                printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                        recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                        upper_bound );
             }
         }
     }

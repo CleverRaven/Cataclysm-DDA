@@ -855,7 +855,7 @@ static void find_videodisplays()
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
-                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
+                       translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }

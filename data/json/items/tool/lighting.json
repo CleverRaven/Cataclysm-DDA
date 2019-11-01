@@ -27,7 +27,15 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell"
+        ]
       ]
     ],
     "magazine_well": 2
@@ -38,7 +46,7 @@
     "type": "TOOL",
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
-    "power_draw": 5000,
+    "power_draw": 1000,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]

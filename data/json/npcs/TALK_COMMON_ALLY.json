@@ -275,15 +275,15 @@
       ]
     },
     "responses": [
-      { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
-      { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      { "text": "Change your engagement rules…", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules…", "topic": "TALK_AIM_RULES" },
       {
-        "text": "Change your bionic power reserve rules...",
+        "text": "Change your bionic power reserve rules…",
         "topic": "TALK_CBM_RESERVE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
       {
-        "text": "Change your bionic power recharge rules...",
+        "text": "Change your bionic power recharge rules…",
         "topic": "TALK_CBM_RECHARGE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
@@ -299,8 +299,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "true": "<ally_rule_follow_distance_2_true_text>",
-          "false": "<ally_rule_follow_distance_2_false_text>"
+          "false": "<ally_rule_follow_distance_2_true_text>",
+          "true": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }
@@ -771,7 +771,7 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -911,7 +911,7 @@
     ],
     "responses": [
       {
-        "text": "Oh you know, not bad, not bad...",
+        "text": "Oh you know, not bad, not bad…",
         "topic": "TALK_DONE",
         "switch": true,
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]

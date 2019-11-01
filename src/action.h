@@ -303,6 +303,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_PICKUP,
     /** Toggle temperature map */
     ACTION_DISPLAY_TEMPERATURE,
+    /** Toggle vehicle autopilot data */
+    ACTION_DISPLAY_VEHICLE_AI,
     /** Toggle visibility map */
     ACTION_DISPLAY_VISIBILITY,
     /** Toggle lighting conditions map */

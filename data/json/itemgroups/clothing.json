@@ -279,7 +279,16 @@
   {
     "id": "clothing_watch",
     "type": "item_group",
-    "items": [ [ "gold_watch", 10 ], [ "pocketwatch", 25 ], [ "wristwatch", 100 ] ]
+    "items": [
+      { "item": "wristwatch", "prob": 90 },
+      { "item": "silver_watch", "prob": 70 },
+      { "item": "gold_watch", "prob": 40 },
+      { "item": "platinum_watch", "prob": 10 },
+      { "item": "sf_watch", "prob": 5 },
+      { "item": "pocketwatch", "prob": 30 },
+      { "item": "diving_watch", "prob": 20 },
+      { "item": "game_watch", "prob": 20 }
+    ]
   },
   {
     "id": "clothing_work_boots",
@@ -445,6 +454,7 @@
       [ "jersey", 40 ],
       [ "coat_rain", 15 ],
       [ "hood_rain", 15 ],
+      [ "unitard", 10 ],
       [ "gloves_wraps", 45 ],
       [ "jeans", 30 ],
       [ "sports_bra", 25 ],
@@ -520,6 +530,8 @@
       [ "nanoskirt", 30 ],
       [ "camisole", 60 ],
       [ "corset", 20 ],
+      [ "unitard", 5 ],
+      [ "leotard", 10 ],
       [ "stockings", 50 ],
       [ "leggings", 20 ],
       [ "tights", 50 ]
@@ -661,6 +673,7 @@
       [ "firecracker", 5 ],
       [ "wolfsuit", 4 ],
       [ "dinosuit", 4 ],
+      [ "zentai", 5 ],
       [ "vibrator", 5 ],
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],
@@ -669,6 +682,7 @@
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
+      [ "bholster", 5 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "clogs", 2 ],
@@ -996,7 +1010,7 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
+    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "thermal_shirt", 10 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
   },
   {
     "type": "item_group",
@@ -1065,6 +1079,7 @@
       [ "thermal_suit", 2 ],
       [ "thermal_mask", 2 ],
       [ "thermal_outfit", 1 ],
+      [ "thermal_shirt", 1 ],
       [ "gloves_winter", 40 ],
       [ "gloves_liner", 25 ],
       [ "gloves_leather", 45 ],
@@ -1090,6 +1105,8 @@
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
+      [ "leotard", 3 ],
+      [ "unitard", 1 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
       [ "trenchcoat_leather", 12 ],
@@ -1120,8 +1137,11 @@
       [ "apron_leather", 1 ],
       [ "clown_suit", 1 ],
       [ "clownshoes", 1 ],
+      [ "clown_wig", 1 ],
+      [ "clown_nose", 1 ],
       [ "bondage_suit", 1 ],
       [ "bondage_mask", 1 ],
+      [ "zentai", 1 ],
       [ "corset", 10 ],
       [ "chestwrap", 5 ],
       [ "boots_combat", 10 ],
@@ -2068,6 +2088,915 @@
       [ "sunglasses", 25 ],
       [ "tieclip", 15 ],
       [ "hairpin", 15 ]
+    ]
+  },
+  {
+    "id": "desks_bedroom_unisex",
+    "type": "item_group",
+    "//": "clothing and wearable items for domestic desks, tables, etc.",
+    "subtype": "collection",
+    "items": [
+      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
+      { "group": "accesories_personal_womens", "prob": 50 },
+      { "group": "accesories_personal_mens", "prob": 50 },
+      { "group": "masks_unisex", "prob": 20 },
+      { "group": "socks_unisex", "prob": 60 },
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "gloves_womens", "prob": 10 },
+      { "group": "gloves_unisex", "prob": 30 },
+      { "group": "hats_unisex", "prob": 50 }
+    ]
+  },
+  {
+    "id": "wardrobe_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's wardrobe",
+    "subtype": "collection",
+    "items": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "item": "fishing_waders", "prob": 3 },
+      { "item": "kilt", "prob": 10 },
+      { "item": "football_armor", "prob": 10 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "bscabbard", "prob": 5 },
+      { "item": "kilt_leather", "prob": 5 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_mens", "prob": 30 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "wardrobe_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's wardrobe",
+    "subtype": "collection",
+    "items": [
+      { "group": "shoes_unisex", "prob": 50 },
+      { "group": "shoes_womens", "prob": 60 },
+      { "item": "fishing_waders", "prob": 2 },
+      { "item": "football_armor", "prob": 5 },
+      { "item": "skirt", "prob": 20 },
+      { "item": "skirt_leather", "prob": 10 },
+      { "item": "bscabbard", "prob": 3 },
+      { "item": "sleeping_bag", "prob": 10 },
+      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "item": "chaps_leather", "prob": 5 },
+      { "group": "coats_unisex", "prob": 50 },
+      { "group": "suits_unisex", "prob": 30 },
+      { "group": "suits_womens", "prob": 40 },
+      { "group": "bags_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "dresser_mens",
+    "type": "item_group",
+    "//": "clothing found in a man's dresser",
+    "subtype": "collection",
+    "items": [
+      { "group": "accesories_personal_unisex", "prob": 10 },
+      { "group": "accesories_personal_mens", "prob": 10 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_mens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_mens", "prob": 60 },
+      { "group": "gloves_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "id": "dresser_womens",
+    "type": "item_group",
+    "//": "clothing found in a woman's dresser",
+    "subtype": "collection",
+    "items": [
+      { "group": "accesories_personal_unisex", "prob": 30 },
+      { "group": "accesories_personal_womens", "prob": 5 },
+      { "group": "masks_unisex", "prob": 5 },
+      { "group": "socks_unisex", "prob": 70 },
+      { "group": "scarfs_unisex", "prob": 10 },
+      { "group": "shirts_womens", "prob": 60 },
+      { "group": "shirts_unisex", "prob": 50 },
+      { "group": "underwear_womens", "prob": 80 },
+      { "group": "underwear_unisex", "prob": 80 },
+      { "group": "pants_unisex", "prob": 50 },
+      { "group": "pants_womens", "prob": 60 },
+      { "group": "gloves_womens", "prob": 5 },
+      { "group": "gloves_unisex", "prob": 30 }
+    ]
+  },
+  {
+    "id": "unisex_coat_rack",
+    "type": "item_group",
+    "//": "clothing found on a coat rack",
+    "subtype": "collection",
+    "items": [
+      { "group": "scarfs_unisex", "prob": 30 },
+      { "group": "bags_unisex", "prob": 20 },
+      { "group": "coats_unisex", "prob": 70 },
+      { "group": "hats_unisex", "prob": 70 }
+    ]
+  },
+  {
+    "id": "hats_unisex",
+    "type": "item_group",
+    "//": "unisex hats for domestic locations",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "tricorne", "prob": 5 },
+              { "item": "10gal_hat", "prob": 30 },
+              { "item": "tophat", "prob": 10 },
+              { "item": "hat_sombrero", "prob": 10 }
+            ],
+            "prob": 5
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "kippah", "prob": 33 }, { "item": "turban", "prob": 33 }, { "item": "kufi", "prob": 33 } ],
+            "prob": 10
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "helmet_motor", "prob": 20 },
+              { "item": "helmet_bike", "prob": 50 },
+              { "item": "headgear", "prob": 10 },
+              { "item": "helmet_ball", "prob": 15 },
+              { "item": "wetsuit_hood", "prob": 5 }
+            ],
+            "prob": 30
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "hat_hunting", "prob": 20 },
+              { "item": "hat_faux_fur", "prob": 10 },
+              { "item": "hat_fur", "prob": 5 },
+              { "item": "hat_boonie", "prob": 15 },
+              { "item": "cowl_wool", "prob": 15 },
+              { "item": "hood_rain", "prob": 25 }
+            ],
+            "prob": 50
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "bowhat", "prob": 10 },
+              { "item": "fedora", "prob": 40 },
+              { "item": "hat_newsboy", "prob": 5 },
+              { "item": "cowboy_hat", "prob": 20 },
+              { "item": "straw_fedora", "prob": 5 },
+              { "item": "hat_golf", "prob": 15 },
+              { "item": "straw_hat", "prob": 15 },
+              { "item": "beret_wool", "prob": 5 },
+              { "item": "beret", "prob": 10 },
+              { "item": "porkpie", "prob": 15 }
+            ],
+            "prob": 50
+          }
+        ]
+      },
+      { "item": "hat_knit", "prob": 30 },
+      { "item": "hat_cotton", "prob": 40 },
+      { "item": "hat_ball", "prob": 50 }
+    ]
+  },
+  {
+    "id": "masks_unisex",
+    "type": "item_group",
+    "//": "unisex masks for domestic locations",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bondage_mask", "prob": 10 },
+      { "item": "mask_dust", "prob": 15 },
+      { "item": "mask_guy_fawkes", "prob": 10 },
+      { "item": "mask_hockey", "prob": 15 },
+      { "item": "mouthpiece", "prob": 5 },
+      { "item": "mask_filter", "prob": 5 }
+    ]
+  },
+  {
+    "id": "socks_unisex",
+    "type": "item_group",
+    "//": "unisex socks",
+    "subtype": "distribution",
+    "items": [ { "item": "socks", "prob": 70 }, { "item": "socks_wool", "prob": 30 }, { "item": "thermal_socks", "prob": 10 } ]
+  },
+  {
+    "id": "scarfs_unisex",
+    "type": "item_group",
+    "//": "unisex scarfs and fabric coverings",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bandana", "prob": 90 },
+      { "item": "balclava", "prob": 50 },
+      { "item": "headscarf", "prob": 50 },
+      { "item": "scarf_fur_long", "prob": 10 },
+      { "item": "scarf_fur", "prob": 20 },
+      { "item": "scarf", "prob": 80 },
+      { "item": "scarf_long", "prob": 40 },
+      { "item": "long_knit_scarf", "prob": 40 },
+      { "item": "knit_scarf", "prob": 80 },
+      { "item": "keffiyeh", "prob": 30 },
+      { "item": "mask_ski", "prob": 30 },
+      { "item": "thermal_mask", "prob": 5 },
+      { "item": "blindfold", "prob": 5 }
+    ]
+  },
+  {
+    "id": "shirts_unisex",
+    "type": "item_group",
+    "//": "unisex shirts",
+    "subtype": "distribution",
+    "items": [
+      { "item": "longshirt", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "arm_warmers", "prob": 20 },
+      { "item": "armguard_soft", "prob": 10 },
+      { "item": "dress_shirt", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "flag_shirt", "prob": 15 },
+      { "item": "jersey", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "linuxtshirt", "prob": 10 },
+      { "item": "polo_shirt", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "thermal_shirt", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "sleeveless_tunic", "prob": 10 },
+      { "item": "sweater", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "sweatshirt", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "tank_top", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "tshirt", "prob": 80, "count": [ 1, 4 ] },
+      { "item": "tshirt_text", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "tunic", "prob": 10 },
+      { "item": "waistcoat", "prob": 10 },
+      { "item": "wool_hoodie", "prob": 10 },
+      { "item": "hoodie", "prob": 40, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "shirts_womens",
+    "type": "item_group",
+    "//": "womens shirts",
+    "subtype": "distribution",
+    "items": [ { "item": "halter_top", "prob": 30 } ]
+  },
+  {
+    "id": "underwear_unisex",
+    "type": "item_group",
+    "//": "unisex underwear",
+    "subtype": "distribution",
+    "items": [
+      { "item": "thermal_suit", "prob": 15 },
+      { "item": "thermal_outfit", "prob": 5 },
+      { "item": "long_undertop", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "under_armor", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "undershirt", "prob": 40, "count": [ 1, 4 ] },
+      { "item": "under_armor_shorts", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "long_underpants", "prob": 30, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "underwear_womens",
+    "type": "item_group",
+    "//": "womens underwear.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bikini_bottom", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "boy_shorts", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "bra", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "panties", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "bikini_top", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "bikini_top_fur", "prob": 5 },
+      { "item": "bikini_top_leather", "prob": 10 },
+      { "item": "camisole", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "corset", "prob": 10 },
+      { "item": "sports_bra", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "stockings", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "tights", "prob": 20, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "underwear_mens",
+    "type": "item_group",
+    "//": "mens underwear.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "boxer_briefs", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "boxer_shorts", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "briefs", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "trunks", "prob": 10 }
+    ]
+  },
+  {
+    "id": "pants_unisex",
+    "type": "item_group",
+    "//": "pants and leg coverings for domestic locations.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "hot_pants", "prob": 40 },
+              { "item": "hot_pants_fur", "prob": 5 },
+              { "item": "hot_pants_leather", "prob": 35 }
+            ],
+            "prob": 10
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "chaps_leather", "prob": 30 },
+              { "item": "motorbike_pants", "prob": 35 },
+              { "item": "breeches", "prob": 25 },
+              { "item": "pants_ski", "prob": 45 },
+              { "item": "pants_checkered", "prob": 55 },
+              { "item": "pants_fur", "prob": 5 },
+              { "item": "pants_faux_fur", "prob": 15 }
+            ],
+            "prob": 20
+          }
+        ]
+      },
+      { "item": "jeans", "prob": 80, "count": [ 1, 4 ] },
+      { "item": "jeans_red", "prob": 20 },
+      { "item": "leg_warmers", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "leggings", "prob": 30 },
+      { "item": "legguard_hard", "prob": 3 },
+      { "item": "pants", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "pants_cargo", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "pants_leather", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "shorts", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "shorts_cargo", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "shorts_denim", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "b_shorts", "prob": 60, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "pants_womens",
+    "type": "item_group",
+    "//": "womens pants and leg coverings for domestic locations.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "skirt", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "skirt_leather", "prob": 10 }
+    ]
+  },
+  {
+    "id": "pants_mens",
+    "type": "item_group",
+    "//": "mens pants and leg coverings for domestic locations.",
+    "subtype": "distribution",
+    "items": [ { "item": "kilt", "prob": 10 }, { "item": "kilt_leather", "prob": 5 } ]
+  },
+  {
+    "id": "gloves_unisex",
+    "type": "item_group",
+    "//": "gloves and mittens for domestic locations.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "gloves_leather", "prob": 60 },
+      { "item": "gloves_light", "prob": 60 },
+      { "item": "gloves_fingerless", "prob": 40 },
+      { "item": "gloves_wool", "prob": 25 },
+      { "item": "gloves_winter", "prob": 15 },
+      { "item": "mittens", "prob": 30 },
+      { "item": "gloves_work", "prob": 20 },
+      { "item": "gloves_golf", "prob": 10 },
+      { "item": "wetsuit_gloves", "prob": 5 },
+      { "item": "gloves_fur", "prob": 5 },
+      { "item": "thermal_gloves", "prob": 2 }
+    ]
+  },
+  {
+    "id": "gloves_womens",
+    "type": "item_group",
+    "//": "womens gloves and mittens for domestic locations.",
+    "subtype": "distribution",
+    "items": [ { "item": "long_glove_white", "prob": 5 } ]
+  },
+  {
+    "id": "bags_unisex",
+    "type": "item_group",
+    "//": "worn bags of all sorts for domestic buildings",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "basket_laundry", "prob": 60 },
+              { "item": "straw_basket", "prob": 35 },
+              { "item": "suitcase_l", "prob": 15 },
+              { "item": "suitcase_m", "prob": 25 }
+            ],
+            "prob": 20
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "2lcanteen", "prob": 50 }, { "item": "camelbak", "prob": 25 }, { "item": "canteen", "prob": 70 } ],
+            "prob": 5
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "fanny", "prob": 60 },
+              { "item": "mbag", "prob": 35 },
+              { "item": "runner_bag", "prob": 45 },
+              { "item": "slingpack", "prob": 65 },
+              { "item": "purse", "prob": 70 },
+              { "item": "briefcase", "prob": 40 },
+              { "item": "hk_briefcase", "prob": 1 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "case_violin", "prob": 5 },
+              { "item": "quiver", "prob": 20 },
+              { "item": "quiver_large", "prob": 15 },
+              { "item": "solarpack", "prob": 5 },
+              { "item": "ammo_satchel", "prob": 10 },
+              { "item": "chestrig", "prob": 20 },
+              { "item": "dive_bag", "prob": 50 },
+              { "item": "petpack", "prob": 50 }
+            ],
+            "prob": 30
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "daypack", "prob": 25 },
+              { "item": "backpack_leather", "prob": 40 },
+              { "item": "backpack", "prob": 85 },
+              { "item": "backpack_hiking", "prob": 25 },
+              { "item": "duffelbag", "prob": 80 },
+              { "item": "travelpack", "prob": 25 },
+              { "item": "gobag", "prob": 1 }
+            ],
+            "prob": 80
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "suits_unisex",
+    "type": "item_group",
+    "//": "suits, full body coverage",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bondage_suit", "prob": 10 },
+      { "item": "dinosuit", "prob": 5 },
+      { "item": "yukata", "prob": 20 },
+      { "item": "leotard", "prob": 40 },
+      { "item": "motorbike_armor", "prob": 30 },
+      { "item": "suit", "prob": 70 },
+      { "item": "touring_suit", "prob": 40 },
+      { "item": "wolfsuit", "prob": 5 },
+      { "item": "wool_suit", "prob": 20 },
+      { "item": "unitard", "prob": 60 },
+      { "item": "zentai", "prob": 10 },
+      { "item": "wetsuit", "prob": 5 },
+      { "item": "union_suit", "prob": 40 },
+      { "item": "wetsuit_spring", "prob": 5 }
+    ]
+  },
+  {
+    "id": "suits_mens",
+    "type": "item_group",
+    "//": "suits, full body coverage for men.",
+    "subtype": "distribution",
+    "items": [ { "item": "tux", "prob": 30 }, { "item": "thawb", "prob": 10 }, { "item": "cassock", "prob": 10 } ]
+  },
+  {
+    "id": "suits_womens",
+    "type": "item_group",
+    "//": "suits/dresses, full body coverage for women.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "dress_wedding", "prob": 5 },
+      { "item": "sundress", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "gown", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "dress", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "veil_wedding", "prob": 5 }
+    ]
+  },
+  {
+    "id": "coats_unisex",
+    "type": "item_group",
+    "//": "unisex coats, jackets, cloaks, etc.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "cloak", "prob": 80 },
+              { "item": "cloak_wool", "prob": 40 },
+              { "item": "cloak_leather", "prob": 20 },
+              { "item": "cloak_fur", "prob": 10 },
+              { "item": "jedi_cloak", "prob": 5 }
+            ],
+            "prob": 20
+          }
+        ]
+      },
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "item": "duster", "prob": 80 },
+              { "item": "duster_leather", "prob": 60 },
+              { "item": "duster_faux_fur", "prob": 30 },
+              { "item": "duster_fur", "prob": 5 },
+              { "item": "sleeveless_duster", "prob": 70 },
+              { "item": "sleeveless_duster_leather", "prob": 50 },
+              { "item": "sleeveless_duster_fur", "prob": 20 },
+              { "item": "sleeveless_duster_faux_fur", "prob": 10 }
+            ],
+            "prob": 60
+          },
+          {
+            "distribution": [
+              { "item": "trenchcoat", "prob": 80 },
+              { "item": "trenchcoat_leather", "prob": 60 },
+              { "item": "trenchcoat_faux_fur", "prob": 30 },
+              { "item": "trenchcoat_fur", "prob": 5 },
+              { "item": "sleeveless_trenchcoat", "prob": 40 },
+              { "item": "sleeveless_trenchcoat_leather", "prob": 30 },
+              { "item": "sleeveless_trenchcoat_fur", "prob": 10 },
+              { "item": "sleeveless_trenchcoat_faux_fur", "prob": 20 }
+            ],
+            "prob": 40
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "coat_rain", "prob": 80 },
+              { "item": "coat_winter", "prob": 50 },
+              { "item": "peacoat", "prob": 50 },
+              { "item": "greatcoat", "prob": 35 },
+              { "item": "coat_faux_fur", "prob": 20 },
+              { "item": "coat_fur", "prob": 10 },
+              { "item": "coat_fur_sf", "prob": 5 }
+            ],
+            "prob": 80
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "jacket_jean", "prob": 80 },
+              { "item": "jacket_flannel", "prob": 50 },
+              { "item": "jacket_leather", "prob": 50 },
+              { "item": "jacket_leather_red", "prob": 25 },
+              { "item": "jacket_light", "prob": 60 },
+              { "item": "jacket_windbreaker", "prob": 70 },
+              { "item": "poncho", "prob": 30 },
+              { "item": "ski_jacket", "prob": 25 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [ { "item": "house_coat", "prob": 80 }, { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ],
+            "prob": 30
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "vest", "prob": 80 },
+              { "item": "vest_leather", "prob": 20 },
+              { "item": "army_top", "prob": 40 },
+              { "item": "blazer", "prob": 70 }
+            ],
+            "prob": 40
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shoes_unisex",
+    "type": "item_group",
+    "//": "unisex shoes (there are no men's only shoes)",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "boots", "prob": 80 },
+              { "item": "boots_hiking", "prob": 50 },
+              { "item": "boots_steel", "prob": 50 },
+              { "item": "boots_combat", "prob": 45 },
+              { "item": "boots_fur", "prob": 10 },
+              { "item": "boots_western", "prob": 40 },
+              { "item": "boots_winter", "prob": 30 },
+              { "item": "knee_high_boots", "prob": 15 },
+              { "item": "motorbike_boots", "prob": 35 },
+              { "item": "thigh_high_boots", "prob": 5 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "bastsandals", "prob": 20 },
+              { "item": "straw_sandals", "prob": 20 },
+              { "item": "flip_flops", "prob": 40 },
+              { "item": "leathersandals", "prob": 35 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "cleats", "prob": 20 },
+              { "item": "golf_shoes", "prob": 20 },
+              { "item": "dance_shoes", "prob": 30 },
+              { "item": "roller_blades", "prob": 35 },
+              { "item": "rollerskates", "prob": 35 },
+              { "item": "roller_shoes_off", "prob": 45 }
+            ],
+            "prob": 20
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "dress_shoes", "prob": 50 },
+              { "item": "lowtops", "prob": 30 },
+              { "item": "mocassins", "prob": 10 },
+              { "item": "sneakers", "prob": 35 }
+            ],
+            "prob": 70
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "boots_rubber", "prob": 50 },
+              { "item": "clogs", "prob": 20 },
+              { "item": "geta", "prob": 10 },
+              { "item": "slippers", "prob": 75 }
+            ],
+            "prob": 70
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shoes_womens",
+    "type": "item_group",
+    "//": "womens only shoes",
+    "subtype": "distribution",
+    "items": [ { "item": "heels", "prob": 100 } ]
+  },
+  {
+    "id": "accesories_personal_unisex",
+    "type": "item_group",
+    "//": "unisex personal accessories",
+    "subtype": "distribution",
+    "items": [
+      { "group": "clothing_glasses", "prob": 10 },
+      { "group": "clothing_watch", "prob": 10 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "ring_wedding", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
+              { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
+              { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
+              { "item": "diamond_ring", "prob": 10 },
+              { "item": "platinum_ring", "prob": 10 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "ear_spool", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "bead_ear", "prob": 70, "count": [ 1, 2 ] },
+              { "item": "copper_ear", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_ear", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_ear", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "platinum_ear", "prob": 10 },
+              { "item": "ear_plugs", "prob": 40 },
+              { "item": "attached_ear_plugs_off", "prob": 30 }
+            ],
+            "prob": 60
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "bead_bracelet", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "bracelet_friendship", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "copper_bracelet", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "platinum_bracelet", "prob": 10 }
+            ],
+            "prob": 50
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
+              { "item": "diamond_dental_grill", "prob": 10 }
+            ],
+            "prob": 10
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "bead_necklace", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "copper_necklace", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_necklace", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_necklace", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "platinum_necklace", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "copper_locket", "prob": 60, "count": [ 1, 2 ] },
+              { "item": "silver_locket", "prob": 40, "count": [ 1, 2 ] },
+              { "item": "gold_locket", "prob": 20, "count": [ 1, 2 ] },
+              { "item": "platinum_locket", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "collarpin", "prob": 10 },
+              { "item": "bronze_medal", "prob": 6 },
+              { "item": "silver_medal", "prob": 4 },
+              { "item": "gold_medal", "prob": 2 },
+              { "item": "small_relic", "prob": 10 },
+              { "item": "holy_symbol", "prob": 10 },
+              { "item": "holy_symbol_wood", "prob": 10 }
+            ],
+            "prob": 50
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "faux_fur_cat_ears", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_cat_ears", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_cat_ears", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "faux_fur_cat_tail", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_cat_tail", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_cat_tail", "prob": 10, "count": [ 1, 2 ] },
+              { "item": "faux_fur_collar", "prob": 80, "count": [ 1, 2 ] },
+              { "item": "leather_collar", "prob": 50, "count": [ 1, 2 ] },
+              { "item": "fur_collar", "prob": 10, "count": [ 1, 2 ] }
+            ],
+            "prob": 10
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "bootstrap", "prob": 20 },
+              { "item": "bootsheath", "prob": 50 },
+              { "item": "sheath", "prob": 80 },
+              { "item": "back_holster", "prob": 10 },
+              { "item": "holster", "prob": 30 },
+              { "item": "sholster", "prob": 10 },
+              { "item": "bholster", "prob": 10 }
+            ],
+            "prob": 10
+          }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "elbow_pads", "prob": 50 },
+              { "item": "knee_pads", "prob": 50 },
+              { "item": "iggaak", "prob": 5 },
+              { "item": "goggles_swim", "prob": 10 },
+              { "item": "glasses_bal", "prob": 10 },
+              { "item": "eclipse_glasses", "prob": 5 },
+              { "item": "goggles_ski", "prob": 10 }
+            ],
+            "prob": 10
+          }
+        ]
+      },
+      { "item": "folding_poncho", "prob": 10 },
+      { "item": "american_flag", "prob": 2 },
+      { "item": "tool_belt", "prob": 10 },
+      { "item": "leather_belt", "prob": 60 },
+      { "item": "wearable_light", "prob": 30 },
+      { "item": "binoculars", "prob": 10 },
+      { "item": "whistle", "prob": 30 },
+      { "item": "harmonica_holder", "prob": 10 },
+      { "group": "flask_liquor", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accesories_personal_womens",
+    "type": "item_group",
+    "//": "womens personal accessories",
+    "subtype": "distribution",
+    "items": [
+      { "item": "hairpin", "prob": 90 },
+      { "item": "fc_hairpin", "prob": 70 },
+      { "item": "copper_hairpin", "prob": 60 },
+      { "item": "silver_hairpin", "prob": 50 },
+      { "item": "gold_hairpin", "prob": 30 },
+      { "item": "platinum_hairpin", "prob": 10 },
+      { "item": "ring_engagement", "prob": 5 },
+      { "item": "ring_purity", "prob": 10 },
+      { "item": "barrette", "prob": 60 },
+      { "item": "pearl_collar", "prob": 5 },
+      { "item": "jade_brooch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "accesories_personal_mens",
+    "type": "item_group",
+    "//": "men's personal accessories",
+    "subtype": "distribution",
+    "items": [
+      { "item": "tie_bow", "prob": 30 },
+      { "item": "tie_clipon", "prob": 10 },
+      { "item": "tie_necktie", "prob": 80 },
+      { "item": "tieclip", "prob": 20 },
+      { "item": "cufflinks", "prob": 20 },
+      { "item": "cufflinks_intricate", "prob": 5 },
+      { "item": "ring_signet", "prob": 30 },
+      { "item": "tie_skinny", "prob": 20 }
     ]
   }
 ]

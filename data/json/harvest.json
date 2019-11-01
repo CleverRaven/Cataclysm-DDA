@@ -185,6 +185,25 @@
     ]
   },
   {
+    "id": "mutant_mammal_large_leather",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "mammal_small_wool",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
@@ -256,6 +275,24 @@
     ]
   },
   {
+    "id": "mutant_animal_large_noskin",
+    "//": "for those vertebrates that don't have something you can skin off of them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "meatslug",
     "//": "no bones or organs",
     "type": "harvest",
@@ -263,6 +300,16 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_meatslug",
+    "//": "no bones or organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -287,9 +334,9 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -338,8 +385,8 @@
     "id": "arachnid",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -359,7 +406,7 @@
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]
@@ -369,7 +416,7 @@
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
     ]

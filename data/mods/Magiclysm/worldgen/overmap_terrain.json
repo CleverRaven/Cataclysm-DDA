@@ -248,5 +248,61 @@
     "sym": "%",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_ground",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z1",
+    "name": "forest",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z2",
+    "name": "forest",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z3",
+    "name": "forest",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_z4",
+    "name": "forest",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_boathouse",
+    "name": "lake shore",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_retreat_boathouse_roof",
+    "name": "forest",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
   }
 ]

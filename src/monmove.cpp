@@ -60,7 +60,6 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_hack_detected( "hack_detected" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -128,6 +127,10 @@ bool monster::can_move_to( const tripoint &p ) const
 
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( p ) ) {
         return false;
+    }
+
+    if( get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_THIN_OBSTACLE, p ) ) {
+        return false; // if a large critter, can't move through tight passages
     }
 
     // Various avoiding behaviors.
@@ -1207,15 +1210,28 @@ bool monster::bash_at( const tripoint &p )
     }
 
     bool try_bash = !can_move_to( p ) || one_in( 3 );
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
-
-    if( try_bash && can_bash ) {
-        int bashskill = group_bash_skill( p );
-        g->m.bash( p, bashskill );
-        moves -= 100;
-        return true;
+    if( !try_bash ) {
+        return false;
     }
-    return false;
+
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    if( !can_bash ) {
+        return false;
+    }
+
+    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
+    if( flat_ground ) {
+        bool can_bash_ter = g->m.is_bashable_ter( p );
+        bool try_bash_ter = one_in( 50 );
+        if( !( can_bash_ter && try_bash_ter ) ) {
+            return false;
+        }
+    }
+
+    int bashskill = group_bash_skill( p );
+    g->m.bash( p, bashskill );
+    moves -= 100;
+    return true;
 }
 
 int monster::bash_estimate()

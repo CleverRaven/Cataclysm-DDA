@@ -585,8 +585,8 @@ static const std::array<std::string, 20> artifact_noun = { {
 std::string artifact_name( const std::string &type );
 //Dreams for each charge req
 static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { {
-        {   {translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!" )},
-            {translate_marker( "The %s is satisfied, as it should be because it has no standards. Seeing this is a bug!" )},
+        {   {translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything.  Seeing this is a bug!" )},
+            {translate_marker( "The %s is satisfied, as it should be because it has no standards.  Seeing this is a bug!" )},
             100,  0
         }, { {translate_marker( "Your %s feels needy, like it wants to be held." )},
             {translate_marker( "You snuggle your %s closer." )},
@@ -594,7 +594,7 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
         }, { {translate_marker( "Your %s feels needy, like it wants to be touched." )},
             {translate_marker( "You press your %s against your skin." )},
             50,  35
-        }, { {translate_marker( "The %s is confused to find you dreaming while awake. Seeing this is a bug!" )},
+        }, { {translate_marker( "The %s is confused to find you dreaming while awake.  Seeing this is a bug!" )},
             {translate_marker( "Your %s sleeps soundly." )},
             100, 33
         }, { {translate_marker( "Your %s longs for the glow." )},
