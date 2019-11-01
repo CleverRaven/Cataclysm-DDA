@@ -39,7 +39,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     int line_out = START_LINE;
     g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
 
-    const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
+    const int live_view_box_height = std::min( max_height, std::max( line_out + 2, MIN_BOX_HEIGHT ) );
 
 #if defined(TILES) || defined(_WIN32)
     // Because of the way the status UI is done, the live view window must
