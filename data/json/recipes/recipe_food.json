@@ -4321,7 +4321,7 @@
     "components": [
       [ [ "flour", 30 ] ],
       [
-        [ "human_meat", 1, "LIST" ],
+        [ "human_meat", 2, "LIST" ],
         [ "human_canned", 2 ],
         [ "hflesh_salted", 2 ],
         [ "rehydrated_hflesh", 2 ],
