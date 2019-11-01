@@ -29,7 +29,7 @@
       { "text": "What's your job here?", "topic": "TALK_RANCH_FOREMAN_JOB" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
       {
-        "text": "I figured you might be looking for some help...",
+        "text": "I figured you might be looking for some help…",
         "topic": "TALK_RANCH_FOREMAN",
         "effect": { "companion_mission": "FOREMAN" }
       },
@@ -38,7 +38,7 @@
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
       },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -63,7 +63,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_REFUGEES",
     "dynamic_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
-    "responses": [ { "text": "Hopefully moving out here was worth it...", "topic": "TALK_RANCH_FOREMAN" } ]
+    "responses": [ { "text": "Hopefully moving out here was worth it…", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
     "type": "talk_topic",

@@ -70,7 +70,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Hi-Point CF-380",
-    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable. Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "709 g",
     "volume": "539 ml",
     "price": 7500,

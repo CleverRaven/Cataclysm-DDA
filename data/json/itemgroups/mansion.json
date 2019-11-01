@@ -702,6 +702,12 @@
       [ "fencing_jacket", 10 ],
       [ "fencing_mask", 10 ],
       [ "fencing_pants", 10 ],
+      [ "lame_foil", 10 ],
+      [ "lame_saber", 10 ],
+      [ "plastron_cotton", 10 ],
+      [ "plastron_plastic", 10 ],
+      [ "gauntlet_fencing", 9 ],
+      [ "gauntlet_fencing_l", 1 ],
       [ "iceaxe", 4 ]
     ]
   },
@@ -1063,10 +1069,10 @@
     "items": [
       [ "broom", 40 ],
       [ "mop", 40 ],
-      [ "ammonia", 24 ],
+      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
-      [ "bleach", 20 ],
+      { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },

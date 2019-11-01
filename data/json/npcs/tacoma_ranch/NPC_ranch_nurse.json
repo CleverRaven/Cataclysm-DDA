@@ -20,7 +20,7 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_NURSE_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_NURSE_HIRE" },
       { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_NURSE_AID" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -92,7 +92,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_NURSE_AID_DONE",
     "dynamic_line": "That's the best I can do on short notice.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_RANCH_NURSE_1",

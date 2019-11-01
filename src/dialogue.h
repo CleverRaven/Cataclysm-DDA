@@ -385,7 +385,7 @@ class json_talk_repeat_response
         bool is_npc = false;
         bool include_containers = false;
         std::vector<std::string> for_item;
-        std::vector<std::string> for_category;
+        std::vector<item_category_id> for_category;
         json_talk_response response;
 };
 

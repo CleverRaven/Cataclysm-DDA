@@ -66,6 +66,7 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
+    "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 10,
       "str_max": 150,

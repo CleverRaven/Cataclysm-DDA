@@ -714,7 +714,7 @@
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",
-      "msg": "Initiating \nRunning suit integrity diagnostics...\nAll systems operational.",
+      "msg": "Initiating\nRunning suit integrity diagnostics…\nAll systems operational.",
       "target": "phase_immersion_suit_on",
       "active": true,
       "need_charges": 1,

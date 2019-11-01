@@ -1981,9 +1981,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( ma_id.is_valid() ) {
         const auto &mastyle = ma_id.obj();
         // Trained martial arts,
-        add_msg( m_good, _( "You learn %s." ), mastyle.name );
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
-        p->add_martialart( mastyle.id );
+        p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
     } else if( !magic_train( act, p ) ) {
         debugmsg( "train_finish without a valid skill or style or spell name" );
     }
@@ -2689,7 +2688,7 @@ void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    advanced_inv();
+    create_advanced_inv();
 }
 
 void activity_handlers::drive_do_turn( player_activity *act, player *p )
@@ -3616,7 +3615,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
-        g->m.destroy( elem );
+        g->m.batter( elem, 300, 5 );
         g->m.ter_set( elem, t_trunk );
     }
 

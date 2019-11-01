@@ -154,7 +154,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
         "effect": { "npc_add_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" }
       },
-      { "text": "Ok... see ya.", "topic": "TALK_DONE" }
+      { "text": "Ok… see ya.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -257,7 +257,7 @@
         "text": "I found a sample of alien fungus for you.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
       },
-      { "text": "Ok... see ya.", "topic": "TALK_DONE" },
+      { "text": "Ok… see ya.", "topic": "TALK_DONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -287,7 +287,7 @@
             }
           ]
         },
-        "text": "I mean, racism could definitely be a part of it... but you are visibly in poor shape.  They need strong survivor material.",
+        "text": "I mean, racism could definitely be a part of it… but you are visibly in poor shape.  They need strong survivor material.",
         "topic": "TALK_REFUGEE_BEGGAR_3_INSULTED"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -332,7 +332,7 @@
             { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
           ]
         },
-        "text": "So, about that doctorate of yours...",
+        "text": "So, about that doctorate of yours…",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -368,7 +368,7 @@
         ]
       }
     ],
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -416,7 +416,7 @@
             { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
           ]
         },
-        "text": "So, about that doctorate of yours...",
+        "text": "So, about that doctorate of yours…",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
@@ -436,7 +436,7 @@
             { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
           ]
         },
-        "text": "So, about that doctorate of yours...",
+        "text": "So, about that doctorate of yours…",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
@@ -456,7 +456,7 @@
             { "not": { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } }
           ]
         },
-        "text": "So, about that doctorate of yours...",
+        "text": "So, about that doctorate of yours…",
         "topic": "TALK_REFUGEE_BEGGAR_3_DOCTORATE1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
@@ -521,7 +521,7 @@
     "dynamic_line": "No, no I don't, and I'd appreciate you not leaving me hanging on that.  There are fungal zombies?",
     "responses": [
       {
-        "text": "Encroaching alien mushrooms, fungal towers, tough mycelium invading ground and trees, zombies taken over by aggressive mold... Yeah.  It's ugly stuff.",
+        "text": "Encroaching alien mushrooms, fungal towers, tough mycelium invading ground and trees, zombies taken over by aggressive mold…  Yeah.  It's ugly stuff.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS2"
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },

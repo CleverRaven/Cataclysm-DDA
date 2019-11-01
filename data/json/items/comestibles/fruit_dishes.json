@@ -100,8 +100,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade_powder",
-    "name": "lemonade drink mix",
-    "name_plural": "servings of lemonade drink mix",
+    "name": { "str": "lemonade drink mix", "str_pl": "lemonade drink mix" },
     "weight": "19 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
