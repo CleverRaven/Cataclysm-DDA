@@ -82,6 +82,15 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) > 0;
 }
 
+bool Character::has_active_trait( const trait_id &b ) const
+{
+    const auto &mut = my_mutations.find( b );
+    if( mut != my_mutations.end() ) {
+        return mut->second.powered;
+    }
+    return false;
+}
+
 bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
