@@ -635,7 +635,7 @@ void player::power_bionics()
                     g->refresh_all();
                     redraw = true;
                 } else {
-                    popup( _( "You can't toggle safe fuel mod on a non fueled CBM" ) );
+                    popup( _( "You can't toggle fuel saving mod on a non fueled CBM" ) );
                 }
 
             }
