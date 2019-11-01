@@ -99,9 +99,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mod." );
+        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mod." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
     }
     int n_pt_y = 0;
     fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
@@ -136,7 +136,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
         properties.push_back( _( "(incapacitated)" ) );
     }
     if( !bio.has_flag( "SAFE_FUEL_OFF" ) && bio.info().power_source ) {
-        properties.push_back( _( "(fuel saving mod ON)" ) );
+        properties.push_back( _( "(fuel saving mode ON)" ) );
     }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
@@ -635,7 +635,7 @@ void player::power_bionics()
                     g->refresh_all();
                     redraw = true;
                 } else {
-                    popup( _( "You can't toggle fuel saving mod on a non fueled CBM" ) );
+                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM" ) );
                 }
 
             }
