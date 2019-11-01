@@ -489,8 +489,6 @@ class Character : public Creature, public visitable<Character>
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
-        /** Returns true if the character has the entered trait */
-        bool has_active_trait( const trait_id &b ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
