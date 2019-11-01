@@ -415,7 +415,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
     return can_install;
 }
 
-void player::activate_mutation( const trait_id &mut )
+void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
@@ -568,7 +568,7 @@ void player::activate_mutation( const trait_id &mut )
     }
 }
 
-void player::deactivate_mutation( const trait_id &mut )
+void Character::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
 

@@ -502,6 +502,10 @@ class Character : public Creature, public visitable<Character>
         void set_mutation( const trait_id &flag );
         void unset_mutation( const trait_id &flag );
 
+        // Trigger and disable mutations that can be so toggled.
+        void activate_mutation( const trait_id &mutation );
+        void deactivate_mutation( const trait_id &mut );
+
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp( body_part bp );
         /** Converts an hp_part to a body_part */

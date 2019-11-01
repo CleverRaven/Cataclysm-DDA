@@ -1402,10 +1402,6 @@ class player : public Character
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const trait_id &mutation );
-        void deactivate_mutation( const trait_id &mut );
-
         /** Determine player's capability of recharging their CBMs. */
         bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
