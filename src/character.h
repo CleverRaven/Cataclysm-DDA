@@ -264,6 +264,9 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_per_bonus( int nper );
         virtual void mod_int_bonus( int nint );
 
+        // Prints message(s) about current health
+        void print_health() const;
+
         /** Getters for health values exclusive to characters */
         virtual int get_healthy() const;
         virtual int get_healthy_mod() const;

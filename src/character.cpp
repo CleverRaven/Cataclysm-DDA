@@ -57,6 +57,7 @@
 #include "lightmap.h"
 #include "rng.h"
 #include "stomach.h"
+#include "text_snippets.h"
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -173,6 +174,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -2904,6 +2906,38 @@ void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
     int_cur = std::max( 0, int_max + int_bonus );
+}
+
+void Character::print_health() const
+{
+    if( !is_player() ) {
+        return;
+    }
+    int current_health = get_healthy();
+    if( has_trait( trait_SELFAWARE ) ) {
+        add_msg_if_player( _( "Your current health value is %d." ), current_health );
+    }
+
+    if( current_health > 0 &&
+        ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) ) {
+        return;
+    }
+
+    static const std::map<int, std::string> msg_categories = {
+        { -100, "health_horrible" },
+        { -50, "health_very_bad" },
+        { -10, "health_bad" },
+        { 10, "" },
+        { 50, "health_good" },
+        { 100, "health_very_good" },
+        { INT_MAX, "health_great" }
+    };
+
+    auto iter = msg_categories.lower_bound( current_health );
+    if( iter != msg_categories.end() && !iter->second.empty() ) {
+        const std::string &msg = SNIPPET.random_from_category( iter->second );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
+    }
 }
 
 namespace io

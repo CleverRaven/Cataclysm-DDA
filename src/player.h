@@ -1351,9 +1351,6 @@ class player : public Character
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
 
-        // Prints message(s) about current health
-        void print_health() const;
-
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
