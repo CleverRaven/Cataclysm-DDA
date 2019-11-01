@@ -1753,7 +1753,9 @@ char advanced_inventory::get_minimap_sym( side p ) const
 void advanced_inventory::swap_panes()
 {
     // Switch left and right pane.
-    std::swap( panes[left], panes[right] );
+    std::swap( panes[left], panes[right] );    
+    // Switch save states
+    std::swap( panes[left].save_state, panes[right].save_state);
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
     // Recalculation required for weight & volume
