@@ -854,7 +854,7 @@ bool player::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( bio.has_flag( "SAFE_FUEL_ON" ) &&
+            if( !bio.has_flag( "SAFE_FUEL_OFF" ) &&
                 get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
                 > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
@@ -2305,10 +2305,10 @@ void bionic::toggle_safe_fuel_mod()
     if( !info().power_source ) {
         return;
     }
-    if( !has_flag( "SAFE_FUEL_ON" ) ) {
-        set_flag( "SAFE_FUEL_ON" );
+    if( !has_flag( "SAFE_FUEL_OFF" ) ) {
+        set_flag( "SAFE_FUEL_OFF" );
     } else {
-        remove_flag( "SAFE_FUEL_ON" );
+        remove_flag( "SAFE_FUEL_OFF" );
     }
 }
 

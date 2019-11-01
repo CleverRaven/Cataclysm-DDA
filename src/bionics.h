@@ -162,7 +162,7 @@ struct bionic {
 
         int get_quality( const quality_id &quality ) const;
 
-        bool is_this_fuel_powered( const itype_id this_fuel ) const;
+        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
 
         void serialize( JsonOut &json ) const;
