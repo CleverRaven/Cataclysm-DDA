@@ -4260,6 +4260,25 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
     return null_patient;
 }
 
+static Character &operator_present( Character &p, const tripoint &autodoc_loc,
+                                    Character &null_patient )
+{
+    for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( loc ) != couch ) {
+            if( p.pos() == loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        }
+    }
+    return null_patient;
+}
+
 static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
@@ -4338,6 +4357,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
+    Character &Operator = operator_present( p, examp, null_player );
 
     static item null_cyborg;
     item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
@@ -4395,6 +4415,21 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
+    } else if( &Operator == &null_player || &Operator == &p ) {
+        uilist hmenu;
+        hmenu.text =
+            _( "Autodoc Mk. XI.  Status: Online.  WARNING: Operator missing Safety shut-down engaged... " );
+        hmenu.addentry( 1, true, 'O', _( "Override security measures." ) );
+        hmenu.query();
+
+        switch( hmenu.ret ) {
+            case 1:
+                add_msg( m_info, _( "You override the safety measures of the autodoc." ) );
+                break;
+            default:
+                return;
+                break;
+        }
     }
 
     uilist amenu;
