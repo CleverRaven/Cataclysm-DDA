@@ -79,9 +79,9 @@
     "id": "NC_HUNTER_misc",
     "items": [
       [ "sinew", 10 ],
-      [ "bolt_metal", 90 ],
-      [ "bolt_metal", 90 ],
-      [ "bolt_metal", 60 ],
+      [ "bolt_wood", 90 ],
+      [ "bolt_wood", 90 ],
+      [ "bolt_wood", 60 ],
       [ "fishspear", 60 ],
       [ "simple metal arrow", 60 ],
       [ "simple metal arrow", 60 ],
