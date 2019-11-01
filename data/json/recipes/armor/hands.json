@@ -446,5 +446,17 @@
     "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_iron", 3 ], [ "welder", 3 ], [ "hotplate", 3 ], [ "toolset", 3 ] ] ],
     "components": [ [ [ "neoprene", 1 ] ], [ [ "rag", 1 ] ] ]
+  },
+  {
+    "result": "chainmail_hands",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "20 m",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ] ],
+    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
   }
 ]
