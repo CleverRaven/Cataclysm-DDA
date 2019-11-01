@@ -1691,7 +1691,7 @@ void basecamp::start_menial_labor()
 
 void basecamp::start_cut_logs()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water", "forest_trail" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
     tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
     if( forest != tripoint( -999, -999, -999 ) ) {
@@ -1728,7 +1728,8 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
+                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick"
+                        || omt_trees.id() == "forest_trail" ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -1738,7 +1739,7 @@ void basecamp::start_cut_logs()
 
 void basecamp::start_clearcut()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail" };
     popup( _( "Forests are the only valid cutting locations." ) );
     tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
     if( forest != tripoint( -999, -999, -999 ) ) {
@@ -1775,7 +1776,7 @@ void basecamp::start_clearcut()
 void basecamp::start_setup_hide_site()
 {
     std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water",
-                                                "field"
+                                                "field", "forest_trail"
                                               };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
     tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
@@ -1884,7 +1885,7 @@ void basecamp::start_relay_hide_site()
 void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
 {
     std::vector<std::string> allowed_locations = {
-        "forest", "forest_thick", "forest_water", "field"
+        "forest", "forest_thick", "forest_water", "field", "forest_trail"
     };
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
@@ -3254,6 +3255,9 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
         //Player walks 1 om is roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
+        } else if( om_id == "forest_trail" ) {
+            // lil' easier than forest as a path has previously been carved through
+            one_way += 35 + 30 * haulage;
         } else if( om_id == "forest" ) {
             one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
