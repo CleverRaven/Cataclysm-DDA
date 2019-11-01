@@ -114,17 +114,16 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
     save_settings( false );
-    auto &aim_code = uistate.adv_inv_exit_code;
-    if( aim_code != exit_re_entry ) {
-        aim_code = exit_okay;
+    if( save_state->exit_code != exit_re_entry ) {
+        save_state->exit_code = exit_okay;
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
         werase( minimap );
         werase( mm_border );
-        werase(panes[left].window);
-        werase(panes[right].window);
+        werase( panes[left].window );
+        werase( panes[right].window );
         g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
@@ -133,8 +132,7 @@ advanced_inventory::~advanced_inventory()
 void advanced_inventory::save_settings( bool only_panes )
 {
     if( !only_panes ) {
-        uistate.adv_inv_src = src;
-        uistate.adv_inv_dest = dest;
+        save_state->active_left = ( src == left );
     }
     for( int i = 0; i < NUM_PANES; ++i ) {
         panes[i].save_settings();
@@ -143,10 +141,10 @@ void advanced_inventory::save_settings( bool only_panes )
 
 void advanced_inventory::load_settings()
 {
-    aim_exit aim_code = static_cast<aim_exit>( uistate.adv_inv_exit_code );
-    panes[left].load_settings(save_state->saved_area, squares, aim_code == exit_re_entry);
-    panes[right].load_settings(save_state->saved_area_right, squares, aim_code == exit_re_entry);
-    uistate.adv_inv_exit_code = exit_none;
+    aim_exit aim_code = static_cast<aim_exit>( save_state->exit_code );
+    panes[left].load_settings( save_state->saved_area, squares, aim_code == exit_re_entry );
+    panes[right].load_settings( save_state->saved_area_right, squares, aim_code == exit_re_entry );
+    save_state->exit_code = exit_none;
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
@@ -210,8 +208,8 @@ void advanced_inventory::init()
 
     load_settings();
 
-    src = static_cast<side>(uistate.adv_inv_src);
-    dest = static_cast<side>(uistate.adv_inv_dest);
+    src = ( save_state->active_left ) ? left : right;
+    dest = ( save_state->active_left ) ? right : left;
 
     w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
     w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
@@ -226,9 +224,9 @@ void advanced_inventory::init()
     minimap = catacurses::newwin( minimap_height, minimap_width,
                                   point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
     panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
-                                      headstart + head_height ) );
+                         headstart + head_height ) );
     panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
-                                       headstart + head_height ) );
+                          headstart + head_height ) );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
 }
@@ -751,9 +749,9 @@ bool advanced_inventory::move_all_items( bool nested_call )
         auto shadow = panes[src];
         // here we recursively call this function with each area in order to
         // put all items in the proper destination area, with minimal fuss
-        auto &loc = uistate.adv_inv_aim_all_location;
+        auto &loc = save_state->aim_all_location;
         // re-entry nonsense
-        auto &entry = uistate.adv_inv_re_enter_move_all;
+        auto &entry = save_state->re_enter_move_all;
         // if we are just starting out, set entry to initial value
         switch( static_cast<aim_entry>( entry++ ) ) {
             case ENTRY_START:
@@ -1068,7 +1066,7 @@ void advanced_inventory::display()
                  } ) {
                 auto &pane = panes[cside];
                 int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
-                aim_location location = static_cast<aim_location>(i_location);
+                aim_location location = static_cast<aim_location>( i_location );
                 if( pane.get_area() != location || location == AIM_ALL ) {
                     pane.recalc = true;
                 }
@@ -1499,7 +1497,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         }
     }
     // Selected keyed to uilist.entries, which starts at 0.
-    menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
+    menu.selected = save_state->last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
     while( menu.ret == UILIST_WAIT_INPUT ) {
         menu.query( false ); // query, but don't loop
@@ -1511,7 +1509,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         // we have to set the destination pane so that move actions will target it
         // we can use restore_area later to undo this
         panes[dest].set_area( squares[def], true );
-        uistate.adv_inv_last_popup_dest = menu.ret;
+        save_state->last_popup_dest = menu.ret;
         return true;
     }
     return false;
@@ -1753,9 +1751,9 @@ char advanced_inventory::get_minimap_sym( side p ) const
 void advanced_inventory::swap_panes()
 {
     // Switch left and right pane.
-    std::swap( panes[left], panes[right] );    
+    std::swap( panes[left], panes[right] );
     // Switch save states
-    std::swap( panes[left].save_state, panes[right].save_state);
+    std::swap( panes[left].save_state, panes[right].save_state );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
     // Recalculation required for weight & volume
@@ -1769,15 +1767,15 @@ void advanced_inventory::do_return_entry()
     save_settings( true );
     g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
     g->u.activity.auto_resume = true;
-    uistate.adv_inv_exit_code = exit_re_entry;
+    save_state->exit_code = exit_re_entry;
 }
 
 bool advanced_inventory::is_processing() const
 {
-    return uistate.adv_inv_re_enter_move_all != ENTRY_START;
+    return save_state->re_enter_move_all != ENTRY_START;
 }
 
 void cancel_aim_processing()
 {
-    uistate.adv_inv_re_enter_move_all = ENTRY_START;
+    uistate.transfer_save.re_enter_move_all = ENTRY_START;
 }

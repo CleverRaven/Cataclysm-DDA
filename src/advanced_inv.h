@@ -116,7 +116,7 @@ class advanced_inventory
 
         bool exit;
 
-        advanced_inv_save_state* save_state;
+        advanced_inv_save_state *save_state;
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();
