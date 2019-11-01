@@ -100,7 +100,6 @@ class uistatedata
 
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
-        std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
 
         advanced_inv_save_state transfer_save;
 
@@ -112,11 +111,6 @@ class uistatedata
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
-
-        bool debug_ranged;
-        tripoint adv_inv_last_coords = { -999, -999, -999 };
-        int last_inv_start = -2;
-        int last_inv_sel = -2;
 
         // V Menu Stuff
         int list_item_sort = 0;

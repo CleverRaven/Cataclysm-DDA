@@ -133,7 +133,6 @@ advanced_inventory::~advanced_inventory()
 void advanced_inventory::save_settings( bool only_panes )
 {
     if( !only_panes ) {
-        uistate.adv_inv_last_coords = g->u.pos();
         uistate.adv_inv_src = src;
         uistate.adv_inv_dest = dest;
     }
