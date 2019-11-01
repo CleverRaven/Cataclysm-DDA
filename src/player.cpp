@@ -142,7 +142,6 @@ const efftype_id effect_flu( "flu" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
@@ -207,8 +206,6 @@ static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
-static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -1275,39 +1272,6 @@ std::list<item *> player::get_artifact_items()
         }
     }
     return art_items;
-}
-
-/*
- * Calculate player brightness based on the brightest active item, as
- * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
- * item.light.* is -unimplemented- for the moment, as it is a custom override for
- * applying light sources/arcs with specific angle and direction.
- */
-float player::active_light() const
-{
-    float lumination = 0;
-
-    int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
-        if( maxlum < lumit ) {
-            maxlum = lumit;
-        }
-        return false; // continue search, otherwise has_item_with would cancel the search
-    } );
-
-    lumination = static_cast<float>( maxlum );
-
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
-    } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
-        lumination = 25;
-    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
-        lumination = 5;
-    }
-    return lumination;
 }
 
 const tripoint &player::pos() const
