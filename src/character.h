@@ -787,6 +787,12 @@ class Character : public Creature, public visitable<Character>
          */
         bool has_enough_charges( const item &it, bool show_msg ) const;
 
+        /** Consume charges of a tool or comestible item, potentially destroying it in the process
+         *  @param used item consuming the charges
+         *  @param qty number of charges to consume which must be non-zero
+         *  @return true if item was destroyed */
+        bool consume_charges( item &used, int qty );
+
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for

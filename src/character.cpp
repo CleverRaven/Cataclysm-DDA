@@ -5052,6 +5052,53 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
+bool Character::consume_charges( item &used, int qty )
+{
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
+        return false;
+    }
+
+    if( qty == 0 ) {
+        return false;
+    }
+
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
+        return false;
+    }
+
+    // Consume comestibles destroying them if no charges remain
+    if( used.is_food() || used.is_medication() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( &used );
+            return true;
+        }
+        return false;
+    }
+
+    // Tools which don't require ammo are instead destroyed
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( &used );
+        return true;
+    }
+
+    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    if( used.has_flag( "USE_UPS" ) ) {
+        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else {
+            use_charges( "UPS", qty );
+        }
+    } else {
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    }
+    return false;
+}
+
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
 {
     int mv = base_cost;

@@ -915,12 +915,6 @@ class player : public Character
         /** Reassign letter. */
         void reassign_item( item &it, int invlet );
 
-        /** Consume charges of a tool or comestible item, potentially destroying it in the process
-         *  @param used item consuming the charges
-         *  @param qty number of charges to consume which must be non-zero
-         *  @return true if item was destroyed */
-        bool consume_charges( item &used, int qty );
-
         /** Removes gunmod after first unloading any contained ammo and returns true on success */
         bool gunmod_remove( item &gun, item &mod );
 
