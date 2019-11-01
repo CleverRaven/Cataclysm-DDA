@@ -113,8 +113,6 @@ class advanced_inventory
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         catacurses::window head;
-        catacurses::window left_window;
-        catacurses::window right_window;
 
         bool exit;
 

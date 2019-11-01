@@ -122,8 +122,8 @@ advanced_inventory::~advanced_inventory()
         werase( head );
         werase( minimap );
         werase( mm_border );
-        werase( left_window );
-        werase( right_window );
+        werase(panes[left].window);
+        werase(panes[right].window);
         g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
@@ -223,15 +223,12 @@ void advanced_inventory::init()
                                     point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
     minimap = catacurses::newwin( minimap_height, minimap_width,
                                   point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
-    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+    panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
                                       headstart + head_height ) );
-    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+    panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
                                        headstart + head_height ) );
 
     itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
-
-    panes[left].window = left_window;
-    panes[right].window = right_window;
 }
 
 void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
