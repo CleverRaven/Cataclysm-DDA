@@ -901,17 +901,7 @@ class player : public Character
         void use( item_location loc );
         /** Uses the current wielded weapon */
         void use_wielded();
-        /**
-         * Asks how to use the item (if it has more than one use_method) and uses it.
-         * Returns true if it destroys the item. Consumes charges from the item.
-         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
-         */
-        bool invoke_item( item *, const tripoint &pt );
-        /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        bool invoke_item( item *, const std::string &, const tripoint &pt );
-        /** As above two, but with position equal to current position */
-        bool invoke_item( item * );
-        bool invoke_item( item *, const std::string & );
+
         /** Reassign letter. */
         void reassign_item( item &it, int invlet );
 
