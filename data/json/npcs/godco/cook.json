@@ -204,7 +204,7 @@
     "followup": "MISSION_GODCO_COOK_FOOD_2",
     "dialogue": {
       "describe": "I need 100 salt.",
-      "offer": "I know this doesn't sound important, but I am running low salt.  People are not picky here, but it would keep the their morale up if they didn't eat tasteless meals.  Could you find about... 100 salt for me?",
+      "offer": "I know this doesn't sound important, but I am running low on salt.  People are not picky here, but it would keep the their morale up if they didn't eat tasteless meals.  Could you find about... 100 salt for me?",
       "accepted": "Don't forget to tell me when you have them.",
       "rejected": "It's okay, I can do without them.  Just let me know if you reconsider.",
       "advice": "There's a lot of places to look.  They are common in house kitchens, restaurants or grocery stores.",
