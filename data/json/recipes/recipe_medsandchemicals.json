@@ -716,7 +716,7 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
-      [ [ "tallow", 2 ], [ "lard", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
+      [ [ "edible_tallow_lard", 2, "LIST" ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
       [ [ "lye", 2 ], [ "lye_powder", 75 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],

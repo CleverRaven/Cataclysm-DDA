@@ -97,7 +97,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_well",
-    "description": "We should build a well, put it near the terminal. This will make our future here more secure.",
+    "description": "We should build a well, put it near the terminal.  This will make our future here more secure.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

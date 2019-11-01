@@ -118,12 +118,12 @@ void player_activity::do_turn( player &p )
             moves_left = 0;
         }
     }
-    int previous_stamina = p.stamina;
+    int previous_stamina = p.get_stamina();
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
 
     // Activities should never excessively drain stamina.
-    if( p.stamina < previous_stamina && p.stamina < p.get_stamina_max() / 3 ) {
+    if( p.get_stamina() < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
