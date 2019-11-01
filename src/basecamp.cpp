@@ -164,7 +164,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p;
