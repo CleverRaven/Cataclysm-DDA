@@ -5,6 +5,7 @@
     "om_terrain": [ "orchard" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         "________________________",
         "________________________",
@@ -75,6 +76,7 @@
     "om_terrain": [ "orchard" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
         "________________________",
         "________________________",

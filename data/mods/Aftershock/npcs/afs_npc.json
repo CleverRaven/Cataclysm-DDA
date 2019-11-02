@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "npc",
     "id": "afs_gardener_cyborg",
     "//": "PrepNet Phyle Gardener.",
@@ -7,7 +7,7 @@
     "class": "afs_prepnet_gardener",
     "attitude": 1,
     "mission": 0,
-    "chat": "TALK_CYBORG_1",
+    "chat": "TALK_PrepNet_gardener_1",
     "faction": "Prepnet_Phyle",
     "mon_faction": "dog"
   }

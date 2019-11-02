@@ -2,7 +2,7 @@
   {
     "id": "afs_mon_cyber_mastiff",
     "copy-from": "mon_dog",
-    "default_faction": "mon_dog"
+    "default_faction": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "Cyber Mastiff", "str_pl": "Cyber Mastifs" },
     "//": "Rare, location specific only",
@@ -25,17 +25,7 @@
     "harvest": "CBM_DOG",
     "reproduction": { "baby_monster": "mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [
-      "ANIMAL",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "SEES",
-      "SMELLS",
-      "WARM"
-    ]
+    "flags": [ "ANIMAL", "PET_MOUNTABLE", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "afs_mon_cyber_mastiff_pup",

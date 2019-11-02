@@ -23,7 +23,7 @@
   },
   {
     "type": "item_group",
-    "id": "GODCO_cook_wield",
+    "id": "afs_gardener_wield",
     "subtype": "collection",
     "entries": [ { "item": "machete" } ]
   }

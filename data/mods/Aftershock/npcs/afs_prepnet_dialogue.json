@@ -51,7 +51,7 @@
     "responses": [
       { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_prepnet_gardener_ask_food" },
       { "text": "I am just a fellow survivor.", "topic": "TALK_prepnet_gardener_1" },
-      { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1"}
+      { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
@@ -85,9 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_prepnet_gardener_ask_membership",
-    "dynamic_line": {
-      "text": "This is just an outpost, you'd have to find our main camp and currently we don't want you to.",
-    },
+    "dynamic_line": "This is just an outpost, you'd have to find our main camp and currently we don't want you to.",
     "responses": [ { "text": "I didn't want to join your club anyway.", "topic": "TALK_prepnet_gardener_1" } ]
   },
   {
@@ -218,5 +216,5 @@
       "failure": "Don't worry about it, it's not that important."
     },
     "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 12 } ] }
-  },
+  }
 ]
