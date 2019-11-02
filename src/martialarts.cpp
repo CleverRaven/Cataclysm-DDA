@@ -486,7 +486,7 @@ std::string ma_requirements::get_description( bool buff ) const
                                ngettext( "Skill", "Skills", min_skill.size() ) );
 
         dump << enumerate_as_string( min_skill.begin(),
-        min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
+        min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
         }, enumeration_conjunction::none ) << std::endl;
     }
@@ -498,7 +498,7 @@ std::string ma_requirements::get_description( bool buff ) const
             "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump << enumerate_as_string( min_damage.begin(),
-        min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
+        min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
             return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
         }, enumeration_conjunction::none ) << std::endl;
     }
