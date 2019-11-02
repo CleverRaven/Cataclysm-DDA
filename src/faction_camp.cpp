@@ -1694,8 +1694,7 @@ void basecamp::start_cut_logs()
 {
     std::vector<std::string> log_source_matches = { "forest" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches, 
-        true, true, tripoint( -999, -999, -999 ), false, true );
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches, true, true, tripoint( -999, -999, -999 ), false, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1742,8 +1741,7 @@ void basecamp::start_clearcut()
 {
     std::vector<std::string> log_source_matches = { "forest" };
     popup( _( "Forests are the only valid cutting locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches,
-        true, true, tripoint( -999, -999, -999 ), false, true );
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches, true, true, tripoint( -999, -999, -999 ), false, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1779,8 +1777,7 @@ void basecamp::start_setup_hide_site()
 {
     std::vector<std::string> hide_location_matches = { "forest", "field" };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_location_matches, true, true,
-                                      omt_pos, true, true );
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_location_matches, true, true, omt_pos, true, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -1822,8 +1819,7 @@ void basecamp::start_relay_hide_site()
 {
     std::vector<std::string> hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
-    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                                      omt_pos, true );
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -1888,8 +1884,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint start = om_target_tile( omt_pos, 2, 90, allowed_location_matches,
-        true, true, tripoint( -999, -999, -999), false, true );
+    tripoint start = om_target_tile( omt_pos, 2, 90, allowed_location_matches, true, true, tripoint( -999, -999, -999), false, true );
     popup( _( "Select an end point." ) );
     tripoint stop = om_target_tile( omt_pos, 2, 90, allowed_location_matches, true, false, start, false, true );
     if( start != tripoint( -999, -999, -999 ) && stop != tripoint( -999, -999, -999 ) ) {
@@ -3132,8 +3127,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
             if( bounce && omt_ref.id().c_str() == pos_om && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
-                    tripoint dest = om_target_tile( omt_tgt, 2, range * .75, possible_om_types,
-                                                    true, false, omt_tgt, true, ot_match );
+                    tripoint dest = om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, false, omt_tgt, true, ot_match );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
                 }
