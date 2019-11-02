@@ -89,6 +89,24 @@
     ]
   },
   {
+    "id": "liquidcontainer_250ml"
+    "type": "requirement",
+    "//": "Liquid container with a capacity of 250 ml, roughly cylindrical shape and at least some protection from spilling the contents.",
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "sippy_cup", 1 ],
+        [ "clay_canister", 1 ],
+        [ "flask_glass", 1 ],
+        [ "beaker", 1 ],
+        [ "flask_hip", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "rope_natural",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
