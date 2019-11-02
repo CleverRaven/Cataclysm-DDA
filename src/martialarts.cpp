@@ -479,7 +479,7 @@ std::string ma_requirements::get_description( bool buff ) const
 {
     std::stringstream dump;
 
-    if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
+    if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
     return pr.second > 0;
 } ) ) {
         dump << string_format( _( "<bold>%s required: </bold>" ),
@@ -491,7 +491,7 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) << std::endl;
     }
 
-    if( std::any_of( min_damage.begin(), min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+    if( std::any_of( min_damage.begin(), min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
     return pr.second > 0;
 } ) ) {
         dump << ngettext( "<bold>Damage type required: </bold>",
