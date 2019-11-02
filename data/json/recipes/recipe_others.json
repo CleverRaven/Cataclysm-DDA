@@ -2465,7 +2465,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", 1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
