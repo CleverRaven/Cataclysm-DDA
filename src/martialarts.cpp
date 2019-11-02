@@ -480,56 +480,56 @@ std::string ma_requirements::get_description( bool buff ) const
     std::stringstream dump;
 
     if( std::any_of( min_skill.begin(), min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
-        return pr.second > 0;
-        } ) ) {
+    return pr.second > 0;
+} ) ) {
         dump << string_format( _( "<bold>%s required: </bold>" ),
-            ngettext( "Skill", "Skills", min_skill.size() ) );
+                               ngettext( "Skill", "Skills", min_skill.size() ) );
 
         dump << enumerate_as_string( min_skill.begin(),
-            min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
-                return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
-            }, enumeration_conjunction::none ) << std::endl;
+        min_skill.end(), []( const std::pair<skill_id, int> &pr ) {
+            return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
+        }, enumeration_conjunction::none ) << std::endl;
     }
 
     if( std::any_of( min_damage.begin(), min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
-        return pr.second > 0;
-        } ) ) {
+    return pr.second > 0;
+} ) ) {
         dump << ngettext( "<bold>Damage type required: </bold>",
             "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump << enumerate_as_string( min_damage.begin(),
-            min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
-                return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
-            }, enumeration_conjunction::none ) << std::endl;
+        min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
+            return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
+        }, enumeration_conjunction::none ) << std::endl;
     }
 
     if( !req_buffs.empty() ) {
         dump << _( "<bold>Requires:</bold> " );
 
-        dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id &bid ) {
+        dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
-            }, enumeration_conjunction::none ) << std::endl;
+        }, enumeration_conjunction::none ) << std::endl;
     }
 
     const std::string type = buff ? _( "activate" ) : _( "be used" );
 
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
-            type ) << std::endl;
+                               type ) << std::endl;
         if( unarmed_weapons_allowed ) {
             dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                type ) << std::endl;
+                                   type ) << std::endl;
         }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
-            type ) << std::endl;
+                               type ) << std::endl;
         if( unarmed_weapons_allowed ) {
             dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                type ) << std::endl;
+                                   type ) << std::endl;
         }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
-            type ) << std::endl;
+                               type ) << std::endl;
     }
 
     if( wall_adjacent ) {
