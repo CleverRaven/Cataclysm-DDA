@@ -79,7 +79,13 @@
     "blueprint_name": "southwest brewery",
     "blueprint_requires": [ { "id": "faction_base_saltworks_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest_wood" }, { "id": "brewery" } ],
-    "blueprint_excludes": [ { "id": "fbmsw_southwest_log" }, { "id": "fbmsw_southwest_wad" }, { "id": "fbmsw_southwest_metal" }, { "id": "fbmsw_southwest_rock" }, { "id": "fbmsw_southwest_wood" } ],
+    "blueprint_excludes": [
+      { "id": "fbmsw_southwest_log" },
+      { "id": "fbmsw_southwest_wad" },
+      { "id": "fbmsw_southwest_metal" },
+      { "id": "fbmsw_southwest_rock" },
+      { "id": "fbmsw_southwest_wood" }
+    ],
     "blueprint_autocalc": true
   },
   {
