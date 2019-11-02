@@ -158,7 +158,7 @@
       "yes": "You have to ask our leader, Helena, first.  She's the one who makes those decisions.  But as I said, your chances are low, like everyone else's.  The newest member joined just a long time ago.",
       "no": "You have to ask our leader, Helena, first.  She's the one who makes those decisions.  But as I said, your chances are low, like everyone else's.  If you had found our community earlier, you could have had a higher chance to join.  The newest member joined just a few days ago."
     },
-    "responses": [ { "text": "Atleast I tried.", "topic": "TALK_GODCO_cook_1" } ]
+    "responses": [ { "text": "At least I tried.", "topic": "TALK_GODCO_cook_1" } ]
   },
   {
     "type": "talk_topic",
