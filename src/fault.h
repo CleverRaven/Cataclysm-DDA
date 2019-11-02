@@ -33,6 +33,14 @@ class fault
             return description_.translated();
         }
 
+        std::string adds_fault() const {
+            return adds_fault_.translated();
+        }
+
+        std::string flags() const {
+            return flags_.translated();
+        }
+
         int time() const {
             return time_;
         }
@@ -61,6 +69,8 @@ class fault
         fault_id id_;
         translation name_;
         translation description_;
+        translation adds_fault_;
+        translation flags_;
         int time_;
         std::map<skill_id, int> skills_;
         requirement_id requirements_;

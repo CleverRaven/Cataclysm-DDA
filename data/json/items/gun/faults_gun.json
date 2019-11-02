@@ -2,7 +2,9 @@
   {
     "id": "fault_gun_blackpowder",
     "type": "fault",
-    "name": "Clean blackpowder fouling without lubricating",
+    "name": "Blackpowder fouling",
+    "adds_fault": "fault_gun_unlubricated",
+    "flags": "silent",
     "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust. It fouls the gun much faster than the use of modern smokeless powder cartridges. Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly. **Cleaning your gun without lubricating it will result in an unreliable (but clean) weapon.",
     "time": "23 m",
     "skills": [ [ "mechanics", 1 ] ],
@@ -36,7 +38,9 @@
   {
     "id": "fault_gun_dirt",
     "type": "fault",
-    "name": "Clean gun without lubricating",
+    "name": "Fouling",
+    "adds_fault": "fault_gun_unlubricated",
+    "flags": "silent",
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun. Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm. **Cleaning your gun without lubricating it will result in an unreliable (but clean) weapon.",
     "time": "23 m",
     "skills": [ [ "mechanics", 1 ] ],
@@ -59,37 +63,11 @@
     }
   },
   {
-    "id": "fault_gun_dirt_and_lube",
-    "type": "fault",
-    "name": "Clean gun and lubricate",
-    "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun. Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm.",
-    "time": "25 m",
-    "skills": [ [ "mechanics", 1 ] ],
-    "requirements": {
-      "qualities": [ { "id": "SCREW", "level": 1 } ],
-      "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [
-        [
-          [ "gasoline", 125 ],
-          [ "diesel", 125 ],
-          [ "chem_ethanol", 125 ],
-          [ "denat_alcohol", 125 ],
-          [ "vinegar", 16 ],
-          [ "ammonia", 2 ],
-          [ "bleach", 2 ],
-          [ "soapy_water", 32 ]
-        ],
-        [ [ "rag", 1 ], [ "fur", 1 ] ],
-        [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
-      ]
-    }
-  },
-  {
     "id": "fault_gun_unlubricated",
     "type": "fault",
     "name": "Unlubricated",
     "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent without oiling afterwards. Either way, it's not lubricated and will not cycle properly, and can even be damaged.",
-    "time": "15 m",
+    "time": "2 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
