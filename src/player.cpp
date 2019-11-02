@@ -611,12 +611,11 @@ void player::process_turn()
         norm_scent = temp_norm_scent;
     }
 
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if( ( has_trait( trait_FLOWERS ) ) && ( !( has_trait( trait_CHLOROMORPH ) ) ) ) {
-        norm_scent -= 200;
+    for( const trait_id &mut : get_mutations() ) {
+        const cata::optional<int> &scent_mask = mut->scent_mask;
+        if( scent_mask ) {
+            norm_scent += *scent_mask;
+        }
     }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.

@@ -138,6 +138,7 @@ struct mutation_branch {
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity = cata::nullopt;
+        cata::optional<int> scent_mask = cata::nullopt;
         int bleed_resist = 0;
 
         /**What do you smell like*/
