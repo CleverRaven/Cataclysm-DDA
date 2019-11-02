@@ -677,7 +677,7 @@
     "name": "street light",
     "looks_like": "f_utility_pole",
     "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
-    "symbol": "T",
+    "symbol": "Y",
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 40,
