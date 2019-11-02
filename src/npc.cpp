@@ -1189,6 +1189,7 @@ bool npc::wield( item &it )
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
+    invalidate_range_cache();
     return true;
 }
 
@@ -1199,6 +1200,16 @@ void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &targ
     // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
     // so is this necessary?
     activity.do_turn( *this );
+}
+
+void npc::invalidate_range_cache()
+{
+    confident_range_cache = cata::nullopt;
+    if( weapon.is_gun() ) {
+        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+    } else {
+        confident_range_cache = weapon.reach_range( *this );
+    }
 }
 
 void npc::form_opinion( const player &u )
@@ -1790,6 +1801,22 @@ void healing_options::clear_all()
     bleed = false;
     bite = false;
     infect = false;
+}
+
+bool healing_options::all_false()
+{
+    if( !bandage && !bleed && !bite && !infect ) {
+        return true;
+    }
+    return false;
+}
+
+bool healing_options::any_true()
+{
+    if( bandage || bleed || bite || infect ) {
+        return true;
+    }
+    return false;
 }
 
 void healing_options::set_all()
@@ -2671,7 +2698,7 @@ void npc::on_load()
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
-        process_active_items();
+        process_items();
         // give NPCs that are doing activities a pile of moves
         if( has_destination() || activity ) {
             mod_moves( to_moves<int>( dt ) );

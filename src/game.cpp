@@ -1556,7 +1556,6 @@ bool game::do_turn()
         draw();
         refresh_display();
     }
-    u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
         do_rain( weather.weather );
@@ -4268,7 +4267,6 @@ void game::monmove()
         }
 
         if( !guy.is_dead() ) {
-            guy.process_active_items();
             guy.npc_update_body();
         }
     }
