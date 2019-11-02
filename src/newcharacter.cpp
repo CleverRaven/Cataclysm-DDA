@@ -2187,7 +2187,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     catacurses::window w_scenario =
         catacurses::newwin( 1, TERMX - 47, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
     catacurses::window w_profession =
-        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
+        catacurses::newwin( 1, TERMX - 47, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
     catacurses::window w_skills =
         catacurses::newwin( 30, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
     catacurses::window w_guide =
