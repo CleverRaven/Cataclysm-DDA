@@ -851,7 +851,7 @@ void spell::create_field( const tripoint &at ) const
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
-            g->m.add_field( at, *type->field, intensity );
+            g->m.add_field( at, *type->field, intensity, -duration_turns() );
         }
     }
 }
