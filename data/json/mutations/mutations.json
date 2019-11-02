@@ -5224,6 +5224,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
+    "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ]
   },
   {

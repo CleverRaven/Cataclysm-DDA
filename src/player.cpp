@@ -614,11 +614,6 @@ void player::process_turn()
     if( ( has_trait( trait_FLOWERS ) ) && ( !( has_trait( trait_CHLOROMORPH ) ) ) ) {
         norm_scent -= 200;
     }
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait( trait_CHLOROMORPH ) ) {
-        norm_scent = 0;
-    }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
