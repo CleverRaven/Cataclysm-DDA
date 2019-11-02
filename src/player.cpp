@@ -3171,35 +3171,6 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-void player::cough( bool harmful, int loudness )
-{
-    if( harmful ) {
-        const int stam = get_stamina();
-        const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stat( "stamina", -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, 1 );
-        }
-    }
-
-    if( has_effect( effect_cough_suppress ) ) {
-        return;
-    }
-
-    if( !is_npc() ) {
-        add_msg( m_bad, _( "You cough heavily." ) );
-    }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
-                   "cough" );
-
-    moves -= 80;
-
-    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
-        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
-        wake_up();
-    }
-}
-
 void player::add_pain_msg( int val, body_part bp ) const
 {
     if( has_trait( trait_NOPAIN ) ) {
