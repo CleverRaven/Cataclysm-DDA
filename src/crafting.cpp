@@ -1151,13 +1151,13 @@ void player::complete_craft( item &craft, const tripoint &loc )
                              making.result_name() );
                 }
             }
-
-            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-            if( newit.has_flag( "VARSIZE" ) ) {
-                newit.item_tags.insert( "FIT" );
-            }
-            food_contained.inherit_flags( used );
         }
+
+        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+        if( newit.has_flag( "VARSIZE" ) ) {
+            newit.item_tags.insert( "FIT" );
+        }
+        food_contained.inherit_flags( used );
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
