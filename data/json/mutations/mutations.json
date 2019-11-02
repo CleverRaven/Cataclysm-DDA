@@ -644,6 +644,7 @@
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
     "category": [ "ALPHA" ],
+    "scent_intensity": 300,
     "types": [ "SCENT" ]
   },
   {
@@ -1051,6 +1052,7 @@
     "starting_trait": true,
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
+    "scent_intensity": 800,
     "category": [ "FELINE", "LUPINE", "MOUSE" ]
   },
   {
@@ -4317,6 +4319,7 @@
     "visibility": 4,
     "ugliness": 5,
     "description": "You smell awful.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL" ],
     "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE" ]
