@@ -2,13 +2,7 @@
   {
     "id": "fd_clairvoyant",
     "type": "field_type",
-    "intensity_levels": [
-      {
-        "name": "clairvoyance",
-        "sym": "8",
-        "dangerous": false
-      }
-    ],
+    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,
     "dirty_transparency_cache": true,
