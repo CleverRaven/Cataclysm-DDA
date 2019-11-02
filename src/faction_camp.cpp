@@ -368,12 +368,13 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt, const std::vector<ite
  * @param popup_notice toggles if the user should be shown ranges before being allowed to pick
  * @param source if you are selecting multiple points this is where the OM is centered to start
  * @param bounce
+ * @param ot_match toggles if possible_om_types will be fed to ot_match_type::contains
  */
 tripoint om_target_tile( const tripoint &omt_pos, int min_range = 1, int range = 1,
                          const std::vector<std::string> &possible_om_types = {},
                          bool must_see = true, bool popup_notice = true,
                          const tripoint &source = tripoint( -999, -999, -999 ),
-                         bool bounce = false );
+                         bool bounce = false, bool ot_match = false);
 void om_range_mark( const tripoint &origin, int range, bool add_notes = true,
                     const std::string &message = "Y;X: MAX RANGE" );
 void om_line_mark( const tripoint &origin, const tripoint &dest, bool add_notes = true,
@@ -1691,9 +1692,10 @@ void basecamp::start_menial_labor()
 
 void basecamp::start_cut_logs()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
+    std::vector<std::string> log_source_matches = { "forest" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches, 
+        true, true, tripoint( -999, -999, -999 ), false, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1728,7 +1730,7 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
+                if( is_ot_match( "forest", omt_trees, ot_match_type::contains ) ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -1738,9 +1740,10 @@ void basecamp::start_cut_logs()
 
 void basecamp::start_clearcut()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick" };
+    std::vector<std::string> log_source_matches = { "forest" };
     popup( _( "Forests are the only valid cutting locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint forest = om_target_tile( omt_pos, 1, 50, log_source_matches,
+        true, true, tripoint( -999, -999, -999 ), false, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1774,12 +1777,10 @@ void basecamp::start_clearcut()
 
 void basecamp::start_setup_hide_site()
 {
-    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water",
-                                                "field"
-                                              };
+    std::vector<std::string> hide_location_matches = { "forest", "field" };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                                      omt_pos, true );
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_location_matches, true, true,
+                                      omt_pos, true, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -1883,15 +1884,14 @@ void basecamp::start_relay_hide_site()
 
 void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
 {
-    std::vector<std::string> allowed_locations = {
-        "forest", "forest_thick", "forest_water", "field"
-    };
+    std::vector<std::string> allowed_location_matches = { "forest", "field" };
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint start = om_target_tile( omt_pos, 2, 90, allowed_locations );
+    tripoint start = om_target_tile( omt_pos, 2, 90, allowed_location_matches,
+        true, true, tripoint( -999, -999, -999), false, true );
     popup( _( "Select an end point." ) );
-    tripoint stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
+    tripoint stop = om_target_tile( omt_pos, 2, 90, allowed_location_matches, true, false, start, false, true );
     if( start != tripoint( -999, -999, -999 ) && stop != tripoint( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( bldg_exp ).obj();
         bool change_x = ( start.x != stop.x );
@@ -1932,8 +1932,8 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
         for( auto fort_om : fortify_om ) {
             bool valid = false;
             const oter_id &omt_ref = overmap_buffer.ter( fort_om );
-            for( const std::string &pos_om : allowed_locations ) {
-                if( omt_ref.id().c_str() == pos_om ) {
+            for( const std::string &pos_om : allowed_location_matches ) {
+                if( is_ot_match( pos_om, omt_ref, ot_match_type::contains ) ) {
                     valid = true;
                     break;
                 }
@@ -3088,7 +3088,7 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
 
 tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
                          const std::vector<std::string> &possible_om_types, bool must_see,
-                         bool popup_notice, const tripoint &source, bool bounce )
+                         bool popup_notice, const tripoint &source, bool bounce, bool ot_match )
 {
     bool errors = false;
     if( popup_notice ) {
@@ -3133,7 +3133,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
                     tripoint dest = om_target_tile( omt_tgt, 2, range * .75, possible_om_types,
-                                                    true, false, omt_tgt, true );
+                                                    true, false, omt_tgt, true, ot_match );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
                 }
@@ -3145,7 +3145,11 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
         }
 
         for( const std::string &pos_om : possible_om_types ) {
-            if( omt_ref.id().c_str() == pos_om ) {
+            if( ot_match ) {
+                if ( is_ot_match( pos_om, omt_ref, ot_match_type::contains ) ) {
+                    return omt_tgt;
+                }
+            } else if( omt_ref.id().c_str() == pos_om ) {
                 return omt_tgt;
             }
         }
