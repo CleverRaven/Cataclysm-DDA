@@ -3681,7 +3681,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                         + 1;
             }
         }
-        if( ( silent_faults_counted >= faults.size() ) ) {
+        int faults_size = faults.size();
+        if( ( silent_faults_counted >= faults_size ) ) {
             damtext.insert( 0, dirt_symbol );
         } else {
             damtext.insert( 0, _( "faulty " ) + dirt_symbol );
