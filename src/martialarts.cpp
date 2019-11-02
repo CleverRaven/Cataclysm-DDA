@@ -491,11 +491,12 @@ std::string ma_requirements::get_description( bool buff ) const
         }, enumeration_conjunction::none ) << std::endl;
     }
 
-    if( std::any_of( min_damage.begin(), min_damage.end(), []( const std::pair<damage_type, int> &pr ) {
+    if( std::any_of( min_damage.begin(),
+    min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
     return pr.second > 0;
 } ) ) {
         dump << ngettext( "<bold>Damage type required: </bold>",
-            "<bold>Damage types required: </bold>", min_damage.size() );
+                          "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump << enumerate_as_string( min_damage.begin(),
         min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
