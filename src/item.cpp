@@ -1922,10 +1922,10 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " );
-        for( const gun_type_type &used_on : mod.usable ) {
-            used_on_str += string_format( "<info>%s</info> ", used_on.name() );
-        }
+        std::string used_on_str = _( "Used on: " ) +
+        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
+            return string_format( "<info>%s</info>", item::find_type( used_on.name() )->nname( 1 ) );
+        } );
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
