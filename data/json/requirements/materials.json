@@ -89,7 +89,7 @@
     ]
   },
   {
-    "id": "liquidcontainer_250ml"
+    "id": "liquidcontainer_250ml",
     "type": "requirement",
     "//": "Liquid container with a capacity of 250 ml, roughly cylindrical shape and at least some protection from spilling the contents.",
     "components": [
