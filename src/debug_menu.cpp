@@ -820,6 +820,7 @@ void character_edit_menu()
                 np->set_attitude( attitudes[attitudes_ui.ret] );
             }
         }
+        break;
         case D_FLU: {
             p.add_effect( effect_flu, 1000_minutes );
             break;
