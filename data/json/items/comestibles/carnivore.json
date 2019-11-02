@@ -698,7 +698,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mutant_human_lard",
-    "name": "human lard",
+    "name": "mutant humanoid lard",
     "copy-from": "mutant_human_tallow",
     "description": "A smooth white block of dry-rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
   },
