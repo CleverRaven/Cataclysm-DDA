@@ -110,7 +110,7 @@
     "color": "brown",
     "broken_color": "brown",
     "difficulty": 1,
-    "durability": 100,
+    "durability": 110,
     "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
