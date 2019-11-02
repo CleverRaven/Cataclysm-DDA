@@ -262,6 +262,10 @@ struct mutation_branch {
          */
         bool conflicts_with_item( const item &it ) const;
         /**
+         * Returns list of bodyparts affected by the mutation.
+         */
+        std::set<body_part> get_affected_body_parts() const;
+        /**
          * Returns damage resistance on a given body part granted by this mutation.
          */
         const resistances &damage_resistance( body_part bp ) const;

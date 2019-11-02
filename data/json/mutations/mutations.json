@@ -21,7 +21,7 @@
     "cost": 1,
     "time": 810000,
     "hunger": true,
-    "encumbrance_covered": [ "HEAD", 5 ],
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
     "changes_to": [ "BIOLUM2" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "lumination": 8
@@ -36,7 +36,7 @@
     "cost": 1,
     "time": 405000,
     "hunger": true,
-    "encumbrance_covered": [ "HEAD", 5 ],
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "lumination": 20
