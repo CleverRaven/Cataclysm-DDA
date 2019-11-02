@@ -21,7 +21,7 @@
     "armor_cut": 14,
     "looks_like": "mon_dog_gpyrenees",
     "vision_day": 30,
-    "vision_night": 6,
+    "vision_night": 8,
     "harvest": "CBM_DOG",
     "reproduction": { "baby_monster": "mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",

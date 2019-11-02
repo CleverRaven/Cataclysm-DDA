@@ -15,9 +15,9 @@
   { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
   ],
   "common": false,
-  "worn_override": "NC_CYBORG_worn",
-  "carry_override": "NC_CYBORG_carried",
-  "weapon_override": "EMPTY_GROUP",
+  "worn_override": "afs_gardener_worn",
+  "carry_override": "afs_gardener_carried",
+  "weapon_override": "afs_gardener_wield",
   "bionics": [
     { "id": "bio_carbon", "chance": 100 },
     { "id": "bio_claws", "chance": 100 },
