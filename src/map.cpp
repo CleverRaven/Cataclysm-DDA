@@ -7678,21 +7678,24 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type )
+bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                         int fake_map_z )
 {
+    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
+
     bool do_terset = true;
-    set_abs_sub( tripoint_zero );
+    set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const tripoint gridp( gridx, gridy, 0 );
+            const tripoint gridp( gridx, gridy, fake_map_z );
             submap *tmpsub = MAPBUFFER.lookup_submap( gridp );
             if( tmpsub == nullptr ) {
                 generate_uniform( gridp, ter_type );
                 do_terset = false;
                 tmpsub = MAPBUFFER.lookup_submap( gridp );
                 if( tmpsub == nullptr ) {
-                    dbg( D_ERROR ) << "failed to generate a fake submap at 0, 0, 0 ";
-                    debugmsg( "failed to generate a fake submap at 0,0,0" );
+                    dbg( D_ERROR ) << "failed to generate a fake submap at 0,0,-9 ";
+                    debugmsg( "failed to generate a fake submap at 0,0,-9" );
                     return false;
                 }
             }
@@ -7702,8 +7705,8 @@ bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const 
         }
     }
 
-    for( const tripoint &pos : points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( const tripoint &pos : points_in_rectangle( tripoint_below_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, fake_map_z ) ) ) {
         if( do_terset ) {
             ter_set( pos, ter_type );
         }

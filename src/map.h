@@ -1719,7 +1719,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                        int fake_map_z );
 };
 
 #endif
