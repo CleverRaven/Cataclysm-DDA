@@ -143,7 +143,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery2_wood_west",
+    "update_mapgen_id": "fbmsw_brewery2_wood_southwest",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery2_wood" ], "x": 3, "y": 14 } ] }
   }

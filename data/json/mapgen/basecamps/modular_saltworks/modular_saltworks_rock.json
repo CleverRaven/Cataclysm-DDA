@@ -137,7 +137,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery2_rock_west",
+    "update_mapgen_id": "fbmsw_brewery2_rock_southwest",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery2_rock" ], "x": 3, "y": 14 } ] }
   }
