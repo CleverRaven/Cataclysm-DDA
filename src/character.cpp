@@ -5063,7 +5063,7 @@ bool Character::invoke_item( item *used )
 
 bool Character::invoke_item( item *used, const tripoint &pt )
 {
-    const auto &use_methods = used->type->use_methods;
+    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
 
     if( use_methods.empty() ) {
         return false;
