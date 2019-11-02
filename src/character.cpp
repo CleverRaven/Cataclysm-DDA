@@ -5086,7 +5086,7 @@ void Character::cough( bool harmful, int loudness )
     moves -= 80;
 
     if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
-        ( ( harmful && one_in( 30 ) ) || one_in( 100 ) ) ) {
+        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
         wake_up();
     }
 }
