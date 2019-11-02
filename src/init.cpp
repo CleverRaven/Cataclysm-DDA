@@ -681,6 +681,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Spells" ), &spell_type::check_consistency },
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
+            { _( "Scent type" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency }
         }
     };

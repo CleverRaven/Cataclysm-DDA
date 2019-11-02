@@ -304,4 +304,23 @@ void scent_type::load_scent_type( JsonObject &jo, const std::string &src )
 void scent_type::load( JsonObject &jo, const std::string & )
 {
     assign( jo, "id", id );
+    assign( jo, "receptive_species", receptive_species );
+}
+
+const std::vector<scent_type> &scent_type::get_all()
+{
+    return scent_factory.get_all();
+}
+
+void scent_type::check_scent_consistency()
+{
+    for( const scent_type &styp : get_all() ) {
+        for( const species_id &spe : styp.receptive_species ) {
+            if( !spe.is_valid() ) {
+                debugmsg( "scent_type %s has invalid species_id %s in receptive_species", styp.id.c_str(),
+                          spe.c_str() );
+            }
+        }
+    }
+
 }

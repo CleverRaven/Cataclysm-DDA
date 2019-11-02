@@ -27,9 +27,12 @@ class scent_type
     public:
         static void load_scent_type( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
-        scenttype_id id;
+        static const std::vector<scent_type> &get_all();
+        static void check_scent_consistency();
         bool was_loaded;
 
+        scenttype_id id;
+        std::set<species_id> receptive_species;
 };
 
 class scent_map
