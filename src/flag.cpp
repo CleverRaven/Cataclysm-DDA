@@ -23,6 +23,11 @@ void json_flag::load( JsonObject &jo )
     jo.read( "info", f.info_ );
     jo.read( "conflicts", f.conflicts_ );
     jo.read( "inherit", f.inherit_ );
+    jo.read( "craft_inherit", f.craft_inherit_ );
+
+    // FIXME: most flags have a "context" field that isn't used for anything
+    // Test for it here to avoid errors about unvisited members
+    jo.has_member( "context" );
 }
 
 void json_flag::check_consistency()

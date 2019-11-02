@@ -79,11 +79,11 @@
     "type": "palette",
     "id": "mega_goods_a",
     "items": {
-      "b": { "item": "novels", "chance": 15, "count-min": 1, "count-max": 2 },
+      "b": { "item": "novels", "chance": 15, "repeat": [ 1, 2 ] },
       "f": { "item": "produce", "chance": 15 },
       "F": { "item": "fridgesnacks", "chance": 15 },
       "k": { "item": "shirts", "chance": 15 },
-      "K": { "item": "shoes", "chance": 15, "count-min": 1, "count-max": 2 },
+      "K": { "item": "shoes", "chance": 15, "repeat": [ 1, 2 ] },
       "r": { "item": "pants", "chance": 15 },
       "R": { "item": "jackets", "chance": 15 },
       "x": { "item": "child_items", "chance": 15 },
@@ -95,8 +95,8 @@
     "id": "mega_goods_b",
     "items": {
       "b": { "item": "homebooks", "chance": 20 },
-      "f": { "item": "fridgesnacks", "chance": 15, "count-min": 1, "count-max": 2 },
-      "F": { "item": "fridge", "chance": 15, "count-min": 1, "count-max": 2 },
+      "f": { "item": "fridgesnacks", "chance": 15, "repeat": [ 1, 2 ] },
+      "F": { "item": "fridge", "chance": 15, "repeat": [ 1, 2 ] },
       "k": { "item": "shoes", "chance": 15 },
       "K": { "item": "cannedfood", "chance": 15 },
       "r": { "item": "hardware", "chance": 15 },
@@ -111,11 +111,11 @@
     "items": {
       "b": { "item": "waitingroom", "chance": 10 },
       "f": { "item": "fridge", "chance": 15 },
-      "F": { "item": "produce", "chance": 15, "count-min": 1, "count-max": 3 },
+      "F": { "item": "produce", "chance": 15, "repeat": [ 1, 3 ] },
       "k": { "item": "cannedfood", "chance": 15 },
       "K": { "item": "pasta", "chance": 15 },
       "r": { "item": "hardware", "chance": 15 },
-      "R": { "item": "cleaning", "chance": 15, "count-min": 1, "count-max": 2 },
+      "R": { "item": "cleaning", "chance": 15, "repeat": [ 1, 2 ] },
       "x": { "item": "shoes", "chance": 15 },
       "X": { "item": "dresser", "chance": 15 }
     }
@@ -124,14 +124,14 @@
     "type": "palette",
     "id": "mega_goods_d",
     "items": {
-      "b": { "item": "waitingroom", "chance": 15, "count-min": 1, "count-max": 4 },
-      "f": { "item": "vending_food_items", "chance": 15, "count-min": 1, "count-max": 2 },
+      "b": { "item": "waitingroom", "chance": 15, "repeat": [ 1, 4 ] },
+      "f": { "item": "vending_food_items", "chance": 15, "repeat": [ 1, 2 ] },
       "F": { "item": "kitchen", "chance": 15 },
       "k": { "item": "pasta", "chance": 15 },
       "K": { "item": "winter", "chance": 15 },
       "r": { "item": "sports", "chance": 15 },
       "R": { "item": "camping", "chance": 15 },
-      "x": { "item": "cleaning", "chance": 15, "count-min": 1, "count-max": 2 },
+      "x": { "item": "cleaning", "chance": 15, "repeat": [ 1, 2 ] },
       "X": { "item": "pasta", "chance": 15 }
     }
   },
@@ -141,7 +141,7 @@
     "items": {
       "b": { "item": "waitingroom", "chance": 15 },
       "f": { "item": "produce", "chance": 15 },
-      "F": { "item": "vending_drink_items", "chance": 15, "count-min": 1, "count-max": 3 },
+      "F": { "item": "vending_drink_items", "chance": 15, "repeat": [ 1, 3 ] },
       "k": { "item": "cleaning", "chance": 15 },
       "K": { "item": "camping", "chance": 15 },
       "r": { "item": "mechanics", "chance": 15 },
@@ -156,10 +156,10 @@
     "items": {
       "b": { "item": "novels", "chance": 15 },
       "f": { "item": "fridgesnacks", "chance": 15 },
-      "F": { "item": "vending_drink_items", "chance": 15, "count-min": 1, "count-max": 3 },
+      "F": { "item": "vending_drink_items", "chance": 15, "repeat": [ 1, 3 ] },
       "k": { "item": "shirts", "chance": 15 },
       "K": { "item": "shoes", "chance": 15 },
-      "r": { "item": "snacks", "chance": 25, "count-min": 1, "count-max": 2 },
+      "r": { "item": "snacks", "chance": 25, "repeat": [ 1, 2 ] },
       "R": { "item": "shelter", "chance": 15 },
       "x": { "item": "textbooks", "chance": 15 },
       "X": { "item": "dresser", "chance": 15 }
@@ -212,7 +212,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_0",
-    "comment": "ground floor. top left corner",
+    "//": "ground floor. top left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -255,7 +255,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_0",
-    "comment": "ground floor. top left corner",
+    "//": "ground floor. top left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -298,7 +298,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_0",
-    "comment": "ground floor. top left corner",
+    "//": "ground floor. top left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -341,7 +341,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_0",
-    "comment": "ground floor. top left corner",
+    "//": "ground floor. top left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -384,7 +384,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_0",
-    "comment": "ground floor. top left corner",
+    "//": "ground floor. top left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -427,7 +427,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_0",
-    "comment": "ground floor. top edge",
+    "//": "ground floor. top edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -465,7 +465,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_0",
-    "comment": "ground floor. top edge",
+    "//": "ground floor. top edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -503,7 +503,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_0",
-    "comment": "ground floor. top edge",
+    "//": "ground floor. top edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -541,7 +541,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_0",
-    "comment": "ground floor. top edge",
+    "//": "ground floor. top edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -579,7 +579,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_0",
-    "comment": "ground floor. top edge",
+    "//": "ground floor. top edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -617,7 +617,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_0",
-    "comment": "ground floor. top right corner",
+    "//": "ground floor. top right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -657,7 +657,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_0",
-    "comment": "ground floor. top right corner",
+    "//": "ground floor. top right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -697,7 +697,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_0",
-    "comment": "ground floor. top right corner",
+    "//": "ground floor. top right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -737,7 +737,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_0",
-    "comment": "ground floor. top right corner",
+    "//": "ground floor. top right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -777,7 +777,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_0",
-    "comment": "ground floor. top right corner",
+    "//": "ground floor. top right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -817,7 +817,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_0",
-    "comment": "ground floor. left edge",
+    "//": "ground floor. left edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -856,7 +856,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_0",
-    "comment": "ground floor. left edge",
+    "//": "ground floor. left edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -897,7 +897,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_0",
-    "comment": "ground floor. left edge",
+    "//": "ground floor. left edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -936,7 +936,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_0",
-    "comment": "ground floor. left edge",
+    "//": "ground floor. left edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -975,7 +975,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_0",
-    "comment": "ground floor. left edge",
+    "//": "ground floor. left edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1014,7 +1014,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_0",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1053,7 +1053,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_0",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1092,7 +1092,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_0",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1131,7 +1131,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_0",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1170,7 +1170,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_0",
-    "comment": "ground floor. middle area",
+    "//": "ground floor. middle area",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1209,7 +1209,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_0",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1248,7 +1248,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_0",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1287,7 +1287,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_0",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1326,7 +1326,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_0",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1366,7 +1366,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_0",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1405,7 +1405,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_0",
-    "comment": "ground floor. bottom left corner",
+    "//": "ground floor. bottom left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1444,7 +1444,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_0",
-    "comment": "ground floor. bottom left corner",
+    "//": "ground floor. bottom left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1483,7 +1483,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_0",
-    "comment": "ground floor. bottom left corner",
+    "//": "ground floor. bottom left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1523,7 +1523,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_0",
-    "comment": "ground floor. bottom left corner",
+    "//": "ground floor. bottom left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1562,7 +1562,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_0",
-    "comment": "ground floor. bottom left corner",
+    "//": "ground floor. bottom left corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1602,7 +1602,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_2_0",
-    "comment": "ground floor. entrance",
+    "//": "ground floor. entrance",
     "weight": 10,
     "method": "json",
     "object": {
@@ -1643,7 +1643,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_2_0",
-    "comment": "ground floor. entrance",
+    "//": "ground floor. entrance",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1683,7 +1683,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_0",
-    "comment": "ground floor. bottom right corner",
+    "//": "ground floor. bottom right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1723,7 +1723,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_0",
-    "comment": "ground floor. bottom right corner",
+    "//": "ground floor. bottom right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1762,7 +1762,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_0",
-    "comment": "ground floor. bottom right corner",
+    "//": "ground floor. bottom right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1796,13 +1796,13 @@
       "rotation": 2,
       "palettes": [ "megastore", "mega_goods_c" ],
       "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
-      "items": { "C": { "item": "produce", "chance": 30, "count": 3 } }
+      "items": { "C": { "item": "produce", "chance": 30, "repeat": 3 } }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_0",
-    "comment": "ground floor. bottom right corner",
+    "//": "ground floor. bottom right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1841,7 +1841,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_0",
-    "comment": "ground floor. bottom right corner",
+    "//": "ground floor. bottom right corner",
     "weight": 100,
     "method": "json",
     "object": {
@@ -1880,7 +1880,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_1",
-    "comment": "second floor. top left corner",
+    "//": "second floor. top left corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -1918,7 +1918,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_1",
-    "comment": "second floor. top edge",
+    "//": "second floor. top edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -1956,7 +1956,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_1",
-    "comment": "second floor  top right corner",
+    "//": "second floor  top right corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -1995,7 +1995,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_1",
-    "comment": "second floor  left edge",
+    "//": "second floor  left edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2033,7 +2033,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_1",
-    "comment": "second floor. middle area",
+    "//": "second floor. middle area",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2071,7 +2071,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_1",
-    "comment": "second floor. right edge",
+    "//": "second floor. right edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2109,7 +2109,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_1",
-    "comment": "second floor. bottom left corner",
+    "//": "second floor. bottom left corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2147,7 +2147,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_2_1",
-    "comment": "second floor. bottom edge",
+    "//": "second floor. bottom edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2185,7 +2185,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_1",
-    "comment": "second floor  bottom right corner",
+    "//": "second floor  bottom right corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2223,7 +2223,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_0_roof",
-    "comment": "roof. top left corner.",
+    "//": "roof. top left corner.",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2275,7 +2275,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_0_roof",
-    "comment": "roof. top edge",
+    "//": "roof. top edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2327,7 +2327,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_0_roof",
-    "comment": "third floor. top right corner",
+    "//": "third floor. top right corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2379,7 +2379,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_1_roof",
-    "comment": "roof.  left edge",
+    "//": "roof.  left edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2434,7 +2434,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_1_roof",
-    "comment": "roof. middle area",
+    "//": "roof. middle area",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2479,7 +2479,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_1_roof",
-    "comment": "roof. right edge",
+    "//": "roof. right edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2530,7 +2530,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_0_2_roof",
-    "comment": "third floor. bottom left corner",
+    "//": "third floor. bottom left corner",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2575,7 +2575,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_1_2_roof",
-    "comment": "roof. bottom edge",
+    "//": "roof. bottom edge",
     "weight": 10,
     "method": "json",
     "object": {
@@ -2626,7 +2626,7 @@
   {
     "type": "mapgen",
     "om_terrain": "megastore_2_2_roof",
-    "comment": "third floor  bottom right corner",
+    "//": "third floor  bottom right corner",
     "weight": 10,
     "method": "json",
     "object": {

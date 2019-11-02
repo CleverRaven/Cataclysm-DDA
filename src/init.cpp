@@ -130,7 +130,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             for( const auto &elem : data ) {
                 discarded << elem.first;
             }
-            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
                       data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
@@ -143,7 +143,7 @@ static void load_ignored_type( JsonObject &jo )
     // This does nothing!
     // This function is used for types that are to be ignored
     // (for example for testing or for unimplemented types)
-    ( void ) jo;
+    jo.allow_omitted_members();
 }
 
 void DynamicDataLoader::add( const std::string &type,
@@ -297,9 +297,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
     add( "MIGRATION", []( JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
@@ -574,6 +573,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
+            { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {

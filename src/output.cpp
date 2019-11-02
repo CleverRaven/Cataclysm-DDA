@@ -666,7 +666,7 @@ std::string string_replace( std::string text, const std::string &before, const s
 {
     // Check if there's something to replace (mandatory) and it's necessary (optional)
     // Second condition assumes that text is much longer than both &before and &after.
-    if( before.length() == 0 || before == after ) {
+    if( before.empty() || before == after ) {
         return text;
     }
 
@@ -1619,7 +1619,7 @@ void replace_substring( std::string &input, const std::string &substring,
 std::string &capitalize_letter( std::string &str, size_t n )
 {
     char c = str[n];
-    if( str.length() > 0 && c >= 'a' && c <= 'z' ) {
+    if( !str.empty() && c >= 'a' && c <= 'z' ) {
         c += 'A' - 'a';
         str[n] = c;
     }
@@ -1956,11 +1956,11 @@ int scrollingcombattext::cSCT::getPosX() const
             }
 
             //Center text
-            iDirOffset -= ( getText().length() / 2 );
+            iDirOffset -= utf8_width( getText() ) / 2;
 
         } else if( oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft ) {
             //Right align text
-            iDirOffset -= getText().length() - 1;
+            iDirOffset -= utf8_width( getText() ) - 1;
         }
 
         return pos.x + iDirOffset + ( dir.x * ( ( sType == "hp" ) ? ( getStepOffset() + 1 ) :
@@ -1982,11 +1982,11 @@ int scrollingcombattext::cSCT::getPosY() const
 
             if( oDir == oUp || oDir == oDown ) {
                 //Center text
-                iDirOffset -= ( getText().length() / 2 );
+                iDirOffset -= utf8_width( getText() ) / 2;
 
             } else if( oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft ) {
                 //Right align text
-                iDirOffset -= getText().length() - 1;
+                iDirOffset -= utf8_width( getText() ) - 1;
             }
 
         }
@@ -2134,7 +2134,7 @@ std::vector<std::string> string_split( const std::string &text_in, char delim_in
         elems.push_back( item );
     }
 
-    if( text_in[text_in.length() - 1] == delim_in ) {
+    if( text_in.back() == delim_in ) {
         elems.push_back( "" );
     }
 

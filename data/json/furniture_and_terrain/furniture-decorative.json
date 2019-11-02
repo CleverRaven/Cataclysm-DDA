@@ -118,7 +118,7 @@
     "type": "furniture",
     "id": "f_mannequin",
     "name": "mannequin",
-    "description": "Put clothes on it, talk to it.  Who's around to judge you?  Wait... did it just move?",
+    "description": "Put clothes on it, talk to it.  Who's around to judge you?  Wait… did it just move?",
     "symbol": "@",
     "color": "brown",
     "move_cost_mod": 2,

@@ -68,9 +68,10 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     }
     if( modifier ) {
         modifier->modify( tmp );
+    } else {
+        // TODO: change the spawn lists to contain proper references to containers
+        tmp = tmp.in_its_container();
     }
-    // TODO: change the spawn lists to contain proper references to containers
-    tmp = tmp.in_its_container();
     return tmp;
 }
 
@@ -203,7 +204,6 @@ Item_modifier::Item_modifier()
 
 void Item_modifier::modify( item &new_item ) const
 {
-
     if( new_item.is_null() ) {
         return;
     }
@@ -217,8 +217,58 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
-             charges.second );
+    // create container here from modifier or from default to get max charges later
+    item cont;
+    if( container != nullptr ) {
+        cont = container->create_single( new_item.birthday() );
+    }
+    if( cont.is_null() && new_item.type->default_container.has_value() ) {
+        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
+        if( cont_value != "null" ) {
+            cont = item( cont_value, new_item.birthday() );
+        }
+    }
+
+    int max_capacity = -1;
+    if( charges.first != -1 && charges.second == -1 ) {
+        const int max_ammo = new_item.ammo_capacity();
+        if( max_ammo > 0 ) {
+            max_capacity = max_ammo;
+        }
+    }
+
+    if( max_capacity == -1 && !cont.is_null() ) {
+        if( new_item.made_of( LIQUID ) ) {
+            max_capacity = cont.get_remaining_capacity_for_liquid( new_item );
+        } else if( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) {
+            max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
+        }
+    }
+
+    const bool charges_not_set = charges.first == -1 && charges.second == -1;
+    int ch = -1;
+    if( !charges_not_set ) {
+        int charges_min = charges.first;
+        int charges_max = charges.second;
+
+        if( charges_min == -1 && charges_max != -1 ) {
+            charges_min = 0;
+        }
+
+        if( max_capacity != -1 && ( charges_max > max_capacity || ( charges_min != 1 &&
+                                    charges_max == -1 ) ) ) {
+            charges_max = max_capacity;
+        }
+
+        if( charges_min > charges_max ) {
+            charges_min = charges_max;
+        }
+
+        ch = charges_min == charges_max ? charges_min : rng( charges_min,
+                charges_max );
+    } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
+        new_item.charges = max_capacity;
+    }
 
     if( ch != -1 ) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
@@ -275,20 +325,9 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( container != nullptr ) {
-        item cont = container->create_single( new_item.birthday() );
-        if( !cont.is_null() ) {
-            if( new_item.made_of( LIQUID ) ) {
-                int rc = cont.get_remaining_capacity_for_liquid( new_item );
-                if( rc > 0 && ( new_item.charges > rc || ch == -1 ) ) {
-                    // make sure the container is not over-full.
-                    // fill up the container (if using default charges)
-                    new_item.charges = rc;
-                }
-            }
-            cont.put_in( new_item );
-            new_item = cont;
-        }
+    if( !cont.is_null() ) {
+        cont.put_in( new_item );
+        new_item = cont;
     }
 
     if( contents != nullptr ) {

@@ -48,8 +48,8 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "seasoning_italian", 4 ],
-        [ "sauce_red", 1 ],
-        [ "tomato", 2 ],
+        [ "sauce_red", 2 ],
+        [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
@@ -74,7 +74,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "seasoning_italian", 4 ],
-        [ "sauce_red", 1 ],
+        [ "sauce_red", 2 ],
         [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ],
@@ -101,7 +101,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "seasoning_italian", 4 ],
-        [ "sauce_red", 1 ],
+        [ "sauce_red", 2 ],
         [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ],
@@ -128,8 +128,8 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "seasoning_italian", 4 ],
-        [ "sauce_red", 1 ],
-        [ "tomato", 2 ],
+        [ "sauce_red", 2 ],
+        [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
@@ -175,7 +175,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
-    "components": [ [ [ "flour", 9 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "flour", 7 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "result": "spaghetti_raw",

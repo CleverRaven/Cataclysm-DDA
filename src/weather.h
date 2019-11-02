@@ -57,6 +57,15 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
+enum precip_class : int {
+    PRECIP_NONE,
+    PRECIP_LIGHT,
+    PRECIP_HEAVY
+};
+
+double precip_mm_per_hour( precip_class p );
+void do_rain( weather_type w );
+
 /**
  * Weather animation class.
  */
@@ -97,8 +106,6 @@ enum sun_intensity : int {
 
 void none();        //!< Fallback weather.
 void glare( sun_intensity );
-void wet();
-void very_wet();
 void thunder();
 void lightning();
 void light_acid();
@@ -121,6 +128,9 @@ struct weather_datum {
     int light_modifier;           //!< Modification to ambient light.
     int sound_attn;               //!< Sound attenuation of a given weather type.
     bool dangerous;               //!< If true, our activity gets interrupted.
+    precip_class precip;          //!< Amount of associated precipitation.
+    bool rains;                   //!< Whether said precipitation falls as rain.
+    bool acidic;                  //!< Whether said precipitation is acidic.
     weather_effect_fn effect;     //!< Function pointer for weather effects.
 };
 
@@ -143,6 +153,9 @@ float sight_penalty( weather_type type );
 int light_modifier( weather_type type );
 int sound_attn( weather_type type );
 bool dangerous( weather_type type );
+precip_class precip( weather_type type );
+bool rains( weather_type type );
+bool acidic( weather_type type );
 weather_effect_fn effect( weather_type type );
 } // namespace weather
 

@@ -94,7 +94,7 @@
         "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       },
       {
-        "text": "About that sourdough starter you had me looking for...",
+        "text": "About that sourdough starter you had me looking for…",
         "topic": "TALK_MISSION_INQUIRE",
         "condition": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
       },

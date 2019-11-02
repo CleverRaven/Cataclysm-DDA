@@ -31,6 +31,8 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
     "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
     "multi_activity": true
   },
   {
@@ -283,6 +285,13 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_HEATING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "heating",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
@@ -488,7 +497,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "trying to start the vehicle",
     "suspendable": false,
-    "rooted": true,
     "based_on": "time"
   },
   {

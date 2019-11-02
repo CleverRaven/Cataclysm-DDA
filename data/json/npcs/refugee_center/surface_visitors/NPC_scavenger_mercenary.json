@@ -78,7 +78,7 @@
   {
     "id": "TALK_SCAVENGER_MERC",
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "I haven't done anything wrong...", "no": "..." },
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "I haven't done anything wrong…", "no": "…" },
     "responses": [
       { "text": "Who are you?", "topic": "TALK_SCAVENGER_MERC_NEW" },
       { "text": "Any tips for surviving?", "topic": "TALK_SCAVENGER_MERC_TIPS" },
@@ -90,7 +90,7 @@
     "id": "TALK_SCAVENGER_MERC_NEW",
     "type": "talk_topic",
     "dynamic_line": "I'm just a hired hand.  Someone pays me and I do what needs to be done.",
-    "responses": [ { "text": "...", "topic": "TALK_SCAVENGER_MERC" } ]
+    "responses": [ { "text": "…", "topic": "TALK_SCAVENGER_MERC" } ]
   },
   {
     "id": "TALK_SCAVENGER_MERC_TIPS",

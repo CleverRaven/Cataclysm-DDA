@@ -70,7 +70,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
                           "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
@@ -312,6 +312,8 @@ std::string action_ident( action_id act )
             return "debug_scent_type";
         case ACTION_DISPLAY_TEMPERATURE:
             return "debug_temp";
+        case ACTION_DISPLAY_VEHICLE_AI:
+            return "debug_vehicle_ai";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
         case ACTION_DISPLAY_LIGHTING:
@@ -424,6 +426,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_SCENT_TYPE:
         case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VEHICLE_AI:
         case ACTION_DISPLAY_VISIBILITY:
         case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
@@ -669,7 +672,7 @@ action_id handle_action_menu()
         ctxt.get_action_name( action_ident( name ) ) );
 #define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
-    catgname += "..."; \
+    catgname += "…"; \
     entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
@@ -825,6 +828,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT_TYPE );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
@@ -910,9 +914,7 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
-                width = cur_entry.txt.length();
-            }
+            width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
@@ -968,9 +970,7 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < static_cast<int>( entry.txt.length() ) ) {
-            width = entry.txt.length();
-        }
+        width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;

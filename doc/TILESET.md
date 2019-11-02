@@ -69,6 +69,17 @@ The special prefixes `overlay_wielded_`, `overlay_female_wielded_`, `overlay_mal
 
 `"multitle"` is an *optional* field.  If it is present and `true`, there must be an `additional_tiles` list with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above.
 
+Each `tile_entry.json` file can have a single object in it, or a list of 1 or more objects like so:
+```C++
+[
+    { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg", "rotates": false },
+    { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg", "rotates": false },
+    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse", "bg": [], "rotates": false }
+]
+```
+
+Having a list of tile entries in a file may be useful for organization, but completely unrelated entries may all exist in the same file without any complications.
+
 #### expansion `tile_entry` JSON
 Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion `tile_entry` JSON are the only `tile_entry` JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion `tile_entry` JSONs must be located at the top layer of each image directory.
 

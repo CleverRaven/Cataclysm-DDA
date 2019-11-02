@@ -182,43 +182,6 @@ generic_factory<overmap_special> specials( "overmap special" );
 
 } // namespace
 
-static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN",     known_down     },
-    { "KNOWN_UP",       known_up       },
-    { "RIVER",          river_tile     },
-    { "SIDEWALK",       has_sidewalk   },
-    { "NO_ROTATE",      no_rotate      },
-    { "LINEAR",         line_drawing   },
-    { "SUBWAY",         subway_connection },
-    { "LAKE",           lake },
-    { "LAKE_SHORE",     lake_shore },
-    { "GENERIC_LOOT",   generic_loot },
-    { "RISK_HIGH",      risk_high },
-    { "RISK_LOW",       risk_low },
-    { "SOURCE_AMMO", source_ammo },
-    { "SOURCE_ANIMALS", source_animals },
-    { "SOURCE_BOOKS", source_books },
-    { "SOURCE_CHEMISTRY", source_chemistry },
-    { "SOURCE_CLOTHING", source_clothing },
-    { "SOURCE_CONSTRUCTION", source_construction },
-    { "SOURCE_COOKING", source_cooking },
-    { "SOURCE_DRINK", source_drink },
-    { "SOURCE_ELECTRONICS", source_electronics },
-    { "SOURCE_FABRICATION", source_fabrication },
-    { "SOURCE_FARMING", source_farming },
-    { "SOURCE_FOOD", source_food },
-    { "SOURCE_FORAGE", source_forage },
-    { "SOURCE_FUEL", source_fuel },
-    { "SOURCE_GUN", source_gun },
-    { "SOURCE_LUXURY", source_luxury },
-    { "SOURCE_MEDICINE", source_medicine },
-    { "SOURCE_PEOPLE", source_people },
-    { "SOURCE_SAFETY", source_safety },
-    { "SOURCE_TAILORING", source_tailoring },
-    { "SOURCE_VEHICLES", source_vehicles },
-    { "SOURCE_WEAPON", source_weapon }
-};
-
 template<>
 const overmap_land_use_code &overmap_land_use_code_id::obj() const
 {
@@ -840,7 +803,7 @@ void overmap_terrains::check_consistency()
 
         if( exists_loaded ) {
             if( test_mode && exists_hardcoded ) {
-                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.",
+                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
             }
         } else if( !exists_hardcoded ) {
@@ -858,8 +821,8 @@ void overmap_terrains::finalize()
     }
 
     if( region_settings_map.find( "default" ) == region_settings_map.end() ) {
-        debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'),"
-                  " cataclysm pending. And not the fun kind." );
+        debugmsg( "ERROR: can't find default overmap settings (region_map_settings 'default'), "
+                  "cataclysm pending.  And not the fun kind." );
     }
 
     for( auto &elem : region_settings_map ) {
@@ -1599,14 +1562,6 @@ bool overmap::generate_sub( const int z )
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), tripoint( i * 2, j * 2, z ), 2, 200 ) );
-            } else if( oter_above == "silo" ) {
-                // NOLINTNEXTLINE(misc-redundant-expression)
-                if( rng( 2, 7 ) < abs( z ) || rng( 2, 7 ) < abs( z ) ) {
-                    ter_set( p, oter_id( "silo_finale" ) );
-                } else {
-                    ter_set( p, oter_id( "silo" ) );
-                    requires_sub = true;
-                }
             }
         }
     }

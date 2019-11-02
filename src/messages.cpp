@@ -175,7 +175,7 @@ class messages_impl
 
         void add_msg_string( std::string &&msg, game_message_type const type,
                              const game_message_flags flags ) {
-            if( msg.length() == 0 || !active ) {
+            if( msg.empty() || !active ) {
                 return;
             }
 
