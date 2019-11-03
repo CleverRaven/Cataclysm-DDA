@@ -53,7 +53,7 @@
       "T": "t_ticket_vendor",
       "s": "t_ticket_machine"
     },
-    "furniture": { "&": "f_trashcan", "b": "f_bench", "Q": "f_desk", "c": "f_chair", "N": "f_rack" },
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "Q": "f_desk", "c": "f_chair", "N": "f_rack", "H": "f_turnstile" },
     "signs": { "M": { "signage": "Subway Map: <city> stop" } },
     "items": {
       "N": { "item": "tools_construction", "chance": 90, "repeat": 3 },

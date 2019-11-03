@@ -31,7 +31,7 @@
         "        6  |#._________.",
         "        666|#._________.",
         "           |#._________.",
-        "      BBBB |#._________.",
+        "      BBBBH|#._________.",
         "-MM-gg------#._________#",
         ".SS##########._________#",
         ".SS..........._________#",
@@ -73,6 +73,7 @@
         "E": "t_floor",
         "F": "t_floor",
         "G": "t_floor",
+        "H": "t_floor",
         "M": "t_door_glass_c",
         "S": "t_sidewalk",
         "W": "t_water_dp",
@@ -102,7 +103,8 @@
         "D": "f_trashcan",
         "E": "f_cupboard",
         "F": "f_fridge",
-        "G": "f_oven"
+        "G": "f_oven",
+        "H": "f_taxidermy_bear"
       },
       "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [ { "item": "traveler", "x": [ 6, 6 ], "y": [ 6, 6 ], "chance": 90 } ],

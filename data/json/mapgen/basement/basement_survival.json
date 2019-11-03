@@ -39,7 +39,7 @@
         " |XXx..X.|{..{|------   ",
         " |X......|----|....<|   ",
         " |-|...............<|   ",
-        "   |---..........|--|   ",
+        "   |---oo........|--|   ",
         "      |----------|      ",
         "                        ",
         "                        ",
@@ -66,6 +66,7 @@
         "s": "t_rock_floor",
         "t": "t_rock_floor",
         "x": "t_rock_floor",
+        "o": "t_rock_floor",
         "y": "t_rock_floor",
         "{": "t_rock_floor",
         "|": "t_wall"
@@ -83,6 +84,7 @@
         "k": "f_sink",
         "s": "f_sandbag_half",
         "x": "f_crate_c",
+        "o": "f_wine_rack",
         "y": "f_woodstove",
         "{": "f_rack"
       },

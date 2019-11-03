@@ -28,7 +28,7 @@
         ".vd    |-+-|-+-|   @@v..",
         ".vd    |SiB|BiS|   @@v..",
         ".|     |tiB|Bit|    d|..",
-        ".| @@  |---|---|  h  |..",
+        ".| @@  |---|---|  H  |..",
         ".|d@@n +  r|r  + kkk |..",
         ".|-vv--|---|---|--vv-|.."
       ],
@@ -61,6 +61,7 @@
         "4": "f_cupboard",
         "5": "f_sink",
         "L": "f_locker",
+        "H": "f_leather_chair",
         "O": "f_oven",
         "p": "f_mailbox",
         "Y": "f_rack_coat",

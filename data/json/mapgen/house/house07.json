@@ -16,7 +16,7 @@
         ".|o       h   |       |.",
         ".|o           |+------|.",
         ".|            |      1|.",
-        ".|    ?      o|  lc2 5v.",
+        ".|    H      o|  lc2 5v.",
         ".vn   ?      o|   c3 Ov.",
         ".vn   ?      o|  lc4 f|.",
         ".|    ?       +      c|.",
@@ -54,6 +54,7 @@
       "furniture": {
         "0": "f_fireplace",
         "?": "f_sofa",
+        "H": "f_purple_velvet_chair",
         "@": "f_bed",
         "B": "f_bathtub",
         "D": "f_trashcan",
