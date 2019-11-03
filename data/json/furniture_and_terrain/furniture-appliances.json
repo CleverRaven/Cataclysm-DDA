@@ -613,7 +613,7 @@
     "id": "f_charcoal_grill",
     "name": "charcoal grill",
     "symbol": "R",
-    "description": "A staple of the american backyard.  A simple metal container on legs built to hold charcoal for grilling.",
+    "description": "A staple of the American backyard.  A simple metal container on legs built to hold charcoal for grilling.",
     "color": "light_gray",
     "move_cost_mod": 2,
     "coverage": 40,
