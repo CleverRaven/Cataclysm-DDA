@@ -1534,8 +1534,6 @@ static item_location autodoc_internal( player &u, player &patient,
             }
 
         }
-    } else {
-        hint = string_format( _( "<color_yellow>Money available: %s</color>" ), format_money( u.cash ) );
     }
 
     if( uninstall ) {
@@ -1748,8 +1746,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 return _( "Superior version installed." );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM is not compatible with patient." );
-            } else if( it->price( true ) * 2 > p.cash ) {
-                return format_money( it->price( true ) * 2 );
             }
 
             return std::string();
