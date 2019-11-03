@@ -1192,6 +1192,15 @@ bool npc::wield( item &it )
     return true;
 }
 
+void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                bool stash )
+{
+    Character::drop( what, target, stash );
+    // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
+    // so is this necessary?
+    activity.do_turn( *this );
+}
+
 void npc::form_opinion( const player &u )
 {
     // FEAR

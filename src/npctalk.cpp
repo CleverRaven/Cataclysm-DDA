@@ -1505,7 +1505,8 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const itype_id &item_type )
 {
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
