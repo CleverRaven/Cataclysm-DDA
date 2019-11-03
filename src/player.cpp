@@ -3623,9 +3623,9 @@ void player::suffer()
             oxygen += 12;
         }
         if( oxygen <= 5 ) {
-            if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
+            if( has_bionic( bio_gills ) && get_power_level() >= 300_J ) {
                 oxygen += 5;
-                mod_power_level( -25_kJ );
+                mod_power_level( -300_J );
             } else {
                 add_msg_if_player( m_bad, _( "You're drowning!" ) );
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
@@ -4000,7 +4000,7 @@ void player::suffer()
                 ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
-        bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
+        bool oxygenator = has_bionic( bio_gills );
         if( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
@@ -4018,7 +4018,6 @@ void player::suffer()
                               map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                mod_power_level( -3_kJ );
                 add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
             } else if( auto_use ) {
