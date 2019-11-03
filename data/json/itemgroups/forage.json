@@ -67,9 +67,7 @@
     "id": "forage_winter",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ 
-      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 } 
-    ]
+    "entries": [ { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 } ]
   },
   {
     "id": "forage_mushroom",
