@@ -6662,6 +6662,16 @@ bool item::magazine_integral() const
 itype_id item::magazine_default( bool conversion ) const
 {
     if( !ammo_types( conversion ).empty() ) {
+        if( conversion ) {
+            for( const item *m : is_gun() ? gunmods() : toolmods() ) {
+                if( !m->type->mod->magazine_adaptor.empty() ) {
+                    auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
+                    if( mags != m->type->mod->magazine_adaptor.end() ) {
+                        return *( mags->second.begin() );
+                    }
+                }
+            }
+        }
         auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
         if( mag != type->magazine_default.end() ) {
             return mag->second;
