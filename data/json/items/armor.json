@@ -2282,7 +2282,7 @@
     "price": 1000,
     "material": [ "cotton", "aluminum" ],
     "weight": "733 g",
-    "volume": "1500 mL",
+    "volume": "1500 ml",
     "encumbrance": 5,
     "covers": [ "HEAD" ],
     "coverage": 15,
