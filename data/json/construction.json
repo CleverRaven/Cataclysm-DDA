@@ -3176,8 +3176,8 @@
     "category": "FURN",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "10 m",
-    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [ [ "log", 1 ] ],
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_logstool"
   }
