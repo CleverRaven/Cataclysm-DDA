@@ -127,7 +127,7 @@
       "Not many people left to trade with.",
       "Hunting gives me hope that we can beat this.",
       "One morning I shot an elk in my pajamas.  How he got into my pajamas I'll never know.",
-      { "u_male": [ "Sir.  Care to trade?" ], "no": [ "Ma'am.  Care to trade?." ] }
+      { "u_male": [ "Sir.  Care to trade?" ], "no": [ "Ma'am.  Care to trade?" ] }
     ],
     "responses": [
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_HUNTER_ELSE" },
