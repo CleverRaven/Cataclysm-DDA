@@ -359,7 +359,7 @@
     "id": "f_dollhouse",
     "name": "dollhouse",
     "symbol": "A",
-    "description": "A well made scale home for dolls.",
+    "description": "A well-made scale home for dolls.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 30,
