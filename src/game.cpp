@@ -9045,7 +9045,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
 bool game::walk_move( const tripoint &dest_loc )
 {
-    if( m.has_flag_ter( "THIN_OBSTACLE", dest_loc ) ) {
+    if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > MS_MEDIUM ) {
             add_msg( m_warning, _( "You can't fit there." ) );
             return false; // character too large to fit through a tight passage
