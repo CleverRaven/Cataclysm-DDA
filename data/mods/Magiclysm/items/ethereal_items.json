@@ -343,5 +343,35 @@
     "initial_charges": 15,
     "max_charges": 15,
     "use_action": "WATER_PURIFIER"
+  },
+  {
+    "id": "acid_res_aura",
+    "type": "ARMOR",
+    "name": "acid resistance aura",
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "weight": "0g",
+    "volume": "0ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "green",
+    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.3 } ] } ]
+    }
+  },
+  {
+    "id": "acid_res_aura_greater",
+    "type": "ARMOR",
+    "name": "greater acid resistance aura",
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "copy-from": "acid_res_aura",
+    "material": [ "flesh" ],
+    "symbol": "o",
+    "color": "green",
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.7 } ] } ]
+    }
   }
 ]
