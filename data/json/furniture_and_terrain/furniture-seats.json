@@ -208,7 +208,7 @@
   {
     "type": "furniture",
     "id": "f_floralprint_armchair",
-    "name": "floral print arm chair",
+    "name": "floral print armchair",
     "symbol": "H",
     "description": "A more comfortable way of sitting down.  This reminds you of a nursing home.",
     "looks_like": "f_armchair",
