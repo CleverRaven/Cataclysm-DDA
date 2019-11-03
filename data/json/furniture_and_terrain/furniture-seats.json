@@ -258,7 +258,7 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "cotton_ball", "count": [ 2, 5 ] }, { "item": "rag", "count": [ 20, 30 ] } ]
+      "items": [ { "item": "cotton_ball", "charges": [ 2, 5 ] }, { "item": "rag", "count": [ 20, 30 ] } ]
     }
   },
   {
