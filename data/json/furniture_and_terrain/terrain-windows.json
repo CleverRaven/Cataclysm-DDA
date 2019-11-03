@@ -136,7 +136,16 @@
     "move_cost": 4,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE"
+    ],
     "close": "t_window_no_curtains",
     "bash": {
       "str_min": 3,
@@ -211,7 +220,16 @@
     "move_cost": 4,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE"
+    ],
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
@@ -337,7 +355,16 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "FLAMMABLE",
+      "SUPPORTS_ROOF",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE"
+    ],
     "bash": {
       "str_min": 10,
       "str_max": 70,
@@ -371,7 +398,7 @@
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_shard", "count": [ 6, 10 ] } ]
     },
-    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL" ]
+    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE" ]
   },
   {
     "type": "terrain",
