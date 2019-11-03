@@ -4654,5 +4654,19 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fishbowl_filled",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "fishbowl", 1 ] ],
+      [ [ "instant_goldfish", 1 ] ],
+      [ [ "water_clean", 2 ] ] 
+	  ]
   }
 ]

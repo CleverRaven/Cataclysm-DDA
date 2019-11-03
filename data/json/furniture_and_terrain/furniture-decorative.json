@@ -205,5 +205,290 @@
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sandwich_board",
+    "name": "sandwich board",
+    "symbol": "^",
+    "description": "Read it.  Deals Ahead.",
+    "looks_like": "f_sign",
+    "color": "brown",
+    "examine_action": "sign",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "required_str": 3,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 4, 6 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flamingo_decor",
+    "name": "flamingo decoration",
+    "symbol": "%",
+    "description": "Class or Trashy? You decide.",
+    "color": "pink",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "deployed_item": "decorative_flamingo", "count": 1,
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 16,
+      "sound": "thump!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_birdfeeder",
+    "name": "bird feeder",
+    "description": "A small hanging bird feeder with a stake.",
+    "symbol": "T",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "splinter", "count": [ 1, 2 ] }, { "item": "pipe", "count": [ 1, 2 ] }, { "item": "wire", "charges": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_traffic_cone",
+    "name": "traffic cone",
+    "description": "A small traffic cone.",
+    "symbol": "^",
+    "color": "orange",
+    "move_cost_mod": 1,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "SHORT" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 40,
+      "sound": "whump!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_taxidermy_bear",
+    "name": "bear taxidermy statue",
+    "description": "A large Bear Taxidermy Statue.",
+    "symbol": "B",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "required_str": 15,
+    "flags": [ "BASHABLE", "FLAMMABLE_ASH" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "Crack!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "splinter", "count": [ 1, 2 ] }, { "item": "leather", "count": [ 1, 2 ] }, { "item": "wire", "charges": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_foodperson_cutout",
+    "name": "foodperson cutout",
+    "symbol": "8",
+    "description": "A large lifesize cutout of FoodPerson.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 1,
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "paper", "count": 15 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "paper", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fish_bowl",
+    "name": "fishbowl with fish",
+    "symbol": "O",
+    "description": "A large round bowl with a live goldfish in it.",
+    "color": "blue",
+    "move_cost_mod": 7,
+    "coverage": 10,
+    "required_str": 3,
+    "deconstruct": { "items": [ { "item": "fishbowl", "count": 1 } ] },
+    "max_volume": 6000,
+    "deployed_item": "fishbowl_filled",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "BASHABLE" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 15,
+      "sound": "plink!",
+      "sound_fail": "clink.",
+      "items": [ { "item": "glass_shard", "charges": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dollhouse",
+    "name": "dollhouse",
+    "symbol": "A",
+    "description": "A well made scale home for dolls.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 3,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 4, 6 ] } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_huge_teddy_bear",
+    "name": "huge teddy bear",
+    "symbol": "&",
+    "description": "An enormous stuffed teddy bear.",
+    "color": "brown",
+    "move_cost_mod": 2,
+    "coverage": 65,
+    "required_str": 5,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deployed_item": "huge_teddy_bear", "count": 1,
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "ORGANIC"  ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 16,
+      "sound": "thump!",
+      "sound_fail": "whack!",
+      "items": [ 
+        { "item": "rag", "count": [ 15, 25 ] },
+        { "item": "cotton_ball", "charges": [ 1, 5 ] }
+	  ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drumset",
+    "name": "drum set",
+    "description": "A full size drum set.",
+    "symbol": "%", 
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 14,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "BUMP!",
+      "sound_fail": "Ba-dum Tss.",
+      "items": [ { "item": "scrap", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_tv_tray",
+    "name": "tv tray",
+    "symbol": "T",
+    "description": "A small plastic table made of thin metal and plastic. Perfect for eating TV dinners in front of the tube, if there were anything on the air. Fold to carry.",
+    "color": "grey",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 1,
+    "deployed_item": "folded_tv_tray", "count": 1,
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT_SURF", "PLACE_ITEM", "SHORT", "BASHABLE" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 16,
+      "sound": "thump!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_litterbox",
+    "name": "litterbox",
+    "symbol": "_",
+    "description": "A litterbox for cats to go to the bathroom in.",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 5,
+    "required_str": 2,
+    "deployed_item": "litterbox", "count": 1,
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 16,
+      "sound": "thump!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_postal_box",
+    "name": "postal box",
+    "description": "A big blue box you put mail in.",
+    "symbol": "&", 
+    "color": "blue",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 14,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "Clang!",
+      "sound_fail": "Ding.",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fire_hydrant",
+    "name": "fire hydrant",
+    "description": "A fire hydrant. Firefighters used to use these as a source of water to fight fires.",
+    "symbol": "&", 
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "SHORT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 40,
+      "sound": "Clang!",
+      "sound_fail": "Ding.",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ]
+    }
   }
 ]

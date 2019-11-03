@@ -204,5 +204,222 @@
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floralprint_armchair",
+    "name": "floral print arm chair",
+    "symbol": "H",
+    "description": "A more comfortable way of sitting down. This reminds you of a nursing home.",
+    "looks_like": "f_armchair",
+    "color": "pink",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "rag", "count": [ 20, 30 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beanbag_chair",
+    "name": "beanbag chair",
+    "symbol": "#",
+    "description": "A more comfortable way of sitting down. It smells like junk food and incense.",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": {
+      "items": [ { "item": "rag", "count": [ 25, 30 ] }, { "item": "cotton_ball", "charges": [ 2, 5 ] } ]
+    },
+    "max_volume": 3000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT", "SHORT" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cotton_ball", "count": [ 2, 5 ] },
+        { "item": "rag", "count": [ 20, 30 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_purple_velvet_chair",
+    "name": "purple velvet chair",
+    "symbol": "H",
+    "description": "A more comfortable way of sitting down. This is peak opulence.",
+    "looks_like": "f_chair",
+    "color": "magenta",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "felt_patch", "count": [ 2, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": 3000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "felt_patch", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plastic_lawn_chair",
+    "name": "plastic lawn chair",
+    "symbol": "H",
+    "description": "A cheap plastic chair.",
+    "looks_like": "f_chair",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 2,
+    "deconstruct": {
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 6 ] } ]
+    },
+    "max_volume": 3000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT", "SHORT" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_foot_stool",
+    "name": "footstool",
+    "symbol": "0",
+    "description": "A small piece of furniture to put your feet on.",
+    "color": "red",
+    "move_cost_mod": 1,
+    "coverage": 15,
+    "comfort": 1,
+    "floor_bedding_warmth": 0,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "rag", "count": [ 15, 25 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": 2000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "rag", "count": [ 5, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leather_chair",
+    "name": "leather chair",
+    "symbol": "H",
+    "description": "A more comfortable way of sitting down. This chair can be sticky in the summer.",
+    "looks_like": "f_chair",
+    "color": "brown",
+    "move_cost_mod": 2,
+    "coverage": 45,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "leather", "count": [ 2, 3 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": 2000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "leather", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gaming_chair",
+    "name": "gaming chair",
+    "symbol": "A",
+    "description": "An angular chair made for sitting in front of a computer for a long time.",
+    "looks_like": "f_chair",
+    "color": "grey",
+    "move_cost_mod": 2,
+    "coverage": 65,
+    "comfort": 2,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 2 }, { "item": "rag", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "plastic_chunk", "charges": [ 1, 2 ] } ]
+    },
+    "max_volume": 2000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": 1 },
+        { "item": "rag", "count": [ 5, 15 ] }
+      ]
+    }
   }
 ]

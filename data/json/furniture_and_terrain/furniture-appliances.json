@@ -607,5 +607,26 @@
         { "item": "steel_chunk", "count": 3 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_charcoal_grill",
+    "name": "charcoal grill",
+    "symbol": "R",
+    "description": "A staple of the american backyard. A simple metal container on legs built to hold charcoal for grilling.",
+    "color": "grey",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 3,
+    "examine_action": "fireplace",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PLACE_ITEM", "CONTAINER", "FIRE_CONTAINER", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "scrap", "count": 3 }, { "item": "pipe", "charges": [ 3, 4 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "charges": [ 1, 4 ] } ]
+    }
   }
 ]
