@@ -527,11 +527,12 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
+        if( pnt && g->m.is_flammable( *pnt ) ) {
+            g->m.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
-        } else {
-            add_msg_if_player( m_info, _( "You can't light a fire there." ) );
             mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
+        } else {
+            add_msg_if_player( m_info, _( "There's nothing to light there." ) );
         }
     } else if( bio.id == "bio_geiger" ) {
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
