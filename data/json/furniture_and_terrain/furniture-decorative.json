@@ -406,7 +406,7 @@
     "type": "furniture",
     "id": "f_drumset",
     "name": "drum set",
-    "description": "A full size drum set.",
+    "description": "A full-size drum set.",
     "symbol": "%",
     "color": "white",
     "move_cost_mod": 2,
