@@ -592,13 +592,13 @@ bool player::activate_bionic( int b, bool eff_only )
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
-        const auto weight_cap = weight_capacity();
+        const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : g->m.points_in_radius( pos(), 10 ) ) {
             if( p == pos() || !g->m.has_items( p ) || g->m.has_flag( "SEALED", p ) ) {
                 continue;
             }
 
-            auto stack = g->m.i_at( p );
+            map_stack stack = g->m.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
@@ -610,7 +610,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         g->refresh_all();
-        for( const auto &pr : affected ) {
+        for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
             proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
@@ -618,7 +618,7 @@ bool player::activate_bionic( int b, bool eff_only )
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
-            auto dealt = projectile_attack( proj, pr.second, pos(), 0 );
+            dealt_projectile_attack  dealt = projectile_attack( proj, pr.second, pos(), 0, this );
             g->m.add_item_or_charges( dealt.end_point, pr.first );
         }
 
