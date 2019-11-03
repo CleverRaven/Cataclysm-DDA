@@ -293,7 +293,7 @@
     "type": "furniture",
     "id": "f_taxidermy_bear",
     "name": "bear taxidermy statue",
-    "description": "A large Bear Taxidermy Statue.",
+    "description": "A large taxidermied bear.",
     "symbol": "B",
     "color": "brown",
     "move_cost_mod": -1,
