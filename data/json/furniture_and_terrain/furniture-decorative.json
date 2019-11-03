@@ -239,7 +239,6 @@
     "coverage": 10,
     "required_str": -1,
     "deployed_item": "decorative_flamingo",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "bash": {
@@ -393,7 +392,6 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "deployed_item": "huge_teddy_bear",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "ORGANIC" ],
     "bash": {
@@ -434,7 +432,6 @@
     "coverage": 10,
     "required_str": 1,
     "deployed_item": "folded_tv_tray",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT_SURF", "PLACE_ITEM", "SHORT", "BASHABLE" ],
     "bash": {
@@ -456,7 +453,6 @@
     "coverage": 5,
     "required_str": 2,
     "deployed_item": "litterbox",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "bash": {

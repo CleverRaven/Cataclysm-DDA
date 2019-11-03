@@ -704,7 +704,6 @@
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE", "MOUNTABLE", "TRANSPARENT" ],
     "open": "f_baby_gate_o",
     "deployed_item": "baby_gate",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ] },
     "bash": {
@@ -728,7 +727,6 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
     "close": "f_baby_gate_c",
     "deployed_item": "baby_gate",
-    "count": 1,
     "examine_action": "deployed_furniture",
     "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ] },
     "bash": {
