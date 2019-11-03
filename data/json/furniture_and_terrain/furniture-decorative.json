@@ -328,7 +328,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "paper", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "paper", "charges": [ 5, 15 ] } ]
     }
   },
   {
