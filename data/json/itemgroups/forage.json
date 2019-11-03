@@ -17,6 +17,7 @@
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 },
       { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },
@@ -57,6 +58,7 @@
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 },
       { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },
