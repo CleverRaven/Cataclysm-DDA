@@ -316,7 +316,7 @@
     "id": "f_foodperson_cutout",
     "name": "foodperson cutout",
     "symbol": "8",
-    "description": "A large lifesize cutout of FoodPerson.",
+    "description": "A large life-size cutout of FoodPerson.",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 80,
