@@ -233,7 +233,7 @@
     "id": "f_flamingo_decor",
     "name": "flamingo decoration",
     "symbol": "%",
-    "description": "Classy or Trashy?  You decide.",
+    "description": "Classy or trashy?  You decide.",
     "color": "pink",
     "move_cost_mod": 1,
     "coverage": 10,
