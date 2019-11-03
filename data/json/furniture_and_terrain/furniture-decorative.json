@@ -322,7 +322,7 @@
     "coverage": 80,
     "required_str": 1,
     "flags": [ "FLAMMABLE_ASH", "ORGANIC", "SIGN" ],
-    "deconstruct": { "items": [ { "item": "paper", "count": 15 } ] },
+    "deconstruct": { "items": [ { "item": "paper", "charges": 15 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 40,
