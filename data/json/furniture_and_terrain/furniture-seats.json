@@ -250,9 +250,7 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
-    "deconstruct": {
-      "items": [ { "item": "rag", "count": [ 25, 30 ] }, { "item": "cotton_ball", "charges": [ 2, 5 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "rag", "count": [ 25, 30 ] }, { "item": "cotton_ball", "charges": [ 2, 5 ] } ] },
     "max_volume": 3000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT", "SHORT" ],
     "bash": {
@@ -260,10 +258,7 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "cotton_ball", "count": [ 2, 5 ] },
-        { "item": "rag", "count": [ 20, 30 ] }
-      ]
+      "items": [ { "item": "cotton_ball", "count": [ 2, 5 ] }, { "item": "rag", "count": [ 20, 30 ] } ]
     }
   },
   {
@@ -312,9 +307,7 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 2,
-    "deconstruct": {
-      "items": [ { "item": "plastic_chunk", "count": [ 3, 6 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": [ 3, 6 ] } ] },
     "max_volume": 3000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT", "SHORT" ],
     "bash": {
@@ -322,9 +315,7 @@
       "str_max": 20,
       "sound": "crack!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "plastic_chunk", "count": [ 2, 6 ] }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 2, 6 ] } ]
     }
   },
   {
@@ -405,7 +396,12 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 2 }, { "item": "rag", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "plastic_chunk", "charges": [ 1, 2 ] } ]
+      "items": [
+        { "item": "pipe", "count": 2 },
+        { "item": "rag", "count": [ 10, 20 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "plastic_chunk", "charges": [ 1, 2 ] }
+      ]
     },
     "max_volume": 2000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PLACE_ITEM", "MOUNTABLE", "CAN_SIT" ],

@@ -4663,10 +4663,6 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [ [ "fishbowl", 1 ] ],
-      [ [ "instant_goldfish", 1 ] ],
-      [ [ "water_clean", 2 ] ] 
-	  ]
+    "components": [ [ [ "fishbowl", 1 ] ], [ [ "instant_goldfish", 1 ] ], [ [ "water_clean", 2 ] ] ]
   }
 ]

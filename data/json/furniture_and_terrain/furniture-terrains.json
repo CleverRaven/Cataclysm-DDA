@@ -681,7 +681,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 4,
-    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "BASHABLE"],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "BASHABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 4, 6 ] } ] },
     "bash": {
       "str_min": 6,
@@ -703,21 +703,17 @@
     "required_str": -1,
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE", "MOUNTABLE", "TRANSPARENT" ],
     "open": "f_baby_gate_o",
-	"deployed_item": "baby_gate", "count": 1,
+    "deployed_item": "baby_gate",
+    "count": 1,
     "examine_action": "deployed_furniture",
-    "deconstruct": {
-      "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ]
-    },
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 8,
       "sound": "whang!",
       "sound_fail": "clunk.",
       "sound_vol": 15,
-      "items": [
-        { "item": "plastic_chunk", "count": [ 3, 10 ] },
-        { "item": "scrap", "count": 2 }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 10 ] }, { "item": "scrap", "count": 2 } ]
     }
   },
   {
@@ -731,21 +727,17 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
     "close": "f_baby_gate_c",
-	"deployed_item": "baby_gate", "count": 1,
+    "deployed_item": "baby_gate",
+    "count": 1,
     "examine_action": "deployed_furniture",
-    "deconstruct": {
-      "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ]
-    },
+    "deconstruct": { "items": [ { "item": "plastic_chunk", "count": 10 }, { "item": "scrap", "count": 2 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 8,
       "sound": "whang!",
       "sound_fail": "clunk.",
       "sound_vol": 15,
-      "items": [
-        { "item": "plastic_chunk", "count": [ 3, 10 ] },
-        { "item": "scrap", "count": 2 }
-      ]
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 10 ] }, { "item": "scrap", "count": 2 } ]
     }
   },
   {
@@ -760,19 +752,14 @@
     "required_str": -1,
     "flags": [ "NOITEM", "PERMEABLE", "TRANSPARENT" ],
     "examine_action": "deployed_furniture",
-    "deconstruct": {
-      "items": [ { "item": "steel_chunk", "count": 5 }, { "item": "scrap", "count": 2 } ]
-    },
+    "deconstruct": { "items": [ { "item": "steel_chunk", "count": 5 }, { "item": "scrap", "count": 2 } ] },
     "bash": {
       "str_min": 14,
       "str_max": 20,
       "sound": "whang!",
       "sound_fail": "clang!",
       "sound_vol": 15,
-      "items": [
-        { "item": "steel_chunk", "count": [ 3, 5 ] },
-        { "item": "scrap", "count": 1 }
-      ]
+      "items": [ { "item": "steel_chunk", "count": [ 3, 5 ] }, { "item": "scrap", "count": 1 } ]
     }
   }
 ]

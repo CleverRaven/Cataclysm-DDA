@@ -238,7 +238,8 @@
     "move_cost_mod": 1,
     "coverage": 10,
     "required_str": -1,
-    "deployed_item": "decorative_flamingo", "count": 1,
+    "deployed_item": "decorative_flamingo",
+    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "bash": {
@@ -264,7 +265,11 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "splinter", "count": [ 1, 2 ] }, { "item": "pipe", "count": [ 1, 2 ] }, { "item": "wire", "charges": [ 1, 2 ] } ]
+      "items": [
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "wire", "charges": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -300,7 +305,11 @@
       "str_max": 40,
       "sound": "Crack!",
       "sound_fail": "thump.",
-      "items": [ { "item": "splinter", "count": [ 1, 2 ] }, { "item": "leather", "count": [ 1, 2 ] }, { "item": "wire", "charges": [ 1, 1 ] } ]
+      "items": [
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "leather", "count": [ 1, 2 ] },
+        { "item": "wire", "charges": [ 1, 1 ] }
+      ]
     }
   },
   {
@@ -363,7 +372,11 @@
       "str_max": 20,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+      "items": [
+        { "item": "wood_panel", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 2, 4 ] },
+        { "item": "splinter", "count": 2 }
+      ]
     }
   },
   {
@@ -379,18 +392,16 @@
     "comfort": 2,
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
-    "deployed_item": "huge_teddy_bear", "count": 1,
+    "deployed_item": "huge_teddy_bear",
+    "count": 1,
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "ORGANIC"  ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "ORGANIC" ],
     "bash": {
       "str_min": 5,
       "str_max": 16,
       "sound": "thump!",
       "sound_fail": "whack!",
-      "items": [ 
-        { "item": "rag", "count": [ 15, 25 ] },
-        { "item": "cotton_ball", "charges": [ 1, 5 ] }
-	  ]
+      "items": [ { "item": "rag", "count": [ 15, 25 ] }, { "item": "cotton_ball", "charges": [ 1, 5 ] } ]
     }
   },
   {
@@ -398,7 +409,7 @@
     "id": "f_drumset",
     "name": "drum set",
     "description": "A full size drum set.",
-    "symbol": "%", 
+    "symbol": "%",
     "color": "white",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -422,7 +433,8 @@
     "move_cost_mod": 1,
     "coverage": 10,
     "required_str": 1,
-    "deployed_item": "folded_tv_tray", "count": 1,
+    "deployed_item": "folded_tv_tray",
+    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT_SURF", "PLACE_ITEM", "SHORT", "BASHABLE" ],
     "bash": {
@@ -443,7 +455,8 @@
     "move_cost_mod": 1,
     "coverage": 5,
     "required_str": 2,
-    "deployed_item": "litterbox", "count": 1,
+    "deployed_item": "litterbox",
+    "count": 1,
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "bash": {
@@ -459,7 +472,7 @@
     "id": "f_postal_box",
     "name": "postal box",
     "description": "A big blue box you put mail in.",
-    "symbol": "&", 
+    "symbol": "&",
     "color": "blue",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -478,7 +491,7 @@
     "id": "f_fire_hydrant",
     "name": "fire hydrant",
     "description": "A fire hydrant. Firefighters used to use these as a source of water to fight fires.",
-    "symbol": "&", 
+    "symbol": "&",
     "color": "red",
     "move_cost_mod": 2,
     "required_str": -1,
