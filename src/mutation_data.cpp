@@ -399,7 +399,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
 
     if( was_loaded && jo.has_object( "extend" ) ) {
         std::vector<std::string> load_cat;
-        optional( jo.get_object( "extend" ), false, "category", load_cat );
+        JsonObject extend_object = jo.get_object( "extend" );
+        optional( extend_object, false, "category", load_cat );
         category.insert( category.end(), load_cat.begin(), load_cat.end() );
     }
 
