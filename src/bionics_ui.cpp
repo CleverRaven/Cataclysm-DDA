@@ -67,11 +67,11 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
             found_fuel = true;
             const item temp_fuel( fuel ) ;
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
-                fuel_string += "<color_green>" + temp_fuel.tname() + "</color>";
+                fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_string += temp_fuel.tname() + ": <color_green>" + p->get_value(
-                               fuel ) + "</color>/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+                           c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
     }
     if( !found_fuel ) {
