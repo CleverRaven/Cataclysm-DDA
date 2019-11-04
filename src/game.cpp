@@ -9147,7 +9147,8 @@ bool game::walk_move( const tripoint &dest_loc, bool ignore_danger )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) && !ignore_danger ) ) {
+    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) && !ignore_danger &&
+            !u.movement_mode_is( CMM_RUN ) ) ) {
         return true;
     }
     // Used to decide whether to print a 'moving is slow message
