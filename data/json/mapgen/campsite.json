@@ -125,7 +125,7 @@
       "place_items": [
         { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 7, 21 ], "chance": 75 },
         { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 7, 21 ], "chance": 75 },
-        { "item": "pasta", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
+        { "item": "pasta", "x": [ 16, 4 ], "y": [ 7, 21 ], "chance": 75 },
         { "item": "camping", "x": [ 10, 8 ], "y": [ 15, 13 ], "chance": 75 }
       ],
       "place_npcs": [ { "class": "hunter_cabin", "x": [ 4, 17 ], "y": [ 4, 17 ] } ]
