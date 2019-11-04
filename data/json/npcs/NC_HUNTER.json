@@ -79,25 +79,12 @@
     "id": "NC_HUNTER_misc",
     "items": [
       [ "sinew", 10 ],
-      [ "bolt_wood", 90 ],
-      [ "bolt_wood", 90 ],
-      [ "bolt_wood", 60 ],
+      { "item": "bolt_wood", "prob": 90, "count": 2 }
       [ "fishspear", 60 ],
-      [ "water_clean", 60 ],
-      [ "water_clean", 60 ],
-      [ "water_clean", 60 ],
+      { "item": "water_clean", "prob": 90, "count": 2 }
       [ "meat_cooked", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
-      [ "meat", 40 ],
+      { "item": "meat", "prob": 90, "count": 10 }
+      { "item": "meat_smoked", "prob": 90, "count": 2 }
       [ "fish_cooked", 40 ],
       [ "fish", 10 ],
       [ "tallow", 10 ],
@@ -108,10 +95,6 @@
       [ "dry_fruit", 10 ],
       [ "salt", 10 ],
       [ "pepper", 10 ],
-      [ "meat_smoked", 50 ],
-      [ "meat_smoked", 50 ],
-      [ "meat_smoked", 30 ],
-      [ "meat_smoked", 30 ],
       [ "bone", 10 ],
       [ "fur", 60 ]
     ]
