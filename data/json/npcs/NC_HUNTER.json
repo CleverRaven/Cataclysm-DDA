@@ -79,12 +79,12 @@
     "id": "NC_HUNTER_misc",
     "items": [
       [ "sinew", 10 ],
-      { "item": "bolt_wood", "prob": 90, "count": 2 }
+      { "item": "bolt_wood", "prob": 90, "count": 2 },
       [ "fishspear", 60 ],
-      { "item": "water_clean", "prob": 90, "count": 2 }
+      { "item": "water_clean", "prob": 90, "count": 2 },
       [ "meat_cooked", 40 ],
-      { "item": "meat", "prob": 90, "count": 10 }
-      { "item": "meat_smoked", "prob": 90, "count": 2 }
+      { "item": "meat", "prob": 90, "count": 10 },
+      { "item": "meat_smoked", "prob": 90, "count": 2 },
       [ "fish_cooked", 40 ],
       [ "fish", 10 ],
       [ "tallow", 10 ],
