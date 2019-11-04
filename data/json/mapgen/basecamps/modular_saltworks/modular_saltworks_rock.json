@@ -98,47 +98,5 @@
     "update_mapgen_id": "fbmsw_brewery0_rock_southwest",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_rock" ], "x": 3, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmsw_brewery1_rock",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "wwwwwww",
-        "w.rrr.w",
-        "oH....+",
-        "wO..^.w",
-        "oH..#.w",
-        "w.s.trw",
-        "wwwwwww"
-      ],
-      "palettes": [ "fbmsw_rock_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmsw_brewery2_rock",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "wwwwwww",
-        "wHrrrrw",
-        "oH....+",
-        "wO..^.w",
-        "oH..#.w",
-        "wHs.trw",
-        "wwwwwww"
-      ],
-      "palettes": [ "fbmsw_rock_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery2_rock_southwest",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery2_rock" ], "x": 3, "y": 14 } ] }
   }
 ]

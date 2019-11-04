@@ -30,23 +30,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmsw_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbmsw_wood_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "faction_base_saltworks_0",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
@@ -121,53 +104,5 @@
     "update_mapgen_id": "fbmsw_brewery0_log_southwest",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_log" ], "x": 3, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmsw_brewery1_log",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "wwwwwww",
-        "w.rrr.w",
-        "oH....+",
-        "wO..^.w",
-        "oH..#.w",
-        "w.s.trw",
-        "wwwwwww"
-      ],
-      "palettes": [ "fbmsw_log_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery1_log_southwest",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery1_log" ], "x": 3, "y": 14 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmsw_brewery2_log",
-    "object": {
-      "mapgensize": [ 7, 7 ],
-      "rows": [
-        "wwwwwww",
-        "wHrrrrw",
-        "oH....+",
-        "wO..^.w",
-        "oH..#.w",
-        "wHs.trw",
-        "wwwwwww"
-      ],
-      "palettes": [ "fbmsw_log_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmsw_brewery2_log_southwest",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery2_log" ], "x": 3, "y": 14 } ] }
   }
 ]
