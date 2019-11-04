@@ -1187,6 +1187,92 @@ void Character::suffer_from_radiation()
 
 void Character::suffer_from_bad_bionics()
 {
+    // Negative bionics effects
+    if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
+        !has_effect( effect_narcosis ) ) {
+        add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
+        mod_pain( 1 );
+        moves -= 150;
+        mod_power_level( -10_kJ );
+
+        if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
+            weapon.charges -= rng( 1, 3 ) * 50;
+            if( weapon.charges < 1 ) {
+                weapon.charges = 1;
+            }
+
+            add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
+                               weapon.tname() );
+        }
+        sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
+    }
+    if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
+        add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+        hurtall( 1, nullptr );
+        sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
+        sfx::do_player_death_hurt( g->u, false );
+    }
+    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
+        add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
+        mod_power_level( -25_kJ );
+        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
+    }
+    if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
+        !has_effect( effect_narcosis ) ) {
+        // TODO: NPCs with said bionic
+        if( !is_deaf() ) {
+            add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
+            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
+        } else {
+            add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
+            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
+        }
+        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
+    }
+    if( has_bionic( bio_power_weakness ) && has_max_power() &&
+        get_power_level() >= get_max_power_level() * .75 ) {
+        mod_str_bonus( -3 );
+    }
+    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
+        !has_effect( effect_visuals ) &&
+        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
+        add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
+        add_effect( effect_visuals, 10_minutes );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
+    }
+    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
+        !has_effect( effect_narcosis ) ) {
+        add_msg_if_player( m_bad,
+                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
+        mod_pain( 1 );
+        add_effect( effect_stunned, 1_turns );
+        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
+    }
+    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
+        add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
+        mod_power_level( -25_kJ );
+        add_effect( effect_shakes, 5_minutes );
+        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
+    }
+    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
+        mod_healthy_mod( -1, -200 );
+    }
+    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
+        mod_fatigue( 1 );
+    }
+    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
+        !has_effect( effect_narcosis ) ) {
+        add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
+        body_part bp = random_body_part( true );
+        add_effect( effect_formication, 10_minutes, bp );
+    }
+    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
+        get_power_level() > 1_kJ ) {
+        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
+        add_effect( effect_glowy_led, 5_minutes );
+        mod_power_level( -1_kJ );
+    }
 }
 
 void Character::suffer_from_artifacts()
@@ -1291,100 +1377,10 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
-
     suffer_from_other_mutations();
     suffer_from_artifacts();
-
     suffer_from_radiation();
-
     suffer_from_bad_bionics();
-    // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
-        mod_pain( 1 );
-        moves -= 150;
-        mod_power_level( -10_kJ );
-
-        if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
-            weapon.charges -= rng( 1, 3 ) * 50;
-            if( weapon.charges < 1 ) {
-                weapon.charges = 1;
-            }
-
-            add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                               weapon.tname() );
-        }
-        sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
-    }
-    if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
-        hurtall( 1, nullptr );
-        sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
-        sfx::do_player_death_hurt( g->u, false );
-    }
-    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        mod_power_level( -25_kJ );
-        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
-    }
-    if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_narcosis ) ) {
-        // TODO: NPCs with said bionic
-        if( !is_deaf() ) {
-            add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
-            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
-        } else {
-            add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
-            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
-        }
-        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
-    }
-    if( has_bionic( bio_power_weakness ) && has_max_power() &&
-        get_power_level() >= get_max_power_level() * .75 ) {
-        mod_str_bonus( -3 );
-    }
-    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_visuals ) &&
-        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
-        add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
-        add_effect( effect_visuals, 10_minutes );
-        sfx::play_variant_sound( "bionics", "pixelated", 100 );
-    }
-    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad,
-                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
-        mod_pain( 1 );
-        add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
-        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
-    }
-    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        mod_power_level( -25_kJ );
-        add_effect( effect_shakes, 5_minutes );
-        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
-    }
-    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
-        mod_healthy_mod( -1, -200 );
-    }
-    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
-        mod_fatigue( 1 );
-    }
-    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, bp );
-    }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        get_power_level() > 1_kJ ) {
-        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
-        add_effect( effect_glowy_led, 5_minutes );
-        mod_power_level( -1_kJ );
-    }
-
     suffer_from_stimulants( current_stim );
     // Stim +250 kills
     if( current_stim > 210 ) {
