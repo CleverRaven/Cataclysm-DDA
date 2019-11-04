@@ -1581,7 +1581,7 @@ bool game::do_turn()
             refresh_display();
         }
     } else if( calendar::once_every( 1_minutes ) ) {
-        if( const cata::optional<std::string> progress = u.activity.get_progress_message() ) {
+        if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
             query_popup()
             .wait_message( "%s", *progress )
             .on_top( true )
