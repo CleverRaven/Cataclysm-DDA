@@ -2400,7 +2400,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     }
 
     const int iWorldOffset = world_options_only ? 2 : 0;
-
+    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
     const int iTooltipHeight = 4;
     const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
@@ -2408,13 +2409,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border = catacurses::newwin( TERMY, TERMX / 2, point( TERMX / 4, 0 ) );
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, TERMX / 2 - 2,
-                                           point( 1 + TERMX / 4, 1 + iWorldOffset ) );
-    catacurses::window w_options_header = catacurses::newwin( 1, TERMX / 2 - 2,
-                                          point( 1 + TERMX / 4, 1 + iTooltipHeight + iWorldOffset ) );
-    catacurses::window w_options = catacurses::newwin( iContentHeight, TERMX / 2 - 2,
-                                   point( 1 + TERMX / 4, iTooltipHeight + 2 + iWorldOffset ) );
+    catacurses::window w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
+                                           point( iOffsetX, 0 ) );
+    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, 1 + iWorldOffset ) );
+    catacurses::window w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
+    catacurses::window w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
@@ -2443,7 +2445,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < TERMX / 2 - 2; j++ ) {
+            for( int j = 0; j < iMinScreenWidth - 2; j++ ) {
                 if( mapLines[j] ) {
                     mvwputch( w_options, point( j, i ), BORDER_COLOR, LINE_XOXO );
                 } else {
@@ -2539,7 +2541,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_x;
             new_window_width = projected_window_width();
 
-            fold_and_print( w_options_tooltip, point_zero, TERMX / 2 - 2, c_white,
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
@@ -2555,7 +2557,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_y;
             new_window_height = projected_window_height();
 
-            fold_and_print( w_options_tooltip, point_zero, TERMX / 2 - 2, c_white,
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
@@ -2565,7 +2567,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         } else
 #endif
         {
-            fold_and_print( w_options_tooltip, point_zero, TERMX / 2 - 2, c_white, "%s #%s",
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, "%s #%s",
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
         }
