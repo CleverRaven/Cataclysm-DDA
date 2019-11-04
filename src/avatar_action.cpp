@@ -697,7 +697,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 }
             }
         }
-        if( fireable == true ) {
+        if( fireable ) {
             return true;
         }
     }

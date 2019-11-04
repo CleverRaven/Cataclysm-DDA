@@ -4945,7 +4945,8 @@ void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
     units::mass current_weight = weight_carried();
-    units::mass max_weight = weight_capacity();
+    // Make it at least 1 gram to avoid divide-by-zero warning
+    units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }
