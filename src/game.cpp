@@ -7322,11 +7322,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refilter = true;
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
-        } else if( action == "EXAMINE" && !filtered_items.empty() ) {
+        } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
             int dummy = 0; // draw_item_info needs an int &
-            assert( activeItem ); // To appease static analysis
             activeItem->example->info( true, vThisItem );
             draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
                             activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
@@ -7457,8 +7456,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( !filtered_items.empty() ) {
-                assert( activeItem ); // To appease static analysis
+            if( !filtered_items.empty() && activeItem ) {
                 if( ++page_num >= static_cast<int>( activeItem->vIG.size() ) ) {
                     page_num = activeItem->vIG.size() - 1;
                 }
@@ -7921,14 +7919,14 @@ static int get_initial_hotkey( const size_t menu_index )
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
 static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_display(
-            std::vector<map_stack::iterator> &its )
+            const std::vector<map_stack::iterator> &its )
 {
     std::vector<std::pair<map_stack::iterator, int>> result;
     std::vector<std::string> result_strings;
     result.reserve( its.size() );
     result_strings.reserve( its.size() );
 
-    for( map_stack::iterator &it : its ) {
+    for( const map_stack::iterator &it : its ) {
         const std::string tname = it->tname();
         size_t s = 0;
         // Search for the index with a string equivalent to tname
@@ -8286,8 +8284,7 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, corpses, i );
         add_disassemblables( kmenu, disassembly_stacks, i );
-        if( !salvageables.empty() ) {
-            assert( salvage_iuse ); // To appease static analysis
+        if( salvage_iuse && !salvageables.empty() ) {
             add_salvagables( kmenu, salvage_stacks, i, *salvage_iuse );
         }
 
@@ -8308,8 +8305,7 @@ void game::butcher()
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
         }
-        if( salvageables.size() > 1 ) {
-            assert( salvage_iuse ); // To appease static analysis
+        if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
                 time_to_salvage += salvage_iuse->time_to_cut_up( *stack.first ) * stack.second;

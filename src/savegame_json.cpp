@@ -433,7 +433,7 @@ void Character::load( JsonObject &data )
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
-        bool temp_keep_hands_free;
+        bool temp_keep_hands_free = false;
         data.read( "keep_hands_free", temp_keep_hands_free );
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );

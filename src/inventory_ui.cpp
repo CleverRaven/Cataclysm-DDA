@@ -556,6 +556,7 @@ void inventory_column::reset_width()
 size_t inventory_column::page_of( size_t index ) const
 {
     assert( entries_per_page ); // To appease static analysis
+    // NOLINTNEXTLINE(clang-analyzer-core.DivideZero)
     return index / entries_per_page;
 }
 
