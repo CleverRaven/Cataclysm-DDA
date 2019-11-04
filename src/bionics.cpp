@@ -1126,9 +1126,9 @@ void player::process_bionic( int b )
             remove_effect( effect_asthma );
         }
     } else if( bio.id == "bio_evap" ) {
-        // Aero-Evaporator provides water at 30 watts with 2 L / kWh efficiency
-        // which is 10 mL per 10 minutes.  Humidity can modify the amount gained.
-        if( calendar::once_every( 10_minutes ) ) {
+        // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
+        // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
+        if( calendar::once_every( 5_minutes ) ) {
             const w_point weatherPoint = *g->weather.weather_precise;
             int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                g->is_sheltered( g->u.pos() ) );
@@ -1137,7 +1137,7 @@ void player::process_bionic( int b )
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {
                 add_msg_if_player( m_bad,
-                                   _( "There is not enough humidity for your %s.  It deactivates." ),
+                                   _( "There is not enough humidity for your %s to function." ),
                                    bionics[bio.id].name );
                 deactivate_bionic( b );
             } else if( water_available == 1 ) {
