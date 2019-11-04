@@ -63,6 +63,7 @@ moon_phase get_moon_phase( const time_point &p )
     const time_duration moon_phase_duration = calendar::season_length() / 3.0;
     //Switch moon phase at noon so it stays the same all night
     const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
+    const time_point full_moon = calendar::turn_zero + calendar::season_length() / 3 / 2;
     const double phase_change = current_day / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
@@ -182,7 +183,7 @@ float sunlight( const time_point &p, const bool vision )
     const double daylight_level = current_daylight_level( p );
 
     int current_phase = static_cast<int>( get_moon_phase( p ) );
-    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 4 ) {
+    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
