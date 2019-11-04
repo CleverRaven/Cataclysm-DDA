@@ -1598,6 +1598,25 @@ class Character : public Creature, public visitable<Character>
         pimpl<player_morale> morale;
 
     private:
+        /** suffer() subcalls */
+        void suffer_water_damage( const mutation_branch &mdata );
+        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_while_underwater();
+        void suffer_from_addictions();
+        void suffer_while_awake( int current_stim );
+        void suffer_from_chemimbalance();
+        void suffer_from_schizophrenia();
+        void suffer_from_asthma( int current_stim );
+        void suffer_from_pain();
+        void suffer_in_sunlight();
+        void suffer_from_albinism();
+        void suffer_from_other_mutations();
+        void suffer_from_radiation();
+        void suffer_from_bad_bionics();
+        void suffer_from_artifacts();
+        void suffer_from_stimulants( int current_stim );
+        void suffer_without_sleep( int sleep_deprivation );
+
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         enchantment enchantment_cache;

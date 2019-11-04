@@ -214,6 +214,267 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
+void Character::suffer_water_damage( const mutation_branch &mdata )
+{
+    for( const body_part bp : all_body_parts ) {
+        if( !bp || mdata.cooldown ) {
+            return;
+        }
+    }
+}
+
+void Character::suffer_mutation_power( const mutation_branch &mdata,
+                                       Character::trait_data &tdata )
+{
+    if( tdata.powered && tdata.charge > 0 ) {
+        // Already-on units just lose a bit of charge
+        tdata.charge--;
+    } else {
+        // Not-on units, or those with zero charge, have to pay the power cost
+        if( mdata.cooldown > 0 ) {
+            tdata.powered = true;
+            tdata.charge = mdata.cooldown - 1;
+        }
+        if( !tdata.powered ) {
+            apply_mods( mdata.id, false );
+        }
+    }
+}
+
+void Character::suffer_while_underwater()
+{
+}
+
+void Character::suffer_from_addictions()
+{
+    time_duration timer = -6_hours;
+    if( has_trait( trait_ADDICTIVE ) ) {
+        timer = -10_hours;
+    } else if( has_trait( trait_NONADDICTIVE ) ) {
+        timer = -3_hours;
+    }
+    for( addiction &cur_addiction : addictions ) {
+        if( cur_addiction.sated <= 0_turns &&
+            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            addict_effect( *this, cur_addiction );
+        }
+        cur_addiction.sated -= 1_turns;
+        // Higher intensity addictions heal faster
+        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
+            if( cur_addiction.intensity <= 2 ) {
+                rem_addiction( cur_addiction.type );
+                break;
+            } else {
+                cur_addiction.intensity--;
+                cur_addiction.sated = 0_turns;
+            }
+        }
+    }
+}
+
+void Character::suffer_while_awake( const int current_stim )
+{
+    if( current_stim == 0 ) {
+        return;
+    }
+}
+
+void Character::suffer_from_chemimbalance()
+{
+}
+
+void Character::suffer_from_schizophrenia()
+{
+}
+
+void Character::suffer_from_asthma( const int current_stim )
+{
+    if( current_stim == 0 ) {
+        return;
+    }
+}
+
+void Character::suffer_in_sunlight()
+{
+}
+
+void Character::suffer_from_albinism()
+{
+}
+
+void Character::suffer_from_other_mutations()
+{
+    if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
+        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
+        g->m.spawn_item( pos(), "bone", 1 );
+    }
+
+    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
+        //~Sound of buzzing Insect Wings
+        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
+                       "insect_wings" );
+    }
+
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    int root_vitamins = 0;
+    int root_water = 0;
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
+        root_vitamins += 1;
+        if( get_thirst() <= -2000 ) {
+            root_water += 51;
+        }
+    }
+
+    if( x_in_y( root_vitamins, 576 ) ) {
+        vitamin_mod( vitamin_id( "iron" ), 1, true );
+        vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        mod_healthy_mod( 5, 50 );
+    }
+
+    if( x_in_y( root_water, 2550 ) ) {
+        // Plants draw some crazy amounts of water from the ground in real life,
+        // so these numbers try to reflect that uncertain but large amount
+        // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
+        mod_thirst( -1 );
+    }
+
+    if( has_trait( trait_SORES ) ) {
+        for( const body_part bp : all_body_parts ) {
+            if( bp == bp_head ) {
+                continue;
+            }
+            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
+            if( get_pain() < sores_pain ) {
+                set_pain( sores_pain );
+            }
+        }
+    }
+    //Web Weavers...weave web
+    if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
+
+    }
+
+    // Blind/Deaf for brief periods about once an hour,
+    // and visuals about once every 30 min.
+    if( has_trait( trait_PER_SLIME ) ) {
+        if( one_turn_in( 1_hours ) && !has_effect( effect_deaf ) ) {
+            add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
+            add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
+        }
+        if( one_turn_in( 1_hours ) && !( has_effect( effect_blind ) ) ) {
+            add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
+            add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
+        }
+        // Yes, you can be blind and hallucinate at the same time.
+        // Your post-human biology is truly remarkable.
+        if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
+            add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
+            add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
+        }
+    }
+
+    if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
+        // this adds intensity to if its not already there.
+        g->m.add_field( pos(), fd_web, 1 );
+    }
+
+    bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
+                         one_turn_in( 48_hours );
+    should_mutate |= ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) &&
+                     one_turn_in( 12_hours );
+    if( should_mutate ) {
+        mutate();
+    }
+
+    const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
+                            !has_morale( MORALE_PYROMANIA_STARTFIRE );
+    if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
+        calendar::once_every( 2_hours ) ) {
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
+        if( calendar::once_every( 4_hours ) ) {
+            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
+            add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
+        }
+    }
+    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
+        calendar::once_every( 2_hours ) ) {
+        add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
+        if( calendar::once_every( 4_hours ) ) {
+            std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
+            add_msg_if_player( m_bad, _( snip ) );
+        }
+    }
+}
+
+void Character::suffer_from_radiation()
+{
+}
+
+void Character::suffer_from_bad_bionics()
+{
+}
+
+void Character::suffer_from_artifacts()
+{
+    // Artifact effects
+    if( has_artifact_with( AEP_ATTENTION ) ) {
+        add_effect( effect_attention, 3_turns );
+    }
+
+    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
+        g->weather.weather != WEATHER_SNOWSTORM ) {
+        g->weather.weather_override = WEATHER_SNOWSTORM;
+        g->weather.set_nextweather( calendar::turn );
+    }
+
+    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
+        mutate();
+    }
+    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
+        teleport::teleport( *this );
+    }
+}
+
+void Character::suffer_from_stimulants( const int current_stim )
+{
+    if( current_stim == 0 ) {
+        return;
+    }
+}
+
+void Character::suffer_without_sleep( const int sleep_deprivation )
+{
+    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
+        if( one_turn_in( 50_minutes ) ) {
+            switch( dice( 1, 4 ) ) {
+                default:
+                case 1:
+                    add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
+                                           _( "<npcname> tiredly rubs their eyes." ) );
+                    break;
+                case 2:
+                    add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
+                                           _( "<npcname> lets out a small yawn." ) );
+                    break;
+                case 3:
+                    add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
+                                           _( "<npcname> streches their back." ) );
+                    break;
+                case 4:
+                    add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
+                                           _( "<npcname> lets out a huge yawn." ) );
+                    break;
+            }
+        }
+    }
+}
+
+void Character::suffer_from_pain()
+{
+}
+
 void Character::suffer()
 {
     const int current_stim = get_stim();
@@ -237,6 +498,7 @@ void Character::suffer()
             continue;
         }
         const auto &mdata = mut.first.obj();
+        suffer_mutation_power( mdata, tdata );
         if( tdata.powered && tdata.charge > 0 ) {
             // Already-on units just lose a bit of charge
             tdata.charge--;
@@ -276,6 +538,7 @@ void Character::suffer()
     }
 
     if( underwater ) {
+        suffer_while_underwater();
         if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
             oxygen--;
         }
@@ -297,64 +560,10 @@ void Character::suffer()
         }
     }
 
-    if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
-        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
-    }
-
-    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
-        //~Sound of buzzing Insect Wings
-        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc", "insect_wings" );
-    }
-
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    int root_vitamins = 0;
-    int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
-        root_vitamins += 1;
-        if( get_thirst() <= -2000 ) {
-            root_water += 51;
-        }
-    }
-
-    if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_id( "iron" ), 1, true );
-        vitamin_mod( vitamin_id( "calcium" ), 1, true );
-        mod_healthy_mod( 5, 50 );
-    }
-
-    if( x_in_y( root_water, 2550 ) ) {
-        // Plants draw some crazy amounts of water from the ground in real life,
-        // so these numbers try to reflect that uncertain but large amount
-        // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
-        mod_thirst( -1 );
-    }
-
-    time_duration timer = -6_hours;
-    if( has_trait( trait_ADDICTIVE ) ) {
-        timer = -10_hours;
-    } else if( has_trait( trait_NONADDICTIVE ) ) {
-        timer = -3_hours;
-    }
-    for( auto &cur_addiction : addictions ) {
-        if( cur_addiction.sated <= 0_turns &&
-            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-            addict_effect( *this, cur_addiction );
-        }
-        cur_addiction.sated -= 1_turns;
-        // Higher intensity addictions heal faster
-        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
-            if( cur_addiction.intensity <= 2 ) {
-                rem_addiction( cur_addiction.type );
-                break;
-            } else {
-                cur_addiction.intensity--;
-                cur_addiction.sated = 0_turns;
-            }
-        }
-    }
+    suffer_from_addictions();
 
     if( !in_sleep_state() ) {
+        suffer_while_awake( current_stim );
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
             if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
@@ -363,6 +572,7 @@ void Character::suffer()
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
+            suffer_from_chemimbalance();
             if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
                 mod_pain( 3 * rng( 1, 3 ) );
@@ -425,6 +635,7 @@ void Character::suffer()
         }
         if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
             !has_effect( effect_took_thorazine ) ) {
+            suffer_from_schizophrenia();
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
@@ -658,6 +869,7 @@ void Character::suffer()
         !has_effect( effect_datura ) &&
         one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
                 ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
+        suffer_from_asthma( current_stim );
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
@@ -748,6 +960,7 @@ void Character::suffer()
         }
     }
 
+    suffer_in_sunlight();
     double sleeve_factor = armwear_factor();
     const bool has_hat = wearing_something_on( bp_head );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
@@ -781,20 +994,9 @@ void Character::suffer()
         stomach.ate();
     }
 
-    if( get_pain() > 0 ) {
-        if( has_trait( trait_PAINREC1 ) && one_turn_in( 1_hours ) ) {
-            mod_pain( -1 );
-        }
-        if( has_trait( trait_PAINREC2 ) && one_turn_in( 30_minutes ) ) {
-            mod_pain( -1 );
-        }
-        if( has_trait( trait_PAINREC3 ) && one_turn_in( 15_minutes ) ) {
-            mod_pain( -1 );
-        }
-    }
-
     if( ( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) &&
         g->is_in_sunlight( pos() ) && one_turn_in( 1_minutes ) ) {
+        suffer_from_albinism();
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             //calculate total coverage of skin
@@ -934,79 +1136,10 @@ void Character::suffer()
         mod_per_bonus( -4 );
     }
 
-    if( has_trait( trait_SORES ) ) {
-        for( const body_part bp : all_body_parts ) {
-            if( bp == bp_head ) {
-                continue;
-            }
-            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
-            if( get_pain() < sores_pain ) {
-                set_pain( sores_pain );
-            }
-        }
-    }
-    //Web Weavers...weave web
-    if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
-        // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+    suffer_from_other_mutations();
+    suffer_from_artifacts();
 
-    }
-
-    // Blind/Deaf for brief periods about once an hour,
-    // and visuals about once every 30 min.
-    if( has_trait( trait_PER_SLIME ) ) {
-        if( one_turn_in( 1_hours ) && !has_effect( effect_deaf ) ) {
-            add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
-            add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
-        }
-        if( one_turn_in( 1_hours ) && !( has_effect( effect_blind ) ) ) {
-            add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
-            add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
-        }
-        // Yes, you can be blind and hallucinate at the same time.
-        // Your post-human biology is truly remarkable.
-        if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
-            add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
-            add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
-        }
-    }
-
-    if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
-        // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
-    }
-
-    if( has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) && one_turn_in( 48_hours ) ) {
-        mutate();
-    }
-    if( ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) && one_turn_in( 12_hours ) ) {
-        mutate();
-    }
-    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
-        mutate();
-    }
-    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        teleport::teleport( *this );
-    }
-    const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
-                            !has_morale( MORALE_PYROMANIA_STARTFIRE );
-    if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
-        calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
-        if( calendar::once_every( 4_hours ) ) {
-            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
-            add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
-        }
-    }
-    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
-        calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
-        if( calendar::once_every( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
-            add_msg_if_player( m_bad, _( snip ) );
-        }
-    }
-
+    suffer_from_radiation();
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( "RADIOACTIVE" );
 
@@ -1176,6 +1309,7 @@ void Character::suffer()
         }
     }
 
+    suffer_from_bad_bionics();
     // Negative bionics effects
     if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
@@ -1263,17 +1397,7 @@ void Character::suffer()
         mod_power_level( -1_kJ );
     }
 
-    // Artifact effects
-    if( has_artifact_with( AEP_ATTENTION ) ) {
-        add_effect( effect_attention, 3_turns );
-    }
-
-    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        g->weather.weather != WEATHER_SNOWSTORM ) {
-        g->weather.weather_override = WEATHER_SNOWSTORM;
-        g->weather.set_nextweather( calendar::turn );
-    }
-
+    suffer_from_stimulants( current_stim );
     // Stim +250 kills
     if( current_stim > 210 ) {
         if( one_turn_in( 2_minutes ) && !has_effect( effect_downed ) ) {
@@ -1346,30 +1470,7 @@ void Character::suffer()
         sleep_deprivation -= current_stim * 50;
     }
 
-    // Harmless warnings
-    if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
-        if( one_turn_in( 50_minutes ) ) {
-            switch( dice( 1, 4 ) ) {
-                default:
-                case 1:
-                    add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
-                                           _( "<npcname> tiredly rubs their eyes." ) );
-                    break;
-                case 2:
-                    add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
-                                           _( "<npcname> lets out a small yawn." ) );
-                    break;
-                case 3:
-                    add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
-                                           _( "<npcname> streches their back." ) );
-                    break;
-                case 4:
-                    add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
-                                           _( "<npcname> lets out a huge yawn." ) );
-                    break;
-            }
-        }
-    }
+    suffer_without_sleep( sleep_deprivation );
     // Minor discomfort
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
@@ -1426,6 +1527,7 @@ void Character::suffer()
             }
         }
     }
+    suffer_from_pain();
 }
 
 bool Character::irradiate( float rads, bool bypass )
