@@ -6,6 +6,9 @@
 #include "activity_type.h"
 #include "player.h"
 #include "sounds.h"
+#include "avatar.h"
+#include "itype.h"
+#include "skill.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -59,7 +62,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-cata::optional<std::string> player_activity::get_progress_message() const
+cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
         return cata::optional<std::string>();
@@ -69,6 +72,22 @@ cata::optional<std::string> player_activity::get_progress_message() const
     if( type == activity_id( "ACT_CRAFT" ) ) {
         if( const item *craft = targets.front().get_item() ) {
             extra_info = craft->tname();
+        }
+    } else if( type == activity_id( "ACT_READ" ) ) {
+        if( const item *book = targets.front().get_item() ) {
+            if( const auto &reading = book->type->book ) {
+                const skill_id &skill = reading->skill;
+                if( skill && u.get_skill_level( skill ) < reading->level &&
+                    u.get_skill_level_object( skill ).can_train() ) {
+                    const SkillLevel &skill_level = u.get_skill_level_object( skill );
+                    //~ skill_name current_skill_level -> next_skill_level (% to next level)
+                    extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
+                                                skill.obj().name(),
+                                                skill_level.level(),
+                                                skill_level.level() + 1,
+                                                skill_level.exercise() );
+                }
+            }
         }
     } else if( moves_total > 0 ) {
         const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
