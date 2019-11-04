@@ -120,7 +120,7 @@
     "batch_time_factors": [ 67, 5 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "human_flesh", 1 ] ] ]
+    "components": [ [ [ "human_meat", 1, "LIST" ] ] ]
   },
   {
     "result": "dry_hflesh",
@@ -134,7 +134,7 @@
     "batch_time_factors": [ 67, 5 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "human_flesh", 1 ] ] ]
+    "components": [ [ [ "human_meat", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
