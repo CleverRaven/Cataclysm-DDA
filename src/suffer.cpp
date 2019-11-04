@@ -217,8 +217,19 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
     for( const body_part bp : all_body_parts ) {
-        if( !bp || mdata.cooldown ) {
-            return;
+        const float wetness_percentage = static_cast<float>( body_wetness[bp] ) /
+                                         drench_capacity[bp];
+        const int dmg = mdata.weakness_to_water * wetness_percentage;
+        if( dmg > 0 ) {
+            apply_damage( nullptr, bp, dmg );
+            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
+                                   _( "<npcname>'s %s is damaged by the water." ),
+                                   body_part_name( bp ) );
+        } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
+            heal( bp, abs( dmg ) );
+            add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
+                                   _( "<npcname>'s %s is healed by the water." ),
+                                   body_part_name( bp ) );
         }
     }
 }
@@ -234,6 +245,34 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.cooldown > 0 ) {
             tdata.powered = true;
             tdata.charge = mdata.cooldown - 1;
+        }
+        if( mdata.hunger ) {
+            // does not directly modify hunger, but burns kcal
+            mod_stored_nutr( mdata.cost );
+            if( get_bmi() < character_weight_category::underweight ) {
+                add_msg_if_player( m_warning,
+                                   _( "You're too malnourished to keep your %s going." ),
+                                   mdata.name() );
+                tdata.powered = false;
+            }
+        }
+        if( mdata.thirst ) {
+            mod_thirst( mdata.cost );
+            if( get_thirst() >= 260 ) { // Well into Dehydrated
+                add_msg_if_player( m_warning,
+                                   _( "You're too dehydrated to keep your %s going." ),
+                                   mdata.name() );
+                tdata.powered = false;
+            }
+        }
+        if( mdata.fatigue ) {
+            mod_fatigue( mdata.cost );
+            if( get_fatigue() >= EXHAUSTED ) { // Exhausted
+                add_msg_if_player( m_warning,
+                                   _( "You're too exhausted to keep your %s going." ),
+                                   mdata.name() );
+                tdata.powered = false;
+            }
         }
         if( !tdata.powered ) {
             apply_mods( mdata.id, false );
@@ -492,48 +531,14 @@ void Character::suffer()
         }
     }
 
-    for( auto &mut : my_mutations ) {
-        auto &tdata = mut.second;
-        if( !tdata.powered ) {
-            continue;
+    for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
+        const mutation_branch &mdata = mut.first.obj();
+        if( calendar::once_every( 1_minutes ) ) {
+            suffer_water_damage( mdata );
         }
-        const auto &mdata = mut.first.obj();
-        suffer_mutation_power( mdata, tdata );
-        if( tdata.powered && tdata.charge > 0 ) {
-            // Already-on units just lose a bit of charge
-            tdata.charge--;
-        } else {
-            // Not-on units, or those with zero charge, have to pay the power cost
-            if( mdata.cooldown > 0 ) {
-                tdata.powered = true;
-                tdata.charge = mdata.cooldown - 1;
-            }
-            if( mdata.hunger ) {
-                // does not directly modify hunger, but burns kcal
-                mod_stored_nutr( mdata.cost );
-                if( get_bmi() < character_weight_category::underweight ) {
-                    add_msg_if_player( m_warning, _( "You're too malnourished to keep your %s going." ), mdata.name() );
-                    tdata.powered = false;
-                }
-            }
-            if( mdata.thirst ) {
-                mod_thirst( mdata.cost );
-                if( get_thirst() >= 260 ) { // Well into Dehydrated
-                    add_msg_if_player( m_warning, _( "You're too dehydrated to keep your %s going." ), mdata.name() );
-                    tdata.powered = false;
-                }
-            }
-            if( mdata.fatigue ) {
-                mod_fatigue( mdata.cost );
-                if( get_fatigue() >= EXHAUSTED ) { // Exhausted
-                    add_msg_if_player( m_warning, _( "You're too exhausted to keep your %s going." ), mdata.name() );
-                    tdata.powered = false;
-                }
-            }
-
-            if( !tdata.powered ) {
-                apply_mods( mut.first, false );
-            }
+        Character::trait_data &tdata = mut.second;
+        if( tdata.powered ) {
+            suffer_mutation_power( mdata, tdata );
         }
     }
 
@@ -1082,25 +1087,6 @@ void Character::suffer()
             }
         }
     }
-    for( const auto &m : my_mutations ) {
-        const mutation_branch &mdata = m.first.obj();
-        for( const body_part bp : all_body_parts ) {
-            if( calendar::once_every( 1_minutes ) ) {
-                // 0.0 - 1.0
-                const float wetness_percentage =  static_cast<float>( body_wetness[bp] ) / drench_capacity[bp];
-                const int dmg = mdata.weakness_to_water * wetness_percentage;
-                if( dmg > 0 ) {
-                    apply_damage( nullptr, bp, dmg );
-                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
-                                           _( "<npcname>'s %s is damaged by the water." ), body_part_name( bp ) );
-                } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-                    heal( bp, abs( dmg ) );
-                    add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
-                                           _( "<npcname>'s %s is healed by the water." ), body_part_name( bp ) );
-                }
-            }
-        }
-    }
 
     if( has_trait( trait_SUNBURN ) && g->is_in_sunlight( pos() ) && one_in( 10 ) ) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
@@ -1220,92 +1206,92 @@ void Character::suffer()
                 radiation -= 5;
             }
         }
-    }
 
-    if( !radiogenic && radiation > 0 ) {
-        // Even if you heal the radiation itself, the damage is done.
-        const int hmod = get_healthy_mod();
-        if( hmod > 200 - radiation ) {
-            set_healthy_mod( std::max( -200, 200 - radiation ) );
-        }
-    }
-
-    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
-        hurtall( 1, nullptr );
-        radiation -= 5;
-    }
-
-    if( reactor_plut || tank_plut || slow_rad ) {
-        // Microreactor CBM and supporting bionics
-        if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
-            //first do the filtering of plutonium from storage to reactor
-            if( tank_plut > 0 ) {
-                int plut_trans;
-                if( has_active_bionic( bio_plut_filter ) ) {
-                    plut_trans = tank_plut * 0.025;
-                } else {
-                    plut_trans = tank_plut * 0.005;
-                }
-                if( plut_trans < 1 ) {
-                    plut_trans = 1;
-                }
-                tank_plut -= plut_trans;
-                reactor_plut += plut_trans;
+        if( !radiogenic && radiation > 0 ) {
+            // Even if you heal the radiation itself, the damage is done.
+            const int hmod = get_healthy_mod();
+            if( hmod > 200 - radiation ) {
+                set_healthy_mod( std::max( -200, 200 - radiation ) );
             }
-            //leaking radiation, reactor is unshielded, but still better than a simple tank
-            slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
-            //begin power generation
-            if( reactor_plut > 0 ) {
-                int power_gen = 0;
-                if( has_bionic( bio_advreactor ) ) {
-                    if( ( reactor_plut * 0.05 ) > 2000 ) {
-                        power_gen = 2000;
+        }
+
+        if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
+            hurtall( 1, nullptr );
+            radiation -= 5;
+        }
+
+        if( reactor_plut || tank_plut || slow_rad ) {
+            // Microreactor CBM and supporting bionics
+            if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
+                //first do the filtering of plutonium from storage to reactor
+                if( tank_plut > 0 ) {
+                    int plut_trans;
+                    if( has_active_bionic( bio_plut_filter ) ) {
+                        plut_trans = tank_plut * 0.025;
                     } else {
-                        power_gen = reactor_plut * 0.05;
-                        if( power_gen < 1 ) {
-                            power_gen = 1;
-                        }
+                        plut_trans = tank_plut * 0.005;
                     }
-                    slow_rad += ( power_gen * 3 );
-                    while( slow_rad >= 50 ) {
-                        if( power_gen >= 1 ) {
-                            slow_rad -= 50;
-                            power_gen -= 1;
-                            reactor_plut -= 1;
+                    if( plut_trans < 1 ) {
+                        plut_trans = 1;
+                    }
+                    tank_plut -= plut_trans;
+                    reactor_plut += plut_trans;
+                }
+                //leaking radiation, reactor is unshielded, but still better than a simple tank
+                slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
+                //begin power generation
+                if( reactor_plut > 0 ) {
+                    int power_gen = 0;
+                    if( has_bionic( bio_advreactor ) ) {
+                        if( ( reactor_plut * 0.05 ) > 2000 ) {
+                            power_gen = 2000;
                         } else {
-                            break;
+                            power_gen = reactor_plut * 0.05;
+                            if( power_gen < 1 ) {
+                                power_gen = 1;
+                            }
                         }
-                    }
-                } else if( has_bionic( bio_reactor ) ) {
-                    if( ( reactor_plut * 0.025 ) > 500 ) {
-                        power_gen = 500;
-                    } else {
-                        power_gen = reactor_plut * 0.025;
-                        if( power_gen < 1 ) {
-                            power_gen = 1;
+                        slow_rad += ( power_gen * 3 );
+                        while( slow_rad >= 50 ) {
+                            if( power_gen >= 1 ) {
+                                slow_rad -= 50;
+                                power_gen -= 1;
+                                reactor_plut -= 1;
+                            } else {
+                                break;
+                            }
                         }
+                    } else if( has_bionic( bio_reactor ) ) {
+                        if( ( reactor_plut * 0.025 ) > 500 ) {
+                            power_gen = 500;
+                        } else {
+                            power_gen = reactor_plut * 0.025;
+                            if( power_gen < 1 ) {
+                                power_gen = 1;
+                            }
+                        }
+                        slow_rad += ( power_gen * 3 );
                     }
-                    slow_rad += ( power_gen * 3 );
+                    reactor_plut -= power_gen;
+                    while( power_gen >= 250 ) {
+                        apply_damage( nullptr, bp_torso, 1 );
+                        mod_pain( 1 );
+                        add_msg_if_player( m_bad, _( "Your chest burns as your power systems overload!" ) );
+                        mod_power_level( 50_kJ );
+                        power_gen -= 60; // ten units of power lost due to short-circuiting into you
+                    }
+                    mod_power_level( units::from_kilojoule( power_gen ) );
                 }
-                reactor_plut -= power_gen;
-                while( power_gen >= 250 ) {
-                    apply_damage( nullptr, bp_torso, 1 );
-                    mod_pain( 1 );
-                    add_msg_if_player( m_bad, _( "Your chest burns as your power systems overload!" ) );
-                    mod_power_level( 50_kJ );
-                    power_gen -= 60; // ten units of power lost due to short-circuiting into you
-                }
-                mod_power_level( units::from_kilojoule( power_gen ) );
+            } else {
+                slow_rad += ( ( ( reactor_plut * 0.4 ) + ( tank_plut * 0.4 ) ) * 100 );
+                //plutonium in body without any kind of container.  Not good at all.
+                reactor_plut *= 0.6;
+                tank_plut *= 0.6;
             }
-        } else {
-            slow_rad += ( ( ( reactor_plut * 0.4 ) + ( tank_plut * 0.4 ) ) * 100 );
-            //plutonium in body without any kind of container.  Not good at all.
-            reactor_plut *= 0.6;
-            tank_plut *= 0.6;
-        }
-        while( slow_rad >= 1000 ) {
-            radiation += 1;
-            slow_rad -= 1000;
+            while( slow_rad >= 1000 ) {
+                radiation += 1;
+                slow_rad -= 1000;
+            }
         }
     }
 
