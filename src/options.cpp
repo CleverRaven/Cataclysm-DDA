@@ -1347,8 +1347,8 @@ void options_manager::add_options_interface()
          false
        );
 
-    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly" ),
-         translate_marker( "If true, will query before disassembling items." ),
+    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
+         translate_marker( "If true, will query before disassembling items while butchering." ),
          true
        );
 
