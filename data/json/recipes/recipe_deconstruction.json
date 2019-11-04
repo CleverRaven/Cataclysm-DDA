@@ -2338,6 +2338,7 @@
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "cable", 8 ] ],

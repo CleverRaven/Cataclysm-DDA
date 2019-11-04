@@ -817,7 +817,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "television",
-    "description": "A large cathode ray tube television, full of delicious electronics.",
+    "description": "A large LCD television, full of delicious electronics.",
     "price": 0,
     "material": "plastic",
     "weight": "22600 g",
@@ -1382,6 +1382,20 @@
     "weight": "114 g",
     "volume": "250 ml",
     "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "large_lcd_screen",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "large LCD screen",
+    "category": "spare_parts",
+    "description": "A large backlit screen, used for displaying images.  Useful in some electronics recipes.",
+    "price": 150000,
+    "material": "plastic",
+    "weight": "3000 g",
+    "volume": "1500 ml",
+    "to_hit": -4
   },
   {
     "type": "GENERIC",
