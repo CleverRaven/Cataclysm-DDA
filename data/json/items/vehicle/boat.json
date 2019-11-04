@@ -71,7 +71,7 @@
     "name": "sail",
     "name_plural": "sails",
     "description": "Sails for a boat.",
-    "weight": "16294 g",
+    "weight": "14044 g",
     "to_hit": -1,
     "color": "light_gray",
     "symbol": ":",
