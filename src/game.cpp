@@ -5648,6 +5648,11 @@ void game::examine( const tripoint &examp )
             Pickup::pick_up( examp, 0 );
         }
     }
+    if( is_dangerous_tile( examp ) ) {
+        if( prompt_dangerous_tile( examp ) ) {
+            walk_move( examp, true );
+        }
+    }
 }
 
 void game::pickup()
@@ -9043,7 +9048,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc )
+bool game::walk_move( const tripoint &dest_loc, bool ignore_danger )
 {
     if( m.has_flag_ter( "THIN_OBSTACLE", dest_loc ) ) {
         if( u.get_size() > MS_MEDIUM ) {
@@ -9144,7 +9149,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && !prompt_dangerous_tile( dest_loc ) ) {
+    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) && !ignore_danger ) ) {
         return true;
     }
     // Used to decide whether to print a 'moving is slow message

@@ -702,7 +702,7 @@ class game
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool ignore_danger = false );
         void on_move_effects();
     private:
         // Game-start procedures
