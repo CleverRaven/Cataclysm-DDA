@@ -282,6 +282,25 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
 
 void Character::suffer_while_underwater()
 {
+    if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+        oxygen--;
+    }
+    if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {
+        oxygen += 12;
+    }
+    if( oxygen <= 5 ) {
+        if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
+            oxygen += 5;
+            mod_power_level( -25_kJ );
+        } else {
+            add_msg_if_player( m_bad, _( "You're drowning!" ) );
+            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+        }
+    }
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
+        get_thirst() > -60 ) {
+        mod_thirst( -1 );
+    }
 }
 
 void Character::suffer_from_addictions()
@@ -544,25 +563,6 @@ void Character::suffer()
 
     if( underwater ) {
         suffer_while_underwater();
-        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
-            oxygen--;
-        }
-        if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {
-            oxygen += 12;
-        }
-        if( oxygen <= 5 ) {
-            if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
-                oxygen += 5;
-                mod_power_level( -25_kJ );
-            } else {
-                add_msg_if_player( m_bad, _( "You're drowning!" ) );
-                apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
-            }
-        }
-        if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
-            get_thirst() > -60 ) {
-            mod_thirst( -1 );
-        }
     }
 
     suffer_from_addictions();
