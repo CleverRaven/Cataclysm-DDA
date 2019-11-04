@@ -145,78 +145,174 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
         const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
-    std::set<tripoint> targets;
-    const int initial_angle = coord_to_angle( source, target );
-    tripoint clockwise_starting_point;
-    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), source, clockwise_starting_point );
-    tripoint cclockwise_starting_point;
-    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), source, cclockwise_starting_point );
-    tripoint clockwise_end_point;
-    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), target, clockwise_end_point );
-    tripoint cclockwise_end_point;
-    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
+    const tripoint delta3 = target - source;
+    const point delta( delta3.x, delta3.y );
 
-    std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
-    start_width.insert( start_width.begin(), clockwise_end_point );
-    std::vector<tripoint> end_width = line_to( clockwise_end_point, cclockwise_end_point );
-    end_width.insert( end_width.begin(), clockwise_starting_point );
+    const int dist = square_dist( point_zero, delta );
+    if( dist == 0 ) {
+        return std::set<tripoint>();
+    }
 
-    std::vector<tripoint> cwise_line = line_to( clockwise_starting_point, cclockwise_starting_point );
-    cwise_line.insert( cwise_line.begin(), clockwise_starting_point );
-    std::vector<tripoint> ccwise_line = line_to( cclockwise_starting_point, cclockwise_end_point );
-    ccwise_line.insert( ccwise_line.begin(), cclockwise_starting_point );
+    const point delta_perp( -delta.y, delta.x );
 
-    for( const tripoint &start_line_pt : start_width ) {
-        bool passable = true;
-        for( const tripoint &potential_target : line_to( source, start_line_pt ) ) {
-            passable = g->m.passable( potential_target ) || ignore_walls;
-            if( passable ) {
-                targets.emplace( potential_target );
-            } else {
+    const point abs_delta = abs( delta );
+    const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
+
+    const point cw_perp_axis( -axis_delta.y, axis_delta.x );
+    const point unit_cw_perp_axis( sgn( cw_perp_axis.x ), sgn( cw_perp_axis.y ) );
+    // bias leg length toward cw side if uneven
+    const int ccw_len = aoe_radius / 2;
+    const int cw_len = aoe_radius - ccw_len;
+
+    // Orientation of point C relative to line AB
+    auto side_of = []( const point & a, const point & b, const point & c ) {
+        int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+        return ( cross > 0 ) - ( cross < 0 );
+    };
+    // is delta aligned with, cw, or ccw of primary axis
+    int delta_side = side_of( point_zero, axis_delta, delta );
+
+    auto test = ignore_walls ?
+    []( const tripoint & ) {
+        return true;
+} :
+    []( const tripoint & p ) {
+        return g->m.passable( p );
+    };
+    // point C between two lines, or colinear to one of them?
+    auto between_or_on = [side_of]( const point & a0, const point & a1, const point & d,
+    const point & c ) {
+        return side_of( a0, a0 + d, c ) != 1 && side_of( a1, a1 + d, c ) != -1;
+    };
+
+    std::set<tripoint> result;
+
+    std::vector<point> path_to_target = line_to( point_zero, delta );
+    path_to_target.pop_back();
+    path_to_target.insert( path_to_target.begin(), point_zero );
+
+    struct line_iterable {
+        const std::vector<point> &delta_line;
+        point cur_origin;
+        point delta;
+        size_t index;
+
+        line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
+            : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
+
+        const point get() const {
+            return cur_origin + delta_line[index];
+        }
+        void next() {
+            index = ( index + 1 ) % delta_line.size();
+            cur_origin = cur_origin + delta * ( index == 0 );
+        }
+        void prev() {
+            cur_origin = cur_origin - delta * ( index == 0 );
+            index = ( index + delta_line.size() - 1 ) % delta_line.size();
+        }
+        void reset( const point &origin ) {
+            cur_origin = origin;
+            index = 0;
+        }
+    };
+
+    line_iterable base_line( point_zero, delta, path_to_target );
+
+    auto build_line = [&]( line_iterable line, const tripoint & source, const point & delta,
+    const point & delta_perp ) {
+        while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
+            if( !test( source + line.get() ) ) {
                 break;
             }
+            result.emplace( source + line.get() );
+            line.next();
         }
-        if( !passable ) {
-            // leading edge of line attack is very important to the whole
-            // if the leading edge is blocked, none of the attack spawning
-            // from that edge can propogate
-            continue;
-        }
-        for( const tripoint &end_line_pt : end_width ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, end_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
-                } else {
-                    break;
-                }
+    };
+
+    // Add midline points
+    build_line( base_line, source, delta, delta_perp );
+
+    // Add cw and ccw legs
+    if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
+        // cw leg
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+            base_line.reset( p );
+            if( !test( source + p ) ) {
+                break;
             }
+
+            build_line( base_line, source, delta, delta_perp );
         }
-        for( const tripoint &cwise_line_pt : cwise_line ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, cwise_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
-                } else {
-                    break;
-                }
+        // ccw leg
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+            base_line.reset( p );
+            if( !test( source + p ) ) {
+                break;
             }
+
+            build_line( base_line, source, delta, delta_perp );
         }
-        for( const tripoint &ccwise_line_pt : ccwise_line ) {
-            std::vector<tripoint> temp_line = line_to( start_line_pt, ccwise_line_pt );
-            for( const tripoint &potential_target : temp_line ) {
-                if( ignore_walls || g->m.passable( potential_target ) ) {
-                    targets.emplace( potential_target );
-                } else {
-                    break;
-                }
+    } else if( delta_side == 1 ) { // delta is cw of primary axis
+        // ccw leg is behind perp axis
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+            base_line.reset( p );
+
+            // forward until in
+            while( !between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+                base_line.next();
             }
+            if( !test( source + p ) ) {
+                break;
+            }
+            build_line( base_line, source, delta, delta_perp );
+        }
+        // cw leg is before perp axis
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+            base_line.reset( p );
+
+            // move back
+            while( between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+                base_line.prev();
+            }
+            base_line.next();
+            if( !test( source + p ) ) {
+                break;
+            }
+            build_line( base_line, source, delta, delta_perp );
+        }
+    } else if( delta_side == -1 ) { // delta is ccw of primary axis
+        // ccw leg is before perp axis
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+            base_line.reset( p );
+
+            // move back
+            while( between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+                base_line.prev();
+            }
+            base_line.next();
+            if( !test( source + p ) ) {
+                break;
+            }
+            build_line( base_line, source, delta, delta_perp );
+        }
+        // cw leg is behind perp axis
+        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+            base_line.reset( p );
+
+            // forward until in
+            while( !between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+                base_line.next();
+            }
+            if( !test( source + p ) ) {
+                break;
+            }
+            build_line( base_line, source, delta, delta_perp );
         }
     }
 
-    targets.erase( source );
-
-    return targets;
+    result.erase( source );
+    return result;
 }
 
 // spells do not reduce in damage the further away from the epicenter the targets are
