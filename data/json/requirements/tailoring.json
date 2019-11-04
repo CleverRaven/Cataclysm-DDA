@@ -130,11 +130,11 @@
     "//": "All kinds of fasteners for jacket-sized soft objects.",
     "components": [
       [
-        [ "button", 8, "LIST" ],
-        [ "snapfastener_steel", 8 ],
+        [ "button", 9, "LIST" ],
+        [ "snapfastener_steel", 9 ],
         [ "zipper_long_plastic", 1 ],
-        [ "touch_fastener", 4 ],
-        [ "string_6", 4 ]
+        [ "touch_fastener", 6 ],
+        [ "string_6", 6 ]
       ]
     ]
   },
@@ -144,8 +144,8 @@
     "//": "All kinds of fasteners for footwear-sized soft objects, including pockets.",
     "components": [
       [
-        [ "button", 4, "LIST" ],
-        [ "snapfastener_steel", 4 ],
+        [ "button", 3, "LIST" ],
+        [ "snapfastener_steel", 3 ],
         [ "zipper_short_plastic", 1 ],
         [ "touch_fastener", 2 ],
         [ "string_6", 2 ]
