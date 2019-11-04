@@ -5648,10 +5648,8 @@ void game::examine( const tripoint &examp )
             Pickup::pick_up( examp, 0 );
         }
     }
-    if( is_dangerous_tile( examp ) ) {
-        if( prompt_dangerous_tile( examp ) ) {
-            walk_move( examp, true );
-        }
+    if( is_dangerous_tile( examp ) && prompt_dangerous_tile( examp ) ) {
+        walk_move( examp, true );
     }
 }
 
