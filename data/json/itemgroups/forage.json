@@ -17,7 +17,6 @@
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 },
       { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },
@@ -39,7 +38,6 @@
       { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "mugwort", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 },
       { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },
@@ -59,7 +57,6 @@
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 },
       { "item": "salsify_raw", "prob": 5, "count-min": 1, "count-max": 3 }
     ]
   },
@@ -67,7 +64,7 @@
     "id": "forage_winter",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "feather", "prob": 15, "count-min": 3, "count-max": 10 } ]
+    "entries": [ ]
   },
   {
     "id": "forage_mushroom",
