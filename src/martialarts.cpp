@@ -1166,7 +1166,7 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
         owner.add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), owner.weapon.tname( 1,
-            false ), ma.name );
+                                 false ), ma.name );
     }
 }
 
