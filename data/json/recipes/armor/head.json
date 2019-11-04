@@ -132,8 +132,28 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
-      [ [ "liquidcontainer_250ml", 1, "LIST" ] ],
-      [ [ "liquidcontainer_250ml", 1, "LIST" ] ],
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "sippy_cup", 1 ],
+        [ "clay_canister", 1 ],
+        [ "flask_glass", 1 ],
+        [ "beaker", 1 ],
+        [ "flask_hip", 1 ]
+      ],
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "sippy_cup", 1 ],
+        [ "clay_canister", 1 ],
+        [ "flask_glass", 1 ],
+        [ "beaker", 1 ],
+        [ "flask_hip", 1 ]
+      ],
       [ [ "wire", 1 ] ],
       [ [ "hose", 1 ] ]
     ],
