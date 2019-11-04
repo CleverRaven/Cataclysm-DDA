@@ -1014,6 +1014,175 @@ void Character::suffer_from_other_mutations()
 
 void Character::suffer_from_radiation()
 {
+    // checking for radioactive items in inventory
+    const int item_radiation = leak_level( "RADIOACTIVE" );
+    const int map_radiation = g->m.get_radiation( pos() );
+    float rads = map_radiation / 100.0f + item_radiation / 10.0f;
+
+    int rad_mut = 0;
+    if( has_trait( trait_RADIOACTIVE3 ) ) {
+        rad_mut = 3;
+    } else if( has_trait( trait_RADIOACTIVE2 ) ) {
+        rad_mut = 2;
+    } else if( has_trait( trait_RADIOACTIVE1 ) ) {
+        rad_mut = 1;
+    }
+
+    // Spread less radiation when sleeping (slower metabolism etc.)
+    // Otherwise it can quickly get to the point where you simply can't sleep at all
+    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, to_turns<int>( in_sleep_state() ?
+                              3_hours : 30_minutes ) );
+
+    bool has_helmet = false;
+    const bool power_armored = is_wearing_power_armor( &has_helmet );
+    const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
+
+    if( rad_mut > 0 ) {
+        const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
+        if( kept_in ) {
+            // As if standing on a map tile with radiation level equal to rad_mut
+            rads += rad_mut / 100.0f;
+        }
+
+        if( rad_mut_proc && !kept_in ) {
+            // Irradiate a random nearby point
+            // If you can't, irradiate the player instead
+            tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            // TODO: Radioactive vehicles?
+            if( g->m.get_radiation( rad_point ) < rad_mut ) {
+                g->m.adjust_radiation( rad_point, 1 );
+            } else {
+                rads += rad_mut;
+            }
+        }
+    }
+
+    // Used to control vomiting from radiation to make it not-annoying
+    bool radiation_increasing = irradiate( rads );
+
+    if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
+        add_msg_if_player( m_warning,
+                           _( "You feel an anomalous sensation coming from "
+                              "your radiation sensors." ) );
+    }
+
+    if( calendar::once_every( 15_minutes ) ) {
+        if( radiation < 0 ) {
+            radiation = 0;
+        } else if( radiation > 2000 ) {
+            radiation = 2000;
+        }
+        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
+            mutate();
+            radiation -= 50;
+        } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
+                   radiation_increasing || !in_sleep_state() ) ) {
+            vomit();
+            radiation -= 1;
+        }
+    }
+
+    const bool radiogenic = has_trait( trait_RADIOGENIC );
+    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
+        // At 200 irradiation, twice as fast as REGEN
+        if( x_in_y( radiation, 200 ) ) {
+            healall( 1 );
+            if( rad_mut == 0 ) {
+                // Don't heal radiation if we're generating it naturally
+                // That would counter the main downside of radioactivity
+                radiation -= 5;
+            }
+        }
+
+        if( !radiogenic && radiation > 0 ) {
+            // Even if you heal the radiation itself, the damage is done.
+            const int hmod = get_healthy_mod();
+            if( hmod > 200 - radiation ) {
+                set_healthy_mod( std::max( -200, 200 - radiation ) );
+            }
+        }
+    }
+
+    if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
+        hurtall( 1, nullptr );
+        radiation -= 5;
+    }
+
+    if( !reactor_plut && !tank_plut && !slow_rad ) {
+        return;
+    }
+    // Microreactor CBM and supporting bionics
+    if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
+        //first do the filtering of plutonium from storage to reactor
+        if( tank_plut > 0 ) {
+            int plut_trans;
+            if( has_active_bionic( bio_plut_filter ) ) {
+                plut_trans = tank_plut * 0.025;
+            } else {
+                plut_trans = tank_plut * 0.005;
+            }
+            if( plut_trans < 1 ) {
+                plut_trans = 1;
+            }
+            tank_plut -= plut_trans;
+            reactor_plut += plut_trans;
+        }
+        //leaking radiation, reactor is unshielded, but still better than a simple tank
+        slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
+        //begin power generation
+        if( reactor_plut > 0 ) {
+            int power_gen = 0;
+            if( has_bionic( bio_advreactor ) ) {
+                if( ( reactor_plut * 0.05 ) > 2000 ) {
+                    power_gen = 2000;
+                } else {
+                    power_gen = reactor_plut * 0.05;
+                    if( power_gen < 1 ) {
+                        power_gen = 1;
+                    }
+                }
+                slow_rad += ( power_gen * 3 );
+                while( slow_rad >= 50 ) {
+                    if( power_gen >= 1 ) {
+                        slow_rad -= 50;
+                        power_gen -= 1;
+                        reactor_plut -= 1;
+                    } else {
+                        break;
+                    }
+                }
+            } else if( has_bionic( bio_reactor ) ) {
+                if( ( reactor_plut * 0.025 ) > 500 ) {
+                    power_gen = 500;
+                } else {
+                    power_gen = reactor_plut * 0.025;
+                    if( power_gen < 1 ) {
+                        power_gen = 1;
+                    }
+                }
+                slow_rad += ( power_gen * 3 );
+            }
+            reactor_plut -= power_gen;
+            while( power_gen >= 250 ) {
+                apply_damage( nullptr, bp_torso, 1 );
+                mod_pain( 1 );
+                add_msg_if_player( m_bad,
+                                   _( "Your chest burns as your power systems overload!" ) );
+                mod_power_level( 50_kJ );
+                power_gen -= 60; // ten units of power lost due to short-circuiting into you
+            }
+            mod_power_level( units::from_kilojoule( power_gen ) );
+        }
+    } else {
+        slow_rad += ( reactor_plut + tank_plut ) * 40;
+        //plutonium in body without any kind of container.  Not good at all.
+        reactor_plut *= 0.6;
+        tank_plut *= 0.6;
+    }
+    while( slow_rad >= 1000 ) {
+        radiation += 1;
+        slow_rad -= 1000;
+    }
 }
 
 void Character::suffer_from_bad_bionics()
@@ -1127,174 +1296,6 @@ void Character::suffer()
     suffer_from_artifacts();
 
     suffer_from_radiation();
-    // checking for radioactive items in inventory
-    const int item_radiation = leak_level( "RADIOACTIVE" );
-
-    const int map_radiation = g->m.get_radiation( pos() );
-
-    float rads = map_radiation / 100.0f + item_radiation / 10.0f;
-
-    int rad_mut = 0;
-    if( has_trait( trait_RADIOACTIVE3 ) ) {
-        rad_mut = 3;
-    } else if( has_trait( trait_RADIOACTIVE2 ) ) {
-        rad_mut = 2;
-    } else if( has_trait( trait_RADIOACTIVE1 ) ) {
-        rad_mut = 1;
-    }
-
-    // Spread less radiation when sleeping (slower metabolism etc.)
-    // Otherwise it can quickly get to the point where you simply can't sleep at all
-    const bool rad_mut_proc = rad_mut > 0 &&
-                              x_in_y( rad_mut, to_turns<int>( in_sleep_state() ? 3_hours : 30_minutes ) );
-
-    bool has_helmet = false;
-    const bool power_armored = is_wearing_power_armor( &has_helmet );
-    const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
-
-    if( rad_mut > 0 ) {
-        const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
-        if( kept_in ) {
-            // As if standing on a map tile with radiation level equal to rad_mut
-            rads += rad_mut / 100.0f;
-        }
-
-        if( rad_mut_proc && !kept_in ) {
-            // Irradiate a random nearby point
-            // If you can't, irradiate the player instead
-            tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
-            // TODO: Radioactive vehicles?
-            if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                g->m.adjust_radiation( rad_point, 1 );
-            } else {
-                rads += rad_mut;
-            }
-        }
-    }
-
-    // Used to control vomiting from radiation to make it not-annoying
-    bool radiation_increasing = irradiate( rads );
-
-    if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
-        add_msg_if_player( m_warning,
-                           _( "You feel an anomalous sensation coming from your radiation sensors." ) );
-    }
-
-    if( calendar::once_every( 15_minutes ) ) {
-        if( radiation < 0 ) {
-            radiation = 0;
-        } else if( radiation > 2000 ) {
-            radiation = 2000;
-        }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
-            mutate();
-            radiation -= 50;
-        } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
-                   radiation_increasing || !in_sleep_state() ) ) {
-            vomit();
-            radiation -= 1;
-        }
-    }
-
-    const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && calendar::once_every( 30_minutes ) && radiation > 0 ) {
-        // At 200 irradiation, twice as fast as REGEN
-        if( x_in_y( radiation, 200 ) ) {
-            healall( 1 );
-            if( rad_mut == 0 ) {
-                // Don't heal radiation if we're generating it naturally
-                // That would counter the main downside of radioactivity
-                radiation -= 5;
-            }
-        }
-
-        if( !radiogenic && radiation > 0 ) {
-            // Even if you heal the radiation itself, the damage is done.
-            const int hmod = get_healthy_mod();
-            if( hmod > 200 - radiation ) {
-                set_healthy_mod( std::max( -200, 200 - radiation ) );
-            }
-        }
-
-        if( radiation > 200 && calendar::once_every( 10_minutes ) && x_in_y( radiation, 1000 ) ) {
-            hurtall( 1, nullptr );
-            radiation -= 5;
-        }
-
-        if( reactor_plut || tank_plut || slow_rad ) {
-            // Microreactor CBM and supporting bionics
-            if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
-                //first do the filtering of plutonium from storage to reactor
-                if( tank_plut > 0 ) {
-                    int plut_trans;
-                    if( has_active_bionic( bio_plut_filter ) ) {
-                        plut_trans = tank_plut * 0.025;
-                    } else {
-                        plut_trans = tank_plut * 0.005;
-                    }
-                    if( plut_trans < 1 ) {
-                        plut_trans = 1;
-                    }
-                    tank_plut -= plut_trans;
-                    reactor_plut += plut_trans;
-                }
-                //leaking radiation, reactor is unshielded, but still better than a simple tank
-                slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
-                //begin power generation
-                if( reactor_plut > 0 ) {
-                    int power_gen = 0;
-                    if( has_bionic( bio_advreactor ) ) {
-                        if( ( reactor_plut * 0.05 ) > 2000 ) {
-                            power_gen = 2000;
-                        } else {
-                            power_gen = reactor_plut * 0.05;
-                            if( power_gen < 1 ) {
-                                power_gen = 1;
-                            }
-                        }
-                        slow_rad += ( power_gen * 3 );
-                        while( slow_rad >= 50 ) {
-                            if( power_gen >= 1 ) {
-                                slow_rad -= 50;
-                                power_gen -= 1;
-                                reactor_plut -= 1;
-                            } else {
-                                break;
-                            }
-                        }
-                    } else if( has_bionic( bio_reactor ) ) {
-                        if( ( reactor_plut * 0.025 ) > 500 ) {
-                            power_gen = 500;
-                        } else {
-                            power_gen = reactor_plut * 0.025;
-                            if( power_gen < 1 ) {
-                                power_gen = 1;
-                            }
-                        }
-                        slow_rad += ( power_gen * 3 );
-                    }
-                    reactor_plut -= power_gen;
-                    while( power_gen >= 250 ) {
-                        apply_damage( nullptr, bp_torso, 1 );
-                        mod_pain( 1 );
-                        add_msg_if_player( m_bad, _( "Your chest burns as your power systems overload!" ) );
-                        mod_power_level( 50_kJ );
-                        power_gen -= 60; // ten units of power lost due to short-circuiting into you
-                    }
-                    mod_power_level( units::from_kilojoule( power_gen ) );
-                }
-            } else {
-                slow_rad += ( ( ( reactor_plut * 0.4 ) + ( tank_plut * 0.4 ) ) * 100 );
-                //plutonium in body without any kind of container.  Not good at all.
-                reactor_plut *= 0.6;
-                tank_plut *= 0.6;
-            }
-            while( slow_rad >= 1000 ) {
-                radiation += 1;
-                slow_rad -= 1000;
-            }
-        }
-    }
 
     suffer_from_bad_bionics();
     // Negative bionics effects
