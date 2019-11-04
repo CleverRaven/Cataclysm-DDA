@@ -182,7 +182,7 @@ float sunlight( const time_point &p, const bool vision )
     const double daylight_level = current_daylight_level( p );
 
     int current_phase = static_cast<int>( get_moon_phase( p ) );
-    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
+    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 4 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
