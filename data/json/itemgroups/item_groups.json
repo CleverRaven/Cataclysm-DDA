@@ -7172,6 +7172,7 @@
       [ "steel_chunk", 1 ],
       { "item": "scrap", "prob": 2, "count-min": 1, "count-max": 10 },
       { "item": "glass_shard", "prob": 3, "count-min": 8, "count-max": 84 },
+      { "item": "feather", "prob": 5, "count-min": 5, "count-max": 10 },
       [ "wire", 1 ],
       [ "wire_barbed", 1 ],
       [ "splinter", 3 ],
