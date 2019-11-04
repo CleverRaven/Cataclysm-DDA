@@ -450,11 +450,12 @@ void talk_function::bionic_install( npc &p )
     const itype &it = *tmp->type;
 
     signed int price = tmp->price( true ) * 2;
+    if( !npc_trading::pay_npc( p, price ) ) {
+        return;
+    }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
@@ -499,15 +500,12 @@ void talk_function::bionic_remove( npc &p )
     } else {
         price = 50000;
     }
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure…" ) );
+    if( !npc_trading::pay_npc( p, price ) ) {
         return;
     }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
         g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
@@ -887,14 +885,32 @@ void talk_function::start_training( npc &p )
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
+    const spell_id &sp_id = p.chatbin.dialogue_spell;
+    int expert_multiplier = 1;
     if( skill.is_valid() && g->u.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() && !g->u.has_martialart( style ) ) {
+    } else if( p.chatbin.style.is_valid() && !g->u.martial_arts_data.has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
+        // already checked if can learn this spell in npctalk.cpp
+    } else if( p.chatbin.dialogue_spell.is_valid() ) {
+        const spell &temp_spell = p.magic.get_spell( sp_id );
+        const bool knows = g->u.magic.knows_spell( sp_id );
+        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
+        name = temp_spell.id().str();
+        expert_multiplier = knows ? temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level() : 1;
+        // quicker to learn with instruction as opposed to books.
+        // if this is a known spell, then there is a set time to gain some exp.
+        // if player doesnt know this spell, then the NPC will teach all of it
+        // which takes as long as it takes.
+        if( knows ) {
+            time = 1_hours;
+        } else {
+            time = time_duration::from_seconds( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
+        }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
         return;
@@ -906,8 +922,10 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
-                          p.getID().get_value(), 0, name );
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ) * 100,
+                                           p.getID().get_value(), 0, name );
+    act.values.push_back( expert_multiplier );
+    g->u.assign_activity( act );
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 

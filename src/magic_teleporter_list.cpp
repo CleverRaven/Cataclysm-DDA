@@ -185,15 +185,14 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     teleport_selector.w_height = 24;
 
     int index = 0;
-    size_t column_width = 0;
+    int column_width = 25;
     std::map<int, tripoint> index_pairs;
     for( const std::pair<tripoint, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
-        column_width = std::max( column_width, gate.second.size() );
+        column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );
         index++;
     }
-    column_width = std::max( column_width, static_cast<size_t>( 25 ) );
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
     teleport_selector.w_width = 38 + column_width;

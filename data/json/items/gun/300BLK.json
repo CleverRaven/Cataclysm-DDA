@@ -60,24 +60,9 @@
   },
   {
     "id": "ar15_retool_300blk",
-    "copy-from": "rifle_semi",
+    "copy-from": "ar15",
     "type": "GUN",
     "name": "AR-15",
-    "//": "This is assumed to be the standard model matching the (currently not in-game) M16.",
-    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi automatic civilian version.",
-    "weight": "2815 g",
-    "volume": "2 L",
-    "price": 125000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "223",
-    "dispersion": 150,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
-    "default_mods": [ "retool_ar15_300blk" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "default_mods": [ "retool_ar15_300blk" ]
   }
 ]

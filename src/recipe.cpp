@@ -323,7 +323,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( charges >= 0 && !item::count_by_charges( result_ ) ) {
+    if( charges && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
     }
 
@@ -366,8 +366,8 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
-    if( charges >= 0 ) {
-        newit.charges = charges;
+    if( charges ) {
+        newit.charges = *charges;
     }
 
     if( !newit.craft_has_charges() ) {

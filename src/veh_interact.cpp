@@ -1345,9 +1345,10 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%s     <color_light_gray>%3s</color>",
+                             string_format( "%s     <color_light_gray>%s</color>",
                                             pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ) : "",
-                                            pt.enabled ? _( "Yes" ) : _( "No" ) ) );
+                                            //~ translation should not exceed 3 console cells
+                                            right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
             };
 
             // display engine faults (if any)
@@ -1873,7 +1874,7 @@ bool veh_interact::do_rename( std::string & )
                        .title( _( "Enter new vehicle name:" ) )
                        .width( 20 )
                        .query_string();
-    if( name.length() > 0 ) {
+    if( !name.empty() ) {
         veh->name = name;
         if( veh->tracking_on ) {
             overmap_buffer.remove_vehicle( veh );

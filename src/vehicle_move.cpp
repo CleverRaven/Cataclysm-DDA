@@ -570,7 +570,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
-    std::string snd = "Smash!"; // NOTE: Unused!
+    const std::string snd = _( "smash!" );
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
@@ -737,7 +737,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) { // TODO: that is always false!
+            if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
                          name, parts[ ret.part ].name(), ret.target_name, snd );

@@ -893,7 +893,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "510 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "//blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 3 ] ] ]
   },
@@ -908,7 +908,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1530 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "//blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 68 ] ] ]
   },

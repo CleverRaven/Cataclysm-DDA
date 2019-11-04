@@ -50,7 +50,7 @@ struct pathfinding_settings;
 struct trap;
 
 enum m_size : int {
-    MS_TINY = 0,    // Squirrel
+    MS_TINY = 1,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
@@ -72,7 +72,8 @@ class Creature
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
-        virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
+        virtual std::string disp_name( bool possessive = false,
+                                       bool capitalize_first = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
         virtual std::vector<std::string> get_grammatical_genders() const;
@@ -342,7 +343,7 @@ class Creature
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
@@ -488,6 +489,7 @@ class Creature
         virtual void mod_block_bonus( int nblock );
         virtual void mod_bash_bonus( int nbash );
         virtual void mod_cut_bonus( int ncut );
+        virtual void mod_size_bonus( int nsize );
 
         virtual void set_dodge_bonus( float ndodge );
         virtual void set_hit_bonus( float nhit );
@@ -745,7 +747,6 @@ class Creature
 
         int armor_bash_bonus;
         int armor_cut_bonus;
-
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus;
@@ -754,6 +755,7 @@ class Creature
         float hit_bonus;
         int bash_bonus;
         int cut_bonus;
+        int size_bonus;
 
         float bash_mult;
         float cut_mult;

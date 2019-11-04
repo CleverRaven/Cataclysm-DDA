@@ -354,7 +354,7 @@ class wish_monster_callback: public uilist_callback
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
                                                 group, hallucination ? _( " (hallucination)" ) : "" );
-            mvwprintz( w_info, point( ( getmaxx( w_info ) - header.size() ) / 2, 0 ), c_cyan, header );
+            mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg = padding;
@@ -452,7 +452,7 @@ class wish_item_callback: public uilist_callback
                 flag = string_input_popup()
                        .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
                        .query_string();
-                if( flag.length() > 0 ) {
+                if( !flag.empty() ) {
                     has_flag = true;
                 }
                 return true;
@@ -473,8 +473,8 @@ class wish_item_callback: public uilist_callback
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        incontainer ? _( " (contained)" ) : "",
                                        has_flag ? _( " (flagged)" ) : "" );
-            mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - header.size() ) / 2, 1 ), c_cyan,
-                       header );
+            mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
+                       c_cyan, header );
 
             fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
                             tmp.info( true ) );
@@ -612,7 +612,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
-            sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
+            sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {

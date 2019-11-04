@@ -77,6 +77,8 @@ class npc_class
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
+        // the int is what level the spell starts at
+        std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
         npc_class();
 

@@ -1489,6 +1489,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // do we have the required seed on our person?
                     const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const std::string seed = options.get_seed();
+                    // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
+                    // then it means no further work can be done here
+                    if( seed == "No seed" ) {
+                        return activity_reason_info::fail( ALREADY_DONE );
+                    }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
                         return itm.is_seed();
                     } );
@@ -2268,7 +2273,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
     }
 
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), p.disp_name() );
+    add_msg( m_info, _( "%s sorted out every item possible." ), p.disp_name( false, true ) );
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
         guy->revert_after_activity();

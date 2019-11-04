@@ -25,7 +25,7 @@
         "effect": "start_trade"
       },
       { "text": "What do you have on tap?", "topic": "TALK_RANCH_BARKEEP_TAP" },
-      { "text": "I'll be going...", "topic": "TALK_DONE" }
+      { "text": "I'll be going…", "topic": "TALK_DONE" }
     ]
   },
   {
