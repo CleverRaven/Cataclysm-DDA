@@ -180,6 +180,18 @@
     ]
   },
   {
+    "id": "human_meat",
+    "type": "requirement",
+    "//": "Raw meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ] ] ]
+  },
+  {
+    "id": "human_meat_cooked",
+    "type": "requirement",
+    "//": "Cooked meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ] ] ]
+  },
+  {
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",

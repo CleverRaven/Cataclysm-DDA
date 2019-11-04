@@ -108,7 +108,7 @@
         [ "wild_herbs", 10 ]
       ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
-      [ [ "human_flesh", 1 ], [ "human_canned", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ] ]
+      [ [ "human_meat", 1, "LIST" ], [ "human_canned", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ] ]
     ]
   },
   {
@@ -134,7 +134,7 @@
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
       ],
-      [ [ "human_flesh", 1 ], [ "human_canned", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ] ]
+      [ [ "human_meat", 1, "LIST" ], [ "human_canned", 1 ], [ "rehydrated_hflesh", 1 ], [ "dry_hflesh", 1 ] ]
     ]
   },
   {
@@ -260,7 +260,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
-      [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]

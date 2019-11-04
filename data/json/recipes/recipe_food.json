@@ -136,6 +136,12 @@
     "components": [ [ [ "mutant_meat_scrap", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "mutant_human_cooked",
+    "copy-from": "meat_cooked",
+    "components": [ [ [ "mutant_human_flesh", 1 ] ] ]
+  },
+  {
     "result": "offal_canned",
     "type": "recipe",
     "id_suffix": "jarred",
@@ -313,6 +319,22 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_human_tallow",
+    "copy-from": "tallow",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_human_fat", 3 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_human_lard",
+    "copy-from": "lard",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_human_fat", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -883,7 +905,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ]
     ]
   },
@@ -941,7 +963,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
-    "components": [ [ [ "human_flesh", 1 ] ] ]
+    "components": [ [ [ "human_meat", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -957,7 +979,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "rehydrated_hflesh", 1 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 4 ],
@@ -1435,7 +1457,7 @@
     "book_learn": [ [ "cookbook_human", 0 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ], [ [ "nachos", 3 ] ] ]
+    "components": [ [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1449,7 +1471,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "nachos", 3 ] ]
     ]
@@ -2081,7 +2103,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "broth_bone", 1 ], [ "broth_human", 1 ] ],
-      [ [ "human_flesh", 1 ], [ "human_cooked", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "human_meat_cooked", 1, "LIST" ] ],
       [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
   },
@@ -2156,7 +2178,7 @@
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
       ],
-      [ [ "human_flesh", 1 ] ]
+      [ [ "human_meat", 1, "LIST" ] ]
     ]
   },
   {
@@ -2652,7 +2674,7 @@
         [ "beans_cooked", 1 ],
         [ "acorns_cooked", 1 ]
       ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_flesh", 1 ] ]
+      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
     ]
   },
   {
@@ -4027,7 +4049,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "human_flesh", 1 ], [ "rehydrated_hflesh", 2 ], [ "dry_hflesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "rehydrated_hflesh", 2 ], [ "dry_hflesh", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -4175,7 +4197,7 @@
         [ "dry_veggy", 2 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
-      [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_canned", 2 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_canned", 2 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
       [ [ "sauce_red", 1 ], [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
     ]
@@ -4299,7 +4321,7 @@
     "components": [
       [ [ "flour", 30 ] ],
       [
-        [ "human_flesh", 2 ],
+        [ "human_meat", 2, "LIST" ],
         [ "human_canned", 2 ],
         [ "hflesh_salted", 2 ],
         [ "rehydrated_hflesh", 2 ],
@@ -4477,7 +4499,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_flesh", 2 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "human_meat", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4786,7 +4808,7 @@
         [ "beans_cooked", 2 ],
         [ "acorns_cooked", 2 ]
       ],
-      [ [ "dry_hflesh", 2 ], [ "rehydrated_hflesh", 2 ], [ "human_flesh", 2 ] ]
+      [ [ "dry_hflesh", 2 ], [ "rehydrated_hflesh", 2 ], [ "human_meat", 2, "LIST" ] ]
     ]
   },
   {
@@ -4928,7 +4950,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
-      [ [ "human_flesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ] ],
       [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
     ]
   },
@@ -5313,7 +5335,7 @@
         [ "human_canned", 1 ],
         [ "hflesh_aspic", 1 ],
         [ "human_smoked", 1 ],
-        [ "human_cooked", 1 ],
+        [ "human_meat_cooked", 1, "LIST" ],
         [ "hfleshbologna", 2 ],
         [ "rehydrated_hflesh", 1 ],
         [ "human_pickled", 1 ],
@@ -5459,7 +5481,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [
@@ -5550,7 +5572,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_canned", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_canned", 1 ] ],
       [ [ "tortilla_corn", 3 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -5660,7 +5682,7 @@
         [ "mannwurst", 1 ],
         [ "mannwurst_cooked", 1 ],
         [ "mann_bratwurst", 1 ],
-        [ "human_flesh", 1 ],
+        [ "human_meat", 1, "LIST" ],
         [ "rehydrated_hflesh", 1 ],
         [ "dry_hflesh", 1 ],
         [ "human_canned", 1 ]
@@ -5749,7 +5771,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "human_flesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [
         [ "pickle", 1 ],
@@ -5822,7 +5844,7 @@
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "sauce_red", 2 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
-      [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ]
+      [ [ "human_meat", 1, "LIST" ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ] ]
     ]
   },
   {
@@ -5905,7 +5927,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "human_cooked", 1 ], [ "hfleshbologna", 5 ] ]
+      [ [ "human_meat_cooked", 1, "LIST" ], [ "hfleshbologna", 5 ] ]
     ]
   },
   {
@@ -6142,7 +6164,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "human_flesh", 1 ] ],
+      [ [ "human_meat", 1, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -6347,7 +6369,13 @@
     "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "rehydrated_meat", 1 ], [ "rehydrated_hflesh", 1 ] ],
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_meat", 1, "LIST" ],
+        [ "rehydrated_meat", 1 ],
+        [ "rehydrated_hflesh", 1 ]
+      ],
       [ [ "slime_scrap", 2 ] ],
       [ [ "water", 1 ] ]
     ]
@@ -6464,7 +6492,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "human_flesh", 1 ] ]
+      [ [ "human_meat", 1, "LIST" ] ]
     ]
   },
   {
@@ -6770,7 +6798,7 @@
         [ "beans_cooked", 1 ],
         [ "acorns_cooked", 1 ]
       ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_flesh", 1 ] ]
+      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
     ]
   },
   {
@@ -7290,7 +7318,7 @@
       [ [ "hstomach", 1 ] ],
       [ [ "oatmeal", 2 ], [ "buckwheat", 1 ] ],
       [
-        [ "human_flesh", 1 ],
+        [ "human_meat", 1, "LIST" ],
         [ "rehydrated_hflesh", 1 ],
         [ "dry_hflesh", 1 ],
         [ "human_canned", 1 ],
@@ -8099,7 +8127,7 @@
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "human_flesh", 12 ] ],
+      [ [ "human_meat", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]
   },
@@ -8431,7 +8459,7 @@
         [ "beans_cooked", 12 ],
         [ "acorns_cooked", 12 ]
       ],
-      [ [ "dry_hflesh", 12 ], [ "rehydrated_hflesh", 12 ], [ "human_flesh", 12 ] ]
+      [ [ "dry_hflesh", 12 ], [ "rehydrated_hflesh", 12 ], [ "human_meat", 12, "LIST" ] ]
     ]
   },
   {
