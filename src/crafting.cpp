@@ -1176,8 +1176,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             // store components for food recipes that do not have the override flag
             set_components( food_contained.components, used, batch_size, newit_counter );
-            // store the number of charges the recipe creates
-            food_contained.recipe_charges = food_contained.charges / batch_size;
+
+            // store the number of charges the recipe would create with batch size 1.
+            if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
+                // … the container holds exactly one completion of the recipe, no matter the batch size.
+                food_contained.recipe_charges = food_contained.charges;
+            } else { // Otherwise, the item is already stacked so we need to divide by batch size.
+                newit.recipe_charges = newit.charges / batch_size;
+            }
             newit_counter++;
         }
 

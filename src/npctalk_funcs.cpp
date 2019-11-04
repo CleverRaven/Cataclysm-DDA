@@ -450,11 +450,12 @@ void talk_function::bionic_install( npc &p )
     const itype &it = *tmp->type;
 
     signed int price = tmp->price( true ) * 2;
+    if( !npc_trading::pay_npc( p, price ) ) {
+        return;
+    }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
@@ -499,15 +500,12 @@ void talk_function::bionic_remove( npc &p )
     } else {
         price = 50000;
     }
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure…" ) );
+    if( !npc_trading::pay_npc( p, price ) ) {
         return;
     }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
         g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
