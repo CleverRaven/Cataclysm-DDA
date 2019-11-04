@@ -137,8 +137,10 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
-        float lumination = 0.0f;
         int bleed_resist = 0;
+
+        /**Map of glowing bodypart and there intensity*/
+        std::map<body_part, int> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -203,7 +205,7 @@ struct mutation_branch {
         float mana_multiplier;
         float mana_regen_multiplier;
         // spells learned and their associated level when gaining the mutation
-        std::map<spell_id, int> spells_learned;
+        std::map<spell_id, float> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -261,10 +263,6 @@ struct mutation_branch {
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
         bool conflicts_with_item( const item &it ) const;
-        /**
-         * Returns list of bodyparts affected by the mutation.
-         */
-        std::set<body_part> get_affected_body_parts() const;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */

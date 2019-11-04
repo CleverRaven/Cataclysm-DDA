@@ -187,32 +187,6 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-std::set<body_part> mutation_branch::get_affected_body_parts() const
-{
-    std::set<body_part> list;
-    for( const auto &elem : encumbrance_always ) {
-        const body_part &bp = elem.first;
-        if( list.count( bp ) == 0 ) {
-            list.emplace( bp );
-        }
-    }
-
-    for( const auto &elem : encumbrance_covered ) {
-        const body_part &bp = elem.first;
-        if( list.count( bp ) == 0 ) {
-            list.emplace( bp );
-        }
-    }
-
-    for( const body_part &bp : restricts_gear ) {
-        if( list.count( bp ) == 0 ) {
-            list.emplace( bp );
-        }
-    }
-
-    return list;
-}
-
 const resistances &mutation_branch::damage_resistance( body_part bp ) const
 {
     const auto iter = armor.find( bp );

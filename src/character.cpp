@@ -4307,17 +4307,19 @@ float Character::active_light() const
     float mut_lum = 0.0f;
     for( const auto &mut : my_mutations ) {
         if( mut.second.powered ) {
-            int coverage = 0;
-            for( const body_part bp : mut.first->get_affected_body_parts() ) {
+            float curr_lum = 0.0f;
+            for( const auto elem : mut.first->lumination ) {
+                int coverage = 0;
                 for( const item &i : worn ) {
-                    if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+                    if( i.covers( elem.first ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
+                        !i.has_flag( "SEMITANGIBLE" ) &&
                         !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
                         coverage += i.get_coverage();
                     }
                 }
+                curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            const float curr_lum = mut.first->lumination;
-            mut_lum += curr_lum * ( 1 - ( coverage / 100.0f ) );
+            mut_lum += curr_lum ;
         }
     }
 

@@ -356,7 +356,6 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
-    optional( jo, was_loaded, "lumination", lumination, 0.0f );
     optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
@@ -408,6 +407,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         JsonArray ja = jsarr.next_array();
         const spell_id sp( ja.next_string() );
         spells_learned.emplace( sp, ja.next_int() );
+    }
+
+    jsarr = jo.get_array( "lumination" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const body_part bp = get_body_part_token( ja.next_string() );
+        lumination.emplace( bp, ja.next_float() );
     }
 
     jsarr = jo.get_array( "wet_protection" );
