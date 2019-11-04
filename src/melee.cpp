@@ -745,15 +745,17 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return 0.0f;
     }
 
     float ret = Creature::get_dodge();
-    // Chop in half if we are unable to move
+    // Chop in half if we are unable to move or winded
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
         has_effect( effect_heavysnare ) ) {
+        ret /= 2;
+    }
+    if( has_effect( efftype_id( "winded" ) ) ) {
         ret /= 2;
     }
 
@@ -1479,11 +1481,10 @@ item &player::best_shield()
 bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
+    // Shouldn't block if player is asleep ; this only seems to be used by player.
     // TODO: It should probably be moved to the section that regenerates blocks
     // and to effects that disallow blocking
-    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ) {
         return false;
     }
     blocks_left--;
@@ -1522,6 +1523,10 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
         // Can't block with items, can't block with limbs
         // What were we supposed to be blocking with then?
         return false;
+    }
+
+    if( has_effect( efftype_id( "winded" ) ) ) {
+        block_score /= 2;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
