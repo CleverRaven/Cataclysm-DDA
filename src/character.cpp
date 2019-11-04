@@ -5061,7 +5061,7 @@ bool Character::invoke_item( item *used )
     return invoke_item( used, pos() );
 }
 
-bool Character::invoke_item( item *used, const tripoint &pt )
+bool Character::invoke_item( item *, const tripoint & )
 {
     return false;
 }
