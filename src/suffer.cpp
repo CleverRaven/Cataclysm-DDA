@@ -737,10 +737,173 @@ void Character::suffer_from_asthma( const int current_stim )
 
 void Character::suffer_in_sunlight()
 {
+    double sleeve_factor = armwear_factor();
+    const bool has_hat = wearing_something_on( bp_head );
+    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
+                       has_trait( trait_LEAVES3 );
+    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafiest = has_trait( trait_LEAVES3 );
+    int sunlight_nutrition = 0;
+    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
+                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
+        const int player_local_temp = g->weather.get_temperature( pos() );
+        int flux = ( player_local_temp - 65 ) / 2;
+        if( !has_hat ) {
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
+        }
+        if( leafier ) {
+            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
+            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
+        }
+    }
+
+    if( x_in_y( sunlight_nutrition, 18000 ) ) {
+        vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        vitamin_mod( vitamin_id( "vitC" ), 1, true );
+    }
+
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
+        mod_hunger( -1 );
+        // photosynthesis absorbs kcal directly
+        mod_stored_nutr( -1 );
+        stomach.ate();
+    }
+
+    if( !g->is_in_sunlight( pos() ) ) {
+        return;
+    }
+
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        suffer_from_albinism();
+    }
+
+    if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
+        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
+            add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
+            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+                wake_up();
+            }
+            mod_pain( 1 );
+            hurtall( 1, nullptr );
+        }
+    }
+
+    if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
+        g->weather.weather == WEATHER_SUNNY ) {
+        mod_str_bonus( -1 );
+        mod_dex_bonus( -1 );
+        add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        mod_int_bonus( -1 );
+        mod_per_bonus( -1 );
+    }
+    if( has_trait( trait_TROGLO2 ) ) {
+        mod_str_bonus( -1 );
+        mod_dex_bonus( -1 );
+        add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        mod_int_bonus( -1 );
+        mod_per_bonus( -1 );
+    }
+    if( has_trait( trait_TROGLO3 ) ) {
+        mod_str_bonus( -4 );
+        mod_dex_bonus( -4 );
+        add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
+        mod_int_bonus( -4 );
+        mod_per_bonus( -4 );
+    }
 }
 
 void Character::suffer_from_albinism()
 {
+    if( !one_turn_in( 1_minutes ) ) {
+        return;
+    }
+    // Sunglasses can keep the sun off the eyes.
+    if( !has_bionic( bionic_id( "bio_sunglasses" ) ) &&
+        !( wearing_something_on( bp_eyes ) &&
+           ( worn_with_flag( "SUN_GLASSES" ) || worn_with_flag( "BLIND" ) ) ) ) {
+        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
+        if( one_turn_in( 1_minutes ) ) {
+            mod_pain( 1 );
+        } else {
+            focus_pool --;
+        }
+    }
+    // Umbrellas can keep the sun off the skin
+    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+        return;
+    }
+    //calculate total coverage of skin
+    body_part_set affected_bp { {
+            bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
+            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+        }
+    };
+    //pecentage of "open skin" by body part
+    std::map<body_part, float> open_percent;
+    //initialize coverage
+    for( const body_part &bp : all_body_parts ) {
+        if( affected_bp.test( bp ) ) {
+            open_percent[bp] = 1.0;
+        }
+    }
+    //calculate coverage for every body part
+    for( const item &i : worn ) {
+        body_part_set covered = i.get_covered_body_parts();
+        for( const body_part &bp : all_body_parts )  {
+            if( !affected_bp.test( bp ) || !covered.test( bp ) ) {
+                continue;
+            }
+            //percent of "not covered skin"
+            float p = 1.0 - i.get_coverage() / 100.0;
+            open_percent[bp] = open_percent[bp] * p;
+        }
+    }
+
+    const float COVERAGE_LIMIT = 0.01;
+    body_part max_affected_bp = num_bp;
+    float max_affected_bp_percent = 0;
+    int count_affected_bp = 0;
+    for( const std::pair<body_part, float> &it : open_percent ) {
+        const body_part &bp = it.first;
+        const float &p = it.second;
+
+        if( p <= COVERAGE_LIMIT ) {
+            continue;
+        }
+        ++count_affected_bp;
+        if( max_affected_bp_percent < p ) {
+            max_affected_bp_percent = p;
+            max_affected_bp = bp;
+        }
+    }
+    if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+        //Check if both arms/legs are affected
+        int parts_count = 1;
+        body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
+        body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+        if( other_bp != other_bp_rev ) {
+            const auto found = open_percent.find( other_bp );
+            if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
+                ++parts_count;
+            }
+        }
+        std::string bp_name = body_part_name( max_affected_bp, parts_count );
+        if( count_affected_bp > parts_count ) {
+            bp_name = string_format( _( "%s and other body parts" ), bp_name );
+        }
+        add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
+
+        //apply effects
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+            wake_up();
+        }
+        if( one_turn_in( 1_minutes ) ) {
+            mod_pain( 1 );
+        } else {
+            focus_pool --;
+        }
+    }
 }
 
 void Character::suffer_from_other_mutations()
@@ -959,161 +1122,6 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
-    double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bp_head );
-    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
-                       has_trait( trait_LEAVES3 );
-    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    const bool leafiest = has_trait( trait_LEAVES3 );
-    int sunlight_nutrition = 0;
-    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
-                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
-        const int player_local_temp = g->weather.get_temperature( pos() );
-        int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
-        }
-        if( leafier ) {
-            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
-        }
-    }
-
-    if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        vitamin_mod( vitamin_id( "vitC" ), 1, true );
-    }
-
-    if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
-        stomach.ate();
-    }
-
-    if( ( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) &&
-        g->is_in_sunlight( pos() ) && one_turn_in( 1_minutes ) ) {
-        suffer_from_albinism();
-        // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
-        if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            //calculate total coverage of skin
-            body_part_set affected_bp { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
-                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
-                }
-            };
-            //pecentage of "open skin" by body part
-            std::map<body_part, float> open_percent;
-            //initialize coverage
-            for( const body_part &bp : all_body_parts ) {
-                if( affected_bp.test( bp ) ) {
-                    open_percent[bp] = 1.0;
-                }
-            }
-            //calculate coverage for every body part
-            for( const item &i : worn ) {
-                body_part_set covered = i.get_covered_body_parts();
-                for( const body_part &bp : all_body_parts )  {
-                    if( !affected_bp.test( bp ) || !covered.test( bp ) ) {
-                        continue;
-                    }
-                    //percent of "not covered skin"
-                    float p = 1.0 - i.get_coverage() / 100.0;
-                    open_percent[bp] = open_percent[bp] * p;
-                }
-            }
-
-            const float COVERAGE_LIMIT = 0.01;
-            body_part max_affected_bp = num_bp;
-            float max_affected_bp_percent = 0;
-            int count_affected_bp = 0;
-            for( auto &it : open_percent ) {
-                const body_part &bp = it.first;
-                const float &p = it.second;
-
-                if( p <= COVERAGE_LIMIT ) {
-                    continue;
-                }
-                ++count_affected_bp;
-                if( max_affected_bp_percent < p ) {
-                    max_affected_bp_percent = p;
-                    max_affected_bp = bp;
-                }
-            }
-            if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
-                //Check if both arms/legs are affected
-                int parts_count = 1;
-                body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
-                body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
-                if( other_bp != other_bp_rev ) {
-                    const auto found = open_percent.find( other_bp );
-                    if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
-                        ++parts_count;
-                    }
-                }
-                std::string bp_name = body_part_name( max_affected_bp, parts_count );
-                if( count_affected_bp > parts_count ) {
-                    bp_name = string_format( _( "%s and other body parts" ), bp_name );
-                }
-                add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
-
-                //apply effects
-                if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-                    wake_up();
-                }
-                if( one_turn_in( 1_minutes ) ) {
-                    mod_pain( 1 );
-                } else {
-                    focus_pool --;
-                }
-            }
-        }
-        if( !( ( ( worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) &&
-               ( wearing_something_on( bp_eyes ) ) )
-            && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
-            if( one_turn_in( 1_minutes ) ) {
-                mod_pain( 1 );
-            } else {
-                focus_pool --;
-            }
-        }
-    }
-
-    if( has_trait( trait_SUNBURN ) && g->is_in_sunlight( pos() ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-                wake_up();
-            }
-            mod_pain( 1 );
-            hurtall( 1, nullptr );
-        }
-    }
-
-    if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->is_in_sunlight( pos() ) && g->weather.weather == WEATHER_SUNNY ) {
-        mod_str_bonus( -1 );
-        mod_dex_bonus( -1 );
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
-        mod_int_bonus( -1 );
-        mod_per_bonus( -1 );
-    }
-    if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos() ) ) {
-        mod_str_bonus( -1 );
-        mod_dex_bonus( -1 );
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
-        mod_int_bonus( -1 );
-        mod_per_bonus( -1 );
-    }
-    if( has_trait( trait_TROGLO3 ) && g->is_in_sunlight( pos() ) ) {
-        mod_str_bonus( -4 );
-        mod_dex_bonus( -4 );
-        add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
-        mod_int_bonus( -4 );
-        mod_per_bonus( -4 );
-    }
 
     suffer_from_other_mutations();
     suffer_from_artifacts();
