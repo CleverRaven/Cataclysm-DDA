@@ -37,7 +37,7 @@
   {
     "id": "armor_paper",
     "type": "requirement",
-    "//": "Joining multiple sheets of paper together using duct tape.  Time needed is 2 minutes per unit.",
+    "//": "Joining multiple sheets of paper together using duct tape, per 19 g of paper.  Time needed is 2 minutes per unit.",
     "components": [ [ [ "paper", 5 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
