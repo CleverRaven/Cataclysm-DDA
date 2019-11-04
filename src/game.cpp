@@ -5648,9 +5648,6 @@ void game::examine( const tripoint &examp )
             Pickup::pick_up( examp, 0 );
         }
     }
-    if( is_dangerous_tile( examp ) && prompt_dangerous_tile( examp ) ) {
-        walk_move( examp, true );
-    }
 }
 
 void game::pickup()
@@ -9046,7 +9043,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc, bool ignore_danger )
+bool game::walk_move( const tripoint &dest_loc )
 {
     if( m.has_flag_ter( "THIN_OBSTACLE", dest_loc ) ) {
         if( u.get_size() > MS_MEDIUM ) {
@@ -9147,8 +9144,14 @@ bool game::walk_move( const tripoint &dest_loc, bool ignore_danger )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) && !ignore_danger &&
+    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) &&
             !u.movement_mode_is( CMM_RUN ) ) ) {
+        if( is_dangerous_tile( dest_loc ) && !u.movement_mode_is( CMM_RUN ) ) {
+            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+            add_msg( m_warning,
+                     _( "Stepping into that %s looks risky. Press (run key) and move into it to force movement." ),
+                     enumerate_as_string( harmful_stuff ) );
+        }
         return true;
     }
     // Used to decide whether to print a 'moving is slow message
