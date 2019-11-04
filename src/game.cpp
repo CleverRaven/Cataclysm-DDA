@@ -1222,6 +1222,9 @@ bool game::cleanup_at_end()
         }
     }
 
+    //Reset any offset due to driving
+    set_driving_view_offset( point_zero );
+
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
     sfx::fade_audio_group( sfx::group::weather, 300 );
