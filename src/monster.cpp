@@ -532,12 +532,12 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive ) const
+std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name() );
+        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name() );
+        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
 }
 

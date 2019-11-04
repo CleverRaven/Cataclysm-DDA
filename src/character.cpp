@@ -338,16 +338,16 @@ int Character::get_fat_to_hp() const
     return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
-std::string Character::disp_name( bool possessive ) const
+std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return pgettext( "not possessive", "you" );
+            return pgettext( "not possessive", capitalize_first ? "You" : "you" );
         }
         return name;
     } else {
         if( is_player() ) {
-            return _( "your" );
+            return capitalize_first ? _( "Your" ) : _( "your" );
         }
         return string_format( _( "%s's" ), name );
     }

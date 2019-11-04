@@ -831,7 +831,7 @@ class map
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
-        void batter( const tripoint &p, int power, int tries = 1, const bool silent = false );
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */

@@ -37,7 +37,7 @@ In-game description for the monster.
 
 A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
 
-TODO: document species.
+In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
 ## "categories"
 (array of strings, optional)
@@ -62,7 +62,8 @@ The materials the monster is primarily composed of. Must contain valid material 
 ## "phase"
 (string, optional)
 
-TODO: describe this. Is this even used in-game?
+It describes monster's body state of matter. However, it doesn't seem to have any gameplay purpose, right now.
+It can be SOLID, LIQUID, GAS, PLASMA or NULL.
 
 ## "default_faction"
 (string)
@@ -122,7 +123,7 @@ Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 
 ## "morale"
 (integer, optional)
 
-Monster morale. TODO: describe this better.
+Monster morale. Defines how low monster HP can get before it retreats. This number is treated as % of their max HP.
 
 ## "speed"
 (integer)
@@ -147,7 +148,7 @@ Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 ## "melee_damage"
 (integer, optional)
 
-TODO: describe this.
+Amount of bash damage added to die roll on monster melee attack.
 
 ## "melee_dice", "melee_dice_sides"
 (integer, optional)
@@ -395,37 +396,37 @@ The listed attack types can be as monster special attacks (see "special_attack")
 Makes the monster leap a few tiles. It supports the following additional properties:
 
 ### "max_range"
-(Required) Maximal range to consider for leaping.
+(Required) Maximal range of attack.
 
 ### "min_range"
-TODO: describe this.
+(Required) Minimal range needed for attack.
 
 ### "allow_no_target"
-TODO: describe this.
+This prevents monster from using the ability on empty space.
 
 ### "move_cost"
-TODO: describe this.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 #### "min_consider_range", "max_consider_range"
-TODO: describe this.
+Minimal range and maximal range to consider for using specific attack.
 
 ## "bite"
-TODO: describe this.
+Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
 
 ### "damage_max_instance"
-TODO: describe this.
+Max damage it can deal on one bite.
 
 ### "min_mul", "max_mul"
-TODO: describe this.
+How hard is to get free of bite without killing attacker.
 
 ### "move_cost"
-TODO: describe this.
+Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
 ### "accuracy"
-TODO: describe this.
+(Integer) How accurate it is. Not many monsters use it though.
 
 ### "no_infection_chance"
-TODO: describe this.
+Chance to not give infection.
 
 ## "gun"
 Fires a gun at a target. If friendly, will avoid harming the player.
