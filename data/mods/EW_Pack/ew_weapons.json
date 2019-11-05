@@ -216,6 +216,7 @@
     "burst": 30,
     "clip_size": 90,
     "reload": 300,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "magazine", 2 ], [ "sling", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "magazine", 2 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "flags": [ "NON-FOULING" ]
   }
 ]

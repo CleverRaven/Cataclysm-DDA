@@ -44,7 +44,7 @@
     "durability": 9,
     "burst": 5,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST" ] },
+    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },
     "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
   }
