@@ -156,7 +156,7 @@
     "durability": 9,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "burst", 3 ], [ "AUTO", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -193,7 +193,7 @@
     "durability": 7,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "burst", 3 ], [ "AUTO", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
