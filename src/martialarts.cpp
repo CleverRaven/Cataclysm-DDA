@@ -245,7 +245,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
-    optional( jo, was_loaded, "strictly_unamred", strictly_unarmed, false );
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
