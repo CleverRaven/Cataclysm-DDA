@@ -1948,7 +1948,8 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || ( is_player_ally() &&
+            mission != NPC_MISSION_TRAVELLING ) ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
