@@ -145,19 +145,19 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
         const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
-    const tripoint delta3 = target - source;
-    const point delta( delta3.x, delta3.y );
-
+    const point delta = ( target - source ).xy();
     const int dist = square_dist( point_zero, delta );
+    // Early out to prevent unnecessary calculations
     if( dist == 0 ) {
         return std::set<tripoint>();
     }
-
+    // Clockwise Perpendicular of Delta vector
     const point delta_perp( -delta.y, delta.x );
 
     const point abs_delta = abs( delta );
+    // Primary axis of delta vector
     const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
-
+    // Clockwise Perpendicular of axis vector
     const point cw_perp_axis( -axis_delta.y, axis_delta.x );
     const point unit_cw_perp_axis( sgn( cw_perp_axis.x ), sgn( cw_perp_axis.y ) );
     // bias leg length toward cw side if uneven
@@ -179,16 +179,17 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     []( const tripoint & p ) {
         return g->m.passable( p );
     };
-    // point C between two lines, or colinear to one of them?
+    // Tests if point c is between or on lines (a0, ao + d) and (a1, a1 + d)
     auto between_or_on = [side_of]( const point & a0, const point & a1, const point & d,
     const point & c ) {
         return side_of( a0, a0 + d, c ) != 1 && side_of( a1, a1 + d, c ) != -1;
     };
 
-    std::set<tripoint> result;
-
+    // Canonical path from source to target, offset to local space
     std::vector<point> path_to_target = line_to( point_zero, delta );
+    // Remove endpoint,
     path_to_target.pop_back();
+    // and insert startpoint. Path is now prepared for wrapped iteration
     path_to_target.insert( path_to_target.begin(), point_zero );
 
     struct line_iterable {
@@ -203,10 +204,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         const point get() const {
             return cur_origin + delta_line[index];
         }
+        // Move forward along point set, wrap around and move origin forward if necessary
         void next() {
             index = ( index + 1 ) % delta_line.size();
             cur_origin = cur_origin + delta * ( index == 0 );
         }
+        // Move back along point set, wrap around and move origin backward if necessary
         void prev() {
             cur_origin = cur_origin - delta * ( index == 0 );
             index = ( index + delta_line.size() - 1 ) % delta_line.size();
@@ -219,6 +222,9 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 
     line_iterable base_line( point_zero, delta, path_to_target );
 
+    std::set<tripoint> result;
+
+    // Builds line until obstructed or outside of region bound by near and far lines
     auto build_line = [&]( line_iterable line, const tripoint & source, const point & delta,
     const point & delta_perp ) {
         while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
@@ -230,7 +236,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
     };
 
-    // Add midline points
+    // Add midline points (source -> target )
     build_line( base_line, source, delta, delta_perp );
 
     // Add cw and ccw legs
