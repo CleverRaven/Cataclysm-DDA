@@ -400,6 +400,9 @@ class Character : public Creature, public visitable<Character>
         /** Checks is_invisible() as well as other factors */
         int visibility( bool check_color = false, int stillness = 0 ) const;
 
+        /** Returns character luminosity based on the brightest active item they are carrying */
+        float active_light() const;
+
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
