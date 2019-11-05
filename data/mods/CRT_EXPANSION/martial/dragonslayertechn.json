@@ -53,6 +53,6 @@
       [ "damage", "stab", "per", 0.15 ]
     ],
     "messages": [ "You wind up the sword and release a well placed swing at %s", "<npcname> chops %s" ],
-    "description": "Crit!, 35% move cost, 115% DMG, STR (SS) and DEX (SS) reduces AP cost and PER (B) adds DMG, melee (2)"
+    "description": "Crit!, 35% AP cost, 115% DMG, STR (SS) and DEX (SS) reduces AP cost and PER (B) adds DMG, melee (2)"
   }
 ]
