@@ -102,11 +102,11 @@ void character_martial_arts::selected_style_check()
     }
 }
 
-std::string character_martial_arts::enumerate_known_styles( const itype_id &itt ) const
+std::string character_martial_arts::enumerate_known_styles( const itype_id &weap ) const
 {
     return enumerate_as_string( ma_styles.begin(), ma_styles.end(),
-    [itt]( const matype_id & mid ) {
-        return mid->has_weapon( itt ) ? mid->name.translated() : std::string();
+    [weap]( const matype_id & mid ) {
+        return mid->has_weapon( weap ) ? mid->name.translated() : std::string();
     } );
 }
 

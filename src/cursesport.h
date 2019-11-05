@@ -85,6 +85,7 @@ int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
 int get_scaling_factor();
+void handle_redraw();
 
 #endif
 #endif

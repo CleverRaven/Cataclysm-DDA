@@ -139,6 +139,9 @@ struct mutation_branch {
         float scent_modifier = 1.0f;
         int bleed_resist = 0;
 
+        /**Map of glowing bodypart and there intensity*/
+        std::map<body_part, int> lumination;
+
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
         /**How fast does healthy tends toward healthy_mod*/
@@ -202,7 +205,7 @@ struct mutation_branch {
         float mana_multiplier;
         float mana_regen_multiplier;
         // spells learned and their associated level when gaining the mutation
-        std::map<spell_id, int> spells_learned;
+        std::map<spell_id, float> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:

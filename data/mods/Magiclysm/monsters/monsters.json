@@ -78,7 +78,7 @@
     "color": "dark_gray",
     "type": "MONSTER",
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
-    "harvest": "human",
+    "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
     "default_faction": "magical_beast",
@@ -237,7 +237,7 @@
     "armor_cut": 16,
     "vision_day": 40,
     "vision_night": 3,
-    "harvest": "mammal_large_leather",
+    "harvest": "human_large_leather",
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "REGENERATES_1", "FLAMMABLE" ]
