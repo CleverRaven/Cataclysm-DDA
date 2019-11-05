@@ -565,6 +565,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
+  },
+  {
+    "type": "ammunition_type",
     "id": "paintball",
     "name": "paintball",
     "default": "paintball"

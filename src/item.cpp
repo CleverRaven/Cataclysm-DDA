@@ -1922,10 +1922,12 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " );
-        for( const gun_type_type &used_on : mod.usable ) {
-            used_on_str += string_format( "<info>%s</info> ", used_on.name() );
-        }
+        std::string used_on_str = _( "Used on: " ) +
+        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
+            std::string id_string = item_controller->has_template( used_on.name() ) ? item::find_type(
+                                        used_on.name() )->nname( 1 ) : used_on.name();
+            return string_format( "<info>%s</info>", id_string );
+        } );
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
@@ -2746,7 +2748,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
                     info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                 } else {
-                    std::string resize_str = "";
+                    std::string resize_str;
                     if( sizing_level == sizing::small_sized_human_char ) {
                         resize_str = _( " and <info>upsized</info>." );
                     } else if( sizing_level == sizing::human_sized_small_char ) {
@@ -6660,6 +6662,16 @@ bool item::magazine_integral() const
 itype_id item::magazine_default( bool conversion ) const
 {
     if( !ammo_types( conversion ).empty() ) {
+        if( conversion ) {
+            for( const item *m : is_gun() ? gunmods() : toolmods() ) {
+                if( !m->type->mod->magazine_adaptor.empty() ) {
+                    auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
+                    if( mags != m->type->mod->magazine_adaptor.end() ) {
+                        return *( mags->second.begin() );
+                    }
+                }
+            }
+        }
         auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
         if( mag != type->magazine_default.end() ) {
             return mag->second;

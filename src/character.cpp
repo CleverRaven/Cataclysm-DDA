@@ -338,16 +338,16 @@ int Character::get_fat_to_hp() const
     return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
-std::string Character::disp_name( bool possessive ) const
+std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return pgettext( "not possessive", "you" );
+            return pgettext( "not possessive", capitalize_first ? "You" : "you" );
         }
         return name;
     } else {
         if( is_player() ) {
-            return _( "your" );
+            return capitalize_first ? _( "Your" ) : _( "your" );
         }
         return string_format( _( "%s's" ), name );
     }
@@ -4945,7 +4945,8 @@ void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
     units::mass current_weight = weight_carried();
-    units::mass max_weight = weight_capacity();
+    // Make it at least 1 gram to avoid divide-by-zero warning
+    units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
         overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
     }

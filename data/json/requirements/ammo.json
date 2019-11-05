@@ -23,6 +23,12 @@
     "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_57",
+    "type": "requirement",
+    "//": "Components required for 57 ammo",
+    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+  },
+  {
     "id": "ammo_shot",
     "type": "requirement",
     "//": "Components required for shotgun and signal flare ammo",

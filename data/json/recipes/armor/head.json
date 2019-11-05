@@ -122,6 +122,45 @@
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "drinking_hat",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage_short", 2 ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "sippy_cup", 1 ],
+        [ "clay_canister", 1 ],
+        [ "flask_glass", 1 ],
+        [ "beaker", 1 ],
+        [ "flask_hip", 1 ]
+      ],
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "sippy_cup", 1 ],
+        [ "clay_canister", 1 ],
+        [ "flask_glass", 1 ],
+        [ "beaker", 1 ],
+        [ "flask_hip", 1 ]
+      ],
+      [ [ "wire", 1 ] ],
+      [ [ "hose", 1 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "fur_cat_ears",
     "type": "recipe",
     "category": "CC_ARMOR",

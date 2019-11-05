@@ -1689,12 +1689,17 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
-        SetupRenderTarget();
-        game_ui::init_ui();
+        handle_redraw();
 
         return true;
     }
     return false;
+}
+
+void handle_redraw()
+{
+    SetupRenderTarget();
+    game_ui::init_ui();
 }
 
 void toggle_fullscreen_window()
@@ -3218,10 +3223,15 @@ static void save_font_list()
             font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
 
 #if defined(_WIN32)
-            char buf[256];
-            GetSystemWindowsDirectory( buf, 256 );
-            strcat( buf, "\\fonts" );
-            font_folder_list( fout, buf, bitmap_fonts );
+            constexpr UINT max_dir_len = 256;
+            char buf[max_dir_len];
+            const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
+            if( dir_len == 0 ) {
+                throw std::runtime_error( "GetSystemWindowsDirectory failed" );
+            } else if( dir_len >= max_dir_len ) {
+                throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
+            }
+            font_folder_list( fout, buf + std::string( "\\fonts" ), bitmap_fonts );
 #elif defined(_APPLE_) && defined(_MACH_)
             /*
             // Well I don't know how osx actually works ....

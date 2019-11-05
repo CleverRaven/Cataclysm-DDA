@@ -55,7 +55,8 @@ extern "C" {
     static SYMBOL_INFO *const sym = reinterpret_cast<SYMBOL_INFO *>( &sym_storage );
 
     // compose message ourselves to avoid potential dynamical allocation.
-    static void append_str( FILE *file, char **beg, char *end, const char *from )
+    static void append_str( FILE *const file, char **const beg, const char *const end,
+                            const char *from )
     {
         fputs( from, stderr );
         if( file ) {
@@ -66,7 +67,7 @@ extern "C" {
         }
     }
 
-    static void append_ch( FILE *file, char **beg, char *end, char ch )
+    static void append_ch( FILE *const file, char **const beg, const char *const end, const char ch )
     {
         fputc( ch, stderr );
         if( file ) {
@@ -78,7 +79,8 @@ extern "C" {
         }
     }
 
-    static void append_uint( FILE *file, char **beg, char *end, uintmax_t value )
+    static void append_uint( FILE *const file, char **const beg, const char *const end,
+                             const uintmax_t value )
     {
         if( value != 0 ) {
             int cnt = 0;
@@ -93,22 +95,22 @@ extern "C" {
         }
     }
 
-    static void append_ptr( FILE *file, char **beg, char *end, void *p )
+    static void append_ptr( FILE *const file, char **const beg, const char *const end, void *const p )
     {
         append_uint( file, beg, end, uintptr_t( p ) );
     }
 
     static void dump_to( const char *file )
     {
-        HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                                    FILE_ATTRIBUTE_NORMAL, NULL );
+        HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                                    FILE_ATTRIBUTE_NORMAL, nullptr );
         // TODO: call from a separate process as suggested by the documentation
         // TODO: capture stack trace and pass as parameter as suggested by the documentation
         MiniDumpWriteDump( GetCurrentProcess(),
                            GetCurrentProcessId(),
                            handle,
                            MiniDumpNormal,
-                           NULL, NULL, NULL );
+                           nullptr, nullptr, nullptr );
         CloseHandle( handle );
     }
 
@@ -129,7 +131,7 @@ extern "C" {
         append_str( file, &beg, end, "\nSTACK TRACE:\n" );
         sym->SizeOfStruct = sizeof( SYMBOL_INFO );
         sym->MaxNameLen = MAX_NAME_LEN;
-        USHORT num_bt = CaptureStackBackTrace( 0, BT_CNT, bt, NULL );
+        USHORT num_bt = CaptureStackBackTrace( 0, BT_CNT, bt, nullptr );
         HANDLE proc = GetCurrentProcess();
         for( USHORT i = 0; i < num_bt; ++i ) {
             DWORD64 off;
@@ -164,7 +166,7 @@ extern "C" {
         }
         *beg = '\0';
 #if defined(TILES)
-        if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error", buf, NULL ) != 0 ) {
+        if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error", buf, nullptr ) != 0 ) {
             append_str( file, &beg, end, "Error creating SDL message box: " );
             append_str( file, &beg, end, SDL_GetError() );
             append_ch( file, &beg, end, '\n' );
@@ -209,7 +211,7 @@ extern "C" {
 
 void init_crash_handlers()
 {
-    SymInitialize( GetCurrentProcess(), NULL, TRUE );
+    SymInitialize( GetCurrentProcess(), nullptr, TRUE );
     for( auto sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
