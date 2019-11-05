@@ -623,8 +623,6 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void cough( bool harmful = false, int loudness = 4 );
-
         void add_pain_msg( int val, body_part bp ) const;
 
         /** Knocks the player to a specified tile */
