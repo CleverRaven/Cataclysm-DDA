@@ -65,9 +65,9 @@
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monsters": [
         { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "monster": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 },
-        { "place_npcs": [ { "class": "afs_gardener_cyborg", "x": [ 17, 18 ], "y": 9 } ] }
-      ]
+        { "monster": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 4 }
+      ],
+      "place_npcs": [ { "class": "afs_prepnet_gardener", "x": 10, "y": 9 } ]
     }
   },
   {
@@ -138,9 +138,9 @@
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monsters": [
         { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "monster": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 },
-        { "place_npcs": [ { "class": "afs_gardener_cyborg", "x": [ 17, 18 ], "y": 9 } ] }
-      ]
+        { "monster": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 3 }
+      ],
+      "place_npcs": [ { "class": "afs_prepnet_gardener", "x": 10, "y": 9 } ]
     }
   }
 ]
