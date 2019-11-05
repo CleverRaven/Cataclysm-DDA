@@ -539,6 +539,20 @@
   },
   {
     "type": "recipe",
+    "result": "wheel_rail_small_pair",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 12 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "hand_rims",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
