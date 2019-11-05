@@ -1,7 +1,7 @@
 [
   {
     "type": "technique",
-    "id": "Charge",
+    "id": "LKGSD",
     "name": "CHARGE",
     "unarmed_allowed": false,
     "melee_allowed": true,
@@ -13,7 +13,7 @@
   },
   {
     "type": "technique",
-    "id": "LKGSr1",
+    "id": "LKGSDr1",
     "name": "HEAVY STROKE",
     "min_melee": 4,
     "unarmed_allowed": false,
@@ -32,7 +32,7 @@
   },
   {
     "type": "technique",
-    "id": "LKGSStomp",
+    "id": "LKGSr2",
     "name": "STOMP",
     "min_melee": 2,
     "unarmed_allowed": false,
