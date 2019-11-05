@@ -10524,8 +10524,8 @@ void game::start_hauling( const tripoint &pos )
         return;
     }
     for( item &it : items ) {
-        //liquid allowed only if frozen
-        if( it.made_of_from_type( LIQUID ) && !it.made_of( SOLID ) ) {
+        //liquid not allowed
+        if( it.made_of_from_type( LIQUID ) ) {
             continue;
         }
         u.activity.targets.emplace_back( map_cursor( pos ), &it );
