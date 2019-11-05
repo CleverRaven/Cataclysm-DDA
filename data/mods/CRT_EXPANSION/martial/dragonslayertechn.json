@@ -15,7 +15,7 @@
     ],
     "down_dur": 2,
     "messages": [ "Your swing makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "50% moves, 77% Bash, 77% Cut, 77% Stab, Down two turns, STR (SS+) greatly reduces action cost and adds overall damage (S)"
+    "description": "50% moves, 77% DMG, Down (2), STR (SS+) greatly reduces action cost and adds overall damage (S)"
   },
   {
     "type": "technique",
