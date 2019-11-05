@@ -307,15 +307,34 @@
     "type": "item_group",
     "id": "guns_shotgun_rare",
     "//": "Uncommon or rare shotguns in civilian possession.",
-    "items": [
+    "subtype": "distribution",
+    "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
-      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 16 },
+      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
-      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
-      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 },
       { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_readied",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_readied" },
+      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_static",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_static" },
+      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -428,6 +447,28 @@
       { "group": "guns_smg_rare", "prob": 30 },
       { "group": "guns_rifle_rare", "prob": 70 },
       { "group": "guns_shotgun_rare", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_static",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 100 },
+      { "group": "guns_smg_rare", "prob": 30 },
+      { "group": "guns_rifle_rare", "prob": 70 },
+      { "group": "guns_shotgun_rare_static", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_readied",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 100 },
+      { "group": "guns_smg_rare", "prob": 30 },
+      { "group": "guns_rifle_rare", "prob": 70 },
+      { "group": "guns_shotgun_rare_readied", "prob": 70 }
     ]
   },
   {
