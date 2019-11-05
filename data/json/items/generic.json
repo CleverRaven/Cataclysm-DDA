@@ -1391,7 +1391,7 @@
     "name": "large LCD screen",
     "category": "spare_parts",
     "description": "A large backlit screen, used for displaying images.  Useful in some electronics recipes.",
-    "price": 150000,
+    "price": 10000,
     "material": "plastic",
     "weight": "3000 g",
     "volume": "1500 ml",
