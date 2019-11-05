@@ -775,6 +775,7 @@ class vehicle
         std::set<point> immediate_path( int rotate = 0 );
         std::set<point> collision_check_points;
         void autopilot_patrol();
+        double get_angle_from_targ( const tripoint &targ );
         void drive_to_local_target( tripoint target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
