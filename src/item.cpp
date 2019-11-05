@@ -2978,13 +2978,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d hour.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d hours.", btime_i ) ) ) );
+                                                  "around %d hours.", btime_i ), btime_i ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d day.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d days.", btime_i ) ) ) );
+                                                  "around %d days.", btime_i ), btime_i ) ) );
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
