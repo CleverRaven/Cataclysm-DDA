@@ -456,6 +456,7 @@ class Character : public Creature, public visitable<Character>
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
 
+        void cough( bool harmful = false, int loudness = 4 );
         /**
          * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
          * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in

@@ -92,6 +92,7 @@ const efftype_id effect_cold( "cold" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
@@ -5061,6 +5062,36 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
+
+void Character::cough( bool harmful, int loudness )
+{
+    if( harmful ) {
+        const int stam = get_stamina();
+        const int malus = get_stamina_max() * 0.05; // 5% max stamina
+        mod_stat( "stamina", -malus );
+        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
+            apply_damage( nullptr, bp_torso, 1 );
+        }
+    }
+
+    if( has_effect( effect_cough_suppress ) ) {
+        return;
+    }
+
+    if( !is_npc() ) {
+        add_msg( m_bad, _( "You cough heavily." ) );
+    }
+    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
+                   "cough" );
+
+    moves -= 80;
+
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
+        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
+        wake_up();
+    }
+}
+
 
 void Character::wake_up()
 {

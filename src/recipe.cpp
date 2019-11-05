@@ -438,11 +438,21 @@ bool recipe::has_byproducts() const
 std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
-        return _( "<color_cyan>none</color>" );
+        if( difficulty == 0 ) {
+            return _( "<color_cyan>none</color>" );
+        } else {
+            const int player_skill = c ? c->get_skill_level( skill_used ) : 0;
+            std::string difficulty_color = difficulty > player_skill ? "yellow" : "green";
+            std::string skill_level_string = print_skill_level ? "" :
+                                             ( std::to_string( player_skill ) + "/" );
+            skill_level_string += std::to_string( difficulty );
+            return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                                  skill_used.obj().name(), difficulty_color, skill_level_string );
+        }
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
-        const auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
@@ -459,7 +469,12 @@ std::string recipe::required_skills_string( const Character *c ) const
 std::string recipe::required_skills_string() const
 {
     if( required_skills.empty() ) {
-        return _( "<color_white>none</color>" );
+        if( difficulty == 0 ) {
+            return _( "<color_cyan>none</color>" );
+        } else {
+            return string_format( "<color_white>%s: %d</color>", skill_used.obj().name(),
+                                  difficulty );
+        }
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
