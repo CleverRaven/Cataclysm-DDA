@@ -3374,6 +3374,14 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     }
 
     add_msg( _( "You forage through the %s." ), g->m.tername( examp ) );
+
+    // 1% chance to disturb angry bees while foraging the shrub
+    if( one_in( 100 ) && season_of_year( calendar::turn ) != WINTER ) {
+        add_msg( m_bad, _( "You disturbed bees nest in the %s!" ), g->m.tername( examp ) );
+        g->m.add_field( examp, fd_bees, rng( 1, 3 ) );
+        return;
+    }
+
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging

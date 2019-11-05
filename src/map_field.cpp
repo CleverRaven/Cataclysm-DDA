@@ -1231,10 +1231,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Kill them at the end of processing.
                         cur.set_field_intensity( 0 );
                     } else {
-                        // Bees chase the player if in range, wander randomly otherwise.
+                        // 50% chance for bees to chase the player if in range, wander randomly otherwise.
                         if( !g->u.is_underwater() &&
                             rl_dist( p, g->u.pos() ) < 10 &&
-                            clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
+                            clear_path( p, g->u.pos(), 10, 1, 100 ) &&
+                            one_in( 2 ) ) {
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
