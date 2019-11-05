@@ -56,7 +56,7 @@ static const skill_id skill_throw = skill_id( "throw" );
 static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
 {
     p.reset();
-    p.stamina = p.get_stamina_max();
+    p.set_stamina( p.get_stamina_max() );
     CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
@@ -101,7 +101,7 @@ static void test_throwing_player_versus(
     do {
         reset_player( p, pstats, player_start );
         p.set_moves( 1000 );
-        p.stamina = p.get_stamina_max();
+        p.set_stamina( p.get_stamina_max() );
 
         p.wield( it );
         monster &mon = spawn_test_monster( mon_id, monster_start );

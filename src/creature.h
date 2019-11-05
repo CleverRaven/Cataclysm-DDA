@@ -50,7 +50,7 @@ struct pathfinding_settings;
 struct trap;
 
 enum m_size : int {
-    MS_TINY = 0,    // Squirrel
+    MS_TINY = 1,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
@@ -72,7 +72,8 @@ class Creature
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
-        virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
+        virtual std::string disp_name( bool possessive = false,
+                                       bool capitalize_first = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
         virtual std::vector<std::string> get_grammatical_genders() const;

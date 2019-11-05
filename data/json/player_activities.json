@@ -285,6 +285,13 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_HEATING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "heating",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

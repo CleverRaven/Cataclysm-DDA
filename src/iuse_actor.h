@@ -964,7 +964,7 @@ class place_trap_actor : public iuse_actor
             int practice = 0;
             /** Move points that are used when placing the trap. */
             int moves = 100;
-            void load( JsonObject obj );
+            void load( JsonObject &obj );
         };
         /** Whether one can place the trap when underwater. */
         bool allow_underwater = false;

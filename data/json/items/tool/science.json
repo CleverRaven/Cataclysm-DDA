@@ -261,7 +261,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "microscope",
-    "description": "A classic tool for the ages! This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
+    "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
     "weight": "2000 g",
     "volume": "3800ml",
     "price": 3000,

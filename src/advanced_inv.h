@@ -28,7 +28,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
-void advanced_inv();
+void create_advanced_inv();
 
 /**
  * Cancels ongoing move all action.
@@ -48,9 +48,8 @@ class advanced_inventory
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
         */
-        static aim_location screen_relative_location( aim_location area );
-
-        static char get_location_key( aim_location area );
+        aim_location screen_relative_location( aim_location area );
+        std::string get_location_key( aim_location area );
 
         advanced_inv_area &get_one_square( const aim_location &loc ) {
             return squares[loc];
@@ -145,7 +144,7 @@ class advanced_inventory
          * @return true if the action did refer to an location (which has been
          * stored in ret), false otherwise.
          */
-        static bool get_square( const std::string &action, aim_location &ret );
+        bool get_square( const std::string &action, aim_location &ret );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
          * @return whether the sort order was actually changed.

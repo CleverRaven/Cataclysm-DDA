@@ -167,8 +167,12 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
     tripoint target_pos = overmap::invalid_tripoint;
 
     omt_find_params find_params;
-    find_params.type = params.overmap_terrain;
-    find_params.match_type = params.overmap_terrain_match_type;
+    std::vector<std::pair<std::string, ot_match_type>> temp_types;
+    std::pair<std::string, ot_match_type> temp_pair;
+    temp_pair.first = params.overmap_terrain;
+    temp_pair.second = params.overmap_terrain_match_type;
+    temp_types.push_back( temp_pair );
+    find_params.types = temp_types;
     find_params.search_range = params.search_range;
     find_params.min_distance = params.min_distance;
     find_params.must_see = params.must_see;
@@ -201,7 +205,7 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
             // This terrain wasn't part of an overmap special, but we do have a replacement
             // terrain specified. Find a random location of that replacement type.
             find_params.must_see = false;
-            find_params.type = *params.replaceable_overmap_terrain;
+            find_params.types.front().first = *params.replaceable_overmap_terrain;
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
 
             // We didn't find it, so allow this search to create new overmaps and try again.
@@ -441,6 +445,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     bool defer = false;
     mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
     if( defer ) {
+        jo.allow_omitted_members();
         return false;
     }
 
@@ -461,7 +466,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject jo,
+bool mission_util::load_funcs( JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {

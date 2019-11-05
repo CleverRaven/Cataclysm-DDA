@@ -14,7 +14,7 @@
     "type": "talk_topic",
     "dynamic_line": "Well, the references weren't quite right.  Pat referred to things that we'd never played.  The situations were close, but not right, and when I put it all together, it told a story.  A story about a scholar whose kids were being held captive by a corrupt government, forced to research dark magic for them.  And there was a clincher: A warning that the magic had escaped, a warning that all heroes had to leave the kingdom before it fell.",
     "responses": [
-      { "text": "Okay...", "topic": "BGSS_LAB_1_STORY3" },
+      { "text": "Okay…", "topic": "BGSS_LAB_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

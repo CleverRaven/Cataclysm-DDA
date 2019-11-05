@@ -1918,6 +1918,11 @@
   },
   {
     "type": "recipe",
+    "result": "pressure_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "abzats",
     "obsolete": true
   }

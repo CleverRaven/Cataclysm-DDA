@@ -42,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = true;
+static const bool halloween_theme = false;
 
 void main_menu::on_move() const
 {
@@ -416,6 +416,11 @@ bool main_menu::opening_screen()
 
     if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
         popup( _( "Unable to make sound directory.  Check permissions." ) );
+        return false;
+    }
+
+    if( !assure_dir_exist( FILENAMES["user_gfx"] ) ) {
+        popup( _( "Unable to make graphics directory.  Check permissions." ) );
         return false;
     }
 
