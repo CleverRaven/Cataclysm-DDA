@@ -6239,6 +6239,14 @@ void Character::cancel_activity()
             backlog_item = backlog.erase( backlog_item );
         }
     }
+    // act wait stamina interrupts an ongoing activity.
+    // and automatically puts auto_resume = true on it
+    // we dont want that to persist if there is another interruption.
+    // and player moves elsewhere.
+    if( has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) && !backlog.empty() &&
+        backlog.front().auto_resume ) {
+        backlog.front().auto_resume = false;
+    }
     if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
