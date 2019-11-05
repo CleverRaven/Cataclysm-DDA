@@ -11,6 +11,7 @@
     "components": [
       [
         [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],

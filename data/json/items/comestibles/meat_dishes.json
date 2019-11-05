@@ -982,7 +982,7 @@
     "material": "flesh",
     "primary_material": "cured_meat",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_CRAFT_INHERIT" ]
   },
   {
     "type": "COMESTIBLE",

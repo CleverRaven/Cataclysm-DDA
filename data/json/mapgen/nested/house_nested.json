@@ -185,6 +185,94 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_S",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " CR ",
+        "O   ",
+        " EE ",
+        " EE "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [ { "item": "dresser_mens", "chance": 50 }, { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_N",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " EE ",
+        " EE ",
+        "O   ",
+        " CR "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [ { "item": "dresser_mens", "chance": 50 }, { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_E",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ",
+        "C EE",
+        "R EE",
+        " O  "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [ { "item": "dresser_mens", "chance": 50 }, { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates head of bed, works for rooms with corner doors.",
+    "nested_mapgen_id": "bedroom_4x4_adult_3_W",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ",
+        "EE C",
+        "EE R",
+        "  O "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "O": [ { "item": "dresser_mens", "chance": 50 }, { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
+        "R": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "compass direction indicates head of bed",
     "nested_mapgen_id": "bedroom_5x5_adult_N_1",
     "object": {
@@ -584,12 +672,12 @@
       "rows": [
         "y@@@L",
         "     ",
-        " LLL ",
+        " ppp ",
         "     ",
         "aCLC "
       ],
       "palettes": [ "house_w_nest_palette" ],
-      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
     }
   },
   {
@@ -601,14 +689,14 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        " CLCa",
+        " CpCa",
         "     ",
-        " LLL ",
+        " ppp ",
         "     ",
         "y@@@L"
       ],
       "palettes": [ "house_w_nest_palette" ],
-      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
     }
   },
   {
@@ -621,13 +709,13 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "a   L",
-        "C L @",
-        "L L @",
-        "C L @",
+        "C p @",
+        "L p @",
+        "C p @",
         "    y"
       ],
       "palettes": [ "house_w_nest_palette" ],
-      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
     }
   },
   {
@@ -640,13 +728,109 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "y   a",
-        "@ L C",
-        "@ L L",
-        "@ L C",
+        "@ p C",
+        "@ p L",
+        "@ p C",
         "L   y"
       ],
       "palettes": [ "house_w_nest_palette" ],
-      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_N_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " @@p ",
+        "    R",
+        " pp R",
+        "     ",
+        " xxx "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 2, "y": 4, "chance": 100 },
+        { "item": "stereo", "x": 1, "y": 4, "chance": 60 },
+        { "group": "consumer_electronics", "x": 3, "y": 4, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_S_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " xxx ",
+        "     ",
+        "@ pp ",
+        "@    ",
+        " @@@ "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 2, "y": 0, "chance": 100 },
+        { "item": "stereo", "x": 1, "y": 0, "chance": 60 },
+        { "group": "consumer_electronics", "x": 3, "y": 0, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_E_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  C p",
+        "x p @",
+        "x p @",
+        "x   @",
+        "     "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 0, "y": 2, "chance": 100 },
+        { "item": "stereo", "x": 0, "y": 1, "chance": 60 },
+        { "group": "consumer_electronics", "x": 0, "y": 3, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates sofa orientation",
+    "nested_mapgen_id": "livingroom_5x5_W_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "@ p x",
+        "@ p x",
+        "@   x",
+        " @@p "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 4, "y": 2, "chance": 100 },
+        { "item": "stereo", "x": 4, "y": 1, "chance": 60 },
+        { "group": "elecsto_persele", "x": 4, "y": 3, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
     }
   },
   {
@@ -840,10 +1024,10 @@
       "rows": [
         "@@@",
         "   ",
-        "CLL"
+        "Cpp"
       ],
       "palettes": [ "house_w_nest_palette" ],
-      "items": { "L": [ { "item": "livingroom", "chance": 30 } ] }
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
     }
   },
   {

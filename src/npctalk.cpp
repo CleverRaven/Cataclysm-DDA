@@ -1957,7 +1957,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             return;
         }
         if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn, 1 );
+            item new_item = item( item_name, calendar::turn );
             if( new_item.count_by_charges() ) {
                 new_item.mod_charges( count - 1 );
                 u.i_add( new_item );
@@ -1993,7 +1993,7 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn, 1 );
+        item old_item = item( item_name, calendar::turn );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
@@ -3076,14 +3076,14 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
                 switch_done |= repeat.response.gen_repeat_response( d, item_id, switch_done );
             }
         }
-        for( const std::string &category_id : repeat.for_category ) {
+        for( const item_category_id &category_id : repeat.for_category ) {
             const bool include_containers = repeat.include_containers;
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().id() == category_id;
+                    return it.get_category().get_id() == category_id;
                 }
-                return it.type && it.type->category && it.type->category->id() == category_id;
+                return it.type && it.type->category_force == category_id;
             } );
             for( const auto &it : items_with ) {
                 switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );

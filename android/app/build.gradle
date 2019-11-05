@@ -127,7 +127,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
         versionName new File("$version_header_path").text.split('\"')[1]
@@ -157,7 +157,7 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                arguments "APP_PLATFORM=android-21", "-j$njobs"
+                arguments "APP_PLATFORM=android-16", "-j$njobs"
             }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

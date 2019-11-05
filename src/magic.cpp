@@ -851,7 +851,7 @@ void spell::create_field( const tripoint &at ) const
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
-            g->m.add_field( at, *type->field, intensity );
+            g->m.add_field( at, *type->field, intensity, -duration_turns() );
         }
     }
 }
@@ -893,13 +893,12 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
-        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) ) ||
-                ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) );
+        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) );
+        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
+                           p != caster.pos() );
+        valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
     } else {
         valid = is_valid_target( target_ground );
-    }
-    if( p == caster.pos() ) {
-        valid = valid || is_valid_target( target_self );
     }
     return valid;
 }

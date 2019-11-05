@@ -53,6 +53,9 @@ std::string wstr_to_utf8( const std::wstring &wstr );
 std::string native_to_utf8( const std::string &str );
 std::string utf8_to_native( const std::string &str );
 
+std::string utf32_to_utf8( const std::u32string &str );
+std::u32string utf8_to_utf32( const std::string &str );
+
 /**
  * UTF8-Wrapper over std::string.
  * It looks and feels like a std::string, but uses code points counts

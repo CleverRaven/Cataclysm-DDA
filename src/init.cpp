@@ -295,9 +295,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
     add( "MIGRATION", []( JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
@@ -392,7 +391,7 @@ void DynamicDataLoader::initialize()
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization. Must be unloaded first." );
+    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -572,6 +571,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
+            { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {

@@ -355,7 +355,8 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
     } else if( bio.id == "bio_cqb" ) {
-        if( !pick_style() ) {
+        const avatar *you = as_avatar();
+        if( you && !martial_arts_data.pick_style( *you ) ) {
             bio.powered = false;
             add_msg_if_player( m_info, _( "You change your mind and turn it off." ) );
             return false;
@@ -526,11 +527,12 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
+        if( pnt && g->m.is_flammable( *pnt ) ) {
+            g->m.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
-        } else {
-            add_msg_if_player( m_info, _( "You can't light a fire there." ) );
             mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
+        } else {
+            add_msg_if_player( m_info, _( "There's nothing to light there." ) );
         }
     } else if( bio.id == "bio_geiger" ) {
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
@@ -590,13 +592,13 @@ bool player::activate_bionic( int b, bool eff_only )
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
-        const auto weight_cap = weight_capacity();
+        const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : g->m.points_in_radius( pos(), 10 ) ) {
             if( p == pos() || !g->m.has_items( p ) || g->m.has_flag( "SEALED", p ) ) {
                 continue;
             }
 
-            auto stack = g->m.i_at( p );
+            map_stack stack = g->m.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
@@ -608,7 +610,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         g->refresh_all();
-        for( const auto &pr : affected ) {
+        for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
             proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
@@ -616,7 +618,7 @@ bool player::activate_bionic( int b, bool eff_only )
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
-            auto dealt = projectile_attack( proj, pr.second, pos(), 0 );
+            dealt_projectile_attack  dealt = projectile_attack( proj, pr.second, pos(), 0, this );
             g->m.add_item_or_charges( dealt.end_point, pr.first );
         }
 
@@ -803,18 +805,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
             invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
-        // check if player knows current style naturally, otherwise drop them back to style_none
-        if( style_selected != matype_id( "style_none" ) && style_selected != matype_id( "style_kicks" ) ) {
-            bool has_style = false;
-            for( auto &elem : ma_styles ) {
-                if( elem == style_selected ) {
-                    has_style = true;
-                }
-            }
-            if( !has_style ) {
-                style_selected = matype_id( "style_none" );
-            }
-        }
+        martial_arts_data.selected_style_check();
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
             g->setremoteveh( nullptr );
@@ -2284,7 +2275,7 @@ int bionic::get_quality( const quality_id &quality ) const
     return item( i.fake_item ).get_quality( quality );
 }
 
-bool bionic::is_this_fuel_powered( const itype_id this_fuel ) const
+bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 {
     const std::vector<itype_id> fuel_op = info().fuel_opts;
     return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();

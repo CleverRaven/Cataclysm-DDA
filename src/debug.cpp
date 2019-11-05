@@ -583,7 +583,7 @@ void debug_write_backtrace( std::ostream &out )
 #if defined(_WIN32)
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
-    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
+    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, nullptr );
     HANDLE proc = GetCurrentProcess();
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
@@ -622,7 +622,7 @@ void debug_write_backtrace( std::ostream &out )
     for( int i = 0; i < count; ++i ) {
         out << "\n    " << funcNames[i];
     }
-    out << "\n\n    Attempting to repeat stack trace using debug symbols...\n";
+    out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
     // to extract debug info and thus get a more detailed / useful
     // version.  If addr2line is not available this will just fail,
@@ -665,7 +665,7 @@ void debug_write_backtrace( std::ostream &out )
             if( src == buf_end ) {
                 src = buf;
             } else {
-                out.write( "...", 3 );
+                out << "…";
             }
             out.write( src, strlen( src ) );
         }
@@ -925,7 +925,7 @@ static std::string linux_version()
         // replace '\n' and '\t' in output.
         static const std::vector<std::pair<std::string, std::string>> to_replace = {
             {"\n", "; "},
-            {"\t", " "},
+            {"\t", " "}, // NOLINT(cata-text-style)
         };
         for( const auto &e : to_replace ) {
             std::string::size_type pos;

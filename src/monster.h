@@ -114,12 +114,14 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
 
+        float get_mountable_weight_ratio() const;
+
         // Access
         std::string get_name() const override;
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
-        std::string disp_name( bool possessive = false ) const override;
+        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
