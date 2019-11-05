@@ -122,7 +122,6 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "crafting",
-    "rooted": true,
     "based_on": "neither",
     "refuel_fires": true
   },
