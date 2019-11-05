@@ -414,7 +414,7 @@
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 380,
-    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ], [ "AUTO", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
     "valid_mod_locations": [
@@ -452,7 +452,7 @@
     "durability": 5,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ], [ "AUTO", "auto", 10 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -486,7 +486,7 @@
     "dispersion": 520,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "auto", 8 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ], [ "AUTO", "auto", 8 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
