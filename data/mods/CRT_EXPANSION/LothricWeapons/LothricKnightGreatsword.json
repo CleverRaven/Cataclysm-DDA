@@ -1,8 +1,8 @@
 [
   {
     "type": "technique",
-    "id": "Charge",
-    "name": "CHARGE",
+    "id": "LKGSr1",
+    "name": "Slash",
     "unarmed_allowed": false,
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.85 ], [ "damage", "bash", 0.66 ], [ "damage", "stab", 1.5 ] ],
@@ -13,8 +13,8 @@
   },
   {
     "type": "technique",
-    "id": "LKGSr1",
-    "name": "HEAVY STROKE",
+    "id": "LKGSr2",
+    "name": "Impact Thrust",
     "min_melee": 4,
     "unarmed_allowed": false,
     "melee_allowed": true,
@@ -32,7 +32,7 @@
   },
   {
     "type": "technique",
-    "id": "LKGSStomp",
+    "id": "LKGStomp",
     "name": "STOMP",
     "min_melee": 2,
     "unarmed_allowed": false,
