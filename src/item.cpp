@@ -2752,7 +2752,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                     }
                 } else {
-                    std::string resize_str = "";
+                    std::string resize_str;
                     if( sizing_level == sizing::small_sized_human_char ) {
                         resize_str = _( " and <info>upsized</info>" );
                     } else if( sizing_level == sizing::human_sized_small_char ) {
