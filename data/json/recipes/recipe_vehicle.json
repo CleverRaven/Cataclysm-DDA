@@ -548,7 +548,7 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 12 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
