@@ -1633,47 +1633,13 @@ void map::player_in_field( player &u )
         if( ft == fd_bees ) {
             // Player is immune to bees while underwater.
             if( !u.is_underwater() ) {
-                int times_stung = 0;
                 const int intensity = cur.get_field_intensity();
-                // If the bees can get at you, they cause steadily increasing pain.
-                // TODO: Specific stinging messages.
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                switch( times_stung ) {
-                    case 0:
-                        // Woo, unscathed!
-                        break;
-                    case 1:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you!" ) );
-                        break;
-                    case 2:
-                    case 3:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you several times!" ) );
-                        break;
-                    case 4:
-                    case 5:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you many times!" ) );
-                        break;
-                    case 6:
-                    case 7:
-                    case 8:
-                    default:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you all over your body!" ) );
-                        break;
+                // Bees will sting you in random non-protected body parts, up to 8 times.
+                for( int i = 0; i < rng( 1, 7 ); i++ ) {
+                    body_part bp = random_body_part();
+                    if( u.get_armor_cut( bp ) <= 1 && u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
+                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ), body_part_name_accusative( bp ) );
+                    }
                 }
             }
         }
