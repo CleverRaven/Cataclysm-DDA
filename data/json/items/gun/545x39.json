@@ -18,7 +18,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 10 ] ],
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],

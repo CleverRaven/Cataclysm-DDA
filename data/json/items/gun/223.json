@@ -18,7 +18,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 11,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 11 ] ],
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
@@ -64,7 +64,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 14 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -85,7 +85,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 13 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -271,7 +271,7 @@
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3495 g",
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 13 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
@@ -294,7 +294,7 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 14 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -411,7 +411,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 10 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -452,7 +452,7 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
