@@ -343,7 +343,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "driving",
     "suspendable": false,
-    "rooted": true,
     "based_on": "neither",
     "no_resume": true
   },
