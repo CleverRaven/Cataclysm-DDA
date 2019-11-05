@@ -9323,20 +9323,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( u.is_hauling() ) {
-        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Destination relative to the player
-        u.activity.coords.push_back( tripoint_zero );
-        map_stack items = m.i_at( oldpos );
-        if( items.empty() ) {
-            u.stop_hauling();
-        }
-        for( item &it : items ) {
-            u.activity.targets.emplace_back( map_cursor( oldpos ), &it );
-            // Quantity of 0 means move all
-            u.activity.values.push_back( 0 );
-        }
+        start_hauling( oldpos );
     }
 
     on_move_effects();
@@ -10515,26 +10502,39 @@ void game::vertical_move( int movez, bool force )
 
     if( u.is_hauling() ) {
         const tripoint adjusted_pos = old_pos - sm_to_ms_copy( submap_shift );
-        u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-        // Whether the destination is inside a vehicle (not supported)
-        u.activity.values.push_back( 0 );
-        // Destination relative to the player
-        u.activity.coords.push_back( tripoint_zero );
-        map_stack items = m.i_at( adjusted_pos );
-        if( items.empty() ) {
-            u.stop_hauling();
-        }
-        for( item &it : items ) {
-            u.activity.targets.emplace_back( map_cursor( adjusted_pos ), &it );
-            // Quantitu of 0 means move all
-            u.activity.values.push_back( 0 );
-        }
+        start_hauling( adjusted_pos );
     }
 
     m.invalidate_map_cache( g->get_levz() );
     refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
+}
+
+void game::start_hauling( const tripoint &pos )
+{
+    u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+    // Whether the destination is inside a vehicle (not supported)
+    u.activity.values.push_back( 0 );
+    // Destination relative to the player
+    u.activity.coords.push_back( tripoint_zero );
+    map_stack items = m.i_at( pos );
+    if( items.empty() ) {
+        u.stop_hauling();
+        return;
+    }
+    for( item &it : items ) {
+        //liquid not allowed
+        if( it.made_of_from_type( LIQUID ) ) {
+            continue;
+        }
+        u.activity.targets.emplace_back( map_cursor( pos ), &it );
+        // Quantity of 0 means move all
+        u.activity.values.push_back( 0 );
+    }
+    if( u.activity.targets.empty() ) {
+        u.stop_hauling();
+    }
 }
 
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
