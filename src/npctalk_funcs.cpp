@@ -789,7 +789,14 @@ void talk_function::leave( npc &p )
 
 void talk_function::stop_following( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name );
+    // this is to tell non-allied NPCs to stop following.
+    // ( usually after a mission where they were temporarily tagging along )
+    // so dont tell already allied NPCs to stop following.
+    // they use the guard command for that.
+    if( p.is_player_ally() ) {
+        return;
+    }
+    add_msg( _( "%s stops following." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
