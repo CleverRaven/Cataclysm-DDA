@@ -3433,6 +3433,20 @@
   },
   {
     "type": "recipe",
+    "result": "railroad_track_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "jumper_cable",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
