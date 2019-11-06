@@ -364,10 +364,10 @@ class atm_menu
                                            "Your current balance is: %s" ),
                                         format_money( u.cash ) );
 
-            if( u.cash >= 100 ) {
+            if( u.cash >= 10000 ) {
                 add_choice( purchase_card, _( "Purchase cash card?" ) );
             } else {
-                add_info( purchase_card, _( "You need $1.00 in your account to purchase a card." ) );
+                add_info( purchase_card, _( "You need $100.00 in your account to purchase a card." ) );
             }
 
             if( card_count && u.cash > 0 ) {
