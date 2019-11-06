@@ -165,12 +165,8 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     int cw_len = aoe_radius - ccw_len;
 
     if( !trigdist ) {
-        int pccw = ccw_len;
-        int pcw = cw_len;
         ccw_len = ( ccw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
         cw_len = ( cw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
-
-        printf( "DIST(%d): CCW(%d -> %d)  CW(%d -> %d)\n", dist, pccw, ccw_len, pcw, cw_len );
     }
 
     // Orientation of point C relative to line AB
