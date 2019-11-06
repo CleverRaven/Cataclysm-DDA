@@ -18,7 +18,7 @@
     "dispersion": 280,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 20 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -57,7 +57,7 @@
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -129,7 +129,7 @@
     "dispersion": 520,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 18 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -269,7 +269,7 @@
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 3 ],

@@ -207,7 +207,7 @@
     "ranged_damage": 5,
     "dispersion": 60,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
@@ -316,7 +316,7 @@
     "range": 15,
     "dispersion": 75,
     "durability": 7,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 15,
     "reload": 6000,
     "loudness": 18,
@@ -673,7 +673,7 @@
     "range": 10,
     "dispersion": 450,
     "durability": 10,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "clip_size": 100,
     "reload": 0,
     "valid_mod_locations": [ [ "sling", 1 ] ]

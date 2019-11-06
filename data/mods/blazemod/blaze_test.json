@@ -964,7 +964,7 @@
     "dispersion": 300,
     "sight_dispersion": 150,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 250,
     "reload": 10,
     "valid_mod_locations": [  ],
