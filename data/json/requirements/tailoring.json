@@ -247,14 +247,14 @@
   {
     "id": "tailoring_lycra",
     "type": "requirement",
-    "//": "Crafting lycra items, per 61 g of lycra; 6 g + excessive weight of material is wasted, producing lycra scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
+    "//": "Crafting lycra items, per 55 g of lycra; 6 g + excessive weight of material is wasted, producing lycra scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_lycra", 22 ] ], [ [ "thread_nomex", 1 ] ] ]
   },
   {
     "id": "tailoring_lycra_patchwork",
     "type": "requirement",
-    "//": "Crafting possibly-patchwork lycra items, per 61 g of lycra; 6 g + excessive weight of material is wasted, producing lycra scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
+    "//": "Crafting possibly-patchwork lycra items, per 55 g of lycra; 6 g + excessive weight of material is wasted, producing lycra scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_lycra", 22 ], [ "sheet_lycra_patchwork", 1 ] ], [ [ "thread_nomex", 1 ] ] ]
   },
@@ -289,15 +289,15 @@
   {
     "id": "tailoring_nylon",
     "type": "requirement",
-    "//": "Crafting synthetic fabric items, per 61 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
-    "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_nylon", 22 ], [ "sheet_nylon_patchwork", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
+    "//": "Crafting synthetic fabric items, per 55 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_nylon", 22 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
     "id": "tailoring_nylon_patchwork",
     "type": "requirement",
-    "//": "Crafting possibly-patchwork synthetic fabric items, per 61 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
-    "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "//": "Crafting possibly-patchwork synthetic fabric items, per 55 g of neoprene; 6 g + excessive weight of material is wasted, producing synthetic fabric scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_nylon", 22 ] ], [ [ "sheet_nylon_patchwork", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
