@@ -45,6 +45,36 @@
 #include "timed_event.h"
 #include "teleport.h"
 
+namespace spell_detail {
+struct line_iterable {
+    const std::vector<point> &delta_line;
+    point cur_origin;
+    point delta;
+    size_t index;
+
+    line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
+        : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
+
+    const point get() const {
+        return cur_origin + delta_line[index];
+    }
+    // Move forward along point set, wrap around and move origin forward if necessary
+    void next() {
+        index = ( index + 1 ) % delta_line.size();
+        cur_origin = cur_origin + delta * ( index == 0 );
+    }
+    // Move back along point set, wrap around and move origin backward if necessary
+    void prev() {
+        cur_origin = cur_origin - delta * ( index == 0 );
+        index = ( index + delta_line.size() - 1 ) % delta_line.size();
+    }
+    void reset( const point &origin ) {
+        cur_origin = origin;
+        index = 0;
+    }
+};
+} // namespace spell_detail
+
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
     bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
@@ -201,40 +231,12 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // and insert startpoint. Path is now prepared for wrapped iteration
     path_to_target.insert( path_to_target.begin(), point_zero );
 
-    struct line_iterable {
-        const std::vector<point> &delta_line;
-        point cur_origin;
-        point delta;
-        size_t index;
-
-        line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
-            : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
-
-        const point get() const {
-            return cur_origin + delta_line[index];
-        }
-        // Move forward along point set, wrap around and move origin forward if necessary
-        void next() {
-            index = ( index + 1 ) % delta_line.size();
-            cur_origin = cur_origin + delta * ( index == 0 );
-        }
-        // Move back along point set, wrap around and move origin backward if necessary
-        void prev() {
-            cur_origin = cur_origin - delta * ( index == 0 );
-            index = ( index + delta_line.size() - 1 ) % delta_line.size();
-        }
-        void reset( const point &origin ) {
-            cur_origin = origin;
-            index = 0;
-        }
-    };
-
-    line_iterable base_line( point_zero, delta, path_to_target );
+    spell_detail::line_iterable base_line( point_zero, delta, path_to_target );
 
     std::set<tripoint> result;
 
     // Builds line until obstructed or outside of region bound by near and far lines
-    auto build_line = [&]( line_iterable line, const tripoint & source, const point & delta,
+    auto build_line = [&]( spell_detail::line_iterable line, const tripoint & source, const point & delta,
     const point & delta_perp ) {
         while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
             if( !test( source + line.get() ) ) {
