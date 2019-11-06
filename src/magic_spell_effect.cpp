@@ -142,6 +142,15 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     return targets;
 }
 
+static bool test_always_true( const tripoint & )
+{
+    return true;
+}
+static bool test_passable( const tripoint &p )
+{
+    return g->m.passable( p );
+}
+
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
         const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
@@ -177,13 +186,8 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // is delta aligned with, cw, or ccw of primary axis
     int delta_side = side_of( point_zero, axis_delta, delta );
 
-    auto test = ignore_walls ?
-    []( const tripoint & ) {
-        return true;
-} :
-    []( const tripoint & p ) {
-        return g->m.passable( p );
-    };
+    bool ( *test )( const tripoint & ) = ignore_walls ? test_always_true : test_passable;
+
     // Tests if point c is between or on lines (a0, ao + d) and (a1, a1 + d)
     auto between_or_on = [side_of]( const point & a0, const point & a1, const point & d,
     const point & c ) {
