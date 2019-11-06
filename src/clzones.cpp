@@ -13,6 +13,7 @@
 #include "construction.h"
 #include "debug.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "iexamine.h"
 #include "item_category.h"
 #include "item_search.h"
@@ -180,6 +181,40 @@ std::string zone_type::name() const
 std::string zone_type::desc() const
 {
     return _( desc_ );
+}
+
+namespace
+{
+generic_factory<zone_type> zone_type_factory( "zone_type" );
+} // namespace
+
+template<>
+const zone_type &string_id<zone_type>::obj() const
+{
+    return zone_type_factory.obj( *this );
+}
+
+template<>
+bool string_id<zone_type>::is_valid() const
+{
+    return zone_type_factory.is_valid( *this );
+}
+
+const std::vector<zone_type> &zone_type::get_all()
+{
+    return zone_type_factory.get_all();
+}
+
+void zone_type::load_zones( JsonObject &jo, const std::string &src )
+{
+    zone_type_factory.load( jo, src );
+}
+
+void zone_type::load( JsonObject &jo, const std::string &src )
+{
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "id", id );
+    optional( jo, was_loaded, "description", desc_, "" );
 }
 
 std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
