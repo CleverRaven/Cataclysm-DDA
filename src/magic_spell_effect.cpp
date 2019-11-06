@@ -274,7 +274,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             base_line.reset( p );
 
             // forward until in
-            while( !between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+            while( side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -287,7 +287,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             base_line.reset( p );
 
             // move back
-            while( between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+            while( side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -302,7 +302,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             base_line.reset( p );
 
             // move back
-            while( between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+            while( side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -316,7 +316,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             base_line.reset( p );
 
             // forward until in
-            while( !between_or_on( point_zero, delta, delta_perp, base_line.get() ) ) {
+            while( side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
