@@ -344,8 +344,6 @@ class player : public Character
         bionic &bionic_at_index( int i );
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
-        /** Returns player luminosity based on the brightest active item they are carrying */
-        float active_light() const;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */

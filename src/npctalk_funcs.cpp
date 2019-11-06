@@ -332,14 +332,20 @@ void talk_function::goto_location( npc &p )
         auto selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
     }
+    p.goal = destination;
+    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
+    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
+        p.omt_path.empty() ) {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+        add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
+        return;
+    }
     p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
     p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
-    return;
 }
 
 void talk_function::assign_guard( npc &p )
@@ -789,7 +795,14 @@ void talk_function::leave( npc &p )
 
 void talk_function::stop_following( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name );
+    // this is to tell non-allied NPCs to stop following.
+    // ( usually after a mission where they were temporarily tagging along )
+    // so dont tell already allied NPCs to stop following.
+    // they use the guard command for that.
+    if( p.is_player_ally() ) {
+        return;
+    }
+    add_msg( _( "%s stops following." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 

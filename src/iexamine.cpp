@@ -4847,6 +4847,19 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
+
+                result.inherit_flags( it );
+                if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+                    // If the item has "cooks_like" it will be replaced by that item as a component.
+                    if( !it.get_comestible()->cooks_like.empty() ) {
+                        // Set charges to 1 for stacking purposes.
+                        it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
+                    }
+                    result.components.push_back( it );
+                    // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
+                    result.recipe_charges = it.charges;
+                }
+
                 it = result;
             }
         }

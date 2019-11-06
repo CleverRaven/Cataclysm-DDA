@@ -2733,35 +2733,39 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
             if( has_flag( "VARSIZE" ) ) {
                 if( has_flag( "FIT" ) ) {
-                    std::string resize_str;
-                    if( sizing_level == sizing::small_sized_human_char ) {
-                        resize_str = _( "<info>can be upsized</info>." );
-                    } else if( sizing_level == sizing::human_sized_small_char ) {
-                        resize_str = _( "<info>can be downsized</info>." );
-                    } else if( sizing_level == sizing::big_sized_human_char ||
-                               sizing_level == sizing::big_sized_small_char ) {
-                        resize_str = _( "<bad>can not be downsized</bad>." );
-                    } else if( sizing_level == sizing::small_sized_big_char ||
-                               sizing_level == sizing::human_sized_big_char ) {
-                        resize_str = _( "<bad>can not be upsized</bad>." );
+                    if( !( sizing_level == sizing::small_sized_small_char ||
+                           sizing_level == sizing::human_sized_human_char ||
+                           sizing_level == sizing::big_sized_big_char ) ) {
+                        std::string resize_str;
+                        if( sizing_level == sizing::small_sized_human_char ) {
+                            resize_str = _( "<info>can be upsized</info>" );
+                        } else if( sizing_level == sizing::human_sized_small_char ) {
+                            resize_str = _( "<info>can be downsized</info>" );
+                        } else if( sizing_level == sizing::big_sized_human_char ||
+                                   sizing_level == sizing::big_sized_small_char ) {
+                            resize_str = _( "<bad>can not be downsized</bad>" );
+                        } else if( sizing_level == sizing::small_sized_big_char ||
+                                   sizing_level == sizing::human_sized_big_char ) {
+                            resize_str = _( "<bad>can not be upsized</bad>" );
+                        }
+                        std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
+                        info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                     }
-                    std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
-                    info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                 } else {
                     std::string resize_str;
                     if( sizing_level == sizing::small_sized_human_char ) {
-                        resize_str = _( " and <info>upsized</info>." );
+                        resize_str = _( " and <info>upsized</info>" );
                     } else if( sizing_level == sizing::human_sized_small_char ) {
-                        resize_str = _( " and <info>downsized</info>." );
+                        resize_str = _( " and <info>downsized</info>" );
                     } else if( sizing_level == sizing::big_sized_human_char ||
                                sizing_level == sizing::big_sized_small_char ) {
-                        resize_str = _( " but <bad>not downsized</bad>." );
+                        resize_str = _( " but <bad>not downsized</bad>" );
                     } else if( sizing_level == sizing::small_sized_big_char ||
                                sizing_level == sizing::human_sized_big_char ) {
-                        resize_str = _( " but <bad>not upsized</bad>." );
+                        resize_str = _( " but <bad>not upsized</bad>" );
                     }
                     std::string info_str = string_format( _( "* This clothing <info>can be "
-                                                          "refitted </info>%s." ), resize_str );
+                                                          "refitted</info>%s." ), resize_str );
                     info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                 }
             } else {
@@ -2978,13 +2982,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d hour.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d hours.", btime_i ) ) ) );
+                                                  "around %d hours.", btime_i ), btime_i ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d day.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d days.", btime_i ) ) ) );
+                                                  "around %d days.", btime_i ), btime_i ) ) );
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {

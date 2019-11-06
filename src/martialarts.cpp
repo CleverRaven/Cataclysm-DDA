@@ -245,6 +245,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
@@ -790,7 +791,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
         return true;
     }
 
@@ -1157,17 +1158,15 @@ bool player::can_autolearn( const matype_id &ma_id ) const
 void character_martial_arts::martialart_use_message( const Character &owner ) const
 {
     martialart ma = style_selected.obj();
-    if( !ma.force_unarmed && !ma.weapon_valid( owner.weapon ) ) {
-        if( !owner.has_weapon() && ma.strictly_melee ) {
-            owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
-        } else if( owner.has_weapon() && ma.strictly_unarmed ) {
-            owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
-        } else {
-            owner.add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), owner.weapon.tname( 1,
-                                     false ), ma.name );
-        }
-    } else {
+    if( ma.force_unarmed || ma.weapon_valid( owner.weapon ) ) {
         owner.add_msg_if_player( m_info, _( ma.get_initiate_avatar_message() ) );
+    } else if( ma.strictly_melee && !owner.is_armed() ) {
+        owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
+    } else if( ma.strictly_unarmed && owner.is_armed() ) {
+        owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
+    } else {
+        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ), owner.weapon.tname( 1,
+                                 false ), ma.name );
     }
 }
 

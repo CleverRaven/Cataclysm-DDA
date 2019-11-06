@@ -71,11 +71,13 @@ static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
 static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
@@ -102,6 +104,8 @@ const efftype_id effect_flu( "flu" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_harnessed( "harnessed" );
@@ -4280,6 +4284,60 @@ int Character::visibility( bool, int ) const
     return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
+/*
+ * Calculate player brightness based on the brightest active item, as
+ * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
+ * item.light.* is -unimplemented- for the moment, as it is a custom override for
+ * applying light sources/arcs with specific angle and direction.
+ */
+float Character::active_light() const
+{
+    float lumination = 0;
+
+    int maxlum = 0;
+    has_item_with( [&maxlum]( const item & it ) {
+        const int lumit = it.getlight_emit();
+        if( maxlum < lumit ) {
+            maxlum = lumit;
+        }
+        return false; // continue search, otherwise has_item_with would cancel the search
+    } );
+
+    lumination = static_cast<float>( maxlum );
+
+    float mut_lum = 0.0f;
+    for( const auto &mut : my_mutations ) {
+        if( mut.second.powered ) {
+            float curr_lum = 0.0f;
+            for( const auto elem : mut.first->lumination ) {
+                int coverage = 0;
+                for( const item &i : worn ) {
+                    if( i.covers( elem.first ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) &&
+                        !i.has_flag( "SEMITANGIBLE" ) &&
+                        !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
+                        coverage += i.get_coverage();
+                    }
+                }
+                curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
+            }
+            mut_lum += curr_lum ;
+        }
+    }
+
+    lumination = std::max( lumination, mut_lum );
+
+    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
+        lumination = 60;
+    } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
+        lumination = 25;
+    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
+                                   ( has_active_bionic( bio_tattoo_led ) ||
+                                     has_effect( effect_glowy_led ) ) ) ) {
+        lumination = 5;
+    }
+    return lumination;
+}
+
 bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
@@ -6238,6 +6296,14 @@ void Character::cancel_activity()
         } else {
             backlog_item = backlog.erase( backlog_item );
         }
+    }
+    // act wait stamina interrupts an ongoing activity.
+    // and automatically puts auto_resume = true on it
+    // we dont want that to persist if there is another interruption.
+    // and player moves elsewhere.
+    if( has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) && !backlog.empty() &&
+        backlog.front().auto_resume ) {
+        backlog.front().auto_resume = false;
     }
     if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
