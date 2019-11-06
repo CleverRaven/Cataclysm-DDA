@@ -125,7 +125,7 @@ void zone_type::load_zones( JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
-void zone_type::load( JsonObject &jo, const std::string &src )
+void zone_type::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
