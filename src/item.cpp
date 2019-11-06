@@ -2879,13 +2879,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( !fuels.empty() ) {
             std::string fuel_string;
             const int &fuel_numb = fuels.size();
-            fuel_string = item( fuels.front() ).tname();
+            fuel_string = "<info>" + item( fuels.front() ).tname() + "</info>";
 
             if( fuel_numb > 1 ) {
                 for( int j = 1; j < fuel_numb - 1; j++ ) {
-                    fuel_string += ", " + item( fuels[j] ).tname();
+                    fuel_string += ", <info>" + item( fuels[j] ).tname() + "</info>";
                 }
-                fuel_string += ", and " + item( fuels.back() ).tname();
+                fuel_string += ", and <info>" + item( fuels.back() ).tname() + "</info>";
             }
 
             info.push_back( iteminfo( "DESCRIPTION",
