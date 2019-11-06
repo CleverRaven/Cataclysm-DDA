@@ -9,6 +9,7 @@
     "spoils_in": "2 days 12 hours",
     "description": "A cooked stalk from a cattail plant.  Its fibrous outer leaves have been stripped away and now it is quite delicious.",
     "price": 0,
+    "delete": { "flags": [ "RAW" ] },
     "fun": 1
   },
   {
@@ -342,6 +343,7 @@
     "price": 50,
     "material": "veggy",
     "volume": "250 ml",
+    "delete": { "flags": [ "RAW" ] },
     "charges": 1
   },
   {
@@ -541,6 +543,7 @@
     "spoils_in": "1 day",
     "description": "Reconstituted vegetable flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
+    "delete": { "flags": [ "RAW" ] },
     "fun": 2
   },
   {

@@ -41,7 +41,7 @@
     "//": "need 40 charges of maple sap to make 16 charges of maple syrup",
     "proportional": { "calories": 0.4 },
     "fun": 1,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
     "freezing_point": 30

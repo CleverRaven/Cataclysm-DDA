@@ -38,7 +38,7 @@
     "price": 120,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
   },
@@ -160,7 +160,7 @@
     "price": 450,
     "material": [ "wheat", "powder" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "charges": 10,
     "vitamins": [ [ "iron", 3 ] ],
     "fun": -5
@@ -181,7 +181,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "cooks_like": "oatmeal_cooked",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 16,
     "vitamins": [ [ "iron", 2 ] ],
     "fun": -2
@@ -202,7 +202,7 @@
     "price": 120,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE", "RAW" ],
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "fun": -10
   },
