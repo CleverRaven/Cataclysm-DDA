@@ -161,8 +161,17 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     const point cw_perp_axis( -axis_delta.y, axis_delta.x );
     const point unit_cw_perp_axis( sgn( cw_perp_axis.x ), sgn( cw_perp_axis.y ) );
     // bias leg length toward cw side if uneven
-    const int ccw_len = aoe_radius / 2;
-    const int cw_len = aoe_radius - ccw_len;
+    int ccw_len = aoe_radius / 2;
+    int cw_len = aoe_radius - ccw_len;
+
+    if( !trigdist ) {
+        int pccw = ccw_len;
+        int pcw = cw_len;
+        ccw_len = ( ccw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
+        cw_len = ( cw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
+
+        printf( "DIST(%d): CCW(%d -> %d)  CW(%d -> %d)\n", dist, pccw, ccw_len, pcw, cw_len );
+    }
 
     // Orientation of point C relative to line AB
     auto side_of = []( const point & a, const point & b, const point & c ) {
