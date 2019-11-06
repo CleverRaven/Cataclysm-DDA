@@ -2882,7 +2882,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             fuel_string = item( fuels.front() ).tname();
 
             if( fuel_numb > 1 ) {
-                for( int j = 1; j < fuel_numb; j++ ) {
+                for( int j = 1; j < fuel_numb - 1; j++ ) {
                     fuel_string += ", " + item( fuels[j] ).tname();
                 }
                 fuel_string += ", and " + item( fuels.back() ).tname();
