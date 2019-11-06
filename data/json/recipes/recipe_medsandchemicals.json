@@ -985,7 +985,7 @@
     "autolearn": true,
     "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "vinegar", 160 ] ] ]
+    "components": [ [ [ "vinegar", 320 ] ] ]
   },
   {
     "type": "recipe",
