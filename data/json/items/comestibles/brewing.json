@@ -383,7 +383,7 @@
     "fun": -15,
     "price": 0,
     "volume": "250 ml",
-    "charges": 2,
+    "charges": 16,
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
