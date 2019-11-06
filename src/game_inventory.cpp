@@ -551,7 +551,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.can_consume( *loc );
+            return p.can_consume( *loc ) && !( *loc ).has_flag( "NO_INGEST" ) && !( *loc ).get_contained().has_flag( "NO_INGEST" );
         }
 
         std::string get_denial( const item_location &loc ) const override {
