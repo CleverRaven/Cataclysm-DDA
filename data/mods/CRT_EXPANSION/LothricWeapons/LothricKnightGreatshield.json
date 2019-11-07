@@ -1,7 +1,7 @@
 [
   {
     "type": "technique",
-    "id": "LKGSD",
+    "id": "LKGSDbash",
     "name": "CHARGE",
     "unarmed_allowed": false,
     "melee_allowed": true,
