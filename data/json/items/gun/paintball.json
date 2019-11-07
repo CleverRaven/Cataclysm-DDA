@@ -1,6 +1,7 @@
 [
   {
     "id": "paintballgun",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,
     "symbol": "(",
