@@ -4420,8 +4420,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     const bool unsafe_usage = ( &Operator == &null_player || ( &Operator == &p && &patient == &p ) );
     std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
     if( unsafe_usage ) {
-        autodoc_header =
-            _( " <color_red>/!\\ WARNING: Operator missing /!\\</color> \n Using the Autodoc without operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+        const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
+                                          c_red ) + colorize( "\\", c_yellow );
+        const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
+                                     c_red ) + warning_sign;
+        autodoc_header = warning +
+                         _( " \n Using the Autodoc without operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
     uilist amenu;
     amenu.text = autodoc_header;
