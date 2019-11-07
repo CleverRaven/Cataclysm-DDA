@@ -5123,6 +5123,10 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
 
 void Character::cough( bool harmful, int loudness )
 {
+    if( has_effect( effect_cough_suppress ) ) {
+        return;
+    }
+
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
@@ -5130,10 +5134,6 @@ void Character::cough( bool harmful, int loudness )
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
-    }
-
-    if( has_effect( effect_cough_suppress ) ) {
-        return;
     }
 
     if( !is_npc() ) {
@@ -5144,9 +5144,12 @@ void Character::cough( bool harmful, int loudness )
 
     moves -= 80;
 
-    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
-        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
-        mod_fatigue( 10 );
+    if( has_effect( effect_sleep ) ) {
+        if( harmful ) {
+            mod_fatigue( 3 );
+        } else {
+            mod_fatigue( 1 );
+        }
     }
 }
 
