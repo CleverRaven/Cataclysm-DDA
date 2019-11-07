@@ -2661,7 +2661,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                               recruit->global_omt_location(),
                               recruit->getID() ) );
-    recruit->set_attitude( NPCATT_FOLLOW );
+    talk_function::follow( *recruit );
     g->load_npcs();
 }
 
