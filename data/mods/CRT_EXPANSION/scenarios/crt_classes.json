@@ -754,5 +754,42 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "ds3_lknight",
+    "name": "Knight of Lothric",
+    "description": "You are a celebrated knight of Lothric. As the sun grew darker and darker, you too had succumbed to the Undead Curse. Overtime you witnessed the Age of Fire start to plunge into the Deep with what sanity you had left. Be it a Miracle of the gods or magic gone awry, you awaken in another land that feels alien and yet so familiar...",
+    "traits": [ "DEFT", "GOODCARDIO", "PAINRESIST" ],
+    "points": 10,
+    "skills": [
+      { "level": 1, "name": "archery" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "cutting" },
+      { "level": 2, "name": "bashing" },
+      { "level": 1, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "lothric_helmet",
+          "backpack",
+          "lothric_tabbard",
+          "lothric_armor",
+          "gambeson",
+          "lothric_gauntlets",
+          "lothric_leggings",
+          "socks",
+          "lothric_shield",
+          "holy_symbol"
+        ],
+        "entries": [ { "item": "lothric_sword", "container-item": "scabbard" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
   }
 ]
