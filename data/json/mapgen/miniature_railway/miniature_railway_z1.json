@@ -59,10 +59,8 @@
       "furniture": {  },
       "palettes": [ "miniature_railway_palette" ],
       "place_monsters": [
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 }
+        { "monster": "GROUP_SCHOOL", "x": [ 35, 40 ], "y": [ 10, 15 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_SCHOOL", "x": [ 35, 40 ], "y": [ 35, 40 ], "repeat": [ 0, 1 ], "density": 1 }
       ]
     }
   }
