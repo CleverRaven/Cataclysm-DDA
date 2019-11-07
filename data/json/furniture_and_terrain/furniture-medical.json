@@ -50,7 +50,7 @@
     "id": "f_autodoc_couch",
     "name": "Autodoc operation couch",
     "symbol": "H",
-    "looks_like": "f_sofa",
+    "looks_like": "f_bed",
     "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
     "bgcolor": "red",
     "move_cost_mod": 2,
@@ -405,13 +405,13 @@
     "type": "furniture",
     "id": "f_HPLC",
     "name": "high performance liquid chromatographer",
+    "looks_like": "f_chemical_mixer",
     "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a liquid or aqueous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
     "symbol": ":",
     "color": "red_white",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 12,
-    "looks_like": "t_machinery_light",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -450,13 +450,13 @@
     "type": "furniture",
     "id": "f_GC",
     "name": "gas chromatographer",
+    "looks_like": "f_chemical_mixer",
     "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 18,
-    "looks_like": "t_machinery_old",
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -495,6 +495,7 @@
     "type": "furniture",
     "id": "f_MS",
     "name": "mass spectrometer",
+    "looks_like": "f_chemical_mixer",
     "description": "Inside this thing is a carefully balanced set of electric field generators that can precisely separate ionized particles based on their charge-to-mass ratio, firing them into a detector that measures the exact mass of the particle hitting it.  On the outside, it looks like a very boring white box.",
     "symbol": "-",
     "bgcolor": "white",
@@ -502,7 +503,6 @@
     "coverage": 45,
     "required_str": -1,
     "max_volume": 4000,
-    "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -537,14 +537,14 @@
     "type": "furniture",
     "id": "f_NMR",
     "name": "nuclear magnetic resonance spectrometer",
-    "description": "This is a giant electromagnet in a kind of sci-fi looking housing.  Somehow it can be used to wiggle molecular bonds or something, and from there, look at the deepest inner workings of chemical structures!  Magnets: how do they work?",
+    "looks_like": "f_chemical_mixer",
+    "description": "This is a giant electromagnet in a kind of sci-fi looking housing.  Somehow it can be used to wiggle molecular bonds or something, and from there, look at the deepest inner workings of chemical structures!  Fuckin' Magnets, how do they work?",
     "symbol": "M",
     "color": "white_cyan",
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
     "max_volume": 4000,
-    "looks_like": "t_machinery_heavy",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -578,12 +578,12 @@
     "type": "furniture",
     "id": "f_electron_microscope",
     "name": "electron microscope",
+    "looks_like": "t_machinery_electronic",
     "description": "An enormous tool for using electron reflections off a surface to see what very tiny things look like.  Amazing for taking gross pictures of bugs.",
     "symbol": "I",
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": -1,
-    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -617,6 +617,7 @@
     "type": "furniture",
     "id": "f_CTscan",
     "name": "CT scanner",
+    "looks_like": "t_machinery_electronic",
     "description": "This giant donut can take hundreds of x-rays in rapid sequence, making a really cool looking picture of all your innards that have varying degrees of radio-opacity.",
     "symbol": "o",
     "bgcolor": "white",
@@ -624,7 +625,6 @@
     "coverage": 65,
     "required_str": -1,
     "flags": [ "PLACE_ITEM", "CONTAINER" ],
-    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -734,6 +734,7 @@
     "type": "furniture",
     "id": "f_anesthetic",
     "name": "anesthetic machine",
+    "looks_like": "t_machinery_electronic",
     "description": "Keeping a person at just the right level of asleep to do surgery is hard.  This machine helps an anesthesiologist keep the right mix of drugs and air to keep a patient asleep.",
     "symbol": "n",
     "color": "white_red",
@@ -741,7 +742,6 @@
     "coverage": 40,
     "required_str": 6,
     "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
     "deconstruct": {
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },
@@ -787,7 +787,7 @@
     "coverage": 50,
     "required_str": 5,
     "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
+    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -831,7 +831,7 @@
     "coverage": 35,
     "required_str": 4,
     "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
+    "looks_like": "t_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -869,6 +869,7 @@
     "id": "f_curtain",
     "name": "privacy curtain",
     "description": "No peeking!",
+    "looks_like": "t_curtains",
     "symbol": "|",
     "bgcolor": "white",
     "move_cost_mod": 2,
@@ -876,7 +877,6 @@
     "required_str": -1,
     "open": "f_curtain_open",
     "flags": [ "PLACE_ITEM" ],
-    "looks_like": "t_curtain",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 1, 2 ] },
@@ -899,7 +899,7 @@
   {
     "type": "furniture",
     "id": "f_curtain_open",
-    "looks_like": "t_curtain_o",
+    "looks_like": "t_door_frame",
     "name": "open privacy curtain",
     "description": "Stop peeking!",
     "symbol": "N",

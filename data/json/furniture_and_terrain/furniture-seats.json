@@ -3,6 +3,7 @@
     "type": "furniture",
     "id": "f_bench",
     "name": "bench",
+    "looks_like":"f_chair",
     "symbol": "#",
     "description": "Hobo bed.  Airy.  Use at your own risk.",
     "color": "brown",
@@ -27,6 +28,7 @@
     "type": "furniture",
     "id": "f_armchair",
     "name": "arm chair",
+    "looks_like":"f_chair",
     "symbol": "H",
     "description": "A more comfortable way of sitting down.",
     "color": "green",
@@ -89,6 +91,7 @@
     "type": "furniture",
     "id": "f_chair",
     "name": "chair",
+    "looks_like":"f_cupboard",
     "symbol": "#",
     "description": "Sit down, have a drink.",
     "color": "brown",
@@ -113,6 +116,7 @@
     "type": "furniture",
     "id": "f_sofa",
     "name": "sofa",
+    "looks_like":"f_armchair",
     "symbol": "H",
     "description": "Lie down OR sit down!  Perfect!",
     "bgcolor": "red",
@@ -180,29 +184,5 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "max_volume": 3500,
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
-  },
-  {
-    "type": "furniture",
-    "id": "f_bench",
-    "name": "bench",
-    "symbol": "#",
-    "description": "Hobo bed.  Airy.  Use at your own risk.",
-    "color": "brown",
-    "move_cost_mod": 1,
-    "coverage": 35,
-    "comfort": 1,
-    "floor_bedding_warmth": -1500,
-    "bonus_fire_warmth_feet": 1000,
-    "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
-    "max_volume": 4000,
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
-    }
   }
 ]

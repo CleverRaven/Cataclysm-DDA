@@ -46,6 +46,7 @@
   {
     "type": "furniture",
     "id": "f_chemical_mixer",
+    "looks_like": "f_oven",
     "description": "When chemicals need to be mixed in large quantities at just the right combinations and temperatures, this is the tool for the job.",
     "name": "chemical mixer",
     "symbol": "0",
@@ -82,6 +83,7 @@
     "type": "furniture",
     "id": "f_robotic_arm",
     "name": "robotic arm",
+    "looks_like": "t_machinery_light",
     "description": "Automation!  Science!  Industry!  Make a better horse!  This robot arm promises to do it all.  Except it's currently unpowered.  You could remove the casing and retrieve the electronics through disassembly.",
     "symbol": "&",
     "bgcolor": "yellow",
