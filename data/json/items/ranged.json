@@ -2,6 +2,7 @@
   {
     "id": "bbgun",
     "type": "GUN",
+    "looks_like": "ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -35,6 +36,7 @@
   },
   {
     "id": "sling",
+    "looks_like": "slingshot",
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
@@ -57,6 +59,7 @@
   },
   {
     "id": "slingshot",
+    "//": "Tileset whitelist for sling & slingshots.",
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
@@ -79,6 +82,7 @@
   },
   {
     "id": "wristrocket",
+    "looks_like": "sling",
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
@@ -136,6 +140,7 @@
   {
     "id": "LAW",
     "type": "GUN",
+    "looks_like": "m79",
     "symbol": "(",
     "color": "green",
     "name": "M72 LAW",
@@ -166,6 +171,7 @@
   },
   {
     "id": "TANK",
+    "looks_like": "m79",
     "type": "GUN",
     "symbol": "(",
     "color": "green",
@@ -187,6 +193,7 @@
   },
   {
     "id": "plasma_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -224,6 +231,7 @@
   },
   {
     "id": "plasma_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -261,6 +269,7 @@
   },
   {
     "id": "pipe_combination_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -297,6 +306,7 @@
   },
   {
     "id": "tihar",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -333,6 +343,7 @@
   },
   {
     "id": "helsing",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -368,11 +379,11 @@
   },
   {
     "id": "pneumatic_shotgun",
+    "looks_like": "pipe_double_shotgun",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "dark_gray",
-    "looks_like": "pipe_double_shotgun",
     "name": "pneumatic shotgun",
     "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
     "price": 220000,
@@ -405,6 +416,7 @@
   },
   {
     "id": "mininuke_launcher",
+    "looks_like": "m79",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -429,6 +441,7 @@
   },
   {
     "id": "RPG",
+    "looks_like": "m79",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -462,6 +475,7 @@
   },
   {
     "id": "speargun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -495,6 +509,7 @@
   },
   {
     "id": "minispeargun",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -525,6 +540,7 @@
   },
   {
     "id": "doublespeargun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -558,6 +574,7 @@
   },
   {
     "id": "airspeargun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -592,6 +609,7 @@
   },
   {
     "id": "combination_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -630,6 +648,7 @@
   },
   {
     "id": "surv_rocket_launcher",
+    "looks_like": "m79",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "/",
@@ -655,6 +674,7 @@
   },
   {
     "id": "watercannon",
+    "looks_like": "m79",
     "type": "GUN",
     "symbol": "&",
     "color": "dark_gray",
