@@ -374,7 +374,7 @@
     "id": "brew_vinegar",
     "name": "unfermented vinegar",
     "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar.",
-    "weight": "1016 g",
+    "weight": "15 g",
     "color": "yellow",
     "container": "jug_plastic",
     "symbol": "~",
