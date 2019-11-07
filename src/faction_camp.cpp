@@ -1018,12 +1018,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                    "Have a companion attempt to completely dissemble a vehicle into "
                    "components.\n\n"
                    "Skill used: mechanics\n"
-                   "Difficulty: 2 \n"
+                   "Difficulty: 2\n"
                    "Effects:\n"
                    "> Removed parts placed on the furniture in the garage.\n"
                    "> Skill plays a huge role to determine what is salvaged.\n\n"
                    "Risk: None\n"
-                   "Time: 5 days \n" );
+                   "Time: 5 days\n" );
         mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
                                npc_list.empty() );
         if( !npc_list.empty() ) {
@@ -1073,13 +1073,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::plow ) +
                     _( "\n\n"
                        "Skill used: fabrication\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Restores only the plots created in the last expansion upgrade.\n"
                        "> Does not damage existing crops.\n\n"
                        "Risk: None\n"
-                       "Time: 5 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 5 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir,
                                    entry, plots > 0 );
         } else {
@@ -1100,14 +1100,14 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::plant ) +
                     _( "\n\n"
                        "Skill used: survival\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Choose which seed type or all of your seeds.\n"
                        "> Stops when out of seeds or planting locations.\n"
                        "> Will plant in ALL dirt mounds in the expansion.\n\n"
                        "Risk: None\n"
-                       "Time: 1 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 1 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id,
                                    dir_abbr + miss_info.desc, dir, entry,
                                    plots > 0 && warm_enough_to_plant( omt_trg ) );
@@ -1128,12 +1128,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::harvest ) +
                     _( "\n\n"
                        "Skill used: survival\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Will dump all harvesting products onto your location.\n\n"
                        "Risk: None\n"
-                       "Time: 3 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 3 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id,
                                    dir_abbr + miss_info.desc, dir, entry,
                                    plots > 0 );
