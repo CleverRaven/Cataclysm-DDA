@@ -1777,11 +1777,6 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-static bool maptile_trap_eq( maptile &mt, const trap_id &id )
-{
-    return mt.get_trap() == id;
-}
-
 int get_heat_radiation( const tripoint &location, bool direct )
 {
     // Direct heat from fire sources
@@ -1797,7 +1792,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( maptile_trap_eq( mt, tr_lava ) ) {
+        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
             heat_intensity = 3;
         }
         if( heat_intensity == 0 ) {
@@ -1829,8 +1824,8 @@ int get_convection_temperature( const tripoint &location )
 {
     int temp_mod = 0;
     // Directly on lava tiles
-    maptile mt = g->m.maptile_at( location );
-    int lava_mod = maptile_trap_eq( mt, tr_lava ) ? fd_fire.obj().get_convection_temperature_mod() : 0;
+    int lava_mod = g->m.tr_at( location ).loadid == tr_lava ?
+                   fd_fire.obj().get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : g->m.field_at( location ) ) {
         // Nullify lava modifier when there is open fire

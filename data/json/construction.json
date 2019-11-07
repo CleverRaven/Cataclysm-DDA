@@ -3201,5 +3201,16 @@
     ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "t_radio_controls"
+  },
+  {
+    "type": "construction",
+    "description": "Build Log Stool",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_logstool"
   }
 ]

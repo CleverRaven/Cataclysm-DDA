@@ -6377,23 +6377,35 @@ void player::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    std::vector<std::pair<const fault *, bool>> faults;
-    std::transform( obj->faults.begin(), obj->faults.end(),
-    std::back_inserter( faults ), []( const fault_id & e ) {
-        return std::make_pair<const fault *, bool>( &e.obj(), false );
-    } );
+    auto inv = crafting_inventory();
 
-    if( faults.empty() ) {
+    struct mending_option {
+        fault_id fault;
+        std::reference_wrapper<const mending_method> method;
+        bool doable;
+    };
+
+    std::vector<mending_option> mending_options;
+    for( const fault_id &f : obj->faults ) {
+        for( const auto &m : f->mending_methods() ) {
+            mending_option opt { f, m.second, true };
+            for( const auto &sk : m.second.skills ) {
+                if( get_skill_level( sk.first ) < sk.second ) {
+                    opt.doable = false;
+                    break;
+                }
+            }
+            opt.doable = opt.doable &&
+                         m.second.requirements->can_make_with_inventory( inv, is_crafting_component );
+            mending_options.emplace_back( opt );
+        }
+    }
+
+    if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
         }
         return;
-    }
-
-    auto inv = crafting_inventory();
-
-    for( auto &f : faults ) {
-        f.second = f.first->requirements().can_make_with_inventory( inv, is_crafting_component );
     }
 
     int sel = 0;
@@ -6403,32 +6415,50 @@ void player::mend_item( item_location &&obj, bool interactive )
         menu.desc_enabled = true;
         menu.desc_lines = 0; // Let uilist handle description height
 
-        int w = 80;
+        constexpr int fold_width = 80;
 
-        for( auto &f : faults ) {
-            auto reqs = f.first->requirements();
-            auto tools = reqs.get_folded_tools_list( w, c_white, inv );
-            auto comps = reqs.get_folded_components_list( w, c_white, inv, is_crafting_component );
+        for( const mending_option &opt : mending_options ) {
+            const mending_method &method = opt.method;
+            const nc_color col = opt.doable ? c_white : c_light_gray;
+
+            auto reqs = method.requirements.obj();
+            auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
+            auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
             std::ostringstream descr;
-            descr << _( "<color_white>Time required:</color>\n" );
-            // TODO: better have a from_moves function
-            descr << "> " << to_string_approx( time_duration::from_turns( f.first->time() / 100 ) ) << "\n";
-            descr << _( "<color_white>Skills:</color>\n" );
-            for( const auto &e : f.first->skills() ) {
-                bool hasSkill = get_skill_level( e.first ) >= e.second;
-                if( !hasSkill && f.second ) {
-                    f.second = false;
-                }
-                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-                descr << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), hasSkill ? "c_green" : "c_red",
-                                        e.first.obj().name(), e.second );
+            if( method.turns_into ) {
+                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                                        method.turns_into->obj().name() );
+            }
+            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+                                    to_string_approx( method.time ) );
+            if( method.skills.empty() ) {
+                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+            } else {
+                descr << string_format( _( "Skills: %s\n" ),
+                                        enumerate_as_string( method.skills.begin(), method.skills.end(),
+                [this]( const std::pair<skill_id, int> &sk ) -> std::string {
+                    if( get_skill_level( sk.first ) >= sk.second )
+                    {
+                        return string_format( pgettext( "skill requirement",
+                                                        //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                        "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
+                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                    } else
+                    {
+                        return string_format( pgettext( "skill requirement",
+                                                        //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                    }
+                } ) );
             }
 
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
             std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
 
-            menu.addentry_desc( -1, true, -1, f.first->name(), descr.str() );
+            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();
         if( menu.ret < 0 ) {
@@ -6439,15 +6469,18 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 
     if( sel >= 0 ) {
-        if( !faults[ sel ].second ) {
+        const mending_option &opt = mending_options[sel];
+        if( !opt.doable ) {
             if( interactive ) {
-                add_msg( m_info, _( "You are currently unable to mend the %s." ), obj->tname() );
+                add_msg( m_info, _( "You are currently unable to mend the %s this way." ), obj->tname() );
             }
             return;
         }
 
-        assign_activity( activity_id( "ACT_MEND_ITEM" ), faults[ sel ].first->time() );
-        activity.name = faults[ sel ].first->id().str();
+        const mending_method &method = opt.method;
+        assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
+        activity.name = opt.fault.str();
+        activity.str_values.emplace_back( method.id );
         activity.targets.push_back( std::move( obj ) );
     }
 }
