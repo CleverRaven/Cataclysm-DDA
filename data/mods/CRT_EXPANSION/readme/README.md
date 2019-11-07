@@ -10,7 +10,7 @@ I can't fix some things like the toolmods attatching to the vest and gasmask, bu
 
 
 # Extended Techniques
-More techniques, more play styles. Tries to open up melee and offer more than "does it have a reach attack?" or "does it have rapid strikes?" to make melee interesting.
+More techniques, more play styles. Tries to open up melee and offer more than "does it have a reach attack?" or "does it have rapid strikes?" to make melee interesting. Currently, this only applies to weapons and tools from my mod as this would break vanilla. Feel free to add whatever you like on your own weapons!
 
 # For those curious about stat scaling:
 
@@ -23,5 +23,11 @@ More techniques, more play styles. Tries to open up melee and offer more than "d
 * E-Rank is .19 and below (offers scaling as an afterthought)
 
 I tried to keep the damage balanced and also added scaling damage and movecosts to make it so certain attacks or weapons carry different risks.
+
+# Dead Space
+Yeah, the suit is the R.I.G and many other things come from these games. Awesome series!
+
+# Dark Souls
+Great series. Milfdly infuriating, but the challenge is what keeps us here right? ANyways, I currently got the Lothric Knight set in game and the sword and shield. Also the profession. 
 
 Anyways, have fun and report any bugs you find.
