@@ -5146,7 +5146,7 @@ void Character::cough( bool harmful, int loudness )
 
     if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
         ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
-        wake_up();
+        mod_fatigue( 10 );
     }
 }
 
