@@ -2877,20 +2877,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const std::vector<itype_id> &fuels = bid->fuel_opts;
         if( !fuels.empty() ) {
-            std::string fuel_string;
             const int &fuel_numb = fuels.size();
-            fuel_string = "<info>" + item( fuels.front() ).tname() + "</info>";
-
-            if( fuel_numb > 1 ) {
-                for( int j = 1; j < fuel_numb - 1; j++ ) {
-                    fuel_string += ", <info>" + item( fuels[j] ).tname() + "</info>";
-                }
-                fuel_string += ", and <info>" + item( fuels.back() ).tname() + "</info>";
-            }
 
             info.push_back( iteminfo( "DESCRIPTION",
                                       ngettext( "* This bionic can produce power from the following fuel: ",
-                                                "* This bionic can produce power from the following fuels: ", fuel_numb ) + fuel_string ) );
+                                                "* This bionic can produce power from the following fuels: ",
+                                                fuel_numb ) + enumerate_as_string( fuels.begin(),
+                                                        fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
         }
 
         insert_separation_line( info );
