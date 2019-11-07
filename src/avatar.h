@@ -172,11 +172,7 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
-        /**
-         * Asks how to use the item (if it has more than one use_method) and uses it.
-         * Returns true if it destroys the item. Consumes charges from the item.
-         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
-         */
+        using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
         bool invoke_item( item *, const std::string &, const tripoint &pt ) override;

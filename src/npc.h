@@ -1028,6 +1028,7 @@ class npc : public player
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
 
+        using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
