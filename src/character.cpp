@@ -5143,14 +5143,6 @@ void Character::cough( bool harmful, int loudness )
                    "cough" );
 
     moves -= 80;
-
-    if( has_effect( effect_sleep ) ) {
-        if( harmful ) {
-            mod_fatigue( 3 );
-        } else {
-            mod_fatigue( 1 );
-        }
-    }
 }
 
 
