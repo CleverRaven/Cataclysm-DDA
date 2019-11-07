@@ -571,7 +571,7 @@
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "fake_item": "fake_firestarter",
-    "act_cost": 75
+    "act_cost": "3 kJ"
   },
   {
     "id": "bio_lockpick",
