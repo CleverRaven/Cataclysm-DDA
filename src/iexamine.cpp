@@ -4415,25 +4415,16 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
-    } else if( &Operator == &null_player || &Operator == &p ) {
-        uilist hmenu;
-        hmenu.text =
-            _( "Autodoc Mk. XI.  Status: Online.  WARNING: Operator missing Safety shut-down engaged... " );
-        hmenu.addentry( 1, true, 'O', _( "Override security measures." ) );
-        hmenu.query();
-
-        switch( hmenu.ret ) {
-            case 1:
-                add_msg( m_info, _( "You override the safety measures of the autodoc." ) );
-                break;
-            default:
-                return;
-                break;
-        }
     }
 
+    const bool unsafe_usage = ( &Operator == &null_player || &Operator == &p );
+    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    if( unsafe_usage ) {
+        autodoc_header =
+            _( " /!\\ WARNING: Operator missing /!\\ \n Using the Autodoc without operator can lead to serious injuries or death. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+    }
     uilist amenu;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    amenu.text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
