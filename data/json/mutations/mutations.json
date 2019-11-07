@@ -1856,7 +1856,7 @@
     "id": "LIGHT_BONES",
     "name": "Light Bones",
     "points": 2,
-    "description": "Your bones are very light.  They decrease movement and attack costs for 10%, but also reduce your carrying weight by 20% and makes bashing attacks hurt a little more.",
+    "description": "Your bones are very light.  They decrease movement and attack costs by 10%, but also reduce your carrying weight by 20% and make bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
     "changes_to": [ "HOLLOW_BONES" ],
     "movecost_modifier": 0.9,
