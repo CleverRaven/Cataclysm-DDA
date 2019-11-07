@@ -2,6 +2,7 @@
   {
     "id": "colt_navy",
     "copy-from": "pistol_revolver_cap_ball",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Colt M1861 Navy",
     "name_plural": "Colt M1861 Navy",
