@@ -2889,8 +2889,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
             info.push_back( iteminfo( "DESCRIPTION",
-                                      ngettext( "* This bionic can produce power from the folowing fuel: ",
-                                                "* This bionic can produce power from the folowing fuels: ", fuel_numb ) + fuel_string ) );
+                                      ngettext( "* This bionic can produce power from the following fuel: ",
+                                                "* This bionic can produce power from the following fuels: ", fuel_numb ) + fuel_string ) );
         }
 
         insert_separation_line( info );
