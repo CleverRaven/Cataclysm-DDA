@@ -2841,6 +2841,7 @@ bool npc::invoke_item( item *used, const tripoint &pt )
     } else if( use_methods.size() == 1 ) {
         return Character::invoke_item( used, use_methods.begin()->first, pt );
     }
+    return false;
 }
 
 bool npc::invoke_item( item *used, const std::string &method )
