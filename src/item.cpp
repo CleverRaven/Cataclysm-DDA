@@ -2875,11 +2875,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const bionic_id bid = type->bionic->id;
 
+        const std::vector<itype_id> &fuels = bid->fuel_opts;
+        if( !fuels.empty() ) {
+            const int &fuel_numb = fuels.size();
+
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      ngettext( "* This bionic can produce power from the following fuel: ",
+                                                "* This bionic can produce power from the following fuels: ",
+                                                fuel_numb ) + enumerate_as_string( fuels.begin(),
+                                                        fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+        }
+
+        insert_separation_line( info );
+
         if( bid->capacity > 0_mJ ) {
             info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), " <num> mJ",
                                       iteminfo::no_newline,
                                       units::to_millijoule( bid->capacity ) ) );
         }
+
+        insert_separation_line( info );
 
         if( !bid->encumbrance.empty() ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
