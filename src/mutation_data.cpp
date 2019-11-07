@@ -409,6 +409,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         spells_learned.emplace( sp, ja.next_int() );
     }
 
+    jsarr = jo.get_array( "lumination" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const body_part bp = get_body_part_token( ja.next_string() );
+        lumination.emplace( bp, ja.next_float() );
+    }
+
     jsarr = jo.get_array( "wet_protection" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();

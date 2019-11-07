@@ -2,6 +2,7 @@
   {
     "id": "launcher_simple",
     "copy-from": "launcher_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "tube 40mm launcher",
     "description": "A simple, home-made grenade launcher.  Basically a tube with a pin firing mechanism to activate the grenade.",
@@ -30,6 +31,7 @@
   {
     "id": "m320",
     "copy-from": "launcher_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "M320 stand alone launcher",
     "description": "Heckler & Koch's M320 grenade launcher offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  This one is combined with a buttstock for stand alone operation.",
@@ -49,6 +51,7 @@
   {
     "id": "m79",
     "copy-from": "launcher_base",
+    "//": "Tileset whitelist for launchers.",
     "type": "GUN",
     "name": "M79 launcher",
     "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam war.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide.",
@@ -78,6 +81,7 @@
   {
     "id": "mark19",
     "copy-from": "launcher_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "Mark 19 grenade launcher",
     "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the cold war all the way to the cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
@@ -109,6 +113,7 @@
   {
     "id": "mgl",
     "copy-from": "launcher_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "Milkor MGL",
     "name_plural": "Milkor MGL",
@@ -138,6 +143,7 @@
   {
     "id": "rm802",
     "copy-from": "launcher_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "RM802 grenade launcher",
     "//": "Either Rivtech or milspec would make it Expensive.  Combined, you could buy a half-decent car for the price.",

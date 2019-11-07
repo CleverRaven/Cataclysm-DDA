@@ -1,6 +1,7 @@
 [
   {
     "id": "ashot",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "12 gauge pistol",
@@ -34,6 +35,7 @@
   {
     "id": "bigun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "12-gauge gatling gun",
     "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
@@ -73,6 +75,7 @@
   {
     "id": "ksg",
     "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Kel-Tec KSG",
     "name_plural": "Kel-Tec KSG",
@@ -106,6 +109,7 @@
   {
     "id": "m1014",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
@@ -134,6 +138,7 @@
   {
     "id": "mossberg_500",
     "copy-from": "shotgun_pump_3gun",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Mossberg 500 Field",
     "name_plural": "Mossberg 500 Field",
@@ -211,6 +216,7 @@
   {
     "id": "pipe_double_shotgun",
     "copy-from": "pipe_shotgun",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "double-barrel pipe shotgun",
     "description": "A home-made double-barreled shotgun.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
@@ -233,6 +239,7 @@
   {
     "id": "pipe_shotgun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "pipe shotgun",
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
@@ -264,6 +271,7 @@
   {
     "id": "remington_870",
     "copy-from": "shotgun_pump_3gun",
+    "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
     "name": "Remington 870 Wingmaster",
     "name_plural": "Remington 870 Wingmaster",
@@ -359,6 +367,7 @@
   {
     "id": "revolver_shotgun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "shotgun revolver",
     "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
@@ -388,6 +397,7 @@
   {
     "id": "saiga_12",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Saiga-12",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via exectuive order.",
@@ -443,6 +453,7 @@
   {
     "id": "shotgun_s",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "single barrel shotgun",
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
@@ -474,6 +485,7 @@
   {
     "id": "streetsweeper",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Cobray Streetsweeper",
     "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a Destructive Device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",

@@ -2,6 +2,7 @@
   {
     "id": "bh_m89",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Big Horn Model 89",
     "name_plural": "Big Horn Model 89",
@@ -37,6 +38,7 @@
   {
     "id": "sw_500",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "S&W 500",
     "name_plural": "S&W 500",

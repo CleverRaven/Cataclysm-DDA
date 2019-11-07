@@ -1,6 +1,7 @@
 [
   {
     "id": "flaregun",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "flaregun",

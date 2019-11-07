@@ -1,6 +1,7 @@
 [
   {
     "id": "fn57",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "FN Five-Seven",
@@ -37,6 +38,7 @@
   },
   {
     "id": "fn_p90",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "FN P90",
