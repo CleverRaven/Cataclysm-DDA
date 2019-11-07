@@ -4417,7 +4417,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
-    const bool unsafe_usage = ( &Operator == &null_player || &Operator == &p );
+    const bool unsafe_usage = ( &Operator == &null_player || ( &Operator == &p && &patient == &p ) );
     std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
     if( unsafe_usage ) {
         autodoc_header =
