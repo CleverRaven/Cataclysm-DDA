@@ -184,5 +184,29 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "max_volume": 3500,
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_logstool",
+    "name": "log stool",
+    "symbol": "#",
+    "description": "A log tipped on its end with any rough edges cut off.  Basically a very simple seat.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "max_volume": 3000,
+    "deconstruct": { "items": [ { "item": "log", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 2, 6 ] } ]
+    }
   }
 ]

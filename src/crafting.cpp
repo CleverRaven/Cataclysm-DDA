@@ -1064,6 +1064,40 @@ requirement_data item::get_continue_reqs() const
     return requirement_data::continue_requirements( comps_used, components );
 }
 
+void item::inherit_flags( const item &parent )
+{
+    //If item is crafted from poor-fit components, the result is poorly fitted too
+    if( parent.has_flag( "VARSIZE" ) ) {
+        unset_flag( "FIT" );
+    }
+    //If item is crafted from perfect-fit components, the result is perfectly fitted too
+    if( parent.has_flag( "FIT" ) ) {
+        item_tags.insert( "FIT" );
+    }
+    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
+        for( const std::string &f : parent.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+        for( const std::string &f : parent.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+    }
+    if( parent.has_flag( "HIDDEN_POISON" ) ) {
+        poison = parent.poison;
+    }
+}
+
+void item::inherit_flags( const std::list<item> &parents )
+{
+    for( const item &parent : parents ) {
+        inherit_flags( parent );
+    }
+}
+
 void player::complete_craft( item &craft, const tripoint &loc )
 {
     if( !craft.is_craft() ) {
@@ -1117,38 +1151,13 @@ void player::complete_craft( item &craft, const tripoint &loc )
                              making.result_name() );
                 }
             }
-
-            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-            if( newit.has_flag( "VARSIZE" ) ) {
-                newit.item_tags.insert( "FIT" );
-            }
-
-            for( auto &component : used ) {
-                //If item is crafted from poor-fit components, the result is poorly fitted too
-                if( component.has_flag( "VARSIZE" ) ) {
-                    newit.unset_flag( "FIT" );
-                }
-                //If item is crafted from perfect-fit components, the result is perfectly fitted too
-                if( component.has_flag( "FIT" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                if( !food_contained.has_flag( "NO_CRAFT_INHERIT" ) ) {
-                    for( const std::string &f : component.item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            food_contained.set_flag( f );
-                        }
-                    }
-                    for( const std::string &f : component.type->item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            food_contained.set_flag( f );
-                        }
-                    }
-                }
-                if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    food_contained.poison = component.poison;
-                }
-            }
         }
+
+        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+        if( newit.has_flag( "VARSIZE" ) ) {
+            newit.item_tags.insert( "FIT" );
+        }
+        food_contained.inherit_flags( used );
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
@@ -1176,8 +1185,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             // store components for food recipes that do not have the override flag
             set_components( food_contained.components, used, batch_size, newit_counter );
-            // store the number of charges the recipe creates
-            food_contained.recipe_charges = food_contained.charges / batch_size;
+
+            // store the number of charges the recipe would create with batch size 1.
+            if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
+                // … the container holds exactly one completion of the recipe, no matter the batch size.
+                food_contained.recipe_charges = food_contained.charges;
+            } else { // Otherwise, the item is already stacked so we need to divide by batch size.
+                newit.recipe_charges = newit.charges / batch_size;
+            }
             newit_counter++;
         }
 

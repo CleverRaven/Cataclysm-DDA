@@ -831,7 +831,7 @@ class map
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
-        void batter( const tripoint &p, int power, int tries = 1, const bool silent = false );
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
@@ -1719,7 +1719,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                        int fake_map_z );
 };
 
 #endif

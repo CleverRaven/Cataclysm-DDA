@@ -272,5 +272,26 @@
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
     "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ]
+  },
+  {
+    "id": "clairvoyance",
+    "type": "SPELL",
+    "name": "Clairvoyance",
+    "description": "You close your eyes and the earth surrenders its secrets to you.",
+    "effect": "target_attack",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "SOMATIC", "VERBAL", "IGNORE_WALLS" ],
+    "max_level": 20,
+    "min_aoe": 4,
+    "max_aoe": 13,
+    "aoe_increment": 0.5,
+    "spell_class": "EARTHSHAPER",
+    "base_casting_time": 350,
+    "base_energy_cost": 750,
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "field_id": "fd_clairvoyant",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1
   }
 ]

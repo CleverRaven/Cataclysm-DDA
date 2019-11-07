@@ -333,9 +333,11 @@
     "id": "bio_evap",
     "type": "bionic",
     "name": "Aero-Evaporator",
-    "description": "This unit draws moisture from the surrounding air, which then is poured from a fingertip in the form of water.  It may fail in very dry environments.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ], [ "HAND_R", 1 ] ],
-    "act_cost": "720 kJ"
+    "description": "This unit draws moisture from the surrounding air, which slowly trickles directly into your blood stream.  It may fail in very dry environments.",
+    "occupied_bodyparts": [ [ "TORSO", 5 ] ],
+    "react_cost": "60 J",
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_eye_enhancer",
@@ -565,7 +567,7 @@
   {
     "id": "bio_lighter",
     "type": "bionic",
-    "name": "Mini-Flamethrower",
+    "name": "Finger Lighter",
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "fake_item": "fake_firestarter",
@@ -583,7 +585,7 @@
     "id": "bio_magnet",
     "type": "bionic",
     "name": "Electromagnetic Unit",
-    "description": "Surgically embedded in your right hand is a powerful electromagnet, allowing you to indiscriminately pull all nearby magnetic objects towards you.  Unlucky bystanders might be injured or killed by flying objects.",
+    "description": "Surgically embedded in your right hand is a powerful electromagnet, allowing you to use your own strength to pull all nearby magnetic objects towards you.  Unlucky bystanders might be injured or killed by flying objects.",
     "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
     "act_cost": "10 kJ"
   },

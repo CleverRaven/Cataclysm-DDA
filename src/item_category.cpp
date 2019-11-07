@@ -29,6 +29,7 @@ void item_category::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "sort_rank", sort_rank_ );
+    optional( jo, was_loaded, "zone", zone_, cata::nullopt );
 }
 
 bool item_category::operator<( const item_category &rhs ) const
@@ -60,6 +61,11 @@ std::string item_category::name() const
 item_category_id item_category::get_id() const
 {
     return id;
+}
+
+cata::optional<zone_type_id> item_category::zone() const
+{
+    return zone_;
 }
 
 int item_category::sort_rank() const

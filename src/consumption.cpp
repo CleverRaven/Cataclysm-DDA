@@ -297,9 +297,8 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
-                                    ( vit.second ) / static_cast<float>
-                                    ( it.recipe_charges ) );
+                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>( vit.second )
+                                    * comp.charges / it.recipe_charges );
             }
         }
     } else {
@@ -597,7 +596,8 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
+    if( food.charges > 0 && stomach.stomach_remaining() < food.volume() / food.charges &&
+        !food.has_infinite_charges() ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {

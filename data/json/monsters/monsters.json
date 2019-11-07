@@ -793,7 +793,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 3,
-    "harvest": "human",
+    "harvest": "mutant_human",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
@@ -2363,7 +2363,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 5,
-    "harvest": "human",
+    "harvest": "mutant_human",
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
