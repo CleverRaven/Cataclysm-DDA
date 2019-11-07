@@ -336,7 +336,7 @@ void main_menu::init_strings()
 
     loading_ui ui( false );
     g->load_core_data( ui );
-    vdaytip = SNIPPET.random_from_category( "tip" );
+    vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
 }
 
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )

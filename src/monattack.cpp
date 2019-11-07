@@ -706,7 +706,8 @@ bool mattack::shockstorm( monster *z )
 bool mattack::shocking_reveal( monster *z )
 {
     shockstorm( z );
-    std::string WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" );
+    const translation WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" ).value_or(
+                                         translation() );
     sounds::sound( z->pos(), 10, sounds::sound_t::alert,
                    string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
                                   z->name(), WHAT_A_SCOOP ) );

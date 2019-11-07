@@ -3710,8 +3710,8 @@ void player::suffer()
 
                 // Limb Breaks
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::string snip = SNIPPET.random_from_category( "broken_limb" );
-                    add_msg( m_bad, snip );
+                    const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
+                    add_msg( m_bad, "%s", snip );
                     done_effect = true;
                 }
 
@@ -3719,7 +3719,8 @@ void player::suffer()
                 if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::string i_name = Name::generate( one_in( 2 ) );
 
-                    std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
+                    std::string i_talk = SNIPPET.expand( SNIPPET.random_from_category( "<lets_talk>" ).value_or(
+                            translation() ).translated() );
                     parse_tags( i_talk, *this, *this );
 
                     add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
@@ -3736,7 +3737,8 @@ void player::suffer()
 
                 // Talk to self
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
+                    const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
+                                                 translation() );
                     add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
                     done_effect = true;
                 }
@@ -3766,19 +3768,23 @@ void player::suffer()
                             }
                         }
                         if( !seen_mons.empty() ) {
-                            std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
+                            const translation talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" ).value_or(
+                                                           translation() );
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }
                     }
                     if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
+                                       translation() ).translated();
                         does_talk = true;
                     } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
-                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
+                                       translation() ).translated();
                         does_talk = true;
                     } else if( one_turn_in( 4_hours ) ) {
-                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" ).value_or(
+                                       translation() ).translated();
                         does_talk = true;
                     }
                     if( does_talk ) {
@@ -3789,22 +3795,25 @@ void player::suffer()
                 // Delusions
                 if( !done_effect && one_turn_in( 8_hours ) ) {
                     if( rng( 1, 20 ) > 5 ) {  // 75% chance
-                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
-                        add_msg( m_warning, snip );
+                        const translation snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" ).value_or(
+                                                     translation() );
+                        add_msg( m_warning, "%s", snip );
                         add_morale( MORALE_FEELING_BAD, -20, -100 );
                     } else { // 25% chance
-                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
-                        add_msg( m_good, snip );
+                        const translation snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" ).value_or(
+                                                     translation() );
+                        add_msg( m_good, "%s", snip );
                         add_morale( MORALE_FEELING_GOOD, 20, 100 );
                     }
                     done_effect = true;
                 }
                 // Formication
                 if( !done_effect && one_turn_in( 6_hours ) ) {
-                    std::string snip = SNIPPET.random_from_category( "schizo_formication" );
+                    const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
+                                                 translation() );
                     body_part bp = random_body_part( true );
                     add_effect( effect_formication, 45_minutes, bp );
-                    add_msg( m_bad, snip );
+                    add_msg( m_bad, "%s", snip );
                     done_effect = true;
                 }
                 // Numbness
@@ -3831,7 +3840,8 @@ void player::suffer()
                 }
                 // Shout
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
+                    const translation snip = SNIPPET.random_from_category( "schizo_self_shout" ).value_or(
+                                                 translation() );
                     shout( string_format( _( "yourself shout, %s" ), snip ) );
                     done_effect = true;
                 }
@@ -3843,7 +3853,8 @@ void player::suffer()
                                                //~ %1$s: weapon name
                                                string_format( _( "your %1$s" ), weapon.type_name() );
 
-                        std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
+                        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
+                                                     translation() );
                         std::string str = string_format( snip, i_name_w );
                         str[0] = toupper( str[0] );
 
@@ -4241,16 +4252,18 @@ void player::suffer()
         calendar::once_every( 2_hours ) ) {
         add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
-            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
-            add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
+            const translation smokin_hot_fiyah =
+                SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
+            add_msg_if_player( m_bad, smokin_hot_fiyah );
         }
     }
     if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
         calendar::once_every( 2_hours ) ) {
         add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
-            add_msg_if_player( m_bad, _( snip ) );
+            const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
+                                         translation() );
+            add_msg_if_player( m_bad, "%s", snip );
         }
     }
 

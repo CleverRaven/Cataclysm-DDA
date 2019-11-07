@@ -4112,7 +4112,8 @@ static std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        return SNIPPET.random_from_category( "music_description" );
+        return SNIPPET.expand( SNIPPET.random_from_category( "<music_description>" ).value_or(
+                                   translation() ).translated() );
     }
 
     return _( "a sweet guitar solo!" );

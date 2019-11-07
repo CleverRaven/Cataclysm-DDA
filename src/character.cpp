@@ -2941,8 +2941,8 @@ void Character::print_health() const
 
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
-        const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
+        const translation msg = SNIPPET.random_from_category( iter->second ).value_or( translation() );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, "%s", msg );
     }
 }
 
