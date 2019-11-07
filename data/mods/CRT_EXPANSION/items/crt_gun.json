@@ -206,7 +206,7 @@
     "price": 9900,
     "//": "You can get a decent Ruger .177 at walmart for $99",
     "material": [ "steel", "plastic" ],
-    "flags": [ "STR_RELOAD", "NON-FOULING", "NON-FOULING" ],
+    "flags": [ "STR_RELOAD", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
     "ammo": "pellets",
     "weight": 5023,
@@ -221,8 +221,7 @@
     "clip_size": 1,
     "reload": 300,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "ds_plasma_cutter",
