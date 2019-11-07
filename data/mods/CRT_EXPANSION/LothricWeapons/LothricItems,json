@@ -86,7 +86,7 @@
     "id": "lothric_helmet",
     "type": "ARMOR",
     "name": "Lothric knight helmet",
-    "name_plural": "Lothric knight armor",
+    "name_plural": "Lothric knight helmets",
     "description": "Armor of a celebrated Lothric knight. A strong steel armor, if a little worn.",
     "weight": "425 g",
     "volume": "500 ml",
@@ -117,10 +117,10 @@
     "bashing": 10,
     "to_hit": 2,
     "durability": 15,
-    "symbol": ";",
+    "symbol": "/",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
-    "techniques": [ "LKStance1", "LKStance2" ]
+    "techniques": [ "LKStance1", "LKStance2", "LKSTHRUST", "LKSLUNGE" ]
   },
   {
     "id": "lothric_shield",
