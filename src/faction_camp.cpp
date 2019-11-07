@@ -1247,10 +1247,9 @@ void basecamp::get_available_missions( mission_data &mission_key )
     if( !by_radio ) {
         entry = string_format( _( "Notes:\n"
                                   "Distribute food to your follower and fill you larders.  "
-                                  "Place the food you wish to distribute in the camp food "
-                                  "zone.  You must have a camp food zone, an unsorted loot "
-                                  "zone, and at least one loot destination zone or you will "
-                                  "be prompted to create them using the zone manager.\n"
+                                  "Place the food you wish to distribute in the camp food zone.  "
+                                  "You must have a camp food zone, and a camp storage zone, "
+                                  "or you will be prompted to create them using the zone manager.\n"
                                   "Effects:\n"
                                   "> Increases your faction's food supply value which in "
                                   "turn is used to pay laborers for their time\n\n"
@@ -1263,20 +1262,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Total faction food stock: %d kcal\nor %d day's rations" ),
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
-
-        entry = string_format( _( "Notes:\n"
-                                  "Reset the zones that items are sorted to using the "
-                                  "[ Menial Labor ] mission.\n\n"
-                                  "Effects:\n"
-                                  "> Assign sort zones using the zone manager.  You must "
-                                  "have a camp food zone, an unsorted loot zone, and at "
-                                  "least one loot destination zone.\n"
-                                  "> Only items that are in the unsorted loot zone and not "
-                                  "in any other zone will be sorted.\n"
-                                  "Items that do not have a loot destination zone will be "
-                                  "sorted using the normal rules for automatic zone "
-                                  "sorting." ) );
-        mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
         validate_assignees();
         std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
