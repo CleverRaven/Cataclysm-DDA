@@ -1827,7 +1827,7 @@
   },
   {
     "type": "effect_type",
-    "id": "coughing"
+    "id": "recently_coughed"
   },
   {
     "type": "effect_type",

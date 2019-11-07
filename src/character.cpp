@@ -95,7 +95,7 @@ const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_coughing( "coughing" );
+const efftype_id effect_recently_coughed( "recently_coughed" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
@@ -5145,7 +5145,7 @@ void Character::cough( bool harmful, int loudness )
 
     moves -= 80;
 
-    add_effect( effect_coughing, 5_minutes );
+    add_effect( effect_recently_coughed, 5_minutes );
 }
 
 
