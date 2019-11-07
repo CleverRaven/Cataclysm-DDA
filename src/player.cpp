@@ -127,6 +127,7 @@ const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_recently_coughed( "recently_coughed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
@@ -2885,6 +2886,9 @@ void player::update_needs( int rate_multiplier )
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
             } else {
+                if( has_effect( effect_recently_coughed ) ) {
+                    recovered *= .5;
+                }
                 mod_fatigue( -recovered );
                 if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
                     // Sleeping on the ground, no bionic = 1x rest_modifier
