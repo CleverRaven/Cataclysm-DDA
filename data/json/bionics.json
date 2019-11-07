@@ -672,7 +672,7 @@
     "id": "bio_nostril",
     "type": "bionic",
     "name": "Bionic Nostril",
-    "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by one.",
+    "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by ten.",
     "occupied_bodyparts": [ [ "HEAD", 2 ], [ "MOUTH", 1 ] ],
     "encumbrance": [ [ "MOUTH", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -700,7 +700,7 @@
     "id": "bio_pokedeye",
     "type": "bionic",
     "name": "Bionic Visual Impairment",
-    "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by one.",
+    "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by ten.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "encumbrance": [ [ "EYES", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -977,7 +977,7 @@
     "id": "bio_thumbs",
     "type": "bionic",
     "name": "Self-Locking Thumbs",
-    "description": "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by two, while failing to improve your ability to hold objects whatsoever.",
+    "description": "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by ten, while failing to improve your ability to hold objects whatsoever.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "encumbrance": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
