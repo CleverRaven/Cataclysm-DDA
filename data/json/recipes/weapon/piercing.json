@@ -1,6 +1,7 @@
 [
   {
-    "result": "fencing_epee",
+    "result": "fencing_epee_sharpened",
+    "id_suffix": "from_scratch",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -14,7 +15,8 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
-    "result": "fencing_foil",
+    "result": "fencing_foil_sharpened",
+    "id_suffix": "from_scratch",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -28,7 +30,8 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
-    "result": "fencing_sabre",
+    "result": "fencing_sabre_sharpened",
+    "id_suffix": "from_scratch",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -36,10 +39,10 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "kirpan",
@@ -80,7 +83,7 @@
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
     "result": "sword_cane",
