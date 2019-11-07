@@ -1,0 +1,9 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "PrepNet",
+    "friendly": [ "Prepnet_Phyle" ],
+    "neutral": [ "herbivore", "human" ],
+    "by_mood": [ "insect", "small_animal" ]
+  }
+]
