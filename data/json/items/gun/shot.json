@@ -545,7 +545,7 @@
     "type": "GUN",
     "name": "Tavor TS12",
     "description": "This is a triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
-    "weight": "4400 g",
+    "weight": "4200 g",
     "volume": "4040 ml",
     "looks_like": "ksg",
     "price": 180000,
@@ -554,9 +554,10 @@
     "material": [ "steel", "wood" ],
     "dispersion": 320,
     "durability": 6,
-    "clip_size": 16,
+    "clip_size": 5,
     "sight_dispersion": 500,
     "ranged_damage": 1,
+    "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "bore", 1 ],
@@ -564,6 +565,7 @@
       [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
+      [ "underbarrel", 2 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ]
