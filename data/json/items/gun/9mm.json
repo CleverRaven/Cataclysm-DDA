@@ -1,6 +1,7 @@
 [
   {
     "id": "calico",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Calico M960",
@@ -42,6 +43,7 @@
   },
   {
     "id": "cx4",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Cx4 Storm",
@@ -83,6 +85,7 @@
   {
     "id": "glock_19",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Glock 19",
     "description": "Possibly the most popular pistol in existence.  The Glock 19 is often derided for its plastic construction, but it is easy to shoot.",
@@ -105,6 +108,7 @@
   },
   {
     "id": "hk_mp5",
+    "//": "Tileset whitelist for SMGs",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "H&K MP5A2",
@@ -237,6 +241,7 @@
   },
   {
     "id": "ksub2000",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Kel-Tec SUB-2000",
@@ -278,6 +283,7 @@
   {
     "id": "l_lookout_9mm",
     "copy-from": "l_enforcer_45",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "L2032 Lookout",
     "name_plural": "L2032 Lookout",
@@ -300,6 +306,7 @@
   {
     "id": "l_sp_9mm",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "L39",
     "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
@@ -335,6 +342,7 @@
   {
     "id": "m9",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Beretta M9",
     "description": "A very popular 9x19mm pistol, the M9 has been the standard issue sidearm of the US army since 1985.",
@@ -356,6 +364,7 @@
   },
   {
     "id": "rifle_9mm",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "pipe rifle: 9x19mm",
@@ -396,6 +405,7 @@
   {
     "id": "smg_9mm",
     "copy-from": "smg_base",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "name": "Luty SMG: 9x19mm",
     "name_plural": "Luty SMGs: 9x19mm",
@@ -434,6 +444,7 @@
   },
   {
     "id": "sten",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "STEN",
@@ -468,6 +479,7 @@
   },
   {
     "id": "tec9",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "TEC-9",
@@ -508,6 +520,7 @@
   {
     "id": "usp_9mm",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "USP 9mm",
     "name_plural": "USP 9mm",
@@ -532,6 +545,7 @@
   {
     "id": "uzi",
     "copy-from": "smg_base",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "name": "Uzi 9mm",
     "name_plural": "Uzi 9mm",
@@ -571,6 +585,7 @@
   {
     "id": "glock_17",
     "copy-from": "pistol_base",
+    "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
     "name": "Glock 17",
     "description": "Designed for all shooters, the Glock 17 is marketed towards law-enforcement and military.",
@@ -619,6 +634,7 @@
   {
     "id": "m17",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "M17",
     "description": "The M17 is a semi automatic, short recoil operated pistol derived from the SIG Sauer P320.",
@@ -639,6 +655,7 @@
   {
     "id": "hi_power_9mm",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Browning Hi-Power 9x19mm",
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the second world war.  Widely issued since then, it remains in use by India, Canada and Australia.  This is a commercial variant produced by Browning Arms in 9x19mm Parabellum.",
@@ -658,6 +675,7 @@
   {
     "id": "walther_p38",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Walther P38",
     "description": "The Walther P38 is a semi-automatic handgun adopted shortly before the second world war.  Developed due to the high production costs of its predecessor, the Luger P08, the P38 is also chambered in 9mm Parabellum.  This early DA/SA locked-breech design would introduce features later seen on more modern firearms such as the Beretta 92 series, and served Germany until 2004.",
@@ -677,6 +695,7 @@
   {
     "id": "walther_ppq_9mm",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Walther PPQ 9mm",
     "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in 9x19mm Parabellum.",
@@ -695,6 +714,7 @@
   {
     "id": "hptc9",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Hi-Point C-9",
     "description": "The Hi-Point C-9 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
@@ -714,6 +734,7 @@
   {
     "id": "cz75",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "CZ-75",
     "description": "The CZ-75 is a semi-automatic pistol developed in Czechoslovakia, and is one of the original wonder nines.  Though designed for export to western countries, it was declared a state secret; lack of international patent protection meant that many clones and variants were produced and distributed around the world, with Česká zbrojovka only joining in the 90's.  This pistol remains wildly popular among competition shooters.",
@@ -733,6 +754,7 @@
   {
     "id": "walther_ccp",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Walther CCP",
     "description": "The Walther CCP is a gas-delayed blowback semi-automatic pistol intended for the concealed carry consumer market.  Internally, it is nearly identical to the cult classic H&K P7.  Its fixed barrel design makes it potentially more accurate than many other pistols, though this may difficult to realize with its average trigger and short sight radius.",

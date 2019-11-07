@@ -1,6 +1,7 @@
 [
   {
     "id": "bio_shotgun_gun",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "bionic shotgun",
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
