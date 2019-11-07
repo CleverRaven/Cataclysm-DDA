@@ -773,7 +773,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [
           "lothric_helmet",
           "backpack",
