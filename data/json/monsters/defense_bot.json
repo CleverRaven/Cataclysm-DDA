@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_secubot",
+    "//": "Tileset whitelist for mobile robots",
     "type": "MONSTER",
     "name": { "str": "M16A4 autonomous TALON UGV" },
     "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
@@ -47,6 +48,7 @@
   },
   {
     "id": "mon_talon_m202a1",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "M202A1 autonomous TALON UGV" },
     "description": "A TALON unmanned ground vehicle equipped with an M202A1 FLASH.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
@@ -93,6 +95,7 @@
   },
   {
     "id": "mon_skitterbot",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "skitterbot" },
     "description": "A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
@@ -121,6 +124,7 @@
   },
   {
     "id": "mon_science_bot",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "experimental lab bot" },
     "description": "This robot looks like a large metal spider, a bit bigger than a person, with its thorax covered in tiny holes.  An ominous buzzing emanates from it.",
@@ -165,6 +169,7 @@
   },
   {
     "id": "mon_robofac_prototype",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "prototype robot" },
     "description": "The single glowing eye of this robot surveys the landscape periodically, as it performs the endless slaughter dictated by a misinterpreted and cruel routine.  Between half-built plates, you can see the machinery and cables that animate it, and yet it moves deftly as it switches between one target and the next.",
@@ -204,6 +209,7 @@
   },
   {
     "id": "mon_dispatch",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "NR-031 Dispatch" },
     "description": "The Northrop Dispatch, designed for crowd control situations, carries and deploys kamikaze drones of various types.  The bright green-and-yellow paint marks a low-force variant - *comparatively* low-force, anyways - typically deployed as guards after an area has been cleared.",
@@ -237,6 +243,7 @@
   },
   {
     "id": "mon_dispatch_military",
+    "looks_like": "mon_secubot",
     "type": "MONSTER",
     "name": { "str": "NR-V05-M Dispatch" },
     "description": "The Northrop Dispatch, designed for crowd control situations, carries and deploys kamikaze drones of various types.  The dark green paint job marks the lethal and feared military variant, carrying extreme and deadly firepower.",

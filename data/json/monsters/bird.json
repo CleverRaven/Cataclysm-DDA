@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_chicken",
+    "//": "Tileset whitelist for avians",
     "type": "MONSTER",
     "name": { "str": "chicken" },
     "description": "A domesticated descendant of junglefowl, it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
@@ -44,6 +45,7 @@
   },
   {
     "id": "mon_crow",
+    "looks_like": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "crow" },
     "description": "A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
@@ -74,6 +76,7 @@
   },
   {
     "id": "mon_duck",
+    "looks_like": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "duck" },
     "description": "A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-Cataclysm, bread scraps.",
@@ -118,6 +121,7 @@
   },
   {
     "id": "mon_turkey",
+    "looks_like": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "turkey" },
     "description": "A large and colorful game bird native to the forests of North America.  Its head and beak are covered in fleshy protuberances.",
@@ -163,6 +167,7 @@
   },
   {
     "id": "mon_cockatrice",
+    "looks_like": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "cockatrice" },
     "description": "This strange mutant bird gains its name from its odd appearance.  Although its features seem to be becoming more reptilian, it doesn't appear dangerous.",
@@ -194,6 +199,7 @@
   },
   {
     "id": "mon_chicken_chick",
+    "looks_like": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "yellow chick" },
     "description": "A tiny yellow and brown chick, it could be from a number of different species.",

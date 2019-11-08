@@ -20,6 +20,7 @@
   {
     "id": "mon_EMP_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "EMP hack" },
     "description": "An automated kamikaze drone, this small quadcopter robot appears to have an EMP grenade inside.",
@@ -34,6 +35,7 @@
   {
     "id": "mon_c4_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "C-4 hack" },
     "description": "An automated kamikaze drone, this small quadcopter robot appears to have some C-4 inside.",
@@ -48,6 +50,7 @@
   {
     "id": "mon_flashbang_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "flashbang hack" },
     "description": "An automated kamikaze drone, this small quadcopter robot appears to have a flashbang inside.",
@@ -62,6 +65,7 @@
   {
     "id": "mon_gasbomb_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "tear gas hack" },
     "description": "An automated kamikaze drone, this small quadcopter robot appears to have a tear gas canister inside.",
@@ -76,6 +80,7 @@
   {
     "id": "mon_grenade_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "grenade hack" },
     "description": "An automated kamikaze drone, this small quadcopter robot appears to have a grenade inside.",
@@ -90,6 +95,7 @@
   {
     "id": "mon_manhack",
     "copy-from": "base_drone",
+    "//": "Tileset whitelist for hack drones",
     "type": "MONSTER",
     "name": { "str": "manhack" },
     "description": "An automated anti-personnel drone, a small quadcopter robot surrounded by whirring blades.",
@@ -110,6 +116,7 @@
   {
     "id": "mon_mininuke_hack",
     "copy-from": "base_drone",
+    "looks_like": "mon_manhack",
     "type": "MONSTER",
     "name": { "str": "mininuke hack" },
     "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you…  Run.",
