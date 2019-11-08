@@ -516,6 +516,70 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "miniaturerailway_0_0_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_0_1_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_1_0_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_1_1_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_0_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_0_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_1_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "miniaturerailway_1_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "miniature railway",
+    "sym": "R",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "golfcourse_00",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course",
