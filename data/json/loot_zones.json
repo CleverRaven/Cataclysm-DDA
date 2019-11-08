@@ -126,6 +126,12 @@
     "description": "Destination for seeds, stems and similar items."
   },
   {
+    "id": "LOOT_CHEMICAL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Chemical",
+    "description": "Destination for chemicals."
+  },
+  {
     "id": "LOOT_SPARE_PARTS",
     "type": "LOOT_ZONE",
     "name": "Loot: S.Parts",
