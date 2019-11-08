@@ -21,7 +21,7 @@
     "text": [
       "amazing",
       "funky",
-      "okay",
+      { "text": { "ctxt": "<musicdesc_evaluation>", "str": "okay" } },
       "pretty good",
       "sweet",
       "sick",

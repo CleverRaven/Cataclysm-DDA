@@ -210,9 +210,9 @@
       "unhappy",
       "<very> <sad>",
       "dejected",
-      "down",
+      { "text": { "ctxt": "<sad>", "str": "down" } },
       "glum",
-      "blue",
+      { "text": { "ctxt": "<sad>", "str": "blue" } },
       "dismal",
       "sorrowful",
       "despondent"
@@ -244,7 +244,7 @@
     "//": "Generally emphatic negative responses to a request or command",
     "text": [
       "never",
-      "no",
+      { "text": { "ctxt": "<no>", "str": "no" } },
       "not gonna happen",
       "not happening",
       "over my dead body",
@@ -488,7 +488,19 @@
     "type": "snippet",
     "category": "<okay>",
     "//": "General terms of acknowledgement for an order",
-    "text": [ "fine", "okay", "get it", "you dig", "dig", "got it", "you see", "see, <name_g>", "alright", "that clear", "capiche" ]
+    "text": [
+      { "text": { "ctxt": "<okay>", "str": "fine" } },
+      { "text": { "ctxt": "<okay>", "str": "okay" } },
+      "get it",
+      "you dig",
+      { "text": { "ctxt": "<okay>", "str": "dig" } },
+      "got it",
+      "you see",
+      "see, <name_g>",
+      "alright",
+      "that clear",
+      "capiche"
+    ]
   },
   {
     "type": "snippet",
