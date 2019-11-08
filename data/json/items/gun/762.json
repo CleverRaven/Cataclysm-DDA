@@ -1,6 +1,7 @@
 [
   {
     "id": "ak47",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AKM",
@@ -38,6 +39,7 @@
   },
   {
     "id": "arx160",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Beretta ARX-160",
@@ -77,6 +79,7 @@
   },
   {
     "id": "sks",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "SKS",

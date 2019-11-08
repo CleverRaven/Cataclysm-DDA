@@ -1,6 +1,7 @@
 [
   {
     "id": "rm103a_pistol",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM103A automagnum",
@@ -35,6 +36,7 @@
   },
   {
     "id": "rm11b_sniper_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM11B scout rifle",
@@ -71,6 +73,7 @@
   },
   {
     "id": "rm2000_smg",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM2000 submachine gun",

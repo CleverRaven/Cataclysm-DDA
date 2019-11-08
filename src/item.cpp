@@ -1923,10 +1923,12 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " );
-        for( const gun_type_type &used_on : mod.usable ) {
-            used_on_str += string_format( "<info>%s</info> ", used_on.name() );
-        }
+        std::string used_on_str = _( "Used on: " ) +
+        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
+            std::string id_string = item_controller->has_template( used_on.name() ) ? item::find_type(
+                                        used_on.name() )->nname( 1 ) : used_on.name();
+            return string_format( "<info>%s</info>", id_string );
+        } );
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
@@ -2732,35 +2734,39 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
             if( has_flag( "VARSIZE" ) ) {
                 if( has_flag( "FIT" ) ) {
+                    if( !( sizing_level == sizing::small_sized_small_char ||
+                           sizing_level == sizing::human_sized_human_char ||
+                           sizing_level == sizing::big_sized_big_char ) ) {
+                        std::string resize_str;
+                        if( sizing_level == sizing::small_sized_human_char ) {
+                            resize_str = _( "<info>can be upsized</info>" );
+                        } else if( sizing_level == sizing::human_sized_small_char ) {
+                            resize_str = _( "<info>can be downsized</info>" );
+                        } else if( sizing_level == sizing::big_sized_human_char ||
+                                   sizing_level == sizing::big_sized_small_char ) {
+                            resize_str = _( "<bad>can not be downsized</bad>" );
+                        } else if( sizing_level == sizing::small_sized_big_char ||
+                                   sizing_level == sizing::human_sized_big_char ) {
+                            resize_str = _( "<bad>can not be upsized</bad>" );
+                        }
+                        std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
+                        info.push_back( iteminfo( "DESCRIPTION", info_str ) );
+                    }
+                } else {
                     std::string resize_str;
                     if( sizing_level == sizing::small_sized_human_char ) {
-                        resize_str = _( "<info>can be upsized</info>." );
+                        resize_str = _( " and <info>upsized</info>" );
                     } else if( sizing_level == sizing::human_sized_small_char ) {
-                        resize_str = _( "<info>can be downsized</info>." );
+                        resize_str = _( " and <info>downsized</info>" );
                     } else if( sizing_level == sizing::big_sized_human_char ||
                                sizing_level == sizing::big_sized_small_char ) {
-                        resize_str = _( "<bad>can not be downsized</bad>." );
+                        resize_str = _( " but <bad>not downsized</bad>" );
                     } else if( sizing_level == sizing::small_sized_big_char ||
                                sizing_level == sizing::human_sized_big_char ) {
-                        resize_str = _( "<bad>can not be upsized</bad>." );
-                    }
-                    std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
-                    info.push_back( iteminfo( "DESCRIPTION", info_str ) );
-                } else {
-                    std::string resize_str = "";
-                    if( sizing_level == sizing::small_sized_human_char ) {
-                        resize_str = _( " and <info>upsized</info>." );
-                    } else if( sizing_level == sizing::human_sized_small_char ) {
-                        resize_str = _( " and <info>downsized</info>." );
-                    } else if( sizing_level == sizing::big_sized_human_char ||
-                               sizing_level == sizing::big_sized_small_char ) {
-                        resize_str = _( " but <bad>not downsized</bad>." );
-                    } else if( sizing_level == sizing::small_sized_big_char ||
-                               sizing_level == sizing::human_sized_big_char ) {
-                        resize_str = _( " but <bad>not upsized</bad>." );
+                        resize_str = _( " but <bad>not upsized</bad>" );
                     }
                     std::string info_str = string_format( _( "* This clothing <info>can be "
-                                                          "refitted </info>%s." ), resize_str );
+                                                          "refitted</info>%s." ), resize_str );
                     info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                 }
             } else {
@@ -2870,11 +2876,26 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const bionic_id bid = type->bionic->id;
 
+        const std::vector<itype_id> &fuels = bid->fuel_opts;
+        if( !fuels.empty() ) {
+            const int &fuel_numb = fuels.size();
+
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      ngettext( "* This bionic can produce power from the following fuel: ",
+                                                "* This bionic can produce power from the following fuels: ",
+                                                fuel_numb ) + enumerate_as_string( fuels.begin(),
+                                                        fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+        }
+
+        insert_separation_line( info );
+
         if( bid->capacity > 0_mJ ) {
             info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity:</bold>" ), " <num> mJ",
                                       iteminfo::no_newline,
                                       units::to_millijoule( bid->capacity ) ) );
         }
+
+        insert_separation_line( info );
 
         if( !bid->encumbrance.empty() ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance:</bold> " ),
@@ -2977,13 +2998,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d hour.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d hours.", btime_i ) ) ) );
+                                                  "around %d hours.", btime_i ), btime_i ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( ngettext( "* Once set in a vat, this "
                                                   "will ferment in around %d day.",
                                                   "* Once set in a vat, this will ferment in "
-                                                  "around %d days.", btime_i ) ) ) );
+                                                  "around %d days.", btime_i ), btime_i ) ) );
             }
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS ) ) {
@@ -3672,17 +3693,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( !faults.empty() ) {
-        std::string flags;
-        int silent_faults_counted = 0;
-        for( const fault_id &e : faults ) {
-            flags = e.obj().flags().c_str();
-            if( flags == "silent" ) {
-                silent_faults_counted = silent_faults_counted
-                                        + 1;
+        bool silent = true;
+        for( const auto &fault : faults ) {
+            if( !fault->has_flag( "SILENT" ) ) {
+                silent = false;
+                break;
             }
         }
-        int faults_size = faults.size();
-        if( ( silent_faults_counted >= faults_size ) ) {
+        if( silent ) {
             damtext.insert( 0, dirt_symbol );
         } else {
             damtext.insert( 0, _( "faulty " ) + dirt_symbol );
@@ -6670,6 +6688,16 @@ bool item::magazine_integral() const
 itype_id item::magazine_default( bool conversion ) const
 {
     if( !ammo_types( conversion ).empty() ) {
+        if( conversion ) {
+            for( const item *m : is_gun() ? gunmods() : toolmods() ) {
+                if( !m->type->mod->magazine_adaptor.empty() ) {
+                    auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
+                    if( mags != m->type->mod->magazine_adaptor.end() ) {
+                        return *( mags->second.begin() );
+                    }
+                }
+            }
+        }
         auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
         if( mag != type->magazine_default.end() ) {
             return mag->second;
@@ -7176,19 +7204,19 @@ bool item::reload( player &u, item_location loc, int qty )
 
     } else {
         if( ammo->has_flag( "SPEEDLOADER" ) ) {
-            curammo = find_type( ammo->contents.front().typeId() );
+            curammo = ammo->contents.front().type;
             qty = std::min( qty, ammo->ammo_remaining() );
             ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
         } else if( ammo->ammo_type() == "plutonium" ) {
-            curammo = find_type( ammo->typeId() );
+            curammo = ammo->type;
             ammo->charges -= qty;
 
             // any excess is wasted rather than overfilling the item
             charges += qty * PLUTONIUM_CHARGES;
             charges = std::min( charges, ammo_capacity() );
         } else {
-            curammo = find_type( ammo->typeId() );
+            curammo = ammo->type;
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;

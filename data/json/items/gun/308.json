@@ -2,6 +2,7 @@
   {
     "id": "fn_fal",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN FAL",
     "name_plural": "FN FAL",
@@ -26,6 +27,7 @@
   {
     "id": "hk_g3",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "H&K G3",
     "name_plural": "H&K G3",
@@ -48,6 +50,7 @@
   },
   {
     "id": "m134",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "M134D-H Minigun",
@@ -103,6 +106,7 @@
   {
     "id": "m1a",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M1A",
     "name_plural": "M1A",
@@ -140,6 +144,7 @@
   {
     "id": "m240",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M240",
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
@@ -176,6 +181,7 @@
   {
     "id": "m60",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M60",
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
@@ -213,6 +219,7 @@
   {
     "id": "rifle_308",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .308",
     "name_plural": "pipe rifles: .308",
@@ -253,6 +260,7 @@
   {
     "id": "savage_111f",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Savage 111F",
     "name_plural": "Savage 111F",
@@ -276,6 +284,7 @@
   {
     "id": "scar_h",
     "copy-from": "scar_l",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN SCAR-H",
     "name_plural": "FN SCAR-H",
@@ -289,6 +298,7 @@
   {
     "id": "M24",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M24",
     "name_plural": "M24",
@@ -327,6 +337,7 @@
   {
     "id": "hk417_13",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "HK417 A2",
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
@@ -350,6 +361,7 @@
   {
     "id": "m110a1",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M110A1",
     "description": "A derivative of H&K's G28 with an aluminium upper reciever to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
@@ -372,6 +384,7 @@
   {
     "id": "ar10",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "AR-10",
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",

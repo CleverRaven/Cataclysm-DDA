@@ -319,8 +319,8 @@
     "description": "A small chunk of copper, usable for crafting or repairs.",
     "price": 1000,
     "material": "copper",
-    "weight": "200 g",
-    "volume": "250 ml",
+    "weight": "50 g",
+    "volume": "62 ml",
     "bashing": 1,
     "to_hit": -2
   },

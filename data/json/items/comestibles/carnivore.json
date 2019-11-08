@@ -56,6 +56,32 @@
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
+    "id": "human_fat",
+    "copy-from": "fat",
+    "type": "COMESTIBLE",
+    "name": "chunk of human fat",
+    "name_plural": "chunks of human fat",
+    "description": "Freshly harvested from a human body.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_tallow",
+    "name": "human tallow",
+    "copy-from": "tallow",
+    "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "//": "*May* have been commercially traded.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_lard",
+    "name": "human lard",
+    "copy-from": "human_tallow",
+    "description": "A smooth white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -136,6 +162,29 @@
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "mutant_toxin", 2 ] ],
     "flags": [ "BAD_TASTE" ]
+  },
+  {
+    "id": "mutant_human_flesh",
+    "copy-from": "mutant_meat",
+    "type": "COMESTIBLE",
+    "cooks_like": "mutant_human_cooked",
+    "name": "mutant humanoid meat",
+    "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
+    "material": "hflesh",
+    "smoking_result": "human_smoked"
+  },
+  {
+    "id": "mutant_human_cooked",
+    "copy-from": "mutant_human_flesh",
+    "calories": 402,
+    "type": "COMESTIBLE",
+    "name": "cooked cretin",
+    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -628,6 +677,30 @@
     "copy-from": "mutant_tallow",
     "name": "mutant lard",
     "description": "A smooth white block of dry-rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "mutant_human_fat",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_fat",
+    "name": "chunk of mutant humanoid fat",
+    "name_plural": "chunks of mutant humanoid fat",
+    "description": "Freshly butchered fat from a heavily mutated humanoid.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_tallow",
+    "name": "mutant humanoid tallow",
+    "copy-from": "mutant_tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_lard",
+    "name": "mutant humanoid lard",
+    "copy-from": "mutant_human_tallow",
+    "description": "A smooth white block of dry-rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "type": "COMESTIBLE",

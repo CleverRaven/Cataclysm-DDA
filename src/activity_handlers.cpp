@@ -2534,8 +2534,19 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
         return;
     }
 
+    if( act->str_values.empty() ) {
+        debugmsg( "missing mending_method id for ACT_MEND_ITEM." );
+        return;
+    }
+
+    const mending_method *method = fault_id( act->name )->find_mending_method( act->str_values[0] );
+    if( !method ) {
+        debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
+        return;
+    }
+
     const inventory inv = p->crafting_inventory();
-    const requirement_data &reqs = f->obj().requirements();
+    const requirement_data &reqs = method->requirements.obj();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
     }
@@ -2548,13 +2559,16 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
+    if( method->turns_into ) {
+        target->faults.emplace( *method->turns_into );
+    }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
     if( fault_id( act->name )->adds_fault().length() > 0 ) {
         target->faults.emplace( fault_id( act->name )->adds_fault().c_str() );
     }
-    add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
+    add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )

@@ -827,7 +827,8 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
-    auto cat = it.get_category();
+    const item_category &cat = it.get_category();
+
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
         for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
             ( void )elem;
@@ -843,6 +844,10 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
             return zone_type_id( "LOOT_CORPSE" );
         }
+    }
+
+    if( cat.zone() ) {
+        return *cat.zone();
     }
 
     if( cat.get_id() == "food" ) {
@@ -865,62 +870,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
         return zone_type_id( "LOOT_FOOD" );
     }
-    if( cat.get_id() == "guns" ) {
-        return zone_type_id( "LOOT_GUNS" );
-    }
-    if( cat.get_id() == "magazines" ) {
-        return zone_type_id( "LOOT_MAGAZINES" );
-    }
-    if( cat.get_id() == "ammo" ) {
-        return zone_type_id( "LOOT_AMMO" );
-    }
-    if( cat.get_id() == "weapons" ) {
-        return zone_type_id( "LOOT_WEAPONS" );
-    }
-    if( cat.get_id() == "tools" ) {
-        return zone_type_id( "LOOT_TOOLS" );
-    }
     if( cat.get_id() == "clothing" ) {
         if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where, range ) ) {
             return zone_type_id( "LOOT_FCLOTHING" );
         }
         return zone_type_id( "LOOT_CLOTHING" );
-    }
-    if( cat.get_id() == "drugs" ) {
-        return zone_type_id( "LOOT_DRUGS" );
-    }
-    if( cat.get_id() == "books" ) {
-        return zone_type_id( "LOOT_BOOKS" );
-    }
-    if( cat.get_id() == "mods" ) {
-        return zone_type_id( "LOOT_MODS" );
-    }
-    if( cat.get_id() == "mutagen" ) {
-        return zone_type_id( "LOOT_MUTAGENS" );
-    }
-    if( cat.get_id() == "bionics" ) {
-        return zone_type_id( "LOOT_BIONICS" );
-    }
-    if( cat.get_id() == "veh_parts" ) {
-        return zone_type_id( "LOOT_VEHICLE_PARTS" );
-    }
-    if( cat.get_id() == "other" ) {
-        return zone_type_id( "LOOT_OTHER" );
-    }
-    if( cat.get_id() == "fuel" ) {
-        return zone_type_id( "LOOT_FUEL" );
-    }
-    if( cat.get_id() == "seeds" ) {
-        return zone_type_id( "LOOT_SEEDS" );
-    }
-    if( cat.get_id() == "chems" ) {
-        return zone_type_id( "LOOT_CHEMICAL" );
-    }
-    if( cat.get_id() == "spare_parts" ) {
-        return zone_type_id( "LOOT_SPARE_PARTS" );
-    }
-    if( cat.get_id() == "artifacts" ) {
-        return zone_type_id( "LOOT_ARTIFACTS" );
     }
     if( cat.get_id() == "armor" ) {
         if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where, range ) ) {

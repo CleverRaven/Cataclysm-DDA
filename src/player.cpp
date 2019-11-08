@@ -127,6 +127,7 @@ const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_recently_coughed( "recently_coughed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
@@ -142,7 +143,6 @@ const efftype_id effect_flu( "flu" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
@@ -207,8 +207,6 @@ static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_flashlight( "bio_flashlight" );
-static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -1275,39 +1273,6 @@ std::list<item *> player::get_artifact_items()
         }
     }
     return art_items;
-}
-
-/*
- * Calculate player brightness based on the brightest active item, as
- * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
- * item.light.* is -unimplemented- for the moment, as it is a custom override for
- * applying light sources/arcs with specific angle and direction.
- */
-float player::active_light() const
-{
-    float lumination = 0;
-
-    int maxlum = 0;
-    has_item_with( [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
-        if( maxlum < lumit ) {
-            maxlum = lumit;
-        }
-        return false; // continue search, otherwise has_item_with would cancel the search
-    } );
-
-    lumination = static_cast<float>( maxlum );
-
-    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
-        lumination = 60;
-    } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
-        lumination = 25;
-    } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
-                                   ( has_active_bionic( bio_tattoo_led ) ||
-                                     has_effect( effect_glowy_led ) ) ) ) {
-        lumination = 5;
-    }
-    return lumination;
 }
 
 const tripoint &player::pos() const
@@ -2921,6 +2886,9 @@ void player::update_needs( int rate_multiplier )
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
             } else {
+                if( has_effect( effect_recently_coughed ) ) {
+                    recovered *= .5;
+                }
                 mod_fatigue( -recovered );
                 if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
                     // Sleeping on the ground, no bionic = 1x rest_modifier
@@ -3168,35 +3136,6 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( desired_liquid, qty - liquid.charges );
-    }
-}
-
-void player::cough( bool harmful, int loudness )
-{
-    if( harmful ) {
-        const int stam = get_stamina();
-        const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stat( "stamina", -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, 1 );
-        }
-    }
-
-    if( has_effect( effect_cough_suppress ) ) {
-        return;
-    }
-
-    if( !is_npc() ) {
-        add_msg( m_bad, _( "You cough heavily." ) );
-    }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
-                   "cough" );
-
-    moves -= 80;
-
-    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
-        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
-        wake_up();
     }
 }
 
@@ -6442,23 +6381,35 @@ void player::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    std::vector<std::pair<const fault *, bool>> faults;
-    std::transform( obj->faults.begin(), obj->faults.end(),
-    std::back_inserter( faults ), []( const fault_id & e ) {
-        return std::make_pair<const fault *, bool>( &e.obj(), false );
-    } );
+    auto inv = crafting_inventory();
 
-    if( faults.empty() ) {
+    struct mending_option {
+        fault_id fault;
+        std::reference_wrapper<const mending_method> method;
+        bool doable;
+    };
+
+    std::vector<mending_option> mending_options;
+    for( const fault_id &f : obj->faults ) {
+        for( const auto &m : f->mending_methods() ) {
+            mending_option opt { f, m.second, true };
+            for( const auto &sk : m.second.skills ) {
+                if( get_skill_level( sk.first ) < sk.second ) {
+                    opt.doable = false;
+                    break;
+                }
+            }
+            opt.doable = opt.doable &&
+                         m.second.requirements->can_make_with_inventory( inv, is_crafting_component );
+            mending_options.emplace_back( opt );
+        }
+    }
+
+    if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
         }
         return;
-    }
-
-    auto inv = crafting_inventory();
-
-    for( auto &f : faults ) {
-        f.second = f.first->requirements().can_make_with_inventory( inv, is_crafting_component );
     }
 
     int sel = 0;
@@ -6468,32 +6419,50 @@ void player::mend_item( item_location &&obj, bool interactive )
         menu.desc_enabled = true;
         menu.desc_lines = 0; // Let uilist handle description height
 
-        int w = 80;
+        constexpr int fold_width = 80;
 
-        for( auto &f : faults ) {
-            auto reqs = f.first->requirements();
-            auto tools = reqs.get_folded_tools_list( w, c_white, inv );
-            auto comps = reqs.get_folded_components_list( w, c_white, inv, is_crafting_component );
+        for( const mending_option &opt : mending_options ) {
+            const mending_method &method = opt.method;
+            const nc_color col = opt.doable ? c_white : c_light_gray;
+
+            auto reqs = method.requirements.obj();
+            auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
+            auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
             std::ostringstream descr;
-            descr << _( "<color_white>Time required:</color>\n" );
-            // TODO: better have a from_moves function
-            descr << "> " << to_string_approx( time_duration::from_turns( f.first->time() / 100 ) ) << "\n";
-            descr << _( "<color_white>Skills:</color>\n" );
-            for( const auto &e : f.first->skills() ) {
-                bool hasSkill = get_skill_level( e.first ) >= e.second;
-                if( !hasSkill && f.second ) {
-                    f.second = false;
-                }
-                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-                descr << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), hasSkill ? "c_green" : "c_red",
-                                        e.first.obj().name(), e.second );
+            if( method.turns_into ) {
+                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                                        method.turns_into->obj().name() );
+            }
+            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+                                    to_string_approx( method.time ) );
+            if( method.skills.empty() ) {
+                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+            } else {
+                descr << string_format( _( "Skills: %s\n" ),
+                                        enumerate_as_string( method.skills.begin(), method.skills.end(),
+                [this]( const std::pair<skill_id, int> &sk ) -> std::string {
+                    if( get_skill_level( sk.first ) >= sk.second )
+                    {
+                        return string_format( pgettext( "skill requirement",
+                                                        //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                        "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
+                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                    } else
+                    {
+                        return string_format( pgettext( "skill requirement",
+                                                        //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                    }
+                } ) );
             }
 
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
             std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
 
-            menu.addentry_desc( -1, true, -1, f.first->name(), descr.str() );
+            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();
         if( menu.ret < 0 ) {
@@ -6504,15 +6473,18 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 
     if( sel >= 0 ) {
-        if( !faults[ sel ].second ) {
+        const mending_option &opt = mending_options[sel];
+        if( !opt.doable ) {
             if( interactive ) {
-                add_msg( m_info, _( "You are currently unable to mend the %s." ), obj->tname() );
+                add_msg( m_info, _( "You are currently unable to mend the %s this way." ), obj->tname() );
             }
             return;
         }
 
-        assign_activity( activity_id( "ACT_MEND_ITEM" ), faults[ sel ].first->time() );
-        activity.name = faults[ sel ].first->id().str();
+        const mending_method &method = opt.method;
+        assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
+        activity.name = opt.fault.str();
+        activity.str_values.emplace_back( method.id );
         activity.targets.push_back( std::move( obj ) );
     }
 }
@@ -8329,7 +8301,7 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
     const Skill &skill = id.obj();
     std::string skill_name = skill.name();
 
-    if( !level.can_train() ) {
+    if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;

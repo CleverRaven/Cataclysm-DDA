@@ -17,7 +17,7 @@
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
   },
   {
     "id": "bipod",
