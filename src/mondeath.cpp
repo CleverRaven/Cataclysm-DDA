@@ -543,7 +543,7 @@ void mdeath::amigara( monster &z )
     // We were the last!
     if( g->u.has_effect( effect_amigara ) ) {
         g->u.remove_effect( effect_amigara );
-        add_msg( _( "Your obsession with the fault fades away..." ) );
+        add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
     g->m.spawn_artifact( z.pos() );

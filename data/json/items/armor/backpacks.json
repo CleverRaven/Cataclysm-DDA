@@ -129,6 +129,7 @@
     "price": 20000,
     "price_postapoc": 40000,
     "rigid": false,
+    "material": [ "leather" ],
     "symbol": "[",
     "color": "black",
     "covers": [ "TORSO" ],

@@ -88,7 +88,7 @@ std::string get_input_string_from_file( const std::string &fname )
         if( !ret.empty() && static_cast<unsigned char>( ret[0] ) == 0xef ) {
             ret.erase( 0, 3 );
         }
-        while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
+        while( !ret.empty() && ( ret.back() == '\r' ||  ret.back() == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
     } );
@@ -198,6 +198,13 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
     while( !jsin.end_array() ) {
         // JSON object representing the action
         JsonObject action = jsin.get_object();
+
+        const std::string type = action.get_string( "type", "keybinding" );
+        if( type != "keybinding" ) {
+            debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
+                      "keybindings file '%s'", type, file_name );
+            continue;
+        }
 
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );

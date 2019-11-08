@@ -115,7 +115,6 @@ struct ret_val<edible_rating>::default_failure : public
 
 enum class rechargeable_cbm {
     none = 0,
-    battery,
     reactor,
     furnace,
     other
@@ -133,8 +132,6 @@ struct special_attack {
     std::string text;
     damage_instance damage;
 };
-
-class player_morale;
 
 // The maximum level recoil will ever reach.
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
@@ -190,10 +187,6 @@ class player : public Character
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
-        bool in_sleep_state() const override {
-            return Creature::in_sleep_state() || activity.id() == "ACT_TRY_SLEEP";
-        }
-
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
@@ -227,12 +220,7 @@ class player : public Character
         void recalc_speed_bonus();
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Ticks down morale counters and removes them */
-        void update_morale();
-        /** Ensures persistent morale effects are up-to-date */
-        void apply_persistent_morale();
-        /** Maintains body temperature */
-        void update_bodytemp();
+
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
         /** Returns the player's modified base movement cost */
@@ -251,9 +239,6 @@ class player : public Character
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates();
 
-        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
-        void update_vitamins( const vitamin_id &vit );
-
         /**
           * Handles passive regeneration of pain and maybe hp.
           */
@@ -261,8 +246,7 @@ class player : public Character
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** Regenerates stamina */
-        void update_stamina( int turns );
+
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
 
@@ -287,9 +271,6 @@ class player : public Character
         bool purifiable( const trait_id &flag ) const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
-
-        /** Returns true if the player is in a climate controlled area or armor */
-        bool in_climate_control();
 
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
@@ -327,7 +308,8 @@ class player : public Character
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill );
+        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+                                int pl_skill );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
@@ -362,8 +344,6 @@ class player : public Character
         bionic &bionic_at_index( int i );
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
-        /** Returns player luminosity based on the brightest active item they are carrying */
-        float active_light() const;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -380,8 +360,6 @@ class player : public Character
         bool sight_impaired() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
-        /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
-        bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -424,56 +402,10 @@ class player : public Character
         void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp
-        /** Fires all non-triggered martial arts events */
-        void ma_static_effects();
-        /** Fires all move-triggered martial arts events */
-        void ma_onmove_effects();
-        /** Fires all pause-triggered martial arts events */
-        void ma_onpause_effects();
-        /** Fires all hit-triggered martial arts events */
-        void ma_onhit_effects();
-        /** Fires all attack-triggered martial arts events */
-        void ma_onattack_effects();
-        /** Fires all dodge-triggered martial arts events */
-        void ma_ondodge_effects();
-        /** Fires all block-triggered martial arts events */
-        void ma_onblock_effects();
-        /** Fires all get hit-triggered martial arts events */
-        void ma_ongethit_effects();
-        /** Fires all miss-triggered martial arts events */
-        void ma_onmiss_effects();
-        /** Fires all crit-triggered martial arts events */
-        void ma_oncrit_effects();
-        /** Fires all kill-triggered martial arts events */
-        void ma_onkill_effects();
 
-        /** Returns true if the player has any martial arts buffs attached */
-        bool has_mabuff( const mabuff_id &buff_id ) const;
-        /** Returns true if the player has access to the entered martial art */
-        bool has_martialart( const matype_id &ma_id ) const;
-        /** Adds the entered martial art to the player's list */
-        void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
-        /** Displays a message if the player can or cannot use the martial art */
-        void martialart_use_message() const;
 
-        /** Returns the to hit bonus from martial arts buffs */
-        float mabuff_tohit_bonus() const;
-        /** Returns the dodge bonus from martial arts buffs */
-        float mabuff_dodge_bonus() const;
-        /** Returns the block bonus from martial arts buffs */
-        int mabuff_block_bonus() const;
-        /** Returns the speed bonus from martial arts buffs */
-        int mabuff_speed_bonus() const;
-        /** Returns the damage multiplier to given type from martial arts buffs */
-        float mabuff_damage_mult( damage_type type ) const;
-        /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
-        int mabuff_damage_bonus( damage_type type ) const;
-        /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
-        int mabuff_attack_cost_penalty() const;
-        /** Returns the multiplier on move cost of attacks. */
-        float mabuff_attack_cost_mult() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns value of player's stable footing */
@@ -499,26 +431,10 @@ class player : public Character
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
 
-        /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec( const item &weap ) const;
-        /** Returns the technique used for miss recovery */
-        ma_technique get_miss_recovery_tec( const item &weap ) const;
-        /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const override;
-        /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec() const;
         /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break() const;
+        bool can_grab_break( const item &weap ) const;
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
-        /** Returns true if the player has the leg block technique available */
-        bool can_leg_block() const;
-        /** Returns true if the player has the arm block technique available */
-        bool can_arm_block() const;
-        /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block() const;
-        /** Returns true if the current style forces unarmed attack techniques */
-        bool is_force_unarmed() const;
 
         // melee.cpp
         /** Returns the best item for blocking with */
@@ -615,10 +531,6 @@ class player : public Character
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
-        std::vector<matec_id> get_all_techniques( const item &weap ) const;
-
-        /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id &id, const item &weap ) const;
         /** Returns a random valid technique */
         matec_id pick_technique( Creature &t, const item &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
@@ -709,16 +621,8 @@ class player : public Character
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
-        void cough( bool harmful = false, int loudness = 4 );
-
         void add_pain_msg( int val, body_part bp ) const;
 
-        /** Modifies intensity of painkillers  */
-        void mod_painkiller( int npkill );
-        /** Sets intensity of painkillers  */
-        void set_painkiller( int npkill );
-        /** Returns intensity of painkillers  */
-        int get_painkiller() const;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -784,8 +688,6 @@ class player : public Character
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
         void modify_addiction( const islot_comestible &comest );
-        /** Used to apply morale modifications from food and medication **/
-        void modify_morale( item &food, int nutr = 0 );
 
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
@@ -807,8 +709,6 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
         /**
@@ -829,27 +729,7 @@ class player : public Character
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
 
-        /**
-         * Add or subtract vitamins from player storage pools
-         * @param vit ID of vitamin to modify
-         * @param qty amount by which to adjust vitamin (negative values are permitted)
-         * @param capped if true prevent vitamins which can accumulate in excess from doing so
-         * @return adjusted level for the vitamin or zero if vitamin does not exist
-         */
-        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
-
         void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
-
-        /**
-         * Check current level of a vitamin
-         *
-         * Accesses level of a given vitamin.  If the vitamin_id specified does not
-         * exist then this function simply returns 0.
-         *
-         * @param vit ID of vitamin to check level for.
-         * @returns current level for specified vitamin
-         */
-        int vitamin_get( const vitamin_id &vit ) const;
 
         /**
          * Sets level of a vitamin or returns false if id given in vit does not exist
@@ -862,13 +742,8 @@ class player : public Character
          */
         bool vitamin_set( const vitamin_id &vit, int qty );
 
-        /** Current metabolic rate due to traits, hunger, speed, etc. */
-        float metabolic_rate() const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
-        /** Handles rooting effects */
-        void rooted_message() const;
-        void rooted();
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -931,11 +806,8 @@ class player : public Character
         /** True if the player has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
 
-        bool is_wielding( const item &target ) const;
         bool unwield();
 
-        /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style();
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
          * @param it Thing to be reloaded
@@ -1069,11 +941,6 @@ class player : public Character
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Adds "sleep" to the player */
-        void fall_asleep();
-        void fall_asleep( const time_duration &duration );
-        /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
-        std::string is_snuggling() const;
 
     private:
         /** last time we checked for sleep */
@@ -1104,10 +971,6 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
-        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( body_part bp ) const override;
         /** Returns overall cutting resistance for the body_part */
@@ -1120,28 +983,18 @@ class player : public Character
         int get_env_resist( body_part bp ) const override;
         /** Returns overall acid resistance for the body part */
         int get_armor_acid( body_part bp ) const;
-        /** Returns overall fire resistance for the body part */
-        int get_armor_fire( body_part bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, body_part bp ) const override;
-        /** Returns true if the player is wearing something on the entered body_part */
-        bool wearing_something_on( body_part bp ) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( body_part bp ) const;
-        /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
         /** Returns true if the player is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
         int head_cloth_encumbrance() const;
-        /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
-        double footwear_factor() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
         int kcal_speed_penalty();
@@ -1153,30 +1006,7 @@ class player : public Character
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
-        /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
-                              int index = -1, int pos = INT_MIN,
-                              const std::string &name = "" );
-        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
-        /** Check if player currently has a given activity */
-        bool has_activity( const activity_id &type ) const;
-        /** Check if player currently has any of the given activities */
-        bool has_activity( const std::vector<activity_id> &types ) const;
-        void cancel_activity();
-        void resume_backlog_activity();
 
-        int get_morale_level() const; // Modified by traits, &c
-        void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
-                         const time_duration &duration = 1_hours,
-                         const time_duration &decay_start = 30_minutes, bool capped = false,
-                         const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
-        void clear_morale();
-        bool has_morale_to_read() const;
-        /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         /** Get the formatted name of the currently wielded item (if any)
@@ -1187,10 +1017,6 @@ class player : public Character
         float power_rating() const override;
         float speed_rating() const override;
 
-        /**
-         * All items that have the given flag (@ref item::has_flag).
-         */
-        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
         void process_active_items();
         /**
          * Remove charges from a specific item (given by its item position).
@@ -1220,8 +1046,6 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
-        // Returns the combat style object
-        const martialart &get_combat_style() const;
         // Inventory + weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
         // Put corpse+inventory on map at the place where this is.
@@ -1231,20 +1055,6 @@ class player : public Character
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
-
-        // has_amount works ONLY for quantity.
-        // has_charges works ONLY for charges.
-        std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item> );
-        // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, int quantity );
-
-        // Uses up charges
-        std::list<item> use_charges( const itype_id &what, int qty,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
-
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -1260,9 +1070,6 @@ class player : public Character
         * @param loc Location for item to crush
         */
         bool crush_frozen_liquid( item_location loc );
-
-        // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
@@ -1323,7 +1130,6 @@ class player : public Character
         int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
@@ -1418,7 +1224,7 @@ class player : public Character
 
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,
-                              const player_activity &destination_activity = player_activity() );
+                              const player_activity &new_destination_activity = player_activity() );
         void clear_destination();
         bool has_distant_destination() const;
 
@@ -1432,45 +1238,18 @@ class player : public Character
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
 
-        // Hauling items on the ground
-        void start_hauling();
-        void stop_hauling();
-        bool is_hauling() const;
-
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         */
-        virtual tripoint global_square_location() const;
-        /**
-        * Returns the location of the player in global submap coordinates.
-        */
-        tripoint global_sm_location() const;
-        /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
-        tripoint global_omt_location() const;
-
         // ---------------VALUES-----------------
-
         tripoint view_offset;
-        // Means player sit inside vehicle on the tile he is now
-        bool in_vehicle;
         // Is currently in control of a vehicle
         bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        bool hauling;
-        player_activity activity;
-        std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
         int volume;
         const profession *prof;
 
         start_location_id start_location;
 
-        time_point next_climate_control_check;
-        bool last_climate_control_ret;
         int tank_plut;
         int reactor_plut;
         int slow_rad;
@@ -1482,22 +1261,12 @@ class player : public Character
         int scent;
         int dodges_left;
         int blocks_left;
-        int stim;
         int cash;
         int movecounter;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        // Equalizes heat between body parts
-        void temp_equalizer( body_part bp1, body_part bp2 );
-
-        std::array<int, num_bp> drench_capacity;
-        std::array<int, num_bp> body_wetness;
 
         int focus_pool;
 
-        std::vector<matype_id> ma_styles;
-        matype_id style_selected;
-        bool keep_hands_free;
         bool reach_attacking = false;
         bool manual_examine = false;
 
@@ -1536,8 +1305,6 @@ class player : public Character
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
         int get_hp_max() const override;
-        int get_stamina_max() const;
-        void burn_move_stamina( int moves );
 
         //message related stuff
         using Character::add_msg_if_player;
@@ -1632,9 +1399,6 @@ class player : public Character
 
         std::set<tripoint> camps;
 
-        // magic mod
-        known_magic magic;
-
     protected:
 
         trap_map known_traps;
@@ -1659,41 +1423,17 @@ class player : public Character
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        /** Can the player lie down and cover self with blankets etc. **/
-        bool can_use_floor_warmth() const;
-        /**
-         * Warmth from terrain, furniture, vehicle furniture and traps.
-         * Can be negative.
-         **/
-        static int floor_bedding_warmth( const tripoint &pos );
-        /** Warmth from clothing on the floor **/
-        static int floor_item_warmth( const tripoint &pos );
-        /** Final warmth from the floor **/
-        int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
-        /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature ) const;
-        /** Define blood loss (in percents) */
-        int blood_loss( body_part bp ) const;
-
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
-        bool has_fire( int quantity ) const;
-        void use_fire( int quantity );
 
         /** Determine player's capability of recharging their CBMs. */
-        bool can_feed_battery_with( const item &it ) const;
         bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         /**
          * Recharge CBMs whenever possible.
          * @return true when recharging was successful.
          */
-        bool feed_battery_with( item &it );
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
@@ -1704,14 +1444,9 @@ class player : public Character
          */
         bool consume_med( item &target );
 
-        void react_to_felt_pain( int intensity );
-
-        int pkill;
-
     private:
 
         std::vector<tripoint> auto_move_route;
-        player_activity destination_activity;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
@@ -1725,28 +1460,16 @@ class player : public Character
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-    protected:
-        // TODO: move this to avatar
-        pimpl<player_morale> morale;
-    private:
-
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
     protected:
-        // TODO: move these to avatar
-        /** Current deficiency/excess quantity for each vitamin */
-        std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
-    private:
-
-        /** Amount of time the player has spent in each overmap tile. */
-        std::unordered_map<point, time_duration> overmap_time;
 };
 
 #endif

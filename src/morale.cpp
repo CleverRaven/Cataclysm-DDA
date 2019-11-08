@@ -451,7 +451,7 @@ void player_morale::decay( const time_duration ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq )
+void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -459,6 +459,8 @@ void player_morale::display( int focus_eq )
     calculate_percentage();
 
     const char *morale_gain_caption = _( "Total morale:" );
+    const char *pain_caption = _( "Pain level:" );
+    const char *fatigue_caption = _( "Fatigue level:" );
     const char *focus_equilibrium = _( "Focus trends towards:" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
@@ -508,7 +510,14 @@ void player_morale::display( int focus_eq )
 
     int offset = 0;
     int rows_total = points.size();
-    int rows_visible = std::max( win_h - 8, 0 );
+    int penalty_rows = 0;
+    if( pain_penalty != 0 ) {
+        penalty_rows++;
+    }
+    if( fatigue_penalty != 0 ) {
+        penalty_rows++;
+    }
+    int rows_visible = std::max( win_h - 8 - penalty_rows, 0 );
 
     for( ;; ) {
 
@@ -523,9 +532,9 @@ void player_morale::display( int focus_eq )
         mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
         mvwhline( w, point( win_w - 1, 2 ), LINE_XOXX, 1 );
 
-        mvwhline( w, point( 0, win_h - 4 ), LINE_XXXO, 1 );
-        mvwhline( w, point( 1, win_h - 4 ), 0, win_w - 2 );
-        mvwhline( w, point( win_w - 1, win_h - 4 ), LINE_XOXX, 1 );
+        mvwhline( w, point( 0, win_h - 4 - penalty_rows ), LINE_XXXO, 1 );
+        mvwhline( w, point( 1, win_h - 4 - penalty_rows ), 0, win_w - 2 );
+        mvwhline( w, point( win_w - 1, win_h - 4 - penalty_rows ), LINE_XOXX, 1 );
 
         if( !points.empty() ) {
             const char *source_column = _( "Source" );
@@ -572,7 +581,13 @@ void player_morale::display( int focus_eq )
             fold_and_print_from( w, point( 2, 3 ), win_w - 4, 0, c_dark_gray, points_is_empty );
         }
 
-        print_line( win_h - 3, morale_gain_caption, get_level() );
+        print_line( win_h - 3 - penalty_rows, morale_gain_caption, get_level() );
+        if( pain_penalty != 0 ) {
+            print_line( win_h - 2 - penalty_rows, pain_caption, -pain_penalty, false, c_light_red );
+        }
+        if( fatigue_penalty != 0 ) {
+            print_line( win_h - 3, fatigue_caption, -fatigue_penalty, false, c_light_red );
+        }
         //manual line as lambda will not do it properly here
         mvwprintz( w, point( getmaxx( w ) - 8, win_h - 2 ), c_white, "%d", focus_eq );
         fold_and_print_from( w, point( 2, win_h - 2 ), getmaxx( w ) - 9, 0, c_white, focus_equilibrium );

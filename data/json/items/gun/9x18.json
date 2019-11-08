@@ -2,6 +2,7 @@
   {
     "id": "makarov",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Makarov PM",
     "//": "10 and 12-round magazines exist, but were made for the newer PMM, and are not compatible with the old PM.",
@@ -36,6 +37,7 @@
   {
     "id": "skorpion_82",
     "copy-from": "skorpion_61",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "name": "Skorpion Vz. 82",
     "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",

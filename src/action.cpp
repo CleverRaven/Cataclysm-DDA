@@ -70,7 +70,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
                           "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
@@ -310,6 +310,8 @@ std::string action_ident( action_id act )
             return "debug_scent";
         case ACTION_DISPLAY_TEMPERATURE:
             return "debug_temp";
+        case ACTION_DISPLAY_VEHICLE_AI:
+            return "debug_vehicle_ai";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
         case ACTION_DISPLAY_LIGHTING:
@@ -421,6 +423,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VEHICLE_AI:
         case ACTION_DISPLAY_VISIBILITY:
         case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
@@ -666,7 +669,7 @@ action_id handle_action_menu()
         ctxt.get_action_name( action_ident( name ) ) );
 #define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
-    catgname += "..."; \
+    catgname += "…"; \
     entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
@@ -771,7 +774,7 @@ action_id handle_action_menu()
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "...";        // help _is_a menu.
+                entry->txt += "…";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
                 REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
@@ -809,7 +812,7 @@ action_id handle_action_menu()
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "..."; // debug _is_a menu.
+                entry->txt += "…"; // debug _is_a menu.
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -821,6 +824,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
@@ -892,7 +896,7 @@ action_id handle_action_menu()
 
         if( category != "back" ) {
             std::string msg = _( "Back" );
-            msg += "...";
+            msg += "…";
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
@@ -906,9 +910,7 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
-                width = cur_entry.txt.length();
-            }
+            width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
@@ -964,9 +966,7 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < static_cast<int>( entry.txt.length() ) ) {
-            width = entry.txt.length();
-        }
+        width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;

@@ -85,8 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries",
-    "name": "handful of blueberries",
-    "name_plural": "handful of blueberries",
+    "name": { "str": "blueberries", "str_pl": "blueberries" },
     "weight": "156 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -107,8 +106,7 @@
   {
     "type": "COMESTIBLE",
     "id": "strawberries",
-    "name": "handful of strawberries",
-    "name_plural": "handful of strawberries",
+    "name": { "str": "strawberries", "str_pl": "strawberries" },
     "weight": "144 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -129,8 +127,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cranberries",
-    "name": "handful of cranberries",
-    "name_plural": "handful of cranberries",
+    "name": { "str": "cranberries", "str_pl": "cranberries" },
     "weight": "116 g",
     "color": "red",
     "spoils_in": 640,
@@ -151,8 +148,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raspberries",
-    "name": "handful of raspberries",
-    "name_plural": "handful of raspberries",
+    "name": { "str": "raspberries", "str_pl": "raspberries" },
     "weight": "148 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -173,8 +169,7 @@
   {
     "type": "COMESTIBLE",
     "id": "huckleberries",
-    "name": "handful of huckleberries",
-    "name_plural": "handful of huckleberries",
+    "name": { "str": "huckleberries", "str_pl": "huckleberries" },
     "weight": "150 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -195,8 +190,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mulberries",
-    "name": "handful of mulberries",
-    "name_plural": "handful of mulberries",
+    "name": { "str": "mulberries", "str_pl": "mulberries" },
     "weight": "148 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -217,8 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "elderberries",
-    "name": "handful of elderberries",
-    "name_plural": "handful of elderberries",
+    "name": { "str": "elderberries", "str_pl": "elderberries" },
     "weight": "153 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -239,8 +232,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rose_hips",
-    "name": "handful of rose hips",
-    "name_plural": "handful of rose hips",
+    "name": { "str": "rose hips", "str_pl": "rose hips" },
     "weight": "134 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -324,8 +316,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cherries",
-    "name": "handful of cherries",
-    "name_plural": "handful of cherries",
+    "name": { "str": "cherries", "str_pl": "cherries" },
     "weight": "146 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -367,8 +358,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grapes",
-    "name": "handful of grapes",
-    "name_plural": "handful of grapes",
+    "name": { "str": "grapes", "str_pl": "grapes" },
     "weight": "97 g",
     "color": "light_green",
     "spoils_in": "5 days",
@@ -502,8 +492,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blackberries",
-    "name": "handful of blackberries",
-    "name_plural": "handful of blackberries",
+    "name": { "str": "blackberries", "str_pl": "blackberries" },
     "weight": "166 g",
     "color": "blue",
     "spoils_in": "2 days 12 hours",
@@ -612,8 +601,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apricot",
-    "name": "handful of apricots",
-    "name_plural": "handful of apricots",
+    "name": { "str": "apricots", "str_pl": "apricots" },
     "//": "a handful of apricots is about 4.6 apricots",
     "weight": "164 g",
     "color": "yellow",

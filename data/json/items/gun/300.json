@@ -2,6 +2,7 @@
   {
     "id": "m2010",
     "copy-from": "rifle_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M2010 ESR",
     "name_plural": "M2010 ESR",
@@ -24,6 +25,7 @@
   {
     "id": "weatherby_5",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Weatherby Mark V",
     "name_plural": "Weatherby Mark V",
@@ -47,6 +49,7 @@
   {
     "id": "win70",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Winchester Model 70",
     "name_plural": "Winchester Model 70",

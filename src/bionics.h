@@ -89,6 +89,8 @@ struct bionic_data {
     int fuel_capacity;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency;
+    /**Fraction of fuel energy passively converted to bionic power*/
+    float passive_fuel_efficiency;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -157,7 +159,7 @@ struct bionic {
 
     int get_quality( const quality_id &quality ) const;
 
-    bool is_muscle_powered() const;
+    bool is_this_fuel_powered( const itype_id &this_fuel ) const;
 
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );

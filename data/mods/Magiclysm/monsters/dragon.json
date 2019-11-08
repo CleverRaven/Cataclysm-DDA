@@ -120,7 +120,6 @@
     "melee_cut": 28,
     "armor_bash": 14,
     "armor_cut": 30,
-    "armor_pierce": 12,
     "dodge": 3,
     "//": "Large means powerful, but it does not mean fast.",
     "speed": 100,

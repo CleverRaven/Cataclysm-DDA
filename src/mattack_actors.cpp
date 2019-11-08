@@ -522,7 +522,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
             target.add_effect( effect_laserlocked, 5_turns );
             target.add_effect( effect_was_laserlocked, 5_turns );
             target.add_msg_if_player( m_warning,
-                                      _( "You're not sure why you've got a laser dot on you..." ) );
+                                      _( "You're not sure why you've got a laser dot on you…" ) );
         }
 
         z.moves -= targeting_cost;

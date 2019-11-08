@@ -270,7 +270,7 @@ const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static const SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
@@ -288,7 +288,7 @@ SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
