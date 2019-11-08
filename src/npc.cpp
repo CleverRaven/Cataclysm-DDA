@@ -2832,6 +2832,28 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
+bool npc::invoke_item( item *used, const tripoint &pt )
+{
+    const auto &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return Character::invoke_item( used, use_methods.begin()->first, pt );
+    }
+    return false;
+}
+
+bool npc::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+bool npc::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
         { "need_none", overmap_location_str_id( "source_of_anything" ) },

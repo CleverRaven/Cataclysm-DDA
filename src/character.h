@@ -264,6 +264,9 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_per_bonus( int nper );
         virtual void mod_int_bonus( int nint );
 
+        // Prints message(s) about current health
+        void print_health() const;
+
         /** Getters for health values exclusive to characters */
         virtual int get_healthy() const;
         virtual int get_healthy_mod() const;
@@ -505,6 +508,10 @@ class Character : public Creature, public visitable<Character>
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutation( const trait_id &flag );
         void unset_mutation( const trait_id &flag );
+
+        // Trigger and disable mutations that can be so toggled.
+        void activate_mutation( const trait_id &mutation );
+        void deactivate_mutation( const trait_id &mut );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp( body_part bp );
@@ -787,6 +794,30 @@ class Character : public Creature, public visitable<Character>
             }
             return false;
         }
+
+        /**
+         * Asks how to use the item (if it has more than one use_method) and uses it.
+         * Returns true if it destroys the item. Consumes charges from the item.
+         * Multi-use items are ONLY supported when all use_methods are iuse_actor!
+         */
+        virtual bool invoke_item( item *, const tripoint &pt );
+        /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
+        virtual bool invoke_item( item *, const std::string &, const tripoint &pt );
+        /** As above two, but with position equal to current position */
+        virtual bool invoke_item( item * );
+        virtual bool invoke_item( item *, const std::string & );
+
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+         */
+        bool has_enough_charges( const item &it, bool show_msg ) const;
+
+        /** Consume charges of a tool or comestible item, potentially destroying it in the process
+         *  @param used item consuming the charges
+         *  @param qty number of charges to consume which must be non-zero
+         *  @return true if item was destroyed */
+        bool consume_charges( item &used, int qty );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
