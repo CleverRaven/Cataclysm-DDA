@@ -8669,6 +8669,7 @@
   {
     "type": "recipe",
     "result": "con_milk",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -8704,7 +8705,7 @@
     "difficulty": 3,
     "autolearn": true,
     "time": "2 h",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8736,7 +8737,7 @@
     "difficulty": 3,
     "autolearn": true,
     "time": "45 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8776,16 +8777,16 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "milk_standard_raw", 2, "LIST" ] ],
+      [ [ "milk_standard_raw", 4, "LIST" ] ],
       [
-        [ "sugar", 100 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ],
-        [ "molasses", 1 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "sugar", 200 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 2 ],
+        [ "molasses", 2 ],
+        [ "honey_bottled", 2 ],
+        [ "honey_glassed", 2 ]
       ]
     ]
   },
