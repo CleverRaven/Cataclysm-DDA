@@ -131,6 +131,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "json_flag",
     "keybinding",
+    "LOOT_ZONE",
     "MAGAZINE",
     "map_extra",
     "MOD_INFO",
