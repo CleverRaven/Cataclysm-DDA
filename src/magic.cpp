@@ -941,29 +941,7 @@ nc_color spell::damage_type_color() const
 
 std::string spell::damage_type_string() const
 {
-    switch( dmg_type() ) {
-        case DT_HEAT:
-            return "heat";
-        case DT_ACID:
-            return "acid";
-        case DT_BASH:
-            return "bashing";
-        case DT_BIOLOGICAL:
-            return "biological";
-        case DT_COLD:
-            return "cold";
-        case DT_CUT:
-            return "cutting";
-        case DT_ELECTRIC:
-            return "electric";
-        case DT_STAB:
-            return "stabbing";
-        case DT_TRUE:
-            // not *really* force damage
-            return "force";
-        default:
-            return "error";
-    }
+    return name_by_dt( dmg_type() );
 }
 
 // constants defined below are just for the formula to be used,
