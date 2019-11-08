@@ -238,7 +238,7 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "bacon", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "sausage", 1 ],
         [ "bratwurst_sausage", 1 ]
       ],
