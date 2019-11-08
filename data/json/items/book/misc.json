@@ -868,10 +868,6 @@
       },
       { "id": "scifi1_4", "text": "This is a copy of \"The Dispossessed\" by Ursula Le Guin." },
       { "id": "scifi1_5", "text": "This copy of Ray Bradbury's \"Fahrenheit 451\"." },
-      {
-        "id": "scifi1_5",
-        "text": "This is a well-worn copy of \"The Hitchhikers Guide to the Galaxy\" by Douglas Adams."
-      },
       { "id": "scifi1_6", "text": "This is a copy of \"Hyperion\" by Dan Simmons." },
       {
         "id": "scifi1_7",
@@ -974,10 +970,10 @@
       { "id": "scifi1_42", "text": "This is a copy of \"Islands in the Sky\" by Arthur C. Clarke." },
       { "id": "scifi1_43", "text": "This is a copy of H. G. Wells' \"The Island of Doctor Moreau\"." },
       { "id": "scifi1_44", "text": "This is a copy of Stanislaw Lem's \"His Masters Voice\"." },
-      { "id": "scifi_45", "text": "This is a copy of Fred Hoyle's \"The Black Cloud\"." },
-      { "id": "scifi_46", "text": "This is a copy of \"Last and First Men\" by Olaf Stapeldon." },
-      { "id": "scifi_47", "text": "This is a copy of Stanislaw Lem's \"Solaris\"." },
-      { "id": "scifi_48", "text": "This is a copy of Theodore Sturgeon's \"More Than Human\"." },
+      { "id": "scifi1_45", "text": "This is a copy of Fred Hoyle's \"The Black Cloud\"." },
+      { "id": "scifi1_46", "text": "This is a copy of \"Last and First Men\" by Olaf Stapeldon." },
+      { "id": "scifi1_47", "text": "This is a copy of Stanislaw Lem's \"Solaris\"." },
+      { "id": "scifi1_48", "text": "This is a copy of Theodore Sturgeon's \"More Than Human\"." },
       { "id": "scifi1_49", "text": "This is a copy of \"Vurt\" by Jeff Noon." },
       { "id": "scifi1_50", "text": "This is a copy of \"A Canticle for Leibowitz\" by Walter M. Miller Jr." },
       { "id": "scifi1_51", "text": "This is a copy of \"The War of The Worlds\" by H.G Wells." },
@@ -995,6 +991,10 @@
       {
         "id": "scifi1_60",
         "text": "This is a copy of Larry Niven's \"Ringworld\".  There are a couple of pages missing from the end of the book.  Luckily only mail-order advertisements."
+      },
+      {
+        "id": "scifi1_61",
+        "text": "This is a well-worn copy of \"The Hitchhikers Guide to the Galaxy\" by Douglas Adams."
       }
     ]
   },
