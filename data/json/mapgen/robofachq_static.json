@@ -183,7 +183,7 @@
         "R": "t_railing",
         "W": "t_water_dispenser"
       },
-      "furniture": { ":": "f_server", "K": "f_counter", "H": "f_armchair","L": "f_locker", "f": "f_filing_cabinet" },
+      "furniture": { ":": "f_server", "K": "f_counter", "H": "f_armchair", "L": "f_locker", "f": "f_filing_cabinet" },
       "item": { "A": { "item": "american_flag" } },
       "items": {
         "F": { "item": "fridge", "chance": 80 },
