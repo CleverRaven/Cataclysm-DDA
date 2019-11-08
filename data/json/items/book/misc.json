@@ -856,11 +856,11 @@
     "snippet_category": [
       {
         "id": "scifi1_1",
-        "text": "This is a copy of Gibson's \"Neuromancer\".  Written in the eighties, it was surprisingly accurate in predicting much of modern society...  Until recently."
+        "text": "This is a copy of Gibson's \"Neuromancer\".  Written in the eighties, it was surprisingly accurate in predicting much of modern society…  Until recently."
       },
       {
         "id": "scifi1_2",
-        "text": "This is a copy of \"The Stars My Destination\" by Alfred Bester.  \n\nTyger, Tyger, Burning bright,  \nIn the forests of the night:  \nWhat immortal hand or eye,  \nDare frame thy fearful symmetry?"
+        "text": "This is a copy of \"The Stars My Destination\" by Alfred Bester.\n\nTyger, Tyger, Burning bright,\nIn the forests of the night:\nWhat immortal hand or eye,\nDare frame thy fearful symmetry?"
       },
       {
         "id": "scifi1_3",
@@ -871,7 +871,7 @@
       { "id": "scifi1_6", "text": "This is a copy of \"Hyperion\" by Dan Simmons." },
       {
         "id": "scifi1_7",
-        "text": "This is a copy of \"Endymion\" by Dan Simmons.  It opens with a poem by D.H. Lawrence:\n\nGive us gods. Oh give them us! \nGive us gods. \nWe are so tired of men \nAnd motor-power."
+        "text": "This is a copy of \"Endymion\" by Dan Simmons.  It opens with a poem by D.H. Lawrence:\n\nGive us gods.  Oh give them us!\nGive us gods.\nWe are so tired of men\nAnd motor-power."
       },
       { "id": "scifi1_8", "text": "This is a copy of Philip K. Dick's \"Do Androids Dream of Electric Sheep?\"." },
       { "id": "scifi1_9", "text": "This is a dog-eared copy of \"Nova Express\" by William Burroughs." },
