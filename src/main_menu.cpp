@@ -316,6 +316,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -877,8 +878,14 @@ bool main_menu::new_character_tab()
     return start;
 }
 
-bool main_menu::load_character_tab()
+bool main_menu::load_character_tab( bool transfer )
 {
+    if( transfer ) {
+        layer = 3;
+        sel1 = 2;
+        sel2 -= 1;
+    }
+
     bool start = false;
     const auto all_worldnames = world_generator->all_worldnames();
 
@@ -1028,9 +1035,32 @@ bool main_menu::load_character_tab()
 
 void main_menu::world_tab()
 {
-    while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
+    while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         print_menu( w_open, 3, menu_offset );
-        if( layer == 3 ) { // World Menu
+        if ( layer == 4 ) {
+            if ( load_character_tab( true ) ) {
+                //test_mode = true; //Prevent game drawing
+                //test_mode = false;
+
+                points_left points;
+                points.stat_points = 0;
+                points.trait_points = 0;
+                points.skill_points = 0;
+                points.limit = points_left::TRANSFER;
+                avatar::save_template(g->u, g->u.name, points);
+
+                g->uquit = QUIT_NOSAVED;
+                g->cleanup_at_end();
+
+                load_char_templates();
+
+                werase( w_background );
+                wrefresh( w_background );
+
+                layer = 3;
+                //sel1 = 3;
+            }
+        } else if( layer == 3 ) { // World Menu
             // Show options for Destroy, Reset worlds.
             // Reset and Destroy ask for world to modify.
             // Reset empties world of everything but options, then makes new world within it.
@@ -1109,6 +1139,9 @@ void main_menu::world_tab()
                     } else if( sel3 == 3 ) { // Copy World settings
                         layer = 2;
                         world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
+                    } else if( sel3 == 4 ) { // Character to Template
+                        layer = 4;
+                        sel4 = 0;
                     }
 
                     if( query_yes ) {

@@ -53,8 +53,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-struct points_left;
-
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
 #define COL_STAT_BONUS      c_light_green // Bonus
@@ -87,90 +85,6 @@ struct points_left;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL
-    } limit;
-
-    points_left() {
-        limit = MULTI_POOL;
-        init_from_options();
-    }
-
-    void init_from_options() {
-        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-    }
-
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return std::min( trait_points_left(),
-                                 stat_points + std::min( 0, trait_points + skill_points ) );
-        }
-
-        return 0;
-    }
-
-    int trait_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + std::min( 0, skill_points );
-        }
-
-        return 0;
-    }
-
-    int skill_points_left() const {
-        return stat_points + trait_points + skill_points;
-    }
-
-    bool is_freeform() {
-        return limit == FREEFORM;
-    }
-
-    bool is_valid() {
-        return is_freeform() ||
-               ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-                 skill_points_left() >= 0 );
-    }
-
-    bool has_spare() {
-        return !is_freeform() && is_valid() && skill_points_left() > 0;
-    }
-
-    std::string to_string() {
-        if( limit == MULTI_POOL ) {
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                       trait_points >= 0 ? '+' : '-',
-                       trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
-                       skill_points >= 0 ? '+' : '-',
-                       skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
-                       is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-        } else if( limit == ONE_POOL ) {
-            return string_format( _( "Points left: %4d" ), skill_points_left() );
-        } else {
-            return _( "Freeform" );
-        }
-    }
-};
-
 enum struct tab_direction {
     NONE,
     FORWARD,
@@ -190,7 +104,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, bool al
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const avatar &u, const std::string &name, const points_left &points );
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -465,7 +378,9 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
-            learned_recipes->clear();
+            if( points.limit != points_left::TRANSFER ) {
+                learned_recipes->clear();
+            }
             tab = NEWCHAR_TAB_MAX;
             break;
     }
@@ -491,6 +406,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
         werase( w );
         wrefresh( w );
+
+        if( points.limit == points_left::TRANSFER ) {
+            tab = 6;
+        }
+
         switch( tab ) {
             case 0:
                 result = set_points( w, *this, points );
@@ -541,6 +461,10 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     if( tab < 0 ) {
         return false;
+    }
+
+    if( points.limit == points_left::TRANSFER ) {
+        return true;
     }
 
     save_template( *this, _( "Last Character" ), points );
@@ -2434,7 +2358,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                ::save_template( you, *name, points );
+                avatar::save_template( you, *name, points );
             }
             // redraw after saving template
             draw_character_tabs( w, _( "DESCRIPTION" ) );
@@ -2607,7 +2531,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const avatar &u, const std::string &name, const points_left &points )
+void avatar::save_template( const avatar &u, const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
