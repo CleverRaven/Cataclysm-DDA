@@ -59,7 +59,7 @@
     "type": "bionic",
     "name": "Alloy Plating - Head",
     "description": "The flesh on your head has been surgically replaced by alloy plating, protecting both your head and jaw regions.",
-    "occupied_bodyparts": [ [ "HEAD", 5 ] ],
+    "occupied_bodyparts": [ [ "HEAD", 5 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
