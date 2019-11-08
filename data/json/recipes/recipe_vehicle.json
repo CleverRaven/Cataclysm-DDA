@@ -380,7 +380,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
   },
   {
     "type": "recipe",
