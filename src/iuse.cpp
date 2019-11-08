@@ -3438,6 +3438,8 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         default:
             return 0;
     }
+    p->mod_moves( -100 );
+
     return it->type->charges_to_use();
 }
 
