@@ -177,7 +177,7 @@ bool player::handle_gun_damage( item &it )
             it.tname() );
         if( dirt_dbl > 7800 ) {
             add_msg_player_or_npc(
-                _( "Perhaps taking the ammo out of it and reloading will help." ),
+                _( "Perhaps taking the ammo out of your %s and reloading will help." ),
                 _( "Perhaps taking the ammo out of it and reloading will help." ),
                 it.tname() );
         }
