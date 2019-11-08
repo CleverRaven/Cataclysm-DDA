@@ -1379,8 +1379,8 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     const bool on_ground = !digs && !flies;
     const bool climbs = has_flag( MF_CLIMBS ) && g->m.has_flag( TFLAG_NO_FLOOR, p );
 
-    bool z_move = p.z != pos().z;
-    bool going_up = p.z > pos().z;
+    const bool z_move = p.z != pos().z;
+    const bool going_up = p.z > pos().z;
 
     tripoint destination = p;
 
