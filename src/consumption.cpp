@@ -58,7 +58,6 @@ const mtype_id mon_player_blob( "mon_player_blob" );
 
 const bionic_id bio_advreactor( "bio_advreactor" );
 const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_reactor( "bio_reactor" );
 const bionic_id bio_taste_blocker( "bio_taste_blocker" );
@@ -811,16 +810,6 @@ bool player::eat( item &food, bool force )
     if( item::find_type( food.get_comestible()->tool )->tool ) {
         // Tools like lighters get used
         use_charges( food.get_comestible()->tool, 1 );
-    }
-
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 50, 200 ) ) );
-    }
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 25, 100 ) ) );
-    }
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {

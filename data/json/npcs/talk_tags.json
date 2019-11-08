@@ -1084,14 +1084,12 @@
   {
     "type": "snippet",
     "category": "<need_booze>",
-    "//": "NPC complaint when they are low on CBM power and have an ethanol burner system.  Additional versions should continue to specify that the NPC needs alcohol and they need them to recharge their power CBMs.",
+    "//": "NPC complaint when they are low on CBM power and have an ethanol burner system.  Additional versions should continue to specify that the NPC needs ethanol or methanol and they need them to recharge their power CBMs.",
     "text": [
-      "Pass me a beer, I need to power my ethanol burner.",
-      "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
+      "Pass some ethanol, I need to power my ethanol burner.",
       "Waiter!  I need a refill, my ethanol burner is running out of charge!",
-      "I require ethanol-based drinks for my internal power supply. Anything on you?",
-      "Got any alcohol to spare? Need to recharge my drives. Mead, if you have any.",
-      "This ethanol-burning power supply is the best implant I ever got. Speaking of which, got some booze to top me off?"
+      "I require ethanol for my internal power supply.  Anything on you?",
+      "Got any alcohol to spare? Need to recharge my drives.  Methanol, would do."
     ]
   },
   {

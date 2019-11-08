@@ -2,6 +2,7 @@
   {
     "id": "abzats",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "heavy automatic shotgun",
     "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
@@ -23,6 +24,7 @@
   },
   {
     "id": "ashot",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "12 gauge pistol",
@@ -56,6 +58,7 @@
   {
     "id": "bigun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "manual autoshotgun",
     "//": "Hard to value this thing, but considering what a $2000 pricepoint puts it on par with, that is too much.",
@@ -85,6 +88,7 @@
   {
     "id": "ksg",
     "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Kel-Tec KSG",
     "name_plural": "Kel-Tec KSG",
@@ -117,6 +121,7 @@
   {
     "id": "l_def_12",
     "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "L12 Defender",
     "name_plural": "L12 Defender",
@@ -148,6 +153,7 @@
   {
     "id": "m1014",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
@@ -168,6 +174,7 @@
   {
     "id": "mossberg_500",
     "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Mossberg 500",
     "name_plural": "Mossberg 500",
@@ -187,6 +194,7 @@
   {
     "id": "pipe_double_shotgun",
     "copy-from": "pipe_shotgun",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "double-barrel pipe shotgun",
     "description": "A home-made double-barreled shotgun.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
@@ -208,6 +216,7 @@
   {
     "id": "pipe_shotgun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "pipe shotgun",
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
@@ -239,6 +248,7 @@
   {
     "id": "remington_870",
     "copy-from": "shotgun_pump",
+    "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
     "name": "Remington 870",
     "name_plural": "Remington 870",
@@ -258,6 +268,7 @@
   {
     "id": "revolver_shotgun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "shotgun revolver",
     "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
@@ -287,6 +298,7 @@
   {
     "id": "saiga_12",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Saiga-12",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
@@ -328,6 +340,7 @@
   {
     "id": "shotgun_s",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "single barrel shotgun",
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
@@ -358,6 +371,7 @@
   {
     "id": "surv_levershotgun",
     "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "handmade lever shotgun",
     "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",

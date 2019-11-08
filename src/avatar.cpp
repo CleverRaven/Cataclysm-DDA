@@ -1530,3 +1530,56 @@ bool avatar::wield( item &target )
 
     return true;
 }
+
+bool avatar::invoke_item( item *used, const tripoint &pt )
+{
+    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return invoke_item( used, use_methods.begin()->first, pt );
+    }
+
+    uilist umenu;
+
+    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
+    umenu.hilight_disabled = true;
+
+    for( const auto &e : use_methods ) {
+        const auto res = e.second.can_call( *this, *used, false, pt );
+        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
+                             res.str() );
+    }
+
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(),
+    umenu.entries.end(), []( const uilist_entry & elem ) {
+        return !elem.desc.empty();
+    } );
+
+    umenu.query();
+
+    int choice = umenu.ret;
+    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+        return false;
+    }
+
+    const std::string &method = std::next( use_methods.begin(), choice )->first;
+
+    return invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+{
+    return Character::invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}

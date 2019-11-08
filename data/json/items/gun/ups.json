@@ -1,6 +1,7 @@
 [
   {
     "id": "emp_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "XM34 EMP projector",
@@ -38,6 +39,7 @@
   },
   {
     "id": "gatling_mech_laser",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 20,
     "name": "CMES laser cannon",
@@ -74,6 +76,7 @@
   },
   {
     "id": "recon_mech_laser",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": "RMES marksman system",
@@ -100,6 +103,7 @@
   },
   {
     "id": "laser_cannon",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "handheld laser cannon",
@@ -136,6 +140,7 @@
   },
   {
     "id": "laser_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "A7 laser rifle",
@@ -174,6 +179,7 @@
   },
   {
     "id": "v29",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "V29 laser pistol",

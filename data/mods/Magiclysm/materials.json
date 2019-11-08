@@ -58,6 +58,6 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ],
-    "compact_into": [ "orichalcum_lump", "orichalcum_sliver" ]
+    "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
   }
 ]

@@ -312,6 +312,7 @@
   },
   {
     "id": "selfbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -338,6 +339,7 @@
   },
   {
     "id": "shortbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -365,6 +367,7 @@
   },
   {
     "id": "compbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -439,6 +442,7 @@
   },
   {
     "id": "compositebow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -466,6 +470,7 @@
   },
   {
     "id": "recurbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -493,6 +498,7 @@
   },
   {
     "id": "reflexbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -520,6 +526,7 @@
   },
   {
     "id": "hybridbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -547,6 +554,7 @@
   },
   {
     "id": "longbow",
+    "//": "Tileset whitelist for bows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -592,6 +600,7 @@
   },
   {
     "id": "compgreatbow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -618,6 +627,7 @@
   },
   {
     "id": "reflexrecurvebow",
+    "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",

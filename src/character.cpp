@@ -57,6 +57,7 @@
 #include "lightmap.h"
 #include "rng.h"
 #include "stomach.h"
+#include "text_snippets.h"
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -95,6 +96,7 @@ const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
+const efftype_id effect_recently_coughed( "recently_coughed" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
@@ -178,6 +180,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -2911,6 +2914,38 @@ void Character::mod_int_bonus( int nint )
     int_cur = std::max( 0, int_max + int_bonus );
 }
 
+void Character::print_health() const
+{
+    if( !is_player() ) {
+        return;
+    }
+    int current_health = get_healthy();
+    if( has_trait( trait_SELFAWARE ) ) {
+        add_msg_if_player( _( "Your current health value is %d." ), current_health );
+    }
+
+    if( current_health > 0 &&
+        ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) ) {
+        return;
+    }
+
+    static const std::map<int, std::string> msg_categories = {
+        { -100, "health_horrible" },
+        { -50, "health_very_bad" },
+        { -10, "health_bad" },
+        { 10, "" },
+        { 50, "health_good" },
+        { 100, "health_very_good" },
+        { INT_MAX, "health_great" }
+    };
+
+    auto iter = msg_categories.lower_bound( current_health );
+    if( iter != msg_categories.end() && !iter->second.empty() ) {
+        const std::string &msg = SNIPPET.random_from_category( iter->second );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
+    }
+}
+
 namespace io
 {
 template<>
@@ -5082,6 +5117,127 @@ void Character::update_stamina( int turns )
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
+bool Character::invoke_item( item *used )
+{
+    return invoke_item( used, pos() );
+}
+
+bool Character::invoke_item( item *, const tripoint & )
+{
+    return false;
+}
+
+bool Character::invoke_item( item *used, const std::string &method )
+{
+    return invoke_item( used, method, pos() );
+}
+
+bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
+{
+    if( !has_enough_charges( *used, true ) ) {
+        return false;
+    }
+
+    item *actually_used = used->get_usable_item( method );
+    if( actually_used == nullptr ) {
+        debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
+                  method.c_str(), used->tname() );
+        return false;
+    }
+
+    int charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
+    if( charges_used == 0 ) {
+        return false;
+    }
+    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
+
+    if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
+        return consume_charges( *actually_used, charges_used );
+    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
+        i_rem( used );
+        return true;
+    }
+
+    return false;
+}
+
+bool Character::has_enough_charges( const item &it, bool show_msg ) const
+{
+    if( !it.is_tool() || !it.ammo_required() ) {
+        return true;
+    }
+    if( it.has_flag( "USE_UPS" ) ) {
+        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_sufficient() ) {
+            return true;
+        }
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s needs %d charge from some UPS.",
+                                         "Your %s needs %d charges from some UPS.",
+                                         it.ammo_required() ),
+                               it.tname(), it.ammo_required() );
+        }
+        return false;
+    } else if( !it.ammo_sufficient() ) {
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s has %d charge but needs %d.",
+                                         "Your %s has %d charges but needs %d.",
+                                         it.ammo_remaining() ),
+                               it.tname(), it.ammo_remaining(), it.ammo_required() );
+        }
+        return false;
+    }
+    return true;
+}
+
+bool Character::consume_charges( item &used, int qty )
+{
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
+        return false;
+    }
+
+    if( qty == 0 ) {
+        return false;
+    }
+
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
+        return false;
+    }
+
+    // Consume comestibles destroying them if no charges remain
+    if( used.is_food() || used.is_medication() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( &used );
+            return true;
+        }
+        return false;
+    }
+
+    // Tools which don't require ammo are instead destroyed
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( &used );
+        return true;
+    }
+
+    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    if( used.has_flag( "USE_UPS" ) ) {
+        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else {
+            use_charges( "UPS", qty );
+        }
+    } else {
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    }
+    return false;
+}
+
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
 {
     int mv = base_cost;
@@ -5123,6 +5279,10 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
 
 void Character::cough( bool harmful, int loudness )
 {
+    if( has_effect( effect_cough_suppress ) ) {
+        return;
+    }
+
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
@@ -5130,10 +5290,6 @@ void Character::cough( bool harmful, int loudness )
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
-    }
-
-    if( has_effect( effect_cough_suppress ) ) {
-        return;
     }
 
     if( !is_npc() ) {
@@ -5144,10 +5300,7 @@ void Character::cough( bool harmful, int loudness )
 
     moves -= 80;
 
-    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) &&
-        ( ( harmful && one_in( 3 ) ) || one_in( 10 ) ) ) {
-        wake_up();
-    }
+    add_effect( effect_recently_coughed, 5_minutes );
 }
 
 
