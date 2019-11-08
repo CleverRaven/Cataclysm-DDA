@@ -18,7 +18,27 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 18,
-      "ammo": [ "32", "762x25", "38", "357mag", "357sig", "380", "38super", "40", "10mm", "44", "45", "45colt", "46", "57", "9x18", "9mm", "454", "460", "500" ],
+      "ammo": [
+        "32",
+        "762x25",
+        "38",
+        "357mag",
+        "357sig",
+        "380",
+        "38super",
+        "40",
+        "10mm",
+        "44",
+        "45",
+        "45colt",
+        "46",
+        "57",
+        "9x18",
+        "9mm",
+        "454",
+        "460",
+        "500"
+      ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
@@ -42,7 +62,23 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 16,
-      "ammo": [ "22", "223", "270win", "300blk", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50", "700nx" ],
+      "ammo": [
+        "22",
+        "223",
+        "270win",
+        "300blk",
+        "5x50",
+        "545x39",
+        "3006",
+        "308",
+        "300",
+        "762",
+        "762R",
+        "8x40mm",
+        "4570",
+        "50",
+        "700nx"
+      ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
@@ -102,7 +138,12 @@
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ], "draw_cost": 20 },
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 14,
+      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
+      "draw_cost": 20
+    },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   },
   {
@@ -124,7 +165,23 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 4,
-      "ammo": [ "22", "223", "270win", "300blk", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm", "4570", "50", "700nx" ],
+      "ammo": [
+        "22",
+        "223",
+        "270win",
+        "300blk",
+        "5x50",
+        "545x39",
+        "3006",
+        "308",
+        "300",
+        "762",
+        "762R",
+        "8x40mm",
+        "4570",
+        "50",
+        "700nx"
+      ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
