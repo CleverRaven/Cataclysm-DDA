@@ -461,7 +461,7 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_workshop_0",
-    "name": "store survey",
+    "name": "fabrication workshop survey",
     "sym": "+",
     "color": "cyan",
     "see_cost": 5,
@@ -596,7 +596,7 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_storehouse_0",
-    "name": "store survey",
+    "name": "store house survey",
     "sym": "+",
     "color": "cyan",
     "see_cost": 5,
