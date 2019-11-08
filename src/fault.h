@@ -46,10 +46,6 @@ class fault
             return description_.translated();
         }
 
-        std::string adds_fault() const {
-            return adds_fault_.translated();
-        }
-
         const std::map<std::string, mending_method> &mending_methods() const {
             return mending_methods_;
         }
@@ -82,7 +78,6 @@ class fault
         fault_id id_;
         translation name_;
         translation description_;
-        translation adds_fault_;
         std::map<std::string, mending_method> mending_methods_;
         std::set<std::string> flags;
 };

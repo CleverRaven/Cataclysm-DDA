@@ -42,7 +42,6 @@ class player_activity
         int position;
         /** An activity specific value. */
         std::string name;
-        std::string adds_fault;
         std::string flags;
         std::vector<item_location> targets;
         std::vector<int> values;

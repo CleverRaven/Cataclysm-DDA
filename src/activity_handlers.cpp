@@ -2565,9 +2565,6 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
-    if( fault_id( act->name )->adds_fault().length() > 0 ) {
-        target->faults.emplace( fault_id( act->name )->adds_fault().c_str() );
-    }
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 

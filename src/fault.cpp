@@ -35,7 +35,6 @@ void fault::load_fault( JsonObject &jo )
 {
     fault f;
 
-    jo.read( "adds_fault", f.adds_fault_ );
     mandatory( jo, false, "id", f.id_ );
     mandatory( jo, false, "name", f.name_ );
     mandatory( jo, false, "description", f.description_ );
