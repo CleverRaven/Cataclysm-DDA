@@ -3400,16 +3400,12 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
     }
 
     int ch = uilist( _( "Geiger counter:" ), {
-        _( "Scan yourself" ), _( "Scan a person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
+        _( "Scan yourself or other person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
     } );
     switch( ch ) {
-        case 0:
-            p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
-                                  p->leak_level( "RADIOACTIVE" ) );
-            break;
-        case 1: {
+        case 0: {
             const std::function<bool( const tripoint & )> f = [&]( const tripoint & pnt ) {
-                return g->critter_at<npc>( pnt ) != nullptr;
+                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
             };
 
             const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ), f, false,
@@ -3431,11 +3427,11 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             }
             break;
         }
-        case 2:
+        case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
                                   g->m.get_radiation( p->pos() ) );
             break;
-        case 3:
+        case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
             it->convert( "geiger_on" ).active = true;
             break;
