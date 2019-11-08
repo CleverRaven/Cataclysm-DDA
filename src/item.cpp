@@ -8842,7 +8842,9 @@ bool item::process_blackpowder_fouling( player *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
         inc_damage( DT_ACID );
-        carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+        if( carrier ) {
+            carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+        }
     }
     return false;
 }
