@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_skittering_plague",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "skittering plague" },
     "description": "A giant infected roach, it has been feeding on the undead.",
@@ -38,6 +39,7 @@
   },
   {
     "id": "mon_plague_nymph",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "plague nymph" },
     "description": "An infected mutant cockroach about the size of a rat.",
@@ -69,6 +71,7 @@
   },
   {
     "id": "mon_plague_vector",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "plague vector" },
     "description": "This infected roach has been feeding on the undead and started to mutate chaotically.  Extra limbs and growths sprout from its thorax.",
@@ -105,6 +108,7 @@
   },
   {
     "id": "mon_giant_cockroach",
+    "//": "Tileset whitelist for cockroaches.",
     "type": "MONSTER",
     "name": { "str": "giant cockroach", "str_pl": "giant cockroaches" },
     "description": "A mutant cockroach the size of a small dog.",
@@ -140,6 +144,7 @@
   },
   {
     "id": "mon_giant_cockroach_nymph",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "giant cockroach nymph" },
     "description": "A baby mutant cockroach about the size of a rat.",
@@ -170,6 +175,7 @@
   },
   {
     "id": "mon_pregnant_giant_cockroach",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "pregnant giant cockroach", "str_pl": "pregnant giant cockroaches" },
     "description": "A mutant cockroach the size of a small dog.  Its abdomen is heavily swollen.",
@@ -205,6 +211,7 @@
   },
   {
     "id": "mon_bee",
+    "//": "Tileset whitelist for bees & wasps",
     "type": "MONSTER",
     "name": { "str": "giant bee" },
     "description": "With a stinger the size of a kitchen knife, this dog-sized insect's black and yellow markings warn you to leave it undisturbed.",
@@ -238,6 +245,7 @@
   },
   {
     "id": "mon_centipede_giant",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant centipede" },
     "description": "A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
@@ -269,6 +277,7 @@
   },
   {
     "id": "mon_dragonfly_giant",
+    "looks_like": "mon_fly",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly", "str_pl": "giant dragonflies" },
     "description": "A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
@@ -300,6 +309,7 @@
   },
   {
     "id": "mon_fly",
+    "//": "Tileset whitelist for flying giant insects.",
     "type": "MONSTER",
     "name": { "str": "giant fly", "str_pl": "giant flies" },
     "description": "A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
@@ -329,6 +339,7 @@
   },
   {
     "id": "mon_mosquito_giant",
+    "looks_like": "mon_fly",
     "type": "MONSTER",
     "name": { "str": "giant mosquito" },
     "description": "An enormous mutant mosquito, fluttering erratically.  Its face is dominated by a long, spear-tipped proboscis.",
@@ -358,6 +369,7 @@
   },
   {
     "id": "mon_spider_cellar_giant",
+    "//": "Tileset whitelist for spiders.",
     "type": "MONSTER",
     "name": { "str": "giant cellar spider" },
     "description": "A twitchy mutant brown spider, with a relatively small body and spindly long legs.  Its smaller brethren are known for being agile, and for preying upon other spiders.",
@@ -392,6 +404,7 @@
   },
   {
     "id": "mon_spider_cellar_giant_s",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "immature giant cellar spider" },
     "description": "A newly-hatched giant cellar spider.  Too small to possess much venom, but still quick and agile like an adult.",
@@ -424,6 +437,7 @@
   },
   {
     "id": "mon_spider_jumping_giant",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant jumping spider" },
     "description": "A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
@@ -456,6 +470,7 @@
   },
   {
     "id": "mon_spider_trapdoor_giant",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant trapdoor spider" },
     "description": "A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
@@ -487,6 +502,7 @@
   },
   {
     "id": "mon_spider_web",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant web spider" },
     "description": "A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
@@ -518,6 +534,7 @@
   },
   {
     "id": "mon_spider_fungus",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "fungal spider" },
     "description": "The abdomen of this sickly looking giant spider is now home to many lumps of blooming fungi.  It is leaving behind a trail of tainted secretions when the spider struggles to drag it along the ground.",
@@ -550,6 +567,7 @@
   },
   {
     "id": "mon_spider_web_s",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "immature giant web spider" },
     "description": "A still immature giant grass spider.  Too young to be venomous, or to walk proficiently for that matter",
@@ -580,6 +598,7 @@
   },
   {
     "id": "mon_spider_widow_giant",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant black widow" },
     "description": "A giant mutated black widow spider.  A highly venomous nightmare come to life.",
@@ -612,6 +631,7 @@
   },
   {
     "id": "mon_spider_widow_giant_s",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant black widow spiderling" },
     "description": "The horrid spawn of a giant black widow spider.  Even as a newborn, this foul creature knows only how to kill.",
@@ -644,6 +664,7 @@
   },
   {
     "id": "mon_spider_wolf_giant",
+    "looks_like": "mon_spider_cellar_giant",
     "type": "MONSTER",
     "name": { "str": "giant wolf spider" },
     "description": "A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
@@ -676,6 +697,7 @@
   },
   {
     "id": "mon_wasp",
+    "looks_like": "mon_bee",
     "type": "MONSTER",
     "name": { "str": "giant wasp" },
     "description": "A gigantic slender-bodied wasp with an evil-looking stinger protruding from its abdomen.  Its exoskeleton glowers with ominous red markings.",
@@ -709,6 +731,7 @@
   },
   {
     "id": "mon_dermatik",
+    "looks_like": "mon_fly",
     "type": "MONSTER",
     "name": { "str": "dermatik" },
     "description": "A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding from the abdomen.",
@@ -739,6 +762,7 @@
   },
   {
     "id": "mon_dermatik_larva",
+    "looks_like": "mon_bee",
     "type": "MONSTER",
     "name": { "str": "dermatik larva", "str_pl": "dermatik larvae" },
     "description": "A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
@@ -767,6 +791,7 @@
   },
   {
     "id": "mon_ant",
+    "//": "Tileset whitelist for ants.",
     "type": "MONSTER",
     "name": { "str": "giant ant" },
     "description": "An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
@@ -799,6 +824,7 @@
   },
   {
     "id": "mon_ant_acid",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "giant acidic ant" },
     "description": "A monstrous brown ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid seems to drip out periodically.",
@@ -832,6 +858,7 @@
   },
   {
     "id": "mon_ant_acid_larva",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "acidic ant larva", "str_pl": "acidic ant larvae" },
     "description": "A squirming yellow grub that seems to be oozing liquid from both ends of its body.  It appears its chitin hasn't developed enough to resist acid.",
@@ -858,6 +885,7 @@
   },
   {
     "id": "mon_ant_acid_queen",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "acidic queen ant" },
     "description": "An enormous brown ant with an elongated, pulsating abdomen.  Its orifice seems developed only for egg-laying rather than spraying acid like the rest of the colony, but it doesn't seem affected by the acrid liquid either.",
@@ -889,6 +917,7 @@
   },
   {
     "id": "mon_ant_acid_soldier",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with its huge mandibles, a corrosive liquid seeps from the end of its bloated abdomen.",
@@ -922,6 +951,7 @@
   },
   {
     "id": "mon_ant_fungus",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "fungal ant" },
     "description": "Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
@@ -954,6 +984,7 @@
   },
   {
     "id": "mon_ant_larva",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "ant larva", "str_pl": "ant larvae" },
     "description": "A pulsating sausage of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
@@ -980,6 +1011,7 @@
   },
   {
     "id": "mon_ant_queen",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
@@ -1009,6 +1041,7 @@
   },
   {
     "id": "mon_ant_soldier",
+    "looks_like": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
@@ -1040,6 +1073,7 @@
   },
   {
     "id": "mon_locust",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "giant locust" },
     "description": "An overgrown locust.  You don't think it'll eat you but it could cause massive damage to nearby plants.",
@@ -1074,6 +1108,7 @@
   },
   {
     "id": "mon_locust_nymph",
+    "looks_like": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "locust nymph" },
     "description": "A locust the size of a rabbit.  You'd hate to think what a swarm of these could do.",

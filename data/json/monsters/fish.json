@@ -156,6 +156,7 @@
   },
   {
     "id": "mon_fish_trout",
+    "//": "Tileset whitelist for non-hostile fish",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "trout" },
@@ -236,6 +237,7 @@
     "id": "mon_fish_whitefish",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
+    "looks_like": "mon_fish_trout",
     "name": { "str": "whitefish", "str_pl": "whitefish" },
     "description": "A whitefish, closely related to salmon.  One can assume they are just as nice when cooked with smoke."
   },
@@ -243,6 +245,7 @@
     "id": "mon_fish_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
+    "looks_like": "mon_fish_trout",
     "name": { "str": "largemouth bass", "str_pl": "largemouth bass" },
     "description": "A Largemouth Bass.  Very popular with sports fishermen."
   },
@@ -250,6 +253,7 @@
     "id": "mon_fish_sbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
+    "looks_like": "mon_fish_trout",
     "name": { "str": "smallmouth bass", "str_pl": "smallmouth bass" },
     "description": "A Smallmouth Bass.  Being intolerant to pollution in the water, smallmouth bass are a good indicator of how clean it is."
   },
@@ -257,6 +261,7 @@
     "id": "mon_fish_pbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
+    "looks_like": "mon_fish_trout",
     "name": { "str": "striped bass", "str_pl": "striped bass" },
     "description": "A Striped Bass.  Mostly a salt water fish, they migrate to fresher water to spawn."
   },
@@ -288,6 +293,7 @@
     "id": "mon_fish_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
+    "looks_like": "mon_fish_trout",
     "name": { "str": "sunfish", "str_pl": "sunfish" },
     "description": "A Sunfish.  A small fish related to bass or bluegill."
   },
@@ -389,6 +395,7 @@
     "id": "mon_fish_pike",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
+    "looks_like": "mon_fish_trout",
     "name": { "ctxt": "fish", "str": "pike" },
     "aggression": 10,
     "melee_skill": 3,
@@ -455,6 +462,7 @@
   },
   {
     "id": "mon_fish_lobster",
+    "looks_like": "mon_fish_trout",
     "type": "MONSTER",
     "name": { "str": "lobster" },
     "description": "These things were once considered pests not worth eating, then some marketing genius started selling them to people as a delicacy and they took off in popularity… and price.",
@@ -484,6 +492,7 @@
   },
   {
     "id": "mon_fish_crayfish",
+    "looks_like": "mon_fish_trout",
     "type": "MONSTER",
     "name": { "str": "crayfish", "str_pl": "crayfish" },
     "description": "If you could get ahold of a bunch more of these, a hefty pot of boiling water, and some spicy seasonings…",
@@ -513,6 +522,7 @@
   },
   {
     "id": "mon_fish_blinky",
+    "looks_like": "mon_fish_trout",
     "type": "MONSTER",
     "name": { "str": "Blinky", "str_pl": "Blinkies" },
     "description": "A strange three-eyed fish.",
@@ -540,6 +550,7 @@
   },
   {
     "id": "mon_fish_eel",
+    "looks_like": "mon_fish_trout",
     "type": "MONSTER",
     "name": { "str": "freshwater eel" },
     "description": "An American eel.  Used to be quite common in these parts until the dams were built.  Guess they'll get a second chance now that they aren't running.",
@@ -567,6 +578,7 @@
   },
   {
     "id": "mon_zhark",
+    "//": "Tileset whitelist for hostile fish",
     "type": "MONSTER",
     "name": { "str": "jawed terror" },
     "description": "A once aggressive and hungry bull shark, this jawed terror is now even more aggressive, possibly thanks to its lack of a functioning brain.",
@@ -596,6 +608,7 @@
   },
   {
     "id": "mon_mutant_carp",
+    "looks_like": "mon_zhark",
     "type": "MONSTER",
     "name": { "str": "giant carp" },
     "description": "This thing seems like a carp, only swollen and very very angry.  Death is the gift of the carp god.",
@@ -625,6 +638,7 @@
   },
   {
     "id": "mon_mutant_salmon",
+    "looks_like": "mon_zhark",
     "type": "MONSTER",
     "name": { "str": "giant salmon" },
     "description": "A mutated salmon, the same size as a large dog and quite dangerous to the inexperienced angler.",
@@ -654,6 +668,7 @@
   },
   {
     "id": "mon_sewer_fish",
+    "looks_like": "mon_zhark",
     "type": "MONSTER",
     "name": { "str": "seweranha" },
     "description": "A large mutant variety of carp.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
