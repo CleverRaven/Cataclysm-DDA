@@ -1,0 +1,19 @@
+[
+{
+  "type": "MOD_INFO",
+  "ident": "bicycle_archery",
+  "name": "Bicycle Archery",
+  "authors": [ "HarrisonGreenlee" ],
+  "maintainers": [ "HarrisonGreenlee" ],
+  "description": "Enables bicycle archery. Also enables the use of other 2 handed weapons while riding a bicycle.",
+  "category": "rebalance",
+  "dependencies": [ "dda" ]
+},
+{
+  "type": "EXTERNAL_OPTION",
+  "name": "BICYCLE_ARCHERY",
+  "info": "Enables bicycle archery. Also enables the use of other 2 handed weapons while riding a bicycle.",
+  "stype": "bool",
+  "value": true
+}
+]

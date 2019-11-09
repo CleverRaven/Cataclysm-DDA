@@ -632,7 +632,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
         const optional_vpart_position vp = m.veh_at( you.pos() );
         if( vp && vp->vehicle().player_in_control( you ) && ( mode_map.second->is_two_handed( you ) ||
-                mode_map.second->has_flag( "FIRE_TWOHAND" ) ) ) {
+                mode_map.second->has_flag( "FIRE_TWOHAND" ) && !get_option<bool>( "BICYCLE_ARCHERY" ) ) ) {
             messages.push_back( string_format( _( "You can't use your %s while driving!" ),
                                                mode_map.second->tname() ) );
             fireable = false;

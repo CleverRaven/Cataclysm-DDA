@@ -194,5 +194,12 @@
     "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false
-  }
+},
+{
+  "type": "EXTERNAL_OPTION",
+  "name": "BICYCLE_ARCHERY",
+  "info": "Enables bicycle archery. Also enables the use of other 2 handed weapons while riding a bicycle.",
+  "stype": "bool",
+  "value": false
+}
 ]
