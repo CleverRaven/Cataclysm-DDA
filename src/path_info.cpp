@@ -33,6 +33,7 @@ static std::string gfxdir_value;
 static std::string config_dir_value;
 static std::string user_dir_value;
 static std::string datadir_value;
+static std::string base_path_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -46,7 +47,7 @@ void PATH_INFO::init_base_path( std::string path )
         }
     }
 
-    FILENAMES["base_path"] = path;
+    base_path_value = path;
 }
 
 void PATH_INFO::init_user_dir( const char *ud )
@@ -121,13 +122,13 @@ void update_config_dir()
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
-    if( !FILENAMES["base_path"].empty() ) {
+    if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
-        datadir_value = FILENAMES["base_path"] + "share/cataclysm-dda/";
+        datadir_value = base_path_value + "share/cataclysm-dda/";
         gfxdir_value = datadir_value + "gfx/";
 #else
-        datadir_value = FILENAMES["base_path"] + "data/";
-        gfxdir_value = FILENAMES["base_path"] + "gfx/";
+        datadir_value = base_path_value + "data/";
+        gfxdir_value = base_path_value + "gfx/";
 #endif
     } else {
         datadir_value = "data/";
@@ -235,7 +236,7 @@ std::string PATH_INFO::base_colors()
 }
 std::string PATH_INFO::base_path()
 {
-    return FILENAMES["base_path"];
+    return base_path_value;
 }
 std::string PATH_INFO::colors()
 {
