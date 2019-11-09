@@ -30,6 +30,7 @@ static void update_pathname( const std::string &name, const std::string &path );
 
 static std::string motd_value;
 static std::string gfxdir_value;
+static std::string config_dir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -110,9 +111,9 @@ void update_datadir()
 
 void update_config_dir()
 {
-    update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
-    update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
-    update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
+    update_pathname( "options", config_dir_value + "options.json" );
+    update_pathname( "keymap", config_dir_value + "keymap.txt" );
+    update_pathname( "autopickup", config_dir_value + "auto_pickup.json" );
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -162,13 +163,13 @@ void PATH_INFO::set_standard_filenames()
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
     }
-    update_pathname( "config_dir", dir );
+    config_dir_value = dir;
 #else
-    update_pathname( "config_dir", FILENAMES["user_dir"] + "config/" );
+    config_dir_value = FILENAMES["user_dir"] + "config/";
 #endif
-    update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
-    update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
-    update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
+    update_pathname( "options", config_dir_value + "options.json" );
+    update_pathname( "keymap", config_dir_value + "keymap.txt" );
+    update_pathname( "autopickup", config_dir_value + "auto_pickup.json" );
 }
 
 std::string find_translated_file( const std::string &path, const std::string &extension,
@@ -228,7 +229,7 @@ std::string PATH_INFO::autopickup()
 }
 std::string PATH_INFO::base_colors()
 {
-    return FILENAMES["config_dir"] + "base_colors.json";
+    return config_dir_value + "base_colors.json";
 }
 std::string PATH_INFO::base_path()
 {
@@ -244,11 +245,11 @@ std::string PATH_INFO::color_templates()
 }
 std::string PATH_INFO::config_dir()
 {
-    return FILENAMES["config_dir"];
+    return config_dir_value;
 }
 std::string PATH_INFO::custom_colors()
 {
-    return FILENAMES["config_dir"] + "custom_colors.json";
+    return config_dir_value + "custom_colors.json";
 }
 std::string PATH_INFO::datadir()
 {
@@ -256,7 +257,7 @@ std::string PATH_INFO::datadir()
 }
 std::string PATH_INFO::debug()
 {
-    return FILENAMES["config_dir"] + "debug.log";
+    return config_dir_value + "debug.log";
 }
 std::string PATH_INFO::defaultsounddir()
 {
@@ -272,7 +273,7 @@ std::string PATH_INFO::defaulttilepng()
 }
 std::string PATH_INFO::fontdata()
 {
-    return FILENAMES["config_dir"] + "fonts.json";
+    return config_dir_value + "fonts.json";
 }
 std::string PATH_INFO::fontdir()
 {
@@ -280,7 +281,7 @@ std::string PATH_INFO::fontdir()
 }
 std::string PATH_INFO::fontlist()
 {
-    return FILENAMES["config_dir"] + "fontlist.txt";
+    return config_dir_value + "fontlist.txt";
 }
 std::string PATH_INFO::graveyarddir()
 {
@@ -304,7 +305,7 @@ std::string PATH_INFO::keymap()
 }
 std::string PATH_INFO::lastworld()
 {
-    return FILENAMES["config_dir"] + "lastworld.json";
+    return config_dir_value + "lastworld.json";
 }
 std::string PATH_INFO::legacy_autopickup()
 {
@@ -312,7 +313,7 @@ std::string PATH_INFO::legacy_autopickup()
 }
 std::string PATH_INFO::legacy_autopickup2()
 {
-    return FILENAMES["config_dir"] + "auto_pickup.txt";
+    return config_dir_value + "auto_pickup.txt";
 }
 std::string PATH_INFO::legacy_fontdata()
 {
@@ -328,7 +329,7 @@ std::string PATH_INFO::legacy_options()
 }
 std::string PATH_INFO::legacy_options2()
 {
-    return FILENAMES["config_dir"] + "options.txt";
+    return config_dir_value + "options.txt";
 }
 std::string PATH_INFO::legacy_worldoptions()
 {
@@ -352,11 +353,11 @@ std::string PATH_INFO::options()
 }
 std::string PATH_INFO::panel_options()
 {
-    return FILENAMES["config_dir"] + "panel_options.json";
+    return config_dir_value + "panel_options.json";
 }
 std::string PATH_INFO::safemode()
 {
-    return FILENAMES["config_dir"] + "safemode.json";
+    return config_dir_value + "safemode.json";
 }
 std::string PATH_INFO::savedir()
 {
@@ -380,7 +381,7 @@ std::string PATH_INFO::user_gfx()
 }
 std::string PATH_INFO::user_keybindings()
 {
-    return FILENAMES["config_dir"] + "keybindings.json";
+    return config_dir_value + "keybindings.json";
 }
 std::string PATH_INFO::user_moddir()
 {
@@ -396,7 +397,7 @@ std::string PATH_INFO::worldoptions()
 }
 std::string PATH_INFO::crash()
 {
-    return FILENAMES["config_dir"] + "crash.log";
+    return config_dir_value + "crash.log";
 }
 std::string PATH_INFO::tileset_conf()
 {
@@ -412,7 +413,7 @@ std::string PATH_INFO::mods_dev_default()
 }
 std::string PATH_INFO::mods_user_default()
 {
-    return FILENAMES["config_dir"] + "user-default-mods.json";
+    return config_dir_value + "user-default-mods.json";
 }
 std::string PATH_INFO::soundpack_conf()
 {
@@ -456,7 +457,7 @@ void PATH_INFO::set_datadir( const std::string &datadir )
 
 void PATH_INFO::set_config_dir( const std::string &config_dir )
 {
-    update_pathname( "config_dir", config_dir );
+    config_dir_value = config_dir;
     update_config_dir();
 }
 
