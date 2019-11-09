@@ -24,8 +24,6 @@
 static std::string find_translated_file( const std::string &path, const std::string &extension,
         const std::string &fallback );
 
-static void update_config_dir();
-
 static std::string motd_value;
 static std::string gfxdir_value;
 static std::string config_dir_value;
@@ -77,13 +75,6 @@ void PATH_INFO::init_user_dir( const char *ud )
     }
 
     user_dir_value = dir;
-}
-
-void update_config_dir()
-{
-    options_value = config_dir_value + "options.json";
-    keymap_value = config_dir_value + "keymap.txt";
-    autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -421,7 +412,9 @@ void PATH_INFO::set_datadir( const std::string &datadir )
 void PATH_INFO::set_config_dir( const std::string &config_dir )
 {
     config_dir_value = config_dir;
-    update_config_dir();
+    options_value = config_dir_value + "options.json";
+    keymap_value = config_dir_value + "keymap.txt";
+    autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
 void PATH_INFO::set_savedir( const std::string &savedir )
