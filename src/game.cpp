@@ -7324,7 +7324,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
-            int dummy = 0; // draw_item_info needs an int &
             activeItem->example->info( true, vThisItem );
 
             item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
