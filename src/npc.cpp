@@ -1455,7 +1455,15 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            int ups_charges = charges_of( "UPS_off", ups_drain ) +
+                              charges_of( "UPS_off", ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        } else {
+            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        }
+        needrank[need_ammo] *= 5;
     }
     if( !base_location ) {
         needrank[need_safety] = 1;
