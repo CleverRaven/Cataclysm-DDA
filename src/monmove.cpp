@@ -109,13 +109,14 @@ bool monster::can_move_to( const tripoint &p ) const
     const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
 
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && g->m.ter( p ) != t_hole ) {
+        if( !g->m.has_flag( TFLAG_GOES_UP, pos() ) && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
             // can't go through the roof
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) && g->m.ter( p ) != t_hole ) {
+        if( !g->m.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
             // can't go through the floor
+            // you would fall anyway if there was no floor, so no need to check for that here
             return false;
         }
     }
