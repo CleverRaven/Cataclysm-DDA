@@ -61,8 +61,8 @@ class color_loader
     public:
         /// @throws std::exception upon any kind of error.
         void load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
-            const std::string default_path = FILENAMES["colors"];
-            const std::string custom_path = FILENAMES["base_colors"];
+            const std::string default_path = PATH_INFO::colors();
+            const std::string custom_path = PATH_INFO::base_colors();
 
             if( !file_exist( custom_path ) ) {
                 copy_file( default_path, custom_path );

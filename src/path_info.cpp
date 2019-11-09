@@ -268,3 +268,207 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     ( void ) extension;
     return FILENAMES[fallbackid];
 }
+std::string PATH_INFO::autopickup()
+{
+    return FILENAMES["autopickup"];
+}
+std::string PATH_INFO::base_colors()
+{
+    return FILENAMES["base_colors"];
+}
+std::string PATH_INFO::base_path()
+{
+    return FILENAMES["base_path"];
+}
+std::string PATH_INFO::colors()
+{
+    return FILENAMES["colors"];
+}
+std::string PATH_INFO::color_templates()
+{
+    return FILENAMES["color_templates"];
+}
+std::string PATH_INFO::config_dir()
+{
+    return FILENAMES["config_dir"];
+}
+std::string PATH_INFO::custom_colors()
+{
+    return FILENAMES["custom_colors"];
+}
+std::string PATH_INFO::datadir()
+{
+    return FILENAMES["datadir"];
+}
+std::string PATH_INFO::debug()
+{
+    return FILENAMES["debug"];
+}
+std::string PATH_INFO::defaultsounddir()
+{
+    return FILENAMES["defaultsounddir"];
+}
+std::string PATH_INFO::defaulttilejson()
+{
+    return FILENAMES["defaulttilejson"];
+}
+std::string PATH_INFO::defaulttilepng()
+{
+    return FILENAMES["defaulttilepng"];
+}
+std::string PATH_INFO::fontdata()
+{
+    return FILENAMES["fontdata"];
+}
+std::string PATH_INFO::fontdir()
+{
+    return FILENAMES["fontdir"];
+}
+std::string PATH_INFO::fontlist()
+{
+    return FILENAMES["fontlist"];
+}
+std::string PATH_INFO::graveyarddir()
+{
+    return FILENAMES["graveyarddir"];
+}
+std::string PATH_INFO::help()
+{
+    return FILENAMES["help"];
+}
+std::string PATH_INFO::keybindings()
+{
+    return FILENAMES["keybindings"];
+}
+std::string PATH_INFO::keybindings_vehicle()
+{
+    return FILENAMES["keybindings_vehicle"];
+}
+std::string PATH_INFO::keymap()
+{
+    return FILENAMES["keymap"];
+}
+std::string PATH_INFO::lastworld()
+{
+    return FILENAMES["lastworld"];
+}
+std::string PATH_INFO::legacy_autopickup()
+{
+    return FILENAMES["legacy_autopickup"];
+}
+std::string PATH_INFO::legacy_autopickup2()
+{
+    return FILENAMES["legacy_autopickup2"];
+}
+std::string PATH_INFO::legacy_fontdata()
+{
+    return FILENAMES["legacy_fontdata"];
+}
+std::string PATH_INFO::legacy_keymap()
+{
+    return FILENAMES["legacy_keymap"];
+}
+std::string PATH_INFO::legacy_options()
+{
+    return FILENAMES["legacy_options"];
+}
+std::string PATH_INFO::legacy_options2()
+{
+    return FILENAMES["legacy_options2"];
+}
+std::string PATH_INFO::legacy_worldoptions()
+{
+    return FILENAMES["legacy_worldoptions"];
+}
+std::string PATH_INFO::memorialdir()
+{
+    return FILENAMES["memorialdir"];
+}
+std::string PATH_INFO::jsondir()
+{
+    return FILENAMES["jsondir"];
+}
+std::string PATH_INFO::moddir()
+{
+    return FILENAMES["moddir"];
+}
+std::string PATH_INFO::options()
+{
+    return FILENAMES["options"];
+}
+std::string PATH_INFO::panel_options()
+{
+    return FILENAMES["panel_options"];
+}
+std::string PATH_INFO::safemode()
+{
+    return FILENAMES["safemode"];
+}
+std::string PATH_INFO::savedir()
+{
+    return FILENAMES["savedir"];
+}
+std::string PATH_INFO::sokoban()
+{
+    return FILENAMES["sokoban"];
+}
+std::string PATH_INFO::templatedir()
+{
+    return FILENAMES["templatedir"];
+}
+std::string PATH_INFO::user_dir()
+{
+    return FILENAMES["user_dir"];
+}
+std::string PATH_INFO::user_gfx()
+{
+    return FILENAMES["user_gfx"];
+}
+std::string PATH_INFO::user_keybindings()
+{
+    return FILENAMES["user_keybindings"];
+}
+std::string PATH_INFO::user_moddir()
+{
+    return FILENAMES["user_moddir"];
+}
+std::string PATH_INFO::user_sound()
+{
+    return FILENAMES["user_sound"];
+}
+std::string PATH_INFO::worldoptions()
+{
+    return FILENAMES["worldoptions"];
+}
+std::string PATH_INFO::crash()
+{
+    return FILENAMES["crash"];
+}
+std::string PATH_INFO::tileset_conf()
+{
+    return FILENAMES["tileset-conf"];
+}
+std::string PATH_INFO::mods_replacements()
+{
+    return FILENAMES["mods-replacements"];
+}
+std::string PATH_INFO::mods_dev_default()
+{
+    return FILENAMES["mods-dev-default"];
+}
+std::string PATH_INFO::mods_user_default()
+{
+    return FILENAMES["mods-user-default"];
+}
+std::string PATH_INFO::soundpack_conf()
+{
+    return FILENAMES["soundpack-conf"];
+}
+std::string PATH_INFO::gfxdir()
+{
+    return FILENAMES["gfxdir"];
+}
+std::string PATH_INFO::data_sound()
+{
+    return FILENAMES["data_sound"];
+}

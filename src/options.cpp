@@ -901,7 +901,7 @@ std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
     // Use local map as build_resource_list will clear the first parameter
     std::map<std::string, std::string> local_tilesets;
     auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
-                         FILENAMES["tileset-conf"] );
+                         PATH_INFO::tileset_conf() );
 
     // Copy found tilesets
     TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
@@ -916,11 +916,11 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( FILENAMES["gfxdir"] );
+    auto data_tilesets = load_tilesets_from( PATH_INFO::gfxdir() );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( FILENAMES["user_gfx"] );
+    auto user_tilesets = load_tilesets_from( PATH_INFO::user_gfx() );
     result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
 
     // Default values
@@ -937,7 +937,7 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
     auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
-                           FILENAMES["soundpack-conf"] );
+                           PATH_INFO::soundpack_conf() );
 
     // Copy over found soundpacks
     SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
@@ -953,11 +953,11 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     std::vector<id_and_option> result;
 
     // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( FILENAMES["data_sound"] );
+    auto data_soundpacks = load_soundpack_from( PATH_INFO::data_sound() );
     result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
 
     // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( FILENAMES["user_sound"] );
+    auto user_soundpacks = load_soundpack_from( PATH_INFO::user_sound() );
     result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
 
     // Select default built-in sound pack
@@ -2848,7 +2848,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    const auto savefile = FILENAMES["options"];
+    const auto savefile = PATH_INFO::options();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2869,14 +2869,14 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    const auto file = FILENAMES["options"];
+    const auto file = PATH_INFO::options();
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) ) {
         if( load_legacy() ) {
             if( save() ) {
-                remove_file( FILENAMES["legacy_options"] );
-                remove_file( FILENAMES["legacy_options2"] );
+                remove_file( PATH_INFO::legacy_options() );
+                remove_file( PATH_INFO::legacy_options2() );
             }
         }
     }
@@ -2917,8 +2917,8 @@ bool options_manager::load_legacy()
         }
     };
 
-    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
-           read_from_file_optional( FILENAMES["legacy_options2"], reader );
+    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
+           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const

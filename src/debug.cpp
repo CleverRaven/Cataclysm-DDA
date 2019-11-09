@@ -136,7 +136,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
-            FILENAMES["debug"]
+            PATH_INFO::debug()
         );
 #endif
 
@@ -416,7 +416,7 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile.init( output_mode, FILENAMES["debug"] );
+    debugFile.init( output_mode, PATH_INFO::debug() );
 }
 
 void deinitDebug()
