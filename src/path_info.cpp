@@ -98,16 +98,10 @@ void update_datadir()
 {
     // Shared dirs
     gfxdir_value = datadir_value + "gfx/";
-    update_pathname( "fontdir", datadir_value + "font/" );
-    update_pathname( "rawdir", datadir_value + "raw/" );
-    update_pathname( "jsondir", datadir_value + "core/" );
-    update_pathname( "moddir", datadir_value + "mods/" );
     update_pathname( "namesdir", datadir_value + "names/" );
     update_pathname( "titledir", datadir_value + "title/" );
     update_pathname( "motddir", datadir_value + "motd/" );
     update_pathname( "creditsdir", datadir_value + "credits/" );
-    update_pathname( "data_sound", datadir_value + "sound" );
-    update_pathname( "helpdir", datadir_value + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
@@ -141,16 +135,10 @@ void PATH_INFO::set_standard_filenames()
     }
 
     // Shared dirs
-    update_pathname( "fontdir", datadir_value + "font/" );
-    update_pathname( "rawdir", datadir_value + "raw/" );
-    update_pathname( "jsondir", datadir_value + "core/" );
-    update_pathname( "moddir", datadir_value + "mods/" );
     update_pathname( "namesdir", datadir_value + "names/" );
     update_pathname( "titledir", datadir_value + "title/" );
     update_pathname( "motddir", datadir_value + "motd/" );
     update_pathname( "creditsdir", datadir_value + "credits/" );
-    update_pathname( "data_sound", datadir_value + "sound" );
-    update_pathname( "helpdir", datadir_value + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
@@ -245,11 +233,11 @@ std::string PATH_INFO::base_path()
 }
 std::string PATH_INFO::colors()
 {
-    return FILENAMES["rawdir"] + "colors.json";
+    return datadir_value + "raw/" + "colors.json";
 }
 std::string PATH_INFO::color_templates()
 {
-    return FILENAMES["rawdir"] + "color_templates/";
+    return datadir_value + "raw/" + "color_templates/";
 }
 std::string PATH_INFO::config_dir()
 {
@@ -285,7 +273,7 @@ std::string PATH_INFO::fontdata()
 }
 std::string PATH_INFO::fontdir()
 {
-    return FILENAMES["fontdir"];
+    return datadir_value + "font/";
 }
 std::string PATH_INFO::fontlist()
 {
@@ -297,15 +285,15 @@ std::string PATH_INFO::graveyarddir()
 }
 std::string PATH_INFO::help()
 {
-    return FILENAMES["helpdir"] + "texts.json";
+    return datadir_value + "help/" + "texts.json";
 }
 std::string PATH_INFO::keybindings()
 {
-    return FILENAMES["rawdir"] + "keybindings.json";
+    return datadir_value + "raw/" + "keybindings.json";
 }
 std::string PATH_INFO::keybindings_vehicle()
 {
-    return FILENAMES["rawdir"] + "keybindings/vehicle.json";
+    return datadir_value + "raw/" + "keybindings/vehicle.json";
 }
 std::string PATH_INFO::keymap()
 {
@@ -349,11 +337,11 @@ std::string PATH_INFO::memorialdir()
 }
 std::string PATH_INFO::jsondir()
 {
-    return FILENAMES["jsondir"];
+    return datadir_value + "core/";
 }
 std::string PATH_INFO::moddir()
 {
-    return FILENAMES["moddir"];
+    return datadir_value + "mods/";
 }
 std::string PATH_INFO::options()
 {
@@ -373,7 +361,7 @@ std::string PATH_INFO::savedir()
 }
 std::string PATH_INFO::sokoban()
 {
-    return FILENAMES["rawdir"] + "sokoban.txt";
+    return datadir_value + "raw/" + "sokoban.txt";
 }
 std::string PATH_INFO::templatedir()
 {
@@ -413,11 +401,11 @@ std::string PATH_INFO::tileset_conf()
 }
 std::string PATH_INFO::mods_replacements()
 {
-    return FILENAMES["moddir"] + "replacements.json";
+    return datadir_value + "mods/" + "replacements.json";
 }
 std::string PATH_INFO::mods_dev_default()
 {
-    return FILENAMES["moddir"] + "default.json";
+    return datadir_value + "mods/" + "default.json";
 }
 std::string PATH_INFO::mods_user_default()
 {
@@ -433,7 +421,7 @@ std::string PATH_INFO::gfxdir()
 }
 std::string PATH_INFO::data_sound()
 {
-    return FILENAMES["data_sound"];
+    return datadir_value + "sound";
 }
 
 std::string PATH_INFO::credits()
