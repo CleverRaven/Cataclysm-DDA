@@ -61,6 +61,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
