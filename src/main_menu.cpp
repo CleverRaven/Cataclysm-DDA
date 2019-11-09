@@ -258,13 +258,9 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
-                             halloween_theme ? ".halloween" : ".title",
-                             halloween_theme ? "halloween" : "title" ),
-                             _( "Cataclysm: Dark Days Ahead" ) );
+    mmenu_title = load_file( PATH_INFO::title( halloween_theme ), _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
-                           _( "No message today." ) );
+    auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 
     std::ostringstream buffer;
     mmenu_motd.clear();
@@ -277,8 +273,7 @@ void main_menu::init_strings()
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-    "credits" ), [&buffer]( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::credits(), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {

@@ -36,7 +36,7 @@ extern bool test_mode;
 static void reload_names()
 {
     Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+    Name::load_from_file( PATH_INFO::names() );
 }
 
 static bool sanity_checked_genders = false;

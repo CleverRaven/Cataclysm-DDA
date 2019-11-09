@@ -12,20 +12,7 @@ void update_datadir();
 void update_config_dir();
 void update_pathname( const std::string &name, const std::string &path );
 void set_standard_filenames();
-/**
- * Return a locale specific path, or if there is no path for the current
- * locale, return the default path.
- * @param pathid The key in the @ref FILENAMES map. The local path is based
- * on that value.
- * @param extension File name extension, is automatically added to the path
- * of the translated file. Can be empty, but must otherwise include the
- * initial '.', e.g. ".json"
- * @param fallbackid The path id of the fallback filename. As like pathid it's
- * the key into the @ref FILENAMES map. It is used if no translated file can be
- * found.
- */
-std::string find_translated_file( const std::string &pathid, const std::string &extension,
-                                  const std::string &fallbackid );
+
 std::string autopickup();
 std::string base_colors();
 std::string base_path();
@@ -80,6 +67,10 @@ std::string mods_dev_default();
 std::string mods_user_default();
 std::string soundpack_conf();
 
+std::string credits();
+std::string motd();
+std::string title( bool halloween_theme );
+std::string names();
 } // namespace PATH_INFO
 
 #endif

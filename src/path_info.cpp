@@ -11,6 +11,21 @@
 #include <windows.h>
 #endif
 
+/**
+ * Return a locale specific path, or if there is no path for the current
+ * locale, return the default path.
+ * @param pathid The key in the @ref FILENAMES map. The local path is based
+ * on that value.
+ * @param extension File name extension, is automatically added to the path
+ * of the translated file. Can be empty, but must otherwise include the
+ * initial '.', e.g. ".json"
+ * @param fallbackid The path id of the fallback filename. As like pathid it's
+ * the key into the @ref FILENAMES map. It is used if no translated file can be
+ * found.
+ */
+static std::string find_translated_file( const std::string &pathid, const std::string &extension,
+        const std::string &fallbackid );
+
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
@@ -150,8 +165,8 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
 }
 
-std::string PATH_INFO::find_translated_file( const std::string &pathid,
-        const std::string &extension, const std::string &fallbackid )
+std::string find_translated_file( const std::string &pathid, const std::string &extension,
+                                  const std::string &fallbackid )
 {
     const std::string base_path = FILENAMES[pathid];
 
@@ -404,4 +419,25 @@ std::string PATH_INFO::gfxdir()
 std::string PATH_INFO::data_sound()
 {
     return FILENAMES["data_sound"];
+}
+
+std::string PATH_INFO::credits()
+{
+    return find_translated_file( "creditsdir", ".credits",     "credits" );
+}
+
+std::string PATH_INFO::motd()
+{
+    return find_translated_file( "motddir", ".motd", "motd" );
+}
+
+std::string PATH_INFO::title( const bool halloween_theme )
+{
+    return find_translated_file( "titledir", halloween_theme ? ".halloween" : ".title",
+                                 halloween_theme ? "halloween" : "title" );
+}
+
+std::string PATH_INFO::names()
+{
+    return find_translated_file( "namesdir", ".json", "names" );
 }
