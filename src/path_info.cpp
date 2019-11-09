@@ -26,7 +26,6 @@ static std::string find_translated_file( const std::string &path, const std::str
 
 static void update_datadir();
 static void update_config_dir();
-static void update_pathname( const std::string &name, const std::string &path );
 
 static std::string motd_value;
 static std::string gfxdir_value;
@@ -39,9 +38,6 @@ static std::string autopickup_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
-
-/** Map where we store filenames */
-std::map<std::string, std::string> FILENAMES;
 
 void PATH_INFO::init_base_path( std::string path )
 {
@@ -82,16 +78,6 @@ void PATH_INFO::init_user_dir( const char *ud )
     }
 
     user_dir_value = dir;
-}
-
-void update_pathname( const std::string &name, const std::string &path )
-{
-    const std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
-    if( iter != FILENAMES.end() ) {
-        FILENAMES[name] = path;
-    } else {
-        FILENAMES.insert( std::pair<std::string, std::string>( name, path ) );
-    }
 }
 
 void update_datadir()
