@@ -5539,6 +5539,7 @@
   {
     "type": "recipe",
     "result": "sloppyjoe",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
