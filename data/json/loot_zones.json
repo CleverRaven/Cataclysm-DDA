@@ -30,6 +30,12 @@
     "description": "Destination for perishable drinks."
   },
   {
+    "id": "LOOT_CONTAINERS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Containers",
+    "description": "Destination for empty containers."
+  },
+  {
     "id": "LOOT_GUNS",
     "type": "LOOT_ZONE",
     "name": "Loot: Guns",
