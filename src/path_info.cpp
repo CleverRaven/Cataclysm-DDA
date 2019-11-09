@@ -91,8 +91,8 @@ void PATH_INFO::update_datadir()
     update_pathname( "keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json" );
     update_pathname( "legacy_fontdata", FILENAMES["datadir"] + "fontdata.json" );
     update_pathname( "sokoban", FILENAMES["rawdir"] + "sokoban.txt" );
-    update_pathname( "defaulttilejson", FILENAMES["gfx"] + "tile_config.json" );
-    update_pathname( "defaulttilepng", FILENAMES["gfx"] + "tinytile.png" );
+    update_pathname( "defaulttilejson", "tile_config.json" );
+    update_pathname( "defaulttilepng", "tinytile.png" );
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
@@ -155,8 +155,8 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "keybindings", FILENAMES["rawdir"] + "keybindings.json" );
     update_pathname( "keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json" );
     update_pathname( "sokoban", FILENAMES["rawdir"] + "sokoban.txt" );
-    update_pathname( "defaulttilejson", FILENAMES["gfx"] + "tile_config.json" );
-    update_pathname( "defaulttilepng", FILENAMES["gfx"] + "tinytile.png" );
+    update_pathname( "defaulttilejson", "tile_config.json" );
+    update_pathname( "defaulttilepng", "tinytile.png" );
     update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
     update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
     update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
