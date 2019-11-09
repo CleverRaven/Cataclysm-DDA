@@ -32,6 +32,7 @@ static std::string motd_value;
 static std::string gfxdir_value;
 static std::string config_dir_value;
 static std::string user_dir_value;
+static std::string datadir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -90,22 +91,22 @@ void update_pathname( const std::string &name, const std::string &path )
 void update_datadir()
 {
     // Shared dirs
-    gfxdir_value = FILENAMES["datadir"] + "gfx/";
-    update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
-    update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
-    update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
-    update_pathname( "moddir", FILENAMES["datadir"] + "mods/" );
-    update_pathname( "namesdir", FILENAMES["datadir"] + "names/" );
-    update_pathname( "titledir", FILENAMES["datadir"] + "title/" );
-    update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
-    update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
-    update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
-    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
+    gfxdir_value = datadir_value + "gfx/";
+    update_pathname( "fontdir", datadir_value + "font/" );
+    update_pathname( "rawdir", datadir_value + "raw/" );
+    update_pathname( "jsondir", datadir_value + "core/" );
+    update_pathname( "moddir", datadir_value + "mods/" );
+    update_pathname( "namesdir", datadir_value + "names/" );
+    update_pathname( "titledir", datadir_value + "title/" );
+    update_pathname( "motddir", datadir_value + "motd/" );
+    update_pathname( "creditsdir", datadir_value + "credits/" );
+    update_pathname( "data_sound", datadir_value + "sound" );
+    update_pathname( "helpdir", datadir_value + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    motd_value = FILENAMES["datadir"] + "motd/" + "en.motd";
+    motd_value = datadir_value + "motd/" + "en.motd";
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 }
@@ -122,33 +123,33 @@ void PATH_INFO::set_standard_filenames()
     // Special: data_dir and gfx_dir
     if( !FILENAMES["base_path"].empty() ) {
 #if defined(DATA_DIR_PREFIX)
-        update_pathname( "datadir", FILENAMES["base_path"] + "share/cataclysm-dda/" );
-        gfxdir_value = FILENAMES["datadir"] + "gfx/";
+        datadir_value = FILENAMES["base_path"] + "share/cataclysm-dda/";
+        gfxdir_value = datadir_value + "gfx/";
 #else
-        update_pathname( "datadir", FILENAMES["base_path"] + "data/" );
+        datadir_value = FILENAMES["base_path"] + "data/";
         gfxdir_value = FILENAMES["base_path"] + "gfx/";
 #endif
     } else {
-        update_pathname( "datadir", "data/" );
+        datadir_value = "data/";
         gfxdir_value = "gfx/";
     }
 
     // Shared dirs
-    update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
-    update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
-    update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
-    update_pathname( "moddir", FILENAMES["datadir"] + "mods/" );
-    update_pathname( "namesdir", FILENAMES["datadir"] + "names/" );
-    update_pathname( "titledir", FILENAMES["datadir"] + "title/" );
-    update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
-    update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
-    update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
-    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
+    update_pathname( "fontdir", datadir_value + "font/" );
+    update_pathname( "rawdir", datadir_value + "raw/" );
+    update_pathname( "jsondir", datadir_value + "core/" );
+    update_pathname( "moddir", datadir_value + "mods/" );
+    update_pathname( "namesdir", datadir_value + "names/" );
+    update_pathname( "titledir", datadir_value + "title/" );
+    update_pathname( "motddir", datadir_value + "motd/" );
+    update_pathname( "creditsdir", datadir_value + "credits/" );
+    update_pathname( "data_sound", datadir_value + "sound" );
+    update_pathname( "helpdir", datadir_value + "help/" );
 
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    motd_value = FILENAMES["datadir"] + "motd/" + "en.motd";
+    motd_value = datadir_value + "motd/" + "en.motd";
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
@@ -254,7 +255,7 @@ std::string PATH_INFO::custom_colors()
 }
 std::string PATH_INFO::datadir()
 {
-    return FILENAMES["datadir"];
+    return datadir_value;
 }
 std::string PATH_INFO::debug()
 {
@@ -262,7 +263,7 @@ std::string PATH_INFO::debug()
 }
 std::string PATH_INFO::defaultsounddir()
 {
-    return FILENAMES["datadir"] + "sound";
+    return datadir_value + "sound";
 }
 std::string PATH_INFO::defaulttilejson()
 {
@@ -318,7 +319,7 @@ std::string PATH_INFO::legacy_autopickup2()
 }
 std::string PATH_INFO::legacy_fontdata()
 {
-    return FILENAMES["datadir"] + "fontdata.json";
+    return datadir_value + "fontdata.json";
 }
 std::string PATH_INFO::legacy_keymap()
 {
@@ -452,7 +453,7 @@ std::string PATH_INFO::names()
 
 void PATH_INFO::set_datadir( const std::string &datadir )
 {
-    update_pathname( "datadir", datadir );
+    datadir_value = datadir;
     update_datadir();
 }
 
