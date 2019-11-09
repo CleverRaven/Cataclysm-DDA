@@ -23,7 +23,6 @@ void PATH_INFO::init_base_path( std::string path )
         }
     }
 
-    //FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
     FILENAMES["base_path"] = path;
 }
 
