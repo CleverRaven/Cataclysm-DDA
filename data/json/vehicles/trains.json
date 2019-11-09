@@ -242,7 +242,7 @@
   {
     "id": "miniature_train_loco",
     "type": "vehicle",
-    "name": "Miniature train locomotive",
+    "name": "Miniature Train Locomotive",
     "blueprint": [ "oo" ],
     "parts": [
       { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_small_pair", "headlight" ] },
