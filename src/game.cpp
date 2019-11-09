@@ -9144,14 +9144,13 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && ( is_dangerous_tile( dest_loc ) &&
-            !u.movement_mode_is( CMM_RUN ) ) ) {
-        if( is_dangerous_tile( dest_loc ) && !u.movement_mode_is( CMM_RUN ) ) {
-            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
-            add_msg( m_warning,
-                     _( "Stepping into that %s looks risky. Press (run key) and move into it to force movement." ),
-                     enumerate_as_string( harmful_stuff ) );
-        }
+    if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) &&
+        !u.movement_mode_is( CMM_RUN ) ) {
+        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+        add_msg( m_warning,
+                 _( "Stepping into that %s looks risky. Press (run key) and move into it to force movement." ),
+                 enumerate_as_string( harmful_stuff ) );
+
         return true;
     }
     // Used to decide whether to print a 'moving is slow message
