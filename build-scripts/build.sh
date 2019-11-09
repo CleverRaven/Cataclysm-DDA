@@ -8,7 +8,7 @@ num_jobs=3
 
 function run_tests
 {
-    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS | grep -v "0.0[0-9]{2} s:"
+    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
 date +%s > build-start-time
