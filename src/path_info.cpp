@@ -14,17 +14,15 @@
 /**
  * Return a locale specific path, or if there is no path for the current
  * locale, return the default path.
- * @param pathid The key in the @ref FILENAMES map. The local path is based
- * on that value.
+ * @param path The local path is based on that value.
  * @param extension File name extension, is automatically added to the path
  * of the translated file. Can be empty, but must otherwise include the
  * initial '.', e.g. ".json"
- * @param fallbackid The path id of the fallback filename. As like pathid it's
- * the key into the @ref FILENAMES map. It is used if no translated file can be
- * found.
+ * @param fallback The path of the fallback filename.
+ * It is used if no translated file can be found.
  */
-static std::string find_translated_file( const std::string &pathid, const std::string &extension,
-        const std::string &fallbackid );
+static std::string find_translated_file( const std::string &path, const std::string &extension,
+        const std::string &fallback );
 
 static void update_datadir();
 static void update_config_dir();
@@ -169,10 +167,10 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
 }
 
-std::string find_translated_file( const std::string &pathid, const std::string &extension,
-                                  const std::string &fallbackid )
+std::string find_translated_file( const std::string &path, const std::string &extension,
+                                  const std::string &fallback )
 {
-    const std::string base_path = FILENAMES[pathid];
+    const std::string base_path = path;
 
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
@@ -218,7 +216,7 @@ std::string find_translated_file( const std::string &pathid, const std::string &
     }
 #endif
     ( void ) extension;
-    return FILENAMES[fallbackid];
+    return fallback;
 }
 std::string PATH_INFO::autopickup()
 {
@@ -427,23 +425,23 @@ std::string PATH_INFO::data_sound()
 
 std::string PATH_INFO::credits()
 {
-    return find_translated_file( "creditsdir", ".credits",     "credits" );
+    return find_translated_file( FILENAMES["creditsdir"], ".credits", FILENAMES["credits"] );
 }
 
 std::string PATH_INFO::motd()
 {
-    return find_translated_file( "motddir", ".motd", "motd" );
+    return find_translated_file( FILENAMES["motddir"], ".motd", FILENAMES["motd"] );
 }
 
 std::string PATH_INFO::title( const bool halloween_theme )
 {
-    return find_translated_file( "titledir", halloween_theme ? ".halloween" : ".title",
-                                 halloween_theme ? "halloween" : "title" );
+    return find_translated_file( FILENAMES["titledir"], halloween_theme ? ".halloween" : ".title",
+                                 halloween_theme ? FILENAMES["halloween"] : FILENAMES["title"] );
 }
 
 std::string PATH_INFO::names()
 {
-    return find_translated_file( "namesdir", ".json", "names" );
+    return find_translated_file( FILENAMES["namesdir"], ".json", FILENAMES["names"] );
 }
 
 void PATH_INFO::set_datadir( const std::string &datadir )
