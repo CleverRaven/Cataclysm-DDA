@@ -1720,8 +1720,8 @@ int known_magic::select_spell( const player &p )
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
-    spell_menu.w_width = std::max( 80, TERMX * 3 / 8 );
+    spell_menu.w_height = clamp( static_cast<int>( known_spells.size() ), 36, TERMY * 9 / 10 );
+    spell_menu.w_width = std::max( 100, TERMX * 3 / 8 );
     spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
     spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
     spell_menu.pad_right = spell_menu.w_width - max_spell_name_length - 5;

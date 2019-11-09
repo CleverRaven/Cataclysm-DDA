@@ -55,7 +55,7 @@
 
 // Items on the map with at most this distance to the player are considered available for crafting,
 // see inventory::form_from_map
-#define PICKUP_RANGE 6
+#define PICKUP_RANGE 10
 
 /** Number of z-levels below 0 (not including 0). */
 #define OVERMAP_DEPTH 10
@@ -111,10 +111,10 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 #define MAX_AIM_COST 10
 
 /** Maximum (effective) level for a skill */
-#define MAX_SKILL 10
+#define MAX_SKILL 20
 
 /** Maximum (effective) level for a stat */
-#define MAX_STAT 20
+#define MAX_STAT 100
 
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 60
