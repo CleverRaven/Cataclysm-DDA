@@ -28,6 +28,8 @@ static void update_datadir();
 static void update_config_dir();
 static void update_pathname( const std::string &name, const std::string &path );
 
+static std::string motd_value;
+
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
@@ -100,7 +102,7 @@ void update_datadir()
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
+    motd_value = FILENAMES["datadir"] + "motd/" + "en.motd";
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 }
@@ -143,12 +145,13 @@ void PATH_INFO::set_standard_filenames()
     // Shared files
     update_pathname( "title", FILENAMES["titledir"] + "en.title" );
     update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
+    motd_value = FILENAMES["datadir"] + "motd/" + "en.motd";
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
     update_pathname( "savedir", FILENAMES["user_dir"] + "save/" );
     update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
+
 #if defined(USE_XDG_DIR)
     const char *user_dir;
     std::string dir;
@@ -430,7 +433,7 @@ std::string PATH_INFO::credits()
 
 std::string PATH_INFO::motd()
 {
-    return find_translated_file( FILENAMES["motddir"], ".motd", FILENAMES["motd"] );
+    return find_translated_file( FILENAMES["motddir"], ".motd", motd_value );
 }
 
 std::string PATH_INFO::title( const bool halloween_theme )
@@ -483,5 +486,5 @@ void PATH_INFO::set_autopickup( const std::string &autopickup )
 
 void PATH_INFO::set_motd( const std::string &motd )
 {
-    update_pathname( "motd", motd );
+    motd_value = motd;
 }
