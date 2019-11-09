@@ -197,7 +197,6 @@
     "type": "COMESTIBLE",
     "id": "soup_human",
     "copy-from": "soup_meat",
-    "calories": 550,
     "name": "sap soup",
     "description": "A soup made from someone who is a far better meal than person.",
     "material": "hflesh"

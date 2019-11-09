@@ -2578,38 +2578,12 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "charges": 1,
+    "charges": 2,
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "cookbook_human", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_human", 2 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -4574,38 +4548,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_human", 2 ], [ "broth_bone", 1 ] ],
-      [
-        [ "irradiated_potato", 2 ],
-        [ "potato", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "cabbage", 2 ],
-        [ "irradiated_cabbage", 2 ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "can_beans", 2 ],
-        [ "spaghetti_raw", 2 ],
-        [ "macaroni_raw", 2 ],
-        [ "noodles_fast", 2 ],
-        [ "dry_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "dry_rice", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ],
-      [ [ "dry_hflesh", 2 ], [ "rehydrated_hflesh", 2 ], [ "human_meat", 2, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -6457,34 +6406,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "//": "This recipe currently has issues with not being able to give it a result_mult or charges. As such, limited ingredients will make it function with the values for meat.",
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "broth_human", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "can_beans", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7924,38 +7847,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_human", 12 ], [ "broth_bone", 6 ] ],
-      [
-        [ "irradiated_potato", 12 ],
-        [ "potato", 12 ],
-        [ "celery", 12 ],
-        [ "irradiated_celery", 12 ],
-        [ "cabbage", 12 ],
-        [ "irradiated_cabbage", 12 ],
-        [ "sauerkraut", 12 ],
-        [ "powder_eggs", 12 ],
-        [ "eggs_bird", 12, "LIST" ],
-        [ "egg_reptile", 12 ],
-        [ "can_beans", 12 ],
-        [ "spaghetti_raw", 12 ],
-        [ "macaroni_raw", 12 ],
-        [ "noodles_fast", 12 ],
-        [ "dry_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "dry_rice", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ],
-      [ [ "dry_hflesh", 12 ], [ "rehydrated_hflesh", 12 ], [ "human_meat", 12, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",

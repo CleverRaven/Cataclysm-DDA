@@ -224,6 +224,38 @@
     ]
   },
   {
+    "id": "human_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_human", 2 ] ],
+      [
+        [ "irradiated_potato", 1 ],
+        [ "potato", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
+    ]
+  },
+  {
     "id": "fish_soup_ingredients",
     "type": "requirement",
     "components": [
