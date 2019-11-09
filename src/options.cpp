@@ -900,7 +900,7 @@ std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
 {
     // Use local map as build_resource_list will clear the first parameter
     std::map<std::string, std::string> local_tilesets;
-    auto tileset_names = build_resource_list( local_tilesets, "tileset", FILENAMES[path],
+    auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
                          FILENAMES["tileset-conf"] );
 
     // Copy found tilesets
@@ -916,11 +916,11 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( "gfxdir" );
+    auto data_tilesets = load_tilesets_from( FILENAMES["gfxdir"] );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( "user_gfx" );
+    auto user_tilesets = load_tilesets_from( FILENAMES["user_gfx"] );
     result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
 
     // Default values
@@ -936,7 +936,7 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", FILENAMES[path],
+    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
                            FILENAMES["soundpack-conf"] );
 
     // Copy over found soundpacks
@@ -953,11 +953,11 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     std::vector<id_and_option> result;
 
     // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( "data_sound" );
+    auto data_soundpacks = load_soundpack_from( FILENAMES["data_sound"] );
     result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
 
     // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( "user_sound" );
+    auto user_soundpacks = load_soundpack_from( FILENAMES["user_sound"] );
     result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
 
     // Select default built-in sound pack
