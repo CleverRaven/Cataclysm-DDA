@@ -2512,6 +2512,7 @@
   {
     "type": "recipe",
     "result": "soup_veggy",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -2521,36 +2522,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "veggy_green", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "tofu", 1 ],
-        [ "dry_tofu", 1 ],
-        [ "raw_edamame", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "veggy_any", 1, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -4733,41 +4705,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ] ],
-      [
-        [ "irradiated_potato", 2 ],
-        [ "potato", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "veggy_green", 2, "LIST" ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "can_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "spaghetti_raw", 2 ],
-        [ "macaroni_raw", 2 ],
-        [ "noodles_fast", 2 ],
-        [ "dry_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "tofu", 2 ],
-        [ "dry_tofu", 2 ],
-        [ "raw_edamame", 2 ],
-        [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ],
-      [ [ "veggy_any", 2, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 2 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -6731,33 +6675,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "veggy_green", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "veggy_any", 1, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 2 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8366,38 +8285,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ] ],
-      [
-        [ "irradiated_potato", 12 ],
-        [ "potato", 12 ],
-        [ "celery", 12 ],
-        [ "irradiated_celery", 12 ],
-        [ "veggy_green", 12, "LIST" ],
-        [ "sauerkraut", 12 ],
-        [ "powder_eggs", 12 ],
-        [ "eggs_bird", 12, "LIST" ],
-        [ "egg_reptile", 12 ],
-        [ "can_beans", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "spaghetti_raw", 12 ],
-        [ "macaroni_raw", 12 ],
-        [ "noodles_fast", 12 ],
-        [ "dry_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "dry_rice", 12 ],
-        [ "dandelion_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ],
-      [ [ "veggy_any", 12, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 12 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
