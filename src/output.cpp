@@ -652,7 +652,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wrefresh( win );
 
-    const auto result = draw_item_info( win, data );
+    const input_event result = draw_item_info( win, data );
     return result;
 }
 
@@ -829,9 +829,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
 
     buffer += format_item_info( data.get_item_display(), data.get_item_compare() );
 
-    const auto b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
-    const auto width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
-    const auto height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+    const int b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
+    const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+    const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
 
     input_event result;
     while( true ) {
