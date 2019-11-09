@@ -858,6 +858,12 @@
         "effect": "do_fishing"
       },
       {
+        "text": "Please go do some foraging for edibles, then return to base.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "go_forage"
+      },
+      {
         "text": "Please do some farming work.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

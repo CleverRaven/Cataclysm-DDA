@@ -87,6 +87,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
@@ -1574,7 +1575,7 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
     monmove();
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( 4_minutes ) ) {
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
@@ -4254,15 +4255,19 @@ void game::monmove()
 void game::overmap_npc_move()
 {
     std::vector<npc *> travelling_npcs;
+    std::vector<npc *> working_npcs;
     static constexpr int move_search_radius = 120;
     for( auto &elem : overmap_buffer.get_npcs_near_player( move_search_radius ) ) {
         if( !elem ) {
             continue;
         }
         npc *npc_to_add = elem.get();
-        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
-            npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
-            travelling_npcs.push_back( npc_to_add );
+        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) ){
+            if( npc_to_add->get_offscreen_job() == NPC_OFFSCREEN_JOB_FORAGE && npc_to_add->goal == npc_to_add->global_omt_location() ){
+                working_npcs.push_back( npc_to_add );
+            } else if( npc_to_add->mission == NPC_MISSION_TRAVELLING ){
+                travelling_npcs.push_back( npc_to_add );
+            }
         }
     }
     for( auto &elem : travelling_npcs ) {
@@ -4280,6 +4285,26 @@ void game::overmap_npc_move()
                 elem->travel_overmap( omt_to_sm_copy( elem->omt_path.back() ) );
             }
             reload_npcs();
+        }
+    }
+    for( npc *elem : working_npcs ){
+        cata::optional<time_duration> job_duration = elem->get_offscreen_work_duration();
+        cata::optional<time_point> job_started = elem->get_offscreen_work_time();
+        if( !job_duration || !job_started ){
+            continue;
+        }
+        int percent_complete = 0;
+        percent_complete = static_cast<int>( std::min( 100 * ( ( calendar::turn - *job_started ) / *job_duration ), 100.0 ) );
+        if( percent_complete >= 100 ){
+            // job done
+            if( elem->do_offscreen_forage( percent_complete ) ){
+                elem->return_to_base();
+            } else {
+                talk_function::go_forage( *elem );
+            }
+        } else {
+            // set this incase NPC gets loaded into bubble halfway through foraging.
+            elem->set_work_completion( percent_complete );
         }
     }
     return;

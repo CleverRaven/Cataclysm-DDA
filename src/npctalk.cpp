@@ -2589,6 +2589,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
             WRAP( player_leaving ),
+            WRAP( go_forage ),
             WRAP( drop_weapon ),
             WRAP( drop_stolen_item ),
             WRAP( remove_stolen_status ),

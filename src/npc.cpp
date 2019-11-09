@@ -49,6 +49,7 @@
 #include "iuse.h"
 #include "math_defines.h"
 #include "monster.h"
+#include "npctalk.h"
 #include "pathfinding.h"
 #include "player_activity.h"
 #include "ret_val.h"
@@ -595,6 +596,31 @@ void npc::revert_after_activity()
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
+    if( has_offscreen_job() ){
+        check_mission_resume();
+    }
+}
+
+bool npc::at_capacity_or_over_time_limit_for_travel_job()
+{
+    bool time_passed = travelling_work_started ? calendar::turn - *travelling_work_started > 6_hours : false;
+    if( volume_capacity() - volume_carried() < 750_ml || time_passed ){
+        return true;
+    }
+    return false;
+}
+
+void npc::check_mission_resume()
+{
+    if( offscreen_job == NPC_OFFSCREEN_JOB_FORAGE ){
+        // we are in the middle of a travelling mission
+        // this resolved locally, so it may need to start travelling again
+        if( at_capacity_or_over_time_limit_for_travel_job() ){
+            return_to_base();
+        } else {
+            talk_function::go_forage( *this );
+        }
+    }
 }
 
 npc_mission npc::get_previous_mission()
@@ -1951,7 +1977,7 @@ bool npc::is_stationary( bool include_guards ) const
     if( include_guards && is_guarding() ) {
         return true;
     }
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP ||
+    return mission == NPC_MISSION_SHELTER || is_assigned_to_camp() || mission == NPC_MISSION_SHOPKEEP ||
            has_effect( effect_infection );
 }
 
@@ -2689,6 +2715,13 @@ void npc::on_load()
     if( has_trait( trait_HALLUCINATION ) ) {
         hallucination = true;
     }
+    // we got loaded whilst offscreen activity was being processed
+    // so resolve it.
+    if( offscreen_job == NPC_OFFSCREEN_JOB_FORAGE && goal == global_omt_location() ){
+        do_offscreen_forage( get_work_completion() );
+        // then work out how to proceed locally.
+        check_mission_resume();
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
@@ -3092,6 +3125,9 @@ void npc::set_mission( npc_mission new_mission )
     if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity_id = activity.id();
     }
+    if( previous_mission == NPC_MISSION_TRAVELLING && new_mission != NPC_MISSION_TRAVELLING ){
+        stop_offscreen_job();
+    }
 }
 
 bool npc::has_activity() const
@@ -3117,6 +3153,21 @@ void npc::set_job( npc_job new_job )
 bool npc::has_job() const
 {
     return job != NPCJOB_NULL;
+}
+
+bool npc::has_offscreen_job() const
+{
+    return offscreen_job != NPC_OFFSCREEN_JOB_NULL;
+}
+
+npc_offscreen_job npc::get_offscreen_job() const
+{
+    return offscreen_job;
+}
+
+void npc::set_offscreen_job( npc_offscreen_job new_job )
+{
+    offscreen_job = new_job;
 }
 
 void npc::remove_job()

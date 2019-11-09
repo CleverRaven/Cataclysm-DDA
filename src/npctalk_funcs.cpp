@@ -290,20 +290,7 @@ void talk_function::goto_location( npc &p )
         auto selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
     }
-    p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
-    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
-        p.omt_path.empty() ) {
-        p.goal = npc::no_goal_point;
-        p.omt_path.clear();
-        add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
-        return;
-    }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
-    p.set_mission( NPC_MISSION_TRAVELLING );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.guard_pos = npc::no_goal_point;
-    p.set_attitude( NPCATT_NULL );
+    p.travel_to_omt( destination );
 }
 
 void talk_function::assign_guard( npc &p )
@@ -358,6 +345,7 @@ void talk_function::assign_camp( npc &p )
         }
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
+        p.base_location = p.global_omt_location();
         temp_camp->job_assignment_ui();
     }
 }
@@ -372,6 +360,7 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
+    p.stop_offscreen_job();
     p.set_job( static_cast<npc_job>( 0 ) );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
@@ -819,6 +808,67 @@ void talk_function::player_leaving( npc &p )
 {
     p.set_attitude( NPCATT_WAIT_FOR_LEAVE );
     p.patience = 15 - p.personality.aggression;
+}
+
+void talk_function::go_forage( npc &p )
+{
+    if( !p.get_travelling_start_time() ){
+        p.set_travelling_start_time( calendar::turn );
+    } else {
+        if( p.at_capacity_or_over_time_limit_for_travel_job() ){
+            p.clear_travelling_start_time();
+            p.return_to_base();
+            return;
+        }
+    }
+    const oter_id oter = overmap_buffer.ter( p.global_omt_location() );
+    bool already_in_forest = is_ot_match( "forest", oter, ot_match_type::type );
+    if( already_in_forest && p.is_active() ) {
+        // we dont need to travel
+        p.assign_activity( activity_id( "ACT_MULTIPLE_FORAGE" ) );
+        p.goal = p.global_omt_location();
+        return;
+    }
+    // find nearest forest
+    omt_find_params find_params;
+    std::vector<std::pair<std::string, ot_match_type>> temp_types;
+    std::pair<std::string, ot_match_type> temp_pair;
+    temp_pair.first = "forest";
+    temp_pair.second = ot_match_type::type;
+    temp_types.push_back( temp_pair );
+    // already in forest? we probably just finished a forage,
+    // therefore next search jump should be shorter.
+    find_params.search_range = already_in_forest ? 2 : 40;
+    find_params.min_distance = 2;
+    find_params.must_see = false;
+    find_params.cant_see = false;
+    find_params.types = temp_types;
+    find_params.existing_only = false;
+    tripoint destination;
+    // when we first find a forest it needs to to be the closest one.
+    // when we are there and finding a new forest to forage,
+    // we need to make sure we arent revisiting ones we've already done.
+    if( already_in_forest ) {
+        bool found = false;
+        int counter = 0;
+        while( !found ) {
+            destination = overmap_buffer.find_random( p.global_omt_location(), find_params );
+            if( counter > 10 ) {
+                found = true;
+            }
+            std::unordered_set<tripoint> looted = p.get_looted_spots();
+            if( looted.count( destination ) ) {
+                counter++;
+                continue;
+            } else {
+                found = true;
+            }
+        }
+    } else {
+        destination = overmap_buffer.find_closest( p.global_omt_location(), find_params );
+    }
+    p.set_offscreen_job( NPC_OFFSCREEN_JOB_FORAGE );
+    p.travel_to_omt( destination );
 }
 
 void talk_function::drop_weapon( npc &p )

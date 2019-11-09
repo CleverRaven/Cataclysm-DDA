@@ -1497,15 +1497,10 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     act->values.clear();
 }
 
-void activity_handlers::forage_finish( player_activity *act, player *p )
+ter_str_id activity_handlers::next_ter_for_forage( time_point current_time, items_location &loc )
 {
-    const int veggy_chance = rng( 1, 100 );
-    bool found_something = false;
-
-    items_location loc;
     ter_str_id next_ter;
-
-    switch( season_of_year( calendar::turn ) ) {
+    switch( season_of_year( current_time ) ) {
         case SPRING:
             loc = "forage_spring";
             next_ter = ter_str_id( "t_underbrush_harvested_spring" );
@@ -1525,18 +1520,26 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         default:
             debugmsg( "Invalid season" );
     }
+    return next_ter;
+}
 
-    g->m.ter_set( act->placement, next_ter );
-
+bool activity_handlers::forage_results( map &ma, player *p, items_location &loc,
+                                        const tripoint &pos, bool pickup, bool messages )
+{
+    const int veggy_chance = rng( 1, 100 );
+    bool found_something = false;
+    bool inventory_space = true;
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
 
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
-        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
-        for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+        std::vector<item *> dropped = ma.put_items_from_loc( loc, pos, calendar::turn );
+        for( item *it : dropped ) {
+            if( messages ) {
+                add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            }
             found_something = true;
             if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_POISON );
@@ -1545,20 +1548,43 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_HALLU );
             }
+            if( pickup ) {
+                if( p->can_pickVolume( *it, true ) &&
+                    p->can_pickWeight( *it, true ) ) {
+                    // if picking up this is for a multi-activity, so mark as such
+                    it->set_var( "activity_var", p->name );
+                    p->i_add( *it );
+                    ma.i_rem( pos, it );
+                } else {
+                    inventory_space = false;
+                }
+            }
         }
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            if( messages ) {
+                add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            }
             found_something = true;
         }
     }
 
-    if( !found_something ) {
+    if( !found_something && messages ) {
         add_msg( _( "You didn't find anything." ) );
     }
+    return inventory_space;
+}
+
+void activity_handlers::forage_finish( player_activity *act, player *p )
+{
+    items_location loc;
+    ter_str_id next_ter = next_ter_for_forage( calendar::turn, loc );
+
+    g->m.ter_set( act->placement, next_ter );
+    forage_results( g->m, p, loc, p->pos(), false, true );
 
     iexamine::practice_survival_while_foraging( p );
 
@@ -3485,6 +3511,11 @@ void activity_handlers::vehicle_repair_do_turn( player_activity *act, player *p 
 }
 
 void activity_handlers::chop_trees_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::multiple_forage_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }

@@ -396,6 +396,16 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_FORAGE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "foraging",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
     "id": "ACT_FERTILIZE_PLOT",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

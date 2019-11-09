@@ -23,6 +23,8 @@
 #include "game.h"
 #include "gates.h"
 #include "gun_mode.h"
+#include "harvest.h"
+#include "iexamine.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -56,6 +58,7 @@
 #include "mapdata.h"
 #include "player_activity.h"
 #include "ret_val.h"
+#include "type_id.h"
 #include "units.h"
 #include "pldata.h"
 #include "enums.h"
@@ -3830,6 +3833,26 @@ bool npc::has_omt_destination() const
     return goal != no_goal_point;
 }
 
+bool npc::travel_to_omt( const tripoint &destination )
+{
+    goal = destination;
+    omt_path = overmap_buffer.get_npc_path( global_omt_location(), goal );
+    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
+        omt_path.empty() ) {
+        omt_path.clear();
+        goal = no_goal_point;
+        return_to_base();
+        return false;
+    }
+    set_mission( NPC_MISSION_TRAVELLING );
+    if( is_player_ally() ){
+        chatbin.first_topic = "TALK_FRIEND_GUARD";
+        set_attitude( NPCATT_NULL );
+    }
+    guard_pos = npc::no_goal_point;
+    return true;
+}
+
 void npc::reach_omt_destination()
 {
     if( !omt_path.empty() ) {
@@ -3837,8 +3860,17 @@ void npc::reach_omt_destination()
     }
     if( is_travelling() ) {
         guard_pos = g->m.getabs( pos() );
-        goal = no_goal_point;
-        if( is_player_ally() ) {
+        if( offscreen_job == NPC_OFFSCREEN_JOB_FORAGE ){
+            if( is_active() ){
+                talk_function::go_forage( *this );
+                return;
+            }
+            // time taken is down to survival skill.
+            offscreen_work_duration = time_duration::from_minutes( std::max( 10, 60 / std::max( 1, get_skill_level( skill_survival ) ) ) );
+            offscreen_work_started = calendar::turn;
+            return;
+        } else if( is_player_ally() ) {
+            goal = no_goal_point;
             talk_function::assign_guard( *this );
             if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
@@ -3852,12 +3884,14 @@ void npc::reach_omt_destination()
             // and chill there indefinitely, the plan is to add systems for them to build
             // up their base, then go out on looting missions,
             // then return to base afterwards.
+            goal = no_goal_point;
             set_mission( NPC_MISSION_GUARD );
             if( !needs.empty() && needs[0] == need_safety ) {
                 // we found our base.
                 base_location = global_omt_location();
             }
         }
+        drop_job_products();
         return;
     }
     // Guarding NPCs want a specific point, not just an overmap tile
@@ -3882,6 +3916,126 @@ void npc::reach_omt_destination()
     } else {
         guard_pos = g->m.getabs( pos() );
     }
+}
+
+void npc::drop_job_products()
+{
+    assign_activity( activity_id( "ACT_TIDY_UP" ) );
+}
+
+void npc::stop_offscreen_job()
+{
+    offscreen_work_completed = 0;
+    offscreen_work_duration = cata::nullopt;
+    offscreen_work_started = cata::nullopt;
+    set_offscreen_job( NPC_OFFSCREEN_JOB_NULL );
+}
+
+void npc::return_to_base()
+{
+    tripoint where_is_home;
+    stop_offscreen_job();
+    if( !base_location ){
+        if( is_player_ally() ){
+            where_is_home = g->u.global_omt_location();
+        } else {
+            return;
+        }
+    } else {
+        where_is_home = *base_location;
+    }
+    if( global_omt_location() == where_is_home ){
+        talk_function::assign_guard( *this );
+        return;
+    }
+    travel_to_omt( where_is_home );
+}
+
+bool npc::forage_common( map &bay, const tripoint &pos )
+{
+    const harvest_id hid = bay.get_harvest( pos );
+    if( hid.is_null() || hid->empty() ) {
+        return true;
+    }
+    bool inventory_space = true;
+    const harvest_list &harvest = hid.obj();
+
+    int lev = get_skill_level( skill_survival );
+    for( const harvest_entry &entry : harvest ) {
+        float min_num = entry.base_num.first + lev * entry.scale_num.first;
+        float max_num = entry.base_num.second + lev * entry.scale_num.second;
+        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        if( roll >= 1 ) {
+            for( int i = 0; i < roll; i++ ) {
+                item harvest = item( entry.drop );
+                // we only want edibles, pine boughs just take up space.
+                if( harvest.typeId() == itype_id( "pine_bough" ) ){
+                    continue;
+                }
+                if( can_pickVolume( harvest, true ) &&
+                    can_pickWeight( harvest, true ) ) {
+                    harvest.set_var( "activity_var", name );
+                    i_add( harvest );
+                } else {
+                    inventory_space = false;
+                }
+            }
+        }
+    }
+
+    iexamine::practice_survival_while_foraging( this->as_player() );
+    return inventory_space;
+}
+
+bool npc::forage_check( const tripoint &pos, map &bay, int percent_resolved )
+{
+    // return true if reached inventory capacity
+    const auto &xter_t = bay.ter( pos ).obj().examine;
+    const auto &xfurn_t = bay.furn( pos ).obj().examine;
+    items_location loc;
+    bool inventory_space = true;
+    if( x_in_y( percent_resolved, 100 ) && xter_t == &iexamine::shrub_wildveggies ) {
+        bay.ter_set( pos, activity_handlers::next_ter_for_forage(calendar::turn, loc ) );
+        iexamine::practice_survival_while_foraging( this->as_player() );
+        if( !activity_handlers::forage_results( bay, this->as_player(), loc, pos, true, false ) ){
+            // cant carry anymore, time to return home
+            inventory_space = false;
+        }
+    } else if( x_in_y( percent_resolved, 100 ) && xter_t == &iexamine::harvest_ter ) {
+        bay.ter_set( pos, bay.get_ter_transforms_into( pos ) );
+        if( !forage_common( bay, pos ) ){
+            inventory_space = false;
+        }
+    } else if( x_in_y( percent_resolved, 100 ) && xfurn_t == &iexamine::harvest_furn ) {
+        bay.furn_set( pos, f_null );
+        if( !forage_common( bay, pos ) ){
+            inventory_space = false;
+        }
+    }
+    return inventory_space;
+}
+
+bool npc::do_offscreen_forage( int percent_resolved )
+{
+    tinymap bay;
+    tripoint site = global_omt_location();
+    // make sure we've reached a forest.
+    const oter_id oter = overmap_buffer.ter( site );
+    if( !is_ot_match( "forest", oter, ot_match_type::type ) ){
+        return false;
+    }
+    bool stop_foraging = false;
+    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        if( !forage_check( p, bay, percent_resolved ) ){
+            stop_foraging = true;
+        }
+    }
+    bay.save();
+    if( percent_resolved > 75 ){
+        add_looted_spot( global_omt_location() );
+    }
+    return stop_foraging;
 }
 
 void npc::set_omt_destination()

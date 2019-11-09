@@ -72,6 +72,8 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
+void go_forage( npc & );
+
 void remove_stolen_status( npc & );
 
 void drop_weapon( npc & );

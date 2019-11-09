@@ -732,9 +732,9 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
             is_ot_match( "open_air", oter, ot_match_type::type ) ) {
             return pf::rejected;
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
-            travel_cost = 10;
+            travel_cost = 3;
         } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
-            travel_cost = 15;
+            travel_cost = 5;
         } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
                    is_ot_match( "bridge", oter, ot_match_type::type ) ||
                    is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {

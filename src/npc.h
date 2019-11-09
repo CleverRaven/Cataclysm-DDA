@@ -52,6 +52,7 @@ struct pathfinding_settings;
 class monfaction;
 class npc_class;
 struct mission_type;
+class harvest_list;
 
 enum game_message_type : int;
 class gun_mode;
@@ -162,6 +163,11 @@ enum npc_mission : int {
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING,
     NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
+};
+
+enum npc_offscreen_job : int {
+    NPC_OFFSCREEN_JOB_NULL = 0,
+    NPC_OFFSCREEN_JOB_FORAGE = 1,
 };
 
 struct npc_companion_mission {
@@ -1166,7 +1172,10 @@ class npc : public player
         void go_to_omt_destination();
         // We made it!
         void reach_omt_destination();
-
+        bool do_offscreen_forage( int percent_resolved );
+        bool forage_check( const tripoint &pos, map &bay, int percent_resolved );
+        bool forage_common( map &bay, const tripoint &pos );
+        void return_to_base();
         void guard_current_pos();
 
         // Message related stuff
@@ -1213,9 +1222,59 @@ class npc : public player
         void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
+        void check_mission_resume();
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
+        std::unordered_set<tripoint> get_looted_spots() {
+            return looted_omts;
+        }
+        void add_looted_spot( tripoint new_spot ) {
+            looted_omts.insert( new_spot );
+        }
+        void clear_looted_spots() {
+            looted_omts.clear();
+        }
+        bool travel_to_omt( const tripoint &dest );
+        bool at_capacity_or_over_time_limit_for_travel_job();
+        int get_work_completion(){
+            return offscreen_work_completed;
+        }
+        void set_work_completion( int percent ){
+            offscreen_work_completed = percent;
+        }
+        void set_travelling_start_time( time_point start_time ){
+            travelling_work_started = start_time;
+        }
+        cata::optional<time_point> get_travelling_start_time(){
+            return travelling_work_started;
+        }
+        void clear_travelling_start_time(){
+            travelling_work_started = cata::nullopt;
+        }
+        void set_offscreen_work_time( time_point start_time ){
+            offscreen_work_started = start_time;
+        }
+        cata::optional<time_point> get_offscreen_work_time(){
+            return offscreen_work_started;
+        }
+        void clear_offscreen_work_time(){
+            offscreen_work_started = cata::nullopt;
+        }
+        void set_offscreen_work_duration( time_duration job_duration ){
+            offscreen_work_duration = job_duration;
+        }
+        cata::optional<time_duration> get_offscreen_work_duration(){
+            return offscreen_work_duration;
+        }
+        void clear_offscreen_work_duration(){
+            offscreen_work_duration = cata::nullopt;
+        }
+        void drop_job_products();
+        void stop_offscreen_job();
+        bool has_offscreen_job() const;
+        npc_offscreen_job get_offscreen_job() const;
+        void set_offscreen_job( npc_offscreen_job new_job );
 
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
@@ -1230,6 +1289,11 @@ class npc : public player
         npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
+        int offscreen_work_completed = 0; // how much of our offscreen work is done.
+        cata::optional<time_point> travelling_work_started; // when did we start the travelling work.
+        cata::optional<time_point> offscreen_work_started; // when did we start the offscreen work.
+        cata::optional<time_duration> offscreen_work_duration; // how long should the offscreen work take.
+        npc_offscreen_job offscreen_job = NPC_OFFSCREEN_JOB_NULL;
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1239,6 +1303,8 @@ class npc : public player
          * submap_coords defines the overmap the npc is stored on.
          */
         point submap_coords;
+        // memory of places that have been looted/foraged.
+        std::unordered_set<tripoint> looted_omts;
         // Type of complaint->last time we complained about this type
         std::map<std::string, time_point> complaints;
 

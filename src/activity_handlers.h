@@ -13,7 +13,10 @@
 class player;
 class Character;
 class item;
+class map;
 struct tripoint;
+
+using items_location = std::string;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -58,7 +61,8 @@ enum do_activity_reason : int {
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
-    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+    NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
+    NEEDS_FORAGING,         // This spot can be foraged/harvested.
 };
 
 struct activity_reason_info {
@@ -159,6 +163,7 @@ void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
+void multiple_forage_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );
@@ -195,6 +200,10 @@ void spellcasting_do_turn( player_activity *act, player *p );
 void study_spell_do_turn( player_activity *act, player *p );
 void read_do_turn( player_activity *act, player *p );
 void wait_stamina_do_turn( player_activity *act, player *p );
+
+ter_str_id next_ter_for_forage( time_point current_time, items_location &loc );
+bool forage_results( map &ma, player *p, items_location &loc, const tripoint &pos,
+                     bool pickup = false, bool messages = false );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

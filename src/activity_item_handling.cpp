@@ -18,6 +18,7 @@
 #include "field.h"
 #include "fire.h"
 #include "game.h"
+#include "harvest.h"
 #include "iuse.h"
 #include "iexamine.h"
 #include "map.h"
@@ -1260,6 +1261,23 @@ static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_
     return true;
 }
 
+static bool is_harvestable_there( const tripoint &src_loc )
+{
+    const auto &xter_t = g->m.ter( src_loc ).obj().examine;
+    const auto &xfurn_t = g->m.furn( src_loc ).obj().examine;
+    if( xter_t == &iexamine::shrub_wildveggies ) {
+        return true;
+    }
+    const auto hid = g->m.get_harvest( src_loc );
+    if( hid.is_null() || hid->empty() ) {
+        return false;
+    }
+    if( xter_t == &iexamine::harvest_ter || xfurn_t == &iexamine::harvest_furn ) {
+        return true;
+    }
+    return false;
+}
+
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1400,7 +1418,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
         if( g->m.has_flag( flag_TREE, src_loc ) || g->m.ter( src_loc ) == t_trunk ||
             g->m.ter( src_loc ) == t_stump ) {
-            if( p.has_quality( qual_AXE ) ) {
+            if( p.has_quality( quality_id( "AXE" ) ) ) {
                 return activity_reason_info::ok( NEEDS_TREE_CHOPPING );
             } else {
                 return activity_reason_info::fail( NEEDS_TREE_CHOPPING );
@@ -1409,7 +1427,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             return activity_reason_info::fail( NO_ZONE );
         }
     }
-    if( act == ACT_MULTIPLE_BUTCHER ) {
+    if( act == activity_id( "ACT_MULTIPLE_FORAGE" ) ) {
+        if( is_harvestable_there( src_loc ) ) {
+            std::cout << "is harvestable there" << std::endl;
+            return activity_reason_info::ok( NEEDS_FORAGING );
+        } else {
+            std::cout << "is not harvstable there" << std::endl;
+            return activity_reason_info::fail( NO_ZONE );
+        }
+    }
+    if( act == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
         std::vector<item> corpses;
         int big_count = 0;
         int small_count = 0;
@@ -1468,8 +1495,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         return activity_reason_info::fail( NO_ZONE );
     }
-    if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) ) {
+    if( act == activity_id( "ACT_TIDY_UP" ) ) {
+        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) || mgr.has_near( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( CAN_DO_FETCH );
         }
         return activity_reason_info::fail( NO_ZONE );
@@ -1912,8 +1939,8 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) ) {
-        for( item *inv_elem : p.inv_dump() ) {
+    if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( src_loc ) ) || mgr.has( zone_type_id( "CAMP_STORAGE" ), g->m.getabs( src_loc ) ) ) {
+        for( auto inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
                 item_location loc( p, inv_elem );
@@ -2448,8 +2475,11 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             }
         }
         if( src_set.empty() && unsorted_spot != tripoint_zero ) {
+            add_msg( "tidy up src set empty, unsorted spot not zero ");
             for( const item *inv_elem : p.inv_dump() ) {
+                add_msg( "inv dump ");
                 if( inv_elem->has_var( "activity_var" ) ) {
+                    add_msg( "inv dump item has act var");
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
                     src_set.insert( g->m.getabs( unsorted_spot ) );
                     break;
@@ -2470,6 +2500,13 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             // farming activies encompass tilling, planting, harvesting.
         } else if( act_id == ACT_MULTIPLE_FARM ) {
             dark_capable = true;
+        } else if( act_id == activity_id( "ACT_MULTIPLE_FORAGE" ) ){
+            dark_capable = true;
+            for( const tripoint &elem : g->m.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+                if( is_harvestable_there( elem ) ) {
+                    src_set.insert( g->m.getabs( elem ) );
+                }
+            }
         }
     } else {
         dark_capable = true;
@@ -2483,6 +2520,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             src_set.insert( g->m.getabs( elem_point ) );
         }
     }
+    std::cout << "src set size = " << std::to_string( static_cast<int>( src_set.size())) << std::endl;
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
@@ -2517,6 +2555,10 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
         const bool check_only = false )
 {
+    // foraging requires no special tools, usually.
+    if( act_info.reason == NEEDS_FORAGING ) {
+        return CAN_DO_LOCATION;
+    }
     const tripoint abspos = g->m.getabs( p.pos() );
     zone_manager &mgr = zone_manager::get_manager();
 
@@ -2702,8 +2744,22 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.backlog.push_front( act_id );
         p.activity.placement = src;
         return false;
-    } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) ) {
-        std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
+    } else if( reason == NEEDS_FORAGING && is_harvestable_there( src_loc ) ) {
+        if( p.is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( &p );
+            if( !guy->forage_check( src_loc, g->m, 100 ) ) {
+                // truth means cant carry anymore.
+                guy->revert_after_activity();
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            // avatar cant do this multi-activity yet.
+            return true;
+        }
+    } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) ) {
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
                                        g->m.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
             const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
@@ -2792,6 +2848,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
     // or if we need to fetch something first.
+    add_msg( "src set size = %d", static_cast<int>( src_sorted.size()));
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
         if( !g->m.inbounds( src_loc ) && !check_only ) {

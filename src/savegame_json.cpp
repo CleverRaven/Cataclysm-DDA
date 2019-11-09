@@ -1471,6 +1471,7 @@ void npc::load( const JsonObject &data )
     int classtmp = 0;
     int atttmp = 0;
     int jobtmp = 0;
+    int offjobtmp = 0;
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
@@ -1601,6 +1602,9 @@ void npc::load( const JsonObject &data )
     if( data.read( "job", jobtmp ) ) {
         job = static_cast<npc_job>( jobtmp );
     }
+    if( data.read( "offscreen_job", offjobtmp ) ) {
+        offscreen_job = static_cast<npc_offscreen_job>( offjobtmp );
+    }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
@@ -1722,6 +1726,7 @@ void npc::store( JsonOut &json ) const
     // TODO: stringid
     json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
+    json.member( "offscreen_job", static_cast<int>( offscreen_job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
