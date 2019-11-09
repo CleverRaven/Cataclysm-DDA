@@ -12,6 +12,7 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
+    "looks_like": "bracelet",
     "color": "brown",
     "use_action": "MEDITATE"
   },
@@ -27,6 +28,7 @@
     "price_postapoc": 100,
     "material": [ "wood" ],
     "symbol": "[",
+    "looks_like": "earrings",
     "color": "brown"
   },
   {
@@ -42,6 +44,7 @@
     "material": [ "wood" ],
     "flags": [ "VARSIZE", "FANCY" ],
     "symbol": "u",
+    "looks_like": "necklace",
     "color": "brown",
     "use_action": "MEDITATE"
   },
@@ -58,6 +61,7 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
+    "looks_like": "bead_bracelet",
     "color": "red"
   },
   {
@@ -71,6 +75,7 @@
     "price_postapoc": 1000,
     "material": [ "iron" ],
     "symbol": "[",
+    "looks_like": "copper_locket",
     "color": "brown",
     "flags": [ "FANCY" ]
   },
@@ -87,6 +92,7 @@
     "cutting": 3,
     "material": [ "gold" ],
     "symbol": "[",
+    "looks_like": "gold_dental_grill",
     "color": "yellow",
     "covers": [ "MOUTH" ],
     "encumbrance": 10,
@@ -103,6 +109,7 @@
     "price_postapoc": 1700,
     "material": [ "gold" ],
     "symbol": "[",
+    "looks_like": "ring_engagement",
     "color": "yellow",
     "flags": [ "FANCY" ]
   },
@@ -119,6 +126,7 @@
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
+    "looks_like": "gold_watch",
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
@@ -136,6 +144,7 @@
     "price_postapoc": 200,
     "material": [ "silver" ],
     "symbol": "[",
+    "looks_like": "tieclip",
     "color": "light_gray",
     "flags": [ "FANCY" ]
   },
@@ -150,6 +159,7 @@
     "price_postapoc": 100,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "bracelet",
     "color": "brown"
   },
   {
@@ -164,6 +174,7 @@
     "price_postapoc": 50,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "earrings",
     "color": "brown"
   },
   {
@@ -177,6 +188,7 @@
     "price_postapoc": 500,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "tieclip",
     "color": "brown"
   },
   {
@@ -190,6 +202,7 @@
     "price_postapoc": 1000,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "necklace",
     "color": "brown"
   },
   {
@@ -203,6 +216,7 @@
     "price_postapoc": 1000,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "necklace",
     "color": "brown"
   },
   {
@@ -216,6 +230,7 @@
     "price_postapoc": 500,
     "material": [ "copper" ],
     "symbol": "[",
+    "looks_like": "ring_purity",
     "color": "brown"
   },
   {
