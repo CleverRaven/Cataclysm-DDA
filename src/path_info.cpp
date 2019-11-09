@@ -29,6 +29,7 @@ static void update_config_dir();
 static void update_pathname( const std::string &name, const std::string &path );
 
 static std::string motd_value;
+static std::string gfxdir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -87,7 +88,7 @@ void update_pathname( const std::string &name, const std::string &path )
 void update_datadir()
 {
     // Shared dirs
-    update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
+    gfxdir_value = FILENAMES["datadir"] + "gfx/";
     update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
     update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
     update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
@@ -120,14 +121,14 @@ void PATH_INFO::set_standard_filenames()
     if( !FILENAMES["base_path"].empty() ) {
 #if defined(DATA_DIR_PREFIX)
         update_pathname( "datadir", FILENAMES["base_path"] + "share/cataclysm-dda/" );
-        update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
+        gfxdir_value = FILENAMES["datadir"] + "gfx/";
 #else
         update_pathname( "datadir", FILENAMES["base_path"] + "data/" );
-        update_pathname( "gfxdir", FILENAMES["base_path"] + "gfx/" );
+        gfxdir_value = FILENAMES["base_path"] + "gfx/";
 #endif
     } else {
         update_pathname( "datadir", "data/" );
-        update_pathname( "gfxdir", "gfx/" );
+        gfxdir_value = "gfx/";
     }
 
     // Shared dirs
@@ -419,7 +420,7 @@ std::string PATH_INFO::soundpack_conf()
 }
 std::string PATH_INFO::gfxdir()
 {
-    return FILENAMES["gfxdir"];
+    return gfxdir_value;
 }
 std::string PATH_INFO::data_sound()
 {
