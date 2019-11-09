@@ -98,17 +98,9 @@ void update_datadir()
 {
     // Shared dirs
     gfxdir_value = datadir_value + "gfx/";
-    update_pathname( "namesdir", datadir_value + "names/" );
-    update_pathname( "titledir", datadir_value + "title/" );
-    update_pathname( "motddir", datadir_value + "motd/" );
-    update_pathname( "creditsdir", datadir_value + "credits/" );
 
     // Shared files
-    update_pathname( "title", FILENAMES["titledir"] + "en.title" );
-    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     motd_value = datadir_value + "motd/" + "en.motd";
-    update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
-    update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 }
 
 void update_config_dir()
@@ -135,17 +127,9 @@ void PATH_INFO::set_standard_filenames()
     }
 
     // Shared dirs
-    update_pathname( "namesdir", datadir_value + "names/" );
-    update_pathname( "titledir", datadir_value + "title/" );
-    update_pathname( "motddir", datadir_value + "motd/" );
-    update_pathname( "creditsdir", datadir_value + "credits/" );
 
     // Shared files
-    update_pathname( "title", FILENAMES["titledir"] + "en.title" );
-    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
     motd_value = datadir_value + "motd/" + "en.motd";
-    update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
-    update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
     savedir_value = user_dir_value + "save/";
     memorialdir_value = user_dir_value + "memorial/";
@@ -426,23 +410,26 @@ std::string PATH_INFO::data_sound()
 
 std::string PATH_INFO::credits()
 {
-    return find_translated_file( FILENAMES["creditsdir"], ".credits", FILENAMES["credits"] );
+    return find_translated_file( datadir_value + "credits/", ".credits",
+                                 datadir_value + "credits/" + "en.credits" );
 }
 
 std::string PATH_INFO::motd()
 {
-    return find_translated_file( FILENAMES["motddir"], ".motd", motd_value );
+    return find_translated_file( datadir_value + "motd/", ".motd", motd_value );
 }
 
 std::string PATH_INFO::title( const bool halloween_theme )
 {
-    return find_translated_file( FILENAMES["titledir"], halloween_theme ? ".halloween" : ".title",
-                                 halloween_theme ? FILENAMES["halloween"] : FILENAMES["title"] );
+    return find_translated_file( datadir_value + "title/", halloween_theme ? ".halloween" : ".title",
+                                 halloween_theme ? ( datadir_value + "title/" + "en.halloween" ) : ( datadir_value + "title/" +
+                                         "en.title" ) );
 }
 
 std::string PATH_INFO::names()
 {
-    return find_translated_file( FILENAMES["namesdir"], ".json", FILENAMES["names"] );
+    return find_translated_file( datadir_value + "names/", ".json",
+                                 datadir_value + "names/" + "en.json" );
 }
 
 void PATH_INFO::set_datadir( const std::string &datadir )
