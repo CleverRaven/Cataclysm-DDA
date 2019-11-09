@@ -31,6 +31,7 @@ static void update_pathname( const std::string &name, const std::string &path );
 static std::string motd_value;
 static std::string gfxdir_value;
 static std::string config_dir_value;
+static std::string user_dir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -73,7 +74,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 #endif
     }
 
-    FILENAMES["user_dir"] = dir;
+    user_dir_value = dir;
 }
 
 void update_pathname( const std::string &name, const std::string &path )
@@ -151,8 +152,8 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
-    update_pathname( "savedir", FILENAMES["user_dir"] + "save/" );
-    update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
+    update_pathname( "savedir", user_dir_value + "save/" );
+    update_pathname( "memorialdir", user_dir_value + "memorial/" );
 
 #if defined(USE_XDG_DIR)
     const char *user_dir;
@@ -165,7 +166,7 @@ void PATH_INFO::set_standard_filenames()
     }
     config_dir_value = dir;
 #else
-    config_dir_value = FILENAMES["user_dir"] + "config/";
+    config_dir_value = user_dir_value + "config/";
 #endif
     update_pathname( "options", config_dir_value + "options.json" );
     update_pathname( "keymap", config_dir_value + "keymap.txt" );
@@ -285,7 +286,7 @@ std::string PATH_INFO::fontlist()
 }
 std::string PATH_INFO::graveyarddir()
 {
-    return FILENAMES["user_dir"] + "graveyard/";
+    return user_dir_value + "graveyard/";
 }
 std::string PATH_INFO::help()
 {
@@ -369,15 +370,15 @@ std::string PATH_INFO::sokoban()
 }
 std::string PATH_INFO::templatedir()
 {
-    return FILENAMES["user_dir"] + "templates/";
+    return user_dir_value + "templates/";
 }
 std::string PATH_INFO::user_dir()
 {
-    return FILENAMES["user_dir"];
+    return user_dir_value;
 }
 std::string PATH_INFO::user_gfx()
 {
-    return FILENAMES["user_dir"] + "gfx/";
+    return user_dir_value + "gfx/";
 }
 std::string PATH_INFO::user_keybindings()
 {
@@ -385,11 +386,11 @@ std::string PATH_INFO::user_keybindings()
 }
 std::string PATH_INFO::user_moddir()
 {
-    return FILENAMES["user_dir"] + "mods/";
+    return user_dir_value + "mods/";
 }
 std::string PATH_INFO::user_sound()
 {
-    return FILENAMES["user_dir"] + "sound/";
+    return user_dir_value + "sound/";
 }
 std::string PATH_INFO::worldoptions()
 {
