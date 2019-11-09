@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -562,6 +568,12 @@
     "id": "milk",
     "name": "milk",
     "default": "milk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",
