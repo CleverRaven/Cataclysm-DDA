@@ -24,7 +24,7 @@
     "id": "rock",
     "copy-from": "rock",
     "name": "rock",
-    "description": "An ordinary rock",
+    "description": "An ordinary rock.",
     "volume": "6 L",
     "weight": "2700 g",
     "ammo_type": "rock",
