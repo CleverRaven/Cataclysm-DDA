@@ -279,6 +279,48 @@
     ]
   },
   {
+    "id": "woods_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
+      [
+        [ "meat_nofish", 1, "LIST" ],
+        [ "fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "powder_eggs", 2 ],
+        [ "eggs_bird", 2, "LIST" ],
+        [ "egg_reptile", 2 ]
+      ],
+      [
+        [ "veggy_wild", 2 ],
+        [ "veggy", 2 ],
+        [ "rehydrated_veggy", 2 ],
+        [ "dry_veggy", 2 ],
+        [ "dry_beans", 2 ],
+        [ "can_beans", 2 ],
+        [ "raw_beans", 2 ],
+        [ "beans_cooked", 2 ],
+        [ "dry_lentils", 2 ],
+        [ "raw_lentils", 2 ],
+        [ "dry_rice", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "mushroom", 2 ],
+        [ "dry_mushroom", 2 ],
+        [ "mushroom_cooked", 2 ],
+        [ "morel_cooked", 2 ],
+        [ "acorns_cooked", 2 ]
+      ]
+    ]
+  },
+  {
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",

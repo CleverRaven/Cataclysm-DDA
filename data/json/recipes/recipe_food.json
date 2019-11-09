@@ -2557,6 +2557,7 @@
   {
     "type": "recipe",
     "result": "soup_woods",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -2566,44 +2567,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
-      [
-        [ "meat_nofish", 1, "LIST" ],
-        [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
-      ],
-      [
-        [ "veggy_wild", 1 ],
-        [ "veggy", 1 ],
-        [ "rehydrated_veggy", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "dry_beans", 1 ],
-        [ "can_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -4527,49 +4491,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
-      [
-        [ "meat_nofish", 2, "LIST" ],
-        [ "fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "dry_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ],
-        [ "sausage", 4 ],
-        [ "sausage_cooked", 4 ],
-        [ "bratwurst_sausage", 4 ],
-        [ "powder_eggs", 4 ],
-        [ "eggs_bird", 4, "LIST" ],
-        [ "egg_reptile", 4 ]
-      ],
-      [
-        [ "veggy_wild", 2 ],
-        [ "veggy", 2 ],
-        [ "rehydrated_veggy", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "dry_beans", 2 ],
-        [ "can_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "mushroom", 2 ],
-        [ "dry_mushroom", 2 ],
-        [ "mushroom_cooked", 2 ],
-        [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -6460,48 +6388,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
-      [
-        [ "meat_nofish", 1, "LIST" ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ],
-        [ "can_chicken", 1 ],
-        [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 2 ],
-        [ "bratwurst_sausage", 2 ],
-        [ "bacon", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
-      ],
-      [
-        [ "veggy_wild", 1 ],
-        [ "veggy", 1 ],
-        [ "rehydrated_veggy", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "dry_beans", 1 ],
-        [ "can_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dry_rice", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7952,52 +7840,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_bone", 12 ], [ "pine_tea", 12 ] ],
-      [
-        [ "meat_nofish", 12, "LIST" ],
-        [ "rehydrated_meat", 12 ],
-        [ "meat_canned", 12 ],
-        [ "fish", 12 ],
-        [ "fish_smoked", 12 ],
-        [ "dry_fish", 12 ],
-        [ "rehydrated_fish", 12 ],
-        [ "fish_canned", 12 ],
-        [ "can_salmon", 12 ],
-        [ "can_tuna", 12 ],
-        [ "sausage", 24 ],
-        [ "sausage_cooked", 24 ],
-        [ "bratwurst_sausage", 24 ],
-        [ "bacon", 24 ],
-        [ "powder_eggs", 24 ],
-        [ "eggs_bird", 24, "LIST" ],
-        [ "egg_reptile", 24 ]
-      ],
-      [
-        [ "veggy_wild", 12 ],
-        [ "veggy", 12 ],
-        [ "rehydrated_veggy", 12 ],
-        [ "dry_veggy", 12 ],
-        [ "dry_beans", 12 ],
-        [ "can_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "dry_rice", 12 ],
-        [ "dandelion_cooked", 12 ],
-        [ "mushroom", 12 ],
-        [ "dry_mushroom", 12 ],
-        [ "mushroom_cooked", 12 ],
-        [ "morel_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
