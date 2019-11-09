@@ -246,7 +246,7 @@
     "blueprint": [ "oo" ],
     "parts": [
       { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_small_pair", "headlight" ] },
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "seat", "rail_wheel_small_pair", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel_small_pair", "controls" ] },
       { "x": 0, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] }
     ]
   }
