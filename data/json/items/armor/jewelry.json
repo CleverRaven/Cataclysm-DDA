@@ -12,7 +12,6 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
-    "looks_like": "bracelet",
     "color": "brown",
     "use_action": "MEDITATE"
   },
