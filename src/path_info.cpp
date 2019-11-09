@@ -24,7 +24,6 @@
 static std::string find_translated_file( const std::string &path, const std::string &extension,
         const std::string &fallback );
 
-static void update_datadir();
 static void update_config_dir();
 
 static std::string motd_value;
@@ -78,15 +77,6 @@ void PATH_INFO::init_user_dir( const char *ud )
     }
 
     user_dir_value = dir;
-}
-
-void update_datadir()
-{
-    // Shared dirs
-    gfxdir_value = datadir_value + "gfx/";
-
-    // Shared files
-    motd_value = datadir_value + "motd/" + "en.motd";
 }
 
 void update_config_dir()
@@ -421,7 +411,11 @@ std::string PATH_INFO::names()
 void PATH_INFO::set_datadir( const std::string &datadir )
 {
     datadir_value = datadir;
-    update_datadir();
+    // Shared dirs
+    gfxdir_value = datadir_value + "gfx/";
+
+    // Shared files
+    motd_value = datadir_value + "motd/" + "en.motd";
 }
 
 void PATH_INFO::set_config_dir( const std::string &config_dir )
