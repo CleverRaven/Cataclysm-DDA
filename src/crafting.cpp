@@ -617,35 +617,6 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
 }
 
-/**
- * @brief Round the item's birthday forward to the nearest hour.
- * The purpose of this is so that items with close birthdays will stack more readily.
- *
- * @param newit
- */
-static void set_item_food( item &newit )
-{
-    // TODO: encapsulate this into some function
-    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-}
-
-/**
- * @brief Calls set_item_food on the item if it's food, and set item's faction.
- *
- * @param newit The item for modification
- * @param maker_fac The faction the item should belong to
- */
-static void finalize_crafted_item( item &newit, faction *maker_fac )
-{
-    if( newit.is_food() ) {
-        set_item_food( newit );
-    }
-    // TODO for now this assumes player is doing the crafting
-    // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac->id );
-}
-
 static cata::optional<item_location> wield_craft( player &p, item &craft )
 {
     if( p.wield( craft ) ) {
@@ -1216,10 +1187,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
         }
 
-        finalize_crafted_item( newit, get_faction() );
+        newit.set_owner( get_faction()->id );
         // If these aren't equal, newit is a container, so finalize its contents too.
         if( &newit != &food_contained ) {
-            finalize_crafted_item( food_contained, get_faction() );
+            food_contained.set_owner( get_faction()->id );
         }
 
         if( newit.made_of( LIQUID ) ) {
@@ -1245,7 +1216,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
-            finalize_crafted_item( bp, get_faction() );
+            bp.set_owner( get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
