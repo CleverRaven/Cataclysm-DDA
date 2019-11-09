@@ -43,7 +43,6 @@
     "material": [ "wood" ],
     "flags": [ "VARSIZE", "FANCY" ],
     "symbol": "u",
-    "looks_like": "necklace",
     "color": "brown",
     "use_action": "MEDITATE"
   },
@@ -60,7 +59,6 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
-    "looks_like": "bead_bracelet",
     "color": "red"
   },
   {
