@@ -26,6 +26,10 @@
 static std::string find_translated_file( const std::string &pathid, const std::string &extension,
         const std::string &fallbackid );
 
+static void update_datadir();
+static void update_config_dir();
+static void update_pathname( const std::string &name, const std::string &path );
+
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
@@ -70,7 +74,7 @@ void PATH_INFO::init_user_dir( const char *ud )
     FILENAMES["user_dir"] = dir;
 }
 
-void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
+void update_pathname( const std::string &name, const std::string &path )
 {
     const std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
@@ -80,7 +84,7 @@ void PATH_INFO::update_pathname( const std::string &name, const std::string &pat
     }
 }
 
-void PATH_INFO::update_datadir()
+void update_datadir()
 {
     // Shared dirs
     update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
@@ -103,7 +107,7 @@ void PATH_INFO::update_datadir()
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 }
 
-void PATH_INFO::update_config_dir()
+void update_config_dir()
 {
     update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
     update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
@@ -440,4 +444,46 @@ std::string PATH_INFO::title( const bool halloween_theme )
 std::string PATH_INFO::names()
 {
     return find_translated_file( "namesdir", ".json", "names" );
+}
+
+void PATH_INFO::set_datadir( const std::string &datadir )
+{
+    update_pathname( "datadir", datadir );
+    update_datadir();
+}
+
+void PATH_INFO::set_config_dir( const std::string &config_dir )
+{
+    update_pathname( "config_dir", config_dir );
+    update_config_dir();
+}
+
+void PATH_INFO::set_savedir( const std::string &savedir )
+{
+    update_pathname( "savedir", savedir );
+}
+
+void PATH_INFO::set_memorialdir( const std::string &memorialdir )
+{
+    update_pathname( "memorialdir", memorialdir );
+}
+
+void PATH_INFO::set_options( const std::string &options )
+{
+    update_pathname( "options", options );
+}
+
+void PATH_INFO::set_keymap( const std::string &keymap )
+{
+    update_pathname( "keymap", keymap );
+}
+
+void PATH_INFO::set_autopickup( const std::string &autopickup )
+{
+    update_pathname( "autopickup", autopickup );
+}
+
+void PATH_INFO::set_motd( const std::string &motd )
+{
+    update_pathname( "motd", motd );
 }
