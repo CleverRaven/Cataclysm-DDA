@@ -307,6 +307,8 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
+
+    add( "LOOT_ZONE", &zone_type::load_zones );
     add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );

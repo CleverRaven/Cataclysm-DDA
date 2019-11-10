@@ -3176,38 +3176,6 @@ void player::add_pain_msg( int val, body_part bp ) const
     }
 }
 
-void player::print_health() const
-{
-    if( !is_player() ) {
-        return;
-    }
-    int current_health = get_healthy();
-    if( has_trait( trait_SELFAWARE ) ) {
-        add_msg_if_player( _( "Your current health value is %d." ), current_health );
-    }
-
-    if( current_health > 0 &&
-        ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) ) {
-        return;
-    }
-
-    static const std::map<int, std::string> msg_categories = {
-        { -100, "health_horrible" },
-        { -50, "health_very_bad" },
-        { -10, "health_bad" },
-        { 10, "" },
-        { 50, "health_good" },
-        { 100, "health_very_good" },
-        { INT_MAX, "health_great" }
-    };
-
-    auto iter = msg_categories.lower_bound( current_health );
-    if( iter != msg_categories.end() && !iter->second.empty() ) {
-        const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
-    }
-}
-
 void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
@@ -7171,83 +7139,6 @@ hint_rating player::rate_action_use( const item &it ) const
     return HINT_CANT;
 }
 
-bool player::has_enough_charges( const item &it, bool show_msg ) const
-{
-    if( !it.is_tool() || !it.ammo_required() ) {
-        return true;
-    }
-    if( it.has_flag( "USE_UPS" ) ) {
-        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_sufficient() ) {
-            return true;
-        }
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s needs %d charge from some UPS.",
-                                         "Your %s needs %d charges from some UPS.",
-                                         it.ammo_required() ),
-                               it.tname(), it.ammo_required() );
-        }
-        return false;
-    } else if( !it.ammo_sufficient() ) {
-        if( show_msg ) {
-            add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge but needs %d.",
-                                         "Your %s has %d charges but needs %d.",
-                                         it.ammo_remaining() ),
-                               it.tname(), it.ammo_remaining(), it.ammo_required() );
-        }
-        return false;
-    }
-    return true;
-}
-
-bool player::consume_charges( item &used, int qty )
-{
-    if( qty < 0 ) {
-        debugmsg( "Tried to consume negative charges" );
-        return false;
-    }
-
-    if( qty == 0 ) {
-        return false;
-    }
-
-    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
-        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
-        return false;
-    }
-
-    // Consume comestibles destroying them if no charges remain
-    if( used.is_food() || used.is_medication() ) {
-        used.charges -= qty;
-        if( used.charges <= 0 ) {
-            i_rem( &used );
-            return true;
-        }
-        return false;
-    }
-
-    // Tools which don't require ammo are instead destroyed
-    if( used.is_tool() && !used.ammo_required() ) {
-        i_rem( &used );
-        return true;
-    }
-
-    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
-    if( used.has_flag( "USE_UPS" ) ) {
-        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty ) {
-            used.ammo_consume( qty, pos() );
-        } else {
-            use_charges( "UPS", qty );
-        }
-    } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
-    }
-    return false;
-}
-
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );
@@ -7300,83 +7191,6 @@ void player::use( item_location loc )
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
     }
-}
-
-bool player::invoke_item( item *used )
-{
-    return invoke_item( used, pos() );
-}
-
-bool player::invoke_item( item *used, const tripoint &pt )
-{
-    const auto &use_methods = used->type->use_methods;
-
-    if( use_methods.empty() ) {
-        return false;
-    } else if( use_methods.size() == 1 ) {
-        return invoke_item( used, use_methods.begin()->first, pt );
-    }
-
-    uilist umenu;
-
-    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
-    umenu.hilight_disabled = true;
-
-    for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, false, pt );
-        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
-                             res.str() );
-    }
-
-    umenu.desc_enabled = std::any_of( umenu.entries.begin(),
-    umenu.entries.end(), []( const uilist_entry & elem ) {
-        return !elem.desc.empty();
-    } );
-
-    umenu.query();
-
-    int choice = umenu.ret;
-    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
-        return false;
-    }
-
-    const std::string &method = std::next( use_methods.begin(), choice )->first;
-
-    return invoke_item( used, method, pt );
-}
-
-bool player::invoke_item( item *used, const std::string &method )
-{
-    return invoke_item( used, method, pos() );
-}
-
-bool player::invoke_item( item *used, const std::string &method, const tripoint &pt )
-{
-    if( !has_enough_charges( *used, true ) ) {
-        return false;
-    }
-
-    item *actually_used = used->get_usable_item( method );
-    if( actually_used == nullptr ) {
-        debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
-                  method.c_str(), used->tname() );
-        return false;
-    }
-
-    int charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
-    if( charges_used == 0 ) {
-        return false;
-    }
-    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-
-    if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
-        return consume_charges( *actually_used, charges_used );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
-        return true;
-    }
-
-    return false;
 }
 
 void player::reassign_item( item &it, int invlet )

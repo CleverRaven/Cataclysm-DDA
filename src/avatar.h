@@ -174,6 +174,12 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item * ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string & ) override;
+
     private:
         map_memory player_map_memory;
         bool show_map_memory;
