@@ -1189,6 +1189,11 @@ class Character : public Creature, public visitable<Character>
         // for vehicle work
         int activity_vehicle_part_index = -1;
 
+        // calculates move cost for this character
+        float move_cost( const tripoint &to, const vehicle *ignored_vehicle = nullptr ) const;
+        int combined_movecost( const tripoint &from, const tripoint &to,
+                               const vehicle *ignored_vehicle = nullptr,
+                               const int modifier = 0, const bool flying = false ) const;
         // Hauling items on the ground
         void start_hauling();
         void stop_hauling();

@@ -2297,7 +2297,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
-            const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
+            const double base_moves = run_cost( combined_movecost( pos(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
@@ -2305,7 +2305,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->use_mech_power( -1 );
             }
         } else {
-            moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+            moves -= run_cost( combined_movecost( pos(), p ), diag );
         }
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
@@ -2481,7 +2481,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
             continue;
         }
 
-        const int cost = g->m.combined_movecost( pos(), p );
+        const int cost = combined_movecost( pos(), p );
         if( cost <= 0 ) {
             continue;
         }
@@ -2586,9 +2586,9 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         } );
 
         const int distance = rl_dist( pos(), elem );
-        const int move_cost = g->m.move_cost( elem );
+        const int move_cost_ = move_cost( elem );
 
-        return std::make_tuple( danger, distance, move_cost );
+        return std::make_tuple( danger, distance, move_cost_ );
     } );
 
     for( const auto &elem : escape_points ) {

@@ -5079,7 +5079,7 @@ void Character::update_stamina( int turns )
                                mutation_value( "stamina_regen_modifier" );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
@@ -6915,6 +6915,34 @@ void Character::set_painkiller( int npkill )
 int Character::get_painkiller() const
 {
     return pkill;
+}
+
+float Character::move_cost( const tripoint &to, const vehicle *ignored_vehicle ) const
+{
+    return g->m.move_cost( to, ignored_vehicle ) + encumb( bp_mouth ) / 40.0;
+}
+
+int Character::combined_movecost( const tripoint &from, const tripoint &to,
+                                  const vehicle *ignored_vehicle,
+                                  const int modifier, const bool flying ) const
+{
+    const int mults[4] = { 0, 50, 71, 100 };
+    const float cost1 = move_cost( from, ignored_vehicle );
+    const float cost2 = move_cost( to, ignored_vehicle );
+    // Multiply cost depending on the number of differing axes
+    // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
+    size_t match = trigdist ? ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z ) : 1;
+    if( flying || from.z == to.z ) {
+        return ( cost1 + cost2 + modifier ) * mults[match] / 2;
+    }
+
+    // Inter-z-level movement by foot (not flying)
+    if( !g->m.valid_move( from, to, false ) ) {
+        return 0;
+    }
+
+    // TODO: Penalize for using stairs
+    return round( ( cost1 + cost2 + modifier ) * mults[match] / 2 );
 }
 
 void Character::use_fire( const int quantity )

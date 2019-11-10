@@ -417,15 +417,6 @@ class map
         bool passable_ter_furn( const tripoint &p ) const;
 
         /**
-        * Cost to move out of one tile and into the next.
-        *
-        * @return The cost in turns to move out of tripoint `from` and into `to`
-        */
-        int combined_movecost( const tripoint &from, const tripoint &to,
-                               const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false ) const;
-
-        /**
          * Returns true if a creature could walk from `from` to `to` in one step.
          * That is, if the tiles are adjacent and either on the same z-level or connected
          * by stairs or (in case of flying monsters) open air with no floors.

@@ -2952,7 +2952,7 @@ std::set<tripoint> npc::get_path_avoid() const
     }
     if( rules.has_flag( ally_rule::hold_the_line ) ) {
         for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-            if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
+            if( g->m.close_door( p, true, true ) || move_cost( p ) > 2 ) {
                 ret.insert( p );
             }
         }

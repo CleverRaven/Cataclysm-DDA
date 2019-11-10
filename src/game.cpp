@@ -9142,7 +9142,7 @@ bool game::walk_move( const tripoint &dest_loc )
         return true;
     }
     // Used to decide whether to print a 'moving is slow message
-    const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
+    const int mcost_from = u.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
     if( grabbed && u.get_grab_type() == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
@@ -9154,7 +9154,7 @@ bool game::walk_move( const tripoint &dest_loc )
         multiplier *= 3;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
+    const int mcost = u.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9197,7 +9197,8 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil = MAX_RECOIL;
 
     // Print a message if movement is slow
-    const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
+    //calculate this _after_ calling grabbed_move
+    const int mcost_to = u.move_cost( dest_loc );
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters

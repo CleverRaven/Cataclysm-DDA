@@ -1788,29 +1788,6 @@ bool map::passable_ter_furn( const tripoint &p ) const
     return move_cost_ter_furn( p ) != 0;
 }
 
-int map::combined_movecost( const tripoint &from, const tripoint &to,
-                            const vehicle *ignored_vehicle,
-                            const int modifier, const bool flying ) const
-{
-    const int mults[4] = { 0, 50, 71, 100 };
-    const int cost1 = move_cost( from, ignored_vehicle );
-    const int cost2 = move_cost( to, ignored_vehicle );
-    // Multiply cost depending on the number of differing axes
-    // 0 if all axes are equal, 100% if only 1 differs, 141% for 2, 200% for 3
-    size_t match = trigdist ? ( from.x != to.x ) + ( from.y != to.y ) + ( from.z != to.z ) : 1;
-    if( flying || from.z == to.z ) {
-        return ( cost1 + cost2 + modifier ) * mults[match] / 2;
-    }
-
-    // Inter-z-level movement by foot (not flying)
-    if( !valid_move( from, to, false ) ) {
-        return 0;
-    }
-
-    // TODO: Penalize for using stairs
-    return ( cost1 + cost2 + modifier ) * mults[match] / 2;
-}
-
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
