@@ -486,16 +486,16 @@ struct item_info_data {
               vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
               selected( selected ) {}
 
-        std::string get_item_name() const {
+        const std::string &get_item_name() const {
             return sItemName;
         }
-        std::string get_type_name() const {
+        const std::string &get_type_name() const {
             return sTypeName;
         }
-        std::vector<iteminfo> get_item_display() const {
+        const std::vector<iteminfo> &get_item_display() const {
             return vItemDisplay;
         }
-        std::vector<iteminfo> get_item_compare() const {
+        const std::vector<iteminfo> &get_item_compare() const {
             return vItemCompare;
         }
 
