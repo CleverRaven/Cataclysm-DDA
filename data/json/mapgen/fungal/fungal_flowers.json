@@ -40,7 +40,7 @@
           [ "t_fungus_mound", 3 ],
           [ "t_tree_fungal", 2 ],
           [ "t_tree_fungal_young", 2 ],
-          [ "t_shrub_fungal", 6 ]
+          [ "t_shrub_fungal", 3 ]
         ],
         "X": "t_marloss",
         "Y": "t_fungus_mound"
