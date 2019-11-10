@@ -1841,7 +1841,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
             _( "You struggle to reload the fouled %s, but manage to loosen some debris and make it somewhat operational." );
-        g->u.moves -= 2500;
+        p->moves -= 2500;
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
