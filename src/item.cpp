@@ -2740,56 +2740,52 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_VARSIZE ) ) {
             if( has_flag( "VARSIZE" ) ) {
+                std::string resize_str;
                 if( has_flag( "FIT" ) ) {
                     switch( sizing_level ) {
                         case sizing::small_sized_human_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be upsized</info>." ) );
+                            resize_str = _( "<info>can be upsized</info>" );
                             break;
                         case sizing::human_sized_small_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be downsized</info>." ) );
+                            resize_str = _( "<info>can be downsized</info>" );
                             break;
                         case sizing::big_sized_human_char:
                         case sizing::big_sized_small_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <bad>can not be downsized</bad>." ) );
+                            resize_str = _( "<bad>can not be downsized</bad>" );
                             break;
                         case sizing::small_sized_big_char:
                         case sizing::human_sized_big_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <bad>can not be upsized</bad>." ) );
+                            resize_str = _( "<bad>can not be upsized</bad>" );
                             break;
                         default:
                             break;
+                    }
+                    if( !resize_str.empty() ) {
+                        std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
+                        info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                     }
                 } else {
                     switch( sizing_level ) {
                         case sizing::small_sized_human_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be refitted</info> "
-                                                  "and <info>upsized</info>." ) );
+                            resize_str = _( " and <info>upsized</info>" );
                             break;
                         case sizing::human_sized_small_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be refitted</info> "
-                                                  "and <info>downsized</info>." ) );
+                            resize_str = _( " and <info>downsized</info>" );
                             break;
                         case sizing::big_sized_human_char:
                         case sizing::big_sized_small_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be refitted</info> "
-                                                  "but <bad>not downsized</bad>." ) );
+                            resize_str = _( " but <bad>not downsized</bad>" );
                             break;
                         case sizing::small_sized_big_char:
                         case sizing::human_sized_big_char:
-                            info.emplace_back( "DESCRIPTION",
-                                               _( "* This clothing <info>can be refitted</info> "
-                                                  "but <bad>not upsized</bad>." ) );
+                            resize_str = _( " but <bad>not upsized</bad>" );
                             break;
                         default:
                             break;
                     }
+                    std::string info_str = string_format( _( "* This clothing <info>can be "
+                                                          "refitted</info>%s." ), resize_str );
+                    info.push_back( iteminfo( "DESCRIPTION", info_str ) );
                 }
             } else {
                 info.emplace_back( "DESCRIPTION", _( "* This clothing <bad>can not be refitted, "
