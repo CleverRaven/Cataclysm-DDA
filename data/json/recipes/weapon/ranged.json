@@ -23,8 +23,8 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_W", "level":  1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] , [ [ "nail", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ], [ [ "nail", 1 ] ] ]
   },
   {
     "result": "nailrifle",
