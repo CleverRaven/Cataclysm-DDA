@@ -1,6 +1,7 @@
 [
   {
     "id": "ashot",
+    "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -15,7 +16,6 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "shot",
-    "skill": "pistol",
     "ranged_damage": -11,
     "dispersion": 900,
     "durability": 6,
@@ -30,6 +30,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -300,7 +301,7 @@
     "ranged_damage": -5,
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "//": "dispersion should be 30000, but CDDA exaggerates dispersion.",
+    "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
     "sight_dispersion": 750,
     "clip_size": 4,
     "handling_modifier": -6,
@@ -392,7 +393,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
     "id": "saiga_12",
@@ -400,7 +401,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": "Saiga-12",
-    "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via exectuive order.",
+    "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
     "weight": "3550 g",
     "volume": "3279 ml",
     "price": 75000,
@@ -516,7 +517,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
     "id": "SPAS_12",
