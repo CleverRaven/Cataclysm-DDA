@@ -2267,16 +2267,12 @@ void finalize_bionics()
 
 void bionic::set_flag( const std::string flag )
 {
-    if( !has_flag( flag ) ) {
-        bionic_tags.insert( flag );
-    }
+    bionic_tags.insert( flag );
 }
 
 void bionic::remove_flag( const std::string flag )
 {
-    if( has_flag( flag ) ) {
-        bionic_tags.erase( flag );
-    }
+    bionic_tags.erase( flag );
 }
 
 bool bionic::has_flag( const std::string flag ) const
