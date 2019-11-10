@@ -2388,37 +2388,39 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
+    const int half_hours = ticks_between( from, to, 30_minutes );
+    const units::volume stomach_capacity = stomach.capacity( *this );
 
     if( five_mins > 0 ) {
-        stomach.absorb_water( *this, 250_ml * five_mins );
-        guts.absorb_water( *this, 250_ml * five_mins );
-    }
-    if( ticks_between( from, to, 30_minutes ) > 0 ) {
-        // the stomach does not currently have rates of absorption, but this is where it goes
-        stomach.calculate_absorbed( stomach.get_absorb_rates( true, rates ) );
-        guts.calculate_absorbed( guts.get_absorb_rates( false, rates ) );
-        stomach.store_absorbed( *this );
-        guts.store_absorbed( *this );
-        guts.bowel_movement( guts.get_pass_rates( false ) );
-        stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
+        // Digest nutrients in stomach, they are destined for the guts (except water)
+        nutrients digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
+        // Digest nutrients in guts, they will be distributed to needs levels
+        nutrients digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
+        // Water from stomach skips guts and gets absorbed by body
+        set_thirst( std::max(
+                        -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
+        guts.ingest( digested_to_guts );
+        // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
+        if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
+            mod_stored_kcal( digested_to_body.kcal );
+            vitamins_mod( digested_to_body.vitamins, false );
+        }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
-        if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
+        if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
-        } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -21 ) {
+        } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -21 ) {
             // sated
             set_hunger( -21 );
-        } else if( stomach.contains() >= stomach.capacity() / 8 && get_hunger() > -1 ) {
+        } else if( stomach.contains() >= stomach_capacity / 8 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
         } else if( stomach.contains() == 0_ml ) {
-            if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
-                get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
+            if( guts.get_calories() == 0 && get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
                 // there's no food except what you have stored in fat
                 set_hunger( 300 );
             } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
-                                                 guts.get_calories_absorbed() == 0 &&
                                                  get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
                 set_hunger( 100 );
             } else if( get_hunger() < 0 ) {
@@ -2435,13 +2437,13 @@ void player::update_stomach( const time_point &from, const time_point &to )
         // if you just ate but your stomach is still empty it will still
         // delay your filling up (drugs?)
     {
-        if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
+        if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
-        } else if( stomach.contains() >= stomach.capacity() * 3 / 4 && get_hunger() > -21 ) {
+        } else if( stomach.contains() >= stomach_capacity * 3 / 4 && get_hunger() > -21 ) {
             // sated
             set_hunger( -21 );
-        } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -1 ) {
+        } else if( stomach.contains() >= stomach_capacity / 2 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
         } else if( stomach.contains() > 0_ml && get_kcal_percent() > 0.95 ) {
@@ -2539,7 +2541,7 @@ void player::check_needs_extremes()
         } else {
             if( calendar::once_every( 1_hours ) ) {
                 std::string message;
-                if( stomach.contains() <= stomach.capacity() / 4 ) {
+                if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
                         message = _( "Food…" );
                     } else if( get_kcal_percent() < 0.25f ) {
@@ -2695,9 +2697,9 @@ void player::check_needs_extremes()
 
 }
 
-needs_rates player::calc_needs_rates()
+needs_rates player::calc_needs_rates() const
 {
-    effect &sleep = get_effect( effect_sleep );
+    const effect &sleep = get_effect( effect_sleep );
     const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
 
@@ -7358,7 +7360,7 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
 {
     const bool calorie_deficit = get_bmi() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity();
+    const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
     nc_color hunger_color = c_white;
     // i ate just now!

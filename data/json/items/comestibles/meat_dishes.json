@@ -402,6 +402,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "debug_nutrition",
+    "copy-from": "can_spam",
+    "name": "holy SPAM of debugging",
+    "calories": 2100,
+    "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
+    "//": "This is used for the all_nutrient_starve_test.",
+    "vitamins": [ [ "vitA", 96 ], [ "vitB", 96 ], [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "can_sardine",
     "name": "canned sardine",
     "weight": "200 g",
