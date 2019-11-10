@@ -1393,8 +1393,8 @@
     "description": "A large backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": 10000,
     "material": "plastic",
-    "weight": "3000 g",
-    "volume": "1500 ml",
+    "weight": "13000 g",
+    "volume": "15000 ml",
     "to_hit": -4
   },
   {
