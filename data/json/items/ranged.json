@@ -82,7 +82,7 @@
     "skill": "throw",
     "ammo": "rock",
     "weight": "2000 g",
-    "volume": "6 L",
+    "volume": "3 L",
     "to_hit": 1,
     "ranged_damage": 10,
     "bashing": 18,
