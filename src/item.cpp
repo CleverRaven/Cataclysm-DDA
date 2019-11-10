@@ -4404,13 +4404,13 @@ bool item::has_flag( const std::string &f ) const
     }
 
     // other item type flags
-    ret = type->item_tags.find( f ) != type->item_tags.end();
+    ret = type->item_tags.count( f );
     if( ret ) {
         return ret;
     }
 
     // now check for item specific flags
-    ret = item_tags.find( f ) != item_tags.end();
+    ret = item_tags.count( f );
     return ret;
 }
 

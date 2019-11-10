@@ -1716,7 +1716,7 @@ healing_options npc::patient_assessment( const Character &c )
         }
         // NPCs don't reapply bandages
         if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
-            int part_threshold = 50;
+            int part_threshold = 75;
             if( part == hp_head ) {
                 part_threshold += 20;
             } else if( part == hp_torso ) {
@@ -1746,7 +1746,7 @@ npc_action npc::address_needs( float danger )
     // and swing into action with alarming alacrity.
     // no sometimes they are just looking the other way, sometimes they hestitate.
     // ( also we can get huge performance boosts )
-    if( one_in( 3 ) && get_skill_level( skill_firstaid ) > 0 ) {
+    if( one_in( 3 ) ) {
         healing_options try_to_fix_me = patient_assessment( *this );
         if( try_to_fix_me.any_true() ) {
             if( !use_bionic_by_id( bio_nanobots ) ) {
@@ -1758,37 +1758,41 @@ npc_action npc::address_needs( float danger )
         } else {
             deactivate_bionic_by_id( bio_nanobots );
         }
-        if( is_player_ally() ) {
-            healing_options try_to_fix_other = patient_assessment( g->u );
-            if( try_to_fix_other.any_true() ) {
-                ai_cache.can_heal = has_healing_options();
-                if( ai_cache.can_heal.any_true() ) {
-                    ai_cache.ally = g->shared_from( g->u );
-                    return npc_heal_player;
+        if( get_skill_level( skill_firstaid ) > 0 ) {
+            if( is_player_ally() ) {
+                healing_options try_to_fix_other = patient_assessment( g->u );
+                if( try_to_fix_other.any_true() ) {
+                    ai_cache.can_heal = has_healing_options();
+                    if( ai_cache.can_heal.any_true() ) {
+                        ai_cache.ally = g->shared_from( g->u );
+                        return npc_heal_player;
+                    }
                 }
             }
-        }
-        for( const npc &guy : g->all_npcs() ) {
-            if( &guy == this || !guy.is_ally( *this ) || guy.posz() != posz() || !sees( guy ) ) {
-                continue;
-            }
-            healing_options try_to_fix_other = patient_assessment( guy );
-            if( try_to_fix_other.any_true() ) {
-                ai_cache.can_heal = has_healing_options();
-                if( ai_cache.can_heal.any_true() ) {
-                    ai_cache.ally = g->shared_from( guy );
-                    return npc_heal_player;
+            for( const npc &guy : g->all_npcs() ) {
+                if( &guy == this || !guy.is_ally( *this ) || guy.posz() != posz() || !sees( guy ) ) {
+                    continue;
+                }
+                healing_options try_to_fix_other = patient_assessment( guy );
+                if( try_to_fix_other.any_true() ) {
+                    ai_cache.can_heal = has_healing_options();
+                    if( ai_cache.can_heal.any_true() ) {
+                        ai_cache.ally = g->shared_from( guy );
+                        return npc_heal_player;
+                    }
                 }
             }
         }
     }
 
-    if( one_in( 3 ) && get_perceived_pain() >= 15 ) {
-        if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
-            return npc_use_painkiller;
+    if( one_in( 3 ) ) {
+        if( get_perceived_pain() >= 15 ) {
+            if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
+                return npc_use_painkiller;
+            }
+        } else {
+            deactivate_bionic_by_id( bio_painkiller );
         }
-    } else {
-        deactivate_bionic_by_id( bio_painkiller );
     }
 
     if( one_in( 3 ) && can_reload_current() ) {

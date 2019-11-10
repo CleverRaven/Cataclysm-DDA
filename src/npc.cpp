@@ -1204,7 +1204,6 @@ void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &targ
 
 void npc::invalidate_range_cache()
 {
-    confident_range_cache = cata::nullopt;
     if( weapon.is_gun() ) {
         confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
     } else {
@@ -1805,10 +1804,7 @@ void healing_options::clear_all()
 
 bool healing_options::all_false()
 {
-    if( !bandage && !bleed && !bite && !infect ) {
-        return true;
-    }
-    return false;
+    return !any_true();
 }
 
 bool healing_options::any_true()

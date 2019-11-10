@@ -554,7 +554,7 @@ void player::process_turn()
         // but that you smell like a plant, rather than
         // a human. When was the last time you saw a critter
         // attack a bluebell or an apple tree?
-        if( ( has_trait( trait_FLOWERS ) ) && ( !( has_trait( trait_CHLOROMORPH ) ) ) ) {
+        if( has_trait( trait_FLOWERS ) && !has_trait( trait_CHLOROMORPH ) ) {
             norm_scent -= 200;
         }
         // You *are* a plant.  Unless someone hunts triffids by scent,
@@ -3447,7 +3447,7 @@ void player::process_items()
             power_armor = &w;
         }
         // Necessary for UPS in Aftershock - check worn items for charge
-        itype_id identifier = w.type->get_id();
+        const itype_id &identifier = w.typeId();
         if( identifier == "UPS_off" ) {
             ch_UPS += w.ammo_remaining();
         } else if( identifier == "adv_UPS_off" ) {
