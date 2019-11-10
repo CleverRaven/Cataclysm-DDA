@@ -224,6 +224,7 @@
   },
   {
     "id": "mon_blob",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "blob",
     "description": "A black blob of viscous goo, oozing across the ground like a glob of living oil.",
@@ -254,6 +255,7 @@
   },
   {
     "id": "mon_blob_brain",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "brain blob",
     "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
@@ -282,6 +284,7 @@
   },
   {
     "id": "mon_blob_large",
+    "looks_like": "Tileset whitelist for blobs.",
     "type": "MONSTER",
     "name": "big blob",
     "description": "A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
@@ -313,6 +316,7 @@
   },
   {
     "id": "mon_blob_small",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "small blob",
     "description": "A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
@@ -584,6 +588,7 @@
   },
   {
     "id": "mon_breather",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "breather",
     "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernible exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
@@ -604,6 +609,7 @@
   },
   {
     "id": "mon_breather_hub",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "breather",
     "description": "A weird mass of immobile pink goo.  It seems to breathe.",
@@ -1426,6 +1432,7 @@
   },
   {
     "id": "mon_fungaloid",
+    "//": "Tileset whitelist for Mycus faction.",
     "alias": "mon_fungaloid_dormant",
     "type": "MONSTER",
     "name": "fungaloid",
@@ -1454,6 +1461,7 @@
   },
   {
     "id": "mon_fungaloid_queen",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal spire",
     "description": "An enormous fungal spire, towering over the ground.  It pulsates slowly, continuously growing new defenses.",
@@ -1479,6 +1487,7 @@
   },
   {
     "id": "mon_fungaloid_seeder",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "giant fungal blossom",
     "description": "An immense fungal blossom, towering over its surroundings.  It pulses with a soft blue glow, continuously pumping its spores into the air.",
@@ -1505,6 +1514,7 @@
   },
   {
     "id": "mon_fungaloid_tower",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal tower",
     "description": "An enormous fungal tower.  On closer inspection, its cap is supported by LOTS of fungal tendrils of various thicknesses, emerging from yet more bristling tendrils at ground level.  Between this redundancy and their noticeable movement creating frequent gaps, it's tough to get a solid shot on the thing.",
@@ -1535,6 +1545,7 @@
   },
   {
     "id": "mon_fungaloid_young",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal sporeling",
     "description": "A fungal stalk several feet in height.  Two vicious looking tendrils extend from its thorned and leathery exterior, and it moves about faster than the larger fungaloids.",
@@ -1564,6 +1575,7 @@
   },
   {
     "id": "mon_gelatin",
+    "looks_like": "mon_blob_large",
     "type": "MONSTER",
     "name": "amoebic mold",
     "description": "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
@@ -2774,6 +2786,7 @@
   },
   {
     "id": "mon_spore",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "spore cloud",
     "description": "A mass of spores the size of a balled fist, wafting around in the air.",
