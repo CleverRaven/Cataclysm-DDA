@@ -6608,7 +6608,7 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
     const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
     const std::string area_name = cur_ter_m->get_name();
-    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, !is_draw_tiles_mode(),
+    print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, false,
                          cache );
 }
 
