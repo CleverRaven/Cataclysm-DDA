@@ -1301,7 +1301,11 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
         }
     };
 
-    draw_tabs( w, tab_strings, current );
+    std::vector<std::string> tab_strings_translated( tab_strings );
+    std::for_each( tab_strings_translated.begin(),
+                   tab_strings_translated.end(), []( std::string & str )->void { str = _( str ); } );
+
+    draw_tabs( w, tab_strings_translated, current );
     draw_border_below_tabs( w );
 }
 

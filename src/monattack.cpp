@@ -2762,7 +2762,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ), z->name() );
+            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {

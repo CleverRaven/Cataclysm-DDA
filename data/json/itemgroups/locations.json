@@ -1463,6 +1463,27 @@
     ]
   },
   {
+    "id": "hotel_coffee_bar",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coffeemaker", "prob": 60, "charges": [ 0, 200 ] },
+      { "group": "coffee_display", "prob": 60, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "hotel_luggage",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "bags_trip", "prob": 25 }, { "group": "dresser", "prob": 25, "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "book_hotel_tower_bible",
+    "subtype": "collection",
+    "items": [ { "item": "holybook_bible3", "prob": 100 } ]
+  },
+  {
     "id": "laundromat_bleach",
     "type": "item_group",
     "items": [ [ "bleach", 50 ] ]
