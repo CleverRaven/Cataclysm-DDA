@@ -95,6 +95,84 @@
     "entries": [ { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "contents-item": [ "barrel_small" ] } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_bow_hunter",
+    "entries": [ { "item": "arrow_cf", "charges": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_crossbow_hunter",
+    "entries": [ { "item": "bolt_metal", "charges": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_shotgun_hunter",
+    "entries": [ { "item": "shot_00", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_rifle_hunter",
+    "entries": [ { "item": "270win_jsp", "charges": 16 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_swat_cqc1",
+    "entries": [ { "item": "shot_00", "charges": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_swat_cqc2",
+    "entries": [ { "item": "shot_slug", "charges": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_bionic_prepper",
+    "entries": [ { "item": "bolt_steel", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_naturalist",
+    "entries": [ { "item": "arrow_wood", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_ww_gunslinger",
+    "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_winter_surivor",
+    "entries": [ { "item": "bolt_wood", "charges": 29 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_roadwarrior",
+    "entries": [ { "item": "reloaded_shot_00", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_waste_ranger",
+    "entries": [ { "item": "reloaded_shot_00", "charges": 19 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_waste_ranger",
+    "entries": [ { "item": "bolt_steel", "charges": 12 } ]
+  },
+  {
     "type": "profession_item_substitutions",
     "substitutions": [
       {
@@ -270,7 +348,7 @@
         ],
         "entries": [
           { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "bolt_steel", "charges": 20, "container-item": "quiver" },
+          { "item": "quiver", "contents-group": "quiver_bionic_prepper" },
           { "item": "machete", "container-item": "scabbard" }
         ]
       },
@@ -746,7 +824,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
-          { "item": "9mm", "charges": 35 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "lighter", "charges": 100 }
         ]
       },
@@ -767,7 +846,8 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "9mm", "charges": 35 }
+          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1084,8 +1164,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "shot_slug", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
           { "item": "baton-extended", "container-item": "police_belt" },
@@ -1212,7 +1292,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
+          { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1233,7 +1313,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "bolt_metal", "charges": 9, "container-item": "quiver" },
+          { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1255,7 +1335,7 @@
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
-          { "item": "shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1277,7 +1357,7 @@
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
-          { "item": "270win_jsp", "charges": 16, "container-item": "bandolier_rifle" },
+          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1414,7 +1494,7 @@
     "name": "Shower Victim",
     "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
     "points": -1,
-    "items": { "both": [ "soap", "towel_wet" ] }
+    "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
   {
     "type": "profession",
@@ -1760,7 +1840,12 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          {
+            "item": "h&k416a5",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
           { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
@@ -1820,6 +1905,7 @@
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
           },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2618,18 +2704,20 @@
     "traits": [ "PROF_BOXER" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
-      "both": [
-        "under_armor_shorts",
-        "under_armor",
-        "shorts",
-        "gloves_wraps",
-        "boxing_gloves",
-        "headgear",
-        "mouthpiece",
-        "socks",
-        "boots",
-        "towel"
-      ],
+      "both": {
+        "items": [
+          "under_armor_shorts",
+          "under_armor",
+          "shorts",
+          "gloves_wraps",
+          "boxing_gloves",
+          "headgear",
+          "mouthpiece",
+          "socks",
+          "boots"
+        ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] } ]
+      },
       "female": [ "sports_bra" ]
     }
   },
@@ -2823,8 +2911,8 @@
         "entries": [
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
           { "item": "kukri", "container-item": "sheath" },
-          { "item": "crossbow", "ammo-item": "bolt_wood", "contents-item": "shoulder_strap" },
-          { "item": "bolt_wood", "charges": 29, "container-item": "quiver_large" }
+          { "item": "crossbow", "ammo-item": "bolt_wood", "charges": 1, "contents-item": "shoulder_strap" },
+          { "item": "quiver_large", "contents-group": "quiver_winter_surivor" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2956,7 +3044,7 @@
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "gasoline_cooker", "ammo-item": "gasoline", "charges": 500 },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" },
           { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
         ]
       },
@@ -2998,9 +3086,9 @@
         "entries": [
           { "item": "knife_trench", "container-item": "sheath" },
           { "item": "ashot", "ammo-item": "reloaded_shot_00", "container-item": "holster" },
-          { "item": "reloaded_shot_00", "charges": 19, "container-item": "bandolier_shotgun" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_waste_ranger" },
           { "item": "helsing", "ammo-item": "bolt_steel", "contents-item": "shoulder_strap" },
-          { "item": "bolt_steel", "charges": 12, "container-item": "quiver" },
+          { "item": "quiver", "contents-group": "quiver_waste_ranger" },
           { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
         ]
       },
@@ -3040,8 +3128,7 @@
           "heavy_flashlight",
           "knuckle_steel",
           "ref_lighter",
-          "wristwatch",
-          "mess_kit"
+          "wristwatch"
         ],
         "entries": [
           {
@@ -3050,6 +3137,7 @@
             "charges": 50,
             "contents-item": [ "shoulder_strap", "folding_stock" ]
           },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
           { "item": "makeshift_machete", "container-item": "scabbard" },
           { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
         ]
@@ -3112,7 +3200,7 @@
         ],
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
+          { "item": "quiver", "contents-group": "quiver_naturalist" }
         ]
       },
       "male": [ "chestwrap_fur", "loincloth_fur" ],
@@ -3229,7 +3317,6 @@
         "hat_fur",
         "purse",
         "oil_lamp",
-        "needle_wood",
         "pot",
         "cornmeal",
         "salt"
@@ -3249,6 +3336,7 @@
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "needle_wood", "charges": 50 },
           { "item": "flintlock_ammo", "charges": 15 }
         ]
       }
@@ -3533,7 +3621,6 @@
           "rollmat",
           "sleeping_bag_roll",
           "knife_swissarmy",
-          "mess_kit",
           "gasoline_lantern",
           "canteen",
           "granola",
@@ -3541,7 +3628,10 @@
           "wristwatch",
           "1st_aid"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -3562,7 +3652,6 @@
           "knee_pads",
           "jumpsuit",
           "mask_gas",
-          "jackhammer",
           "canteen",
           "e_tool",
           "tool_belt",
@@ -3572,6 +3661,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "jackhammer", "charges": 400 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
@@ -3767,23 +3857,25 @@
     "skills": [ { "level": 8, "name": "firstaid" } ],
     "traits": [ "PROF_MED" ],
     "items": {
-      "both": [
-        "gloves_medical",
-        "socks",
-        "mask_dust",
-        "dress_shirt",
-        "pants",
-        "dress_shoes",
-        "coat_lab",
-        "stethoscope",
-        "bfipowder",
-        "antibiotics",
-        "oxycodone",
-        "1st_aid",
-        "smart_phone",
-        "wristwatch",
-        "medium_battery_cell"
-      ],
+      "both": {
+        "items": [
+          "gloves_medical",
+          "socks",
+          "mask_dust",
+          "dress_shirt",
+          "pants",
+          "dress_shoes",
+          "coat_lab",
+          "stethoscope",
+          "bfipowder",
+          "antibiotics",
+          "oxycodone",
+          "1st_aid",
+          "smart_phone",
+          "wristwatch"
+        ],
+        "entries": [ { "item": "medium_battery_cell", "charges": 500 } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -3963,7 +4055,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "45colt_jhp", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "bandolier_pistol", "contents-group": "bandolier_ww_gunslinger" },
           { "item": "whiskey", "container-item": "bottle_glass" },
           { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
         ]
