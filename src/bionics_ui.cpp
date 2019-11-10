@@ -628,14 +628,14 @@ void player::power_bionics()
 
         if( toggle_safe_fuel ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
-            if( action == "TOGGLE_SAFE_FUEL" && !current_bionic_list->empty() ) {
+            if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
                 if( !tmp->info().fuel_opts.empty() ) {
                     tmp->toggle_safe_fuel_mod();
                     g->refresh_all();
                     redraw = true;
                 } else {
-                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM" ) );
+                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM." ) );
                 }
 
             }
