@@ -1,0 +1,12 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_tower",
+    "name": "fungal tower",
+    "sym": "T",
+    "color": "yellow",
+    "see_cost": 3,
+    "extras": "marloss",
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  }
+]
