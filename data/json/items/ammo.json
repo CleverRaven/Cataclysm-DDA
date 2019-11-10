@@ -20,17 +20,6 @@
     "fuel": { "energy": 1 }
   },
   {
-    "type": "AMMO",
-    "id": "rock",
-    "name": "rock",
-    "description": "An ordinary rock.",
-    "volume": "6 L",
-    "weight": "2700 g",
-    "ammo_type": "rock",
-    "range": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ]
-  },
-  {
     "type": "TOOL",
     "id": "betavoltaic",
     "category": "spare_parts",
@@ -278,7 +267,7 @@
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": "stone",
-	"ammo_type": "rock",
+    "ammo_type": "rock",
     "flags": "TRADER_AVOID",
     "weight": "657 g",
     "volume": "250 ml",
@@ -288,7 +277,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-	"effects": [ "NEVER_MISFIRES", "NON-FOULING","RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
