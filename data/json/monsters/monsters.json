@@ -1424,7 +1424,7 @@
     "morale": 100,
     "melee_skill": 1,
     "melee_dice": 2,
-    "melee_dice_sides": 12,
+    "melee_dice_sides": 10,
     "melee_cut": 0,
     "armor_bash": 10,
     "armor_cut": 10,
