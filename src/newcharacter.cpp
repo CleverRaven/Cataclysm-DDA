@@ -81,7 +81,7 @@ struct points_left;
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_STAT 20 // The point after which stats can not be increased further
+#define MAX_STAT 30 // The point after which stats can not be increased further
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
