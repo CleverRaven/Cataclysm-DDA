@@ -1,6 +1,7 @@
 [
   {
     "id": "hk_mp7",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "H&K MP7A2",

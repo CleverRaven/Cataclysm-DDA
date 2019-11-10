@@ -1,6 +1,7 @@
 [
   {
     "id": "browning_blr",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Browning BLR",
@@ -41,6 +42,7 @@
   },
   {
     "id": "garand",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "M1 Garand",
@@ -79,6 +81,7 @@
   {
     "id": "m1903",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M1903 Springfield",
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
@@ -114,6 +117,7 @@
   },
   {
     "id": "m1918",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Browning Automatic Rifle",
@@ -153,6 +157,7 @@
   {
     "id": "remington_700",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Remington 700",
     "name_plural": "Remington 700",
@@ -174,6 +179,7 @@
   },
   {
     "id": "rifle_3006",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "pipe rifle: .30-06",

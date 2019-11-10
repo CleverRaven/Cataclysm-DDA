@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -24,6 +25,8 @@ class item_category
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
 
+        cata::optional<zone_type_id> zone_;
+
     public:
         /** Unique ID of this category, used when loading from JSON. */
         item_category_id id;
@@ -41,6 +44,7 @@ class item_category
 
         std::string name() const;
         item_category_id get_id() const;
+        cata::optional<zone_type_id> zone() const;
         int sort_rank() const;
 
         /**

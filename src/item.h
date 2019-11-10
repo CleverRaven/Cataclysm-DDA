@@ -1055,7 +1055,7 @@ class item : public visitable<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( player *p, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -2001,6 +2001,20 @@ class item : public visitable<item>
          * @return what is needed to continue craft, may be empty requirement data
          */
         requirement_data get_continue_reqs() const;
+
+        /**
+         * @brief Inherit applicable flags from the given parent item.
+         *
+         * @param parent Item to inherit from
+         */
+        void inherit_flags( const item &parent );
+
+        /**
+         * @brief Inherit applicable flags from the given list of parent items.
+         *
+         * @param parents Items to inherit from
+         */
+        void inherit_flags( const std::list<item> &parents );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;

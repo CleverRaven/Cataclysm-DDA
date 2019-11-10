@@ -738,6 +738,13 @@ std::set<point> vehicle::immediate_path( int rotate )
 
 void vehicle::stop_autodriving()
 {
+    if( velocity > 0 ) {
+        if( is_patrolling || is_following ) {
+            autodrive( 0, 10 );
+        } else {
+            pldrive( point( 0, 10 ) );
+        }
+    }
     is_autodriving = false;
     is_patrolling = false;
     is_following = false;
@@ -754,17 +761,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     }
     refresh();
     tripoint vehpos = g->m.getabs( global_pos3() );
-    rl_vec2d facevec = face_vec();
-    point rel_pos_target = target.xy() - vehpos.xy();
-
-    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
-    // cross product
-    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
-
-    // dot product.
-    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
-
-    double angle = ( atan2( crossy, dotx ) ) * 180 / M_PI;
+    double angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -827,14 +824,18 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
         turn_x = 1;
     } else if( angle > 45.0 && angle <= 90.0 ) {
         turn_x = 3;
-    } else if( angle > 90.0 && angle <= 180.0 ) {
+    } else if( angle > 90.0 && angle < 180.0 ) {
         turn_x = 4;
     } else if( angle < -10.0 && angle >= -45.0 ) {
         turn_x = -1;
     } else if( angle < -45.0 && angle >= -90.0 ) {
         turn_x = -3;
-    } else if( angle < -90.0 && angle >= -180.0 ) {
+    } else if( angle < -90.0 && angle > -180.0 ) {
         turn_x = -4;
+        // edge case of being exactly on the button for the target.
+        // just keep driving, the next path point will be picked up.
+    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+        turn_x = 0;
     }
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
@@ -870,6 +871,20 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     }
     follow_protocol ||
     is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+}
+
+double vehicle::get_angle_from_targ( const tripoint &targ )
+{
+    tripoint vehpos = g->m.getabs( global_pos3() );
+    rl_vec2d facevec = face_vec();
+    point rel_pos_target = targ.xy() - vehpos.xy();
+    rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
+    // cross product
+    double crossy = ( facevec.x * targetvec.y ) - ( targetvec.x * facevec.y );
+    // dot product.
+    double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
+
+    return atan2( crossy, dotx ) * 180 / M_PI;
 }
 
 void vehicle::do_autodrive()
@@ -916,7 +931,7 @@ void vehicle::do_autodrive()
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
     tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
-                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
+                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = g->m.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
 }

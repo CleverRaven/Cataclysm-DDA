@@ -1250,7 +1250,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         // previously used to set hunger to -10. with the new system, needs to do something
         // else that actually makes sense, so it is a little bit more involved.
-        units::volume fulfill_vol = std::max( p.stomach.capacity() / 8 - p.stomach.contains(), 0_ml );
+        units::volume fulfill_vol = std::max( p.stomach.capacity( p ) / 8 - p.stomach.contains(), 0_ml );
         if( fulfill_vol != 0_ml ) {
             p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
             int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
@@ -3400,13 +3400,33 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
     }
 
     int ch = uilist( _( "Geiger counter:" ), {
-        _( "Scan yourself" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
+        _( "Scan yourself or other person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
     } );
     switch( ch ) {
-        case 0:
-            p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
-                                  p->leak_level( "RADIOACTIVE" ) );
+        case 0: {
+            const std::function<bool( const tripoint & )> f = [&]( const tripoint & pnt ) {
+                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
+            };
+
+            const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ), f, false,
+                                                  true );
+            if( !pnt_ ) {
+                return 0;
+            }
+            const tripoint &pnt = *pnt_;
+            if( pnt == g->u.pos() ) {
+                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
+                                      p->leak_level( "RADIOACTIVE" ) );
+                break;
+            }
+            if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
+                npc &person = *person_;
+                p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
+                                      person.name, person.radiation,
+                                      person.leak_level( "RADIOACTIVE" ) );
+            }
             break;
+        }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
                                   g->m.get_radiation( p->pos() ) );
@@ -3418,6 +3438,8 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         default:
             return 0;
     }
+    p->mod_moves( -100 );
+
     return it->type->charges_to_use();
 }
 

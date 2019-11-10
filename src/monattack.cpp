@@ -959,6 +959,7 @@ bool mattack::resurrect( monster *z )
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
     assert( raised.second ); // To appease static analysis
+    // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
@@ -2761,7 +2762,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ), z->name() );
+            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {

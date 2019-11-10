@@ -1,6 +1,7 @@
 [
   {
     "id": "heavy_rail_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "heavy rail rifle",
@@ -37,6 +38,7 @@
   },
   {
     "id": "rebar_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "ferromagnetic rail rifle",

@@ -1,6 +1,7 @@
 [
   {
     "id": "TDI",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "TDI Vector",
@@ -39,6 +40,7 @@
   },
   {
     "id": "hk_ump45",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "H&K UMP45",
@@ -78,6 +80,7 @@
   {
     "id": "m1911",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "M1911",
     "//": "You can get 'em for over US$1K if you want.  This is a fairly cheap remake.",
@@ -101,6 +104,7 @@
   {
     "id": "m1911_MEU",
     "copy-from": "m1911",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "M45A1",
     "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 with Glock 19's due to logistics issues.",
@@ -112,6 +116,7 @@
   },
   {
     "id": "mac_10",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "MAC-10",
@@ -151,6 +156,7 @@
   },
   {
     "id": "rifle_45",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "pipe rifle: .45",
@@ -190,6 +196,7 @@
   {
     "id": "smg_45",
     "copy-from": "smg_base",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "name": "Luty SMG: .45",
     "name_plural": "Luty SMGs: .45",
@@ -229,6 +236,7 @@
   {
     "id": "surv_hand_cannon",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "homemade hand cannon",
     "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
@@ -251,6 +259,7 @@
   },
   {
     "id": "tommygun",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Thompson submachine gun",
@@ -312,6 +321,7 @@
   {
     "id": "walther_ppq_45",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Walther PPQ .45 ACP",
     "description": "The Walther PPQ is a semi-automatic pistol originating from the Walther P99QA, and maintains compatibility with some of its predecessor's accessories.  This model is chambered in .45 ACP.",
@@ -330,6 +340,7 @@
   {
     "id": "hptjhp",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Hi-Point Model JHP",
     "description": "The Hi-Point Model JHP is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",

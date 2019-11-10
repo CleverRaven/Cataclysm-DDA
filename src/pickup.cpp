@@ -317,10 +317,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WIELD:
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
-                picked_up = u.wield( it );
-                if( picked_up ) {
-                    it.charges = newit.charges;
-                }
+                picked_up = u.wield( newit );
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );

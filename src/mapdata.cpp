@@ -166,7 +166,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
-        { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // A tight passage, not usable by large or huge critters
+        { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
+        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
     }
 };
 
