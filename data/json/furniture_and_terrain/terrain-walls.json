@@ -8,9 +8,9 @@
       { "item": "wood_panel", "count": [ 0, 1 ] },
       { "item": "nail", "charges": [ 2, 8 ] },
       { "item": "splinter", "count": [ 1, 5 ] },
-      { "item": "pipe", "count": [ 0, 2 ] },
-      { "item": "cu_pipe", "count": [ 0, 2 ] },
-      { "item": "wire", "count": [ 1, 5 ] }
+      { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "wire", "count": [ 0, 2 ], "prob": 10 }
     ]
   },
   {
