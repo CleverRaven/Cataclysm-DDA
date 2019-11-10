@@ -3353,7 +3353,7 @@ bool basecamp::validate_sort_points()
         mgr.cache_vzones();
     }
     tripoint src_loc = bb_pos + point_north;
-    const auto abspos = g->m.getabs( g->u.pos() );
+    const tripoint abspos = g->m.getabs( g->u.pos() );
     if( !mgr.has_near( z_camp_storage, abspos, 60 ) || !mgr.has_near( z_camp_food, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
@@ -3361,8 +3361,8 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        const auto &src_set = mgr.get_near( z_camp_storage, abspos );
-        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, abspos );
+        const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
             src_loc = g->m.getlocal( src );
