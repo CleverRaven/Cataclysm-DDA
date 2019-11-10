@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "fungal_tower2" ],
+    "om_terrain": [ "fungal_tower" ],
     "weight": 100,
     "object": {
       "rows": [
