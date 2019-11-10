@@ -35,6 +35,7 @@ static std::string user_dir_value;
 static std::string datadir_value;
 static std::string base_path_value;
 static std::string savedir_value;
+static std::string autopickup_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -117,7 +118,7 @@ void update_config_dir()
 {
     update_pathname( "options", config_dir_value + "options.json" );
     update_pathname( "keymap", config_dir_value + "keymap.txt" );
-    update_pathname( "autopickup", config_dir_value + "auto_pickup.json" );
+    autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -173,7 +174,7 @@ void PATH_INFO::set_standard_filenames()
 #endif
     update_pathname( "options", config_dir_value + "options.json" );
     update_pathname( "keymap", config_dir_value + "keymap.txt" );
-    update_pathname( "autopickup", config_dir_value + "auto_pickup.json" );
+    autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
 std::string find_translated_file( const std::string &path, const std::string &extension,
@@ -229,7 +230,7 @@ std::string find_translated_file( const std::string &path, const std::string &ex
 }
 std::string PATH_INFO::autopickup()
 {
-    return FILENAMES["autopickup"];
+    return autopickup_value;
 }
 std::string PATH_INFO::base_colors()
 {
@@ -487,7 +488,7 @@ void PATH_INFO::set_keymap( const std::string &keymap )
 
 void PATH_INFO::set_autopickup( const std::string &autopickup )
 {
-    update_pathname( "autopickup", autopickup );
+    autopickup_value = autopickup;
 }
 
 void PATH_INFO::set_motd( const std::string &motd )
