@@ -1,6 +1,7 @@
 [
   {
     "id": "ppsh",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "PPSh-41",
@@ -41,6 +42,7 @@
   {
     "id": "tokarev",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Tokarev TT-33",
     "name_plural": "Tokarev TT-33",

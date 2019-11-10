@@ -1316,10 +1316,11 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, false );
+        temp_camp->set_by_radio( false );
+        temp_camp->get_available_missions( mission_key );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -4260,6 +4261,25 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
     return null_patient;
 }
 
+static Character &operator_present( Character &p, const tripoint &autodoc_loc,
+                                    Character &null_patient )
+{
+    for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( loc ) != couch ) {
+            if( p.pos() == loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        }
+    }
+    return null_patient;
+}
+
 static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
@@ -4338,6 +4358,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
+    Character &Operator = operator_present( p, examp, null_player );
 
     static item null_cyborg;
     item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
@@ -4397,8 +4418,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
+    const bool unsafe_usage = &Operator == &null_player || ( &Operator == &p && &patient == &p );
+    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    if( unsafe_usage ) {
+        const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
+                                          c_red ) + colorize( "\\", c_yellow );
+        const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
+                                     c_red ) + warning_sign;
+        autodoc_header = warning +
+                         _( " \n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+    }
     uilist amenu;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    amenu.text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
@@ -4847,6 +4878,19 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
+
+                result.inherit_flags( it );
+                if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+                    // If the item has "cooks_like" it will be replaced by that item as a component.
+                    if( !it.get_comestible()->cooks_like.empty() ) {
+                        // Set charges to 1 for stacking purposes.
+                        it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
+                    }
+                    result.components.push_back( it );
+                    // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
+                    result.recipe_charges = it.charges;
+                }
+
                 it = result;
             }
         }

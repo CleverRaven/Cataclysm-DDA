@@ -122,6 +122,11 @@ std::string basecamp::board_name() const
     return string_format( _( "%s Board" ), name );
 }
 
+void basecamp::set_by_radio( bool access_by_radio )
+{
+    by_radio = access_by_radio;
+}
+
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
@@ -144,9 +149,8 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
     resources_updated = false;
-    reset_camp_resources( by_radio );
+    reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
@@ -433,7 +437,7 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
     }
 }
 
-void basecamp::reset_camp_resources( bool by_radio )
+void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
     if( !resources_updated ) {
@@ -452,7 +456,7 @@ void basecamp::reset_camp_resources( bool by_radio )
             }
         }
     }
-    form_crafting_inventory( by_radio );
+    form_crafting_inventory();
 }
 
 // available companion list manipulation
@@ -568,8 +572,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     return ret;
 }
 
-void basecamp::consume_components( map &target_map, const recipe &making, int batch_size,
-                                   bool by_radio )
+void basecamp::consume_components( map &target_map, const recipe &making, int batch_size )
 {
     const tripoint &origin = target_map.getlocal( get_dumping_spot() );
     const auto &req = making.requirements();
@@ -592,15 +595,15 @@ void basecamp::consume_components( map &target_map, const recipe &making, int ba
     }
 }
 
-void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
+void basecamp::consume_components( const recipe &making, int batch_size )
 {
     if( by_radio ) {
         tinymap target_map;
         target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
-        consume_components( target_map, making, batch_size, by_radio );
+        consume_components( target_map, making, batch_size );
         target_map.save();
     } else {
-        consume_components( g->m, making, batch_size, by_radio );
+        consume_components( g->m, making, batch_size );
     }
 }
 
@@ -656,7 +659,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 }
 
-void basecamp::form_crafting_inventory( const bool by_radio )
+void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;

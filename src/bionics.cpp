@@ -352,6 +352,21 @@ bool player::activate_bionic( int b, bool eff_only )
                                    bionics[i.id].name );
             }
         }
+    } else if( bio.id == "bio_evap" ) {
+        const w_point weatherPoint = *g->weather.weather_precise;
+        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                                           g->is_sheltered( g->u.pos() ) );
+        int water_available = lround( humidity * 3.0 / 100.0 ); // thirst units = 5 mL
+        if( water_available == 0 ) {
+            bio.powered = false;
+            add_msg_if_player( m_bad, _( "Your %s does not have sufficient humidity to function." ),
+                               bionics[bio.id].name );
+            return false;
+        } else if( water_available == 1 ) {
+            add_msg_if_player( m_mixed,
+                               _( "Your %s issues a low humidity warning.  Efficiency will be reduced." ),
+                               bionics[bio.id].name );
+        }
     } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
     } else if( bio.id == "bio_cqb" ) {
@@ -506,20 +521,6 @@ bool player::activate_bionic( int b, bool eff_only )
         set_painkiller( 0 );
         set_stim( 0 );
         mod_moves( -100 );
-    } else if( bio.id == "bio_evap" ) {
-        item water = item( "water_clean", 0 );
-        water.set_item_temperature( 283.15 );
-        int humidity = weatherPoint.humidity;
-        int water_charges = lround( humidity * 3.0 / 100.0 );
-        // At 50% relative humidity or more, the player will draw 2 units of water
-        // At 16% relative humidity or less, the player will draw 0 units of water
-        water.charges = water_charges;
-        if( water_charges == 0 ) {
-            add_msg_if_player( m_bad,
-                               _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( !liquid_handler::consume_liquid( water ) ) {
-            mod_power_level( bionics[bionic_id( "bio_evap" )].power_activate );
-        }
     } else if( bio.id == "bio_torsionratchet" ) {
         add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
     } else if( bio.id == "bio_jointservo" ) {
@@ -527,11 +528,12 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && g->m.add_field( *pnt, fd_fire, 1 ) ) {
+        if( pnt && g->m.is_flammable( *pnt ) ) {
+            g->m.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
-        } else {
-            add_msg_if_player( m_info, _( "You can't light a fire there." ) );
             mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
+        } else {
+            add_msg_if_player( m_info, _( "There's nothing to light there." ) );
         }
     } else if( bio.id == "bio_geiger" ) {
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
@@ -591,13 +593,13 @@ bool player::activate_bionic( int b, bool eff_only )
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
-        const auto weight_cap = weight_capacity();
+        const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : g->m.points_in_radius( pos(), 10 ) ) {
             if( p == pos() || !g->m.has_items( p ) || g->m.has_flag( "SEALED", p ) ) {
                 continue;
             }
 
-            auto stack = g->m.i_at( p );
+            map_stack stack = g->m.i_at( p );
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
@@ -609,7 +611,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         g->refresh_all();
-        for( const auto &pr : affected ) {
+        for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
             proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
@@ -617,7 +619,7 @@ bool player::activate_bionic( int b, bool eff_only )
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
-            auto dealt = projectile_attack( proj, pr.second, pos(), 0 );
+            dealt_projectile_attack  dealt = projectile_attack( proj, pr.second, pos(), 0, this );
             g->m.add_item_or_charges( dealt.end_point, pr.first );
         }
 
@@ -753,7 +755,7 @@ bool player::activate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool player::deactivate_bionic( int b, bool eff_only )
+bool Character::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
@@ -769,12 +771,9 @@ bool player::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
-        // Compatibility with old saves without the toolset hammerspace
-        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
-            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
-        }
         if( !bionics[bio.id].toggled ) {
-            // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
+            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
+            //it to run out of charge
             add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
                                bionics[bio.id].name );
             return false;
@@ -796,7 +795,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ), weapon.tname() );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
+                                weapon.tname() );
             }
             bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
@@ -827,7 +827,18 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool player::burn_fuel( int b, bool start )
+bool player::deactivate_bionic( int b, bool eff_only )
+{
+    bionic &bio = ( *my_bionics )[b];
+    bool success = Character::deactivate_bionic( b, eff_only );
+    // Compatibility with old saves without the toolset hammerspace
+    if( success && !eff_only && bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+    }
+    return success;
+}
+
+bool Character::burn_fuel( int b, bool start )
 {
     bionic &bio = ( *my_bionics )[b];
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ) {
@@ -839,25 +850,30 @@ bool player::burn_fuel( int b, bool start )
 
     if( start && fuel_available.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
-                               _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+                               _( "<npcname>'s %s does not have enought fuel to start." ),
+                               bio.info().name );
         deactivate_bionic( b );
         return false;
     }
-    if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
+    // don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF
+    //in the menu
+    if( !start ) {
         for( const itype_id &fuel : fuel_available ) {
             const int fuel_energy = item( fuel ).fuel_energy();
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
-                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
+                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
+                                               get_healthy_kcal() );
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
-                > get_max_power_level() ) {
+            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency >
+                get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
+                                       _( "<npcname>'s %s turns off to not waste fuel." ),
+                                       bio.info().name );
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
@@ -866,7 +882,8 @@ bool player::burn_fuel( int b, bool start )
 
                     if( is_metabolism_powered ) {
                         const int kcal_consumed = fuel_energy;
-                        const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency; // 1kcal = 4187 J
+                        // 1kcal = 4187 J
+                        const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency;
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else {
@@ -896,8 +913,10 @@ bool player::burn_fuel( int b, bool start )
                                                bio.info().name );
                     } else {
                         remove_value( fuel );
-                        add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                               _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                        add_msg_player_or_npc( m_info,
+                                               _( "Your %s runs out of fuel and turn off." ),
+                                               _( "<npcname>'s %s runs out of fuel and turn off." ),
+                                               bio.info().name );
                     }
 
                     bio.powered = false;
@@ -918,7 +937,7 @@ bool player::burn_fuel( int b, bool start )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int factor = 1,
+static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, int factor = 1,
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
@@ -949,7 +968,7 @@ static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int
     return recharged;
 }
 
-void player::process_bionic( int b )
+void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
     // Only powered bionics should be processed
@@ -1123,6 +1142,36 @@ void player::process_bionic( int b )
             add_msg_if_player( m_good,
                                _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
+        }
+    } else if( bio.id == "bio_evap" ) {
+        // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
+        // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
+        if( calendar::once_every( 5_minutes ) ) {
+            const w_point weatherPoint = *g->weather.weather_precise;
+            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                                               g->is_sheltered( g->u.pos() ) );
+            int water_available = lround( humidity * 3.0 / 100.0 ); // in thirst units = 5 mL water
+            // At 50% relative humidity or more, the player will draw 10 mL
+            // At 16% relative humidity or less, the bionic will give up
+            if( water_available == 0 ) {
+                add_msg_if_player( m_bad,
+                                   _( "There is not enough humidity for your %s to function." ),
+                                   bionics[bio.id].name );
+                deactivate_bionic( b );
+            } else if( water_available == 1 ) {
+                add_msg_if_player( m_mixed,
+                                   _( "Your %s issues a low humidity warning.  Efficiency is reduced." ),
+                                   bionics[bio.id].name );
+            }
+
+            mod_thirst( -water_available );
+        }
+
+        if( get_thirst() < -40 ) {
+            add_msg_if_player( m_good,
+                               _( "You are properly hydrated.  Your %s chirps happily." ),
+                               bionics[bio.id].name );
+            deactivate_bionic( b );
         }
     } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );

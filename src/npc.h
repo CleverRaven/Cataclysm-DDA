@@ -60,7 +60,7 @@ using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me,
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
 
 /*
@@ -912,6 +912,8 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                   bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
         healing_options has_healing_options();
@@ -1027,6 +1029,11 @@ class npc : public player
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *used, const std::string &method ) override;
+        bool invoke_item( item * ) override;
 
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;

@@ -1,6 +1,7 @@
 [
   {
     "id": "rm120c",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
@@ -37,6 +38,7 @@
   },
   {
     "id": "rm20",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM20 autoshotgun",
@@ -71,6 +73,7 @@
   },
   {
     "id": "rm228",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM228 PDW",

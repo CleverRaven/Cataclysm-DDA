@@ -666,7 +666,7 @@ static void smash()
     }
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!", true, "smash", "web" );
+        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;

@@ -1,6 +1,7 @@
 [
   {
     "id": "ak74",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AK-74M",
@@ -39,6 +40,7 @@
   },
   {
     "id": "an94",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AN-94",

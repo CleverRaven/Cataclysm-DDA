@@ -2,6 +2,7 @@
   {
     "id": "chemical_thrower",
     "copy-from": "gun_base",
+    "looks_like": "m79",
     "type": "GUN",
     "reload_noise": "slosh.",
     "name": "makeshift chemical thrower",
@@ -12,7 +13,7 @@
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_50", "NEVER_JAMS" ],
+    "flags": [ "FIRE_50", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "launcher",
     "ammo": "chemical_spray",
     "dispersion": 300,

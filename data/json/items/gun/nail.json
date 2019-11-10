@@ -2,6 +2,7 @@
   {
     "id": "coilgun",
     "copy-from": "gun_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "coilgun",
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
@@ -33,6 +34,7 @@
   },
   {
     "id": "nailgun",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "nail gun",
@@ -57,6 +59,7 @@
   {
     "id": "nailrifle",
     "copy-from": "nailgun",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "nail rifle",
     "description": "This is a nailgun that has been extensively modified with the addition of a short barrel, stock and hand guard.  It can be reloaded using detachable magazines and is an overall much more effective weapon.",

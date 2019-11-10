@@ -1,6 +1,7 @@
 [
   {
     "id": "needlegun",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM216 SPIW",
@@ -40,6 +41,7 @@
   },
   {
     "id": "needlepistol",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM232 IDW",

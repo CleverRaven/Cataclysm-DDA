@@ -58,7 +58,6 @@ const mtype_id mon_player_blob( "mon_player_blob" );
 
 const bionic_id bio_advreactor( "bio_advreactor" );
 const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_reactor( "bio_reactor" );
 const bionic_id bio_taste_blocker( "bio_taste_blocker" );
@@ -297,9 +296,8 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
             for( const auto &vit : component_map ) {
-                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
-                                    ( vit.second ) / static_cast<float>
-                                    ( it.recipe_charges ) );
+                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>( vit.second )
+                                    * comp.charges / it.recipe_charges );
             }
         }
     } else {
@@ -597,7 +595,8 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
+    if( food.charges > 0 && stomach.stomach_remaining( *this ) < food.volume() / food.charges &&
+        !food.has_infinite_charges() ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
@@ -678,10 +677,10 @@ bool player::eat( item &food, bool force )
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but… you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
-    const bool will_vomit = stomach.stomach_remaining() < food.volume() &&
-                            rng( units::to_milliliter( stomach.capacity() ) / 2,
+    const bool will_vomit = stomach.stomach_remaining( *this ) < food.volume() &&
+                            rng( units::to_milliliter( stomach.capacity( *this ) ) / 2,
                                  units::to_milliliter( stomach.contains() ) ) > units::to_milliliter(
-                                stomach.capacity() );
+                                stomach.capacity( *this ) );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
@@ -811,16 +810,6 @@ bool player::eat( item &food, bool force )
     if( item::find_type( food.get_comestible()->tool )->tool ) {
         // Tools like lighters get used
         use_charges( food.get_comestible()->tool, 1 );
-    }
-
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 50, 200 ) ) );
-    }
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 25, 100 ) ) );
-    }
-    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        mod_power_level( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
@@ -1142,8 +1131,21 @@ bool player::consume_effects( item &food )
         // Note: We want this here to prevent "you can't finish this" messages
         set_hunger( capacity );
     }
+
+    // Set up food for ingestion
+    nutrients ingested;
+    const item &contained_food = food.is_container() ? food.get_contained() : food;
+    // maybe move tapeworm to digestion
+    for( const std::pair<vitamin_id, int> &v : vitamins_from( contained_food ) ) {
+        ingested.vitamins[v.first] += has_effect( efftype_id( "tapeworm" ) ) ? v.second / 2 : v.second;
+    }
+    // @TODO: Move quench values to mL and remove the magic number here
+    ingested.water = contained_food.type->comestible->quench * 5_ml;
+    ingested.solids = contained_food.base_volume() - std::max( ingested.water, 0_ml );
+    ingested.kcal = kcal_for( contained_food );
+
     // GET IN MAH BELLY!
-    stomach.ingest( *this, food, 1 );
+    stomach.ingest( ingested );
     return true;
 }
 

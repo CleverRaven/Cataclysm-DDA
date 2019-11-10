@@ -229,6 +229,17 @@
     ]
   },
   {
+    "result": "gloves_survivor_fingerless",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "16 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gloves_lsurvivor", 1 ] ] ]
+  },
+  {
     "result": "gloves_plate",
     "type": "recipe",
     "category": "CC_ARMOR",
