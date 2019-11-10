@@ -7,7 +7,7 @@
 namespace PATH_INFO
 {
 void init_base_path( std::string path );
-void init_user_dir( const char *ud = "" );
+void init_user_dir( std::string dir );
 void set_standard_filenames();
 
 std::string autopickup();

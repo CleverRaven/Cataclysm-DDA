@@ -48,10 +48,8 @@ void PATH_INFO::init_base_path( std::string path )
     base_path_value = path;
 }
 
-void PATH_INFO::init_user_dir( const char *ud )
+void PATH_INFO::init_user_dir( std::string dir )
 {
-    std::string dir = std::string( ud );
-
     if( dir.empty() ) {
         const char *user_dir;
 #if defined(_WIN32)

@@ -167,10 +167,10 @@ int main( int argc, char *argv[] )
 #endif
 
 #if defined(__ANDROID__)
-    PATH_INFO::init_user_dir( external_storage_path.c_str() );
+    PATH_INFO::init_user_dir( external_storage_path );
 #else
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
-    PATH_INFO::init_user_dir();
+    PATH_INFO::init_user_dir( "" );
 #   else
     PATH_INFO::init_user_dir( "./" );
 #   endif

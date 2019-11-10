@@ -100,7 +100,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
