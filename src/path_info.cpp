@@ -38,6 +38,7 @@ static std::string savedir_value;
 static std::string autopickup_value;
 static std::string keymap_value;
 static std::string options_value;
+static std::string memorialdir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -159,7 +160,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
     savedir_value = user_dir_value + "save/";
-    update_pathname( "memorialdir", user_dir_value + "memorial/" );
+    memorialdir_value = user_dir_value + "memorial/";
 
 #if defined(USE_XDG_DIR)
     const char *user_dir;
@@ -344,7 +345,7 @@ std::string PATH_INFO::legacy_worldoptions()
 }
 std::string PATH_INFO::memorialdir()
 {
-    return FILENAMES["memorialdir"];
+    return memorialdir_value;
 }
 std::string PATH_INFO::jsondir()
 {
@@ -475,7 +476,7 @@ void PATH_INFO::set_savedir( const std::string &savedir )
 
 void PATH_INFO::set_memorialdir( const std::string &memorialdir )
 {
-    update_pathname( "memorialdir", memorialdir );
+    memorialdir_value = memorialdir;
 }
 
 void PATH_INFO::set_options( const std::string &options )
