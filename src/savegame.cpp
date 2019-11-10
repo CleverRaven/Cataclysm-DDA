@@ -17,7 +17,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "int_id.h"
-#include "io.h"
+#include "cata_io.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"

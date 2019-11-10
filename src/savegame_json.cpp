@@ -35,7 +35,7 @@
 #include "effect.h"
 #include "game.h"
 #include "inventory.h"
-#include "io.h"
+#include "cata_io.h"
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
