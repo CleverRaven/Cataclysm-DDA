@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_turret",
+    "looks_like": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "improvised MP5 turret",
     "description": "An MP5 attached to a motorized chassis with basic autonomous software control.  There is no mechanism to reload the weapon when its magazine is empty and the fire control system is only designed for semi automatic fire.",
@@ -48,6 +49,7 @@
   },
   {
     "id": "mon_laserturret",
+    "looks_like": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "laser turret",
     "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
@@ -84,6 +86,7 @@
   },
   {
     "id": "mon_turret_bmg",
+    "looks_like": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "M2HB autonomous CROWS II",
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a M2HB.",
@@ -132,6 +135,7 @@
   },
   {
     "id": "mon_turret_rifle",
+    "//": "Tileset whitelist for turrets",
     "type": "MONSTER",
     "name": "M249 autonomous CROWS II",
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M249.",
@@ -180,6 +184,7 @@
   },
   {
     "id": "mon_crows_m240",
+    "looks_like": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "M240 autonomous CROWS II",
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
