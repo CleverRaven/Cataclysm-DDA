@@ -4,7 +4,6 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "12 gauge pistol",
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "weight": "828 g",
@@ -486,7 +485,6 @@
   {
     "id": "streetsweeper",
     "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
     "type": "GUN",
     "name": "Cobray Streetsweeper",
     "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a Destructive Device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
