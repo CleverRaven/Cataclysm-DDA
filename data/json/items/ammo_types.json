@@ -31,12 +31,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "rock",
-    "name": "rocks",
-    "default": "rock"
-  },
-  {
-    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
