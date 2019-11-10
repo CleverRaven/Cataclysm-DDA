@@ -1483,7 +1483,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
         mon.friendly = -1;
         mon.add_effect( effect_pet, 1_turns, num_bp, true );
         p.consume_charges( it, 1 );
-        return 1;
+        return 0;
     } else {
         p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
         return 0;
@@ -1511,12 +1511,12 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
                     p.consume_charges( it, 1 );
-                    return 1;
+                    return 0;
                 } else {
                     p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
                     p.consume_charges( it, 1 );
-                    return 1;
+                    return 0;
                 }
             } else {
                 p.add_msg_if_player( _( "Never mind." ) );
@@ -1544,7 +1544,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                         p.add_msg_if_player(
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         p.consume_charges( it, 1 );
-                        return 1;
+                        return 0;
                     }
                 } else {
                     return feedpet( p, mon, it, MF_DOGFOOD,
