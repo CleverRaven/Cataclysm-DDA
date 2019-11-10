@@ -10,7 +10,7 @@
       { "item": "splinter", "count": [ 1, 5 ] },
       { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
       { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
-      { "item": "wire", "count": [ 0, 2 ], "prob": 10 }
+      { "item": "cable", "count": [ 0, 3 ], "prob": 10 }
     ]
   },
   {
