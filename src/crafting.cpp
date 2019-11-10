@@ -563,7 +563,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
     return cached_crafting_inventory;
 }
 
-void player::invalidate_crafting_inventory()
+void Character::invalidate_crafting_inventory()
 {
     cached_time = calendar::before_time_starts;
 }

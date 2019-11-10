@@ -72,6 +72,9 @@ static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
 static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -95,10 +98,12 @@ const efftype_id effect_cold( "cold" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_recently_coughed( "recently_coughed" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
@@ -140,12 +145,14 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
@@ -162,6 +169,7 @@ static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
@@ -185,11 +193,14 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 const species_id HUMAN( "HUMAN" );
@@ -202,6 +213,7 @@ Character::Character() :
     hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
+    cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
@@ -224,6 +236,9 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    tank_plut = 0;
+    reactor_plut = 0;
+    slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     pkill = 0;
@@ -1659,6 +1674,40 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
+void Character::drop( int pos, const tripoint &where )
+{
+    const item &it = i_at( pos );
+    const int count = it.count();
+
+    drop( { std::make_pair( pos, count ) }, where );
+}
+
+void Character::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                      bool stash )
+{
+    const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
+
+    if( what.empty() ) {
+        return;
+    }
+
+    if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
+        add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
+                               _( "<npcname> can't place items here!" ) );
+        return;
+    }
+
+    assign_activity( type );
+    activity.placement = target - pos();
+
+    for( auto item_pair : what ) {
+        if( can_unwield( i_at( item_pair.first ) ).success() ) {
+            activity.values.push_back( item_pair.first );
+            activity.values.push_back( item_pair.second );
+        }
+    }
+}
+
 invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv.allocated_invlets();
@@ -2048,6 +2097,15 @@ bool Character::can_use( const item &it, const item &context ) const
     }
 
     return true;
+}
+
+ret_val<bool> Character::can_unwield( const item &it ) const
+{
+    if( it.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 void Character::drop_invalid_inventory()
@@ -3228,6 +3286,15 @@ int Character::get_sleep_deprivation() const
     return sleep_deprivation;
 }
 
+bool Character::is_deaf() const
+{
+    return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) ||
+           has_trait( trait_DEAF ) ||
+           ( has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
+           ( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( "FUNGUS", pos() )
+             && in_sleep_state() );
+}
+
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_part bp )
 {
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
@@ -4210,6 +4277,76 @@ bool Character::is_immune_field( const field_type_id fid ) const
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
+}
+
+bool Character::is_elec_immune() const
+{
+    return is_immune_damage( DT_ELECTRIC );
+}
+
+bool Character::is_immune_effect( const efftype_id &eff ) const
+{
+    if( eff == effect_downed ) {
+        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
+    } else if( eff == effect_onfire ) {
+        return is_immune_damage( DT_HEAT );
+    } else if( eff == effect_deaf ) {
+        return worn_with_flag( "DEAF" ) || worn_with_flag( "PARTIAL_DEAF" ) || has_bionic( bio_ears ) ||
+               is_wearing( "rm13_armor_on" );
+    } else if( eff == effect_corroding ) {
+        return is_immune_damage( DT_ACID ) || has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS );
+    } else if( eff == effect_nausea ) {
+        return has_trait( trait_STRONGSTOMACH );
+    }
+
+    return false;
+}
+
+bool Character::is_immune_damage( const damage_type dt ) const
+{
+    switch( dt ) {
+        case DT_NULL:
+            return true;
+        case DT_TRUE:
+            return false;
+        case DT_BIOLOGICAL:
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
+        case DT_BASH:
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
+        case DT_CUT:
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
+        case DT_ACID:
+            return has_trait( trait_ACIDPROOF ) ||
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
+        case DT_STAB:
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
+        case DT_HEAT:
+            return has_trait( trait_M_SKIN2 ) ||
+                   has_trait( trait_M_SKIN3 ) ||
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
+        case DT_COLD:
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
+        case DT_ELECTRIC:
+            return has_active_bionic( bio_faraday ) ||
+                   worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+                   has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
+        default:
+            return true;
+    }
+}
+
+bool Character::is_rad_immune() const
+{
+    bool has_helmet = false;
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
 int Character::throw_range( const item &it ) const
@@ -6205,6 +6342,43 @@ bool Character::is_wearing_shoes( const side &which_side ) const
     return ( left && right );
 }
 
+bool Character::is_wearing_helmet() const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp_head ) && !i.has_flag( "HELMET_COMPAT" ) && !i.has_flag( "SKINTIGHT" ) &&
+            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+            !i.has_flag( "OVERSIZE" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int Character::head_cloth_encumbrance() const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        const item *worn_item = &i;
+        if( i.covers( bp_head ) && !i.has_flag( "SEMITANGIBLE" ) &&
+            ( worn_item->has_flag( "HELMET_COMPAT" ) || worn_item->has_flag( "SKINTIGHT" ) ) ) {
+            ret += worn_item->get_encumber( *this );
+        }
+    }
+    return ret;
+}
+
+double Character::armwear_factor() const
+{
+    double ret = 0;
+    if( wearing_something_on( bp_arm_l ) ) {
+        ret += .5;
+    }
+    if( wearing_something_on( bp_arm_r ) ) {
+        ret += .5;
+    }
+    return ret;
+}
+
 double Character::footwear_factor() const
 {
     double ret = 0;
@@ -6215,6 +6389,59 @@ double Character::footwear_factor() const
         ret += .5;
     }
     return ret;
+}
+
+int Character::shoe_type_count( const itype_id &it ) const
+{
+    int ret = 0;
+    if( is_wearing_on_bp( it, bp_foot_l ) ) {
+        ret++;
+    }
+    if( is_wearing_on_bp( it, bp_foot_r ) ) {
+        ret++;
+    }
+    return ret;
+}
+
+std::vector<item *> Character::inv_dump()
+{
+    std::vector<item *> ret;
+    if( is_armed() && can_unwield( weapon ).success() ) {
+        ret.push_back( &weapon );
+    }
+    for( auto &i : worn ) {
+        ret.push_back( &i );
+    }
+    inv.dump( ret );
+    return ret;
+}
+
+bool Character::covered_with_flag( const std::string &flag, const body_part_set &parts ) const
+{
+    if( parts.none() ) {
+        return true;
+    }
+
+    body_part_set to_cover( parts );
+
+    for( const auto &elem : worn ) {
+        if( !elem.has_flag( flag ) ) {
+            continue;
+        }
+
+        to_cover &= ~elem.get_covered_body_parts();
+
+        if( to_cover.none() ) {
+            return true;    // Allows early exit.
+        }
+    }
+
+    return to_cover.none();
+}
+
+bool Character::is_waterproof( const body_part_set &parts ) const
+{
+    return covered_with_flag( "WATERPROOF", parts );
 }
 
 void Character::update_morale()

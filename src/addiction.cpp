@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "morale_types.h"
-#include "player.h"
+#include "character.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
@@ -47,9 +47,9 @@ std::string enum_to_string<add_type>( add_type data )
 
 } // namespace io
 
-void marloss_add( player &u, int in, const char *msg );
+void marloss_add( Character &u, int in, const char *msg );
 
-void addict_effect( player &u, addiction &add )
+void addict_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
@@ -381,7 +381,7 @@ std::string addiction_text( const addiction &cur )
     return "You crave to report this bug.";
 }
 
-void marloss_add( player &u, int in, const char *msg )
+void marloss_add( Character &u, int in, const char *msg )
 {
     if( one_in( 800 - 20 * in ) ) {
         u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );

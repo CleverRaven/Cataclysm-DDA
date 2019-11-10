@@ -1091,7 +1091,7 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool player::is_throw_immune() const
+bool Character::is_throw_immune() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_throw_immune();
