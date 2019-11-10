@@ -34,6 +34,7 @@ static std::string config_dir_value;
 static std::string user_dir_value;
 static std::string datadir_value;
 static std::string base_path_value;
+static std::string savedir_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -154,7 +155,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
     update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
 
-    update_pathname( "savedir", user_dir_value + "save/" );
+    savedir_value = user_dir_value + "save/";
     update_pathname( "memorialdir", user_dir_value + "memorial/" );
 
 #if defined(USE_XDG_DIR)
@@ -364,7 +365,7 @@ std::string PATH_INFO::safemode()
 }
 std::string PATH_INFO::savedir()
 {
-    return FILENAMES["savedir"];
+    return savedir_value;
 }
 std::string PATH_INFO::sokoban()
 {
@@ -466,7 +467,7 @@ void PATH_INFO::set_config_dir( const std::string &config_dir )
 
 void PATH_INFO::set_savedir( const std::string &savedir )
 {
-    update_pathname( "savedir", savedir );
+    savedir_value = savedir;
 }
 
 void PATH_INFO::set_memorialdir( const std::string &memorialdir )
