@@ -37,6 +37,7 @@ static std::string base_path_value;
 static std::string savedir_value;
 static std::string autopickup_value;
 static std::string keymap_value;
+static std::string options_value;
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
@@ -117,7 +118,7 @@ void update_datadir()
 
 void update_config_dir()
 {
-    update_pathname( "options", config_dir_value + "options.json" );
+    options_value = config_dir_value + "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
@@ -173,7 +174,7 @@ void PATH_INFO::set_standard_filenames()
 #else
     config_dir_value = user_dir_value + "config/";
 #endif
-    update_pathname( "options", config_dir_value + "options.json" );
+    options_value = config_dir_value + "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
@@ -355,7 +356,7 @@ std::string PATH_INFO::moddir()
 }
 std::string PATH_INFO::options()
 {
-    return FILENAMES["options"];
+    return options_value;
 }
 std::string PATH_INFO::panel_options()
 {
@@ -479,7 +480,7 @@ void PATH_INFO::set_memorialdir( const std::string &memorialdir )
 
 void PATH_INFO::set_options( const std::string &options )
 {
-    update_pathname( "options", options );
+    options_value = options;
 }
 
 void PATH_INFO::set_keymap( const std::string &keymap )
