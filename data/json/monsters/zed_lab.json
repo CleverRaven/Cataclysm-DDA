@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_zombie_scientist",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie scientist",
     "description": "Apart from the jet-black eyes, this zombie looks less decomposed and inhuman than most.  Clad in a tattered lab coat, it seems to have a glimmer of awareness - not a human awareness, but something more sinister.  As you watch it, its movements look almost marionette-like.",
@@ -53,6 +54,7 @@
   },
   {
     "id": "mon_zombie_labsecurity",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": "zombie security guard",
     "description": "A shambling human corpse wearing a gray uniform and bulletproof vest with \"SECURITY\" emblazoned across the front.  It looks like the guard was quite physically fit before its death; it moves quickly and powerfully, albeit clumsily.",

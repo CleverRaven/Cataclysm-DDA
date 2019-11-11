@@ -1,6 +1,7 @@
 [
   {
     "id": "mon_zombie_soldier",
+    "//": "Tileset whitelist for military zombies.",
     "type": "MONSTER",
     "name": "zombie soldier",
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
@@ -288,6 +289,7 @@
   },
   {
     "id": "mon_zombie_military_pilot",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": "zombie military pilot",
     "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
@@ -336,6 +338,7 @@
   },
   {
     "id": "mon_zombie_flamer",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": "zombie burner",
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
@@ -385,6 +388,7 @@
   },
   {
     "id": "mon_zombie_armored",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": "armored zombie",
     "description": "Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
@@ -420,6 +424,7 @@
   },
   {
     "id": "mon_zombie_bio_op",
+    "looks_like": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
     "name": "zombie bio-operator",
     "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
