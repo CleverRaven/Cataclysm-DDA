@@ -168,16 +168,17 @@ bool player::handle_gun_damage( item &it )
 
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
+    // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
     if( !it.has_flag( "NEVER_JAMS" ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
-                1000000000000.0 ) ) { // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000).
-
+                1000000000000.0 ) ) {
         add_msg_player_or_npc(
             _( "Your %s misfires with a muffled click!" ),
             _( "<npcname>'s %s misfires with a muffled click!" ),
             it.tname() );
+        // at high dirt levels the chance to misfire gets to significant levels. 10,000 is max and 7800 is quite high so above that the player gets some relief in the form of exchanging time for some dirt reduction. Basically jiggling the parts loose to remove some dirt and get a few more shots out.
         if( dirt_dbl >
-            7800 ) { // at high dirt levels the chance to misfire gets to significant levels. 10,000 is max and 7800 is quite high so above that the player gets some relief in the form of exchanging time for some dirt reduction. Basically jiggling the parts loose to remove some dirt and get a few more shots out.
+            7800 ) {
             add_msg_player_or_npc(
                 _( "Perhaps taking the ammo out of your %s and reloading will help." ),
                 _( "Perhaps taking the ammo out of <npcname>'s %s and reloading will help." ),
@@ -278,12 +279,14 @@ bool player::handle_gun_damage( item &it )
         if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
             if( dirt < 10000 ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
-                            2 ) ); // this is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
+                            2 ) );
+                // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
                 if( dirtadder < 0 ) {
                     dirtadder = 0;
                 }
+                // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
                 if( curammo_effects.count( "BLACKPOWDER" ) ||
-                    dirt < 7150 ) { // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
+                    dirt < 7150 ) {
                     it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
                 }
             }
@@ -299,9 +302,10 @@ bool player::handle_gun_damage( item &it )
             // end fouling mechanics
         }
     }
+    // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
     if( dirt_dbl > 5000 &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
-                5555555555555 ) ) { // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels.
+                5555555555555 ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
