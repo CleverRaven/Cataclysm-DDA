@@ -2,7 +2,7 @@
 
 # Build script intended for use in Travis CI
 
-set -ex
+set -ex pipefail
 
 num_jobs=3
 
