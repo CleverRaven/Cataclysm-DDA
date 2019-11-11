@@ -82,6 +82,8 @@ class avatar : public player
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
+        /** Resets all missions before saving character to template */
+        void reset_all_misions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -252,7 +254,7 @@ struct points_left {
                 return stat_points + trait_points + skill_points;
             case MULTI_POOL:
                 return std::min( trait_points_left(),
-                                stat_points + std::min( 0, trait_points + skill_points ) );
+                                 stat_points + std::min( 0, trait_points + skill_points ) );
             case TRANSFER:
                 return 0;
         }
@@ -284,8 +286,8 @@ struct points_left {
 
     bool is_valid() {
         return is_freeform() ||
-            ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-                skill_points_left() >= 0 );
+               ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
+                 skill_points_left() >= 0 );
     }
 
     bool has_spare() {
@@ -295,16 +297,16 @@ struct points_left {
     std::string to_string() {
         if( limit == MULTI_POOL ) {
             return string_format(
-                    _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                    stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                    trait_points >= 0 ? '+' : '-',
-                    trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
-                    skill_points >= 0 ? '+' : '-',
-                    skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
-                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
+                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                       stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
+                       trait_points >= 0 ? '+' : '-',
+                       trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                       skill_points >= 0 ? '+' : '-',
+                       skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                       is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
         } else if( limit == ONE_POOL ) {
             return string_format( _( "Points left: %4d" ), skill_points_left() );
-        } else if( limit == TRANSFER ){
+        } else if( limit == TRANSFER ) {
             return _( "Character Transfer: No changes can be made." );
         } else {
             return _( "Freeform" );
