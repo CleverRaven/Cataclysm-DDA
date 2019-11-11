@@ -1809,10 +1809,7 @@ bool healing_options::all_false()
 
 bool healing_options::any_true()
 {
-    if( bandage || bleed || bite || infect ) {
-        return true;
-    }
-    return false;
+    return bandage || bleed || bite || infect;
 }
 
 void healing_options::set_all()
