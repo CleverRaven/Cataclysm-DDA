@@ -213,7 +213,8 @@ void Item_modifier::modify( item &new_item ) const
         // no need for dirt if it's a bow
         !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         if( one_in( 10 ) &&
-            !new_item.has_flag( "NEEDS_NO_LUBE" ) ) { // chance to be unlubed, but only if it's not a laser or something
+            // chance to be unlubed, but only if it's not a laser or something
+            !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
         int random_dirt = rng( dirt.first, dirt.second );
