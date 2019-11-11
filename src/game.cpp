@@ -9974,7 +9974,7 @@ void game::on_move_effects()
             if( u.movement_mode_is( CMM_RUN ) ) {
                 u.mod_power_level( -55_J );
             } else {
-                u.mod_power_level( -35_kJ );
+                u.mod_power_level( -35_J );
             }
         }
     }

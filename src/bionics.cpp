@@ -755,7 +755,7 @@ bool player::activate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool player::deactivate_bionic( int b, bool eff_only )
+bool Character::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
@@ -771,12 +771,9 @@ bool player::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
-        // Compatibility with old saves without the toolset hammerspace
-        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
-            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
-        }
         if( !bionics[bio.id].toggled ) {
-            // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
+            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
+            //it to run out of charge
             add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
                                bionics[bio.id].name );
             return false;
@@ -798,7 +795,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ), weapon.tname() );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
+                                weapon.tname() );
             }
             bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
@@ -829,7 +827,18 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
-bool player::burn_fuel( int b, bool start )
+bool player::deactivate_bionic( int b, bool eff_only )
+{
+    bionic &bio = ( *my_bionics )[b];
+    bool success = Character::deactivate_bionic( b, eff_only );
+    // Compatibility with old saves without the toolset hammerspace
+    if( success && !eff_only && bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+    }
+    return success;
+}
+
+bool Character::burn_fuel( int b, bool start )
 {
     bionic &bio = ( *my_bionics )[b];
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ) {
@@ -841,25 +850,30 @@ bool player::burn_fuel( int b, bool start )
 
     if( start && fuel_available.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
-                               _( "<npcname>'s %s does not have enought fuel to start." ), bio.info().name );
+                               _( "<npcname>'s %s does not have enought fuel to start." ),
+                               bio.info().name );
         deactivate_bionic( b );
         return false;
     }
-    if( !start ) {// don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF in the menu
+    // don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF
+    //in the menu
+    if( !start ) {
         for( const itype_id &fuel : fuel_available ) {
             const int fuel_energy = item( fuel ).fuel_energy();
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
-                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
+                current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
+                                               get_healthy_kcal() );
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
-                > get_max_power_level() ) {
+            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency >
+                get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                       _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
+                                       _( "<npcname>'s %s turns off to not waste fuel." ),
+                                       bio.info().name );
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
@@ -868,7 +882,8 @@ bool player::burn_fuel( int b, bool start )
 
                     if( is_metabolism_powered ) {
                         const int kcal_consumed = fuel_energy;
-                        const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency; // 1kcal = 4187 J
+                        // 1kcal = 4187 J
+                        const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency;
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else {
@@ -898,8 +913,10 @@ bool player::burn_fuel( int b, bool start )
                                                bio.info().name );
                     } else {
                         remove_value( fuel );
-                        add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
-                                               _( "<npcname>'s %s runs out of fuel and turn off." ), bio.info().name );
+                        add_msg_player_or_npc( m_info,
+                                               _( "Your %s runs out of fuel and turn off." ),
+                                               _( "<npcname>'s %s runs out of fuel and turn off." ),
+                                               bio.info().name );
                     }
 
                     bio.powered = false;
@@ -920,7 +937,7 @@ bool player::burn_fuel( int b, bool start )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int factor = 1,
+static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, int factor = 1,
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
@@ -951,7 +968,7 @@ static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int
     return recharged;
 }
 
-void player::process_bionic( int b )
+void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
     // Only powered bionics should be processed

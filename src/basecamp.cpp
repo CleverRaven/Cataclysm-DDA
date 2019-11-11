@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "clzones.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -33,6 +34,9 @@
 #include "type_id.h"
 #include "flat_set.h"
 #include "line.h"
+
+const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -610,8 +614,20 @@ void basecamp::consume_components( const recipe &making, int batch_size )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    _inv.form_from_map( target_map, origin, range, nullptr, false, false );
+    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint &origin = target_map.getlocal( dump_spot );
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
+    }
+    if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+        for( const tripoint &src : src_set ) {
+            for( const item &it : target_map.i_at( target_map.getlocal( src ) ) ) {
+                _inv.add_item( it );
+            }
+        }
+    }
     /*
      * something of a hack: add the resources we know the camp has
      * the hacky part is that we're adding resources based on the camp's flags, which were
