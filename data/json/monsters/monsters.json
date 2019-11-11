@@ -151,6 +151,7 @@
   },
   {
     "id": "mon_beekeeper",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "scarred zombie",
     "description": "A deformed human body, its skin transformed into one thick, calloused envelope of scar tissue.",
@@ -3094,6 +3095,7 @@
   },
   {
     "id": "mon_zombie",
+    "//": "Tileset whitelist for mundane zombies.",
     "type": "MONSTER",
     "name": "zombie",
     "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.",
@@ -3139,6 +3141,7 @@
   },
   {
     "id": "mon_zombie_wretched",
+    "looks_like": "mon_zombie_acidic",
     "type": "MONSTER",
     "name": "wretched puker",
     "description": "A degenerate corpse, shambling as it walks.  Several junks and waste materials have unified into its skin and wounds around it reeks in black goo.",
@@ -3153,7 +3156,6 @@
     "speed": 65,
     "material": [ "flesh" ],
     "symbol": "Z",
-    "looks_like": "mon_zombie_acidic",
     "color": "dark_gray_yellow",
     "aggression": 100,
     "morale": 100,
@@ -3187,6 +3189,7 @@
   },
   {
     "id": "mon_zombie_acidic",
+    "//": "Tileset whitelist for acidic zombies.",
     "type": "MONSTER",
     "name": "acidic zombie",
     "description": "A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
@@ -3294,6 +3297,7 @@
   },
   {
     "id": "mon_zombie_brainless",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "brainless zombie",
     "//": "This is the brainless zombie.  Has nohead flag to reflect the head is already catastrophically damaged.  Only detects through hearing.",
@@ -3614,6 +3618,7 @@
   },
   {
     "id": "mon_zombie_corrosive",
+    "looks_like": "mon_zombie_acidic",
     "type": "MONSTER",
     "name": "corrosive zombie",
     "description": "This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
@@ -3678,6 +3683,7 @@
   },
   {
     "id": "mon_zombie_crawler",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "crawling zombie",
     "description": "This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair.",
@@ -3721,6 +3727,7 @@
   },
   {
     "id": "mon_zombie_dancer",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie dancer",
     "description": "The foulest stench is in the air,\nThe funk of forty thousand years,\nAnd grisly ghouls from every tomb,\nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
@@ -3782,6 +3789,7 @@
   },
   {
     "id": "mon_zombie_ears",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "listener zombie",
     "//": "Upgraded version of brainless.  Regenerating Skull with huge ears.",
@@ -3923,6 +3931,7 @@
   },
   {
     "id": "mon_zombie_fat",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "fat zombie",
     "description": "Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
@@ -4004,6 +4013,7 @@
   },
   {
     "id": "mon_zombie_fireman",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "firefighter zombie",
     "description": "A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
@@ -4299,6 +4309,7 @@
   },
   {
     "id": "mon_zombie_grabber",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "grabber zombie",
     "description": "A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
@@ -4346,6 +4357,7 @@
   },
   {
     "id": "mon_zombie_grappler",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "grappler zombie",
     "description": "An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
@@ -4391,6 +4403,7 @@
   },
   {
     "id": "mon_zombie_hazmat",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "hazmat zombie",
     "description": "This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
@@ -4555,6 +4568,7 @@
   },
   {
     "id": "mon_zombie_jackson",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "Thriller",
     "description": "And though you fight to stay alive,\nYour body starts to shiver.\nFor no mere mortal can resist,\nThe evil of the thriller.",
@@ -4830,6 +4844,7 @@
   },
   {
     "id": "mon_zombie_rot",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "decayed zombie",
     "description": "A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
@@ -4914,6 +4929,7 @@
   },
   {
     "id": "mon_zombie_scorched",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "scorched zombie",
     "description": "Heavily burned zombie that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
@@ -4947,6 +4963,7 @@
   },
   {
     "id": "mon_zombie_screecher",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "screecher zombie",
     "description": "A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
@@ -5025,6 +5042,7 @@
   },
   {
     "id": "mon_zombie_shrieker",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "shrieker zombie",
     "description": "An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
@@ -5071,6 +5089,7 @@
   },
   {
     "id": "mon_zombie_skull",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "skull zombie",
     "//": "Highest upgrade of brainless/ear zombie.  Still immune to headshots, as there's nothing critical there.",
@@ -5197,6 +5216,7 @@
   },
   {
     "id": "mon_zombie_spitter",
+    "looks_like": "mon_zombie_acidic",
     "type": "MONSTER",
     "name": "spitter zombie",
     "description": "A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth.  Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
@@ -5244,6 +5264,7 @@
   },
   {
     "id": "mon_zombie_survivor",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "survivor zombie",
     "description": "Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
@@ -5284,6 +5305,7 @@
   },
   {
     "id": "mon_zombie_swimmer",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "swimmer zombie",
     "description": "A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
@@ -5330,6 +5352,7 @@
   },
   {
     "id": "mon_zombie_technician",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie technician",
     "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
@@ -5409,6 +5432,7 @@
   },
   {
     "id": "mon_zombie_tough",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "tough zombie",
     "description": "Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
