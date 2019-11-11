@@ -137,7 +137,7 @@
     "type": "furniture",
     "id": "f_planter",
     "name": "planter",
-    "looks_like": "f_indoor_plant",
+    "looks_like": "t_dirtmound",
     "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.",
     "symbol": "^",
     "color": "green",

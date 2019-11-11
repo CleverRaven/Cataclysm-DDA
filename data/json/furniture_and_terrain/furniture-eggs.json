@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_egg_sackbw",
     "name": "spider egg sack",
-    "looks_like": "f_rubble",
+    "looks_like": "egg_sackcs",
     "description": "Much too large, off-white egg sack.  Kind of icky.  Something IS moving in there.",
     "symbol": "O",
     "color": "white",

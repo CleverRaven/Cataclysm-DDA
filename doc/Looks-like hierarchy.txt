@@ -1,7 +1,6 @@
 t_underbrush
   f_indoor_plant
     f_indoor_plant_y
-    f_planter
   f_plant_harvest
     f_planter_harvest
   f_plant_mature
@@ -11,15 +10,15 @@ t_underbrush
   f_plant_seedling
     f_planter_seedling
   f_hay
-  f_leaves_pile
   f_dandelion
     f_mutpoppy
+      f_flower_tulip
+        f_lily
+          f_lotus
     f_chamomile
-    f_flower_tulip
     f_flower_spurge
     f_cattails
     f_black_eyed_susan
-    f_lily
     f_lotus
     f_sunflower
     f_lilypad
@@ -27,10 +26,13 @@ t_underbrush
     f_dahlia
     f_chicory
     f_datura
-    f_flower_marloss
     f_flower_fungal
-f_no_item
-  f_fake_bench_hands
+      f_flower_marloss
+      f_alien_tendril
+
+t_dirtmound
+  f_planter
+tr_firewood_source
   f_ground_crafting_spot
 
 ***
@@ -163,11 +165,10 @@ t_rock
       t_reinforced_glass_shutter
       t_secretdoor_metal_c
       t_machinery_light
+        f_HPLC
         f_air_conditioner
           f_air_filter
           f_home_furnace
-          f_water_heater
-            f_water_purifier
         f_fridge
           f_glass_fridge
             f_shaker
@@ -179,28 +180,21 @@ t_rock
           f_bellows
           f_drophammer
           f_brazier
-            f_55gal_firebarrel
-            f_30gal_firebarrel
             f_firering
           f_chemical_mixer
-            f_HPLC
             f_GC
             f_MS
             f_NMR
-        f_sink
-          f_washer
-            f_dryer
-            f_autoclave
-            f_autoclave_full
-          f_bathtub
-            f_toilet
-            f_shower
-          f_eyewash
         f_standing_tank
           f_chimney
           f_vent_pipe
           f_roof_turbine_vent
           t_bulk_tank
+          f_anesthetic
+          f_dialysis
+          f_ventilator
+          f_water_heater
+            f_water_purifier
         f_robotic_arm
           f_robotic_assembler
           f_autodoc
@@ -211,20 +205,23 @@ t_rock
           f_electron_microscope
           f_CTscan
           f_MRI
-          f_anesthetic
           f_dialysis
           f_ventilator
           f_cellphone_booster
           f_small_satelitte_dish
           f_TV_antenna
       t_machinery_heavy
+        f_MS
+        f_NMR
       t_machinery_old
+        f_GC
     t_wall_wood
       f_cupboard
         f_chair
           f_bench
           f_armchair
             f_sofa
+              f_autodoc_couch
             f_seat_airplane
           f_stool
           f_camp_chair
@@ -233,8 +230,6 @@ t_rock
               f_down_mattress
             f_makeshift_bed
             f_straw_bed
-            f_autodoc_couch
-              f_alien_table
             f_scan_bed
             f_pillow_fort
               f_cardboard_fort
@@ -273,8 +268,7 @@ t_rock
             f_IV_pole
           f_glass_cabinet
           f_utility_shelf
-          f_server
-          f_birdbath
+            f_server
           f_shackle
           f_bitts
           f_filing_cabinet
@@ -296,16 +290,6 @@ t_rock
             f_sign_warning
           f_lab_bench
             f_fume_hood
-        f_statue
-          f_mannequin
-          f_bigmirror
-            f_bigmirror_b
-          f_grave_stone
-            f_grave_head
-            f_slab
-            f_grave_stone_old
-            f_grave_monument
-          f_target
       t_wall_log
         t_wall_log_chipped
         t_wall_log_broken
@@ -340,17 +324,17 @@ t_rock
 t_rock_floor
   t_floor
     f_fiber_mat
-    f_plastic_groundsheet
-    f_leather_tarp
-      f_skin_groundsheet
-    f_leaves_pile
-    f_tatami
-    f_canvas_floor
-      f_punching_bag
-    f_groundsheet
-      f_large_groundsheet
-      f_center_groundsheet
-      f_fema_groundsheet
+      f_plastic_groundsheet
+      f_leather_tarp
+        f_skin_groundsheet
+        f_leaves_pile
+      f_tatami
+      f_canvas_floor
+        f_punching_bag
+      f_groundsheet
+        f_large_groundsheet
+        f_center_groundsheet
+        f_fema_groundsheet
     t_thconc_floor
       t_thconc_y
       t_strconc_floor
@@ -397,20 +381,50 @@ t_rock_floor
     f_boulder_small
       f_boulder_medium
       f_boulder_large
-    f_egg_sackbw
-      f_egg_sackcs
-      f_egg_sackws
-      f_egg_sacke
-      f_alien_pod
-        f_alien_pod_organ
-        f_alien_pod_resin
     f_fungal_mass
       f_fungal_clump
+      f_alien_table
       f_alien_tendril
         f_alien_anemone
         f_alien_gasper
         f_alien_zapper
         f_alien_scar
+f_statue > f_mannequin
+  f_mannequin
+  f_bigmirror
+    f_bigmirror_b
+  f_grave_stone
+    f_grave_head
+    f_slab
+    f_grave_stone_old
+    f_grave_monument
+  f_target
+f_egg_sackbw > egg_sackcs
+  f_egg_sackcs
+  f_egg_sackws
+  f_egg_sacke
+  f_alien_pod
+    f_alien_pod_organ
+    f_alien_pod_resin
+f_no_item > f_fake_bench_hands
+  f_fake_bench_hands
+  f_ground_crafting_spot
+55gal_drum
+  f_55gal_firebarrel
+30gal_drum
+  f_30gal_firebarrel
+t_dirtpile
+  f_leaves_pile
+f_sink > f_bathtub
+  f_birdbath
+  f_washer
+    f_dryer
+    f_autoclave
+    f_autoclave_full
+  f_bathtub
+    f_toilet
+    f_shower
+  f_eyewash
 
 ***
 

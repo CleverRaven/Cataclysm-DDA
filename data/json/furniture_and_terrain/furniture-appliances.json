@@ -504,7 +504,7 @@
   {
     "type": "furniture",
     "id": "f_server",
-    "looks_like": "f_rack",
+    "looks_like": "f_utility_shelf",
     "name": "server stack",
     "description": "This is a big pile of computers.  They're all turned off.",
     "symbol": ":",
