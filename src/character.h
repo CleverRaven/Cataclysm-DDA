@@ -1376,7 +1376,6 @@ class Character : public Creature, public visitable<Character>
         std::map<std::string, int> mutation_category_level;
 
         scenttype_id get_scent_type();
-        
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
