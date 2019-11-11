@@ -958,6 +958,7 @@
   },
   {
     "id": "mon_dog_skeleton",
+    "looks_like": "mon_wolf",
     "type": "MONSTER",
     "name": "skeletal dog",
     "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
@@ -989,6 +990,7 @@
   },
   {
     "id": "mon_dog_thing",
+    "looks_like": "mon_wolf",
     "type": "MONSTER",
     "name": "dog",
     "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
@@ -1016,6 +1018,7 @@
   },
   {
     "id": "mon_dog_zombie_cop",
+    "looks_like": "mon_wolf",
     "type": "MONSTER",
     "name": "Z-9",
     "description": "A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective Kevlar harness.",
@@ -1049,6 +1052,7 @@
   },
   {
     "id": "mon_dog_zombie_rot",
+    "looks_like": "mon_wolf",
     "type": "MONSTER",
     "name": "rot-weiler",
     "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime-dribbling ulcers.",
@@ -1322,6 +1326,7 @@
   },
   {
     "id": "mon_fungal_blossom",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal blossom",
     "description": "A broad fungus, looking much like a glowing blue sunflower.  It appears to emit finer spores than the typical fungal emission.",
@@ -1348,6 +1353,7 @@
   },
   {
     "id": "mon_fungal_hedgerow",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal hedgerow",
     "description": "Looking at first glance like a dull gray privet, this \"hedge\" is really a mass of barbed fungal tendrils, defending the fungal tower.",
@@ -1376,6 +1382,7 @@
   },
   {
     "id": "mon_fungal_tendril",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal tendril",
     "description": "A long and delicate-looking tendril with a sharp tip.",
@@ -1405,6 +1412,7 @@
   },
   {
     "id": "mon_fungal_wall",
+    "looks_like": "mon_fungaloid",
     "type": "MONSTER",
     "name": "fungal wall",
     "description": "A veritable wall of fungus, grown as a natural defense by the fungal spire.  New spores erupt from the surface every few seconds, and tendrils constrict around it, pulling new mass into its shape.  They move with an inexorable strength that could snap limbs.",
@@ -2620,6 +2628,7 @@
   },
   {
     "id": "mon_skeleton",
+    "//": "Tileset whitelist for skeleton zombies.",
     "type": "MONSTER",
     "name": "skeleton",
     "description": "A monstrous overgrowth of ossified tissue has replaced this zombie's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the air around it.",
@@ -2655,6 +2664,7 @@
   {
     "//": "Skely brute gaps the evolution between normal and the juggernaut.",
     "id": "mon_skeleton_brute",
+    "looks_like": "mon_skeleton",
     "type": "MONSTER",
     "name": "skeletal brute",
     "description": "Distorted outgrowths of calcified bone plates cover this zombie's rotten skin.  Joints and cracks around its body ooze with black goo.",
@@ -2692,6 +2702,7 @@
   },
   {
     "id": "mon_skeleton_electric",
+    "looks_like": "mon_zombie_electric",
     "type": "MONSTER",
     "name": "skeletal shocker",
     "description": "Heavy, jagged bone plates have grown out of the surface of this zombie.  Underneath, its flesh glows and crackles with the occasional jolt of electricity.",
@@ -3490,6 +3501,7 @@
   },
   {
     "id": "mon_zombie_brute_shocker",
+    "looks_like": "mon_zombie_electric",
     "type": "MONSTER",
     "name": "shocker brute",
     "description": "A huge beast covered in visible scarring from what you can only guess was 'research'.  Being near it, you can hear a slight humming, like that of an electrical transformer.",
@@ -3537,6 +3549,7 @@
   },
   {
     "id": "mon_zombie_nullfield",
+    "looks_like": "mon_zombie_electric",
     "type": "MONSTER",
     "name": "incandescent husk",
     "description": "This once-human is visible only as a glowing white silhouette that you have to squint to see, cloaked in a crackling field of lightning that pulses like a beating heart.  It walks slowly and deliberately, the thunderstorm surrounding it eagerly jumping to anything conductive within its grasp.",
@@ -3884,6 +3897,7 @@
   },
   {
     "id": "mon_zombie_electric",
+    "//": "Tileset whitelist for shocker zombies.",
     "type": "MONSTER",
     "name": "shocker zombie",
     "description": "A human body with pale blue flesh, crackling with electrical energy.",
@@ -4062,6 +4076,7 @@
   },
   {
     "id": "mon_zombie_fungus",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "fungal zombie",
     "description": "Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
@@ -5183,11 +5198,11 @@
   },
   {
     "id": "mon_zombie_smoker_fungus",
+    "looks_like": "mon_zombie_smoker",
     "type": "MONSTER",
     "name": "pollinator zombie",
     "description": "Every breath of this crooked, fungus-ridden zombie emits a fine dust of spores, and it constantly looks like it's emerging from a cloud of myst.",
     "default_faction": "fungus",
-    "looks_like": "mon_zombie_smoker",
     "bodytype": "human",
     "species": [ "FUNGUS" ],
     "volume": "62500 ml",
@@ -5587,6 +5602,7 @@
   },
   {
     "id": "mon_skeleton_hulk",
+    "looks_like": "mon_skeleton",
     "type": "MONSTER",
     "name": "skeletal juggernaut",
     "description": "This hideous golem of plated bones and misshapen flesh drags its heavy, pointed limbs behind it like an unwanted burden.  Formerly soft and vulnerable, bones grew around its form to protect it - only, they kept growing.  And growing.  And growing.",
@@ -5641,9 +5657,9 @@
   },
   {
     "id": "mon_skeleton_hulk_fungus",
+    "looks_like": "mon_skeleton_hulk",
     "type": "MONSTER",
     "name": "fungal juggernaut",
-    "looks_like": "mon_skeleton_hulk",
     "description": "Fungi bloom from the crevices in the ossified plates of this ponderous bone titan, and it seems even it's eyes are lost to it. A dust of spores lands on the ground with every sluggish stomp of it's heavy legs.",
     "default_faction": "fungus",
     "bodytype": "human",
