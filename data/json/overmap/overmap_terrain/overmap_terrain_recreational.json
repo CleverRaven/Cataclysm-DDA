@@ -1084,6 +1084,78 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "movietheater_roof_0_0",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_1_0",
+    "copy-from": "generic_city_building",
+    "name": "movie theater entrance",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_2_0",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_0_1",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_1_1",
+    "name": "movie theater",
+    "copy-from": "generic_city_building",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_2_1",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_0_2",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_1_2",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "movietheater_roof_2_2",
+    "copy-from": "generic_city_building",
+    "name": "movie theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "paintball_field",
     "copy-from": "generic_city_building",
     "name": "paintball field",

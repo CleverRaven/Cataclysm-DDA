@@ -17,15 +17,16 @@
       "H": "f_armchair",
       "K": "f_armchair",
       "b": "f_bench",
-      "y": "f_indoor_plant",
-      "i": "f_indoor_plant",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "i": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "l": "f_locker",
       "G": "f_trashcan",
-      "X": "f_crate_c",
+      "X": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
       "g": "f_glass_fridge",
       "@": "f_sofa",
       "o": "f_oven",
       "r": "f_rack",
+      "F": "f_vending_c",
       "v": "f_vending_c"
     },
     "terrain": {
@@ -50,7 +51,8 @@
       "w": "t_window",
       "Z": "t_console_broken",
       "-": "t_railing_h",
-      "R": "t_railing_h"
+      "R": "t_railing_h",
+      "<": "t_ladder_up"
     }
   }
 ]

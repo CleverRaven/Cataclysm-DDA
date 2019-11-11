@@ -1941,8 +1941,8 @@ static bool magic_train( player_activity *act, player *p )
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
             studying.gain_exp( xp );
-            p->add_msg_if_player( m_good, _( "You learn a little about the spell : %s" ),
-                                  sp_id->name.translated() );
+            p->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
+                                  sp_id->name );
         } else {
             p->magic.learn_spell( act->name, *p );
             // you can decline to learn this spell , as it may lock you out of other magic.

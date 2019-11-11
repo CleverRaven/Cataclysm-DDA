@@ -812,7 +812,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             continue;
         }
         // 10000 represents 100.00% to increase granularity without swapping everything to a float
-        if( sp.damage() >= rng( 0, 10000 ) ) {
+        if( sp.damage() < rng( 1, 10000 ) ) {
             // chance failure! but keep trying for other targets
             continue;
         }
