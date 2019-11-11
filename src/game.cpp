@@ -5780,7 +5780,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_items_info( lp, w_look, column, line, last_line );
             print_graffiti_info( lp, w_look, column, line, last_line );
 
-            if( draw_terrain_indicators ) {
+            if( draw_terrain_indicators && !liveview.is_enabled() ) {
                 if( creature != nullptr && u.sees( *creature ) ) {
                     creature->draw( w_terrain, lp, true );
                 } else {
@@ -5796,7 +5796,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
         case VIS_HIDDEN:
             print_visibility_info( w_look, column, line, visibility );
 
-            if( draw_terrain_indicators ) {
+            if( draw_terrain_indicators && !liveview.is_enabled() ) {
                 print_visibility_indicator( visibility );
             }
             break;
