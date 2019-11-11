@@ -322,8 +322,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "gum", 15 ]
     ]
@@ -337,8 +336,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "fries", 7 ],
       [ "cheese_fries", 5 ],
