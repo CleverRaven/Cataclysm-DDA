@@ -218,7 +218,8 @@ void Item_modifier::modify( item &new_item ) const
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
         int random_dirt = rng( dirt.first, dirt.second );
-        if( random_dirt > 0 ) { // if gun RNG is dirty, must add dirt fault to allow cleaning
+        // if gun RNG is dirty, must add dirt fault to allow cleaning
+        if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
         }
