@@ -104,7 +104,7 @@ supported on Windows, so clang-tidy needs to be built as a static library instea
 
 After the patch is applied, you can then build the llvm code. Unfortunately, it
 seems that clang itself cannot correctly compile the llvm code on Windows (gives
-some sort of relocation error). Luckyly, MinGW-w64 can be used instead to compile
+some sort of relocation error). Luckily, MinGW-w64 can be used instead to compile
 the code.
 
 The first step to build the code is to run CMake to generate the makefile. On
@@ -146,7 +146,7 @@ In this step, the following tools are required.
 - FileCheck (built from the llvm source)
 - A shell environment
 
-You also need to instal yaml for python 3 to work. Download the `.whl` installer
+You also need to install yaml for python 3 to work. Download the `.whl` installer
 corresponding to your python version from [here](https://pyyaml.org/wiki/PyYAML)
 and execute the following command inside the `<python3_root>/Scripts` directory
 ```sh
@@ -209,12 +209,12 @@ index 4ab6e913a7..d1a4418ba6 100644
 The next step is to run CMake to generate the compilation database. The compilation
 database contains compiler flags that clang-tidy needs to check the source files.
 
-Make sure python 2, python 3, CMake, MinGW-w64, and FileCheck are on the path.
+Make sure Python 2, Python 3, CMake, MinGW-w64, and FileCheck are on the path.
 Note that two `bin` directories of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`,
 and `<mingw-w64-root>/x86_64-w64-mingw32/bin`. FileCheck's path is `<llvm-source-root>/build/bin`,
 if you built it with the instructions in the previous section. Python 2 should
 precede Python 3 in the path, otherwise scripts that are intended to run with
-python 2 might not work.
+Python 2 might not work.
 
 Then add the following CMake options with the correct paths to generate the
 compilation database, and build the CDDA source and the custom clang-tidy
@@ -233,11 +233,11 @@ in the `build` subdirectory.
 ```
 
 Next, change the directory back to the source root, and run `tools/fix-compilation-database.py`
-with python 3 to fix some errors in the compilation database. Then the compilation
+with Python 3 to fix some errors in the compilation database. Then the compilation
 database should be usable by clang-tidy.
 
 If you want to check if the custom checks are working correctly, run the following
-script. Note that `python` here is the executable from python 2.
+script. Note that `python` here is the executable from Python 2.
 
 ```sh
 python <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
