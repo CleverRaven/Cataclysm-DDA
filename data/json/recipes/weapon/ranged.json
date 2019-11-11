@@ -21,6 +21,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ "throw", 1 ],
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_W", "level": 1 } ],
