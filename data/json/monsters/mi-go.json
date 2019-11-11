@@ -1,7 +1,7 @@
 [
   {
     "id": "mon_mi_go",
-    "//": "Tileset whitelist for mi-go."
+    "//": "Tileset whitelist for mi-go.",
     "type": "MONSTER",
     "name": { "str": "mi-go" },
     "description": "This is an alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and simply gazing upon the unnatural beast fills you with primordial dread.",
