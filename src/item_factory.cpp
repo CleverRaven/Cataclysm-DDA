@@ -2248,7 +2248,7 @@ void Item_factory::load_migration( JsonObject &jo )
             migrations[ m.id ] = m;
         }
     } else {
-        jo.throw_error( "\"id\" of \"MIGRATION\" is neither string nor array" );
+        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
 }
 
