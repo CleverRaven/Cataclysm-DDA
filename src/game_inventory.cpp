@@ -1415,11 +1415,16 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         int iScrollPosLast = 0;
 
         do {
+            item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+            last_item_info.without_getch = true;
+
+            item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+            cur_item_info.without_getch = true;
+
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+                            last_item_info );
             draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                            iScrollPos, true );
+                            0, TERMY - VIEW_OFFSET_Y * 2, cur_item_info );
 
             action = ctxt.handle_input();
 

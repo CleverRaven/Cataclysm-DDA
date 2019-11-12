@@ -2060,9 +2060,10 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         action_menu.border_color = BORDER_COLOR;
 
         do {
-            draw_item_info( iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, oThisItem.tname(),
-                            oThisItem.type_name(), vThisItem, vDummy,
-                            iScrollPos, true, false, false );
+            item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+            data.without_getch = true;
+
+            draw_item_info( iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -7323,11 +7324,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "EXAMINE" && !filtered_items.empty() && activeItem ) {
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
-            int dummy = 0; // draw_item_info needs an int &
             activeItem->example->info( true, vThisItem );
-            draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
-                            false, false, true );
+
+            item_info_data info_data( activeItem->example->tname(), activeItem->example->type_name(), vThisItem,
+                                      vDummy );
+            info_data.handle_scrolling = true;
+
+            draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2, info_data );
             // wait until the user presses a key to wipe the screen
             iLastActive.reset();
         } else if( action == "PRIORITY_INCREASE" ) {
@@ -7561,7 +7564,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
                 activeItem->example->info( true, vThisItem );
-                draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
+
+                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
+                dummy.without_getch = true;
+                dummy.without_border = true;
+
+                draw_item_info( w_item_info, dummy );
 
                 iLastActive.emplace( active_pos );
                 centerlistview( active_pos, width );
