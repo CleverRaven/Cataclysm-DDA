@@ -468,7 +468,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         return true;
     }
 
-    save_template( *this, _( "Last Character" ), points );
+    save_template( _( "Last Character" ), points );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -2363,7 +2363,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                avatar::save_template( you, *name, points );
+                you.save_template( *name, points );
             }
             // redraw after saving template
             draw_character_tabs( w, _( "DESCRIPTION" ) );
@@ -2536,7 +2536,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void avatar::save_template( const avatar &u, const std::string &name, const points_left &points )
+void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
@@ -2561,10 +2561,10 @@ void avatar::save_template( const avatar &u, const std::string &name, const poin
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
-        jsout.member( "start_location", u.start_location );
+        jsout.member( "start_location", start_location );
         jsout.end_object();
 
-        u.serialize( jsout );
+        serialize( jsout );
 
         jsout.end_array();
     }, _( "player template" ) );

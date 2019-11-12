@@ -1062,7 +1062,7 @@ void main_menu::world_tab()
 
                 g->u.setID( character_id(), true );
                 g->u.reset_all_misions();
-                avatar::save_template( g->u, g->u.name, points );
+                g->u.save_template( g->u.name, points );
 
                 g->u = avatar();
                 MAPBUFFER.reset();

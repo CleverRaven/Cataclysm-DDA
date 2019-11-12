@@ -280,7 +280,7 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-void Character::setID( character_id i, const bool force )
+void Character::setID( character_id i, bool force )
 {
     if( id.is_valid() && !force ) {
         debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
