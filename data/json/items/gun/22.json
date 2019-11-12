@@ -21,7 +21,7 @@
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
-    "burst": 20,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -176,7 +176,7 @@
     "durability": 9,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 39,
-    "burst": 20,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 500,
     "valid_mod_locations": [
       [ "accessories", 3 ],
