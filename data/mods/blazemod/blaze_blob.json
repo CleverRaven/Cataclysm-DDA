@@ -138,7 +138,7 @@
     "pierce": 15,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "clip_size": 50,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM" ]
@@ -343,7 +343,7 @@
     "pierce": 20,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "clip_size": 50,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -690,7 +690,7 @@
     "pierce": 15,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 20,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 20 ] ],
     "clip_size": 240,
     "ammo_effects": [ "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
@@ -1053,7 +1053,7 @@
     "pierce": 5,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 36,
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -1232,7 +1232,7 @@
     "dispersion": 450,
     "sight_dispersion": 150,
     "durability": 10,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 180,
     "ammo_effects": [ "INCENDIARY", "FLARE", "WIDE", "NO_BOOM", "STREAM" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]

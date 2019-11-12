@@ -55,7 +55,7 @@
     "ranged_damage": 10,
     "dispersion": 10,
     "durability": 9,
-    "burst": 2,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "barrel_length": 3,
     "built_in_mods": [ "riv_scope", "riv_suppressor" ],
     "valid_mod_locations": [
@@ -90,7 +90,7 @@
     "skill": "smg",
     "dispersion": 120,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "grip", 1 ],
@@ -126,7 +126,7 @@
     "ranged_damage": 10,
     "dispersion": 90,
     "durability": 9,
-    "burst": 30,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 400,
     "barrel_length": 6,
     "magazine_well": 6,
@@ -153,7 +153,7 @@
     "ranged_damage": 5,
     "dispersion": 50,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -190,7 +190,7 @@
     "durability": 9,
     "reload": 200,
     "barrel_length": 2,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 20 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 6 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -225,7 +225,7 @@
     "ranged_damage": 10,
     "dispersion": 30,
     "durability": 9,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],

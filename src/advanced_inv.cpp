@@ -1384,10 +1384,10 @@ void advanced_inventory::display()
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
-                int iDummySelect = 0;
-                ret = draw_item_info( info_startx,
-                                      info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
-                                      false, false, true ).get_first_input();
+
+                item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+
+                ret = draw_item_info( info_startx, info_width, 0, 0, data ).get_first_input();
             }
             if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 spane.scroll_by( +1 );
