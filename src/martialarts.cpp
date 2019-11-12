@@ -92,16 +92,22 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
         std::pair<damage_type, int> get_next( JsonIn &jin ) const {
             JsonObject jo = jin.get_object();
             std::string type = jo.get_string( "type" );
-            std::string s = dt_map.find( type ) != dt_map.end() ? type : "true";
-            const damage_type dt = dt_map.find( s )->second;
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            const damage_type dt = dt_map.find( type )->second;
             return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
         }
         template<typename C>
         void erase_next( JsonIn &jin, C &container ) const {
             JsonObject jo = jin.get_object();
             std::string type = jo.get_string( "type" );
-            std::string s = dt_map.find( type ) != dt_map.end() ? type : "true";
-            damage_type id = dt_map.find( s )->second;
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            damage_type id = dt_map.find( type )->second;
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
                 return e.first == id;
             } );
