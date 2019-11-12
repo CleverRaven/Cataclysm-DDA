@@ -1070,7 +1070,7 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
-    const std::set<scenttype_id> tracked_scents = type->scents_tracked;
+    const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
 
     std::vector<tripoint> smoves;
 
@@ -1107,8 +1107,8 @@ tripoint monster::scent_move()
         }
         //is this scent recognised by the monster species
         if( !type_scent.is_empty() ) {
-            const std::set<species_id> receptive_species = type_scent->receptive_species;
-            const std::set<species_id> monster_species = type->species;
+            const std::set<species_id> &receptive_species = type_scent->receptive_species;
+            const std::set<species_id> &monster_species = type->species;
             std::vector<species_id> v_intersection;
             std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
                                    monster_species.end(), std::back_inserter( v_intersection ) );
