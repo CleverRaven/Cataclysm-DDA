@@ -422,7 +422,8 @@ class atm_menu
 
         //!Get a new cash card. $10.00 fine.
         bool do_purchase_card() {
-            const char *prompt = _( "This will automatically deduct $10.00 from your bank account.  Continue?" );
+            const char *prompt =
+                _( "This will automatically deduct $10.00 from your bank account.  Continue?" );
 
             if( !query_yn( prompt ) ) {
                 return false;
