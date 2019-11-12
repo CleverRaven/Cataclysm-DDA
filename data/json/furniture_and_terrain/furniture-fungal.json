@@ -59,7 +59,7 @@
     "bgcolor": "light_gray",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS" ],
+    "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
     "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
   }
 ]
