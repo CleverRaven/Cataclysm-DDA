@@ -1198,7 +1198,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( pl->is_player() ) {
-        add_msg( m_warning, _( "You fall down a level!" ) );
+        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                 height );
         g->vertical_move( -height, true );
     } else {
         pl->setpos( where );
@@ -1211,7 +1212,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {
-        pl->impact( height * 10, where );
+        pl->impact( height * 30, where );
     }
     return true;
 }
