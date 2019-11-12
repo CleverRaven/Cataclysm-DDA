@@ -44,7 +44,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_1_6", "hotel_tower_1_5A", "hotel_tower_1_4" ] ],
+    "om_terrain": [ [ "hotel_tower_1_6", "hotel_tower_1_5", "hotel_tower_1_4" ] ],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -98,7 +98,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr2_1_6", "hotel_tower_flr2_1_5A", "hotel_tower_flr2_1_4" ] ],
+    "om_terrain": [ [ "hotel_tower_flr2_1_6", "hotel_tower_flr2_1_5", "hotel_tower_flr2_1_4" ] ],
     "type": "mapgen",
     "weight": 250,
     "object": {
