@@ -241,6 +241,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    update_type_of_scent();
     pkill = 0;
     // 45 days to starve to death
     healthy_calories = 55000;
@@ -6221,15 +6222,23 @@ bool Character::crossed_threshold() const
     return false;
 }
 
-scenttype_id Character::get_scent_type()
+void Character::update_type_of_scent()
 {
-    scenttype_id scent_type;
+    bool mutant_scent = false;
     for( const trait_id &mut : get_mutations() ) {
         if( mut.obj().scent_typeid ) {
-            scent_type = mut.obj().scent_typeid.value();
+            mutant_scent = true;
+            type_of_scent = mut.obj().scent_typeid.value();
         }
     }
-    return scent_type;
+    if( !mutant_scent ) {
+        type_of_scent = scenttype_id( "sc_human" );
+    }
+}
+
+scenttype_id Character::get_type_of_scent() const
+{
+    return type_of_scent;
 }
 
 void Character::spores()

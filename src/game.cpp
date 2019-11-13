@@ -1503,7 +1503,7 @@ bool game::do_turn()
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
         !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
-        scent.set( u.pos(), u.scent, u.get_scent_type() );
+        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
