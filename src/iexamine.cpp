@@ -4427,7 +4427,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
                                      c_red ) + warning_sign;
         autodoc_header = warning +
-                         _( " \n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
     uilist amenu;
     amenu.text = autodoc_header;
