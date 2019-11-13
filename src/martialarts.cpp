@@ -107,7 +107,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             if( iter == get_dt_map().end() ) {
                 jo.throw_error( "Invalid damage type" );
             }
-            damage_type id = dt_map.find( type )->second;
+            damage_type id = iter->second;
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
                 return e.first == id;
             } );
