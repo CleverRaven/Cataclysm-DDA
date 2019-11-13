@@ -236,6 +236,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
