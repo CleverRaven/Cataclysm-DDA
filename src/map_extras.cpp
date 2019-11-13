@@ -108,6 +108,7 @@ static const mtype_id mon_dispatch( "mon_dispatch" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
 static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
 static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
@@ -592,6 +593,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
             if( road_at_west ) {
                 spawn_turret( 6, 12 );
             }
+            m.add_spawn( mon_turret_speaker, 1, point( SEEX, SEEY ) );
         }
 
         int num_bodies = dice( 2, 5 );
@@ -629,7 +631,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
             line_furn( &m, f_barricade_road, 3, 13, 3, 19 );
             m.add_spawn( mon_turret_rifle, 1, point( 1, 12 ) );
         }
-
+        m.add_spawn( mon_turret_speaker, 1, point( SEEX, SEEY ) );
         m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
         m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
         int num_bodies = dice( 1, 6 );
