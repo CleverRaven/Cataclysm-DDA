@@ -316,7 +316,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "tools": [ [ [ "sewing_kit", -1 ] ] ],
     "components": [ [ [ "rag", 8 ] ], [ [ "leather", 4 ] ], [ [ "filament", 600, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
   },
   {
