@@ -224,7 +224,7 @@
     "price": 5900,
     "price_postapoc": 9900,
     "rigid": false,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
