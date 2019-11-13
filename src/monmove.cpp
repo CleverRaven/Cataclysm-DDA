@@ -1098,24 +1098,19 @@ tripoint monster::scent_move()
 
         bool right_scent = false;
         // is the monster tracking this scent
-        if( type_scent.is_empty() ) {
-            if( tracked_scents.empty() ) {
-                right_scent = true;
-            }
-        } else if( !tracked_scents.empty() ) {
+        if( !tracked_scents.empty() ) {
             right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
         }
         //is this scent recognised by the monster species
-        if( !type_scent.is_empty() ) {
-            const std::set<species_id> &receptive_species = type_scent->receptive_species;
-            const std::set<species_id> &monster_species = type->species;
-            std::vector<species_id> v_intersection;
-            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
-                                   monster_species.end(), std::back_inserter( v_intersection ) );
-            if( !v_intersection.empty() ) {
-                right_scent = true;
-            }
+        const std::set<species_id> &receptive_species = type_scent->receptive_species;
+        const std::set<species_id> &monster_species = type->species;
+        std::vector<species_id> v_intersection;
+        std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                               monster_species.end(), std::back_inserter( v_intersection ) );
+        if( !v_intersection.empty() ) {
+            right_scent = true;
         }
+
 
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
