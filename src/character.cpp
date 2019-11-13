@@ -6225,8 +6225,8 @@ scenttype_id Character::get_scent_type()
 {
     scenttype_id scent_type;
     for( const trait_id &mut : get_mutations() ) {
-        if( !mut.obj().scent_typeid.is_empty() ) {
-            scent_type = mut.obj().scent_typeid;
+        if( mut.obj().scent_typeid ) {
+            scent_type = mut.obj().scent_typeid.value();
         }
     }
     return scent_type;

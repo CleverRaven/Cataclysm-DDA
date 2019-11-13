@@ -142,7 +142,7 @@ struct mutation_branch {
         int bleed_resist = 0;
 
         /**What do you smell like*/
-        scenttype_id scent_typeid;
+        cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing bodypart and there intensity*/
         std::map<body_part, int> lumination;
