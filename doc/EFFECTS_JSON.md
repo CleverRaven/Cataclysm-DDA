@@ -319,7 +319,7 @@ Valid arguments:
 "int_mod"           - Positive values raises stat, negative values lowers stat
 "speed_mod"         - Positive values raises stat, negative values lowers stat
 
-"pain_amount"       - Positives raise pain, negatives don't make anyhing. Don't make it too high.
+"pain_amount"       - Positives raise pain, negatives don't make anything. Don't make it too high.
 "pain_min"          - Minimal amount of pain, certain effect will give/take
 "pain_max"          - if 0 or missing value will be exactly "pain_min"
 "pain_max_val"      - Defaults to 0, which means uncapped
