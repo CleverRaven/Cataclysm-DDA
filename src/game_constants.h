@@ -58,6 +58,7 @@
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
+*/
 #define PICKUP_RANGE 6
 
 // Number of z-levels below 0 (not including 0).
@@ -165,7 +166,7 @@ constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
  * as such, when determining your activity level
  * in the json, think about what it would be if you
  * did this activity for a longer period of time.
-/*
+*/
 constexpr float NO_EXERCISE = 1.2f;
 constexpr float LIGHT_EXERCISE = 1.375f;
 constexpr float MODERATE_EXERCISE = 1.55f;
