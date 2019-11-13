@@ -292,7 +292,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "junkyard_roof_1a",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "junkyard_1b",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_roof_1b",
     "copy-from": "generic_city_building",
     "name": "junkyard",
     "sym": "J",
