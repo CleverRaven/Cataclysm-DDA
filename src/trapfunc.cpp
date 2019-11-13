@@ -126,7 +126,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name() );
+        add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
         c->moves -= 100;
         return true;
     }
