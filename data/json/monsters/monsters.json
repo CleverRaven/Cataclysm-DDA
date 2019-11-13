@@ -2945,8 +2945,8 @@
   {
     "id": "mon_turret_speaker",
     "type": "MONSTER",
-    "name": "speaker",
-    "description": "High-powered speaker, repeating loud warnings over and over again.",
+    "name": "loudspeaker",
+    "description": "High-powered loudspeaker, repeating loud warnings over and over again.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "diff": 2,
