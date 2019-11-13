@@ -3522,6 +3522,12 @@ bool mattack::searchlight( monster *z )
     return true;
 }
 
+bool mattack::speaker( monster *z )
+{
+    sounds::sound( z->pos(), 60, sounds::sound_t::order, ( _( "%s" ), SNIPPET.random_from_category( "speaker_warning" ) ) );
+    return true;
+}
+
 bool mattack::flamethrower( monster *z )
 {
     if( z->friendly ) {

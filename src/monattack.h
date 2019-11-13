@@ -68,6 +68,7 @@ bool photograph( monster *z );
 bool tazer( monster *z );
 bool flamethrower( monster *z );
 bool searchlight( monster *z );
+bool speaker( monster *z );
 bool copbot( monster *z );
 bool chickenbot( monster *z );        // Pick from tazer, M4, MGL
 bool multi_robot( monster *z );       // Tazer, flame, M4, MGL, or 120mm!
