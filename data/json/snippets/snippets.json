@@ -647,6 +647,12 @@
   {
     "type": "snippet",
     "category": "speaker_warning",
-    "text": [ "WARNING CITIZENS!", "THIS IS A RESTRICTED AREA!", "NO ENTRY!", "VIOLATORS WILL BE SHOT!", "THIS IS A RECURRING MESSAGE!" ]
+    "text": [
+      "WARNING CITIZENS!",
+      "THIS IS A RESTRICTED AREA!",
+      "NO ENTRY!",
+      "VIOLATORS WILL BE SHOT!",
+      "THIS IS A RECURRING MESSAGE!"
+    ]
   }
 ]
