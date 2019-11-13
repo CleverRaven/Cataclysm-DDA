@@ -96,7 +96,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             if( iter == get_dt_map().end() ) {
                 jo.throw_error( "Invalid damage type" );
             }
-            const damage_type dt = dt_map.find( type )->second;
+            const damage_type dt = iter->second;
             return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
         }
         template<typename C>
