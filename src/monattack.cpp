@@ -3524,7 +3524,6 @@ bool mattack::searchlight( monster *z )
 
 bool mattack::speaker( monster *z )
 {
-    sounds::sound( z->pos(), 60, sounds::sound_t::order, ( _( "%s" ),
     sounds::sound( z->pos(), 60, sounds::sound_t::order, SNIPPET.random_from_category( "speaker_warning" ) );
     return true;
 }
