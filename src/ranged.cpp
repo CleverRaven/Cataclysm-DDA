@@ -154,6 +154,9 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 
 bool player::handle_gun_damage( item &it )
 {
+    // below are the double and int versions of the dirt_max variable. Both should be the same. Some parts of the script require an integer. Others require a double.
+    const double dirt_max_dbl = 10000;
+    const int dirt_max_int = 10000;
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
         return false;
@@ -254,7 +257,7 @@ bool player::handle_gun_damage( item &it )
         }
     }
     if( it.has_fault( fault_gun_unlubricated ) &&
-        x_in_y( dirt_dbl, 10000.0 ) ) {
+        x_in_y( dirt_dbl, dirt_max_dbl ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
                                _( "<npcname>'s %s emits a grimace-inducing screech!" ),
                                it.tname() );
@@ -277,7 +280,7 @@ bool player::handle_gun_damage( item &it )
         }
         // These are the dirtying/fouling mechanics
         if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
-            if( dirt < 10000 ) {
+            if( dirt < dirt_max_int ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
                             2 ) );
                 // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
@@ -287,7 +290,7 @@ bool player::handle_gun_damage( item &it )
                 // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
                 if( curammo_effects.count( "BLACKPOWDER" ) ||
                     dirt < 7150 ) {
-                    it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+                    it.set_var( "dirt", std::min( dirt_max_int, dirt + dirtadder + 1 ) );
                 }
             }
             dirt = it.get_var( "dirt", 0 );
