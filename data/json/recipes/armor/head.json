@@ -635,7 +635,12 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "sheet_kevlar_layered", 4 ] ], [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
   },
   {
     "result": "hood_rain",
