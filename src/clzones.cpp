@@ -173,20 +173,18 @@ int blueprint_options::get_final_construction(
         return idx;
     }
 
-    if( string_ends_with( con.post_terrain, "_half" ) ||
-        string_ends_with( con.post_terrain, "_halfway" ) ) {
-        for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
-            if( i == idx || skip_index.find( i ) != skip_index.end() ) {
-                continue;
-            }
-            const construction &con_next =  list_constructions[i];
-            if( con.description == con_next.description &&
-                con.post_terrain == con_next.pre_terrain ) {
-                skip_index.insert( idx );
-                return get_final_construction( list_constructions, i, skip_index );
-            }
+    for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
+        if( i == idx || skip_index.find( i ) != skip_index.end() ) {
+            continue;
+        }
+        const construction &con_next = list_constructions[i];
+        if( con.description == con_next.description &&
+            con.post_terrain == con_next.pre_terrain ) {
+            skip_index.insert( idx );
+            return get_final_construction( list_constructions, i, skip_index );
         }
     }
+
     return idx;
 }
 
