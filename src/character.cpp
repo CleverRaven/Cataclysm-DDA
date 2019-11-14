@@ -5193,7 +5193,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -5205,6 +5205,21 @@ void Character::burn_move_stamina( int moves )
             mod_pain( 1 );
         }
     }
+}
+
+float Character::stamina_move_cost_modifier() const
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+    if( move_mode == CMM_RUN && get_stamina() > 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        stamina_modifier *= 2.0;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        stamina_modifier *= 0.5;
+    }
+    return stamina_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -5249,7 +5264,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns / stamina_move_cost_modifier() ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
