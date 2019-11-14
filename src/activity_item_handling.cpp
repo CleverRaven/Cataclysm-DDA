@@ -1020,7 +1020,6 @@ static activity_reason_info find_base_construction(
     //already done?
     const furn_id furn = g->m.furn( loc );
     const ter_id ter = g->m.ter( loc );
-
     if( !build.post_terrain.empty() ) {
         if( build.post_is_furniture ) {
             if( furn_id( build.post_terrain ) == furn ) {
