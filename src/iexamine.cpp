@@ -3503,10 +3503,14 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-
     if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
+            const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                add_msg( m_info, _( "It is too dark to construct right now." ) );
+                return;
+            }
             const std::vector<construction> &list_constructions = get_constructions();
             const construction &built = list_constructions[pc->id];
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
