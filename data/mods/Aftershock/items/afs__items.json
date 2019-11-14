@@ -172,5 +172,5 @@
     "material": [ "plastic", "steel" ],
     "//": "I figured bionic preppers would have a sci-fi solution to some low tech problems.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
-  },
+  }
 ]

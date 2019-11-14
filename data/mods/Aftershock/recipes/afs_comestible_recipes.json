@@ -13,7 +13,6 @@
     "tools": [ [ "rolling_pin" ] ],
     "components": [ [ [ "flour", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
-  [
   {
     "type": "recipe",
     "result": "butter",

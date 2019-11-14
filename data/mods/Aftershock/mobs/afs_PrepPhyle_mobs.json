@@ -23,7 +23,7 @@
     "vision_day": 30,
     "vision_night": 8,
     "harvest": "CBM_DOG",
-    "reproduction": { "baby_monster": "mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
+    "reproduction": { "baby_monster": "afs_mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [ "ANIMAL", "PET_MOUNTABLE", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -54,7 +54,7 @@
     "vision_night": 5,
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
-    "upgrades": { "age_grow": 42, "into": "mon_cyber_mastiff" },
+    "upgrades": { "age_grow": 42, "into": "afs_mon_cyber_mastiff" },
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
