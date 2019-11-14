@@ -199,6 +199,8 @@ const efftype_id effect_emp( "emp" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_has_bag( "has_bag" );
+const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -208,17 +210,15 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_relax_gas( "relax_gas" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_harnessed( "harnessed" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -9069,6 +9069,10 @@ bool game::walk_move( const tripoint &dest_loc )
                          mons->get_name() );
                 return false;
             }
+        }
+        if( !mons->move_effects( false ) ) {
+            add_msg( m_bad, _( "You cannot move as your %s isn't able to move." ), mons->get_name() );
+            return false;
         }
     }
     const optional_vpart_position vp_here = m.veh_at( u.pos() );
