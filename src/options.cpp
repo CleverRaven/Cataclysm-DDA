@@ -1491,6 +1491,11 @@ void options_manager::add_options_interface()
     "Vertical"
        );
 
+    add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
+        translate_marker( "Should Advanced Inventory Manager fit full screen, or leave sidebar visible." ),
+        false
+    );
+
     mOptionsSort["interface"]++;
 
     add( "MOVE_VIEW_OFFSET", "interface", translate_marker( "Move view offset" ),
