@@ -1020,6 +1020,7 @@ static activity_reason_info find_base_construction(
     //already done?
     const furn_id furn = g->m.furn( loc );
     const ter_id ter = g->m.ter( loc );
+
     if( !build.post_terrain.empty() ) {
         if( build.post_is_furniture ) {
             if( furn_id( build.post_terrain ) == furn ) {
@@ -1470,7 +1471,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     } else if( act == activity_id( "ACT_MULTIPLE_FARM" ) ) {
         zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
                                g->m.getabs( src_loc ) );
-        for( const zone_data &zone : zones ) {
+        for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
             if( g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( NEEDS_HARVESTING );
@@ -1487,7 +1488,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
-                    const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+                    const auto options = dynamic_cast<const plot_options &>( it->get_options() );
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
@@ -1799,21 +1800,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                  std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
-}
-
-static bool plant_activity( player &p, const zone_data *zone, const tripoint src_loc )
-{
-    const std::string seed = dynamic_cast<const plot_options &>( zone->get_options() ).get_seed();
-    std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
-        return itm.typeId() == itype_id( seed );
-    } );
-    // we dont have the required seed, even though we should at this point.
-    // move onto the next tile, and if need be that will prompt a fetch seeds activity.
-    if( seed_inv.empty() ) {
-        return false;
-    }
-    iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-    return true;
 }
 
 static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
@@ -2466,7 +2452,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
 
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
 
     const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
@@ -2646,8 +2632,20 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity.placement = src;
         return false;
     } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) ) {
-        if( !plant_activity( p, zone, src_loc ) ) {
-            return true;
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
+                                       g->m.getabs( src_loc ) );
+        for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+            const std::string seed = dynamic_cast<const plot_options &>( it->get_options() ).get_seed();
+            std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
+                return itm.typeId() == itype_id( seed );
+            } );
+            // we dont have the required seed, even though we should at this point.
+            // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+            if( seed_inv.empty() ) {
+                continue;
+            }
+            iexamine::plant_seed( p, src_loc, itype_id( seed ) );
+            break;
         }
     } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_id( "AXE" ), 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
