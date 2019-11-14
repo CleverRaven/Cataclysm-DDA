@@ -155,6 +155,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 bool player::handle_gun_damage( item &it )
 {
     // below are the double and int versions of the dirt_max variable. Both should be the same. Some parts of the script require an integer. Others require a double.
+    // below two items should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
     const double dirt_max_dbl = 10000;
     const int dirt_max_int = 10000;
     if( !it.is_gun() ) {
