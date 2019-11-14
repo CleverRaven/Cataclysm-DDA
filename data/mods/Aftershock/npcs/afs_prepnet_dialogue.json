@@ -201,7 +201,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 0,
-    "item": "bionic_general_faulty",
+    "item": "burnt_out_bionic",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
