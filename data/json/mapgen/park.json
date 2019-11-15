@@ -398,29 +398,12 @@
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
-        ".": "f_null",
         "0": "f_boulder_medium",
-        "4": "f_null",
-        "7": "f_null",
-        "C": "f_null",
-        "S": "f_null",
-        "T": "f_null",
-        "W": "f_null",
-        "_": "f_null",
         "b": "f_brazier",
         "c": "f_cattails",
-        "d": "f_null",
-        "e": "f_null",
         "f": "f_dandelion",
-        "g": "f_null",
-        "h": "f_null",
         "i": "f_cattails",
-        "m": "f_null",
-        "p": "f_null",
-        "s": "f_null",
-        "t": "f_table",
-        "u": "f_null",
-        "w": "f_null"
+        "t": "f_table"
       },
       "place_items": [
         { "chance": 8, "item": "dogfight", "x": 2, "y": 12 },
@@ -506,54 +489,12 @@
   },
   {
     "method": "json",
+    "om_terrain": "park",
+    "//": "Picnic Park",
+    "type": "mapgen",
+    "weight": 200,
     "object": {
-      "furniture": {
-        "#": "f_bench",
-        "&": "f_trashcan",
-        ".": "f_null",
-        "0": "f_boulder_medium",
-        "1": "f_null",
-        "7": "f_null",
-        "B": "f_bench",
-        "D": "f_dandelion",
-        "T": "f_table",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_brazier",
-        "c": "f_null",
-        "d": "f_dandelion",
-        "f": "f_bluebell",
-        "o": "f_boulder_small",
-        "t": "f_table",
-        "u": "f_null",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 10, "item": "barbecue", "x": 3, "y": 11 },
-        { "chance": 10, "item": "barbecue", "x": 4, "y": 11 },
-        { "chance": 10, "item": "barbecue", "x": 21, "y": 11 },
-        { "chance": 10, "item": "barbecue", "x": 22, "y": 8 },
-        { "chance": 10, "item": "barbecue", "x": 3, "y": 7 },
-        { "chance": 10, "item": "snacks", "x": 2, "y": 6 },
-        { "chance": 10, "item": "magazines", "x": 8, "y": 3 },
-        { "chance": 10, "item": "field", "x": 13, "y": 17 },
-        { "chance": 10, "item": "field", "x": 21, "y": 13 },
-        { "chance": 10, "item": "field", "x": 12, "y": 11 },
-        { "chance": 20, "item": "trash", "x": 17, "y": 10 },
-        { "chance": 20, "item": "trash", "x": 18, "y": 10 },
-        { "chance": 20, "item": "trash", "x": 5, "y": 10 },
-        { "chance": 20, "item": "trash", "x": 6, "y": 10 },
-        { "chance": 8, "item": "dogfight", "x": 16, "y": 16 },
-        { "chance": 5, "item": "clutter_yard", "x": 19, "y": 15 },
-        { "chance": 5, "item": "football_items", "x": 8, "y": 12 },
-        { "chance": 5, "item": "stoner", "x": 7, "y": 16 },
-        { "chance": 10, "item": "dining", "x": 2, "y": 8 },
-        { "chance": 10, "item": "dining", "x": 21, "y": 7 },
-        { "chance": 10, "item": "dining", "x": 20, "y": 6 },
-        { "chance": 10, "item": "dining", "x": 15, "y": 6 },
-        { "chance": 10, "item": "dining", "x": 20, "y": 4 },
-        { "chance": 5, "item": "forage_mushroom", "x": 3, "y": 21 }
-      ],
+      "fill_ter": "t_grass",
       "rows": [
         "...._................_..",
         ".0ffffffff0._0ffffffff0_",
@@ -581,10 +522,7 @@
         ".7.u7._7..u.7.u7...u..7."
       ],
       "terrain": {
-        "#": "t_grass",
-        "&": "t_grass",
         ".": "t_grass",
-        "0": "t_grass",
         "1": "t_tree_young",
         "7": "t_tree_maple",
         "B": "t_dirt",
@@ -592,61 +530,55 @@
         "T": "t_dirt",
         "_": "t_dirt",
         "a": "t_tree_apple",
-        "b": "t_grass",
         "c": "t_tree_birch",
-        "d": "t_grass",
-        "f": "t_grass",
-        "o": "t_grass",
-        "t": "t_grass",
         "u": "t_underbrush",
         "|": "t_fence_h"
-      }
-    },
-    "om_terrain": "park",
-    "//": "Picnic Park",
-    "type": "mapgen",
-    "weight": 200
+      },
+      "furniture": {
+        ".": [ [ "f_null", 40 ], "f_dandelion", "f_datura", "f_bluebell" ],
+        "#": "f_bench",
+        "&": "f_trashcan",
+        "0": "f_boulder_medium",
+        "B": "f_bench",
+        "D": "f_dandelion",
+        "T": "f_table",
+        "b": "f_brazier",
+        "d": "f_dandelion",
+        "f": "f_bluebell",
+        "o": "f_boulder_small",
+        "t": "f_table"
+      },
+      "mapping": {
+        "&": { "items": [ { "item": "trash", "chance": 80, "repeat": [ 2, 6 ] } ] },
+        "t": { "items": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "trash", "chance": 3 } ] }
+      },
+      "place_items": [
+        { "chance": 10, "item": "barbecue", "x": 3, "y": 11 },
+        { "chance": 10, "item": "barbecue", "x": 4, "y": 11 },
+        { "chance": 10, "item": "barbecue", "x": 21, "y": 11 },
+        { "chance": 10, "item": "barbecue", "x": 22, "y": 8 },
+        { "chance": 10, "item": "barbecue", "x": 3, "y": 7 },
+        { "chance": 10, "item": "snacks", "x": 2, "y": 6 },
+        { "chance": 10, "item": "magazines", "x": 8, "y": 3 },
+        { "chance": 10, "item": "field", "x": 13, "y": 17 },
+        { "chance": 10, "item": "field", "x": 21, "y": 13 },
+        { "chance": 10, "item": "field", "x": 12, "y": 11 },
+        { "chance": 8, "item": "dogfight", "x": 16, "y": 16 },
+        { "chance": 5, "item": "clutter_yard", "x": 19, "y": 15 },
+        { "chance": 5, "item": "football_items", "x": 8, "y": 12 },
+        { "chance": 5, "item": "stoner", "x": 7, "y": 16 },
+        { "chance": 5, "item": "forage_mushroom", "x": 3, "y": 21 }
+      ]
+    }
   },
   {
     "method": "json",
+    "om_terrain": "park",
+    "//": "Playground",
+    "type": "mapgen",
+    "weight": 300,
     "object": {
-      "furniture": {
-        "#": "f_null",
-        "&": "f_toilet",
-        "*": "f_datura",
-        "+": "f_null",
-        ".": "f_null",
-        "0": "f_boulder_medium",
-        "7": "f_null",
-        "B": "f_bench",
-        "D": "f_datura",
-        "H": "f_ladder",
-        "O": "f_boulder_large",
-        "S": "f_null",
-        "T": "f_trashcan",
-        "_": "f_null",
-        "a": "f_sink",
-        "b": "f_bench",
-        "c": "f_null",
-        "d": "f_boulder_medium",
-        "m": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 7, "item": "stash_drugs", "x": 21, "y": 3 },
-        { "chance": 15, "repeat": [ 1, 3 ], "item": "trash", "x": 21, "y": 6 },
-        { "chance": 15, "repeat": [ 1, 3 ], "item": "trash", "x": 21, "y": 4 },
-        { "chance": 10, "item": "magazines", "x": 21, "y": 14 },
-        { "chance": 10, "item": "child_items", "x": 17, "y": 15 },
-        { "chance": 10, "item": "child_items", "x": 15, "y": 15 },
-        { "chance": 10, "item": "snacks", "x": 14, "y": 6 },
-        { "chance": 10, "item": "toy_box", "x": 16, "y": 14 },
-        { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
-      ],
-      "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
-      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 0, 18 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ],
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "..0.d.O.O.O.0.0......_..",
         "_......s.s.._.........._",
@@ -675,69 +607,70 @@
       ],
       "terrain": {
         "#": "t_sandbox",
-        "&": "t_thconc_floor",
         "*": "t_grass",
         "+": "t_door_c",
         ".": "t_grass",
         "0": "t_grass",
-        "7": "t_tree_maple",
+        "7": [ "t_tree", "t_tree_maple" ],
         "B": "t_dirt",
         "D": "t_dirt",
         "H": "t_sandbox",
         "O": "t_grass",
         "S": "t_slide",
-        "T": "t_thconc_floor",
         "_": "t_dirt",
-        "a": "t_thconc_floor",
         "b": "t_grass",
         "c": "t_concrete",
         "d": "t_dirt",
         "m": "t_monkey_bars",
         "s": "t_sand",
-        "t": "t_thconc_floor",
         "|": "t_brick_wall"
-      }
-    },
-    "om_terrain": "park",
-    "//": "Playground",
-    "type": "mapgen",
-    "weight": 300
+      },
+      "furniture": {
+        ".": [ [ "f_null", 40 ], "f_dandelion", "f_datura", "f_bluebell" ],
+        "&": "f_toilet",
+        "*": "f_datura",
+        "0": "f_boulder_medium",
+        "B": "f_bench",
+        "D": [ "f_datura", "f_dandelion" ],
+        "H": "f_ladder",
+        "O": "f_boulder_large",
+        "T": "f_trashcan",
+        "a": "f_sink",
+        "b": "f_bench",
+        "d": "f_boulder_medium"
+      },
+      "items": {
+        "T": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] }
+      },
+      "place_items": [
+        { "chance": 3, "item": "stash_drugs", "x": 21, "y": 3 },
+        { "chance": 10, "item": "magazines", "x": 21, "y": 14 },
+        { "chance": 10, "item": "child_items", "x": 17, "y": 15 },
+        { "chance": 10, "item": "child_items", "x": 15, "y": 15 },
+        { "chance": 10, "item": "snacks", "x": 14, "y": 6 },
+        { "chance": 10, "item": "toy_box", "x": 16, "y": 14 },
+        { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
+      ],
+      "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
+      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 0, 18 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ]
+    }
   },
   {
     "method": "json",
+    "om_terrain": "park",
+    "//": "Scenic Park",
+    "type": "mapgen",
+    "weight": 300,
     "object": {
-      "furniture": {
-        "#": "f_bench",
-        "&": "f_trashcan",
-        "*": "f_datura",
-        "-": "f_null",
-        ".": "f_null",
-        "0": "f_boulder_medium",
-        "4": "f_null",
-        "7": "f_null",
-        "T": "f_null",
-        "_": "f_null",
-        "d": "f_null",
-        "f": "f_dandelion",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 10, "item": "forest", "x": 14, "y": 2 },
-        { "chance": 20, "item": "trash", "x": 13, "y": 21 },
-        { "chance": 20, "repeat": [ 1, 3 ], "item": "trash", "x": 19, "y": 13 }
-      ],
-      "place_monsters": [ { "monster": "GROUP_PARK_SCENIC", "x": [ 9, 23 ], "y": [ 0, 23 ], "chance": 1, "repeat": [ 1, 3 ] } ],
+      "fill_ter": "t_grass",
       "rows": [
         "...___.......s..d..s....",
         "...___...*.......*.....s",
-        "..d.___d...s.4.u...4u...",
+        "..d.___d...s.7.u...7u...",
         "....____...d..*.........",
-        "......___.*......u...4.d",
+        "......___.*......u...7.d",
         "......___...u...*...s...",
-        "..T....___....s.d.4...d.",
+        "..7....___....s.d.7...d.",
         "..d.....___.d......*dd..",
         "d......d___.....u...d...",
         ".........___......d...u.",
@@ -757,52 +690,43 @@
         "...........f..d....___.."
       ],
       "terrain": {
-        "#": "t_grass",
-        "&": "t_grass",
-        "*": "t_grass",
         "-": "t_wall_log",
         ".": "t_grass",
-        "0": "t_grass",
-        "4": "t_tree_pine",
-        "7": "t_tree_hickory",
-        "T": "t_tree_apple",
+        "7": [ [ "t_tree", 4 ], "t_tree_hickory",  "t_tree_apple", "t_tree_pine", "t_tree_peach", "t_tree_cherry", "t_tree_pear", "t_tree_young" ],
         "_": "t_sidewalk",
         "d": "t_dirt",
-        "f": "t_grass",
-        "s": "t_shrub_blueberry",
+        "s": [ "t_shrub_blueberry", "t_shrub_strawberry", "t_shrub_raspberry" ],
         "t": "t_thconc_floor",
         "u": "t_underbrush",
         "|": "t_fence_h"
+      },
+      "furniture": {
+        "#": "f_bench",
+        "&": "f_trashcan",
+        "*": [ [ "f_datura", 4 ], "f_tulip", "f_dandelion" ],
+        "0": [ [ "f_boulder_small", 2 ], [ "f_boulder_medium", 3 ], "f_boulder_large" ],
+        "f": [ [ "f_dandelion", 3 ], "f_datura", "f_bluebell" ]
+      },
+      "items": {
+        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+        "d": { "item": "forest", "chance": 10 },
+        "#": { "item": "trash", "chance": 5 }
+      },
+      "monsters" {
+        "_": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 3, 5 ] },
+        "t": { "monster": "GROUP_PARK_SCENIC", "chance": 2 },
+        ".": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 1, 2 ] }
       }
-    },
-    "om_terrain": "park",
-    "//": "Scenic Park",
-    "type": "mapgen",
-    "weight": 300
+    }
   },
   {
     "method": "json",
+    "om_terrain": "park",
+    "//": "Scenic Park",
+    "type": "mapgen",
+    "weight": 400,
     "object": {
-      "furniture": {
-        "#": "f_null",
-        "&": "f_trashcan",
-        ".": "f_null",
-        "0": "f_boulder_medium",
-        "7": "f_null",
-        "O": "f_boulder_large",
-        "S": "f_statue",
-        "_": "f_null",
-        "b": "f_bench",
-        "w": "f_null",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 10, "item": "trash", "x": 14, "y": 20 },
-        { "chance": 10, "item": "trash", "x": 9, "y": 20 },
-        { "chance": 10, "item": "trash", "x": 18, "y": 17 },
-        { "chance": 10, "item": "trash", "x": 9, "y": 3 },
-        { "chance": 10, "item": "stoner", "x": 4, "y": 19 }
-      ],
+      "fill_ter": "t_grass",
       "rows": [
         "........................",
         "........................",
@@ -813,12 +737,12 @@
         "..#|#b_____.._____b#|#..",
         "..#|#b_____.._____b#|#..",
         "..#|#___7......7___#|#..",
-        ".._S____...00...____S_..",
+        ".._S____...OO...____S_..",
         "..______..OwwO..______..",
-        ".........0wwww0.........",
-        ".........0wwww0.........",
+        ".........OwwwwO.........",
+        ".........OwwwwO.........",
         "..______..OwwO..______..",
-        ".._S____...00...____S_..",
+        ".._S____...OO...____S_..",
         "..#|#___7......7___#|#..",
         "..#|#b_____.._____b#|#..",
         "..#|#b_____.._____b#|#..",
@@ -831,54 +755,37 @@
       ],
       "terrain": {
         "#": "t_shrub",
-        "&": "t_grass",
         ".": "t_sidewalk",
         "0": "t_sidewalk",
         "7": "t_tree_maple",
         "O": "t_sidewalk",
-        "S": "t_grass",
         "_": "t_grass",
-        "b": "t_grass",
         "w": "t_water_pool_shallow",
-        "|": "t_fence_h"
+        "|": "t_fence"
+      },
+      "furniture": {
+        "&": "f_trashcan",
+        "O": [ "f_boulder_small", [ "f_boulder_medium", 3 ], [ "f_boulder_large", 3 ] ],
+        "S": "f_statue",
+        "b": "f_bench"
+      },
+      "items": {
+        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+        "b": { "item": "trash", "chance": 2 },
+        "|": { "item": "stoner", "chance": 1 }
+      },
+      "monsters" {
+        ".": { "monster": "GROUP_PARK_SCENIC", "chance": 1 }
       }
-    },
-    "om_terrain": "park",
-    "//": "Scenic Park",
-    "type": "mapgen",
-    "weight": 400
+    }
   },
   {
     "method": "json",
+    "om_terrain": "park",
+    "//": "Pavilion",
+    "type": "mapgen",
+    "weight": 100,
     "object": {
-      "furniture": {
-        "#": "f_null",
-        "&": "f_trashcan",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "B": "f_bench",
-        "R": "f_null",
-        "S": "f_null",
-        "T": "f_trashcan",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_bench",
-        "c": "f_null",
-        "f": "f_dandelion",
-        "m": "f_null",
-        "r": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "v": "f_vending_c",
-        "{": "f_dumpster",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 60, "item": "trash", "x": 13, "y": 16 },
-        { "chance": 60, "item": "trash", "x": 14, "y": 5 },
-        { "chance": 65, "item": "vending_drink_items", "x": 12, "y": 16 }
-      ],
       "rows": [
         "..........____..........",
         "..........____..........",
@@ -927,11 +834,21 @@
         "v": "t_thconc_floor",
         "{": "t_grass",
         "|": "t_chainfence_v"
-      }
-    },
-    "om_terrain": "park",
-    "//": "Pavilion",
-    "type": "mapgen",
-    "weight": 100
+      },
+      "furniture": {
+        "&": "f_trashcan",
+        "B": "f_bench",
+        "T": "f_trashcan",
+        "b": "f_bench",
+        "f": "f_dandelion",
+        "v": "f_vending_c",
+        "{": "f_dumpster"
+      },
+      "place_items": [
+        { "chance": 60, "item": "trash", "x": 13, "y": 16 },
+        { "chance": 60, "item": "trash", "x": 14, "y": 5 },
+        { "chance": 65, "item": "vending_drink_items", "x": 12, "y": 16 }
+      ]
+    }
   }
 ]
