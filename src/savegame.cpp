@@ -110,35 +110,7 @@ std::string scent_map::serialize( bool is_type ) const
 {
     std::stringstream rle_out;
     if( is_type ) {
-        std::string str;
-        int counter = 0;
-        for( auto elem : typescent ) {
-            for( scenttype_id &val : elem ) {
-                if( val.is_empty() ) {
-                    if( str == "empty_scent" ) {
-                        counter++;
-                    } else {
-                        if( counter ) {
-                            rle_out << counter << " ";
-                        }
-                        str = "empty_scent";
-                        rle_out << str << " ";
-                        counter = 1;
-                    }
-                } else if( val.str() == str ) {
-                    counter++;
-                } else {
-                    if( counter ) {
-                        rle_out << counter << " ";
-                    }
-
-                    rle_out << val.str() << " ";
-                    str = val.str();
-                    counter = 1;
-                }
-            }
-        }
-        rle_out << counter;
+        rle_out << typescent.str();
     } else {
         int rle_lastval = -1;
         int rle_count = 0;
@@ -288,22 +260,8 @@ void scent_map::deserialize( const std::string &data, bool is_type )
     std::istringstream buffer( data );
     if( is_type ) {
         std::string str;
-        int counter = 0;
-        for( auto &element : typescent ) {
-            for( scenttype_id &val : element ) {
-                if( counter == 0 ) {
-                    buffer >> str >> counter;
-                }
-                counter --;
-                if( str == "empty_scent" ) {
-                    val = scenttype_id();
-                } else {
-                    val = scenttype_id( str );
-                }
-
-            }
-        }
-
+        buffer >> str;
+        typescent = scenttype_id( str );
     } else {
         int stmp = 0;
         int count = 0;

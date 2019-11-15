@@ -42,7 +42,7 @@ class scent_map
         using scent_array = std::array<std::array<T, MAPSIZE_Y>, MAPSIZE_X>;
 
         scent_array<int> grscent;
-        scent_array<scenttype_id> typescent;
+        scenttype_id typescent;
         cata::optional<tripoint> player_last_position;
         time_point player_last_moved = calendar::before_time_starts;
 
@@ -74,7 +74,6 @@ class scent_map
         int get_unsafe( const tripoint &p ) const;
 
         scenttype_id get_type( const tripoint &p ) const;
-        scenttype_id get_type_unsafe( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
         bool inbounds( const point &p ) const {

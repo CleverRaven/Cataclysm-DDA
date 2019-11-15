@@ -52,26 +52,15 @@ void scent_map::reset()
             val = 0;
         }
     }
-    for( auto &elem : typescent ) {
-        for( scenttype_id &val : elem ) {
-            val = scenttype_id();
-        }
-    }
+    typescent = scenttype_id();
 }
 
 void scent_map::decay()
 {
-    int x = 0;
     for( auto &elem : grscent ) {
-        int y = 0;
         for( auto &val : elem ) {
             val = std::max( 0, val - 1 );
-            if( val == 0 ) {
-                typescent[x][y] = scenttype_id();
-            }
-            y ++;
         }
-        x++;
     }
 }
 
@@ -91,16 +80,13 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 {
     scent_array<int> new_scent;
-    scent_array<scenttype_id> new_scent_type;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
             const point p( x + sm_shift_x, y + sm_shift_y );
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
-            new_scent_type[x][y] = inbounds( p ) ? typescent[p.x][p.y] : scenttype_id();
         }
     }
     grscent = new_scent;
-    typescent = new_scent_type;
 }
 
 int scent_map::get( const tripoint &p ) const
@@ -122,7 +108,7 @@ void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
 {
     grscent[p.x][p.y] = value;
     if( !type.is_empty() ) {
-        typescent[p.x][p.y] = type;
+        typescent = type;
     }
 }
 int scent_map::get_unsafe( const tripoint &p ) const
@@ -134,14 +120,9 @@ scenttype_id scent_map::get_type( const tripoint &p ) const
 {
     scenttype_id id;
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
-        id = get_type_unsafe( p );
+        id = typescent;
     }
     return id;
-}
-
-scenttype_id scent_map::get_type_unsafe( const tripoint &p ) const
-{
-    return typescent[p.x][p.y];
 }
 
 bool scent_map::inbounds( const tripoint &p ) const
@@ -184,8 +165,6 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> sum_3_scent_y;
     scent_array<int> squares_used_y;
 
-    scent_array<scenttype_id> sum_3_type_y;
-
     // these are for caching flag lookups
     scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
     scent_array<bool> reduces_scent;
@@ -214,7 +193,6 @@ void scent_map::update( const tripoint &center, map &m )
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
-
             for( int i = y - 1; i <= y + 1; ++i ) {
                 if( !blocks_scent[x][i] ) {
                     if( reduces_scent[x][i] ) {
@@ -225,9 +203,6 @@ void scent_map::update( const tripoint &center, map &m )
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
                     }
-                    if( !typescent[x][i].is_empty() ) {
-                        sum_3_type_y[y][x] = typescent[x][i];
-                    }
                 }
             }
         }
@@ -237,7 +212,6 @@ void scent_map::update( const tripoint &center, map &m )
     for( int x = scentmap_minx; x <= scentmap_maxx; ++x ) {
         for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
             int &scent_here = grscent[x][y];
-            scenttype_id &type_here = typescent[x][y];
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
@@ -264,16 +238,9 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x]
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
-                for( int ki = x - 1; ki < x + 2; ki++ ) {
-                    if( !sum_3_type_y[y][ki].is_empty() ) {
-                        type_here = sum_3_type_y[y][ki];
-                    }
-                }
-
             } else {
                 // this cell blocks scent
                 scent_here = 0;
-                type_here = scenttype_id();
             }
         }
     }
@@ -322,5 +289,4 @@ void scent_type::check_scent_consistency()
             }
         }
     }
-
 }
