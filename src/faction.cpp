@@ -704,17 +704,17 @@ void faction_manager::display() const
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
-            if( !followers.empty() ) {
+            if( selection < followers.size() ) {
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            if( !camps.empty() ) {
+            if( selection < camps.size() ) {
                 camp = camps[selection];
             }
             active_vec_size = camps.size();
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
-            if( !valfac.empty() ) {
+            if( selection < valfac.size() ) {
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
@@ -748,8 +748,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
                     }
-                    if( selection < camps.size() ) {
-                        assert( camp ); // To appease static analysis
+                    if( camp ) {
                         camp->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
@@ -770,8 +769,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
                     }
-                    if( selection < followers.size() ) {
-                        assert( guy ); // To appease static analysis
+                    if( guy ) {
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;
@@ -797,8 +795,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
                     }
-                    if( selection < valfac.size() ) {
-                        assert( cur_fac ); // To appease static analysis
+                    if( cur_fac ) {
                         cur_fac->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );

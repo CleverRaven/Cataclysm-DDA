@@ -15,6 +15,7 @@
 #include "point.h"
 #include "string_id.h"
 
+class avatar;
 class player;
 class Character;
 class JsonIn;
@@ -88,7 +89,7 @@ class player_activity
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message() const;
+        cata::optional<std::string> get_progress_message( const avatar &u ) const;
 
         /**
          * If this returns true, the action can be continued without

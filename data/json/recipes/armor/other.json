@@ -32,8 +32,9 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
@@ -45,24 +46,27 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
   },
   {
     "result": "copper_bracelet",
+    "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "type": "recipe",
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "copper", 60 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "silver_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -70,12 +74,13 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "type": "recipe",
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "bead_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -83,7 +88,6 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "type": "recipe",
     "components": [ [ [ "wooden_bead", 10 ] ], [ [ "string_6", 1 ] ] ]
   },
   {

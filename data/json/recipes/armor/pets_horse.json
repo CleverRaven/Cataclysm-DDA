@@ -73,7 +73,14 @@
     "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60, "LIST" ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "tallow", 24 ], [ "tallow_tainted", 24 ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [
+        [ "wax", 6 ],
+        [ "tallow", 24 ],
+        [ "mutant_tallow", 24 ],
+        [ "tallow_tainted", 24 ],
+        [ "vinegar", 30 ],
+        [ "pine_bough", 60 ]
+      ],
       [ [ "salt", 150 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
       [ [ "rag", 18 ] ]
@@ -125,7 +132,7 @@
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "tallow", 24 ], [ "tallow_tainted", 24 ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]

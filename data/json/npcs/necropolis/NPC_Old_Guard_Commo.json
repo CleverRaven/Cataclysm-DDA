@@ -46,12 +46,12 @@
         "condition": { "and": [ { "u_has_effect": "has_og_comm_freq" }, { "u_is_wearing": "badge_marshal" } ] }
       },
       {
-        "text": "About the mission...",
+        "text": "About the mission…",
         "topic": "TALK_MISSION_INQUIRE",
         "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
       },
       {
-        "text": "About one of those missions...",
+        "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
         "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
       },
@@ -62,7 +62,7 @@
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_COMMO_GOAL",
     "dynamic_line": "We are securing the external communications array for this facility.  I'm rather restricted in what I can release... go find my commander if you have any questions.",
-    "responses": [ { "text": "I'll try and find your commander then...", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "I'll try and find your commander then…", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",

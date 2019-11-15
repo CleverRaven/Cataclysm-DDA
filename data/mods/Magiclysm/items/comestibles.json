@@ -47,7 +47,7 @@
     "symbol": "0",
     "name": "hairball",
     "name_plural": "hairballs",
-    "description": "A big, ugly ball of animal spit and licked-off hairs. Don't swallow it.",
+    "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
     "price": 0,
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
@@ -60,5 +60,13 @@
     "name_plural": "dragon meat",
     "description": "The meat from a slain dragon.  It does not seem to respond to cooking the same way as other meat, making it obvious that it still retains some magical properties.",
     "parasites": 0
+  },
+  {
+    "id": "scream_mush",
+    "type": "COMESTIBLE",
+    "copy-from": "mushroom",
+    "name": "scream mushroom",
+    "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
+    "price": 1400
   }
 ]

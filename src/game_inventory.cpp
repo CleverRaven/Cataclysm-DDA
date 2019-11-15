@@ -383,7 +383,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc ) ) {
+                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }
@@ -485,7 +485,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = get_consumable_item( loc );
 
                 int converted_volume_scale = 0;
-                const double converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                const int charges = std::max( it.charges, 1 );
+                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
                                                 &converted_volume_scale ), 2 );
 
                 //~ Eat menu Volume: <num><unit>
@@ -521,9 +522,6 @@ class comestible_inventory_preset : public inventory_selector_preset
 
                 switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
-                        break;
-                    case rechargeable_cbm::battery:
-                        cbm_name = _( "Battery" );
                         break;
                     case rechargeable_cbm::reactor:
                         cbm_name = _( "Reactor" );
@@ -574,8 +572,6 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::battery && p.is_max_power() ) {
-                return _( "You're fully charged" );
             } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
                 return string_format( _( "No space to store more %s" ), it.tname() );
             }
@@ -1419,11 +1415,16 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         int iScrollPosLast = 0;
 
         do {
+            item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+            last_item_info.without_getch = true;
+
+            item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+            cur_item_info.without_getch = true;
+
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+                            last_item_info );
             draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                            iScrollPos, true );
+                            0, TERMY - VIEW_OFFSET_Y * 2, cur_item_info );
 
             action = ctxt.handle_input();
 
@@ -1538,8 +1539,6 @@ static item_location autodoc_internal( player &u, player &patient,
             }
 
         }
-    } else {
-        hint = string_format( _( "<color_yellow>Money available: %s</color>" ), format_money( u.cash ) );
     }
 
     if( uninstall ) {
@@ -1752,8 +1751,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 return _( "Superior version installed." );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM is not compatible with patient." );
-            } else if( it->price( true ) * 2 > p.cash ) {
-                return format_money( it->price( true ) * 2 );
             }
 
             return std::string();

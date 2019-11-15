@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": ".410 000 shot",
     "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
-    "weight": "32 g",
+    "weight": "16 g",
     "volume": "250 ml",
     "price": 175,
     "price_postapoc": 3500,
@@ -16,9 +16,9 @@
     "ammo_type": "410shot",
     "casing": "410shot_hull",
     "range": 12,
-    "damage": 50,
-    "recoil": 2500,
-    "loudness": 160,
+    "damage": 30,
+    "recoil": 1350,
+    "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
   },
   {

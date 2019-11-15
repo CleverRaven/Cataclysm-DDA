@@ -1,6 +1,7 @@
 [
   {
     "id": "rm120c",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
@@ -37,6 +38,7 @@
   },
   {
     "id": "rm20",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM20 autoshotgun",
@@ -53,7 +55,7 @@
     "skill": "shotgun",
     "dispersion": 335,
     "durability": 9,
-    "burst": 4,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -71,6 +73,7 @@
   },
   {
     "id": "rm228",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM228 PDW",

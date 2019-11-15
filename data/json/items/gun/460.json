@@ -27,6 +27,7 @@
   {
     "id": "l_enforcer_45",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "L2031 Enforcer",
     "name_plural": "L2031 Enforcer",
@@ -59,6 +60,7 @@
   },
   {
     "id": "l_long_45",
+    "looks_like": "sw_619",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "L1820 Long Ranger",

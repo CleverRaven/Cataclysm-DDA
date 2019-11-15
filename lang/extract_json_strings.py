@@ -125,13 +125,13 @@ automatically_convertible = {
     "ENGINE",
     "epilogue",
     "faction",
-    "fault",
     "furniture",
     "GENERIC",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
     "keybinding",
+    "LOOT_ZONE",
     "MAGAZINE",
     "map_extra",
     "MOD_INFO",
@@ -748,6 +748,18 @@ def extract_skill_display_type(item):
     outfile = get_outfile("skill_display_type")
     writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
 
+def extract_fault(item):
+    outfile = get_outfile("fault")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["description"], comment="description for fault '{}'".format(item["name"]))
+    for method in item["mending_methods"]:
+        if "name" in method:
+            writestr(outfile, method["name"], comment="name of mending method for fault '{}'".format(item["name"]))
+        if "description" in method:
+            writestr(outfile, method["description"], comment="description for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+        if "success_msg" in method:
+            writestr(outfile, method["success_msg"], format_strings=True, comment="success message for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -755,6 +767,7 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
+    "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
@@ -775,8 +788,7 @@ extract_specials = {
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
     "ter_furn_transform": extract_ter_furn_transform_messages,
-    "skill_display_type": extract_skill_display_type
-
+    "skill_display_type": extract_skill_display_type,
 }
 
 ##
@@ -854,7 +866,7 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
                 # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
                 str_pl = "{}s".format(string["str"])
         elif "str_pl" in string:
-            raise WrongJSONItem("ERROR: str_pl not supported here", string)
+            str_pl = string["str_pl"]
         writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
         return
     elif type(string) is not str and plural is not None:

@@ -70,7 +70,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1",
     "type": "talk_topic",
-    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick...", "Hey.", "...", "Yes?", "What's up?", "Good to see you." ],
+    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ],
     "responses": [
       {
         "text": "Who are you?",
@@ -121,9 +121,9 @@
       "Well?",
       "Good to have some company, I guess.",
       "Have something to say?",
-      "...",
+      "…",
       "Didn't you want something?",
-      "..."
+      "…"
     ],
     "responses": [
       { "text": "Anything interesting going on?", "topic": "TALK_ROBOFAC_MERC_1_GOING_ON" },
@@ -156,14 +156,14 @@
     "id": "TALK_ROBOFAC_MERC_1_GOING_ON",
     "type": "talk_topic",
     "dynamic_line": [ "Just came back from a job.  Trying to rest for a short while." ],
-    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
     "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars. ",
     "responses": [
-      { "text": "I guess I could help with that...", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
+      { "text": "I guess I could help with that…", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
@@ -178,7 +178,7 @@
       "I heard some strange dimensional resonance caused all this, do you think it has happened to other places?",
       "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
     ],
-    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",

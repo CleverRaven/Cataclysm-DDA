@@ -115,7 +115,7 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
                                         "Crossed a threshold" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
-                                      translate_marker( "Oh, yeah! That's the stuff!" ) );
+                                      translate_marker( "Oh, yeah!  That's the stuff!" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -407,6 +407,13 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         JsonArray ja = jsarr.next_array();
         const spell_id sp( ja.next_string() );
         spells_learned.emplace( sp, ja.next_int() );
+    }
+
+    jsarr = jo.get_array( "lumination" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const body_part bp = get_body_part_token( ja.next_string() );
+        lumination.emplace( bp, ja.next_float() );
     }
 
     jsarr = jo.get_array( "wet_protection" );

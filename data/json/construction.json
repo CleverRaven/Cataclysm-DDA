@@ -852,6 +852,38 @@
   },
   {
     "type": "construction",
+    "description": "Make Gravel Floor",
+    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "pebble", 100 ] ] ],
+    "post_terrain": "t_railroad_rubble"
+  },
+  {
+    "type": "construction",
+    "description": "Build Straight Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small"
+  },
+  {
+    "type": "construction",
+    "description": "Build Diagonal Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small_d"
+  },
+  {
+    "type": "construction",
     "description": "Build Wooden Floor",
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
@@ -3158,7 +3190,7 @@
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "frame", 1 ] ],
       [ [ "circuit", 4 ] ],
@@ -3169,5 +3201,16 @@
     ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "t_radio_controls"
+  },
+  {
+    "type": "construction",
+    "description": "Build Log Stool",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_logstool"
   }
 ]

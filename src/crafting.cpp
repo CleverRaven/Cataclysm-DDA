@@ -278,7 +278,7 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
     return total_multi;
 }
 
-bool player::has_morale_to_craft() const
+bool Character::has_morale_to_craft() const
 {
     return get_morale_level() >= -50;
 }
@@ -563,7 +563,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
     return cached_crafting_inventory;
 }
 
-void player::invalidate_crafting_inventory()
+void Character::invalidate_crafting_inventory()
 {
     cached_time = calendar::before_time_starts;
 }
@@ -615,23 +615,6 @@ static void set_components( std::list<item> &components, const std::list<item> &
             non_charges_counter++;
         }
     }
-}
-
-static void set_item_food( item &newit )
-{
-    // TODO: encapsulate this into some function
-    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-}
-
-static void finalize_crafted_item( item &newit, faction *maker_fac )
-{
-    if( newit.is_food() ) {
-        set_item_food( newit );
-    }
-    // TODO for now this assumes player is doing the crafting
-    // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -993,7 +976,7 @@ void item::set_next_failure_point( const player &crafter )
 static void destroy_random_component( item &craft, const player &crafter )
 {
     if( craft.components.empty() ) {
-        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
         return;
     }
 
@@ -1052,6 +1035,40 @@ requirement_data item::get_continue_reqs() const
     return requirement_data::continue_requirements( comps_used, components );
 }
 
+void item::inherit_flags( const item &parent )
+{
+    //If item is crafted from poor-fit components, the result is poorly fitted too
+    if( parent.has_flag( "VARSIZE" ) ) {
+        unset_flag( "FIT" );
+    }
+    //If item is crafted from perfect-fit components, the result is perfectly fitted too
+    if( parent.has_flag( "FIT" ) ) {
+        item_tags.insert( "FIT" );
+    }
+    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
+        for( const std::string &f : parent.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+        for( const std::string &f : parent.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+    }
+    if( parent.has_flag( "HIDDEN_POISON" ) ) {
+        poison = parent.poison;
+    }
+}
+
+void item::inherit_flags( const std::list<item> &parents )
+{
+    for( const item &parent : parents ) {
+        inherit_flags( parent );
+    }
+}
+
 void player::complete_craft( item &craft, const tripoint &loc )
 {
     if( !craft.is_craft() ) {
@@ -1072,6 +1089,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
     bool first = true;
     size_t newit_counter = 0;
     for( item &newit : newits ) {
+
+        // Points to newit unless newit is a non-empty container, then it points to newit's contents.
+        // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
+        item &food_contained = ( newit.is_container() && !newit.contents.empty() ) ?
+                               newit.contents.back() : newit;
+
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
             first = false;
@@ -1099,49 +1122,24 @@ void player::complete_craft( item &craft, const tripoint &loc )
                              making.result_name() );
                 }
             }
-
-            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-            if( newit.has_flag( "VARSIZE" ) ) {
-                newit.item_tags.insert( "FIT" );
-            }
-
-            for( auto &component : used ) {
-                //If item is crafted from poor-fit components, the result is poorly fitted too
-                if( component.has_flag( "VARSIZE" ) ) {
-                    newit.unset_flag( "FIT" );
-                }
-                //If item is crafted from perfect-fit components, the result is perfectly fitted too
-                if( component.has_flag( "FIT" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                if( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
-                    for( const std::string &f : component.item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            newit.set_flag( f );
-                        }
-                    }
-                    for( const std::string &f : component.type->item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            newit.set_flag( f );
-                        }
-                    }
-                }
-                if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    newit.poison = component.poison;
-                }
-            }
         }
+
+        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+        if( newit.has_flag( "VARSIZE" ) ) {
+            newit.item_tags.insert( "FIT" );
+        }
+        food_contained.inherit_flags( used );
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !newit.count_by_charges() &&
+        if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
             making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( newit.components, used, batch_size, newit_counter );
+            set_components( food_contained.components, used, batch_size, newit_counter );
             newit_counter++;
-        } else if( newit.is_food() && !newit.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        } else if( food_contained.is_food() && !food_contained.has_flag( "NUTRIENT_OVERRIDE" ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
@@ -1157,27 +1155,25 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( newit.components, used, batch_size, newit_counter );
-            // store the number of charges the recipe creates
-            newit.recipe_charges = newit.charges / batch_size;
+            set_components( food_contained.components, used, batch_size, newit_counter );
+
+            // store the number of charges the recipe would create with batch size 1.
+            if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
+                // … the container holds exactly one completion of the recipe, no matter the batch size.
+                food_contained.recipe_charges = food_contained.charges;
+            } else { // Otherwise, the item is already stacked so we need to divide by batch size.
+                newit.recipe_charges = newit.charges / batch_size;
+            }
             newit_counter++;
         }
 
-        if( newit.goes_bad() ) {
-            newit.set_relative_rot( relative_rot );
-        } else {
-            if( newit.is_container() ) {
-                for( item &in : newit.contents ) {
-                    if( in.goes_bad() ) {
-                        in.set_relative_rot( relative_rot );
-                    }
-                }
-            }
+        if( food_contained.goes_bad() ) {
+            food_contained.set_relative_rot( relative_rot );
         }
 
-        if( newit.has_temperature() ) {
+        if( food_contained.has_temperature() ) {
             if( should_heat ) {
-                newit.heat_up();
+                food_contained.heat_up();
             } else {
                 // Really what we should be doing is averaging the temperatures
                 // between the recipe components if we don't have a heat tool, but
@@ -1186,12 +1182,17 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                newit.set_item_temperature( 293.15 );
-                newit.reset_temp_check();
+                food_contained.set_item_temperature( 293.15 );
+                food_contained.reset_temp_check();
             }
         }
 
-        finalize_crafted_item( newit, get_faction() );
+        newit.set_owner( get_faction()->id );
+        // If these aren't equal, newit is a container, so finalize its contents too.
+        if( &newit != &food_contained ) {
+            food_contained.set_owner( get_faction()->id );
+        }
+
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
@@ -1215,7 +1216,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
-            finalize_crafted_item( bp, get_faction() );
+            bp.set_owner( get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {

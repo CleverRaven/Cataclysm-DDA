@@ -364,10 +364,10 @@ class atm_menu
                                            "Your current balance is: %s" ),
                                         format_money( u.cash ) );
 
-            if( u.cash >= 100 ) {
+            if( u.cash >= 1000 ) {
                 add_choice( purchase_card, _( "Purchase cash card?" ) );
             } else {
-                add_info( purchase_card, _( "You need $1.00 in your account to purchase a card." ) );
+                add_info( purchase_card, _( "You need $10.00 in your account to purchase a card." ) );
             }
 
             if( card_count && u.cash > 0 ) {
@@ -420,9 +420,10 @@ class atm_menu
             return clamp( amount, 0, max );
         }
 
-        //!Get a new cash card. $1.00 fine.
+        //!Get a new cash card. $10.00 fine.
         bool do_purchase_card() {
-            const char *prompt = _( "This will automatically deduct $1.00 from your bank account.  Continue?" );
+            const char *prompt =
+                _( "This will automatically deduct $10.00 from your bank account.  Continue?" );
 
             if( !query_yn( prompt ) ) {
                 return false;
@@ -431,7 +432,7 @@ class atm_menu
             item card( "cash_card", calendar::turn );
             card.charges = 0;
             u.i_add( card );
-            u.cash -= 100;
+            u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
             finish_interaction();
 
@@ -1230,7 +1231,7 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
 }
 
 /**
- * Checks PC has a crowbar then calls iuse.crowbar.
+ * Checks whether PC has a crowbar then calls iuse.crowbar.
  */
 void iexamine::locked_object( player &p, const tripoint &examp )
 {
@@ -1240,7 +1241,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     } );
 
     if( prying_items.empty() ) {
-        add_msg( m_info, _( "If only you had something to pry with…" ) );
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it with…" ),
+                 g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ) );
         return;
     }
 
@@ -1260,6 +1262,49 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
+/**
+* Checks whether PC has picklocks then calls pick_lock_actor.
+*/
+void iexamine::locked_object_pickable( player &p, const tripoint &examp )
+{
+    std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
+        // Don't search for worn items such as hairpins
+        if( p.get_item_position( &it ) >= -1 ) {
+            return it.type->get_use( "picklock" ) != nullptr;
+        }
+        return false;
+    } );
+
+    if( picklocks.empty() ) {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
+                 g->m.tername( examp ) );
+        return;
+    }
+
+    // Sort by their picklock level.
+    std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
+        const auto actor_a = dynamic_cast<const pick_lock_actor *>
+                             ( a->type->get_use( "picklock" )->get_actor_ptr() );
+        const auto actor_b = dynamic_cast<const pick_lock_actor *>
+                             ( b->type->get_use( "picklock" )->get_actor_ptr() );
+        return actor_a->pick_quality > actor_b->pick_quality;
+    } );
+
+    for( item *it : picklocks ) {
+        const auto actor = dynamic_cast<const pick_lock_actor *>
+                           ( it->type->get_use( "picklock" )->get_actor_ptr() );
+        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+                             g->m.tername( examp ), it->tname() );
+        const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+        if( can_use.success() ) {
+            actor->use( p, *it, false, examp );
+            return;
+        } else {
+            p.add_msg_if_player( m_bad, can_use.str() );
+        }
+    }
+}
+
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
@@ -1272,10 +1317,11 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, false );
+        temp_camp->set_by_radio( false );
+        temp_camp->get_available_missions( mission_key );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -4216,6 +4262,25 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
     return null_patient;
 }
 
+static Character &operator_present( Character &p, const tripoint &autodoc_loc,
+                                    Character &null_patient )
+{
+    for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
+        const furn_str_id couch( "f_autodoc_couch" );
+        if( g->m.furn( loc ) != couch ) {
+            if( p.pos() == loc ) {
+                return p;
+            }
+            for( const npc *e : g->allies() ) {
+                if( e->pos() == loc ) {
+                    return  *g->critter_by_id<player>( e->getID() );
+                }
+            }
+        }
+    }
+    return null_patient;
+}
+
 static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
@@ -4294,6 +4359,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
+    Character &Operator = operator_present( p, examp, null_player );
 
     static item null_cyborg;
     item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
@@ -4353,8 +4419,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
 
+    const bool unsafe_usage = &Operator == &null_player || ( &Operator == &p && &patient == &p );
+    std::string autodoc_header = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    if( unsafe_usage ) {
+        const std::string &warning_sign = colorize( " /", c_yellow ) + colorize( "!",
+                                          c_red ) + colorize( "\\", c_yellow );
+        const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
+                                     c_red ) + warning_sign;
+        autodoc_header = warning +
+                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+    }
     uilist amenu;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    amenu.text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
@@ -4803,6 +4879,19 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                 result.set_flag( "PROCESSING_RESULT" );
                 result.set_relative_rot( it.get_relative_rot() );
                 result.unset_flag( "PROCESSING_RESULT" );
+
+                result.inherit_flags( it );
+                if( !result.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+                    // If the item has "cooks_like" it will be replaced by that item as a component.
+                    if( !it.get_comestible()->cooks_like.empty() ) {
+                        // Set charges to 1 for stacking purposes.
+                        it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
+                    }
+                    result.components.push_back( it );
+                    // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
+                    result.recipe_charges = it.charges;
+                }
+
                 it = result;
             }
         }
@@ -5645,6 +5734,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "gunsafe_ml", &iexamine::gunsafe_ml },
             { "gunsafe_el", &iexamine::gunsafe_el },
             { "locked_object", &iexamine::locked_object },
+            { "locked_object_pickable", &iexamine::locked_object_pickable },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },

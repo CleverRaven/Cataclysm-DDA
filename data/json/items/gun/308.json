@@ -2,6 +2,7 @@
   {
     "id": "fn_fal",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN FAL",
     "name_plural": "FN FAL",
@@ -19,13 +20,14 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 2,
     "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
   {
     "id": "hk_g3",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "H&K G3",
     "name_plural": "H&K G3",
@@ -43,11 +45,12 @@
     "dispersion": 150,
     "min_cycle_recoil": 2700,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
   },
   {
     "id": "m134",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "M134D-H Minigun",
@@ -84,7 +87,7 @@
     "weight": "4820 g",
     "price": 195000,
     "material": [ "steel", "plastic" ],
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -103,6 +106,7 @@
   {
     "id": "m1a",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M1A",
     "name_plural": "M1A",
@@ -140,6 +144,7 @@
   {
     "id": "m240",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M240",
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
@@ -156,7 +161,7 @@
     "durability": 9,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -176,6 +181,7 @@
   {
     "id": "m60",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M60",
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
@@ -193,7 +199,7 @@
     "durability": 7,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -213,6 +219,7 @@
   {
     "id": "rifle_308",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .308",
     "name_plural": "pipe rifles: .308",
@@ -252,6 +259,7 @@
   {
     "id": "savage_111f",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Savage 111F",
     "name_plural": "Savage 111F",
@@ -275,6 +283,7 @@
   {
     "id": "scar_h",
     "copy-from": "scar_l",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN SCAR-H",
     "name_plural": "FN SCAR-H",
@@ -288,10 +297,11 @@
   {
     "id": "M24",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M24",
     "name_plural": "M24",
-    "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988. The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
+    "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4500 g",
     "volume": "2750 ml",
     "price": 350000,
@@ -326,6 +336,7 @@
   {
     "id": "hk417_13",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "HK417 A2",
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
@@ -342,13 +353,14 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },
   {
     "id": "m110a1",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M110A1",
     "description": "A derivative of H&K's G28 with an aluminium upper reciever to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
@@ -371,6 +383,7 @@
   {
     "id": "ar10",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "AR-10",
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",

@@ -61,6 +61,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
@@ -562,6 +568,12 @@
     "id": "milk",
     "name": "milk",
     "default": "milk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",

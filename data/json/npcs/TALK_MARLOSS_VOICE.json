@@ -44,8 +44,8 @@
     "dynamic_line": "Dangerous?  It may look different, but this land cares and provides for us.  We are celebrating with a feast, in fact.  Do you care to join us?",
     "responses": [
       { "text": "Well, sure.", "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY" },
-      { "text": "I'd... rather not.", "topic": "TALK_MARLOSS_VOICE" },
-      { "text": "I'm sorry... I have places to be.", "topic": "TALK_DONE" }
+      { "text": "I'd… rather not.", "topic": "TALK_MARLOSS_VOICE" },
+      { "text": "I'm sorry…  I have places to be.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -71,7 +71,7 @@
     "type": "talk_topic",
     "id": "TALK_MARLOSS_VOICE_WITH_US",
     "dynamic_line": "Oh, but you already have.",
-    "responses": [ { "text": "Yes... yes I have.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Yes… yes I have.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

@@ -398,7 +398,7 @@ bool Character::can_mount( const monster &critter ) const
              !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() / 5 );
+                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
 }
 
 void monexamine::mount_pet( monster &z )
@@ -694,7 +694,7 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
+    const auto milked_item = source_mon.type->starting_ammo.find( "milk_raw" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
                   source_mon.get_name() );
