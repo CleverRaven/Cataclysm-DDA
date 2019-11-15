@@ -19,54 +19,54 @@
         "text": "Who are you?",
         "effect": { "u_add_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
         "condition": { "not": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_prepnet_gardener_firstmeet"
+        "topic": "TALK_PrepNet_gardener_firstmeet"
       },
       {
         "text": "What is this place?",
         "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_prepnet_gardener_place"
+        "topic": "TALK_PrepNet_gardener_place"
       },
       {
         "text": "What's your story?",
         "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_prepnet_gardener_ask_past"
+        "topic": "TALK_PrepNet_gardener_ask_past"
       },
       {
         "text": "How are things here?",
         "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_prepnet_gardener_ask_mood"
+        "topic": "TALK_PrepNet_gardener_ask_mood"
       },
       {
         "text": "Can I do anything for you?",
         "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "How do I join the phyle?", "topic": "TALK_prepnet_gardener_ask_membership" }
+      { "text": "How do I join the phyle?", "topic": "TALK_PrepNet_gardener_ask_membership" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_firstmeet",
+    "id": "TALK_PrepNet_gardener_firstmeet",
     "dynamic_line": "I'm a gardener for PrepNet Phyle.  Who are you?",
     "responses": [
-      { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_prepnet_gardener_ask_food" },
+      { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_PrepNet_gardener_ask_food" },
       { "text": "I am just a fellow survivor.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_place",
+    "id": "TALK_PrepNet_gardener_place",
     "dynamic_line": "This is a PrepNet Phyle orchard. We were a community of survivalists gathering resources to prepare for climate change, but it left us better prepared for what actually happened than most.",
     "responses": [
-      { "text": "Can you give me something to eat then?", "topic": "TALK_prepnet_gardener_ask_food" },
-      { "text": "What can I buy here?", "topic": "TALK_prepnet_gardener_ask_goods" },
+      { "text": "Can you give me something to eat then?", "topic": "TALK_PrepNet_gardener_ask_food" },
+      { "text": "What can I buy here?", "topic": "TALK_PrepNet_gardener_ask_goods" },
       { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_food",
+    "id": "TALK_PrepNet_gardener_food",
     "dynamic_line": "This food has to go back to our core communities. But maybe we can trade some food for services",
     "responses": [
       { "text": "I can pay.", "topic": "TALK_prepnet_gardener_ask_food_bribe" },
@@ -75,51 +75,51 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_ask_food_bribe",
+    "id": "TALK_PrepNet_gardener_ask_food_bribe",
     "dynamic_line": "You have to earn the right to trade with us. Plus we created our own currency before the cataclysm",
     "responses": [
       { "text": "It was worth a try.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What kind of currency?", "topic": "TALK_prepnet_gardener_currency" }
+      { "text": "What kind of currency?", "topic": "TALK_PrepNet_gardener_currency" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_ask_membership",
+    "id": "TALK_PrepNet_gardener_ask_membership",
     "dynamic_line": "This is just an outpost, you'd have to find our main camp and currently we don't want you to.",
     "responses": [ { "text": "I didn't want to join your club anyway.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_ask_goods",
+    "id": "TALK_PrepNet_gardener_ask_goods",
     "dynamic_line": "Here? Fruits and berries. Maybe the occasional piece of farm equipment, but you need crypto coins",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What are crypto coins?", "topic": "TALK_prepnet_gardener_currency" }
+      { "text": "What are crypto coins?", "topic": "TALK_PrepNet_gardener_currency" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_ask_past",
+    "id": "TALK_PrepNet_gardener_ask_past",
     "dynamic_line": "I got introduced to the movement through Mutual Aid Society. From there it became an all consuming part of my life to prepare for a post consumption world. It seems to have worked better for us than for many others.",
     "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_ask_mood",
+    "id": "TALK_PrepNet_gardener_ask_mood",
     "dynamic_line": "It can get lonely out here between caravans.  But there's plenty of work and my Cyber Mastiffs.  If a horde comes through we hunker down in a nearby shelter if it's too large for us.",
     "responses": [ { "text": "I'm glad you stay busy.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_prepnet_gardener_currency",
+    "id": "TALK_PrepNet_gardener_currency",
     "dynamic_line": "We use crypto coins for money here. They were a pre cataclysm attempt to abstract money even further and create electronic cash. We figured we'd keep it up. Barter only gets you so far.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What can I buy here?", "topic": "TALK_prepnet_gardener_ask_goods" }
+      { "text": "What can I buy here?", "topic": "TALK_PrepNet_gardener_ask_goods" }
     ]
   },
   {
-    "id": "MISSION_prepnet_gardener_FUR_1",
+    "id": "MISSION_PrepNet_gardener_FUR_1",
     "type": "mission_definition",
     "name": "Big Game Hunting",
     "description": "Find 50 fur pelts.",
@@ -129,7 +129,7 @@
     "item": "fur",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_prepnet_gardener_FOOD_2",
+    "followup": "MISSION_PrepNet_gardener_FOOD_2",
     "dialogue": {
       "describe": "I need 50 fur pelts.",
       "offer": "I've got to maintain the orchard but at nights I work on prepping winter clothes.  Could you find about... 50 fur pelts for me?",
@@ -144,7 +144,7 @@
     "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 6 } ] }
   },
   {
-    "id": "MISSION_prepnet_gardener_FOOD_2",
+    "id": "MISSION_PrepNet_gardener_FOOD_2",
     "type": "mission_definition",
     "name": "Bread",
     "description": "Find 50 flour.",
@@ -154,7 +154,7 @@
     "item": "flour",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_prepnet_gardener_FOOD_3",
+    "followup": "MISSION_PrepNet_gardener_FOOD_3",
     "dialogue": {
       "describe": "I need 50 flour.",
       "offer": "Flour would let me break the monotony of fruit and meats.",
@@ -169,7 +169,7 @@
     "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 5 } ] }
   },
   {
-    "id": "MISSION_prepnet_gardener_FOOD_3",
+    "id": "MISSION_PrepNet_gardener_FOOD_3",
     "type": "mission_definition",
     "name": "Gallon Jugs",
     "description": "Find 5 gallon jugs.",
@@ -179,7 +179,7 @@
     "item": "jug_plastic",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_prepnet_gardener_QUEST_4",
+    "followup": "MISSION_PrepNet_gardener_QUEST_4",
     "dialogue": {
       "describe": "I need storage for various liquid products when the fruits come in.",
       "offer": "Every season we produce so much fruit. Some of it will be turned into juice and some into alcohol. I need easy containers to load it on the caravan.",
@@ -194,7 +194,7 @@
     "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 3 } ] }
   },
   {
-    "id": "MISSION_prepnet_gardener_QUEST_4",
+    "id": "MISSION_PrepNet_gardener_QUEST_4",
     "type": "mission_definition",
     "name": "Faulty CBMs",
     "description": "Find 5 faulty CBMs.",
