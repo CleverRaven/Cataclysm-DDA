@@ -275,7 +275,6 @@ void scent_map::deserialize( const std::string &data, bool is_type )
             }
         }
     }
-
 }
 
 ///// weather
