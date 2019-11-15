@@ -85,7 +85,7 @@ class item_location::impl
             return what.get();
         }
 
-        bool valid() const {
+        virtual bool valid() const {
             ensure_unpacked();
             return !!what;
         }
@@ -232,10 +232,16 @@ class item_location::impl::item_on_person : public item_location::impl
         character_id who_id;
         mutable Character *who;
 
-        void ensure_who_unpacked() const {
+        bool ensure_who_unpacked() const {
             if( !who ) {
                 who = g->critter_by_id<Character>( who_id );
+                if( !who ) {
+                    // If we failed to find it throw a debug message cause we're probably going to crash soon
+                    debugmsg( "Failed to find item_location owner with character_id %d", who_id.get_value() );
+                    return false;
+                }
             }
+            return true;
         }
 
     public:
@@ -243,10 +249,13 @@ class item_location::impl::item_on_person : public item_location::impl
             who_id = who.getID();
             this->who = &who;
         }
+
         item_on_person( character_id who_id, int idx ) : impl( idx ), who_id( who_id ), who( nullptr ) {}
 
         void serialize( JsonOut &js ) const override {
-            ensure_who_unpacked();
+            if( !ensure_who_unpacked() ) {
+                return;
+            }
             js.start_object();
             js.member( "type", "character" );
             js.member( "character", who_id );
@@ -255,7 +264,9 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            ensure_who_unpacked();
+            if( !ensure_who_unpacked() ) {
+                return nullptr;
+            }
             return retrieve_index( *who, idx );
         }
 
@@ -264,16 +275,16 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         tripoint position() const override {
-            ensure_who_unpacked();
+            if( !ensure_who_unpacked() ) {
+                return tripoint_zero;
+            }
             return who->pos();
         }
 
         std::string describe( const Character *ch ) const override {
-            if( !target() ) {
+            if( !target() || !ensure_who_unpacked() ) {
                 return std::string();
             }
-
-            ensure_who_unpacked();
 
             if( ch == who ) {
                 auto parents = who->parents( *target() );
@@ -311,11 +322,9 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         int obtain_cost( const Character &ch, int qty ) const override {
-            if( !target() ) {
+            if( !target() || !ensure_who_unpacked() ) {
                 return 0;
             }
-
-            ensure_who_unpacked();
 
             int mv = 0;
 
@@ -359,8 +368,16 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         void remove_item() override {
-            ensure_who_unpacked();
+            if( !ensure_who_unpacked() ) {
+                return;
+            }
             who->remove_item( *what );
+        }
+
+        bool valid() const override {
+            ensure_who_unpacked();
+            ensure_unpacked();
+            return !!what && !!who;
         }
 };
 
