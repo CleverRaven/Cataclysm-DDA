@@ -86,7 +86,7 @@
     "type": "talk_topic",
     "id": "TALK_prepnet_gardener_ask_membership",
     "dynamic_line": "This is just an outpost, you'd have to find our main camp and currently we don't want you to.",
-    "responses": [ { "text": "I didn't want to join your club anyway.", "topic": "TALK_prepnet_gardener_1" } ]
+    "responses": [ { "text": "I didn't want to join your club anyway.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
