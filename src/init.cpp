@@ -594,6 +594,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
+            { _( "Mutations" ), &mutation_branch::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
