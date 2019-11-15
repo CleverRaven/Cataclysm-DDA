@@ -18,6 +18,7 @@
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -189,7 +190,8 @@ void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_new_0" +
+                                oter_get_rotation_string( omt_ref ) ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
