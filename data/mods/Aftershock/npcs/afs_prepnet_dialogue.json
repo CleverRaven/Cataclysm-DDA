@@ -107,7 +107,7 @@
     "type": "talk_topic",
     "id": "TALK_prepnet_gardener_ask_mood",
     "dynamic_line": "It can get lonely out here between caravans.  But there's plenty of work and my Cyber Mastiffs.  If a horde comes through we hunker down in a nearby shelter if it's too large for us.",
-    "responses": [ { "text": "I'm glad you stay busy.", "topic": "TALK_prepnet_gardener_1" } ]
+    "responses": [ { "text": "I'm glad you stay busy.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
