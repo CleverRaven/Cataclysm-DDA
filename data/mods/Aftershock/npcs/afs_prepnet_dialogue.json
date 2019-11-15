@@ -50,7 +50,7 @@
     "dynamic_line": "I'm a gardener for PrepNet Phyle.  Who are you?",
     "responses": [
       { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_prepnet_gardener_ask_food" },
-      { "text": "I am just a fellow survivor.", "topic": "TALK_prepnet_gardener_1" },
+      { "text": "I am just a fellow survivor.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
