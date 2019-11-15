@@ -1470,7 +1470,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     } else if( act == activity_id( "ACT_MULTIPLE_FARM" ) ) {
         zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
                                g->m.getabs( src_loc ) );
-        for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
+        for( const zone_data &zone : zones ) {
             if( g->m.has_flag_furn( "GROWTH_HARVEST", src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( NEEDS_HARVESTING );
@@ -1487,7 +1487,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
-                    const auto options = dynamic_cast<const plot_options &>( it->get_options() );
+                    const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
@@ -2633,8 +2633,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) ) {
         std::vector<zone_data> zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
                                        g->m.getabs( src_loc ) );
-        for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-            const std::string seed = dynamic_cast<const plot_options &>( it->get_options() ).get_seed();
+        for( const zone_data &zone : zones ) {
+            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );
