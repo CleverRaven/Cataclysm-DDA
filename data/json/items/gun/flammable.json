@@ -15,7 +15,7 @@
     "range": 6,
     "dispersion": 300,
     "durability": 8,
-    "burst": 4,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 1 ],
       [ "grip", 1 ],
@@ -44,7 +44,7 @@
     "ranged_damage": 10,
     "dispersion": 240,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },

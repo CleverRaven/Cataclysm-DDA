@@ -368,7 +368,7 @@
     "dispersion": 0,
     "sight_dispersion": 10,
     "durability": 8,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "reload": 700,
     "loudness": 175,
     "magazines": [ [ "30mm", [ "belt30mm" ] ] ]

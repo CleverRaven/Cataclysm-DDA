@@ -364,10 +364,10 @@ class atm_menu
                                            "Your current balance is: %s" ),
                                         format_money( u.cash ) );
 
-            if( u.cash >= 100 ) {
+            if( u.cash >= 1000 ) {
                 add_choice( purchase_card, _( "Purchase cash card?" ) );
             } else {
-                add_info( purchase_card, _( "You need $1.00 in your account to purchase a card." ) );
+                add_info( purchase_card, _( "You need $10.00 in your account to purchase a card." ) );
             }
 
             if( card_count && u.cash > 0 ) {
@@ -420,9 +420,10 @@ class atm_menu
             return clamp( amount, 0, max );
         }
 
-        //!Get a new cash card. $1.00 fine.
+        //!Get a new cash card. $10.00 fine.
         bool do_purchase_card() {
-            const char *prompt = _( "This will automatically deduct $1.00 from your bank account.  Continue?" );
+            const char *prompt =
+                _( "This will automatically deduct $10.00 from your bank account.  Continue?" );
 
             if( !query_yn( prompt ) ) {
                 return false;
@@ -431,7 +432,7 @@ class atm_menu
             item card( "cash_card", calendar::turn );
             card.charges = 0;
             u.i_add( card );
-            u.cash -= 100;
+            u.cash -= 1000;
             u.moves -= to_turns<int>( 5_seconds );
             finish_interaction();
 
@@ -4426,7 +4427,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
                                      c_red ) + warning_sign;
         autodoc_header = warning +
-                         _( " \n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
     uilist amenu;
     amenu.text = autodoc_header;
