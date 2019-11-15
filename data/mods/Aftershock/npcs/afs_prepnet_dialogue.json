@@ -61,7 +61,7 @@
     "responses": [
       { "text": "Can you give me something to eat then?", "topic": "TALK_prepnet_gardener_ask_food" },
       { "text": "What can I buy here?", "topic": "TALK_prepnet_gardener_ask_goods" },
-      { "text": "Oh, okay.", "topic": "TALK_prepnet_gardener_1" }
+      { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
@@ -78,7 +78,7 @@
     "id": "TALK_prepnet_gardener_ask_food_bribe",
     "dynamic_line": "You have to earn the right to trade with us. Plus we created our own currency before the cataclysm",
     "responses": [
-      { "text": "It was worth a try.", "topic": "TALK_prepnet_gardener_1" },
+      { "text": "It was worth a try.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What kind of currency?", "topic": "TALK_prepnet_gardener_currency" }
     ]
   },
@@ -93,7 +93,7 @@
     "id": "TALK_prepnet_gardener_ask_goods",
     "dynamic_line": "Here? Fruits and berries. Maybe the occasional piece of farm equipment, but you need crypto coins",
     "responses": [
-      { "text": "Ok.", "topic": "TALK_prepnet_gardener_1" },
+      { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What are crypto coins?", "topic": "TALK_prepnet_gardener_currency" }
     ]
   },
@@ -101,7 +101,7 @@
     "type": "talk_topic",
     "id": "TALK_prepnet_gardener_ask_past",
     "dynamic_line": "I got introduced to the movement through Mutual Aid Society. From there it became an all consuming part of my life to prepare for a post consumption world. It seems to have worked better for us than for many others.",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_prepnet_gardener_1" } ]
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_PrepNet_gardener_1" } ]
   },
   {
     "type": "talk_topic",
@@ -114,7 +114,7 @@
     "id": "TALK_prepnet_gardener_currency",
     "dynamic_line": "We use crypto coins for money here. They were a pre cataclysm attempt to abstract money even further and create electronic cash. We figured we'd keep it up. Barter only gets you so far.",
     "responses": [
-      { "text": "Oh, okay.", "topic": "TALK_prepnet_gardener_1" },
+      { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What can I buy here?", "topic": "TALK_prepnet_gardener_ask_goods" }
     ]
   },
