@@ -4663,6 +4663,7 @@ T *game::critter_by_id( const character_id id )
 }
 
 // monsters don't have ids
+template Character *game::critter_by_id<Character>( character_id );
 template player *game::critter_by_id<player>( character_id );
 template npc *game::critter_by_id<npc>( character_id );
 template Creature *game::critter_by_id<Creature>( character_id );
