@@ -7218,14 +7218,14 @@ void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
     magic.on_mutation_gain( mid, *this );
-    update_type_of_scent();
+    update_type_of_scent( mid );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
-    update_type_of_scent();
+    update_type_of_scent( mid, false );
 }
 
 void player::on_stat_change( const std::string &stat, int value )
