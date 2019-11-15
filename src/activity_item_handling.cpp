@@ -1429,10 +1429,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     }
     if( act == activity_id( "ACT_MULTIPLE_FORAGE" ) ) {
         if( is_harvestable_there( src_loc ) ) {
-            std::cout << "is harvestable there" << std::endl;
             return activity_reason_info::ok( NEEDS_FORAGING );
         } else {
-            std::cout << "is not harvstable there" << std::endl;
             return activity_reason_info::fail( NO_ZONE );
         }
     }
@@ -2475,11 +2473,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             }
         }
         if( src_set.empty() && unsorted_spot != tripoint_zero ) {
-            add_msg( "tidy up src set empty, unsorted spot not zero ");
             for( const item *inv_elem : p.inv_dump() ) {
-                add_msg( "inv dump ");
                 if( inv_elem->has_var( "activity_var" ) ) {
-                    add_msg( "inv dump item has act var");
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
                     src_set.insert( g->m.getabs( unsorted_spot ) );
                     break;
@@ -2520,7 +2515,6 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             src_set.insert( g->m.getabs( elem_point ) );
         }
     }
-    std::cout << "src set size = " << std::to_string( static_cast<int>( src_set.size())) << std::endl;
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
@@ -2848,7 +2842,6 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
     // or if we need to fetch something first.
-    add_msg( "src set size = %d", static_cast<int>( src_sorted.size()));
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
         if( !g->m.inbounds( src_loc ) && !check_only ) {
