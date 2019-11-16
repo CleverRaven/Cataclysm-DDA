@@ -1174,6 +1174,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+                    handle_redraw();
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -1184,6 +1185,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
+                    handle_redraw();
                     return 1;
                 } else {
                     continue;
