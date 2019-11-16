@@ -1070,6 +1070,7 @@
     "//": "for ws_regional_dump",
     "items": [
       { "group": "ammo_pocket_batteries", "prob": 30 },
+      { "group": "candy_chocolate", "prob": 570 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -1084,20 +1085,11 @@
       [ "fried_seeds", 25 ],
       [ "pretzels", 55 ],
       [ "chocpretzels", 40 ],
-      [ "chocolate", 50 ],
       [ "jerky", 55 ],
       [ "cracklins", 25 ],
       [ "pemmican", 5 ],
       [ "granola", 10 ],
       [ "porkstick", 55 ],
-      [ "candy", 80 ],
-      [ "candy2", 80 ],
-      [ "candy3", 80 ],
-      [ "maple_candy", 10 ],
-      [ "powder_candy", 60 ],
-      [ "neccowafers", 80 ],
-      [ "maltballs", 80 ],
-      [ "mintpatties", 80 ],
       [ "cookies", 80 ],
       [ "tea_raw", 10 ],
       [ "coffee_raw", 15 ],
@@ -1114,8 +1106,7 @@
       [ "popcorn3", 35 ],
       [ "fruit_leather", 25 ],
       [ "kernels", 25 ],
-      [ "pine_nuts", 5 ],
-      [ "candycigarette", 20 ]
+      [ "pine_nuts", 5 ]
     ]
   },
   {
