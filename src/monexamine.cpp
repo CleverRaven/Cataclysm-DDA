@@ -425,6 +425,10 @@ void monexamine::swap( monster &z )
             z.add_effect( effect_tied, 1_turns, num_bp, true );
         }
         add_msg( _( "You swap positions with your %s." ), pet_name );
+
+        if( g->u.is_hauling() ) {
+            g->start_hauling( z.pos() );
+        }
     } else {
         add_msg( _( "You fail to budge your %s!" ), pet_name );
     }
