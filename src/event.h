@@ -70,6 +70,7 @@ enum class event_type {
     npc_becomes_hostile,
     opens_portal,
     opens_temple,
+    player_levels_spell,
     releases_subspace_specimens,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
@@ -133,7 +134,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 61,
+static_assert( static_cast<int>( event_type::num_event_types ) == 62,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -475,6 +476,15 @@ struct event_spec<event_type::opens_temple> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::player_levels_spell> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "spell", cata_variant_type::spell_id },
+            { "new_level", cata_variant_type::int_ },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::removes_cbm> {

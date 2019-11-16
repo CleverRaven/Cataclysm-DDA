@@ -2,13 +2,14 @@
 
 # Build script intended for use in Travis CI
 
-set -ex
+set -ex pipefail
 
 num_jobs=3
 
 function run_tests
 {
-    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
+    # The grep supresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
+    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
 date +%s > build-start-time
@@ -144,7 +145,7 @@ then
     cd android
     # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleDebug -Pj=3
+    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi32=false -Pabi64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 

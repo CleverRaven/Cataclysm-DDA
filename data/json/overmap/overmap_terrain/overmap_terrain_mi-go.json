@@ -5,7 +5,8 @@
     "name": "mi-go encampment",
     "sym": "<",
     "color": "dark_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -13,7 +14,8 @@
     "name": "mi-go encampment",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -21,7 +23,8 @@
     "name": "mi-go spire",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -29,7 +32,8 @@
     "name": "mi-go landing platform",
     "sym": "_",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -37,7 +41,8 @@
     "name": "mi-go scout tower",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -45,7 +50,8 @@
     "name": "mi-go scout tower",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -53,7 +59,8 @@
     "name": "mi-go scout tower",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -61,6 +68,7 @@
     "name": "mi-go scout tower",
     "sym": ">",
     "color": "light_gray",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   }
 ]

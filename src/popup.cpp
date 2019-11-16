@@ -343,8 +343,7 @@ std::string query_popup::wait_text( const std::string &text, const nc_color &bar
     static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
     static size_t phase = phase_icons.size() - 1;
     phase = ( phase + 1 ) % phase_icons.size();
-    return string_format( " <color_%s>%s</color> %s",
-                          string_from_color( bar_color ), phase_icons[phase], text );
+    return string_format( " %s %s", colorize( phase_icons[phase], bar_color ), text );
 }
 
 std::string query_popup::wait_text( const std::string &text )

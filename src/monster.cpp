@@ -30,6 +30,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -168,12 +169,12 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_KILLER( "KILLER" );
 
-static const std::map<m_size, std::string> size_names {
-    {m_size::MS_TINY, translate_marker( "tiny" )},
-    {m_size::MS_SMALL, translate_marker( "small" )},
-    {m_size::MS_MEDIUM, translate_marker( "medium" )},
-    {m_size::MS_LARGE, translate_marker( "large" )},
-    {m_size::MS_HUGE, translate_marker( "huge" )},
+static const std::map<m_size, translation> size_names {
+    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
+    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
+    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
+    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
+    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -210,9 +211,7 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    last_baby = 0;
     biosig_timer = -1;
-    last_biosig = 0;
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -467,14 +466,16 @@ void monster::try_biosignature()
     if( !biosig_timer ) {
         biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
-
+    int counter = 0;
     while( true ) {
-        if( *biosig_timer > calendar::turn ) {
+        // dont catch up too much, otherwise on some scenarios,
+        // we could have years worth of poop just deposited on the floor.
+        if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-
         g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
+        counter += 1;
     }
 }
 
@@ -533,12 +534,12 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive ) const
+std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name() );
+        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name() );
+        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
 }
 
@@ -611,7 +612,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = att.first.length() + name().length() + 3;
+    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -619,6 +620,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
+
+    if( size_bonus > 0 ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
@@ -669,7 +674,7 @@ std::string monster::extended_description() const
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ),
-                         _( size_names.at( get_size() ) ) ) << std::endl;
+                         size_names.at( get_size() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -1033,6 +1038,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             }
         }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const species_id &spe : mut.obj().ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
+                }
+            }
+        }
     }
 
     if( effective_morale < 0 ) {
@@ -1146,6 +1159,11 @@ bool monster::has_weapon() const
 bool monster::is_warm() const
 {
     return has_flag( MF_WARM );
+}
+
+bool monster::in_species( const species_id &spec ) const
+{
+    return type->in_species( spec );
 }
 
 bool monster::is_elec_immune() const
@@ -1302,18 +1320,22 @@ void monster::melee_attack( Creature &target, float accuracy )
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                    //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), name(), target.disp_name(),
+                             total_dealt );
                 } else {
-                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
                     add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
                              target.disp_name( true ),
                              body_part_name_accusative( bp_hit ) );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                    //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
                 } else {
+                    //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
                 }
             }
@@ -1383,7 +1405,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel venom flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain…" ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
@@ -1394,7 +1416,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        if( target.is_player() || target.is_npc() ) {
+            target.as_character()->make_bleed( bp_hit, 6_minutes );
+        } else {
+            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        }
+
     }
 }
 
@@ -2141,16 +2168,10 @@ void monster::die( Creature *nkiller )
         // submap coordinates.
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
-        for( int z = 1; z >= -1; --z ) {
-            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
-                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
-                    tripoint offset( x, y, z );
-                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub + offset );
-                    for( auto &mgp : groups ) {
-                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
-                            mgp->dying = true;
-                        }
-                    }
+        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+                if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                    mgp->dying = true;
                 }
             }
         }
@@ -2235,8 +2256,27 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::start_of_cataclysm );
+
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+
+    // This block removes some items, according to item spawn scaling factor
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        // Temporary vector, to remember which items will be dropped
+        std::vector<item> remaining;
+        for( const item &it : items ) {
+            if( rng_float( 0, 1 ) < spawn_rate ) {
+                remaining.push_back( it );
+            }
+        }
+        // If there aren't any items left, there's nothing left to do
+        if( remaining.empty() ) {
+            return;
+        }
+        items = remaining;
+    }
+
+    const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
@@ -2259,6 +2299,11 @@ void monster::process_one_effect( effect &it, bool is_new )
     };
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2494,17 +2539,17 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return units::operator*( type->weight, get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2582,7 +2627,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
@@ -2678,6 +2723,11 @@ int monster::get_hp() const
     return hp;
 }
 
+float monster::get_mountable_weight_ratio() const
+{
+    return type->mountable_weight_ratio;
+}
+
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {
@@ -2756,13 +2806,15 @@ void monster::on_unload()
 
 void monster::on_load()
 {
-    // Possible TODO: Integrate monster upgrade
+    try_upgrade( false );
+    try_reproduce();
+    try_biosignature();
+
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0_turns ) {
         return;
     }
-
     float regen = 0.0f;
     if( has_flag( MF_REGENERATES_50 ) ) {
         regen = 50.0f;

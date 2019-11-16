@@ -76,7 +76,7 @@
         "A": "t_atm"
       },
       "furniture": { "c": "f_displaycase", "t": "f_toilet", "h": "f_chair", "V": "f_vending_c", "S": "f_sink", "L": "f_locker" },
-      "toilets": { "t": { "comment": "no values needed here" } },
+      "toilets": { "t": { "//": "no values needed here" } },
       "items": {
         "c": { "item": "ic_merch", "chance": 20 },
         "V": { "item": "ic_merch_vending", "chance": 100 },

@@ -127,7 +127,7 @@ class faction_manager
             return factions;
         }
 
-        faction *get( const faction_id &id );
+        faction *get( const faction_id &id, bool complain = true );
 };
 
 #endif

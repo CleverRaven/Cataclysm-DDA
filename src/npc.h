@@ -60,7 +60,7 @@ using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me,
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
 
 /*
@@ -108,6 +108,41 @@ enum class attitude_group : int {
     friendly // Follow, defend, listen
 };
 
+// a job assigned to an NPC when they are stationed at a basecamp.
+// this governs what tasks they will periodically scan to do.
+// some duties arent implemented yet
+// but are more indications of what category that duty will fall under when it is implemented.
+enum npc_job : int {
+    NPCJOB_NULL = 0,   // a default job of no particular responsibility.
+    NPCJOB_COOKING,    // includes cooking crafts and butchery
+    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
+    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
+    NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
+    NPCJOB_CRAFTING, // crafting stuff generally.
+    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
+    NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
+    NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
+    NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_END
+};
+
+std::vector<std::string> all_jobs();
+std::string npc_job_id( npc_job job );
+std::string npc_job_name( npc_job job );
+
+static std::map<npc_job, std::vector<activity_id>> job_duties = {
+    { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
+    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
+    { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
+    { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
+    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
+    { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
+    { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
+    { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
+};
+
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -122,6 +157,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING,
+    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
 };
 
 struct npc_companion_mission {
@@ -139,7 +175,7 @@ enum npc_action : int;
 enum npc_need {
     need_none,
     need_ammo, need_weapon, need_gun,
-    need_food, need_drink,
+    need_food, need_drink, need_safety,
     num_needs
 };
 
@@ -700,6 +736,10 @@ struct npc_chatbin {
      * The martial art style this NPC offers to train.
      */
     matype_id style;
+    /**
+     * The spell this NPC offers to train
+     */
+    spell_id dialogue_spell;
     std::string first_topic = "TALK_NONE";
 
     npc_chatbin() = default;
@@ -736,15 +776,15 @@ class npc : public player
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void apply_ownership_to_inv();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &p,
                                        npc_factions::relationship flag ) const;
-        void set_fac( const string_id<faction> &id );
+        void set_fac( const faction_id &id );
         faction *get_faction() const override;
-        string_id<faction> get_fac_id() const;
-        void clear_fac();
+        faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -865,8 +905,15 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void start_read( item &chosen, player *pl );
+        void finish_read( item &book );
+        bool can_read( const item &book, std::vector<std::string> &fail_reasons );
+        int time_to_read( const item &book, const player &reader ) const;
+        void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                   bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
         healing_options has_healing_options();
@@ -965,6 +1012,8 @@ class npc : public player
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
+        int calc_spell_training_cost( bool knows, int difficulty, int level );
+
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
 
@@ -980,6 +1029,11 @@ class npc : public player
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *used, const std::string &method ) override;
+        bool invoke_item( item * ) override;
 
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
@@ -1052,6 +1106,8 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
+        void set_movement_mode( character_movemode mode ) override;
+
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
         std::set<tripoint> get_path_avoid() const override;
@@ -1064,8 +1120,8 @@ class npc : public player
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
-        // Drop wgt and vol
-        void drop_items( int weight, int volume );
+        // Drop wgt and vol, including all items with less value than min_val
+        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1093,6 +1149,7 @@ class npc : public player
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        bool consume_food_from_camp();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1144,6 +1201,10 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
+        npc_job get_job() const;
+        void set_job( npc_job new_job );
+        bool has_job() const;
+        void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
         npc_attitude get_previous_attitude();
@@ -1160,6 +1221,7 @@ class npc : public player
 
     private:
         npc_attitude attitude; // What we want to do to the player
+        npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
@@ -1198,6 +1260,7 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
@@ -1305,6 +1368,14 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        translation name_unique;
+        translation name_suffix;
+        enum class gender {
+            random,
+            male,
+            female
+        };
+        gender gender_override;
 
         static void load( JsonObject &jsobj );
         static void reset();

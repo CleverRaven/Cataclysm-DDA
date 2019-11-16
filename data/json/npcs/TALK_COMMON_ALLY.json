@@ -90,6 +90,12 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_guard"
       },
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
+      },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
@@ -269,15 +275,15 @@
       ]
     },
     "responses": [
-      { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
-      { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
+      { "text": "Change your engagement rules…", "topic": "TALK_COMBAT_ENGAGEMENT" },
+      { "text": "Change your aiming rules…", "topic": "TALK_AIM_RULES" },
       {
-        "text": "Change your bionic power reserve rules...",
+        "text": "Change your bionic power reserve rules…",
         "topic": "TALK_CBM_RESERVE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
       {
-        "text": "Change your bionic power recharge rules...",
+        "text": "Change your bionic power recharge rules…",
         "topic": "TALK_CBM_RECHARGE_RULES",
         "condition": { "npc_has_bionics": "ANY" }
       },
@@ -293,8 +299,8 @@
       {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_distance_2" },
-          "true": "<ally_rule_follow_distance_2_true_text>",
-          "false": "<ally_rule_follow_distance_2_false_text>"
+          "false": "<ally_rule_follow_distance_2_true_text>",
+          "true": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_distance_2" }
@@ -765,7 +771,7 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -780,6 +786,7 @@
     "type": "talk_topic",
     "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
     "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
       { "text": "Carry on.", "topic": "TALK_DONE" },
       {
         "text": "Please stop your current activity.",
@@ -800,10 +807,22 @@
         "effect": "do_construction"
       },
       {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_read"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_repair"
       },
       {
         "text": "Please chop logs into planks.",
@@ -892,7 +911,7 @@
     ],
     "responses": [
       {
-        "text": "Oh you know, not bad, not bad...",
+        "text": "Oh you know, not bad, not bad…",
         "topic": "TALK_DONE",
         "switch": true,
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]

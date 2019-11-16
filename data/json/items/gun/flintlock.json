@@ -2,6 +2,7 @@
   {
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "flintlock carbine",
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
@@ -30,6 +31,7 @@
   },
   {
     "id": "pistol_flintlock",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "flintlock pistol",
@@ -48,6 +50,7 @@
     "ranged_damage": 2,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 600,
     "valid_mod_locations": [
@@ -62,6 +65,7 @@
   },
   {
     "id": "rifle_flintlock",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "flintlock rifle",
@@ -80,6 +84,7 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [

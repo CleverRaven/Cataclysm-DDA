@@ -55,8 +55,13 @@ class Creature_tracker
          */
         int temporary_id( const monster &critter ) const;
         std::shared_ptr<monster> from_temporary_id( int id );
-        /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
-        bool add( monster &critter );
+        /**
+        * Adds the given monster to the tracker. @p critter must not be null.
+         * If the operation succeeded, the monster pointer is now managed by this tracker.
+         * @return Whether the operation was successful. It may fail if there is already
+         * another monster at the location of the new monster.
+         */
+        bool add( std::shared_ptr<monster> critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */

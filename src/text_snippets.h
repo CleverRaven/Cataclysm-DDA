@@ -29,6 +29,7 @@ class snippet_library
          */
         int assign( const std::string &category, unsigned seed ) const;
         std::string get( int index ) const;
+        std::string expand( const std::string &str ) const;
         bool has_category( const std::string &category ) const;
         int get_snippet_by_id( const std::string &id ) const;
         std::string random_from_category( const std::string &cat ) const;

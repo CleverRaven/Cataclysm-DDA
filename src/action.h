@@ -237,8 +237,8 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display kills list screen */
-    ACTION_KILLS,
+    /** Display scores screen */
+    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
     /** Display morale effects screen */
@@ -303,8 +303,12 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_PICKUP,
     /** Toggle temperature map */
     ACTION_DISPLAY_TEMPERATURE,
+    /** Toggle vehicle autopilot data */
+    ACTION_DISPLAY_VEHICLE_AI,
     /** Toggle visibility map */
     ACTION_DISPLAY_VISIBILITY,
+    /** Toggle lighting conditions map */
+    ACTION_DISPLAY_LIGHTING,
     /** Toggle radiation map */
     ACTION_DISPLAY_RADIATION,
     /** Not an action, serves as count of enumerated actions */

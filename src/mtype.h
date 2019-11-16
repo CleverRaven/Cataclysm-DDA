@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -114,6 +115,7 @@ enum m_flag : int {
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
+    MF_PAY_BOT,             // You can pay this bot to be your friend for a time
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
@@ -162,6 +164,7 @@ enum m_flag : int {
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
+    MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -199,9 +202,8 @@ struct mon_effect_data {
 struct mtype {
     private:
         friend class MonsterGenerator;
-        std::string name;
-        std::string name_plural;
-        std::string description;
+        translation name;
+        translation description;
 
         std::set< const species_type * > species_ptrs;
 
@@ -250,6 +252,9 @@ struct mtype {
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
+
+        // mountable ratio for rider weight vs. mount weight, default 0.2
+        float mountable_weight_ratio = 0.2;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */

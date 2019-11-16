@@ -58,7 +58,7 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
-struct mapgendata;
+class mapgendata;
 class basecamp;
 class computer;
 class Character;
@@ -172,6 +172,8 @@ struct level_cache {
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
+
+    int max_populated_zlev;
 };
 
 /**
@@ -569,8 +571,9 @@ class map
         bool displace_water( const tripoint &dp );
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
+        // When ignore_movement_modifiers is set to true, it returns the area of the wheels touching the ground
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh ) const;
+        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const;
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
@@ -827,6 +830,8 @@ class map
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
+        /** bash a square for a set number of times at set power.  Does not destroy */
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
@@ -836,9 +841,10 @@ class map
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint &p );
         /** Causes a collapse at p, such as from destroying a wall */
-        void collapse_at( const tripoint &p, bool silent );
+        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
+                          bool destroy_pos = true );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint &p, int power );
+        void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
@@ -905,7 +911,6 @@ class map
 
         // Items
         void process_active_items();
-        void trigger_rc_items( const std::string &signal );
 
         // Items: 2D
         map_stack i_at( const point &p );
@@ -1173,7 +1178,7 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint &p, const std::string &name );
+        void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         // Graffiti
@@ -1423,38 +1428,20 @@ class map
         void shift_traps( const tripoint &shift );
 
         void copy_grid( const tripoint &to, const tripoint &from );
-        void draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
-                       const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
-                       const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
-                       const oter_id &t_above, const oter_id &t_below, const time_point &when,
-                       float density, int zlevel, const regional_settings *rsettings );
+        void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                                float density );
-        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                       float density );
-        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
-        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                             float density );
-        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                            float density );
-        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              float density );
-        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
+        void draw_office_tower( mapgendata &dat );
+        void draw_lab( mapgendata &dat );
+        void draw_temple( mapgendata &dat );
+        void draw_mine( mapgendata &dat );
+        void draw_spiral( mapgendata &dat );
+        void draw_sarcophagus( mapgendata &dat );
+        void draw_fema( mapgendata &dat );
+        void draw_anthill( mapgendata &dat );
+        void draw_slimepit( mapgendata &dat );
+        void draw_spider_pit( mapgendata &dat );
+        void draw_triffid( mapgendata &dat );
+        void draw_connections( mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -1532,6 +1519,8 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
+        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+        void calc_max_populated_zlev();
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
@@ -1691,6 +1680,14 @@ class map
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        /**
+         * Yields a range of all points that are contained in the map and have the z-level of
+         * this map (@ref abs_sub).
+         */
+        tripoint_range points_on_zlevel() const;
+        /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
+        /// returns an empty range.
+        tripoint_range points_on_zlevel( int z ) const;
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
@@ -1722,7 +1719,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                        int fake_map_z );
 };
 
 #endif

@@ -86,7 +86,7 @@ class MonsterGenerator
         void add_attack( const mtype_special_attack &wrapper );
 
         /** Gets an actor object without saving it anywhere */
-        mtype_special_attack create_actor( JsonObject obj, const std::string &src ) const;
+        mtype_special_attack create_actor( JsonObject &obj, const std::string &src ) const;
 
         // finalization
         void apply_species_attributes( mtype &mon );

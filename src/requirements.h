@@ -16,6 +16,8 @@
 class nc_color;
 class JsonObject;
 class JsonArray;
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 
@@ -77,7 +79,7 @@ struct tool_comp : public component {
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
@@ -93,7 +95,7 @@ struct item_comp : public component {
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     component_type get_component_type() const {
@@ -115,7 +117,7 @@ struct quality_requirement {
     void load( JsonArray &jsarr );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int = 0 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
@@ -216,7 +218,11 @@ struct requirement_data {
          */
         static void save_requirement( const requirement_data &req,
                                       const requirement_id &id = requirement_id::NULL_ID() );
-
+        /**
+         * Serialize custom created requirement objects for fetch activities
+         */
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 

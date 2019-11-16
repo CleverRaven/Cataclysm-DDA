@@ -28,7 +28,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_type": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]
@@ -283,7 +283,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_type": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]
@@ -379,7 +379,7 @@
       {
         "y": 1,
         "x": -1,
-        "parts": [ "turret_mount", { "ammo_type": [ "762_51" ], "part": "mounted_m60", "ammo": 60, "ammo_qty": [ 10, 100 ] } ]
+        "parts": [ "turret_mount", { "ammo_types": [ "762_51" ], "part": "mounted_m60", "ammo": 60, "ammo_qty": [ 10, 100 ] } ]
       },
       { "y": 0, "x": -1, "parts": [ "hdframe_horizontal_2", "seat", "seatbelt", "hdroof" ] },
       { "y": -1, "x": -1, "parts": [ "hdframe_vertical", "hddoor" ] },
@@ -456,7 +456,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_type": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]

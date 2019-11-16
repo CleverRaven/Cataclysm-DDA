@@ -1,6 +1,7 @@
 [
   {
     "id": "american_180",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "American-180",
@@ -19,7 +20,8 @@
     "ranged_damage": 4,
     "dispersion": 280,
     "durability": 6,
-    "burst": 20,
+    "min_cycle_recoil": 39,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -35,10 +37,12 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "a180mag" ] ] ]
   },
   {
     "id": "marlin_9a",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Marlin 39A",
@@ -57,6 +61,7 @@
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 19,
     "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
@@ -73,10 +78,12 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "moss_brownie",
+    "looks_like": "glock_17",
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Mossberg Brownie",
@@ -93,6 +100,7 @@
     "ranged_damage": -2,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -104,10 +112,12 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "rifle_22",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "pipe rifle: .22",
@@ -126,6 +136,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -140,10 +151,12 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
     "id": "rm360_carbine",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "RM360 rotary carbine",
@@ -161,7 +174,9 @@
     "ranged_damage": 3,
     "dispersion": 220,
     "durability": 9,
-    "burst": 20,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 39,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 500,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -174,11 +189,13 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
     "id": "ruger_1022",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Ruger 10/22",
@@ -197,6 +214,7 @@
     "ranged_damage": 4,
     "dispersion": 110,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -212,11 +230,13 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
   {
     "id": "ruger_lcr_22",
+    "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": "Ruger LCR .22",
@@ -227,6 +247,7 @@
   },
   {
     "id": "sig_mosquito",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "SIG Mosquito",
@@ -245,6 +266,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -258,12 +280,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
   {
     "id": "sw_22",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "S&W 22A",
     "name_plural": "S&W 22A",
@@ -278,12 +302,14 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
   {
     "id": "j22",
     "copy-from": "pistol_backup",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Jennings J-22",
     "description": "One of the quintessential 'saturday night specials', the Jennings J-22 was very affordably priced with its injection molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
@@ -297,14 +323,17 @@
     "ammo": "22",
     "dispersion": 600,
     "durability": 5,
+    "min_cycle_recoil": 39,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "j22mag" ] ] ]
   },
   {
     "id": "walther_p22",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "Walther P22",
-    "description": "The Walther P22 is a blowback operated semi-automatic pistol. It is about half the size of most Walthers. It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy",
+    "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy",
     "weight": "480 g",
     "volume": "263 ml",
     "price": 8500,
@@ -315,6 +344,7 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }

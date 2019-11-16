@@ -118,4 +118,11 @@ class tripoint_range
         }
 };
 
+inline tripoint_range points_in_radius( const tripoint &center, const int radius,
+                                        const int radiusz = 0 )
+{
+    const tripoint offset( radius, radius, radiusz );
+    return tripoint_range( center - offset, center + offset );
+}
+
 #endif

@@ -108,6 +108,28 @@ std::string snippet_library::get( const int index ) const
     return _( chosen_snippet->second );
 }
 
+std::string snippet_library::expand( const std::string &str ) const
+{
+    size_t tag_begin = str.find( '<' );
+    if( tag_begin == std::string::npos ) {
+        return str;
+    }
+    size_t tag_end = str.find( '>', tag_begin + 1 );
+    if( tag_end == std::string::npos ) {
+        return str;
+    }
+
+    std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
+    std::string replacement = random_from_category( symbol );
+    if( replacement.empty() ) {
+        return str.substr( 0, tag_end + 1 )
+               + expand( str.substr( tag_end + 1 ) );
+    }
+    return str.substr( 0, tag_begin )
+           + expand( replacement )
+           + expand( str.substr( tag_end + 1 ) );
+}
+
 std::string snippet_library::random_from_category( const std::string &cat ) const
 {
     const auto iters = categories.equal_range( cat );
@@ -119,7 +141,7 @@ std::string snippet_library::random_from_category( const std::string &cat ) cons
     const int index = rng( 0, count - 1 );
     auto iter = iters.first;
     std::advance( iter, index );
-    return get( iter->second );
+    return expand( get( iter->second ) );
 }
 
 std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const

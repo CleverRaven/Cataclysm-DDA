@@ -43,6 +43,9 @@ using gun_mode_id = string_id<gun_mode>;
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
 
+class item_category;
+using item_category_id = string_id<item_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -76,6 +79,9 @@ using mtype_id = string_id<mtype>;
 
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class faction;
+using faction_id = string_id<faction>;
 
 struct oter_t;
 using oter_id = int_id<oter_t>;

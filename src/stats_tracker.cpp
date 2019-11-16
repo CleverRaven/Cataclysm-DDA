@@ -111,6 +111,17 @@ cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )
     return stat->value( *this );
 }
 
+std::vector<const score *> stats_tracker::valid_scores() const
+{
+    std::vector<const score *> result;
+    for( const score &scr : score::get_all() ) {
+        if( initial_scores.count( scr.id ) ) {
+            result.push_back( &scr );
+        }
+    }
+    return result;
+}
+
 void stats_tracker::clear()
 {
     data.clear();
@@ -119,4 +130,10 @@ void stats_tracker::clear()
 void stats_tracker::notify( const cata::event &e )
 {
     get_events( e.type() ).add( e );
+
+    if( e.type() == event_type::game_start ) {
+        for( const score &scr : score::get_all() ) {
+            initial_scores.insert( scr.id );
+        }
+    }
 }

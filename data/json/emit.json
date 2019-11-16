@@ -199,6 +199,34 @@
     "chance": 100
   },
   {
+    "id": "emit_hot_air1_cbm",
+    "type": "emit",
+    "field": "fd_hot_air1",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air2_cbm",
+    "type": "emit",
+    "field": "fd_hot_air2",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air3_cbm",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air4_cbm",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",

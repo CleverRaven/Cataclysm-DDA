@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include "bodypart.h"
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -123,6 +124,20 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
+        optional( jao, was_loaded, "effect_id", intensity_level.field_effect.id,
+                  fallback_intensity_level.field_effect.id );
+        optional( jao, was_loaded, "effect_min_duration", intensity_level.field_effect.min_duration,
+                  fallback_intensity_level.field_effect.min_duration );
+        optional( jao, was_loaded, "effect_max_duration", intensity_level.field_effect.max_duration,
+                  fallback_intensity_level.field_effect.max_duration );
+        optional( jao, was_loaded, "effect_intensity", intensity_level.field_effect.intensity,
+                  fallback_intensity_level.field_effect.intensity );
+        optional( jao, was_loaded, "effect_body_part", intensity_level.field_effect.bp,
+                  fallback_intensity_level.field_effect.bp );
+        optional( jao, was_loaded, "inside_immune", intensity_level.field_effect.inside_immune,
+                  fallback_intensity_level.field_effect.inside_immune );
+        optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
+                  fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );
     }
 

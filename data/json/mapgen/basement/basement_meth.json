@@ -68,7 +68,7 @@
         { "group": "methlab", "x": 22, "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "methlab", "x": 22, "y": [ 19, 20 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "guns_shotgun_common", "x": 22, "y": 12 },
-        { "group": "ammo_shotgun_common", "x": 22, "y": 12, "amount": [ 7, 30 ] },
+        { "group": "ammo_shotgun_common", "x": 22, "y": 12, "repeat": [ 7, 30 ] },
         { "group": "home_hw", "x": 13, "y": 20, "chance": 40, "repeat": [ 1, 3 ] },
         { "group": "home_hw", "x": [ 21, 22 ], "y": 5, "chance": 40, "repeat": [ 1, 3 ] },
         { "group": "religious_books", "x": 15, "y": 17 },

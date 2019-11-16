@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1.4)
 
 PROJECT(CataclysmDDA)
 
@@ -225,9 +225,11 @@ ELSE()
 		-Wpedantic")
 	# Compact the whitespace in the warning string
 	string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} -std=c++14")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
 	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
+
+SET(CMAKE_CXX_STANDARD 14)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})

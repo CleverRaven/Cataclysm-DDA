@@ -331,17 +331,13 @@ void mdeath::vine_cut( monster &z )
 
     for( auto &vine : vines ) {
         bool found_neighbor = false;
-        tripoint tmp = vine->pos();
-        int &x = tmp.x;
-        int &y = tmp.y;
-        for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
-            for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
-                if( x != z.posx() || y != z.posy() ) {
-                    // Not the dying vine
-                    if( monster *const v = g->critter_at<monster>( { x, y, z.posz() } ) ) {
-                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
-                            found_neighbor = true;
-                        }
+        for( const tripoint &dest : g->m.points_in_radius( vine->pos(), 1 ) ) {
+            if( dest != z.pos() ) {
+                // Not the dying vine
+                if( monster *const v = g->critter_at<monster>( dest ) ) {
+                    if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                        found_neighbor = true;
+                        break;
                     }
                 }
             }
@@ -393,19 +389,9 @@ void mdeath::worm( monster &z )
         }
     }
 
-    std::vector <tripoint> wormspots;
-    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->m.has_flag( "DIGGABLE", wormp ) && g->is_empty( wormp ) ) {
-            wormspots.push_back( wormp );
-        }
-    }
-    int worms = 0;
-    while( worms < 2 && !wormspots.empty() ) {
-        const tripoint target = random_entry_removed( wormspots );
-        if( !g->critter_at( target ) ) {
-            g->summon_mon( mon_halfworm, target );
-            worms++;
-        }
+    int worms = 2;
+    while( worms > 0 && g->place_critter_around( mon_halfworm, z.pos(), 1 ) ) {
+        worms--;
     }
 }
 
@@ -501,17 +487,10 @@ void mdeath::blobsplit( monster &z )
             add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
         }
     }
-    std::vector <tripoint> valid;
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->is_empty( dest ) && z.can_move_to( dest ) ) {
-            valid.push_back( dest );
-        }
-    }
-
-    for( int s = 0; s < 2 && !valid.empty(); s++ ) {
-        const tripoint target = random_entry_removed( valid );
-        if( monster *const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
+    const mtype_id &child = speed < 50 ? mon_blob_small : mon_blob;
+    for( int s = 0; s < 2; s++ ) {
+        if( monster *const blob = g->place_critter_around( child, z.pos(), 1 ) ) {
             blob->make_ally( z );
             blob->set_speed_base( speed );
             blob->set_hp( speed );
@@ -564,7 +543,7 @@ void mdeath::amigara( monster &z )
     // We were the last!
     if( g->u.has_effect( effect_amigara ) ) {
         g->u.remove_effect( effect_amigara );
-        add_msg( _( "Your obsession with the fault fades away..." ) );
+        add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
     g->m.spawn_artifact( z.pos() );
@@ -572,7 +551,7 @@ void mdeath::amigara( monster &z )
 
 void mdeath::thing( monster &z )
 {
-    g->summon_mon( mon_thing, z.pos() );
+    g->place_critter_at( mon_thing, z.pos() );
 }
 
 void mdeath::explode( monster &z )
@@ -709,14 +688,8 @@ void mdeath::ratking( monster &z )
         add_msg( m_warning, _( "Rats suddenly swarm into view." ) );
     }
 
-    std::vector <tripoint> ratspots;
-    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->is_empty( ratp ) ) {
-            ratspots.push_back( ratp );
-        }
-    }
-    for( int rats = 0; rats < 7 && !ratspots.empty(); rats++ ) {
-        g->summon_mon( mon_sewer_rat, random_entry_removed( ratspots ) );
+    for( int rats = 0; rats < 7; rats++ ) {
+        g->place_critter_around( mon_sewer_rat, z.pos(), 1 );
     }
 }
 
@@ -762,7 +735,6 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
                   ch->weapon.volume() > 750_ml;
 
@@ -900,24 +872,10 @@ void make_mon_corpse( monster &z, int damageLvl )
 void mdeath::preg_roach( monster &z )
 {
     int num_roach = rng( 1, 3 );
-    std::vector <tripoint> roachspots;
-    for( const auto &roachp : g->m.points_in_radius( z.pos(), 1 ) ) {
-        if( g->is_empty( roachp ) ) {
-            roachspots.push_back( roachp );
-        }
-    }
-
-    while( !roachspots.empty() ) {
-        const tripoint target = random_entry_removed( roachspots );
-        if( !g->critter_at( target ) ) {
-            g->summon_mon( mon_giant_cockroach_nymph, target );
-            num_roach--;
-            if( g->u.sees( z ) ) {
-                add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
-            }
-        }
-        if( num_roach == 0 ) {
-            break;
+    while( num_roach > 0 && g->place_critter_around( mon_giant_cockroach_nymph, z.pos(), 1 ) ) {
+        num_roach--;
+        if( g->u.sees( z ) ) {
+            add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
         }
     }
 }

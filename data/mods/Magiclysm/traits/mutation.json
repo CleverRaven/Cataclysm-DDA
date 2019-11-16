@@ -21,6 +21,7 @@
     "changes_to": [ "MANA_ADD2" ],
     "types": [ "MANA_ADD" ],
     "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": 500
   },
   {
@@ -34,6 +35,7 @@
     "types": [ "MANA_ADD" ],
     "starting_trait": true,
     "prereqs": [ "MANA_ADD1" ],
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": 1000
   },
   {
@@ -46,6 +48,7 @@
     "types": [ "MANA_ADD" ],
     "starting_trait": true,
     "prereqs": [ "MANA_ADD2" ],
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": 2000
   },
   {
@@ -57,6 +60,7 @@
     "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "changes_to": [ "MANA_SUB2" ],
     "types": [ "MANA_ADD" ],
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": -500
   },
   {
@@ -69,6 +73,7 @@
     "changes_to": [ "MANA_SUB3" ],
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB1" ],
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": -1000
   },
   {
@@ -80,6 +85,7 @@
     "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB2" ],
+    "flags": [ "NON_THRESH" ],
     "mana_modifier": -2000
   },
   {
@@ -93,6 +99,7 @@
     "types": [ "MANA_REGEN" ],
     "category": [ "FISH", "ELFA", "ALPHA", "PLANT", "CEPHALOPOD" ],
     "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 1.1
   },
   {
@@ -106,6 +113,7 @@
     "changes_to": [ "MANA_REGEN3" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "FISH", "ELFA", "PLANT" ],
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 1.25
   },
   {
@@ -119,6 +127,7 @@
     "types": [ "MANA_REGEN" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 1.5
   },
   {
@@ -132,6 +141,7 @@
     "types": [ "MANA_REGEN" ],
     "category": [ "LIZARD", "BEAST", "LUPINE", "URSINE", "CATTLE", "SLIME", "MEDICAL", "CHIMERA" ],
     "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 0.9
   },
   {
@@ -145,6 +155,7 @@
     "changes_to": [ "BAD_MANA_REGEN3" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "BEAST", "CATTLE", "SLIME", "MEDICAL", "CHIMERA" ],
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 0.75
   },
   {
@@ -157,6 +168,7 @@
     "cancels": [ "MANA_REGEN1", "MANA_REGEN2", "MANA_REGEN3" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "BEAST", "MEDICAL" ],
+    "flags": [ "NON_THRESH" ],
     "mana_regen_multiplier": 0.5
   },
   {
@@ -170,6 +182,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "BIRD", "LIZARD", "SLIME", "FELINE", "CATTLE", "URSINE", "PLANT", "CEPHALOPOD", "ALPHA", "ELFA" ],
     "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 1.25
   },
   {
@@ -183,6 +196,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "BIRD", "SLIME", "CATTLE", "PLANT", "CEPHALOPOD", "ELFA" ],
     "prereqs": [ "MANA_MULT1" ],
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 1.9
   },
   {
@@ -195,6 +209,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "SLIME", "CATTLE", "CEPHALOPOD" ],
     "prereqs": [ "MANA_MULT2" ],
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 2.5
   },
   {
@@ -208,6 +223,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "BEAST", "FISH", "LUPINE", "INSECT", "TROGLOBITE", "SPIDER", "RAT", "MOUSE", "MEDICAL", "CHIMERA", "RAPTOR" ],
     "starting_trait": true,
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 0.85
   },
   {
@@ -221,6 +237,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "BEAST", "INSECT", "TROGLOBITE", "MOUSE", "MEDICAL", "CHIMERA", "RAPTOR" ],
     "prereqs": [ "BAD_MANA_MULT1" ],
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 0.65
   },
   {
@@ -233,6 +250,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "INSECT", "MEDICAL", "CHIMERA" ],
     "prereqs": [ "BAD_MANA_MULT2" ],
+    "flags": [ "NON_THRESH" ],
     "mana_multiplier": 0.35
   },
   {

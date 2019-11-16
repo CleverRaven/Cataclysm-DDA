@@ -726,7 +726,7 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKED" ],
     "freezing_point": -490,
     "charges": 4,
     "fun": 3
@@ -753,6 +753,7 @@
     "charges": 4,
     "fun": -10,
     "flags": [ "HIDDEN_POISON" ],
+    "use_action": "POISON",
     "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
   },
   {

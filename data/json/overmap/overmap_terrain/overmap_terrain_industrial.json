@@ -7,7 +7,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +26,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -45,7 +45,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -64,7 +64,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -209,7 +209,8 @@
     "name": "lumberyard",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -217,7 +218,8 @@
     "name": "lumberyard",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -225,7 +227,8 @@
     "name": "lumberyard",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -233,7 +236,8 @@
     "name": "lumberyard",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -273,7 +277,8 @@
     "name": "lumbermill",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -281,7 +286,8 @@
     "name": "lumbermill",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -289,7 +295,8 @@
     "name": "lumbermill",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -297,7 +304,8 @@
     "name": "lumbermill",
     "copy-from": "generic_city_building",
     "sym": "L",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -338,7 +346,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "sym": "L",
     "color": "green",
-    "extras": "field"
+    "extras": "field",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -346,7 +355,8 @@
     "name": "construction site",
     "copy-from": "generic_city_building",
     "sym": "x",
-    "color": "i_light_gray"
+    "color": "i_light_gray",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",

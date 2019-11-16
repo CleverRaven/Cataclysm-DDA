@@ -25,7 +25,7 @@
         "effect": "start_trade"
       },
       { "text": "What do you have on tap?", "topic": "TALK_RANCH_BARKEEP_TAP" },
-      { "text": "I'll be going...", "topic": "TALK_DONE" }
+      { "text": "I'll be going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -183,8 +183,8 @@
       "failure": "It was a lost cause anyways..."
     },
     "end": {
+      "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
-        "effect": { "npc_add_trait": "NPC_WHISKEY" },
         "om_terrain": "ranch_camp_51",
         "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]

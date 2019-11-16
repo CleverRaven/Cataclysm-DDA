@@ -2,6 +2,7 @@
   {
     "id": "fn_fal",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN FAL",
     "name_plural": "FN FAL",
@@ -18,13 +19,15 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
-    "burst": 12,
+    "min_cycle_recoil": 2700,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 2,
     "magazines": [ [ "308", [ "falmag", "falbigmag" ] ] ]
   },
   {
     "id": "hk_g3",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "H&K G3",
     "name_plural": "H&K G3",
@@ -40,12 +43,14 @@
     "ammo": "308",
     "ranged_damage": -2,
     "dispersion": 150,
+    "min_cycle_recoil": 2700,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ] ]
   },
   {
     "id": "m134",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "M134D-H Minigun",
@@ -63,10 +68,12 @@
     "ranged_damage": -1,
     "dispersion": 200,
     "durability": 9,
+    "blackpowder_tolerance": 96,
     "ups_charges": 1,
     "reload": 400,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -80,7 +87,7 @@
     "weight": "4820 g",
     "price": 195000,
     "material": [ "steel", "plastic" ],
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -99,6 +106,7 @@
   {
     "id": "m1a",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M1A",
     "name_plural": "M1A",
@@ -115,6 +123,7 @@
     "ranged_damage": -1,
     "dispersion": 110,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -135,6 +144,7 @@
   {
     "id": "m240",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M240",
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
@@ -149,8 +159,9 @@
     "ammo": "308",
     "dispersion": 200,
     "durability": 9,
+    "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -170,6 +181,7 @@
   {
     "id": "m60",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M60",
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
@@ -185,8 +197,9 @@
     "ranged_damage": -1,
     "dispersion": 180,
     "durability": 7,
+    "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -206,6 +219,7 @@
   {
     "id": "rifle_308",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .308",
     "name_plural": "pipe rifles: .308",
@@ -223,6 +237,7 @@
     "ranged_damage": -5,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 2,
@@ -245,6 +260,7 @@
   {
     "id": "savage_111f",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Savage 111F",
     "name_plural": "Savage 111F",
@@ -260,6 +276,7 @@
     "ammo": "308",
     "dispersion": 90,
     "durability": 9,
+    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -267,22 +284,25 @@
   {
     "id": "scar_h",
     "copy-from": "scar_l",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN SCAR-H",
     "name_plural": "FN SCAR-H",
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
+    "min_cycle_recoil": 2700,
     "magazine_well": 1,
     "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
   },
   {
     "id": "M24",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M24",
     "name_plural": "M24",
-    "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988. The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
+    "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4500 g",
     "volume": "2750 ml",
     "price": 350000,
@@ -294,6 +314,7 @@
     "ammo": "308",
     "dispersion": 85,
     "durability": 9,
+    "min_cycle_recoil": 2700,
     "barrel_length": 2,
     "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
@@ -316,6 +337,7 @@
   {
     "id": "hk417_13",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "HK417 A2",
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
@@ -331,13 +353,15 @@
     "ranged_damage": -4,
     "dispersion": 180,
     "durability": 8,
-    "burst": 10,
+    "min_cycle_recoil": 2700,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
     "id": "m110a1",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M110A1",
     "description": "A derivative of H&K's G28 with an aluminium upper reciever to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
@@ -353,12 +377,14 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
     "id": "ar10",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "AR-10",
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
@@ -374,6 +400,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 7,
+    "min_cycle_recoil": 2700,
     "magazines": [ [ "308", [ "ar10mag_20rd" ] ] ]
   }
 ]

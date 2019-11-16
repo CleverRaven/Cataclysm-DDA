@@ -99,24 +99,14 @@ Most of the existing c++ buildings have been moved to json and currently json ma
 ## 1.1 Placement
 Mapgen definitions can be added in 2 places:
 ### 1.1.0 Embedded
-As "mapgen": { ... } objects inside an existing overmap_terrain object ( see "s_restaurant_fast" in overmap_terrain.json for full example ):
+As "mapgen": { ... } only used in combination with the 'builtin' method:
 ```C++
-(snip)
-    },{
-        "type" : "overmap_terrain",
-        "id" : "s_restaurant_fast",
-(snip)
-        "mapgen": [
-            { "weight": 250,
-                "method": "json", "object": {
-                     (see below)
-            }
-        ]
-(snip)
-
+    "mapgen": [ { "method": "builtin", "name": "parking_lot" } ]
 ```
+Do not use this, use standalone instead.
+
 ### 1.1.1 Standalone
-As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Below is the same fast food restaurant.
+As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Below is the fast food restaurant.
 ```C++
 [
     {

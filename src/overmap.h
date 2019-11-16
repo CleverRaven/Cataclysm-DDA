@@ -152,6 +152,43 @@ class overmap_special_batch
         point origin_overmap;
 };
 
+static const std::map<std::string, oter_flags> oter_flags_map = {
+    { "KNOWN_DOWN", known_down },
+    { "KNOWN_UP", known_up },
+    { "RIVER", river_tile },
+    { "SIDEWALK", has_sidewalk },
+    { "NO_ROTATE", no_rotate },
+    { "LINEAR", line_drawing },
+    { "SUBWAY", subway_connection },
+    { "LAKE", lake },
+    { "LAKE_SHORE", lake_shore },
+    { "GENERIC_LOOT", generic_loot },
+    { "RISK_HIGH", risk_high },
+    { "RISK_LOW", risk_low },
+    { "SOURCE_AMMO", source_ammo },
+    { "SOURCE_ANIMALS", source_animals },
+    { "SOURCE_BOOKS", source_books },
+    { "SOURCE_CHEMISTRY", source_chemistry },
+    { "SOURCE_CLOTHING", source_clothing },
+    { "SOURCE_CONSTRUCTION", source_construction },
+    { "SOURCE_COOKING", source_cooking },
+    { "SOURCE_DRINK", source_drink },
+    { "SOURCE_ELECTRONICS", source_electronics },
+    { "SOURCE_FABRICATION", source_fabrication },
+    { "SOURCE_FARMING", source_farming },
+    { "SOURCE_FOOD", source_food },
+    { "SOURCE_FORAGE", source_forage },
+    { "SOURCE_FUEL", source_fuel },
+    { "SOURCE_GUN", source_gun },
+    { "SOURCE_LUXURY", source_luxury },
+    { "SOURCE_MEDICINE", source_medicine },
+    { "SOURCE_PEOPLE", source_people },
+    { "SOURCE_SAFETY", source_safety },
+    { "SOURCE_TAILORING", source_tailoring },
+    { "SOURCE_VEHICLES", source_vehicles },
+    { "SOURCE_WEAPON", source_weapon }
+};
+
 class overmap
 {
     public:
@@ -188,8 +225,8 @@ class overmap
          */
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
-        oter_id &ter( const tripoint &p );
-        oter_id get_ter( const tripoint &p ) const;
+        void ter_set( const tripoint &p, const oter_id &id );
+        const oter_id &ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );
@@ -461,4 +498,19 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
 */
 om_special_sectors get_sectors( int sector_width );
 
+/**
+* Returns the string of oter without any directional suffix
+*/
+std::string oter_no_dir( const oter_id &oter );
+
+/**
+* Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
+* Return 0 if theres' no suffix
+*/
+int oter_get_rotation( const oter_id &oter );
+
+/**
+* Return the directional suffix or "" if there isn't one.
+*/
+std::string oter_get_rotation_string( const oter_id &oter );
 #endif

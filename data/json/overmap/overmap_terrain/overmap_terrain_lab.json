@@ -7,7 +7,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,7 @@
     "color": "blue",
     "see_cost": 5,
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -27,7 +27,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -56,7 +56,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -86,7 +86,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -126,7 +126,7 @@
     "color": "light_blue",
     "see_cost": 5,
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -156,7 +156,7 @@
     "see_cost": 5,
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -172,7 +172,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -190,6 +190,7 @@
     "sym": "L",
     "color": "cyan",
     "see_cost": 5,
+    "flags": [ "RISK_HIGH" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
@@ -516,7 +517,8 @@
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
     "extras": "research_facility_interior",
     "see_cost": 5,
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",

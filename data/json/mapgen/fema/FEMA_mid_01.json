@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_mid",
-    "comment": "middle area",
+    "//": "middle area",
     "weight": 0,
     "method": "json",
     "object": {

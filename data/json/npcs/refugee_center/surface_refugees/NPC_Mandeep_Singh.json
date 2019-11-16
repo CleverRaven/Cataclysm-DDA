@@ -82,7 +82,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": { "u_male": "Hello sir.  I am Mandeep Singh.", "u_female": "Hello ma'am.  I am Mandeep Singh." }
+      "no": { "u_male": true, "yes": "Hello sir.  I am Mandeep Singh.", "no": "Hello ma'am.  I am Mandeep Singh." }
     },
     "responses": [
       {

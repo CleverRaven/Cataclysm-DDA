@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXT_H
-#define CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXT_H
+#ifndef CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H
+#define CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
@@ -17,10 +17,10 @@ class ClangTidyContext;
 namespace cata
 {
 
-class NoStaticGettext : public ClangTidyCheck
+class NoStaticGettextCheck : public ClangTidyCheck
 {
     public:
-        NoStaticGettext( StringRef Name, ClangTidyContext *Context )
+        NoStaticGettextCheck( StringRef Name, ClangTidyContext *Context )
             : ClangTidyCheck( Name, Context ) {}
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
@@ -30,4 +30,4 @@ class NoStaticGettext : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXT_H
+#endif // CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H

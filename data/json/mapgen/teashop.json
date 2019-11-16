@@ -314,8 +314,8 @@
       "furniture": { "c": "f_chair", "C": "f_chair", "t": "f_table", "T": "f_table", "S": "f_sink" },
       "toilets": { "U": {  } },
       "items": {
-        "T": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
-        "t": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] }
+        "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
+        "t": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] }
       }
     }
   },

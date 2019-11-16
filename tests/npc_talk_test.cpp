@@ -82,8 +82,7 @@ static std::string gen_dynamic_line( dialogue &d )
 static void change_om_type( const std::string &new_type )
 {
     const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    omt_ref = oter_id( new_type );
+    overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
 static npc &prep_test( dialogue &d )
@@ -562,7 +561,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     g->u.remove_items_with( []( const item & it ) {
-        return it.get_category().id() == "books" || it.get_category().id() == "food" ||
+        return it.get_category().get_id() == item_category_id( "books" ) ||
+               it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == "bottle_glass";
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
@@ -728,10 +728,10 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
     gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules..." );
-    CHECK( d.responses[1].text == "Change your aiming rules..." );
+    CHECK( d.responses[0].text == "Change your engagement rules…" );
+    CHECK( d.responses[1].text == "Change your aiming rules…" );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_false_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[5].text == "Use only silent weapons." );
     CHECK( d.responses[6].text == "Don't use grenades anymore." );

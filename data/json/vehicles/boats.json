@@ -142,5 +142,37 @@
       { "x": 2, "y": 2, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
       { "x": 3, "y": 2, "parts": [ "frame_ne", "metal_boat_hull" ] }
     ]
+  },
+  {
+    "type": "vehicle",
+    "id": "wood_rowboat_double",
+    "name": "wooden rowboat",
+    "blueprint": [
+      [ " /\\" ],
+      [ "/oo\\" ],
+      [ "|==|" ],
+      [ "|OO|" ],
+      [ "\\--/" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "hand_paddles", "boat_board" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "boat_board" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_wood_vertical", "boat_board" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_vertical", "boat_board" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_sw", "boat_board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "boat_board" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_horizontal", "boat_board" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_wood_se", "boat_board" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_vertical", "boat_board" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "boat_board" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "boat_board" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_wood_vertical", "boat_board" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_wood_nw", "boat_board" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_cross", "wood box", "boat_board" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "boat_board" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_wood_ne", "boat_board" ] },
+      { "x": 3, "y": 0, "parts": [ "frame_wood_nw", "boat_board" ] },
+      { "x": 3, "y": 1, "parts": [ "frame_wood_ne", "boat_board" ] }
+    ]
   }
 ]

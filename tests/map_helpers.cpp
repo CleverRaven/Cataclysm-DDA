@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
@@ -91,9 +90,8 @@ void clear_map_and_put_player_underground()
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
-    monster temp_monster( mtype_id( monster_type ), start );
-    // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
-    g->critter_tracker->add( temp_monster );
-    return *g->critter_tracker->find( temp_monster.pos() );
+    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
+    assert( added );
+    return *added;
 }
 

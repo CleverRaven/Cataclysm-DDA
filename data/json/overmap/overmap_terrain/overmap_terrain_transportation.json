@@ -513,7 +513,8 @@
     "sym": "─",
     "color": "light_gray",
     "see_cost": 5,
-    "extras": "road"
+    "extras": "road",
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -522,7 +523,8 @@
     "sym": "─",
     "color": "light_gray",
     "see_cost": 5,
-    "extras": "road"
+    "extras": "road",
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -531,7 +533,8 @@
     "sym": ".",
     "color": "dark_gray",
     "see_cost": 5,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",

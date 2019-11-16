@@ -36,6 +36,7 @@
   {
     "id": "mosin91_30",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",

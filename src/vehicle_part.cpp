@@ -80,6 +80,9 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
+    // force rationalization of damage values to the middle value of each damage level so
+    // that parts will stack nicely
+    tmp.set_damage( tmp.damage_level( 4 ) * itype::damage_scale );
     return tmp;
 }
 
@@ -103,8 +106,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
-                    this->base.damage_symbol() + "</color> " );
+        res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
     }
     return res;
 }
@@ -122,6 +124,11 @@ int vehicle_part::hp() const
 int vehicle_part::damage() const
 {
     return base.damage();
+}
+
+int vehicle_part::max_damage() const
+{
+    return base.max_damage();
 }
 
 int vehicle_part::damage_level( int max ) const
@@ -566,4 +573,12 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
     }
 
     return true;
+}
+
+std::string vehicle_part::carried_name() const
+{
+    if( carry_names.empty() ) {
+        return std::string();
+    }
+    return carry_names.top().substr( name_offset );
 }

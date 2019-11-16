@@ -42,6 +42,33 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
+    "id": "bp_308",
+    "copy-from": "308",
+    "type": "AMMO",
+    "name": ".308 Winchester blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_762_51",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": "7.62x51mm blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_762_51_incendiary",
+    "copy-from": "762_51_incendiary",
+    "type": "AMMO",
+    "name": "7.62x51mm tracer blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_308",
     "copy-from": "308",
     "type": "AMMO",

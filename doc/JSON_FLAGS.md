@@ -1,6 +1,7 @@
 # JSON Flags
 
 * [Notes](#notes)
+* [Inheritance](#inheritance)
 * [TODO](#todo)
 * [Ammo](#ammo)
   + [Ammo type](#ammo-type)
@@ -72,6 +73,11 @@
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+
+
+## Inheritance
+
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
 
 
 ## TODO
@@ -456,6 +462,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
+- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
@@ -464,7 +471,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
+- ```HIDDEN_POISON``` ... Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
@@ -517,6 +524,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
+- ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
@@ -568,6 +576,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -920,6 +929,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
+- ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
+- ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
+- ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` That monster will never do melee attacks.
 - ```PARALYZE``` Attack may paralyze the player with venom.
@@ -1019,6 +1031,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
 - ```PARROT_AT_DANGER``` Performs the same function as PARROT, but only if the creature sees an angry monster from a hostile faction.
+- ```PAID_BOT```  For creature with PAY_BOT flag, removes the ally status when the pet effect runs out.
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
@@ -1107,7 +1120,31 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
-
+- ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
+- ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
+- ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.
+- ```SOURCE_FABRICATION``` For NPC AI, this location may contain fabrication tools and components for looting.
+- ```SOURCE_GUN``` For NPC AI, this location may contain guns for looting.
+- ```SOURCE_AMMO``` For NPC AI, this location may contain ammo for looting.
+- ```SOURCE_BOOKS``` For NPC AI, this location may contain books for looting.
+- ```SOURCE_WEAPON``` For NPC AI, this location may contain weapons for looting.
+- ```SOURCE_FORAGE``` For NPC AI, this location may contain plants to forage.
+- ```SOURCE_COOKING``` For NPC AI, this location may contain useful tools and ingredients to aid in cooking.
+- ```SOURCE_TAILORING``` For NPC AI, this location may contain useful tools for tailoring.
+- ```SOURCE_DRINK``` For NPC AI, this location may contain drink for looting.
+- ```SOURCE_VEHICLES``` For NPC AI, this location may contain vehicles/parts/vehicle tools, to loot.
+- ```SOURCE_ELECTRONICS``` For NPC AI, this location may contain useful electronics to loot.
+- ```SOURCE_CONSTRUCTION``` For NPC AI, this location may contain useful tools/components for construction.
+- ```SOURCE_CHEMISTRY``` For NPC AI, this location may contain useful chemistry tools/components.
+- ```SOURCE_CLOTHING``` For NPC AI, this location may contain useful clothing to loot.
+- ```SOURCE_SAFETY``` For NPC AI, this location may be safe/sheltered and a good place for a base.
+- ```SOURCE_ANIMALS``` For NPC AI, this location may contain useful animals for farming/riding.
+- ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
+- ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
+- ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
+- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it - labs/superstores etc.
+- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency - usually a house.
 
 ## Recipes
 
@@ -1227,6 +1264,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
 - ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
@@ -1243,10 +1281,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
+- ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
 - ```BATTERY_MOUNT```
@@ -1291,6 +1331,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL```
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
+- ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.
@@ -1340,6 +1381,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
+- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.

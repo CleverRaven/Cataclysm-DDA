@@ -596,7 +596,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable? <color_cyan>%s</color>" ),
+                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                                    current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
@@ -646,8 +646,12 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
-                                scroll_pos, true, true, true, false, true );
+                item_info_data data( tmp.tname(), tmp.type_name(), thisItem, dummy, scroll_pos );
+                data.without_getch = true;
+                data.without_border = true;
+                data.scrollbar_left = false;
+                data.use_full_win = true;
+                draw_item_info( w_iteminfo, data );
             }
         }
 
@@ -743,7 +747,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways. Additional filters "
+                   "can be used with a colon (:) to search in other ways.  Additional filters "
                    "are separated by commas (,).\n"
                    "\n"
                    "<color_white>Examples:</color>\n" );

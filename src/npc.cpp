@@ -14,6 +14,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -89,6 +90,10 @@ const skill_id skill_smg( "smg" );
 const skill_id skill_launcher( "launcher" );
 const skill_id skill_cutting( "cutting" );
 
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+
+const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_pkill1( "pkill1" );
@@ -103,6 +108,9 @@ const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
@@ -140,6 +148,7 @@ npc::npc()
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
+    fac_id = faction_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
 
@@ -190,21 +199,20 @@ static std::map<string_id<npc_template>, npc_template> npc_templates;
 
 void npc_template::load( JsonObject &jsobj )
 {
-    npc guy;
+    npc_template tem;
+    npc &guy = tem.guy;
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
-    if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ) ) );
-    }
-    if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ) ) );
-    }
+    jsobj.read( "name_unique", tem.name_unique );
+    jsobj.read( "name_suffix", tem.name_suffix );
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
-            guy.male = true;
+            tem.gender_override = gender::male;
         } else {
-            guy.male = false;
+            tem.gender_override = gender::female;
         }
+    } else {
+        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -227,7 +235,7 @@ void npc_template::load( JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
         }
     }
-    npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
+    npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -270,18 +278,21 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         debugmsg( "Tried to get invalid npc: %s", ident.c_str() );
         return;
     }
-    const npc &tguy = found->second.guy;
+    const npc_template &tem = found->second;
+    const npc &tguy = tem.guy;
 
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = tguy.name;
-    if( tmpname[0] == ',' ) {
-        name = name + tguy.name;
-    } else {
-        name = tguy.name;
-        //Assume if the name is unique, the gender might also be.
-        male = tguy.male;
+    if( !tem.name_unique.empty() ) {
+        name = tem.name_unique.translated();
+    }
+    if( !tem.name_suffix.empty() ) {
+        //~ %1$s: npc name, %2$s: name suffix
+        name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
+    }
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
@@ -399,12 +410,10 @@ void npc::randomize( const npc_class_id &type )
     for( int i = 0; i < num_hp_parts; i++ ) {
         hp_cur[i] = hp_max[i];
     }
-
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-
     empty_traits();
 
     // Add fixed traits
@@ -426,6 +435,14 @@ void npc::randomize( const npc_class_id &type )
             add_bionic( bl.first );
         }
     }
+    // Add spells for magiclysm mod
+    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+        this->magic.learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
@@ -435,31 +452,43 @@ void npc::randomize_from_faction( faction *fac )
     randomize( npc_class_id::NULL_ID() );
 }
 
-void npc::set_fac( const string_id<faction> &id )
+void npc::set_fac( const faction_id &id )
 {
+    if( my_fac ) {
+        my_fac->remove_member( getID() );
+    }
     my_fac = g->faction_manager_ptr->get( id );
-    fac_id = my_fac->id;
-    my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+    if( my_fac ) {
+        if( !is_fake() && !is_hallucination() ) {
+            my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        }
+        fac_id = my_fac->id;
+    } else {
+        return;
+    }
+    apply_ownership_to_inv();
+}
+
+void npc::apply_ownership_to_inv()
+{
     for( auto &e : inv_dump() ) {
-        e->set_owner( my_fac );
+        e->set_owner( *this );
     }
 }
 
-string_id<faction> npc::get_fac_id() const
+faction_id npc::get_fac_id() const
 {
     return fac_id;
 }
 
 faction *npc::get_faction() const
 {
+    if( !my_fac ) {
+        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+    }
     return my_fac;
 }
 
-void npc::clear_fac()
-{
-    my_fac = nullptr;
-    fac_id = string_id<faction>( "" );
-}
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 static item random_item_from( const npc_class_id &type, const std::string &what,
@@ -504,7 +533,6 @@ static item get_clothing_item( const npc_class_id &type, const std::string &what
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
 {
     std::vector<item> ret;
-
     if( item_group::group_is_defined( type->worn_override ) ) {
         ret = item_group::items_from( type->worn_override );
     } else {
@@ -533,7 +561,6 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         it.on_takeoff( who );
     }
     who.worn.clear();
-    faction *my_fac = who.get_faction();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
@@ -541,7 +568,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            it.set_owner( my_fac );
+            it.set_owner( who );
         }
     }
 }
@@ -601,9 +628,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-    faction *my_fac = who.get_faction();
     for( auto &it : res ) {
-        it.set_owner( my_fac );
+        it.set_owner( who );
     }
     who.inv += res;
 }
@@ -796,7 +822,213 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.ammo_default() );
     }
-    weapon.set_owner( my_fac );
+    weapon.set_owner( get_faction()->id );
+}
+
+bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
+{
+    if( !book.is_book() ) {
+        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
+                                               book.tname() ) );
+        return false;
+    }
+    player *pl = dynamic_cast<player *>( this );
+    if( !pl ) {
+        return false;
+    }
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
+    const int skill_level = pl->get_skill_level( skill );
+    if( skill && skill_level < type->req ) {
+        fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
+        return false;
+    }
+    if( !skill || ( skill && skill_level >= type->level ) ) {
+        fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
+        return false;
+    }
+
+    // Check for conditions that disqualify us
+    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+        fail_reasons.emplace_back( _( "I can't read!" ) );
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+        fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
+    } else if( fine_detail_vision_mod() > 4 ) {
+        // Too dark to read only applies if the player can read to himself
+        fail_reasons.emplace_back( _( "It's too dark to read!" ) );
+        return false;
+    }
+    return true;
+}
+
+int npc::time_to_read( const item &book, const player &reader ) const
+{
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
+    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
+    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
+    const bool try_understand = reader.fun_to_read( book ) ||
+                                reader.get_skill_level( skill ) < type->level;
+    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
+
+    int retval = type->time * reading_speed;
+    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+
+    if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+        retval += type->time * ( type->intel - reader.get_int() ) * 100;
+    }
+    return retval;
+}
+
+void npc::finish_read( item &book )
+{
+    const auto &reading = book.type->book;
+    if( !reading ) {
+        revert_after_activity();
+        return;
+    }
+    const skill_id &skill = reading->skill;
+    // NPCs dont need to identify the book or learn recipes yet.
+    // NPCs dont read to other NPCs yet.
+    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
+    bool continuous = false; //whether to continue reading or not
+    std::set<std::string> little_learned; // NPCs who learned a little about the skill
+    std::set<std::string> cant_learn;
+    std::list<std::string> out_of_chapters;
+
+    if( book_fun_for( book, *this ) != 0 ) {
+        //Fun bonus is no longer calculated here.
+        add_morale( MORALE_BOOK, book_fun_for( book, *this ) * 5, book_fun_for( book,
+                    *this ) * 15, 1_hours, 30_minutes, true,
+                    book.type );
+    }
+
+    book.mark_chapter_as_read( *this );
+
+    if( skill && get_skill_level( skill ) < reading->level &&
+        get_skill_level_object( skill ).can_train() ) {
+        SkillLevel &skill_level = get_skill_level_object( skill );
+        const int originalSkillLevel = skill_level.level();
+
+        // Calculate experience gained
+        /** @EFFECT_INT increases reading comprehension */
+        // Enhanced Memory Banks modestly boosts experience
+        int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
+        int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
+        if( has_active_bionic( bio_memory ) ) {
+            min_ex += 2;
+        }
+        if( max_ex < 2 ) {
+            max_ex = 2;
+        }
+        if( max_ex > 10 ) {
+            max_ex = 10;
+        }
+        if( max_ex < min_ex ) {
+            max_ex = min_ex;
+        }
+        const std::string &s = activity.get_str_value( 0, "1" );
+        double penalty = strtod( s.c_str(), nullptr );
+        min_ex *= ( originalSkillLevel + 1 ) * penalty;
+        min_ex = std::max( min_ex, 1 );
+        max_ex *= ( originalSkillLevel + 1 ) * penalty;
+        max_ex = std::max( min_ex, max_ex );
+
+        skill_level.readBook( min_ex, max_ex, reading->level );
+
+        std::string skill_name = skill.obj().name();
+
+        if( skill_level != originalSkillLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
+            if( display_messages ) {
+                add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
+                // NPC reads until they gain a level, then stop.
+                revert_after_activity();
+                return;
+            }
+        } else {
+            continuous = true;
+            if( display_messages ) {
+                add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
+            }
+        }
+
+        if( ( skill_level == reading->level || !skill_level.can_train() ) ||
+            ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+                has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+            if( display_messages ) {
+                add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
+            }
+        }
+    } else if( skill ) {
+        if( display_messages ) {
+            add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
+        }
+    }
+
+    // NPCs can't learn martial arts from manuals (yet)
+
+    if( continuous ) {
+        activity.set_to_null();
+        player *pl = dynamic_cast<player *>( this );
+        if( pl ) {
+            start_read( book, pl );
+        }
+        if( activity ) {
+            return;
+        }
+    }
+    activity.set_to_null();
+    revert_after_activity();
+}
+
+void npc::start_read( item &chosen, player *pl )
+{
+    const int time_taken = time_to_read( chosen, *pl );
+    const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
+    player_activity act( activity_id( "ACT_READ" ), time_taken, 0, pl->getID().get_value() );
+    act.targets.emplace_back( item_location( *this, &chosen ) );
+    act.str_values.push_back( to_string( penalty ) );
+    // push an indentifier of martial art book to the action handling
+    if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
+        act.str_values.clear();
+        act.str_values.emplace_back( "martial_art" );
+    }
+    assign_activity( act );
+    set_attitude( NPCATT_ACTIVITY );
+    set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void npc::do_npc_read()
+{
+    // Can read items from inventory or within one tile (including in vehicles)
+    player *pl = dynamic_cast<player *>( this );
+    if( !pl ) {
+        return;
+    }
+    auto loc = game_menus::inv::read( *pl );
+
+    if( loc ) {
+        std::vector<std::string> fail_reasons;
+        Character *ch = dynamic_cast<Character *>( pl );
+        if( !ch ) {
+            return;
+        }
+        item &chosen = i_at( loc.obtain( *ch ) );
+        if( can_read( chosen, fail_reasons ) ) {
+            if( g->u.sees( pos() ) ) {
+                add_msg( m_info, _( "%s starts reading." ), disp_name() );
+            }
+            start_read( chosen, pl );
+        } else {
+            for( const auto elem : fail_reasons ) {
+                say( elem );
+            }
+        }
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -910,7 +1142,8 @@ void npc::stow_item( item &it )
     }
     for( auto &e : worn ) {
         if( e.can_holster( it ) ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s in the %s." ), weapon.tname(),
+            //~ %1$s: weapon name, %2$s: holster name
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ), weapon.tname(),
                             e.tname() );
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
@@ -957,6 +1190,15 @@ bool npc::wield( item &it )
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
     return true;
+}
+
+void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                bool stash )
+{
+    Character::drop( what, target, stash );
+    // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
+    // so is this necessary?
+    activity.do_turn( *this );
 }
 
 void npc::form_opinion( const player &u )
@@ -1010,7 +1252,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1038,7 +1280,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {
@@ -1212,13 +1454,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<matype_id> ret;
-    for( auto &i : ma_styles ) {
-        if( !p.has_martialart( i ) ) {
-            ret.push_back( i );
-        }
-    }
-    return ret;
+    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
 void npc::decide_needs()
@@ -1228,7 +1464,18 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            int ups_charges = charges_of( "UPS_off", ups_drain ) +
+                              charges_of( "UPS_off", ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        } else {
+            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        }
+        needrank[need_ammo] *= 5;
+    }
+    if( !base_location ) {
+        needrank[need_safety] = 1;
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1302,7 +1549,7 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
-    if( my_fac != it.get_owner() ) {
+    if( !it.is_owned_by( *this ) ) {
         return false;
     }
     const int market_price = it.price( true );
@@ -1420,7 +1667,7 @@ void npc::shop_restock()
         if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
-                my_currency.set_owner( my_fac );
+                my_currency.set_owner( *this );
                 int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency.price( true );
                 for( int lcv = 0; lcv < my_amount; lcv++ ) {
                     ret.push_back( my_currency );
@@ -1434,7 +1681,7 @@ void npc::shop_restock()
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
-            tmpit.set_owner( my_fac );
+            tmpit.set_owner( *this );
             ret.push_back( tmpit );
             shop_value -= tmpit.price( true );
             total_space -= tmpit.volume();
@@ -1742,7 +1989,7 @@ bool npc::is_assigned_to_camp() const
     if( !bcp ) {
         return false;
     }
-    return !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY;
+    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
 }
 
 bool npc::is_enemy() const
@@ -1941,7 +2188,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
-    const unsigned int iWidth = getmaxx( w ) - 2;
+    const int iWidth = getmaxx( w ) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -1956,29 +2203,20 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
+    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
-        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-        size_t split;
-        do {
-            split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<int>( iWidth ) );
-            if( split == std::string::npos ) {
-                mvwprintz( w, point( column, line ), color, str_in );
-            } else {
-                mvwprintz( w, point( column, line ), color, str_in.substr( 0, split ) );
-            }
-            str_in = str_in.substr( split + 1 );
-            line++;
-        } while( split != std::string::npos && line <= last_line );
+        const std::vector<std::string> folded = foldstring( str_in, iWidth );
+        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
+            trim_and_print( w, point( column, line ), iWidth, color, *it );
+        }
     };
 
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
-        enumerate_print( wearing, c_blue );
+        const std::string wearing = _( "Wearing: " ) + worn_str;
+        enumerate_print( wearing, c_light_blue );
     }
 
     // as of now, visibility of mutations is between 0 and 10
@@ -1998,7 +2236,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
+        const std::string mutations = _( "Traits: " ) + trait_str;
         enumerate_print( mutations, c_green );
     }
 
@@ -2137,7 +2375,15 @@ void npc::die( Creature *nkiller )
     }
     // if this NPC was the only member of a micro-faction, clean it up.
     if( my_fac ) {
-        my_fac->remove_member( getID() );
+        if( !is_fake() && !is_hallucination() ) {
+            if( my_fac->members.size() == 1 ) {
+                for( auto elem : inv_dump() ) {
+                    elem->remove_owner();
+                    elem->remove_old_owner();
+                }
+            }
+            my_fac->remove_member( getID() );
+        }
     }
     dead = true;
     Character::die( nkiller );
@@ -2255,6 +2501,75 @@ std::string npc_attitude_name( npc_attitude att )
 
     debugmsg( "Invalid attitude: %d", att );
     return _( "Unknown attitude" );
+}
+
+std::string npc_job_id( npc_job job )
+{
+    static const std::map<npc_job, std::string> npc_job_ids = {
+        { NPCJOB_NULL, "NPCJOB_NULL" },
+        { NPCJOB_COOKING, "NPCJOB_COOKING" },
+        { NPCJOB_MENIAL, "NPCJOB_MENIAL" },
+        { NPCJOB_VEHICLES, "NPCJOB_VEHICLES" },
+        { NPCJOB_CONSTRUCTING, "NPCJOB_CONSTRUCTING" },
+        { NPCJOB_CRAFTING, "NPCJOB_CRAFTING" },
+        { NPCJOB_SECURITY, "NPCJOB_SECURITY" },
+        { NPCJOB_FARMING, "NPCJOB_FARMING" },
+        { NPCJOB_LUMBERJACK, "NPCJOB_LUMBERJACK" },
+        { NPCJOB_HUSBANDRY, "NPCJOB_HUSBANDRY" },
+        { NPCJOB_HUNTING, "NPCJOB_HUNTING" },
+        { NPCJOB_FORAGING, "NPCJOB_FORAGING" },
+    };
+    const auto &iter = npc_job_ids.find( job );
+    if( iter == npc_job_ids.end() ) {
+        debugmsg( "Invalid job: %d", job );
+        return "NPCJOB_INVALID";
+    }
+
+    return iter->second;
+}
+
+std::vector<std::string> all_jobs()
+{
+    std::vector<std::string> ret;
+    for( int i = 0; i < NPCJOB_END; i++ ) {
+        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
+    }
+    return ret;
+}
+
+std::string npc_job_name( npc_job job )
+{
+    switch( job ) {
+        case NPCJOB_NULL:
+            return _( "No particular job" );
+        case NPCJOB_COOKING:
+            return _( "Cooking and butchering" );
+        case NPCJOB_MENIAL:
+            return _( "Tidying and cleaning" );
+        case NPCJOB_VEHICLES:
+            return _( "Vehicle work" );
+        case NPCJOB_CONSTRUCTING:
+            return _( "Building" );
+        case NPCJOB_CRAFTING:
+            return _( "Crafting" );
+        case NPCJOB_SECURITY:
+            return _( "Guarding and patrolling" );
+        case NPCJOB_FARMING:
+            return _( "Working the fields" );
+        case NPCJOB_LUMBERJACK:
+            return _( "Chopping wood" );
+        case NPCJOB_HUSBANDRY:
+            return _( "Caring for the livestock" );
+        case NPCJOB_HUNTING:
+            return _( "Hunting and fishing" );
+        case NPCJOB_FORAGING:
+            return _( "Gathering edibles" );
+        default:
+            break;
+    }
+
+    debugmsg( "Invalid job: %d", job );
+    return _( "Unknown job" );
 }
 
 //message related stuff
@@ -2534,14 +2849,37 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
+bool npc::invoke_item( item *used, const tripoint &pt )
+{
+    const auto &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return Character::invoke_item( used, use_methods.begin()->first, pt );
+    }
+    return false;
+}
+
+bool npc::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+bool npc::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
         { "need_none", overmap_location_str_id( "source_of_anything" ) },
-        { "need_ammo", overmap_location_str_id( "source_of_ammo" )},
-        { "need_weapon", overmap_location_str_id( "source_of_weapon" )},
-        { "need_gun", overmap_location_str_id( "source_of_gun" ) },
+        { "need_ammo", overmap_location_str_id( "source_of_ammo" ) },
+        { "need_weapon", overmap_location_str_id( "source_of_weapons" )},
+        { "need_gun", overmap_location_str_id( "source_of_guns" ) },
         { "need_food", overmap_location_str_id( "source_of_food" )},
-        { "need_drink", overmap_location_str_id( "source_of_drink" ) }
+        { "need_drink", overmap_location_str_id( "source_of_drink" ) },
+        { "need_safety", overmap_location_str_id( "source_of_safety" ) }
     }
 };
 
@@ -2807,6 +3145,31 @@ void npc::set_mission( npc_mission new_mission )
 bool npc::has_activity() const
 {
     return mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
+}
+
+npc_job npc::get_job() const
+{
+    return job;
+}
+
+void npc::set_job( npc_job new_job )
+{
+    if( new_job == job ) {
+        return;
+    }
+    add_msg( m_debug, "%s changes job to %s.",
+             name, npc_job_id( job ) );
+    job = new_job;
+}
+
+bool npc::has_job() const
+{
+    return job != NPCJOB_NULL;
+}
+
+void npc::remove_job()
+{
+    job = NPCJOB_NULL;
 }
 
 npc_attitude npc::get_attitude() const

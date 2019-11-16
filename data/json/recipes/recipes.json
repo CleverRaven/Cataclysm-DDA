@@ -108,7 +108,7 @@
   {
     "type": "recipe_category",
     "id": "CC_BUILDING",
-    "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
+    "//recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
     "is_hidden": true
   }
 ]

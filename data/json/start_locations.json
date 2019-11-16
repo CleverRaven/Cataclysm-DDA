@@ -373,5 +373,17 @@
     "ident": "horse_farm_13",
     "name": "Horse Ranch",
     "target": "horse_farm_13"
+  },
+  {
+    "type": "start_location",
+    "ident": "cabin_lake",
+    "name": "Lake Cabin",
+    "target": "cabin_lake"
+  },
+  {
+    "type": "start_location",
+    "ident": "lighthouse_ground",
+    "name": "Lighthouse Island",
+    "target": "lighthouse_ground"
   }
 ]

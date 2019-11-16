@@ -19,7 +19,7 @@
     "dispersion": 90,
     "recoil": 1500,
     "loudness": 70,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
   },
   {
     "id": "flintlock_shot",
@@ -41,6 +41,6 @@
     "dispersion": 20,
     "recoil": 1500,
     "loudness": 90,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER" ]
   }
 ]

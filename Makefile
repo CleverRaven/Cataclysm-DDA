@@ -322,6 +322,7 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
+TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
 BINDIST_EXTRAS += README.md data doc
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -581,43 +582,43 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
+  ifeq ($(LOCALIZE),1)
+    NCURSES_PREFIX = ncursesw
+  else
+    NCURSES_PREFIX = ncurses
+  endif
+  ifdef OSXCROSS
+    NCURSES_PREFIX = ncurses
+  endif
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell pkg-config --libs ncurses 2>/dev/null),)
-      HAVE_PKGCONFIG = 1
-    endif
-    ifneq ($(shell which ncurses5-config 2>/dev/null),)
-      HAVE_NCURSES5CONFIG = 1
-    endif
+      ifeq ($(OSXCROSS),)
+        ifneq ($(shell pkg-config --libs $(NCURSES_PREFIX) 2>/dev/null),)
+          HAVE_PKGCONFIG = 1
+        endif
+        ifneq ($(shell which $(NCURSES_PREFIX)5-config 2>/dev/null),)
+          HAVE_NCURSES5CONFIG = 1
+        endif
+      endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    ifeq ($(LOCALIZE),1)
-      CXXFLAGS += $(shell pkg-config --cflags ncursesw)
-      LDFLAGS += $(shell pkg-config --libs ncursesw)
-    else
-      CXXFLAGS += $(shell pkg-config --cflags ncurses)
-      LDFLAGS += $(shell pkg-config --libs ncurses)
-    endif
+    CXXFLAGS += $(shell pkg-config --cflags $(NCURSES_PREFIX))
+    LDFLAGS += $(shell pkg-config --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
-      ifeq ($(LOCALIZE),1)
-        CXXFLAGS += $(shell ncursesw5-config --cflags)
-        LDFLAGS += $(shell ncursesw5-config --libs)
-      else
-        CXXFLAGS += $(shell ncurses5-config --cflags)
-        LDFLAGS += $(shell ncurses5-config --libs)
-      endif
+      CXXFLAGS += $(shell $(NCURSES_PREFIX)5-config --cflags)
+      LDFLAGS += $(shell $(NCURSES_PREFIX)5-config --libs)
     else
       ifneq ($(TARGETSYSTEM),WINDOWS)
-        LDFLAGS += -lncurses
+        LDFLAGS += -l$(NCURSES_PREFIX)
       endif
 
       ifdef OSXCROSS
-        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+        LDFLAGS += -L$(LIBSDIR)/$(NCURSES_PREFIX)/lib
+        CXXFLAGS += -I$(LIBSDIR)/$(NCURSES_PREFIX)/include
       endif # OSXCROSS
     endif # HAVE_NCURSES5CONFIG
   endif # HAVE_PKGCONFIG
@@ -801,7 +802,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -1040,7 +1041,8 @@ style-all-json: json_formatter
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
 json_formatter: $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
+	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
+	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

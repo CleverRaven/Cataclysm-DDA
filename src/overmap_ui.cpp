@@ -163,11 +163,12 @@ static void update_note_preview( const std::string &note,
     werase( *w_preview_title );
     nc_color default_color = c_unset;
     print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text );
-    mvwputch( *w_preview_title, point( note_text.length(), 0 ), c_white, LINE_XOXO );
-    for( size_t i = 0; i < note_text.length(); i++ ) {
+    int note_text_width = utf8_width( note_text );
+    mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
+    for( int i = 0; i < note_text_width; i++ ) {
         mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
     }
-    mvwputch( *w_preview_title, point( note_text.length(), 1 ), c_white, LINE_XOOX );
+    mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
     wrefresh( *w_preview_title );
 
     const int npm_offset_x = 1;
@@ -406,7 +407,7 @@ static point draw_notes( const tripoint &origin )
             nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
                                                 note_text ),
                                  string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color> : %s (Distance: <color_white>%d</color>)" ),
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>)" ),
                                      origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player ) );
             nmenu.entries[row].ctxt = string_format(
                                           _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );
@@ -697,9 +698,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 // Convert to position within overmap
                 point omp_in_om( omp.xy() );
                 omt_to_om_remain( omp_in_om );
-                point group_target = sm_to_omt_copy( mgroup->target.xy() );
-
-                if( mgroup && group_target == omp_in_om ) {
+                if( mgroup && sm_to_omt_copy( mgroup->target.xy() ) == omp_in_om ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {
@@ -835,19 +834,26 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             maxlen = std::max( maxlen, utf8_width( line.second ) );
         }
 
+        mvwputch( w, point_south_east, c_white, LINE_OXXO );
+        for( int i = 0; i <= maxlen; i++ ) {
+            mvwputch( w, point( i + 2, 1 ), c_white, LINE_OXOX );
+        }
+        mvwputch( w, point( 1, corner_text.size() + 2 ), c_white, LINE_XXOO );
         const std::string spacer( maxlen, ' ' );
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[ i ];
-            // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, point( 0, i ), c_yellow, spacer );
+            // clear line, print line, print vertical line on each side.
+            mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
+            mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
-            print_colored_text( w, point( 0, i ), default_color, pr.first, pr.second );
-            mvwputch( w, point( maxlen, i ), c_white, LINE_XOXO );
+            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second );
+            mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
+        mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
         for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i, corner_text.size() ), c_white, LINE_OXOX );
+            mvwputch( w, point( i + 2, corner_text.size() + 2 ), c_white, LINE_OXOX );
         }
-        mvwputch( w, point( maxlen, corner_text.size() ), c_white, LINE_XOOX );
+        mvwputch( w, point( maxlen + 2, corner_text.size() + 2 ), c_white, LINE_XOOX );
     }
 
     if( !sZoneName.empty() && tripointZone.xy() == center.xy() ) {
@@ -1018,6 +1024,7 @@ void create_note( const tripoint &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                               _( "Type GLYPH:TEXT to set a custom glyph." ),
                               _( "Type COLOR;TEXT to set a custom color." ),
+                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
     std::string title = _( "Note:" );
@@ -1084,6 +1091,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 {
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
+                       // NOLINTNEXTLINE(cata-text-style): literal comma
                        .description( _( "Multiple entries separated with , Excludes starting with -" ) )
                        .query_string();
     if( term.empty() ) {
@@ -1093,26 +1101,24 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
-        for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            tripoint p( x, y, curs.z );
-            overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
+    const int radius = OMAPX / 2; // arbitrary
+    for( const tripoint &p : points_in_radius( curs, radius ) ) {
+        overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
-            if( om_loc ) {
-                tripoint om_relative = om_loc.local;
-                point om_cache = omt_to_om_copy( p.xy() );
+        if( om_loc ) {
+            tripoint om_relative = om_loc.local;
+            point om_cache = omt_to_om_copy( p.xy() );
 
-                if( std::find( overmap_checked.begin(), overmap_checked.end(), om_cache ) ==
-                    overmap_checked.end() ) {
-                    overmap_checked.push_back( om_cache );
-                    std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
-                    locations.insert( locations.end(), notes.begin(), notes.end() );
-                }
+            if( std::find( overmap_checked.begin(), overmap_checked.end(),
+                           om_cache ) == overmap_checked.end() ) {
+                overmap_checked.push_back( om_cache );
+                std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
+                locations.insert( locations.end(), notes.begin(), notes.end() );
+            }
 
-                if( om_loc.om->seen( om_relative ) &&
-                    match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
-                    locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
-                }
+            if( om_loc.om->seen( om_relative ) &&
+                match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+                locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
             }
         }
     }
@@ -1150,7 +1156,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
         //Draw search box
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
-        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%*s", 12, term );
+        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%s", right_justify( term, 12 ) );
 
         mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
         mvwprintz( w_search, point( 16, 2 ), c_light_red, "%*d/%d", 3, i + 1, locations.size() );
@@ -1256,6 +1262,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                        can_rotate ? "" : _( "(fixed)" ) );
             mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Areas highlighted in red" ) );
             mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
+            // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
             mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
             mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
@@ -1276,7 +1283,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                 curs.y += vec->y;
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
-                    overmap_buffer.ter( curs ) = uistate.place_terrain->id.id();
+                    overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
                     overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );

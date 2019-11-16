@@ -264,6 +264,11 @@ struct islot_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+    /**
+     * Whitelisted clothing mods.
+     * Restricted clothing mods must be listed here by id to be compatible.
+     */
+    std::vector<std::string> valid_mods;
 };
 
 struct islot_pet_armor {
@@ -572,8 +577,8 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
 
-    /** Increases base gun UPS consumption by this many charges per shot */
-    int ups_charges = 0;
+    /** Increases base gun UPS consumption by this many times per shot */
+    float ups_charges_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -726,9 +731,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -803,13 +808,8 @@ struct itype {
         std::string id = "null"; /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
-        // name and name_plural are not translated automatically
         // nname() is used for display purposes
-        std::string name = "none";        // Proper name, singular form, in American English.
-        std::string name_plural = "none"; // name, plural form, in American English.
-
-        /** If set via JSON forces item category to this (preventing automatic assignment) */
-        std::string category_force;
+        translation name = no_translation( "none" );
 
     public:
         itype() {
@@ -901,9 +901,9 @@ struct itype {
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
         // If non-rigid volume (and if worn encumbrance) increases proportional to contents
@@ -918,7 +918,8 @@ struct itype {
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
-        const item_category *category = nullptr; // category pointer or NULL for automatic selection
+        /** If set via JSON forces item category to this (preventing automatic assignment) */
+        item_category_id category_force;
 
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)

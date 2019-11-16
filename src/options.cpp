@@ -41,12 +41,15 @@
 #include <string>
 #include <exception>
 
+#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
+
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
 int message_cooldown;
 bool fov_3d;
+int fov_3d_z_range;
 bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
@@ -700,7 +703,7 @@ void options_manager::cOpt::setNext()
         sSet = vItems[iNext].first;
 
     } else if( sType == "string_input" ) {
-        int iMenuTextLength = sMenuText.length();
+        int iMenuTextLength = utf8_width( _( sMenuText ) );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
         .description( _( sMenuText ) )
@@ -893,16 +896,39 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
+std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
+    const std::string &path )
+{
+    // Use local map as build_resource_list will clear the first parameter
+    std::map<std::string, std::string> local_tilesets;
+    auto tileset_names = build_resource_list( local_tilesets, "tileset", path, "tileset-conf" );
+
+    // Copy found tilesets
+    TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
+
+    return tileset_names;
+}
+
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
-    auto tileset_names = build_resource_list( TILESETS, "tileset",
-                         "gfxdir", "tileset-conf" );
+    // Clear tilesets
+    TILESETS.clear();
+    std::vector<id_and_option> result;
 
-    if( tileset_names.empty() ) {
-        tileset_names.emplace_back( "hoder", to_translation( "Hoder's" ) );
-        tileset_names.emplace_back( "deon", to_translation( "Deon's" ) );
+    // Load from data directory
+    auto data_tilesets = load_tilesets_from( "gfxdir" );
+    result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
+
+    // Load from user directory
+    auto user_tilesets = load_tilesets_from( "user_gfx" );
+    result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
+
+    // Default values
+    if( result.empty() ) {
+        result.emplace_back( "hoder", to_translation( "Hoder's" ) );
+        result.emplace_back( "deon", to_translation( "Deon's" ) );
     }
-    return tileset_names;
+    return result;
 }
 
 std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
@@ -1136,13 +1162,13 @@ void options_manager::add_options_general()
        );
 
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
-         translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
-         1, 100, 50
+         translate_marker( "Number of turns after which safe mode is reactivated.  Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
+         1, 600, 50
        );
 
     add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
          translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
-         0, 600, 200
+         0, 3600, 200
        );
 
     mOptionsSort["general"]++;
@@ -1202,7 +1228,7 @@ void options_manager::add_options_general()
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
-         translate_marker( "Set to drop empty containers after use.  No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers." ),
+         translate_marker( "Set to drop empty containers after use.  No: Don't drop any.  - Watertight: All except watertight containers.  - All: Drop all containers." ),
     { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
     "no"
        );
@@ -1321,8 +1347,8 @@ void options_manager::add_options_interface()
          false
        );
 
-    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly" ),
-         translate_marker( "If true, will query before disassembling items." ),
+    add( "QUERY_DISASSEMBLE", "interface", translate_marker( "Query on disassembly while butchering" ),
+         translate_marker( "If true, will query before disassembling items while butchering." ),
          true
        );
 
@@ -1489,8 +1515,8 @@ void options_manager::add_options_interface()
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "Enabled: automatically assign letters to any carried items that lack them. Disabled: do not auto-assign letters."
-    " Favorites: only auto-assign letters to favorited items." ), {
+         translate_marker( "Enabled: automatically assign letters to any carried items that lack them.  Disabled: do not auto-assign letters.  "
+    "Favorites: only auto-assign letters to favorited items." ), {
         { "disabled", translate_marker( "Disabled" ) },
         { "enabled", translate_marker( "Enabled" ) },
         { "favorites", translate_marker( "Favorites" ) }
@@ -1498,6 +1524,7 @@ void options_manager::add_options_interface()
     "favorites" );
 
     add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
+         // NOLINTNEXTLINE(cata-text-style): one space after "etc."
          translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
          true
        );
@@ -1662,11 +1689,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-#if !defined(__ANDROID__)
-         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
-#else
          build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
-#endif
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1806,7 +1829,7 @@ void options_manager::add_options_graphics()
 
 #if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
-    translate_marker( "Factor by which to scale the display. Requires restart." ), {
+    translate_marker( "Factor by which to scale the display.  Requires restart." ), {
         { "1", translate_marker( "1x" ) },
         { "2", translate_marker( "2x" )},
         { "4", translate_marker( "4x" )}
@@ -1875,6 +1898,13 @@ void options_manager::add_options_debug()
          translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
          false
        );
+
+    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
+         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+         0, OVERMAP_LAYERS, 4
+       );
+
+    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 
     add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
@@ -1964,12 +1994,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
-         0, 999, 30
+         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         0, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
-         translate_marker( "How many days after the cataclysm the player spawns. Day 0 is the day of the cataclysm. Can be overridden by scenarios. Increasing this will cause food rot and monster evolution to advance." ),
+         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2003,7 +2033,7 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
+         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
          true
        );
 
@@ -2359,9 +2389,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 {
     // temporary alias so the code below does not need to be changed
     options_container &OPTIONS = options;
-    options_container &ACTIVE_WORLD_OPTIONS = world_generator->active_world ?
-            world_generator->active_world->WORLD_OPTIONS :
-            world_options_only ? *world_options : OPTIONS;
+    options_container &ACTIVE_WORLD_OPTIONS = world_options.has_value() ?
+            *world_options.value() :
+            OPTIONS;
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -2370,26 +2400,23 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     }
 
     const int iWorldOffset = world_options_only ? 2 : 0;
-
+    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
     const int iTooltipHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight - iWorldOffset;
-
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) +
-                         iWorldOffset;
+    const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          point( iOffsetX, iOffsetY - iWorldOffset ) );
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, FULL_SCREEN_WIDTH - 2,
-                                           point( 1 + iOffsetX, 1 + iOffsetY ) );
-    catacurses::window w_options_header = catacurses::newwin( 1, FULL_SCREEN_WIDTH - 2,
-                                          point( 1 + iOffsetX, 1 + iTooltipHeight + iOffsetY ) );
-    catacurses::window w_options = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                   point( 1 + iOffsetX, iTooltipHeight + 2 + iOffsetY ) );
+    catacurses::window w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
+                                           point( iOffsetX, 0 ) );
+    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, 1 + iWorldOffset ) );
+    catacurses::window w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
+    catacurses::window w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                           point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
 
     if( world_options_only ) {
         worldfactory::draw_worldgen_tabs( w_options_border, 1 );
@@ -2412,15 +2439,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    std::stringstream sTemp;
-
     while( true ) {
         auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                          ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
+            for( int j = 0; j < iMinScreenWidth - 2; j++ ) {
                 if( mapLines[j] ) {
                     mvwputch( w_options, point( j, i ), BORDER_COLOR, LINE_XOXO );
                 } else {
@@ -2455,9 +2480,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             int line_pos = i - iStartPos; // Current line position in window.
 
-            sTemp.str( "" );
-            sTemp << i + 1 - iBlankOffset;
-            mvwprintz( w_options, point( 1, line_pos ), c_white, sTemp.str() );
+            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", i + 1 - iBlankOffset );
 
             if( iCurrentLine == i ) {
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">> " );
@@ -2518,7 +2541,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_x;
             new_window_width = projected_window_width();
 
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white,
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
@@ -2534,7 +2557,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             value_conversion >> new_terminal_y;
             new_window_height = projected_window_height();
 
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white,
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
@@ -2544,7 +2567,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         } else
 #endif
         {
-            fold_and_print( w_options_tooltip, point_zero, 78, c_white, "%s #%s",
+            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, "%s #%s",
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
                             OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
         }
@@ -2564,6 +2587,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+#if defined(TILES) || defined(_WIN32)
+            handle_redraw();
+#endif
             return action;
         }
 
@@ -2651,6 +2677,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+#if defined(TILES) || defined(_WIN32)
+            handle_redraw();
+#endif
             break;
         }
     }
@@ -2783,6 +2812,11 @@ void options_manager::deserialize( JsonIn &jsin )
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 
+        // Verify format of options file
+        if( !joOptions.has_string( "info" ) || !joOptions.has_string( "default" ) ) {
+            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
+        }
+
         add_retry( name, value );
         options[ name ].setValue( value );
     }
@@ -2817,6 +2851,7 @@ bool options_manager::save()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
 
     update_music_volume();
 
@@ -2849,6 +2884,7 @@ void options_manager::load()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
@@ -2889,11 +2925,11 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name );
     }
-    if( !world_generator || !world_generator->active_world ) {
+    if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
         return options[name];
     }
-    auto &wopts = world_generator->active_world->WORLD_OPTIONS;
+    auto &wopts = *world_options.value();
     if( wopts.count( name ) == 0 ) {
         auto &opt = options[name];
         if( opt.getPage() != "world_default" ) {
@@ -2922,6 +2958,15 @@ std::vector<std::string> options_manager::getWorldOptPageItems() const
     // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
+}
+
+void options_manager::set_world_options( options_container *options )
+{
+    if( options == nullptr ) {
+        world_options.reset();
+    } else {
+        world_options = options;
+    }
 }
 
 void options_manager::update_global_locale()

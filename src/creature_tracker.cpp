@@ -51,8 +51,11 @@ std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
     }
 }
 
-bool Creature_tracker::add( monster &critter )
+bool Creature_tracker::add( std::shared_ptr<monster> critter_ptr )
 {
+    assert( critter_ptr );
+    monster &critter = *critter_ptr;
+
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
         return false;
     }
@@ -70,8 +73,8 @@ bool Creature_tracker::add( monster &critter )
         } else if( critter.is_hallucination() ) {
             return false;
         } else {
-            debugmsg( "add_zombie: there's already a monster at %d,%d,%d",
-                      critter.posx(), critter.posy(), critter.posz() );
+            debugmsg( "there's already a monster at %d,%d,%d", critter.pos().x, critter.pos().y,
+                      critter.pos().z );
             return false;
         }
     }
@@ -80,12 +83,11 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    monsters_list.emplace_back( std::make_shared<monster>( critter ) );
-    monsters_by_location[critter.pos()] = monsters_list.back();
-    add_to_faction_map( monsters_list.back() );
+    monsters_list.emplace_back( critter_ptr );
+    monsters_by_location[critter.pos()] = critter_ptr;
+    add_to_faction_map( critter_ptr );
     return true;
 }
-
 
 void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
 {
@@ -138,7 +140,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
     } else {
         const tripoint &old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
-        // to the game yet. add_zombie() will update monsters_by_location for us.
+        // to the game yet. `add` will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
                   critter.disp_name(),
                   old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );

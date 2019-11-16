@@ -116,7 +116,6 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
-
 void SkillDisplayType::load( JsonObject &jsobj )
 {
     skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );
@@ -130,7 +129,6 @@ void SkillDisplayType::load( JsonObject &jsobj )
     const SkillDisplayType sk( ident, display_string );
     skillTypes.push_back( sk );
 }
-
 
 const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
 {
@@ -272,7 +270,7 @@ const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static const SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
@@ -290,7 +288,7 @@ SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 

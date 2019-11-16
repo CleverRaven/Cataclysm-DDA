@@ -6,6 +6,8 @@
 #include <vector>
 #include <utility>
 
+#include "enum_traits.h"
+
 class monster;
 class player;
 class Creature;
@@ -27,7 +29,8 @@ enum class sound_t : int {
     alarm,
     combat, // any violent sounding activity
     alert, // louder than speech to get attention
-    order  // loudest to get attention
+    order,  // loudest to get attention
+    _LAST // must always be last
 };
 
 // Methods for recording sound events.
@@ -77,6 +80,11 @@ std::string sound_at( const tripoint &location );
 /** Tells us if sound has been enabled in options */
 extern bool sound_enabled;
 } // namespace sounds
+
+template<>
+struct enum_traits<sounds::sound_t> {
+    static constexpr auto last = sounds::sound_t::_LAST;
+};
 
 namespace sfx
 {

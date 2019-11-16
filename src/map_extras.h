@@ -10,7 +10,6 @@
 #include "color.h"
 #include "string_id.h"
 
-
 class JsonObject;
 class map;
 struct tripoint;

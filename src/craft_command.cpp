@@ -189,7 +189,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
                                     const std::vector<comp_selection<tool_comp>> &missing_tools )
 {
     std::stringstream ss;
-    ss << _( "Some components used previously are missing. Continue?" );
+    ss << _( "Some components used previously are missing.  Continue?" );
 
     if( !missing_items.empty() ) {
         ss << std::endl << _( "Item(s): " );
@@ -259,6 +259,11 @@ item craft_command::create_in_progress_craft()
     new_craft.set_next_failure_point( *crafter );
 
     return new_craft;
+}
+
+skill_id craft_command::get_skill_id()
+{
+    return rec->skill_used;
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(

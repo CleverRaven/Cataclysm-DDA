@@ -34,6 +34,8 @@ constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 struct input_event;
 class input_context;
 
+catacurses::window new_centered_win( int nlines, int ncols );
+
 /**
  * mvwzstr: line of text with horizontal offset and color
  */

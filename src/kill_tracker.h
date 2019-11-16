@@ -24,7 +24,7 @@ class kill_tracker : public event_subscriber
         // returns player's "kill xp" for monsters via STK
         int kill_xp() const;
 
-        void disp_kills() const;
+        std::string get_kills_text() const;
 
         void clear();
 

@@ -20,7 +20,7 @@
     "damage": 70,
     "pierce": 25,
     "dispersion": 150,
-    "effects": [ "RECYCLED" ]
+    "effects": [ "RECYCLED", "NON-FOULING" ]
   },
   {
     "id": "steel_rail",
@@ -36,7 +36,7 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "dispersion": 0,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
     "relative": { "range": 10, "damage": -5, "pierce": 15 }
   }
 ]

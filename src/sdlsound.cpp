@@ -182,7 +182,7 @@ void musicFinished()
 
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
-    const auto &next = list.entries[current_playlist_at];
+    const music_playlist::entry &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 }
 
@@ -214,7 +214,7 @@ void play_music( const std::string &playlist )
     current_playlist = playlist;
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
-    const auto &next = list.entries[current_playlist_at];
+    const music_playlist::entry &next = list.entries[current_playlist_at];
     current_music_track_volume = next.volume;
     play_music_file( next.file, next.volume );
 }
@@ -280,7 +280,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 // - Not Loaded: Load chunk from stored resource path
 static inline Mix_Chunk *get_sfx_resource( int resource_id )
 {
-    auto &resource = sfx_resources.resource[ resource_id ];
+    sound_effect_resource &resource = sfx_resources.resource[ resource_id ];
     if( !resource.chunk ) {
         std::string path = ( current_soundpack_path + "/" + resource.path );
         resource.chunk.reset( load_chunk( path ) );
@@ -377,7 +377,7 @@ static const sound_effect *find_random_effect( const id_and_variant &id_variants
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
 static const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
 {
-    const auto eff = find_random_effect( id_and_variant( id, variant ) );
+    const sound_effect *eff = find_random_effect( id_and_variant( id, variant ) );
     if( eff != nullptr ) {
         return eff;
     }
@@ -581,7 +581,7 @@ void load_soundset()
     }
 
     // Preload sound effects
-    for( const auto &preload : sfx_preload ) {
+    for( const id_and_variant &preload : sfx_preload ) {
         const auto find_result = sfx_resources.sound_effects.find( preload );
         if( find_result != sfx_resources.sound_effects.end() ) {
             for( const auto &sfx : find_result->second ) {

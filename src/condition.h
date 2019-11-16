@@ -48,7 +48,7 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
-std::string get_talk_varname( JsonObject jo, const std::string &member, bool check_value = true );
+std::string get_talk_varname( JsonObject &jo, const std::string &member, bool check_value = true );
 
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
@@ -70,7 +70,7 @@ struct conditional_t {
     public:
         conditional_t() = default;
         conditional_t( const std::string &type );
-        conditional_t( JsonObject jo );
+        conditional_t( JsonObject &jo );
 
         void set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( JsonObject &jo, const std::string &member, bool is_npc = false );

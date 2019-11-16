@@ -29,6 +29,7 @@
     "range": 3,
     "damage": 4,
     "pierce": 3,
-    "dispersion": 120
+    "dispersion": 120,
+    "effects": [ "NON-FOULING" ]
   }
 ]

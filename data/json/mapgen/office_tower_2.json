@@ -234,7 +234,7 @@
   },
   {
     "//": "Because north and west walls are part of the adjacent tile, the corner-most square in an L-shaped inner corner can be missing.",
-    "/2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
+    "//2": "This map adds it back in, to prevent an open air-gap where players can fall into sky.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_tower_open_air_corner" ],
