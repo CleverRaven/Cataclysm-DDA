@@ -4854,7 +4854,7 @@ bool game::swap_critters( Creature &a, Creature &b )
         g->m.unboard_vehicle( u_or_npc->pos() );
     }
 
-    if( other_npc->in_vehicle ) {
+    if( other_npc && other_npc->in_vehicle ) {
         g->m.unboard_vehicle( other_npc->pos() );
     }
 
@@ -4866,7 +4866,7 @@ bool game::swap_critters( Creature &a, Creature &b )
         g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
     }
 
-    if( g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+    if( other_npc && g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
 
