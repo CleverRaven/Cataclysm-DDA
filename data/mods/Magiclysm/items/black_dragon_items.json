@@ -252,7 +252,7 @@
   },
   {
     "id": "boots_xlblack_dragon_scale",
-	"copy-from": "boots_black_dragon_scale",
+    "copy-from": "boots_black_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
@@ -263,7 +263,7 @@
   },
   {
     "id": "boots_xlblack_dragon_hide",
-	"copy-from": "boots_black_dragon_hide",
+    "copy-from": "boots_black_dragon_hide",
     "type": "ARMOR",
     "name": { "str":  "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
@@ -274,7 +274,7 @@
   },
   {
     "id": "helmet_xlblack_dragon_scale",
-	"copy-from": "helmet_black_dragon_scale",
+    "copy-from": "helmet_black_dragon_scale",
     "type": "ARMOR",
     "name": "xl black dragonscale helmet",
     "description": "A massive helmet made from black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor and is large enough to fit even the strangest of heads.",
@@ -285,7 +285,7 @@
   },
   {
     "id": "helmet_xlblack_dragon_hide",
-	"copy-from": "helmet_black_dragon_hide",
+    "copy-from": "helmet_black_dragon_hide",
     "type": "ARMOR",
     "name": "xl black dragonhide helmet",
     "description": "A massive helmet made from black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
@@ -296,7 +296,7 @@
   },
   {
     "id": "suit_xlblack_dragon_scale",
-	"copy-from": "suit_black_dragon_scale",
+    "copy-from": "suit_black_dragon_scale",
     "type": "ARMOR",
     "name": "xl black dragonscale armor",
     "description": "A massive full suit of black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
@@ -307,7 +307,7 @@
   },
   {
     "id": "suit_xlblack_dragon_hide",
-	"copy-from": "suit_black_dragon_hide",
+    "copy-from": "suit_black_dragon_hide",
     "type": "ARMOR",
     "name": "xl black dragonhide armor",
     "description": "A massive full suit of black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
@@ -318,7 +318,7 @@
   },
   {
     "id": "gauntlets_xlblack_dragon_scale",
-	"copy-from": "gauntlets_black_dragon_scale",
+    "copy-from": "gauntlets_black_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "pair of xl black dragonscale gauntlets", "str_pl": "pairs of xl black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
@@ -329,7 +329,7 @@
   },
   {
     "id": "gloves_xlblack_dragon_hide",
-	"copy-from": "gloves_black_dragon_hide",
+    "copy-from": "gloves_black_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "pair of xl black dragonhide gloves", "str_pl": "pairs of xl black dragonhide gloves" },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions. Sized to fit even the strangest of anatomy.",
@@ -340,7 +340,7 @@
   },
   {
     "id": "boots_xlblack_dragon_scale",
-	"copy-from": "boots_black_dragon_scale",
+    "copy-from": "boots_black_dragon_scale",
     "type": "ARMOR",
     "name":  { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
@@ -351,7 +351,7 @@
   },
   {
     "id": "boots_xlblack_dragon_hide",
-	"copy-from": "boots_black_dragon_hide",
+    "copy-from": "boots_black_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
@@ -362,7 +362,7 @@
   },
   {
     "id": "helmet_xlblack_dragon_scale",
-	"copy-from": "helmet_black_dragon_scale",
+    "copy-from": "helmet_black_dragon_scale",
     "type": "ARMOR",
     "name": "xl black dragonscale helmet",
     "description": "A massive helmet made from black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor and is large enough to fit even the strangest of heads.",
@@ -373,7 +373,7 @@
   },
   {
     "id": "helmet_xlblack_dragon_hide",
-	"copy-from": "helmet_black_dragon_hide",
+    "copy-from": "helmet_black_dragon_hide",
     "type": "ARMOR",
     "name": "xl black dragonhide helmet",
     "description": "A massive helmet made from black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
@@ -384,7 +384,7 @@
   },
   {
     "id": "suit_xlblack_dragon_scale",
-	"copy-from": "suit_black_dragon_scale",
+    "copy-from": "suit_black_dragon_scale",
     "type": "ARMOR",
     "name": "xl black dragonscale armor",
     "description": "A massive full suit of black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
@@ -395,7 +395,7 @@
   },
   {
     "id": "suit_xlblack_dragon_hide",
-	"copy-from": "suit_black_dragon_hide",
+    "copy-from": "suit_black_dragon_hide",
     "type": "ARMOR",
     "name": "xl black dragonhide armor",
     "description": "A massive full suit of black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
@@ -406,7 +406,7 @@
   },
   {
     "id": "gauntlets_xlblack_dragon_scale",
-	"copy-from": "gauntlets_black_dragon_scale",
+    "copy-from": "gauntlets_black_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "pair of xl black dragonscale gauntlets", "str_pl": "pairs of xl black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
@@ -417,7 +417,7 @@
   },
   {
     "id": "gloves_xlblack_dragon_hide",
-	"copy-from": "gloves_black_dragon_hide",
+    "copy-from": "gloves_black_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "pair of xl black dragonhide gloves", "str_pl": "pairs of xl black dragonhide gloves"},
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions. Sized to fit even the strangest of anatomy.",
