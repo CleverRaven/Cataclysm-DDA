@@ -61,4 +61,9 @@ At the heart of most of the differences in technology is the ability to examine 
 Advanced organ and body part cloning, derived from the study of crashed mi-go scouts and their ships, allows scientists to experiment on human parts grown in the lab.  The exact capabilities of these cloning vats hasn't yet been explored in game.
 
 ### Mutagens
-Mutation is not so much a technology as taking advantage of the blob infection in all people.  They were prototypic before the cataclysm, and are unreliable and dangerous.
+Mutation is not so much a technology as taking advantage of the blob infection in all people.  These were developed very close to the Cataclysm, and would be totally unknown to the public.
+
+#### What are mutations?
+Mutations in Cataclysm are governed by the latent blob infection in all living things.  They are not the same as what is generally meant by mutation in a scientific sense, nor what we generally see in pulp scifi.  Cataclysm mutations are non genetic (more accurately, they don't *have* to be genetic.  The blob is keen on reusing stuff, and might alter gene expression to achieve a goal when it's quick and easy).
+
+A quick analogy to explain this: DNA serves like a blueprint for the architecture of the cell.  These mutations have an intermediary, like an architect standing at the building site offering new advice that supercedes tbe blueprint.
