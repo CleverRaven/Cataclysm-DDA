@@ -2345,25 +2345,25 @@
     "//": "unisex shirts",
     "subtype": "distribution",
     "items": [
-      { "item": "longshirt", "prob": 70, "count": [ 1, 4 ] },
+      { "item": "longshirt", "prob": 70 },
       { "item": "arm_warmers", "prob": 20 },
       { "item": "armguard_soft", "prob": 10 },
-      { "item": "dress_shirt", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "dress_shirt", "prob": 50 },
       { "item": "flag_shirt", "prob": 15 },
-      { "item": "jersey", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "jersey", "prob": 30 },
       { "item": "linuxtshirt", "prob": 10 },
-      { "item": "polo_shirt", "prob": 30, "count": [ 1, 4 ] },
-      { "item": "thermal_shirt", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "polo_shirt", "prob": 30 },
+      { "item": "thermal_shirt", "prob": 20 },
       { "item": "sleeveless_tunic", "prob": 10 },
-      { "item": "sweater", "prob": 40, "count": [ 1, 2 ] },
-      { "item": "sweatshirt", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "tank_top", "prob": 30, "count": [ 1, 4 ] },
-      { "item": "tshirt", "prob": 80, "count": [ 1, 4 ] },
-      { "item": "tshirt_text", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "sweater", "prob": 40 },
+      { "item": "sweatshirt", "prob": 50 },
+      { "item": "tank_top", "prob": 30 },
+      { "item": "tshirt", "prob": 80 },
+      { "item": "tshirt_text", "prob": 50 },
       { "item": "tunic", "prob": 10 },
       { "item": "waistcoat", "prob": 10 },
       { "item": "wool_hoodie", "prob": 10 },
-      { "item": "hoodie", "prob": 40, "count": [ 1, 4 ] }
+      { "item": "hoodie", "prob": 40 }
     ]
   },
   {
@@ -2381,11 +2381,11 @@
     "items": [
       { "item": "thermal_suit", "prob": 15 },
       { "item": "thermal_outfit", "prob": 5 },
-      { "item": "long_undertop", "prob": 30, "count": [ 1, 4 ] },
-      { "item": "under_armor", "prob": 10, "count": [ 1, 4 ] },
-      { "item": "undershirt", "prob": 40, "count": [ 1, 4 ] },
-      { "item": "under_armor_shorts", "prob": 10, "count": [ 1, 4 ] },
-      { "item": "long_underpants", "prob": 30, "count": [ 1, 4 ] }
+      { "item": "long_undertop", "prob": 30 },
+      { "item": "under_armor", "prob": 10 },
+      { "item": "undershirt", "prob": 40 },
+      { "item": "under_armor_shorts", "prob": 10 },
+      { "item": "long_underpants", "prob": 30 }
     ]
   },
   {
@@ -2394,18 +2394,18 @@
     "//": "womens underwear.",
     "subtype": "distribution",
     "items": [
-      { "item": "bikini_bottom", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "boy_shorts", "prob": 30, "count": [ 1, 4 ] },
-      { "item": "bra", "prob": 60, "count": [ 1, 4 ] },
-      { "item": "panties", "prob": 70, "count": [ 1, 4 ] },
-      { "item": "bikini_top", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "bikini_bottom", "prob": 20 },
+      { "item": "boy_shorts", "prob": 30 },
+      { "item": "bra", "prob": 60 },
+      { "item": "panties", "prob": 70 },
+      { "item": "bikini_top", "prob": 20 },
       { "item": "bikini_top_fur", "prob": 5 },
       { "item": "bikini_top_leather", "prob": 10 },
-      { "item": "camisole", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
-      { "item": "sports_bra", "prob": 50, "count": [ 1, 4 ] },
-      { "item": "stockings", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "tights", "prob": 20, "count": [ 1, 2 ] }
+      { "item": "sports_bra", "prob": 50 },
+      { "item": "stockings", "prob": 20 },
+      { "item": "tights", "prob": 20 }
     ]
   },
   {
@@ -2414,9 +2414,9 @@
     "//": "mens underwear.",
     "subtype": "distribution",
     "items": [
-      { "item": "boxer_briefs", "prob": 30, "count": [ 1, 4 ] },
-      { "item": "boxer_shorts", "prob": 50, "count": [ 1, 4 ] },
-      { "item": "briefs", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "boxer_briefs", "prob": 30 },
+      { "item": "boxer_shorts", "prob": 50 },
+      { "item": "briefs", "prob": 50 },
       { "item": "trunks", "prob": 10 }
     ]
   },
@@ -2454,18 +2454,18 @@
           }
         ]
       },
-      { "item": "jeans", "prob": 80, "count": [ 1, 4 ] },
+      { "item": "jeans", "prob": 80 },
       { "item": "jeans_red", "prob": 20 },
-      { "item": "leg_warmers", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "leg_warmers", "prob": 20 },
       { "item": "leggings", "prob": 30 },
       { "item": "legguard_hard", "prob": 3 },
-      { "item": "pants", "prob": 70, "count": [ 1, 4 ] },
-      { "item": "pants_cargo", "prob": 60, "count": [ 1, 4 ] },
-      { "item": "pants_leather", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "shorts", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "shorts_cargo", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "shorts_denim", "prob": 40, "count": [ 1, 2 ] },
-      { "item": "b_shorts", "prob": 60, "count": [ 1, 2 ] }
+      { "item": "pants", "prob": 70 },
+      { "item": "pants_cargo", "prob": 60 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "shorts", "prob": 50 },
+      { "item": "shorts_cargo", "prob": 60 },
+      { "item": "shorts_denim", "prob": 40 },
+      { "item": "b_shorts", "prob": 60 }
     ]
   },
   {
@@ -2475,7 +2475,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "nanoskirt", "prob": 10 },
-      { "item": "skirt", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "skirt", "prob": 50 },
       { "item": "skirt_leather", "prob": 10 }
     ]
   },
@@ -2626,9 +2626,9 @@
     "subtype": "distribution",
     "items": [
       { "item": "dress_wedding", "prob": 5 },
-      { "item": "sundress", "prob": 60, "count": [ 1, 4 ] },
-      { "item": "gown", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "dress", "prob": 60, "count": [ 1, 4 ] },
+      { "item": "sundress", "prob": 60 },
+      { "item": "gown", "prob": 20 },
+      { "item": "dress", "prob": 60 },
       { "item": "veil_wedding", "prob": 5 }
     ]
   },
