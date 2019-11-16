@@ -8358,6 +8358,7 @@
       [ "dry_rice", 20 ],
       [ "dry_beans", 20 ],
       [ "dry_lentils", 50 ],
+	  [ "cookies", 25 ],
       [ "bread", 40 ]
     ]
   },
