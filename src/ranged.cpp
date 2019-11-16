@@ -1056,7 +1056,8 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
     mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, point( 1, line_number++ ), "*  %s", e->name() );
+        nc_color o = c_white;
+        print_colored_text( w, point( 1, line_number++ ), o, o, string_format( "*  %s", e->name() ) );
     }
 
     return line_number;
