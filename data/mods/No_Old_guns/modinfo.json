@@ -4,7 +4,7 @@
     "ident": "no_olg_guns",
     "name": "No Antique Firearms",
     "authors": [ "Rivet-the-Zombie" ],
-    "maintainers": [ "Rivet-the-Zombie" ],
+    "maintainers": [ "Rivet-the-Zombie", "Cyrano7" ],
     "description": "Removes all black powder and pre-Cold War firearms.",
     "category": "item_exclude",
     "dependencies": [ "dda" ]
