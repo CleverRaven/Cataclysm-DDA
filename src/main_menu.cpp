@@ -316,6 +316,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -877,32 +878,43 @@ bool main_menu::new_character_tab()
     return start;
 }
 
-bool main_menu::load_character_tab()
+bool main_menu::load_character_tab( bool transfer )
 {
     bool start = false;
     const auto all_worldnames = world_generator->all_worldnames();
 
-    const size_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
-                                  world_generator->last_world_name ) - all_worldnames.begin();
-    if( last_world_pos < all_worldnames.size() ) {
-        sel2 = last_world_pos;
-        savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
-    }
-    const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
-    []( const save_t &it ) {
-        return it.player_name() == world_generator->last_character_name;
-    } ) - savegames.begin();
-    if( last_character_pos < savegames.size() ) {
-        sel3 = last_character_pos;
-    } else {
+    if( transfer ) {
+        layer = 3;
+        sel1 = 2;
+        sel2 -= 1;
         sel3 = 0;
+        savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
+    } else {
+        const size_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
+                                      world_generator->last_world_name ) - all_worldnames.begin();
+        if( last_world_pos < all_worldnames.size() ) {
+            sel2 = last_world_pos;
+            savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
+        }
+
+        const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
+        []( const save_t &it ) {
+            return it.player_name() == world_generator->last_character_name;
+        } ) - savegames.begin();
+        if( last_character_pos < savegames.size() ) {
+            sel3 = last_character_pos;
+        } else {
+            sel3 = 0;
+        }
     }
 
+    const int offset_x = transfer ? 25 : 15;
+    const int offset_y = transfer ? -1 : 0;
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
-        print_menu( w_open, 2, menu_offset );
+        print_menu( w_open, transfer ? 3 : 2, menu_offset );
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 15 + extra_w / 2, -2 ),
+                mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
                 on_error();
             } else {
@@ -918,7 +930,7 @@ bool main_menu::load_character_tab()
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, point( 15 + menu_offset.x + extra_w / 2, line ),
+                    mvwprintz( w_open, point( offset_x + menu_offset.x + extra_w / 2, line + offset_y ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
@@ -960,11 +972,11 @@ bool main_menu::load_character_tab()
                 savegames.erase( new_end, savegames.end() );
             }
 
-            mvwprintz( w_open, menu_offset + point( 15 + extra_w / 2, -2 - sel2 ), h_white,
+            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
                        "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
                            c_red, "%s", _( "No save games found!" ) );
                 on_error();
             } else {
@@ -972,7 +984,7 @@ bool main_menu::load_character_tab()
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- ),
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }
@@ -982,7 +994,7 @@ bool main_menu::load_character_tab()
             std::string action = handle_input_timeout( ctxt );
             if( errflag && action != "TIMEOUT" ) {
                 clear_error();
-                layer = 2;
+                layer = transfer ? 1 : 2;
             } else if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     sel3--;
@@ -996,7 +1008,7 @@ bool main_menu::load_character_tab()
                     sel3 = 0;
                 }
             } else if( action == "LEFT" || action == "QUIT" ) {
-                layer = 2;
+                layer = transfer ? 1 : 2;
                 sel3 = 0;
                 print_menu( w_open, sel1, menu_offset );
             }
@@ -1004,11 +1016,13 @@ bool main_menu::load_character_tab()
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
                     werase( w_background );
                     wrefresh( w_background );
+
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
                     world_generator->last_character_name = savegames[sel3].player_name();
                     world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
+
                     try {
                         g->setup();
                     } catch( const std::exception &err ) {
@@ -1023,14 +1037,45 @@ bool main_menu::load_character_tab()
             }
         }
     } // end while
+
+    if( transfer ) {
+        layer = 3;
+        sel1 = 3;
+        sel2++;
+        sel3 = vWorldSubItems.size() - 1;
+    }
+
     return start;
 }
 
 void main_menu::world_tab()
 {
-    while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
+    while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         print_menu( w_open, 3, menu_offset );
-        if( layer == 3 ) { // World Menu
+        if( layer == 4 ) {  //Character to Template
+            if( load_character_tab( true ) ) {
+                points_left points;
+                points.stat_points = 0;
+                points.trait_points = 0;
+                points.skill_points = 0;
+                points.limit = points_left::TRANSFER;
+
+                g->u.setID( character_id(), true );
+                g->u.reset_all_misions();
+                g->u.save_template( g->u.name, points );
+
+                g->u = avatar();
+                MAPBUFFER.reset();
+                overmap_buffer.clear();
+
+                load_char_templates();
+
+                werase( w_background );
+                wrefresh( w_background );
+
+                layer = 3;
+            }
+        } else if( layer == 3 ) { // World Menu
             // Show options for Destroy, Reset worlds.
             // Reset and Destroy ask for world to modify.
             // Reset empties world of everything but options, then makes new world within it.
@@ -1109,6 +1154,9 @@ void main_menu::world_tab()
                     } else if( sel3 == 3 ) { // Copy World settings
                         layer = 2;
                         world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
+                    } else if( sel3 == 4 ) { // Character to Template
+                        layer = 4;
+                        sel4 = 0;
                     }
 
                     if( query_yes ) {

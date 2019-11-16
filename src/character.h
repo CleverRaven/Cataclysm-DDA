@@ -199,7 +199,8 @@ class Character : public Creature, public visitable<Character>
 
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
-        void setID( character_id i );
+        // allows forcing a -1 id which is required for templates to not throw errors
+        void setID( character_id i, bool force = false );
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
