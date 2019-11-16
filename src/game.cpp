@@ -4872,6 +4872,10 @@ bool game::swap_critters( Creature &a, Creature &b )
 
     if( first.is_player() ) {
         update_map( *u_or_npc );
+
+        if( g->u.is_hauling() ) {
+            start_hauling( second.pos() );
+        }
     }
 
     return true;
