@@ -253,10 +253,10 @@
   {
     "id": "boots_xlblack_dragon_scale",
 	"copy-from": "boots_black_dragon_scale",
-    "name": "pair of XL black dragonscale boots",
-    "name_plural": "pairs of XL black dragonscale boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
-    "weight": 1545,
+    "weight": "1545 g",
     "volume": "6250 ml",
     "encumbrance": 40,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -264,10 +264,10 @@
   {
     "id": "boots_xlblack_dragon_hide",
 	"copy-from": "boots_black_dragon_hide",
-    "name": "pair of XL black dragonhide boots",
-    "name_plural": "pairs of XL black dragonhide boots",
+    "type": "ARMOR",
+    "name": { "str":  "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
-    "weight": 955,
+    "weight": "955 g",
     "volume": "6250 ml",
     "encumbrance": 28,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -275,9 +275,10 @@
   {
     "id": "helmet_xlblack_dragon_scale",
 	"copy-from": "helmet_black_dragon_scale",
+    "type": "ARMOR",
     "name": "xl black dragonscale helmet",
     "description": "A massive helmet made from black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor and is large enough to fit even the strangest of heads.",
-    "weight": 1256,
+    "weight": "1256 g",
     "volume": "4500 ml",
     "encumbrance": 42,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -285,9 +286,10 @@
   {
     "id": "helmet_xlblack_dragon_hide",
 	"copy-from": "helmet_black_dragon_hide",
+    "type": "ARMOR",
     "name": "xl black dragonhide helmet",
     "description": "A massive helmet made from black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
-    "weight": 815,
+    "weight": "815 g",
     "volume": "4500 ml",
     "encumbrance": 42,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -295,9 +297,10 @@
   {
     "id": "suit_xlblack_dragon_scale",
 	"copy-from": "suit_black_dragon_scale",
+    "type": "ARMOR",
     "name": "xl black dragonscale armor",
     "description": "A massive full suit of black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
-    "weight": 6250,
+    "weight": "6250 g",
     "volume": "18 L",
     "encumbrance": 35,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
@@ -305,9 +308,10 @@
   {
     "id": "suit_xlblack_dragon_hide",
 	"copy-from": "suit_black_dragon_hide",
+    "type": "ARMOR",
     "name": "xl black dragonhide armor",
     "description": "A massive full suit of black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
-    "weight": 5500,
+    "weight": "5500 g",
     "volume": "18 L",
     "encumbrance": 28,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
@@ -315,10 +319,10 @@
   {
     "id": "gauntlets_xlblack_dragon_scale",
 	"copy-from": "gauntlets_black_dragon_scale",
-    "name": "pair of xl black dragonscale gauntlets",
-    "name_plural": "pairs of xl black dragonscale gauntlets",
+    "type": "ARMOR",
+    "name": { "str": "pair of xl black dragonscale gauntlets", "str_pl": "pairs of xl black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
-    "weight": 680,
+    "weight": "680 g",
     "volume": "2 L",
     "encumbrance": 30,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -326,10 +330,10 @@
   {
     "id": "gloves_xlblack_dragon_hide",
 	"copy-from": "gloves_black_dragon_hide",
-    "name": "pair of xl black dragonhide gloves",
-    "name_plural": "pairs of xl black dragonhide gloves",
+    "type": "ARMOR",
+    "name": { "str": "pair of xl black dragonhide gloves", "str_pl": "pairs of xl black dragonhide gloves" },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions. Sized to fit even the strangest of anatomy.",
-    "weight": 430,
+    "weight": "430 g",
     "volume": "1500 ml",
     "encumbrance": 18,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -337,10 +341,10 @@
   {
     "id": "boots_xlblack_dragon_scale",
 	"copy-from": "boots_black_dragon_scale",
-    "name": "pair of XL black dragonscale boots",
-    "name_plural": "pairs of XL black dragonscale boots",
+    "type": "ARMOR",
+    "name":  { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
-    "weight": 1545,
+    "weight": "1545 g",
     "volume": "6250 ml",
     "encumbrance": 40,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -348,10 +352,10 @@
   {
     "id": "boots_xlblack_dragon_hide",
 	"copy-from": "boots_black_dragon_hide",
-    "name": "pair of XL black dragonhide boots",
-    "name_plural": "pairs of XL black dragonhide boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies. Very protective, and surprisingly light.",
-    "weight": 955,
+    "weight": "955 g",
     "volume": "6250 ml",
     "encumbrance": 28,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -359,9 +363,10 @@
   {
     "id": "helmet_xlblack_dragon_scale",
 	"copy-from": "helmet_black_dragon_scale",
+    "type": "ARMOR",
     "name": "xl black dragonscale helmet",
     "description": "A massive helmet made from black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor and is large enough to fit even the strangest of heads.",
-    "weight": 1256,
+    "weight": "1256 g",
     "volume": "4500 ml",
     "encumbrance": 42,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -369,9 +374,10 @@
   {
     "id": "helmet_xlblack_dragon_hide",
 	"copy-from": "helmet_black_dragon_hide",
+    "type": "ARMOR",
     "name": "xl black dragonhide helmet",
     "description": "A massive helmet made from black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
-    "weight": 815,
+    "weight": "815 g",
     "volume": "4500 ml",
     "encumbrance": 42,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -379,9 +385,10 @@
   {
     "id": "suit_xlblack_dragon_scale",
 	"copy-from": "suit_black_dragon_scale",
+    "type": "ARMOR",
     "name": "xl black dragonscale armor",
     "description": "A massive full suit of black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
-    "weight": 6250,
+    "weight": "6250 g",
     "volume": "18 L",
     "encumbrance": 35,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
@@ -389,20 +396,21 @@
   {
     "id": "suit_xlblack_dragon_hide",
 	"copy-from": "suit_black_dragon_hide",
+    "type": "ARMOR",
     "name": "xl black dragonhide armor",
     "description": "A massive full suit of black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
-    "weight": 5500,
+    "weight": "5500 g",
     "volume": "18 L",
-    "encumbrance": 28
+    "encumbrance": 28,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
   {
     "id": "gauntlets_xlblack_dragon_scale",
 	"copy-from": "gauntlets_black_dragon_scale",
-    "name": "pair of xl black dragonscale gauntlets",
-    "name_plural": "pairs of xl black dragonscale gauntlets",
+    "type": "ARMOR",
+    "name": { "str": "pair of xl black dragonscale gauntlets", "str_pl": "pairs of xl black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
-    "weight": 680,
+    "weight": "680 g",
     "volume": "2 L",
     "encumbrance": 30,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -410,10 +418,10 @@
   {
     "id": "gloves_xlblack_dragon_hide",
 	"copy-from": "gloves_black_dragon_hide",
-    "name": "pair of xl black dragonhide gloves",
-    "name_plural": "pairs of xl black dragonhide gloves",
+    "type": "ARMOR",
+    "name": { "str": "pair of xl black dragonhide gloves", "str_pl": "pairs of xl black dragonhide gloves"},
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions. Sized to fit even the strangest of anatomy.",
-    "weight": 430,
+    "weight": "430 g",
     "volume": "1500 ml",
     "price": 180000,
     "encumbrance": 18,
