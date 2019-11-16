@@ -3481,7 +3481,14 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             }
         }
     } else if( craft->item_counter >= craft->get_next_failure_point() ) {
-        craft->handle_craft_failure( *p );
+        bool destroy = craft->handle_craft_failure( *p );
+        // If the craft needs to be destroyed, do it and stop crafting.
+        if( destroy ) {
+            p->add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                      _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
+            act->targets.front().remove_item();
+            p->cancel_activity();
+        }
     }
 }
 
