@@ -1,6 +1,7 @@
 [
   {
     "id": "debug_mon",
+    "looks_like": "mon_zombie_hulk",
     "type": "MONSTER",
     "name": "debug monster",
     "description": "This monster exists only for testing purposes.",
@@ -347,6 +348,7 @@
   },
   {
     "id": "mon_blood_sacrifice",
+    "looks_like": "mon_flesh_angel",
     "type": "MONSTER",
     "name": "blood sacrifice",
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
@@ -373,6 +375,7 @@
   },
   {
     "id": "mon_boomer",
+    "//": "Tileset whitelist for bloated zombies.",
     "type": "MONSTER",
     "name": "boomer",
     "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
@@ -418,6 +421,7 @@
   },
   {
     "id": "mon_gas_zombie",
+    "looks_like": "mon_boomer",
     "type": "MONSTER",
     "name": "gasoline zombie",
     "description": "A huge bloated zombie that appears to have fed upon gasoline; fumes and flames escape from its mouth and fuel leaks from its waddling form.",
@@ -461,6 +465,7 @@
   },
   {
     "id": "mon_boomer_fungus",
+    "looks_like": "mon_boomer",
     "type": "MONSTER",
     "name": "fungal boomer",
     "description": "A rotund and bloated human body with pasty, fungus-ridden flesh.  Its mouth drips with a frothing gray sludge.",
@@ -493,6 +498,7 @@
   },
   {
     "id": "mon_boomer_huge",
+    "looks_like": "mon_boomer",
     "type": "MONSTER",
     "name": "huge boomer",
     "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed…",
@@ -539,6 +545,7 @@
   },
   {
     "id": "mon_devourer",
+    "looks_like": "mon_zombie_hulk",
     "type": "MONSTER",
     "name": "dissoluted devourer",
     "description": "Human bodies fused together into a colossus with heads and limbs sticking out of its bloated body.  You may have trouble estimating its healthiness and its capabilities might change.",
@@ -930,6 +937,7 @@
   },
   {
     "id": "mon_dementia",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "dementia",
     "description": "A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
@@ -1257,6 +1265,7 @@
   },
   {
     "id": "mon_flesh_angel",
+    "//": "Tileset whitelisted for FEAR_PARALYZE zombies."
     "type": "MONSTER",
     "name": "flesh angel",
     "description": "A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
@@ -1902,6 +1911,7 @@
   },
   {
     "id": "mon_homunculus",
+    "looks_like": "mon_flesh_angel",
     "type": "MONSTER",
     "name": { "str": "homunculus", "str_pl": "homunculuses" },
     "description": "A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
@@ -1930,6 +1940,7 @@
   },
   {
     "id": "mon_hound_tindalos",
+    "//": "Tileset whitelisted."
     "type": "MONSTER",
     "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
     "description": "A grotesque hound-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare stepping beyond time and space.",
@@ -1973,6 +1984,7 @@
   },
   {
     "id": "mon_hound_tindalos_afterimage",
+    "looks_like": "mon_hound_tindalos",
     "type": "MONSTER",
     "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
     "description": "A grotesque hound-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare stepping beyond time and space.",
@@ -2081,6 +2093,7 @@
   },
   {
     "id": "mon_irradiated_wanderer_1",
+    "//": "Tileset whitelist for irradiated wanderers.",
     "type": "MONSTER",
     "name": "irradiated wanderer",
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
@@ -2113,6 +2126,7 @@
   },
   {
     "id": "mon_irradiated_wanderer_2",
+    "looks_like": "mon_irradiated_wander_1",
     "type": "MONSTER",
     "name": "irradiated wanderer",
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
@@ -2146,6 +2160,7 @@
   },
   {
     "id": "mon_irradiated_wanderer_3",
+    "looks_like": "mon_irradiated_wander_1",
     "type": "MONSTER",
     "name": "irradiated wanderer",
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
@@ -2179,6 +2194,7 @@
   },
   {
     "id": "mon_irradiated_wanderer_4",
+    "looks_like": "mon_irradiated_wander_1",
     "type": "MONSTER",
     "name": "irradiated wanderer",
     "description": "This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
@@ -2554,6 +2570,7 @@
   },
   {
     "id": "mon_shia",
+    "looks_like": "Tileset whitelisted.",
     "type": "MONSTER",
     "name": { "str": "Shia LaBeouf", "str_pl": "Shia LaBeouf" },
     "description": "Living in the woods,\nkilling for sport,\neating all the bodies,\nactual cannibal Shia LaBeouf.",
@@ -2597,6 +2614,7 @@
   },
   {
     "id": "mon_shoggoth",
+    "//": "Tileset whitelisted",
     "type": "MONSTER",
     "name": "shoggoth",
     "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
@@ -3044,6 +3062,7 @@
   },
   {
     "id": "mon_zolf",
+    "looks_like": "mon_wolf",
     "type": "MONSTER",
     "name": "grim howler",
     "description": "A zombified wolf.  Its mouth oozes with a black substance, coating the vicious-looking white fangs.",
@@ -3074,6 +3093,7 @@
   },
   {
     "id": "mon_zombear",
+    "looks_like": "mon_bear",
     "type": "MONSTER",
     "name": "zombear",
     "description": "This black bear's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
@@ -3248,6 +3268,7 @@
   },
   {
     "id": "mon_zombie_biter",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "slavering biter",
     "description": "A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
@@ -3357,6 +3378,7 @@
   },
   {
     "id": "mon_zombie_brute",
+    "looks_like": "mon_zombie_hulk",
     "type": "MONSTER",
     "name": "zombie brute",
     "description": "Its entire body bulges with distended muscles and swollen, festering wounds.",
@@ -3404,6 +3426,7 @@
   },
   {
     "id": "mon_zombie_brute_grappler",
+    "looks_like": "mon_zombie_hulk",
     "type": "MONSTER",
     "name": "zombie wrestler",
     "description": "A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
@@ -3452,6 +3475,7 @@
   },
   {
     "id": "mon_zombie_brute_ninja",
+    "looks_like": "mon_zombie_hulk",
     "type": "MONSTER",
     "name": "zombie nightstalker",
     "description": "Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
@@ -3583,6 +3607,7 @@
   },
   {
     "id": "mon_zombie_cop",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": "zombie cop",
     "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
@@ -3772,6 +3797,7 @@
   },
   {
     "id": "mon_zombie_dog",
+    "looks_like": "mon_wolf",
     "alias": "mon_zombie_fast",
     "type": "MONSTER",
     "name": "zombie dog",
@@ -3993,6 +4019,7 @@
   },
   {
     "id": "mon_zombie_fiend",
+    "looks_like": "mon_skeleton",
     "type": "MONSTER",
     "name": "fiend",
     "description": "Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but swiftly.",
@@ -4109,6 +4136,7 @@
   },
   {
     "id": "mon_zombie_gasbag",
+    "looks_like": "mon_boomer",
     "type": "MONSTER",
     "name": "bloated zombie",
     "description": "With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
@@ -4139,6 +4167,7 @@
   },
   {
     "id": "mon_zombie_gasbag_immobile",
+    "looks_like": "mon_boomer",
     "type": "MONSTER",
     "name": { "str": "gangrenous flesh", "str_pl": "gangrenous flesh" },
     "description": "Immobile from grievous wounds, its gray skin has bloated to near rupture with putrid gas.  Between lumps of unrecognizable gore, a human head lamely follows your walking with empty, black eyes.",
@@ -4169,6 +4198,7 @@
   },
   {
     "id": "mon_zombie_gasbag_crawler",
+    "looks_like": "mon_zombie_hunter",
     "type": "MONSTER",
     "name": "gangrenous crawler",
     "description": "A nightmarish spidery abomination, born from human gore.  It deftly crawls between walls and ceiling with limbs grown from its own disjointed ribs.",
@@ -4465,6 +4495,7 @@
   },
   {
     "id": "mon_zombie_hollow",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie hollow",
     "description": "Black hollow eyes survey the surroundings as the zombie stretches and bends in ways that whoever the original body belonged to never could.  The only thing that seems solid, on this flexible black-veined body, is the rows of sharp black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one would wear clothes.",
@@ -4497,6 +4528,7 @@
   },
   {
     "id": "mon_zombie_hulk",
+    "//": "Tileset whitelist for huge zombies.",
     "type": "MONSTER",
     "name": "zombie hulk",
     "description": "A human body now swollen to the size of six men, with arms as wide as a trash can.",
@@ -4584,7 +4616,7 @@
   },
   {
     "id": "mon_zombie_jackson",
-    "looks_like": "mon_zombie",
+    "//": "Tileset whitelisted.",
     "type": "MONSTER",
     "name": "Thriller",
     "description": "And though you fight to stay alive,\nYour body starts to shiver.\nFor no mere mortal can resist,\nThe evil of the thriller.",
@@ -4617,6 +4649,7 @@
   },
   {
     "id": "mon_zombie_mancroc",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie snapper",
     "description": "With a crocodile-like snout and rows of protruding teeth, this swimwear-clad zombie lurks in the water.",
@@ -4678,6 +4711,7 @@
   },
   {
     "id": "mon_zombie_master",
+    "//": "Tileset whitelist for zombie master & necromancer.",
     "type": "MONSTER",
     "name": "zombie master",
     "description": "Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
@@ -4726,6 +4760,7 @@
   },
   {
     "id": "mon_zombie_necro",
+    "looks_like": "mon_zombie_master",
     "type": "MONSTER",
     "name": "zombie necromancer",
     "description": "A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
@@ -4773,6 +4808,7 @@
   },
   {
     "id": "mon_zombie_pig",
+    "looks_like": "mon_pig",
     "type": "MONSTER",
     "name": "festering boar",
     "description": "A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
@@ -5014,6 +5050,7 @@
   },
   {
     "id": "mon_zombie_shady",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "shady zombie",
     "description": "An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human shaped outline.",
@@ -5157,6 +5194,7 @@
   },
   {
     "id": "mon_zombie_smoker",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "smoker zombie",
     "description": "A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
@@ -5404,6 +5442,7 @@
   },
   {
     "id": "mon_zombie_thorny",
+    "looks_like": "mon_zombie",
     "type": "MONSTER",
     "name": "thorny shambler",
     "description": "A shambling undead humanoid, body overgrown with a tangled mass of otherworldly vegetation.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
@@ -5499,6 +5538,7 @@
   },
   {
     "id": "mon_zombeaver",
+    "looks_like": "mon_beaver",
     "type": "MONSTER",
     "name": "zombeaver",
     "description": "This wall-eyed beast has a large wound on its side, and ribs with some flesh on them are seen through it.  The most prominent feature of this abomination is large incisors in its ominously open mouth, strange black goo is oozing out of it.  Seems like it isn't interested in trees anymore and is looking for some warm flesh to feed.",
