@@ -1492,9 +1492,9 @@ void options_manager::add_options_interface()
        );
 
     add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
-        translate_marker( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
-        false
-    );
+         translate_marker( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
+         false
+       );
 
     mOptionsSort["interface"]++;
 
