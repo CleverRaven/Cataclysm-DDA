@@ -165,7 +165,7 @@
       [ "choc_drink", 25 ]
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "candy_chocolate",
     "items": [
@@ -181,5 +181,4 @@
       [ "maple_candy", 10 ]
     ]
   }
-
 ]
