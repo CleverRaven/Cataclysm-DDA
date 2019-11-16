@@ -244,7 +244,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( !type->snippet_category.empty() ) {
-        note = SNIPPET.assign( type->snippet_category );
+        snippet_id = SNIPPET.random_id_from_category( type->snippet_category );
     }
 
     if( current_phase == PNULL ) {
@@ -2501,9 +2501,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
-        if( !type->snippet_category.empty() ) {
+        const cata::optional<translation> snippet = snippet_id.has_value()
+                ? SNIPPET.get_snippet_by_id( snippet_id.value() )
+                : cata::nullopt;
+        if( snippet.has_value() ) {
             // Just use the dynamic description
-            info.push_back( iteminfo( "DESCRIPTION", SNIPPET.get( note ) ) );
+            info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
@@ -7832,7 +7835,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     return destroy;
 }
 
-void item::set_snippet( const std::string &snippet_id )
+void item::set_snippet( const std::string &id )
 {
     if( is_null() ) {
         return;
@@ -7841,13 +7844,12 @@ void item::set_snippet( const std::string &snippet_id )
         debugmsg( "can not set description for item %s without snippet category", typeId().c_str() );
         return;
     }
-    const int hash = SNIPPET.get_snippet_by_id( snippet_id );
-    if( SNIPPET.get( hash ).empty() ) {
-        debugmsg( "snippet id %s is not contained in snippet category %s", snippet_id.c_str(),
-                  type->snippet_category.c_str() );
+    if( !SNIPPET.get_snippet_by_id( id ).has_value() ) {
+        debugmsg( "snippet id %s is not contained in snippet category %s", id,
+                  type->snippet_category );
         return;
     }
-    note = hash;
+    snippet_id = id;
 }
 
 const item_category &item::get_category() const

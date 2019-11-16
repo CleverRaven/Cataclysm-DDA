@@ -834,7 +834,7 @@ class jmapgen_sign : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                signtext = SNIPPET.get( SNIPPET.assign( snippet ) );
+                signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
                 signtext = signage;
             }
@@ -886,7 +886,7 @@ class jmapgen_graffiti : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+                graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
                 graffiti = text;
             }

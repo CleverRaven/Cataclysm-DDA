@@ -1195,7 +1195,7 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &snippet_id );
+        void set_snippet( const std::string &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
@@ -2116,7 +2116,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        int note = 0;              // Associated dynamic text snippet.
+        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
