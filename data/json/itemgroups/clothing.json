@@ -563,16 +563,24 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jeans", "prob": 90 },
-      { "item": "pants_checkered", "prob": 5 },
+      { "item": "jeans_red", "prob": 50 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
+      { "item": "b_shorts", "prob": 30 },
+      { "item": "shorts_cargo", "prob": 50 },
+      { "item": "postman_shorts", "prob": 12 },
+      { "item": "under_armor_shorts", "prob": 5 },
       { "item": "pants", "prob": 75 },
-      { "item": "leather_belt", "prob": 30 },
       { "item": "pants_leather", "prob": 60 },
       { "item": "pants_cargo", "prob": 70 },
-      { "item": "shorts_cargo", "prob": 50 },
-      { "item": "under_armor_shorts", "prob": 20 },
-      { "item": "postman_shorts", "prob": 5 },
+      { "item": "pants_checkered", "prob": 55 },
+      { "item": "pants_ski", "prob": 45 },
+      { "item": "pants_fur", "prob": 5 },
+      { "item": "pants_faux_fur", "prob": 15 },
+      { "item": "hot_pants", "prob": 30 },
+      { "item": "hot_pants_fur", "prob": 5 },
+      { "item": "hot_pants_leather", "prob": 25 },
+      { "item": "breeches", "prob": 25 },
       { "item": "kilt", "prob": 5 }
     ]
   },
@@ -585,10 +593,6 @@
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
-      { "item": "dress", "prob": 70 },
-      { "item": "sundress", "prob": 50 },
-      { "item": "dress_wedding", "prob": 1 },
-      { "item": "b_shorts", "prob": 15 },
       { "item": "nanoskirt", "prob": 10 }
     ]
   },
@@ -1000,7 +1004,16 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "bra", 70 ], [ "sports_bra", 50 ], [ "bikini_top", 10 ] ]
+    "items": [
+      [ "bra", 70 ],
+      [ "sports_bra", 50 ],
+      [ "camisole", 30 ],
+      [ "halter_top", 30 ],
+      [ "bikini_top", 10 ],
+      [ "bikini_top_leather", 7 ],
+      [ "bikini_top_fur", 5 ],
+      [ "corset", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -1020,7 +1033,8 @@
       [ "briefs", 30 ],
       [ "boxer_briefs", 50 ],
       [ "long_underpants", 20 ],
-      [ "under_armor_shorts", 20 ]
+      [ "under_armor_shorts", 20 ],
+      [ "trunks", 10 ]
     ]
   },
   {
