@@ -3,7 +3,7 @@
     "type": "faction",
     "id": "Prepnet_Phyle",
     "name": "PrepNet Phyle",
-    "mon_faction":"PrepNet",
+    "mon_faction": "PrepNet",
     "likes_u": 0,
     "respects_u": 0,
     "known_by_u": false,
