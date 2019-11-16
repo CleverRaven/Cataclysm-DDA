@@ -182,7 +182,6 @@
     "material": [ "flesh" ],
     "symbol": "v",
     "color": "red",
-    "looks_like": "mon_chicken",
     "aggression": -50,
     "morale": -8,
     "melee_skill": 2,
