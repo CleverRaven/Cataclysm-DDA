@@ -397,7 +397,7 @@
     "id": "suit_xlblack_dragon_hide",
     "copy-from": "suit_black_dragon_hide",
     "type": "ARMOR",
-    "name": "xl black dragonhide armor",
+    "name": "XL black dragonhide armor",
     "description": "A massive full suit of black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
     "weight": "5500 g",
     "volume": "18 L",
