@@ -7,7 +7,7 @@ namespace tidy
 namespace cata
 {
 
-StringLiteralIterator::StringLiteralIterator( const StringLiteral &str, size_t ind )
+StringLiteralIterator::StringLiteralIterator( const StringLiteral &str, const size_t ind )
     : str( str ), ind( ind )
 {
 }

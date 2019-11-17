@@ -198,6 +198,8 @@ void body_part_struct::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "main_part", main_part );
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
+
     part_side = jo.get_enum_value<side>( "side" );
 }
 

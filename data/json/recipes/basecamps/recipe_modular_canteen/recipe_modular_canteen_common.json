@@ -52,7 +52,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_canteen_well",
-    "description": "We should build a well. This will make cooking more convenient.",
+    "description": "We should build a well.  This will make cooking more convenient.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

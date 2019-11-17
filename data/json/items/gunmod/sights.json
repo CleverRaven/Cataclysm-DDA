@@ -50,7 +50,8 @@
     "mod_targets": [ "bow" ],
     "sight_dispersion": 1,
     "aim_speed": 2,
-    "min_skills": [ [ "archery", 3 ] ]
+    "min_skills": [ [ "archery", 3 ] ],
+    "flags": [ "ZOOM" ]
   },
   {
     "id": "holo_sight",
@@ -104,7 +105,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "crossbow" ],
+    "mod_targets": [ "pistol", "smg" ],
     "sight_dispersion": 8,
     "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
@@ -150,6 +151,14 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
+    "id": "rifle_scope_mod",
+    "copy-from": "rifle_scope",
+    "type": "GUNMOD",
+    "name": "modified rifle scope",
+    "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
+    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
+  },
+  {
     "id": "acog_scope",
     "type": "GUNMOD",
     "name": "ACOG scope",
@@ -167,6 +176,14 @@
     "aim_speed": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "acog_scope_mod",
+    "copy-from": "acog_scope",
+    "type": "GUNMOD",
+    "name": "modified ACOG scope",
+    "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
     "id": "riv_scope",
@@ -193,14 +210,14 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
+    "mod_targets": [ "rifle", "shotgun", "crossbow", "launcher" ],
     "//install_time": "30 m",
     "consume_chance": 1000,
     "consume_divisor": 505,
     "sight_dispersion": 15,
     "aim_speed": 1,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
   },
   {
     "id": "tele_sight_pistol",
@@ -214,13 +231,13 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "crossbow" ],
+    "mod_targets": [ "pistol", "smg" ],
     "sight_dispersion": 20,
     "aim_speed": 1,
     "consume_chance": 1000,
     "consume_divisor": 85,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
   },
   {
     "id": "lead_red_dot_sight",

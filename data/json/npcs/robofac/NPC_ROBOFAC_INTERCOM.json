@@ -137,7 +137,7 @@
     "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
-      "describe": "...",
+      "describe": "…",
       "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
       "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
@@ -152,7 +152,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_3",
     "type": "mission_definition",
     "name": "Light retrieval",
-    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "template_photonics",
@@ -172,7 +172,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "...",
+      "describe": "…",
       "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.",
       "accepted": "We expect your success, mercenary.",
       "rejected": "Return if you change your mind.",
@@ -286,7 +286,7 @@
       "effect": { "npc_add_var": "npc_failed_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "no_intercom_trade"
     },
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_TRADE",
@@ -296,13 +296,13 @@
       "effect": { "npc_add_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "intercom_trade"
     },
-    "responses": [ { "text": "...", "effect": "start_trade", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
     "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went...  Shame about what happened, with the evisceration and all...",
-    "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_INTERCOM" } ]
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR",
@@ -327,7 +327,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PLEAD",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1", "yes": "...", "no": "Just leave." },
+    "dynamic_line": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1", "yes": "…", "no": "Just leave." },
     "responses": [
       {
         "text": "Wait!  Maybe I can help you!",

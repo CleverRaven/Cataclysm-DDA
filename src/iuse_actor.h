@@ -455,16 +455,23 @@ class salvage_actor : public iuse_actor
 
         /** Materials it can cut */
         std::set<material_id> material_whitelist = {
+            material_id( "acidchitin" ),
+            material_id( "alien_resin" ),
+            material_id( "bone" ),
+            material_id( "chitin" ),
             material_id( "cotton" ),
-            material_id( "leather" ),
-            material_id( "fur" ),
             material_id( "faux_fur" ),
-            material_id( "nomex" ),
+            material_id( "fur" ),
             material_id( "kevlar" ),
+            material_id( "kevlar_rigid" ),
+            material_id( "leather" ),
+            material_id( "lycra" ),
+            material_id( "neoprene" ),
+            material_id( "nomex" ),
+            material_id( "nylon" ),
             material_id( "plastic" ),
             material_id( "wood" ),
-            material_id( "wool" ),
-            material_id( "neoprene" )
+            material_id( "wool" )
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
@@ -957,7 +964,7 @@ class place_trap_actor : public iuse_actor
             int practice = 0;
             /** Move points that are used when placing the trap. */
             int moves = 100;
-            void load( JsonObject obj );
+            void load( JsonObject &obj );
         };
         /** Whether one can place the trap when underwater. */
         bool allow_underwater = false;

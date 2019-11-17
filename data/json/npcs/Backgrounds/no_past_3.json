@@ -5,7 +5,7 @@
     "dynamic_line": "This is gonna sound crazy, but I woke up in the forest in the middle of nowhere, freezing cold, about a week before I met you.  I had my clothes, a splitting headache, and absolutely no memory of anything.  Like, I know stuff.  I can talk, I have skills and understanding... but I don't remember where any of it comes from.  I had a driver's license in my pocket and that's the only way I even know my name.",
     "responses": [
       { "text": "What do you think happened?", "topic": "BGSS_NO_PAST_3_STORY2" },
-      { "text": "That does sound a little crazy...", "topic": "BGSS_NO_PAST_3_CRAZY" },
+      { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -16,7 +16,7 @@
     "dynamic_line": "There were some clues.  Like, I had a nasty headache that lasted a few days, but no cuts or bruises.  And there were scorch marks on the trees in weird slashing patterns around me.  Whatever happened to me, I think it was some weird shit.",
     "responses": [
       { "text": "Are you trying to get your memory back then?", "topic": "BGSS_NO_PAST_3_STORY3" },
-      { "text": "That does sound a little crazy...", "topic": "BGSS_NO_PAST_3_CRAZY" },
+      { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -26,7 +26,7 @@
     "type": "talk_topic",
     "dynamic_line": "Well, not having a memory is weird as heck, but I'll be honest: I think it might be better?  With what's going on, I bet you my memories weren't happy ones.  Besides my driver's license, there were pictures of kids in my wallet... not that that sparked any reaction from me.  I didn't see any kids around.  Maybe losing my mind is a mercy.  Hell, maybe it's some kind of psychotic break and my brain did this to itself.  To be honest with you I think I'd rather focus on surviving, and not worry about it.",
     "responses": [
-      { "text": "That does sound a little crazy...", "topic": "BGSS_NO_PAST_3_CRAZY" },
+      { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

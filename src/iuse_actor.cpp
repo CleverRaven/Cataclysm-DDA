@@ -2553,7 +2553,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
 int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return 0;
     }
@@ -2744,7 +2744,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
 int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ),
                              it.type_name() );
         return 0;
@@ -3835,7 +3835,7 @@ place_trap_actor::place_trap_actor( const std::string &type ) :
 
 place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
-void place_trap_actor::data::load( JsonObject obj )
+void place_trap_actor::data::load( JsonObject &obj )
 {
     assign( obj, "trap", trap );
     assign( obj, "done_message", done_message );
@@ -3851,7 +3851,8 @@ void place_trap_actor::load( JsonObject &obj )
     assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
     assign( obj, "bury_question", bury_question );
     if( !bury_question.empty() ) {
-        buried_data.load( obj.get_object( "bury" ) );
+        JsonObject buried_json = obj.get_object( "bury" );
+        buried_data.load( buried_json );
     }
     unburied_data.load( obj );
     assign( obj, "outer_layer_trap", outer_layer_trap );
@@ -4577,30 +4578,34 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
+            // @TODO Fix for UTF-8 strings
+            // @TODO find other places where this is used and make a global function for all
+            static const auto tolower = []( std::string t ) {
+                if( !t.empty() ) {
+                    t.front() = std::tolower( t.front() );
+                }
+                return t;
+            };
             // Mod not already present, check if modification is possible
             if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        obj.implement_prompt, thread_needed );
-                prompt[6] = std::tolower( prompt[6] );
+                                        tolower( obj.implement_prompt ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
-                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), obj.implement_prompt, items_needed,
-                                        item::nname( obj.item_string, items_needed ) );
-                prompt[6] = std::tolower( prompt[6] );
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ) );
             } else if( obj.restricted &&
                        std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        obj.implement_prompt, mod.tname( 1, false ) );
-                prompt[6] = std::tolower( prompt[6] );
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), obj.implement_prompt, items_needed,
-                                        item::nname( obj.item_string, items_needed ), thread_needed );
-                prompt[0] = std::toupper( prompt[0] );
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 
         } else {

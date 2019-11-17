@@ -169,12 +169,12 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_KILLER( "KILLER" );
 
-static const std::map<m_size, std::string> size_names {
-    {m_size::MS_TINY, translate_marker( "tiny" )},
-    {m_size::MS_SMALL, translate_marker( "small" )},
-    {m_size::MS_MEDIUM, translate_marker( "medium" )},
-    {m_size::MS_LARGE, translate_marker( "large" )},
-    {m_size::MS_HUGE, translate_marker( "huge" )},
+static const std::map<m_size, translation> size_names {
+    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
+    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
+    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
+    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
+    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -212,8 +212,6 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
-
-    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -468,14 +466,16 @@ void monster::try_biosignature()
     if( !biosig_timer ) {
         biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
-
+    int counter = 0;
     while( true ) {
-        if( *biosig_timer > calendar::turn ) {
+        // dont catch up too much, otherwise on some scenarios,
+        // we could have years worth of poop just deposited on the floor.
+        if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-
         g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
+        counter += 1;
     }
 }
 
@@ -534,12 +534,12 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive ) const
+std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name() );
+        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name() );
+        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
 }
 
@@ -622,7 +622,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
-    if( effect_cache[MODIFIED] ) {
+    if( size_bonus > 0 ) {
         wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
@@ -674,7 +674,7 @@ std::string monster::extended_description() const
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ),
-                         _( size_names.at( get_size() ) ) ) << std::endl;
+                         size_names.at( get_size() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -1691,29 +1691,6 @@ void monster::add_effect( const efftype_id &eff_id, const time_duration dur, bod
 {
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
-
-    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect(
-                                 eff_id ) );
-}
-
-bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
-{
-    bool modif = effect_is_modifier_enabled( get_effect( eff_id ) );
-    bool rtrn = Creature::remove_effect( eff_id, bp );
-
-    if( modif && effect_cache[MODIFIED] ) {
-        modif = false;
-        for( const auto &ef : *effects ) {
-            modif |= effect_is_modifier_enabled( ef.second.at( num_bp ) );
-        }
-        effect_cache[MODIFIED] = modif;
-    }
-    return rtrn;
-}
-
-bool monster::effect_is_modifier_enabled( const effect &eff )
-{
-    return eff.get_mod( "GROWTH" ) != 0;
 }
 
 std::string monster::get_effect_status() const
@@ -2132,8 +2109,8 @@ void monster::die( Creature *nkiller )
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
-                std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
-                ch->add_msg_if_player( m_good, _( snip ) );
+                const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+                ch->add_msg_if_player( m_good, "%s", snip );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
@@ -2271,17 +2248,6 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-int monster::get_effect_bonus( std::string arg, bool reduced ) const
-{
-    int rtrn = 0;
-    for( const auto effbody : *effects ) {
-        for( const auto ef : effbody.second ) {
-            rtrn += ef.second.get_mod( arg, reduced );
-        }
-    }
-    return rtrn;
-}
-
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2337,6 +2303,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     mod_hit_bonus( get_effect( "HIT", reduced ) );
     mod_bash_bonus( get_effect( "BASH", reduced ) );
     mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2572,29 +2539,17 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return m_size( type->size + get_effect_bonus( "GROWTH" ) );
-    } else {
-        return type->size;
-    }
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return units::operator*( type->weight, get_size() / type->size );
-    } else {
-        return type->weight;
-    }
+    return units::operator*( type->weight, get_size() / type->size );
 }
 
 units::volume monster::get_volume() const
 {
-    if( effect_cache[MODIFIED] ) {
-        return units::operator*( type->volume, get_size() / type->size );
-    } else {
-        return type->volume;
-    }
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2672,7 +2627,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
@@ -2766,6 +2721,11 @@ int monster::get_hp( hp_part ) const
 int monster::get_hp() const
 {
     return hp;
+}
+
+float monster::get_mountable_weight_ratio() const
+{
+    return type->mountable_weight_ratio;
 }
 
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )

@@ -1192,6 +1192,15 @@ bool npc::wield( item &it )
     return true;
 }
 
+void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                bool stash )
+{
+    Character::drop( what, target, stash );
+    // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
+    // so is this necessary?
+    activity.do_turn( *this );
+}
+
 void npc::form_opinion( const player &u )
 {
     // FEAR
@@ -1445,13 +1454,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<matype_id> ret;
-    for( auto &i : ma_styles ) {
-        if( !p.has_martialart( i ) ) {
-            ret.push_back( i );
-        }
-    }
-    return ret;
+    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
 void npc::decide_needs()
@@ -1461,7 +1464,18 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            int ups_charges = charges_of( "UPS_off", ups_drain ) +
+                              charges_of( "UPS_off", ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        } else {
+            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        }
+        needrank[need_ammo] *= 5;
+    }
+    if( !base_location ) {
+        needrank[need_safety] = 1;
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -2835,14 +2849,37 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
+bool npc::invoke_item( item *used, const tripoint &pt )
+{
+    const auto &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return Character::invoke_item( used, use_methods.begin()->first, pt );
+    }
+    return false;
+}
+
+bool npc::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+bool npc::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
         { "need_none", overmap_location_str_id( "source_of_anything" ) },
-        { "need_ammo", overmap_location_str_id( "source_of_ammo" )},
-        { "need_weapon", overmap_location_str_id( "source_of_weapon" )},
-        { "need_gun", overmap_location_str_id( "source_of_gun" ) },
+        { "need_ammo", overmap_location_str_id( "source_of_ammo" ) },
+        { "need_weapon", overmap_location_str_id( "source_of_weapons" )},
+        { "need_gun", overmap_location_str_id( "source_of_guns" ) },
         { "need_food", overmap_location_str_id( "source_of_food" )},
-        { "need_drink", overmap_location_str_id( "source_of_drink" ) }
+        { "need_drink", overmap_location_str_id( "source_of_drink" ) },
+        { "need_safety", overmap_location_str_id( "source_of_safety" ) }
     }
 };
 

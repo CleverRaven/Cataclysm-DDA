@@ -340,7 +340,7 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_tainted_leather", 50 ], [ "raw_tainted_fur", 50 ] ] ],
+    "components": [ [ [ "raw_tainted_leather", 6 ], [ "raw_tainted_fur", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

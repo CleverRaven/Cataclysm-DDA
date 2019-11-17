@@ -18,9 +18,9 @@
       "TALK_CITY_COP"
     ],
     "responses": [
-      { "text": "About that job...", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
-        "text": "About one of those jobs...",
+        "text": "About one of those jobs…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
         "condition": "has_many_assigned_missions"
       }
@@ -110,7 +110,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "I'm sorry... I failed.",
+        "text": "I'm sorry…  I failed.",
         "condition": "mission_failed",
         "topic": "TALK_MISSION_FAILURE",
         "opinion": { "trust": -1, "value": -1, "anger": 1 }
@@ -144,7 +144,7 @@
       },
       { "text": "No.  I'll get back to it, bye!", "condition": "mission_incomplete", "topic": "TALK_NONE" },
       {
-        "text": "Yup! Here it is!",
+        "text": "Yup!  Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": {
           "and": [

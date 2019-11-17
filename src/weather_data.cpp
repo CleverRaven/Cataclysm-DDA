@@ -51,55 +51,55 @@ static weather_result weather_data_internal( weather_type const type )
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,
                 '0', 0, 0.0f, 0, 0, false,
-                &weather_effect::none
+                PRECIP_NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Clear" ), c_cyan, c_yellow_white, ' ', 0, 1.0f, 0, 0, false,
-                &weather_effect::none
+                PRECIP_NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Sunny" ), c_light_cyan, c_yellow_white, '*', 0, 1.0f, 2, 0, false,
-                &weather_effect::sunny
+                PRECIP_NONE, false, false, &weather_effect::sunny
             },
             weather_datum {
                 translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '~', 0, 1.0f, -20, 0, false,
-                &weather_effect::none
+                PRECIP_NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Drizzle" ), c_light_blue, h_light_blue, '.', 1, 1.03f, -20, 1, false,
-                &weather_effect::wet
+                PRECIP_LIGHT, true, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Rain" ), c_blue, h_blue, 'o', 3, 1.1f, -30, 4, false,
-                &weather_effect::very_wet
+                PRECIP_HEAVY, true, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Thunder Storm" ), c_dark_gray, i_blue, '%', 4, 1.2f, -40, 8, false,
-                &weather_effect::thunder
+                PRECIP_HEAVY, true, false, &weather_effect::thunder
             },
             weather_datum {
                 translate_marker( "Lightning Storm" ), c_yellow, h_yellow, '%', 4, 1.25f, -45, 8, false,
-                &weather_effect::lightning
+                PRECIP_HEAVY, true, false, &weather_effect::lightning
             },
             weather_datum {
                 translate_marker( "Acidic Drizzle" ), c_light_green, c_yellow_green, '.', 2, 1.03f, -20, 1, true,
-                &weather_effect::light_acid
+                PRECIP_LIGHT, true, true, &weather_effect::light_acid
             },
             weather_datum {
                 translate_marker( "Acid Rain" ), c_green, c_yellow_green, 'o', 4, 1.1f, -30, 4, true,
-                &weather_effect::acid
+                PRECIP_HEAVY, true, true, &weather_effect::acid
             },
             weather_datum {
                 translate_marker( "Flurries" ), c_white, c_dark_gray_cyan, '.', 2, 1.12f, -15, 2, false,
-                &weather_effect::flurry
+                PRECIP_LIGHT, false, false, &weather_effect::flurry
             },
             weather_datum {
                 translate_marker( "Snowing" ), c_white, c_dark_gray_cyan, '*', 4, 1.13f, -20, 4, false,
-                &weather_effect::snow
+                PRECIP_HEAVY, false, false, &weather_effect::snow
             },
             weather_datum {
                 translate_marker( "Snowstorm" ), c_white, c_white_cyan, '%', 6, 1.2f, -30, 6, false,
-                &weather_effect::snowstorm
+                PRECIP_HEAVY, false, false, &weather_effect::snowstorm
             }
         }};
 
@@ -162,6 +162,18 @@ int sound_attn( weather_type const type )
 bool dangerous( weather_type const type )
 {
     return weather_data_internal( type ).datum.dangerous;
+}
+precip_class precip( weather_type const type )
+{
+    return weather_data_internal( type ).datum.precip;
+}
+bool rains( weather_type const type )
+{
+    return weather_data_internal( type ).datum.rains;
+}
+bool acidic( weather_type const type )
+{
+    return weather_data_internal( type ).datum.acidic;
 }
 weather_effect_fn effect( weather_type const type )
 {

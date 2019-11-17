@@ -92,6 +92,7 @@ class vehicle;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -142,6 +143,7 @@ enum debug_menu_index {
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VEHICLE_AI,
     DEBUG_DISPLAY_VISIBILITY,
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
@@ -201,6 +203,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
@@ -433,7 +436,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -451,6 +454,7 @@ void character_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
+    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -566,10 +570,10 @@ void character_edit_menu()
         break;
         case D_STAMINA:
             int value;
-            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.stamina,
+            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.get_stamina(),
                            p.get_stamina_max() ) ) {
                 if( value >= 0 && value <= p.get_stamina_max() ) {
-                    p.stamina = value;
+                    p.set_stamina( value );
                 } else {
                     add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
                 }
@@ -815,6 +819,11 @@ void character_edit_menu()
             if( attitudes_ui.ret < static_cast<int>( attitudes.size() ) && attitudes_ui.ret >= 0 ) {
                 np->set_attitude( attitudes[attitudes_ui.ret] );
             }
+        }
+        break;
+        case D_FLU: {
+            p.add_effect( effect_flu, 1000_minutes );
+            break;
         }
     }
 }
@@ -1106,11 +1115,11 @@ void debug()
             std::string stom =
                 _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
-                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.capacity( u ) ), u.stomach.get_calories(),
                      units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
             stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
-                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.capacity( u ) ), u.guts.get_calories(),
                      units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
@@ -1174,7 +1183,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    u.add_martialart( style );
+                    u.martial_arts_data.add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1365,6 +1374,9 @@ void debug()
         case DEBUG_DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
             break;
+        case DEBUG_DISPLAY_VEHICLE_AI:
+            g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
+            break;
         case DEBUG_DISPLAY_VISIBILITY:
             g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
             break;
@@ -1554,8 +1566,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            weather_generator weathergen;
-            weathergen.test_weather();
+            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 

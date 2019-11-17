@@ -115,7 +115,7 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
                                         "Crossed a threshold" );
     new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
-                                      translate_marker( "Oh, yeah! That's the stuff!" ) );
+                                      translate_marker( "Oh, yeah!  That's the stuff!" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -395,18 +395,20 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
-    auto jsarr = jo.get_array( "category" );
-    while( jsarr.has_more() ) {
-        std::string s = jsarr.next_string();
-        category.push_back( s );
-        mutations_category[s].push_back( trait_id( id ) );
-    }
+    optional( jo, was_loaded, "category", category, string_reader{} );
 
-    jsarr = jo.get_array( "spells_learned" );
+    JsonArray jsarr = jo.get_array( "spells_learned" );
     while( jsarr.has_more() ) {
         JsonArray ja = jsarr.next_array();
         const spell_id sp( ja.next_string() );
         spells_learned.emplace( sp, ja.next_int() );
+    }
+
+    jsarr = jo.get_array( "lumination" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const body_part bp = get_body_part_token( ja.next_string() );
+        lumination.emplace( bp, ja.next_float() );
     }
 
     jsarr = jo.get_array( "wet_protection" );
@@ -608,6 +610,11 @@ bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 
 void mutation_branch::finalize()
 {
+    for( const mutation_branch &branch : get_all() ) {
+        for( const std::string &cat : branch.category ) {
+            mutations_category[cat].push_back( trait_id( branch.id ) );
+        }
+    }
     finalize_trait_blacklist();
 }
 

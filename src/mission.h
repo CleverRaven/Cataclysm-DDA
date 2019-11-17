@@ -179,7 +179,7 @@ tripoint get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
-bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
+bool load_funcs( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
 struct mission_goal_condition_context {

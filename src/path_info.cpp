@@ -168,6 +168,7 @@ void PATH_INFO::set_standard_filenames()
     update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
     update_pathname( "templatedir", FILENAMES["user_dir"] + "templates/" );
     update_pathname( "user_sound", FILENAMES["user_dir"] + "sound/" );
+    update_pathname( "user_gfx", FILENAMES["user_dir"] + "gfx/" );
 #if defined(USE_XDG_DIR)
     const char *user_dir;
     std::string dir;

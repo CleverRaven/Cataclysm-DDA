@@ -6,8 +6,12 @@
     "entries": [
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "wood_panel", "count": [ 0, 1 ] },
-      { "item": "nail", "charges": [ 2, 8 ] },
-      { "item": "splinter", "count": [ 1, 5 ] }
+      { "item": "nail", "charges": [ 4, 16 ] },
+      { "item": "splinter", "count": [ 1, 5 ] },
+      { "item": "2x4", "count": [ 1, 2 ], "prob": 25 },
+      { "item": "pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 10 },
+      { "item": "cable", "charges": [ 0, 200 ], "prob": 10 }
     ]
   },
   {
@@ -1220,7 +1224,7 @@
     "type": "terrain",
     "id": "t_column_halfway",
     "name": "half-built column",
-    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation. It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
+    "description": "An empty wooden frame in the shape of a column, built around a concrete and rebar foundation.  It isn't capable of supporting roofs or shelter, and appears to need more resources before being considered complete.",
     "symbol": "*",
     "color": "light_gray",
     "move_cost": 5,

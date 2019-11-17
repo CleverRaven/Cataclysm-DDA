@@ -65,7 +65,7 @@
       "no": "Have I told you about cardboard, friend?  Do you have any?"
     },
     "responses": [
-      { "condition": "has_assigned_mission", "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
+      { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
       {
         "condition": {
           "and": [
@@ -107,7 +107,7 @@
         "text": "Get away from me.",
         "topic": "TALK_DONE"
       },
-      { "text": "...", "topic": "TALK_DONE" }
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -149,7 +149,7 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -160,7 +160,7 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -171,7 +171,7 @@
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -179,8 +179,8 @@
     "id": "TALK_REFUGEE_BEGGAR_2_SANDMAN",
     "dynamic_line": "If you don't know who he is, I definitely can't tell you.  He talks to everyone, if you didn't hear him that means you can't be trusted, except to help me out.",
     "responses": [
-      { "text": "... What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "…What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -189,7 +189,7 @@
     "dynamic_line": "These cowards are afraid of me.  They won't let me into their base.  I'm going to build my new house and I won't let them in.",
     "responses": [
       { "text": "You said you were building a house?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -197,10 +197,10 @@
     "id": "TALK_REFUGEE_BEGGAR_2_DINOSAUR",
     "dynamic_line": "No.",
     "responses": [
-      { "text": "I... I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
+      { "text": "I… I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -210,7 +210,7 @@
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
