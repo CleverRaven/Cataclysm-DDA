@@ -19,6 +19,7 @@
     "item": "steel_armor",
     "implement_prompt": "Pad with steel",
     "destroy_prompt": "Destroy steel padding",
+    "restricted": true,
     "mod_value": [
       { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
       { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
