@@ -2413,6 +2413,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
             // farming activies encompass tilling, planting, harvesting.
+        } else if( act_id == activity_id( "ACT_MULTIPLE_FARM" ) ) {
+            dark_capable = true;
         }
     } else {
         dark_capable = true;

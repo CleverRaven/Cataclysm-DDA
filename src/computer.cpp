@@ -65,7 +65,7 @@ const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
 
-int alerts = 0;
+static int alerts = 0;
 
 computer_option::computer_option()
     : name( "Unknown" ), action( COMPACT_NULL ), security( 0 )
@@ -539,14 +539,14 @@ void computer::activate_function( computer_action action )
             // TODO: seed should probably be a member of the computer, or better: of the computer action.
             // It is here to ensure one computer reporting the same text on each invocation.
             const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
-            std::string log = SNIPPET.get( SNIPPET.assign( "lab_notes", seed ) );
-            if( log.empty() ) {
-                log = _( "No data found." );
+            cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
+            if( !log.has_value() ) {
+                log = to_translation( "No data found." );
             } else {
                 g->u.moves -= 70;
             }
 
-            print_text( "%s", log );
+            print_text( "%s", log.value() );
             // One's an anomaly
             if( alerts == 0 ) {
                 query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key…" ) );
@@ -566,7 +566,7 @@ void computer::activate_function( computer_action action )
             sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                              2000 );
             print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
-                        SNIPPET.random_from_category( "radio_archive" ) );
+                        SNIPPET.random_from_category( "radio_archive" ).value_or( translation() ) );
             if( one_in( 3 ) ) {
                 query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key…" ) );
                 alerts ++;
@@ -747,7 +747,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara1" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -755,7 +755,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara2" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -763,7 +763,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara3" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
 
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
@@ -786,7 +786,7 @@ void computer::activate_function( computer_action action )
             print_line( _( "SITE %d%d%d\n"
                            "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
@@ -981,52 +981,52 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_SR1_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR2_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr2_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr2_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR3_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr3_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr3_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SR4_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr4_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "sr4_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_1_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_2_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_1_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_2_1_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_2_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_2_2_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_3_MESS:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_3_mess" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_3_mess" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 
         case COMPACT_SRCF_SEAL_ORDER:
             reset_terminal();
-            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_seal_order" ) ) );
+            print_text( "%s", SNIPPET.random_from_category( "scrf_seal_order" ).value_or( translation() ) );
             query_any( _( "Press any key to continue…" ) );
             break;
 

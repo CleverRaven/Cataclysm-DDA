@@ -986,15 +986,15 @@ static void destroy_random_component( item &craft, const player &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
-void item::handle_craft_failure( player &crafter )
+bool item::handle_craft_failure( player &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
-        return;
+        return false;
     }
 
     const double success_roll = crafter.crafting_success_roll( get_making() );
-
+    const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
     for( size_t i = 0; i < max_destroyed; i++ ) {
@@ -1007,6 +1007,10 @@ void item::handle_craft_failure( player &crafter )
             continue;
         }
         destroy_random_component( *this, crafter );
+    }
+    if( starting_components > 0 && this->components.empty() ) {
+        // The craft had components and all of them were destroyed.
+        return true;
     }
 
     // Minimum 25% progress lost, average 35%.  Falls off exponentially
@@ -1024,6 +1028,7 @@ void item::handle_craft_failure( player &crafter )
     if( !crafter.can_continue_craft( *this ) ) {
         crafter.cancel_activity();
     }
+    return false;
 }
 
 requirement_data item::get_continue_reqs() const

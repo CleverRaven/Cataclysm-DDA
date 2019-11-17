@@ -1541,7 +1541,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_1_5A",
+    "id": "hotel_tower_1_5",
     "copy-from": "generic_city_building",
     "name": "hotel entrance",
     "sym": "H",
@@ -1549,7 +1549,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hotel_tower_flr2_1_5A",
+    "id": "hotel_tower_flr2_1_5",
     "copy-from": "generic_city_building",
     "name": "hotel",
     "sym": "h",

@@ -188,19 +188,23 @@ TEST_CASE( "snippet-tag-test" )
     };
 
     for( const auto &tag : npc_talk_tags ) {
-        const auto ids = SNIPPET.all_ids_from_category( tag );
-        CHECK( !ids.empty() );
-
-        for( size_t i = 0; i < ids.size() * 100; i++ ) {
-            const auto snip = SNIPPET.random_from_category( tag );
-            CHECK( !snip.empty() );
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( SNIPPET.random_from_category( tag ).has_value() );
         }
     }
 
-    // Special tags, those should have empty replacements
-    CHECK( SNIPPET.all_ids_from_category( "<yrwp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<mywp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<ammo>" ).empty() );
+    // Special tags, those should have no replacements
+    static const std::set<std::string> special_tags = {
+        {
+            "<yrwp>", "<mywp>", "<ammo>"
+        }
+    };
+
+    for( const std::string &tag : special_tags ) {
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( !SNIPPET.random_from_category( tag ).has_value() );
+        }
+    }
 }
 
 /* Test setup. Player should always be at top-left.

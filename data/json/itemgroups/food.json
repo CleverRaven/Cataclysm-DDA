@@ -164,5 +164,21 @@
       [ "purple_drink", 35 ],
       [ "choc_drink", 25 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy_chocolate",
+    "items": [
+      [ "chocolate", 70 ],
+      [ "candy", 70 ],
+      [ "candy2", 70 ],
+      [ "candy3", 70 ],
+      [ "maltballs", 60 ],
+      [ "mintpatties", 60 ],
+      [ "neccowafers", 55 ],
+      [ "powder_candy", 50 ],
+      [ "candycigarette", 15 ],
+      [ "maple_candy", 10 ]
+    ]
   }
 ]

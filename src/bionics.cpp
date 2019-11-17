@@ -1878,7 +1878,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                  installer );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
-        if( fail_type == 5 ) {
+        if( fail_type > 3 ) {
             fail_type = rng( 1, 3 );
         }
     }
@@ -1997,38 +1997,7 @@ std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bi
 
 int player::get_total_bionics_slots( const body_part bp ) const
 {
-    switch( bp ) {
-        case bp_torso:
-            return 80;
-
-        case bp_head:
-            return 18;
-
-        case bp_eyes:
-        case bp_mouth:
-            return 4;
-
-        case bp_arm_l:
-        case bp_arm_r:
-            return 20;
-
-        case bp_hand_l:
-        case bp_hand_r:
-            return 5;
-
-        case bp_leg_l:
-        case bp_leg_r:
-            return 30;
-
-        case bp_foot_l:
-        case bp_foot_r:
-            return 7;
-
-        case num_bp:
-            debugmsg( "number of slots for incorrect bodypart is requested!" );
-            return 0;
-    }
-    return 0;
+    return convert_bp( bp )->bionic_slots();
 }
 
 int player::get_free_bionics_slots( const body_part bp ) const

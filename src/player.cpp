@@ -2048,7 +2048,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !can_wield( weapon ).success() ) {
+        if( !weapon.is_null() && !can_wield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
         }
@@ -4594,6 +4594,17 @@ void player::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
+            if( obj->damage() > 0 ) {
+                const std::set<std::string> &rep = obj->repaired_with();
+                const std::string repair_options =
+                enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+                    return item::nname( e );
+                }, enumeration_conjunction::or_ );
+
+                add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
+                                    "%s to use one of those items." ),
+                         repair_options, press_x( ACTION_USE ) );
+            }
         }
         return;
     }

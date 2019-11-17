@@ -189,5 +189,5 @@ void help::display_help()
 
 std::string get_hint()
 {
-    return SNIPPET.get( SNIPPET.assign( "hint" ) );
+    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
 }

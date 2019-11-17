@@ -419,9 +419,7 @@ void monexamine::swap( monster &z )
             z.remove_effect( effect_tied );
         }
 
-        tripoint zp = z.pos();
-        z.move_to( g->u.pos(), true );
-        g->u.setpos( zp );
+        g->swap_critters( g->u, z );
 
         if( t ) {
             z.add_effect( effect_tied, 1_turns, num_bp, true );
