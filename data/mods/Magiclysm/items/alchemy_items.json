@@ -48,7 +48,7 @@
     "qualities": [ [ "MANA_INFUSE", 2 ] ],
     "name": "silver infusion bracelet",
     "name_plural": "silver infusion bracelets",
-    "description": "This bracelet has runes engraved on it. You sense a faint air of mysticism when you look at it. It would be useful for imbuing mana into material. Place-Holder"
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "copper_circlet",
