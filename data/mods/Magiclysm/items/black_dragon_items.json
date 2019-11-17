@@ -419,7 +419,7 @@
     "id": "gloves_xlblack_dragon_hide",
     "copy-from": "gloves_black_dragon_hide",
     "type": "ARMOR",
-    "name": { "str": "pair of xl black dragonhide gloves", "str_pl": "pairs of xl black dragonhide gloves" },
+    "name": { "str": "pair of XL black dragonhide gloves", "str_pl": "pairs of XL black dragonhide gloves" },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions. Sized to fit even the strangest of anatomy.",
     "weight": "430 g",
     "volume": "1500 ml",
