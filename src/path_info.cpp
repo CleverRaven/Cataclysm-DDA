@@ -117,11 +117,9 @@ void PATH_INFO::set_standard_filenames()
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
-std::string find_translated_file( const std::string &path, const std::string &extension,
+std::string find_translated_file( const std::string &base_path, const std::string &extension,
                                   const std::string &fallback )
 {
-    const std::string base_path = path;
-
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
     if( get_option<std::string>( "USE_LANG" ).empty() ) {
