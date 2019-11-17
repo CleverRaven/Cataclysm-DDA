@@ -58,7 +58,7 @@
     "price": 120,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
@@ -78,7 +78,7 @@
     "price": 120,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
@@ -117,7 +117,7 @@
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": 150,
     "material": "wheat",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "volume": "62 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -6
