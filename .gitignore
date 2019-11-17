@@ -187,3 +187,4 @@ Xcode/
 /build-dir/
 msvc-full-features/Cataclysm-vcpkg-static.vcxproj
 msvc-full-features/Cataclysm-vcpkg.vcxproj
+*.vcxproj
