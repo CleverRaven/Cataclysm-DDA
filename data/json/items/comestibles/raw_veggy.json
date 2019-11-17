@@ -593,7 +593,7 @@
     "volume": "1 L",
     "charges": 4,
     "fun": -10,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
   },
@@ -636,7 +636,7 @@
     "price": 90,
     "material": "tomato",
     "volume": "375 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 22 ], [ "calcium", 3 ], [ "iron", 6 ] ]
   },
@@ -700,7 +700,7 @@
     "price": 300,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 39 ], [ "calcium", 3 ], [ "iron", 4 ] ]
   },

@@ -622,8 +622,7 @@
     "volume": "250 ml",
     "parasites": 32,
     "stack_size": 1,
-    "fun": -20,
-    "flags": [ "RAW" ]
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
