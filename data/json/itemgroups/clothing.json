@@ -2223,34 +2223,55 @@
     "//": "unisex hats for domestic locations",
     "subtype": "distribution",
     "items": [
-      { "item": "tricorne", "prob": 5 },
-      { "item": "10gal_hat", "prob": 30 },
-      { "item": "tophat", "prob": 10 },
-      { "item": "hat_sombrero", "prob": 10 },
-      { "item": "kippah", "prob": 33 },
-      { "item": "turban", "prob": 33 },
-      { "item": "kufi", "prob": 33 },
-      { "item": "helmet_motor", "prob": 20 },
-      { "item": "helmet_bike", "prob": 50 },
-      { "item": "headgear", "prob": 10 },
-      { "item": "helmet_ball", "prob": 15 },
-      { "item": "wetsuit_hood", "prob": 5 },
-      { "item": "hat_hunting", "prob": 20 },
-      { "item": "hat_faux_fur", "prob": 10 },
-      { "item": "hat_fur", "prob": 5 },
-      { "item": "hat_boonie", "prob": 15 },
-      { "item": "cowl_wool", "prob": 15 },
-      { "item": "hood_rain", "prob": 25 },
-      { "item": "bowhat", "prob": 10 },
-      { "item": "fedora", "prob": 40 },
-      { "item": "hat_newsboy", "prob": 5 },
-      { "item": "cowboy_hat", "prob": 20 },
-      { "item": "straw_fedora", "prob": 5 },
-      { "item": "hat_golf", "prob": 15 },
-      { "item": "straw_hat", "prob": 15 },
-      { "item": "beret_wool", "prob": 5 },
-      { "item": "beret", "prob": 10 },
-      { "item": "porkpie", "prob": 15 },
+      {
+        "distribution": [
+          { "item": "tricorne", "prob": 5 },
+          { "item": "10gal_hat", "prob": 30 },
+          { "item": "tophat", "prob": 10 },
+          { "item": "hat_sombrero", "prob": 10 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [ { "item": "kippah", "prob": 33 }, { "item": "turban", "prob": 33 }, { "item": "kufi", "prob": 33 } ],
+        "prob": 10
+      },
+      {
+        "distribution": [
+          { "item": "helmet_motor", "prob": 20 },
+          { "item": "helmet_bike", "prob": 50 },
+          { "item": "headgear", "prob": 10 },
+          { "item": "helmet_ball", "prob": 15 },
+          { "item": "wetsuit_hood", "prob": 5 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "item": "hat_hunting", "prob": 20 },
+          { "item": "hat_faux_fur", "prob": 10 },
+          { "item": "hat_fur", "prob": 5 },
+          { "item": "hat_boonie", "prob": 15 },
+          { "item": "cowl_wool", "prob": 15 },
+          { "item": "hood_rain", "prob": 25 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "bowhat", "prob": 10 },
+          { "item": "fedora", "prob": 40 },
+          { "item": "hat_newsboy", "prob": 5 },
+          { "item": "cowboy_hat", "prob": 20 },
+          { "item": "straw_fedora", "prob": 5 },
+          { "item": "hat_golf", "prob": 15 },
+          { "item": "straw_hat", "prob": 15 },
+          { "item": "beret_wool", "prob": 5 },
+          { "item": "beret", "prob": 10 },
+          { "item": "porkpie", "prob": 15 }
+        ],
+        "prob": 50
+      },
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
       { "item": "hat_ball", "prob": 50 }
@@ -2387,31 +2408,23 @@
     "items": [
       {
         "distribution": [
-          {
-            "collection": [
-              { "item": "hot_pants", "prob": 40 },
-              { "item": "hot_pants_fur", "prob": 5 },
-              { "item": "hot_pants_leather", "prob": 35 }
-            ],
-            "prob": 10
-          }
-        ]
+          { "item": "hot_pants", "prob": 40 },
+          { "item": "hot_pants_fur", "prob": 5 },
+          { "item": "hot_pants_leather", "prob": 35 }
+        ],
+        "prob": 10
       },
       {
         "distribution": [
-          {
-            "collection": [
-              { "item": "chaps_leather", "prob": 30 },
-              { "item": "motorbike_pants", "prob": 35 },
-              { "item": "breeches", "prob": 25 },
-              { "item": "pants_ski", "prob": 45 },
-              { "item": "pants_checkered", "prob": 55 },
-              { "item": "pants_fur", "prob": 5 },
-              { "item": "pants_faux_fur", "prob": 15 }
-            ],
-            "prob": 20
-          }
-        ]
+          { "item": "chaps_leather", "prob": 30 },
+          { "item": "motorbike_pants", "prob": 35 },
+          { "item": "breeches", "prob": 25 },
+          { "item": "pants_ski", "prob": 45 },
+          { "item": "pants_checkered", "prob": 55 },
+          { "item": "pants_fur", "prob": 5 },
+          { "item": "pants_faux_fur", "prob": 15 }
+        ],
+        "prob": 20
       },
       { "item": "jeans", "prob": 80 },
       { "item": "jeans_red", "prob": 20 },
@@ -2475,73 +2488,53 @@
     "items": [
       {
         "distribution": [
-          {
-            "collection": [
-              { "item": "basket_laundry", "prob": 60 },
-              { "item": "straw_basket", "prob": 35 },
-              { "item": "suitcase_l", "prob": 15 },
-              { "item": "suitcase_m", "prob": 25 }
-            ],
-            "prob": 20
-          }
-        ]
+          { "item": "basket_laundry", "prob": 60 },
+          { "item": "straw_basket", "prob": 35 },
+          { "item": "suitcase_l", "prob": 15 },
+          { "item": "suitcase_m", "prob": 25 }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [ { "item": "2lcanteen", "prob": 50 }, { "item": "camelbak", "prob": 25 }, { "item": "canteen", "prob": 70 } ],
+        "prob": 5
       },
       {
         "distribution": [
-          {
-            "collection": [ { "item": "2lcanteen", "prob": 50 }, { "item": "camelbak", "prob": 25 }, { "item": "canteen", "prob": 70 } ],
-            "prob": 5
-          }
-        ]
+          { "item": "fanny", "prob": 60 },
+          { "item": "mbag", "prob": 35 },
+          { "item": "runner_bag", "prob": 45 },
+          { "item": "slingpack", "prob": 65 },
+          { "item": "purse", "prob": 70 },
+          { "item": "briefcase", "prob": 40 },
+          { "item": "hk_briefcase", "prob": 1 }
+        ],
+        "prob": 60
       },
       {
         "distribution": [
-          {
-            "collection": [
-              { "item": "fanny", "prob": 60 },
-              { "item": "mbag", "prob": 35 },
-              { "item": "runner_bag", "prob": 45 },
-              { "item": "slingpack", "prob": 65 },
-              { "item": "purse", "prob": 70 },
-              { "item": "briefcase", "prob": 40 },
-              { "item": "hk_briefcase", "prob": 1 }
-            ],
-            "prob": 60
-          }
-        ]
+          { "item": "case_violin", "prob": 5 },
+          { "item": "quiver", "prob": 20 },
+          { "item": "quiver_large", "prob": 15 },
+          { "item": "solarpack", "prob": 5 },
+          { "item": "ammo_satchel", "prob": 10 },
+          { "item": "chestrig", "prob": 20 },
+          { "item": "dive_bag", "prob": 50 },
+          { "item": "petpack", "prob": 50 }
+        ],
+        "prob": 30
       },
       {
         "distribution": [
-          {
-            "collection": [
-              { "item": "case_violin", "prob": 5 },
-              { "item": "quiver", "prob": 20 },
-              { "item": "quiver_large", "prob": 15 },
-              { "item": "solarpack", "prob": 5 },
-              { "item": "ammo_satchel", "prob": 10 },
-              { "item": "chestrig", "prob": 20 },
-              { "item": "dive_bag", "prob": 50 },
-              { "item": "petpack", "prob": 50 }
-            ],
-            "prob": 30
-          }
-        ]
-      },
-      {
-        "distribution": [
-          {
-            "collection": [
-              { "item": "daypack", "prob": 25 },
-              { "item": "backpack_leather", "prob": 40 },
-              { "item": "backpack", "prob": 85 },
-              { "item": "backpack_hiking", "prob": 25 },
-              { "item": "duffelbag", "prob": 80 },
-              { "item": "travelpack", "prob": 25 },
-              { "item": "gobag", "prob": 1 }
-            ],
-            "prob": 80
-          }
-        ]
+          { "item": "daypack", "prob": 25 },
+          { "item": "backpack_leather", "prob": 40 },
+          { "item": "backpack", "prob": 85 },
+          { "item": "backpack_hiking", "prob": 25 },
+          { "item": "duffelbag", "prob": 80 },
+          { "item": "travelpack", "prob": 25 },
+          { "item": "gobag", "prob": 1 }
+        ],
+        "prob": 80
       }
     ]
   },
@@ -2593,49 +2586,80 @@
     "//": "unisex coats, jackets, cloaks, etc.",
     "subtype": "distribution",
     "items": [
-      { "item": "cloak", "prob": 80 },
-      { "item": "cloak_wool", "prob": 40 },
-      { "item": "cloak_leather", "prob": 20 },
-      { "item": "cloak_fur", "prob": 10 },
-      { "item": "jedi_cloak", "prob": 1 },
-      { "item": "duster", "prob": 80 },
-      { "item": "duster_leather", "prob": 60 },
-      { "item": "duster_faux_fur", "prob": 30 },
-      { "item": "duster_fur", "prob": 5 },
-      { "item": "sleeveless_duster", "prob": 70 },
-      { "item": "sleeveless_duster_leather", "prob": 50 },
-      { "item": "sleeveless_duster_fur", "prob": 20 },
-      { "item": "sleeveless_duster_faux_fur", "prob": 10 },
-      { "item": "trenchcoat", "prob": 80 },
-      { "item": "trenchcoat_leather", "prob": 60 },
-      { "item": "trenchcoat_faux_fur", "prob": 30 },
-      { "item": "trenchcoat_fur", "prob": 5 },
-      { "item": "sleeveless_trenchcoat", "prob": 40 },
-      { "item": "sleeveless_trenchcoat_leather", "prob": 30 },
-      { "item": "sleeveless_trenchcoat_fur", "prob": 10 },
-      { "item": "sleeveless_trenchcoat_faux_fur", "prob": 20 },
-      { "item": "coat_rain", "prob": 80 },
-      { "item": "coat_winter", "prob": 50 },
-      { "item": "peacoat", "prob": 50 },
-      { "item": "greatcoat", "prob": 35 },
-      { "item": "coat_faux_fur", "prob": 20 },
-      { "item": "coat_fur", "prob": 10 },
-      { "item": "coat_fur_sf", "prob": 5 },
-      { "item": "jacket_jean", "prob": 80 },
-      { "item": "jacket_flannel", "prob": 50 },
-      { "item": "jacket_leather", "prob": 50 },
-      { "item": "jacket_leather_red", "prob": 25 },
-      { "item": "jacket_light", "prob": 60 },
-      { "item": "jacket_windbreaker", "prob": 70 },
-      { "item": "poncho", "prob": 30 },
-      { "item": "ski_jacket", "prob": 25 },
-      { "item": "house_coat", "prob": 80 },
-      { "item": "kimono", "prob": 20 },
-      { "item": "robe", "prob": 10 },
-      { "item": "vest", "prob": 80 },
-      { "item": "vest_leather", "prob": 20 },
-      { "item": "army_top", "prob": 40 },
-      { "item": "blazer", "prob": 70 }
+      {
+        "distribution": [
+          { "item": "cloak", "prob": 80 },
+          { "item": "cloak_wool", "prob": 40 },
+          { "item": "cloak_leather", "prob": 20 },
+          { "item": "cloak_fur", "prob": 10 },
+          { "item": "jedi_cloak", "prob": 5 }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "duster", "prob": 80 },
+          { "item": "duster_leather", "prob": 60 },
+          { "item": "duster_faux_fur", "prob": 30 },
+          { "item": "duster_fur", "prob": 5 },
+          { "item": "sleeveless_duster", "prob": 70 },
+          { "item": "sleeveless_duster_leather", "prob": 50 },
+          { "item": "sleeveless_duster_fur", "prob": 20 },
+          { "item": "sleeveless_duster_faux_fur", "prob": 10 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "trenchcoat", "prob": 80 },
+          { "item": "trenchcoat_leather", "prob": 60 },
+          { "item": "trenchcoat_faux_fur", "prob": 30 },
+          { "item": "trenchcoat_fur", "prob": 5 },
+          { "item": "sleeveless_trenchcoat", "prob": 40 },
+          { "item": "sleeveless_trenchcoat_leather", "prob": 30 },
+          { "item": "sleeveless_trenchcoat_fur", "prob": 10 },
+          { "item": "sleeveless_trenchcoat_faux_fur", "prob": 20 }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "coat_rain", "prob": 80 },
+          { "item": "coat_winter", "prob": 50 },
+          { "item": "peacoat", "prob": 50 },
+          { "item": "greatcoat", "prob": 35 },
+          { "item": "coat_faux_fur", "prob": 20 },
+          { "item": "coat_fur", "prob": 10 },
+          { "item": "coat_fur_sf", "prob": 5 }
+        ],
+        "prob": 80
+      },
+      {
+        "distribution": [
+          { "item": "jacket_jean", "prob": 80 },
+          { "item": "jacket_flannel", "prob": 50 },
+          { "item": "jacket_leather", "prob": 50 },
+          { "item": "jacket_leather_red", "prob": 25 },
+          { "item": "jacket_light", "prob": 60 },
+          { "item": "jacket_windbreaker", "prob": 70 },
+          { "item": "poncho", "prob": 30 },
+          { "item": "ski_jacket", "prob": 25 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [ { "item": "house_coat", "prob": 80 }, { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "item": "vest", "prob": 80 },
+          { "item": "vest_leather", "prob": 20 },
+          { "item": "army_top", "prob": 40 },
+          { "item": "blazer", "prob": 70 }
+        ],
+        "prob": 40
+      }
     ]
   },
   {
@@ -2644,34 +2668,59 @@
     "//": "unisex shoes (there are no men's only shoes)",
     "subtype": "distribution",
     "items": [
-      { "item": "boots", "prob": 80 },
-      { "item": "boots_hiking", "prob": 50 },
-      { "item": "boots_steel", "prob": 50 },
-      { "item": "boots_combat", "prob": 45 },
-      { "item": "boots_fur", "prob": 10 },
-      { "item": "boots_western", "prob": 40 },
-      { "item": "boots_winter", "prob": 30 },
-      { "item": "knee_high_boots", "prob": 15 },
-      { "item": "motorbike_boots", "prob": 35 },
-      { "item": "thigh_high_boots", "prob": 5 },
-      { "item": "bastsandals", "prob": 20 },
-      { "item": "straw_sandals", "prob": 20 },
-      { "item": "flip_flops", "prob": 40 },
-      { "item": "leathersandals", "prob": 35 },
-      { "item": "cleats", "prob": 20 },
-      { "item": "golf_shoes", "prob": 20 },
-      { "item": "dance_shoes", "prob": 30 },
-      { "item": "roller_blades", "prob": 35 },
-      { "item": "rollerskates", "prob": 35 },
-      { "item": "roller_shoes_off", "prob": 45 },
-      { "item": "dress_shoes", "prob": 50 },
-      { "item": "lowtops", "prob": 30 },
-      { "item": "mocassins", "prob": 10 },
-      { "item": "sneakers", "prob": 35 },
-      { "item": "boots_rubber", "prob": 50 },
-      { "item": "clogs", "prob": 20 },
-      { "item": "geta", "prob": 10 },
-      { "item": "slippers", "prob": 75 }
+      {
+        "distribution": [
+          { "item": "boots", "prob": 80 },
+          { "item": "boots_hiking", "prob": 50 },
+          { "item": "boots_steel", "prob": 50 },
+          { "item": "boots_combat", "prob": 45 },
+          { "item": "boots_fur", "prob": 10 },
+          { "item": "boots_western", "prob": 40 },
+          { "item": "boots_winter", "prob": 30 },
+          { "item": "knee_high_boots", "prob": 15 },
+          { "item": "motorbike_boots", "prob": 35 },
+          { "item": "thigh_high_boots", "prob": 5 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "bastsandals", "prob": 20 },
+          { "item": "straw_sandals", "prob": 20 },
+          { "item": "flip_flops", "prob": 40 },
+          { "item": "leathersandals", "prob": 35 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "cleats", "prob": 20 },
+          { "item": "golf_shoes", "prob": 20 },
+          { "item": "dance_shoes", "prob": 30 },
+          { "item": "roller_blades", "prob": 35 },
+          { "item": "rollerskates", "prob": 35 },
+          { "item": "roller_shoes_off", "prob": 45 }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "dress_shoes", "prob": 50 },
+          { "item": "lowtops", "prob": 30 },
+          { "item": "mocassins", "prob": 10 },
+          { "item": "sneakers", "prob": 35 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "boots_rubber", "prob": 50 },
+          { "item": "clogs", "prob": 20 },
+          { "item": "geta", "prob": 10 },
+          { "item": "slippers", "prob": 75 }
+        ],
+        "prob": 70
+      }
     ]
   },
   {
