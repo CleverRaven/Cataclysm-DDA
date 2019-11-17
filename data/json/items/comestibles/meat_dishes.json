@@ -816,6 +816,7 @@
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
     "price": 500,
     "material": "flesh",
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
     "fun": 2
   },
@@ -966,6 +967,7 @@
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned meat.  Tasty and nutritious.",
     "price": 250,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 6
   },
   {
@@ -992,6 +994,7 @@
     "color": "light_red",
     "description": "Reconstituted meat flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 2
   },
   {
