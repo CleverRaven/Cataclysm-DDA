@@ -2697,7 +2697,8 @@
           { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
           { "item": "diamond_ring", "prob": 10 },
           { "item": "platinum_ring", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
@@ -2719,14 +2720,16 @@
           { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
           { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
           { "item": "platinum_bracelet", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
           { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
           { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
           { "item": "diamond_dental_grill", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
@@ -2746,7 +2749,8 @@
           { "item": "small_relic", "prob": 10 },
           { "item": "holy_symbol", "prob": 10 },
           { "item": "holy_symbol_wood", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
@@ -2759,7 +2763,8 @@
           { "item": "faux_fur_collar", "prob": 80 },
           { "item": "leather_collar", "prob": 50 },
           { "item": "fur_collar", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
@@ -2770,7 +2775,8 @@
           { "item": "holster", "prob": 30 },
           { "item": "sholster", "prob": 10 },
           { "item": "bholster", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       {
         "distribution": [
@@ -2781,7 +2787,8 @@
           { "item": "glasses_bal", "prob": 10 },
           { "item": "eclipse_glasses", "prob": 5 },
           { "item": "goggles_ski", "prob": 10 }
-        ]
+        ],
+        "prob": 15
       },
       { "item": "folding_poncho", "prob": 10 },
       { "item": "american_flag", "prob": 2 },
