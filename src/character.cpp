@@ -236,6 +236,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -279,11 +280,11 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-void Character::setID( character_id i )
+void Character::setID( character_id i, bool force )
 {
-    if( id.is_valid() ) {
+    if( id.is_valid() && !force ) {
         debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
-    } else if( !i.is_valid() ) {
+    } else if( !i.is_valid() && !force ) {
         debugmsg( "tried to set invalid id of a npc/player: %d", i.get_value() );
     } else {
         id = i;
@@ -2999,8 +3000,8 @@ void Character::print_health() const
 
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
-        const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
+        const translation msg = SNIPPET.random_from_category( iter->second ).value_or( translation() );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, "%s", msg );
     }
 }
 

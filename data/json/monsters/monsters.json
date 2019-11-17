@@ -1564,7 +1564,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "harvest": "fungaloid",
-    "special_attacks": [ [ "FUNGUS_GROWTH", 100 ] ],
+    "special_attacks": [ [ "FUNGUS_GROWTH", 10000 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
   },

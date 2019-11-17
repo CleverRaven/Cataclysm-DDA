@@ -130,8 +130,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "fries", 7 ],
       [ "cheese_fries", 5 ],
@@ -247,18 +246,7 @@
   {
     "id": "pizza_soda",
     "type": "item_group",
-    "items": [
-      [ "purple_drink", 3 ],
-      [ "crispycran", 7 ],
-      [ "rootbeer", 15 ],
-      [ "colamdew", 9 ],
-      [ "orangesoda", 10 ],
-      [ "lemonlime", 9 ],
-      [ "creamsoda", 9 ],
-      [ "cola", 9 ],
-      [ "energy_drink", 5 ],
-      [ "lemonade", 8 ]
-    ]
+    "items": [ { "group": "softdrinks_canned", "prob": 70 }, [ "energy_drink", 5 ], [ "lemonade", 8 ] ]
   },
   {
     "id": "pizza_table",
@@ -460,13 +448,7 @@
       [ "cheeseburger", 15 ],
       [ "hamburger", 15 ],
       [ "fish_sandwich", 10 ],
-      [ "cola", 15 ],
-      [ "lemonlime", 10 ],
-      [ "orangesoda", 10 ],
-      [ "crispycran", 10 ],
-      [ "rootbeer", 13 ],
-      [ "colamdew", 10 ],
-      [ "lemonade", 7 ]
+      { "group": "softdrinks_canned", "prob": 75 }
     ]
   },
   {
@@ -621,15 +603,8 @@
       [ "sports_drink", 40 ],
       [ "energy_drink", 40 ],
       [ "energy_drink_atomic", 5 ],
-      [ "cola", 35 ],
-      [ "creamsoda", 30 ],
-      [ "lemonlime", 40 ],
-      [ "orangesoda", 30 ],
-      [ "colamdew", 40 ],
-      [ "rootbeer", 30 ],
+      { "group": "softdrinks_canned", "prob": 290 },
       [ "spezi", 10 ],
-      [ "crispycran", 35 ],
-      [ "purple_drink", 50 ],
       { "item": "cola", "prob": 30, "container-item": "bottle_plastic" },
       { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic" },
       { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic" },

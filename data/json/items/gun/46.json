@@ -19,7 +19,7 @@
     "dispersion": 260,
     "durability": 8,
     "min_cycle_recoil": 81,
-    "burst": 16,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],

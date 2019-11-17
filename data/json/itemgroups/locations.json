@@ -322,8 +322,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "gum", 15 ]
     ]
@@ -337,8 +336,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "fries", 7 ],
       [ "cheese_fries", 5 ],
@@ -1072,6 +1070,7 @@
     "//": "for ws_regional_dump",
     "items": [
       { "group": "ammo_pocket_batteries", "prob": 30 },
+      { "group": "candy_chocolate", "prob": 570 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -1086,20 +1085,11 @@
       [ "fried_seeds", 25 ],
       [ "pretzels", 55 ],
       [ "chocpretzels", 40 ],
-      [ "chocolate", 50 ],
       [ "jerky", 55 ],
       [ "cracklins", 25 ],
       [ "pemmican", 5 ],
       [ "granola", 10 ],
       [ "porkstick", 55 ],
-      [ "candy", 80 ],
-      [ "candy2", 80 ],
-      [ "candy3", 80 ],
-      [ "maple_candy", 10 ],
-      [ "powder_candy", 60 ],
-      [ "neccowafers", 80 ],
-      [ "maltballs", 80 ],
-      [ "mintpatties", 80 ],
       [ "cookies", 80 ],
       [ "tea_raw", 10 ],
       [ "coffee_raw", 15 ],
@@ -1116,8 +1106,7 @@
       [ "popcorn3", 35 ],
       [ "fruit_leather", 25 ],
       [ "kernels", 25 ],
-      [ "pine_nuts", 5 ],
-      [ "candycigarette", 20 ]
+      [ "pine_nuts", 5 ]
     ]
   },
   {
@@ -1369,7 +1358,8 @@
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
       [ "circuit", 35 ],
-      [ "small_lcd_screen", 20 ],
+      [ "small_lcd_screen", 10 ],
+      [ "large_lcd_screen", 10 ],
       [ "RAM", 35 ],
       [ "processor", 10 ],
       [ "amplifier", 7 ],

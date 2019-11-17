@@ -20,7 +20,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 2,
     "magazines": [ [ "308", [ "falmag", "falbigmag" ] ] ]
   },
@@ -45,7 +45,7 @@
     "dispersion": 150,
     "min_cycle_recoil": 2700,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ] ]
   },
   {
@@ -87,7 +87,7 @@
     "weight": "4820 g",
     "price": 195000,
     "material": [ "steel", "plastic" ],
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -161,7 +161,7 @@
     "durability": 9,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -199,7 +199,7 @@
     "durability": 7,
     "min_cycle_recoil": 2700,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 11 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -354,7 +354,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },

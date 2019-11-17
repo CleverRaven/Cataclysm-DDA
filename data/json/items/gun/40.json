@@ -137,7 +137,7 @@
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 425,
-    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_length": 1,
     "valid_mod_locations": [

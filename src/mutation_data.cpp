@@ -395,14 +395,9 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
-    auto jsarr = jo.get_array( "category" );
-    while( jsarr.has_more() ) {
-        std::string s = jsarr.next_string();
-        category.push_back( s );
-        mutations_category[s].push_back( trait_id( id ) );
-    }
+    optional( jo, was_loaded, "category", category, string_reader{} );
 
-    jsarr = jo.get_array( "spells_learned" );
+    JsonArray jsarr = jo.get_array( "spells_learned" );
     while( jsarr.has_more() ) {
         JsonArray ja = jsarr.next_array();
         const spell_id sp( ja.next_string() );
@@ -615,6 +610,11 @@ bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 
 void mutation_branch::finalize()
 {
+    for( const mutation_branch &branch : get_all() ) {
+        for( const std::string &cat : branch.category ) {
+            mutations_category[cat].push_back( trait_id( branch.id ) );
+        }
+    }
     finalize_trait_blacklist();
 }
 

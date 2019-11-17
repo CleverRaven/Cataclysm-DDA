@@ -19,7 +19,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 11,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
@@ -66,7 +66,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -88,7 +88,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -152,7 +152,7 @@
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a red-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "relative": { "weight": 400 },
     "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_u_shotgun", "lead_stabilizer" ],
     "valid_mod_locations": [
@@ -253,7 +253,7 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 12 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -277,7 +277,7 @@
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3495 g",
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
@@ -301,7 +301,7 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -422,7 +422,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -442,7 +442,7 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -465,7 +465,7 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

@@ -12,7 +12,7 @@
     "bashing": 5,
     "ammo": "380",
     "min_cycle_recoil": 270,
-    "burst": 23,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "magazines": [ [ "380", [ "mac11mag" ] ] ]
   },
   {

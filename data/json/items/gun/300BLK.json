@@ -19,7 +19,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1700,
-    "burst": 11,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
