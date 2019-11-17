@@ -2906,6 +2906,9 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
+    if( !act->targets.front() ) {
+        debugmsg( "Lost target of ACT_READ" );
+    }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
         guy->finish_read( * act->targets.front().get_item() );
