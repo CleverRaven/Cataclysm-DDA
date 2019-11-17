@@ -320,7 +320,7 @@
     "id": "gauntlets_xlblack_dragon_scale",
     "copy-from": "gauntlets_black_dragon_scale",
     "type": "ARMOR",
-    "name": { "str": "pair of xl black dragonscale gauntlets", "str_pl": "pairs of xl black dragonscale gauntlets" },
+    "name": { "str": "pair of XL black dragonscale gauntlets", "str_pl": "pairs of XL black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
     "weight": "680 g",
     "volume": "2 L",
