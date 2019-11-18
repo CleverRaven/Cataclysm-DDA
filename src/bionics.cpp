@@ -531,9 +531,9 @@ bool player::activate_bionic( int b, bool eff_only )
         if( pnt && g->m.is_flammable( *pnt ) ) {
             g->m.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
-            mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         } else {
             add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         }
     } else if( bio.id == "bio_geiger" ) {
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
