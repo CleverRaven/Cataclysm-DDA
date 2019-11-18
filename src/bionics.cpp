@@ -869,8 +869,9 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency >
-                get_max_power_level() ) {
+            if( !bio.has_flag( "SAFE_FUEL_OFF" ) &&
+                get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
+                > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ),
                                        bio.info().name );
@@ -2282,6 +2283,21 @@ void finalize_bionics()
     }
 }
 
+void bionic::set_flag( const std::string flag )
+{
+    bionic_tags.insert( flag );
+}
+
+void bionic::remove_flag( const std::string flag )
+{
+    bionic_tags.erase( flag );
+}
+
+bool bionic::has_flag( const std::string flag ) const
+{
+    return bionic_tags.find( flag ) != bionic_tags.end();
+}
+
 int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
@@ -2298,6 +2314,18 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
     return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
 }
 
+void bionic::toggle_safe_fuel_mod()
+{
+    if( info().fuel_opts.empty() ) {
+        return;
+    }
+    if( !has_flag( "SAFE_FUEL_OFF" ) ) {
+        set_flag( "SAFE_FUEL_OFF" );
+    } else {
+        remove_flag( "SAFE_FUEL_OFF" );
+    }
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2307,6 +2335,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge_timer );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
+    json.member( "bionic_tags", bionic_tags );
     if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
@@ -2329,6 +2358,13 @@ void bionic::deserialize( JsonIn &jsin )
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }
+    if( jo.has_array( "bionic_tags" ) ) {
+        JsonArray jsar = jo.get_array( "bionic_tags" );
+        while( jsar.has_more() ) {
+            bionic_tags.insert( jsar.next_string() );
+        }
+    }
+
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
