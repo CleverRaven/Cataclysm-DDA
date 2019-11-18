@@ -75,3 +75,8 @@ void live_view::show( const tripoint &p )
     enabled = true;
     mouse_position = p;
 }
+
+bool live_view::is_enabled()
+{
+    return enabled;
+}

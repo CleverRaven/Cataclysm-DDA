@@ -1174,6 +1174,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+#if defined(TILES) || defined(_WIN32)
+                    handle_redraw();
+#endif
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -1184,6 +1187,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
+#if defined(TILES) || defined(_WIN32)
+                    handle_redraw();
+#endif
                     return 1;
                 } else {
                     continue;
@@ -1301,7 +1307,11 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
         }
     };
 
-    draw_tabs( w, tab_strings, current );
+    std::vector<std::string> tab_strings_translated( tab_strings );
+    std::for_each( tab_strings_translated.begin(),
+                   tab_strings_translated.end(), []( std::string & str )->void { str = _( str ); } );
+
+    draw_tabs( w, tab_strings_translated, current );
     draw_border_below_tabs( w );
 }
 

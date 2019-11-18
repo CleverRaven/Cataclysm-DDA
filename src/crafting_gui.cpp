@@ -646,8 +646,12 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
-                                scroll_pos, true, true, true, false, true );
+                item_info_data data( tmp.tname(), tmp.type_name(), thisItem, dummy, scroll_pos );
+                data.without_getch = true;
+                data.without_border = true;
+                data.scrollbar_left = false;
+                data.use_full_win = true;
+                draw_item_info( w_iteminfo, data );
             }
         }
 

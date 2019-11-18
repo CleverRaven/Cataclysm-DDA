@@ -176,9 +176,6 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), multiple_chop_planks_do_turn },
-    { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
-    { activity_id( "ACT_HARVEST_PLOT" ), harvest_plot_do_turn },
-    { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_OPERATION" ), operation_do_turn },
@@ -1941,8 +1938,8 @@ static bool magic_train( player_activity *act, player *p )
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
             studying.gain_exp( xp );
-            p->add_msg_if_player( m_good, _( "You learn a little about the spell : %s" ),
-                                  sp_id->name.translated() );
+            p->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
+                                  sp_id->name );
         } else {
             p->magic.learn_spell( act->name, *p );
             // you can decline to learn this spell , as it may lock you out of other magic.
@@ -2909,6 +2906,9 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
+    if( !act->targets.front() ) {
+        debugmsg( "Lost target of ACT_READ" );
+    }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
         guy->finish_read( * act->targets.front().get_item() );
@@ -3481,7 +3481,14 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             }
         }
     } else if( craft->item_counter >= craft->get_next_failure_point() ) {
-        craft->handle_craft_failure( *p );
+        bool destroy = craft->handle_craft_failure( *p );
+        // If the craft needs to be destroyed, do it and stop crafting.
+        if( destroy ) {
+            p->add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                      _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
+            act->targets.front().remove_item();
+            p->cancel_activity();
+        }
     }
 }
 
@@ -3989,39 +3996,6 @@ static void perform_zone_activity_turn( player *p,
     p->activity.set_to_null();
 }
 
-void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
-{
-    const auto reject_tile = []( const tripoint & tile ) {
-        return !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
-    };
-    const auto harvest = [&]( player & p, const tripoint & tile ) {
-        iexamine::harvest_plant( p, tile, false );
-    };
-    perform_zone_activity_turn( p,
-                                zone_type_id( "FARM_PLOT" ),
-                                reject_tile,
-                                harvest,
-                                _( "You harvested all the plots you could." ) );
-
-}
-
-void activity_handlers::till_plot_do_turn( player_activity *, player *p )
-{
-    const auto reject_tile = []( const tripoint & tile ) {
-        return !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
-    };
-
-    const auto dig = []( player & p, const tripoint & tile_loc ) {
-        p.assign_activity( activity_id( "ACT_CHURN" ), 18000, -1 );
-        p.activity.placement = g->m.getabs( tile_loc );
-    };
-    perform_zone_activity_turn( p,
-                                zone_type_id( "FARM_PLOT" ),
-                                reject_tile,
-                                dig,
-                                _( "You tilled every tile you could." ) );
-}
-
 void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p )
 {
     itype_id fertilizer;
@@ -4072,65 +4046,6 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
                                 reject_tile,
                                 fertilize,
                                 _( "You fertilized every plot you could." ) );
-}
-
-void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
-{
-    const auto &mgr = zone_manager::get_manager();
-    std::vector<item *> seed_inv = p->items_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
-
-    // get seeds requested by zones on the tile (local coords)
-    auto get_seeds = [&]( const tripoint & tile ) {
-        auto seeds = std::vector<std::string>();
-        const auto &zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ), g->m.getabs( tile ) );
-        for( const auto &zone : zones ) {
-            const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
-            const auto seed = options.get_seed();
-
-            if( !seed.empty() && std::find( seeds.begin(), seeds.end(), seed ) == seeds.end() ) {
-                seeds.emplace_back( seed );
-            }
-        }
-
-        return seeds;
-    };
-
-    // cleanup unwanted tiles (local coords)
-    const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
-            g->m.has_items( tile ) ) {
-            return true;
-        }
-
-        const auto seeds = get_seeds( tile );
-
-        return std::all_of( seeds.begin(), seeds.end(), [&]( const std::string & seed ) {
-            return std::all_of( seed_inv.begin(), seed_inv.end(), [seed]( item * it ) {
-                return it->typeId() != itype_id( seed );
-            } );
-        } );
-    };
-
-    const auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
-        const auto seeds = get_seeds( tile_loc );
-        std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
-            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( const std::string & seed ) {
-                return itm.typeId() == itype_id( seed );
-            } );
-        } );
-        if( !seed_inv.empty() ) {
-            const auto it = seed_inv.front();
-            iexamine::plant_seed( p, tile_loc, it->typeId() );
-        }
-    };
-
-    perform_zone_activity_turn( p,
-                                zone_type_id( "FARM_PLOT" ),
-                                reject_tiles,
-                                plant_appropriate_seed,
-                                _( "You planted all seeds you could." ) );
 }
 
 void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
@@ -4244,7 +4159,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
                 p->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
-                p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
+                p->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
+                                          translation() ) );
             }
             return;
         }

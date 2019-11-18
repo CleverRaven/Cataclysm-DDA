@@ -100,7 +100,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -119,7 +118,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -181,7 +179,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -798,7 +795,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-      "dispersion_modifier": 20,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],

@@ -1,6 +1,7 @@
 [
   {
     "id": "trex_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Elephant gun",
