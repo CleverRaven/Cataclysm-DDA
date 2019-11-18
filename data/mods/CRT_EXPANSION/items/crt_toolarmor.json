@@ -29,7 +29,7 @@
     "material_thickness": 3,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "USE_UPS", "NO_UNLOAD" ]
+    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "USE_UPS", "NO_UNLOAD" ]
   },
   {
     "id": "crt_gasmask_on",
@@ -52,7 +52,7 @@
     "covers": [ "EYES", "MOUTH" ],
     "coverage": 100,
     "encumbrance": 5,
-    "warmth": 75,
+    "warmth": 100,
     "artifact_data": { "charge_type": "ARTC_SOLAR", "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN" ] },
     "material_thickness": 2,
     "environmental_protection": 20,
@@ -101,7 +101,7 @@
     },
     "artifact_data": { "charge_type": "ARTC_SOLAR" },
     "coverage": 85,
-    "encumbrance": 50,
+    "encumbrance": 80,
     "storage": 10,
     "warmth": 10,
     "material_thickness": 4,
@@ -126,19 +126,17 @@
     "coverage": 100,
     "encumbrance": 5,
     "storage": 10,
-    "warmth": 75,
+    "warmth": 100,
     "material_thickness": 6,
     "environmental_protection": 16,
     "max_charges": 300,
     "initial_charges": 0,
-    "turns_per_charge": 0.5,
+    "turns_per_charge": 0.25,
     "revert_to": "crt_em_vest",
     "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "C.R.I.T E.M powering off...", "target": "crt_em_vest" },
     "artifact_data": {
       "charge_type": "ARTC_SOLAR",
-      "effects_carried": [ "AEP_ALL_UP" ],
-      "effects_wielded": [ "AEP_ALL_UP" ],
-      "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN", "AEP_SPEED_UP" ]
+      "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN", "AEP_PER_DOWN", "AEP_SPEED_UP" ]
     },
     "flags": [
       "WATERPROOF",
