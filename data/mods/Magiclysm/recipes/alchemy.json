@@ -15,7 +15,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "skills_required": [ "spellcraft", 2 ],
-    "book_learn": [ [ "black_dragons", 2 ] ],
+    "book_learn": [ [ "black_dragons", 2 ], [ "brown_dragons", 2] ],
     "category": "CSC_ENCHANTED_OTHER"
   },
   {

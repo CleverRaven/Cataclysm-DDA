@@ -19,6 +19,25 @@
     "fun": 1
   },
   {
+    "id": "brown_dragons",
+    "type": "BOOK",
+    "name": { "str": "Brown Dragons: Deep Forrest Dwellers", "str_pl": "copies of Brown Dragons: Deep Forrest Dwellers" },
+    "description": "This book details brown dragons: The most deceptive of dragons, fickle and malevolent, these dragons dwell in deep, rugged woodland caves.  The book also details how to prepare its hide and craft various armors that make use of some of its nature resistances.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "brown_white",
+    "skill": "spellcraft",
+    "required_level": 1,
+    "max_level": 3,
+    "intelligence": 10,
+    "time": "32 m",
+    "fun": 1
+  },
+  {
     "id": "alchemy_basic",
     "type": "BOOK",
     "name": { "str": "A Beginner's Guide to Alchemy", "str_pl": "copies of A Beginner's Guide to Alchemy" },
