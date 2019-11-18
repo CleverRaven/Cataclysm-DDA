@@ -29,7 +29,7 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( FILENAMES["help"], [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }

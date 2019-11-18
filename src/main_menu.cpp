@@ -258,13 +258,9 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
-                             halloween_theme ? ".halloween" : ".title",
-                             halloween_theme ? "halloween" : "title" ),
-                             _( "Cataclysm: Dark Days Ahead" ) );
+    mmenu_title = load_file( PATH_INFO::title( halloween_theme ), _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
-                           _( "No message today." ) );
+    auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 
     std::ostringstream buffer;
     mmenu_motd.clear();
@@ -277,8 +273,7 @@ void main_menu::init_strings()
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-    "credits" ), [&buffer]( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::credits(), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
@@ -377,7 +372,7 @@ void main_menu::load_char_templates()
 {
     templates.clear();
 
-    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+    for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
@@ -400,27 +395,27 @@ bool main_menu::opening_screen()
     init_strings();
     print_menu( w_open, 0, menu_offset );
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         popup( _( "Unable to make save directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         popup( _( "Unable to make templates directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
         popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["user_gfx"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
         popup( _( "Unable to make graphics directory.  Check permissions." ) );
         return false;
     }
@@ -824,7 +819,7 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    const auto path = FILENAMES["templatedir"] + utf8_to_native( templates[sel3] ) + ".template";
+                    const auto path = PATH_INFO::templatedir() + utf8_to_native( templates[sel3] ) + ".template";
                     if( std::remove( path.c_str() ) != 0 ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
