@@ -2,7 +2,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "PrepNet",
-    "friendly": [ "Prepnet_Phyle", "human", "PrepNet" ],
+    "friendly": [ "Prepnet_Phyle", "human", "PrepNet", "player" ],
     "neutral": "herbivore",
     "by_mood": [ "insect", "small_animal" ]
   }
