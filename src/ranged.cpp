@@ -505,7 +505,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     int throw_difficulty = 1000;
     // 1000 penalty for every liter after the first
     // TODO: Except javelin type items
-    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
+    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
@@ -604,7 +604,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1056,7 +1056,8 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
     mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, point( 1, line_number++ ), "*  %s", e->name() );
+        nc_color o = c_white;
+        print_colored_text( w, point( 1, line_number++ ), o, o, string_format( "*  %s", e->name() ) );
     }
 
     return line_number;

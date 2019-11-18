@@ -8,15 +8,15 @@
     "color": [ "brown" ],
     "move_cost": 2,
     "bash": {
-      "str_min": 4,
+      "str_min": 30,
       "str_max": 40,
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
     },
     "deconstruct": {
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_null",
       "items": [ { "item": "pebble", "count": [ 2, 6 ] }, { "item": "sharp_rock", "count": [ 1, 3 ] } ]
     },
     "flags": [ "BASHABLE", "TRANSPARENT" ]

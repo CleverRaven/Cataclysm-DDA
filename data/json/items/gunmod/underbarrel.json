@@ -15,7 +15,6 @@
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
-    "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
   },
@@ -62,7 +61,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
-    "dispersion_modifier": 15,
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -123,7 +121,6 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle" ],
-    "dispersion_modifier": 10,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
@@ -210,7 +207,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
-    "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -237,7 +233,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
-    "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -258,7 +253,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -279,7 +273,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
-    "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -305,7 +298,6 @@
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": { "ammo": "40mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
-    "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
   {
@@ -323,7 +315,6 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB" ]
@@ -342,7 +333,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
-    "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "magazine_well": 1,
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
@@ -370,7 +360,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
-    "dispersion_modifier": 30,
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -424,7 +413,6 @@
     "weight": "0 g",
     "volume": 0,
     "price": 0,
-    "dispersion_modifier": 0,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
   {
@@ -437,7 +425,6 @@
     "weight": "0 g",
     "volume": 0,
     "price": 0,
-    "dispersion_modifier": 0,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
   }
 ]

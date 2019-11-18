@@ -18,7 +18,7 @@
     "to_hit": -1,
     "dispersion": 75,
     "durability": 9,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 12 ] ],
     "default_mods": [ "red_dot_sight" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -145,7 +145,7 @@
     "price": 420000,
     "dispersion": 120,
     "durability": 6,
-    "burst": 8
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 8 ] ]
   },
   {
     "id": "cw-24m_hack",
@@ -157,7 +157,7 @@
     "price": 420000,
     "dispersion": 120,
     "durability": 6,
-    "burst": 8
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 8 ] ]
   },
   {
     "id": "cwd-63",
@@ -213,7 +213,7 @@
     "dispersion": 150,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 30,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 30 ] ],
     "clip_size": 90,
     "reload": 300,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "magazine", 2 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],

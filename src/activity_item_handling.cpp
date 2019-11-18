@@ -1801,21 +1801,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static bool plant_activity( player &p, const zone_data *zone, const tripoint src_loc )
-{
-    const std::string seed = dynamic_cast<const plot_options &>( zone->get_options() ).get_seed();
-    std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
-        return itm.typeId() == itype_id( seed );
-    } );
-    // we dont have the required seed, even though we should at this point.
-    // move onto the next tile, and if need be that will prompt a fetch seeds activity.
-    if( seed_inv.empty() ) {
-        return false;
-    }
-    iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-    return true;
-}
-
 static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
                                    const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
@@ -2327,6 +2312,36 @@ static void check_npc_revert( player &p )
     }
 }
 
+static zone_type_id get_zone_for_act( const activity_id &act_id )
+{
+    zone_type_id ret = zone_type_id( "" );
+    if( act_id == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
+        ret = zone_type_id( "VEHICLE_DECONSTRUCT" );
+    }
+    if( act_id == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
+        ret = zone_type_id( "VEHICLE_REPAIR" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
+        ret = zone_type_id( "CHOP_TREES" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+        ret = zone_type_id( "CONSTRUCTION_BLUEPRINT" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_FARM" ) ) {
+        ret = zone_type_id( "FARM_PLOT" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+        ret = zone_type_id( "LOOT_CORPSE" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) {
+        ret = zone_type_id( "LOOT_WOOD" );
+    }
+    if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
+        ret = zone_type_id( "FISHING_SPOT" );
+    }
+    return ret;
+}
+
 /** Determine all locations for this generic activity */
 /** Returns locations */
 static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
@@ -2371,32 +2386,22 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             }
         }
     }
-    if( act_id == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
-        src_set = mgr.get_near( zone_type_id( "VEHICLE_DECONSTRUCT" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-    }
-    if( act_id == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
-        src_set = mgr.get_near( zone_type_id( "VEHICLE_REPAIR" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-    }
-    if( act_id == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
-        src_set = mgr.get_near( zone_type_id( "CHOP_TREES" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-    }
-    // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
-    if( act_id == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
-        src_set = mgr.get_near( zone_type_id( "CONSTRUCTION_BLUEPRINT" ), abspos,
-                                ACTIVITY_SEARCH_DISTANCE );
-        for( const tripoint &elem : g->m.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
-            partial_con *pc = g->m.partial_con_at( elem );
-            if( pc ) {
-                src_set.insert( g->m.getabs( elem ) );
+    zone_type_id zone_type = get_zone_for_act( act_id );
+    if( act_id != activity_id( "ACT_FETCH_REQUIRED" ) ) {
+        src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
+        // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
+        if( act_id == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+            for( const tripoint &elem : g->m.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+                partial_con *pc = g->m.partial_con_at( elem );
+                if( pc ) {
+                    src_set.insert( g->m.getabs( elem ) );
+                }
             }
+            // farming activies encompass tilling, planting, harvesting.
+        } else if( act_id == activity_id( "ACT_MULTIPLE_FARM" ) ) {
+            dark_capable = true;
         }
-        // farming activies encompass tilling, planting, harvesting.
-    }
-    if( act_id == activity_id( "ACT_MULTIPLE_FARM" ) ) {
-        src_set = mgr.get_near( zone_type_id( "FARM_PLOT" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-        // fetch required will always be following on from a previous activity
-    }
-    if( act_id == activity_id( "ACT_FETCH_REQUIRED" ) ) {
+    } else {
         dark_capable = true;
         // get the right zones for the items in the requirements.
         // we previously checked if the items are nearby before we set the fetch task
@@ -2407,16 +2412,6 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             const tripoint &elem_point = std::get<0>( elem );
             src_set.insert( g->m.getabs( elem_point ) );
         }
-    }
-    if( act_id == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
-        src_set = mgr.get_near( zone_type_id( "LOOT_CORPSE" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-    }
-    if( act_id == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ) {
-        // we want to chop logs so get loot wood spots
-        src_set = mgr.get_near( zone_type_id( "LOOT_WOOD" ), abspos, ACTIVITY_SEARCH_DISTANCE );
-    }
-    if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
-        src_set = mgr.get_near( zone_type_id( "FISHING_SPOT" ), abspos, ACTIVITY_SEARCH_DISTANCE );
     }
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
@@ -2458,7 +2453,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
 
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
 
     const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
@@ -2625,7 +2620,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     const std::vector<construction> &list_constructions = get_constructions();
 
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
 
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
@@ -2638,8 +2633,20 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity.placement = src;
         return false;
     } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) ) {
-        if( !plant_activity( p, zone, src_loc ) ) {
-            return true;
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
+                                       g->m.getabs( src_loc ) );
+        for( const zone_data &zone : zones ) {
+            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
+                return itm.typeId() == itype_id( seed );
+            } );
+            // we dont have the required seed, even though we should at this point.
+            // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+            if( seed_inv.empty() ) {
+                continue;
+            }
+            iexamine::plant_seed( p, src_loc, itype_id( seed ) );
+            break;
         }
     } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_id( "AXE" ), 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {

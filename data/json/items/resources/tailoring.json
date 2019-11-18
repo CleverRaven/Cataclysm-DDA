@@ -297,13 +297,13 @@
     "ammo_type": "components"
   },
   {
-    "id": "sheet_nomex_patchwork",
-    "copy-from": "sheet_nomex",
+    "id": "sheet_nylon_patchwork",
+    "copy-from": "sheet_nylon",
     "type": "AMMO",
     "name": "patchwork synthetic fabric clothing parts",
     "name_plural": "patchwork synthetic fabric clothing parts",
     "description": "A selection of various clothing parts, sewn together from synthetic fabric patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "100 g",
+    "weight": "60 g",
     "volume": "60 ml",
     "price": 1000,
     "count": 1

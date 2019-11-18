@@ -841,23 +841,22 @@ void options_manager::cOpt::setValue( std::string sSetIn )
 }
 
 /** Fill a mapping with values.
- * Scans all directories in FILENAMES[dirname_label] directory for
- * a file named FILENAMES[filename_label].
+ * Scans all directories in @p dirname directory for
+ * a file named @p filename.
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
 static std::vector<options_manager::id_and_option> build_resource_list(
     std::map<std::string, std::string> &resource_option, const std::string &operation_name,
-    const std::string &dirname_label, const std::string &filename_label )
+    const std::string &dirname, const std::string &filename )
 {
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
-                               FILENAMES[dirname_label], true );
+    const auto resource_dirs = get_directories_with( filename, dirname, true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream & fin ) {
+        read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -901,7 +900,8 @@ std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
 {
     // Use local map as build_resource_list will clear the first parameter
     std::map<std::string, std::string> local_tilesets;
-    auto tileset_names = build_resource_list( local_tilesets, "tileset", path, "tileset-conf" );
+    auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
+                         PATH_INFO::tileset_conf() );
 
     // Copy found tilesets
     TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
@@ -916,11 +916,11 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     std::vector<id_and_option> result;
 
     // Load from data directory
-    auto data_tilesets = load_tilesets_from( "gfxdir" );
+    auto data_tilesets = load_tilesets_from( PATH_INFO::gfxdir() );
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    auto user_tilesets = load_tilesets_from( "user_gfx" );
+    auto user_tilesets = load_tilesets_from( PATH_INFO::user_gfx() );
     result.insert( result.end(), user_tilesets.begin(), user_tilesets.end() );
 
     // Default values
@@ -936,7 +936,8 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path, "soundpack-conf" );
+    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
+                           PATH_INFO::soundpack_conf() );
 
     // Copy over found soundpacks
     SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
@@ -952,11 +953,11 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     std::vector<id_and_option> result;
 
     // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( "data_sound" );
+    auto data_soundpacks = load_soundpack_from( PATH_INFO::data_sound() );
     result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
 
     // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( "user_sound" );
+    auto user_soundpacks = load_soundpack_from( PATH_INFO::user_sound() );
     result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
 
     // Select default built-in sound pack
@@ -1489,6 +1490,11 @@ void options_manager::add_options_interface()
          translate_marker( "Morale display style in sidebar." ),
     { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
     "Vertical"
+       );
+
+    add( "AIM_WIDTH", "interface", translate_marker( "Full screen Advanced Inventory Manager" ),
+         translate_marker( "If true, Advanced Inventory Manager menu will fit full screen, otherwise it will leave sidebar visible." ),
+         false
        );
 
     mOptionsSort["interface"]++;
@@ -2842,7 +2848,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    const auto savefile = FILENAMES["options"];
+    const auto savefile = PATH_INFO::options();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2863,14 +2869,14 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    const auto file = FILENAMES["options"];
+    const auto file = PATH_INFO::options();
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) ) {
         if( load_legacy() ) {
             if( save() ) {
-                remove_file( FILENAMES["legacy_options"] );
-                remove_file( FILENAMES["legacy_options2"] );
+                remove_file( PATH_INFO::legacy_options() );
+                remove_file( PATH_INFO::legacy_options2() );
             }
         }
     }
@@ -2911,8 +2917,8 @@ bool options_manager::load_legacy()
         }
     };
 
-    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
-           read_from_file_optional( FILENAMES["legacy_options2"], reader );
+    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
+           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const

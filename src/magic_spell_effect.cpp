@@ -295,6 +295,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         atk.end_point = target;
         atk.hit_critter = cr;
         atk.proj = bolt;
+        atk.missed_by = 0.0;
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }
@@ -812,7 +813,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             continue;
         }
         // 10000 represents 100.00% to increase granularity without swapping everything to a float
-        if( sp.damage() >= rng( 0, 10000 ) ) {
+        if( sp.damage() < rng( 1, 10000 ) ) {
             // chance failure! but keep trying for other targets
             continue;
         }

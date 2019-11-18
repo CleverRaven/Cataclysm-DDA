@@ -1,6 +1,7 @@
 [
   {
     "id": "blunderbuss",
+    "looks_like": "remington_870",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "blunderbuss",

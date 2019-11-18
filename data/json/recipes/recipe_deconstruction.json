@@ -1763,6 +1763,22 @@
     ]
   },
   {
+    "result": "large_lcd_screen",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 15 ] ],
+    "components": [ [ [ "e_scrap", 3 ] ], [ [ "plastic_chunk", 5 ] ] ]
+  },
+  {
+    "result": "small_lcd_screen",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
     "result": "basket_laundry",
     "type": "uncraft",
     "time": "5 m",
@@ -2338,6 +2354,7 @@
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "cable", 8 ] ],

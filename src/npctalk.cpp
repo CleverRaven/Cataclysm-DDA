@@ -713,6 +713,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
         d.add_topic( "TALK_STOLE_ITEM" );
     }
+    g->u.dialogue_by_radio = d.by_radio;
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
@@ -1504,7 +1505,8 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const itype_id &item_type )
 {
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
