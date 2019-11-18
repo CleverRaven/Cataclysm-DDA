@@ -9263,7 +9263,8 @@ int item::contain_monster( const tripoint &target )
             new_weight = 200000;
             break;
     }
-    set_var( "weight", new_weight );
+    // Above is old code. It uses gram as units for monster weight.
+    set_var( "weight", to_milligram( units::from_gram( new_weight ) ) );
     g->remove_zombie( f );
     return 0;
 }
