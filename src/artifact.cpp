@@ -261,16 +261,16 @@ enum artifact_armor_form {
 };
 
 static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
-        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1_liter, 1_gram, 1150_gram},
         {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
         {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
-        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
-        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
-        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1_liter, 225_ml, 1_gram, 350_gram},
+        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2_liter, 1_gram, 950_gram},
+        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1_liter, 1500_ml, 200_gram, 400_gram},
         {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
         {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
         {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
-        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2_liter, 200_gram, 450_gram},
         {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
         {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
         {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
@@ -413,22 +413,22 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
 };
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
         {
-            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5_liter, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
             {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3_liter, 450_gram, 1150_gram, ARTWEAP_CLUB,
             {{ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2_liter, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
             {{ARTWEAP_BULK, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
         {
-            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1_liter, 100_gram, 700_gram, ARTWEAP_KNIFE,
             {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
@@ -460,7 +460,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
             { bp_torso }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -470,7 +470,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1_liter, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             { { bp_eyes, bp_mouth } }, false,
             {{
                     ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -532,38 +532,38 @@ static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor
         {
             translate_marker( "very thin and light." ), def_c_white, material_id( "null" ),
             // Vol   Wgt Enc MaxEnc Cov Thk Env Wrm Sto
-            -1000_ml, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
+            -1_liter, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "extremely bulky." ), def_c_white, material_id( "null" ),
-            2000_ml, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
+            2_liter, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "covered in pockets." ), def_c_white, material_id( "null" ),
-            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, {},  false,
+            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4_liter, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "disgustingly furry." ), def_c_white, material_id( "wool" ),
             // Vol  Wgt Enc MaxEnc Dmg Cut Env Wrm Sto
-            1000_ml, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
+            1_liter, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "leather-padded." ), def_c_white, material_id( "leather" ),
-            1000_ml, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
+            1_liter, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "plated in iron." ), def_c_white, material_id( "iron" ),
-            1000_ml, 1400_gram,  3,  3,  2,  2,  0,  1, -1000_ml, 0, 0, 0, {}, false,
+            1_liter, 1400_gram,  3,  3,  2,  2,  0,  1, -1_liter, 0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
     }

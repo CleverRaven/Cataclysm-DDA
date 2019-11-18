@@ -2040,13 +2040,13 @@ units::volume Character::volume_capacity_reduced_by(
         }
     }
     if( has_bionic( bionic_id( "bio_storage" ) ) ) {
-        ret += 2000_ml;
+        ret += 2_liter;
     }
     if( has_trait( trait_SHELL ) ) {
-        ret += 4000_ml;
+        ret += 4_liter;
     }
     if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
-        ret += 6000_ml;
+        ret += 6_liter;
     }
     if( has_trait( trait_PACKMULE ) ) {
         ret = ret * 1.4;
@@ -4376,7 +4376,7 @@ int Character::throw_range( const item &it ) const
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
-    ret -= tmp.volume() / 1000_ml;
+    ret -= tmp.volume() / 1_liter;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
