@@ -77,6 +77,7 @@
 #include "morale_types.h"
 #include "pimpl.h"
 #include "recipe.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
@@ -433,7 +434,7 @@ void Character::load( JsonObject &data )
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
-        bool temp_keep_hands_free;
+        bool temp_keep_hands_free = false;
         data.read( "keep_hands_free", temp_keep_hands_free );
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
@@ -2071,7 +2072,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "note", note, 0 );
+    archive.io( "snippet_id", snippet_id, io::default_tag() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2134,6 +2135,9 @@ void item::io( Archive &archive )
                             max_damage() );
     }
 
+    int note = 0;
+    const bool note_read = archive.read( "note", note );
+
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
@@ -2144,6 +2148,10 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
+    }
+
+    if( note_read ) {
+        snippet_id = SNIPPET.migrate_hash_to_id( note );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item

@@ -187,6 +187,19 @@
     "width": 4
   },
   {
+    "id": "wheel_rail_small_pair",
+    "name": "pair of small rail wheels",
+    "type": "WHEEL",
+    "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather then transportation.",
+    "copy-from": "wheel_rail",
+    "price": 900,
+    "weight": "12239 g",
+    "price_postapoc": 750,
+    "symbol": "=",
+    "diameter": 10,
+    "width": 3
+  },
+  {
     "id": "wheel_motorbike",
     "type": "WHEEL",
     "category": "veh_parts",

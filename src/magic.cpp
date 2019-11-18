@@ -851,7 +851,7 @@ void spell::create_field( const tripoint &at ) const
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
-            g->m.add_field( at, *type->field, intensity );
+            g->m.add_field( at, *type->field, intensity, -duration_turns() );
         }
     }
 }
@@ -941,29 +941,7 @@ nc_color spell::damage_type_color() const
 
 std::string spell::damage_type_string() const
 {
-    switch( dmg_type() ) {
-        case DT_HEAT:
-            return "heat";
-        case DT_ACID:
-            return "acid";
-        case DT_BASH:
-            return "bashing";
-        case DT_BIOLOGICAL:
-            return "biological";
-        case DT_COLD:
-            return "cold";
-        case DT_CUT:
-            return "cutting";
-        case DT_ELECTRIC:
-            return "electric";
-        case DT_STAB:
-            return "stabbing";
-        case DT_TRUE:
-            // not *really* force damage
-            return "force";
-        default:
-            return "error";
-    }
+    return name_by_dt( dmg_type() );
 }
 
 // constants defined below are just for the formula to be used,
@@ -1585,7 +1563,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( " (%s current)",
+    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( _( " (%s current)" ),
                              sp.energy_cur_string( g->u ) );
     if( !sp.can_cast( g->u ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
@@ -1606,12 +1584,12 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     std::string targets;
     if( sp.is_valid_target( target_none ) ) {
-        targets = "self";
+        targets = _( "self" );
     } else {
         targets = sp.enumerate_targets();
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
+                        string_format( "%s: %s", _( "Valid Targets" ), targets ) );
 
     if( line <= win_height * 3 / 4 ) {
         line++;
@@ -1632,15 +1610,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                            light_green ) );
         }
         if( sp.aoe() > 0 ) {
-            std::string aoe_string_temp = "Spell Radius";
+            std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( fx == "cone_attack" ) {
-                aoe_string_temp = "Cone Arc";
-                degree_string = "degrees";
+                aoe_string_temp = _( "Cone Arc" );
+                degree_string = _( "degrees" );
             } else if( fx == "line_attack" ) {
-                aoe_string_temp = "Line Width";
+                aoe_string_temp = _( "Line Width" );
             }
-            aoe_string = string_format( "%s: %d %s", _( aoe_string_temp ), sp.aoe(), degree_string );
+            aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
         }
     } else if( fx == "teleport_random" ) {
         if( sp.aoe() > 0 ) {

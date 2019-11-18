@@ -237,12 +237,9 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( max_capacity == -1 && !cont.is_null() ) {
-        if( new_item.made_of( LIQUID ) ) {
-            max_capacity = cont.get_remaining_capacity_for_liquid( new_item );
-        } else if( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) {
-            max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
-        }
+    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( LIQUID ) ||
+            ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
+        max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -267,7 +264,7 @@ void Item_modifier::modify( item &new_item ) const
         ch = charges_min == charges_max ? charges_min : rng( charges_min,
                 charges_max );
     } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
-        new_item.charges = max_capacity;
+        new_item.charges = std::max( 1, max_capacity );
     }
 
     if( ch != -1 ) {

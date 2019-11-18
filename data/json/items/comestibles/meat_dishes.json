@@ -402,6 +402,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "debug_nutrition",
+    "copy-from": "can_spam",
+    "name": "holy SPAM of debugging",
+    "calories": 2100,
+    "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
+    "//": "This is used for the all_nutrient_starve_test.",
+    "vitamins": [ [ "vitA", 96 ], [ "vitB", 96 ], [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "can_sardine",
     "name": "canned sardine",
     "weight": "200 g",
@@ -806,6 +816,7 @@
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
     "price": 500,
     "material": "flesh",
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
     "fun": 2
   },
@@ -956,6 +967,7 @@
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned meat.  Tasty and nutritious.",
     "price": 250,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 6
   },
   {
@@ -982,6 +994,7 @@
     "color": "light_red",
     "description": "Reconstituted meat flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 2
   },
   {
