@@ -17,7 +17,7 @@
     "encumbrance": 15,
     "storage": 0,
     "warmth": 7,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "flags": [ "OVERSIZE" ]
   },
   {
