@@ -1801,21 +1801,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static bool plant_activity( player &p, const zone_data *zone, const tripoint src_loc )
-{
-    const std::string seed = dynamic_cast<const plot_options &>( zone->get_options() ).get_seed();
-    std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
-        return itm.typeId() == itype_id( seed );
-    } );
-    // we dont have the required seed, even though we should at this point.
-    // move onto the next tile, and if need be that will prompt a fetch seeds activity.
-    if( seed_inv.empty() ) {
-        return false;
-    }
-    iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-    return true;
-}
-
 static void construction_activity( player &p, const zone_data *zone, const tripoint src_loc,
                                    const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
                                    activity_id activity_to_restore )
@@ -2468,7 +2453,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
 
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
 
     const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
@@ -2648,8 +2633,20 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity.placement = src;
         return false;
     } else if( reason == NEEDS_PLANTING && g->m.has_flag_ter_or_furn( "PLANTABLE", src_loc ) ) {
-        if( !plant_activity( p, zone, src_loc ) ) {
-            return true;
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_id( "FARM_PLOT" ),
+                                       g->m.getabs( src_loc ) );
+        for( const zone_data &zone : zones ) {
+            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
+                return itm.typeId() == itype_id( seed );
+            } );
+            // we dont have the required seed, even though we should at this point.
+            // move onto the next tile, and if need be that will prompt a fetch seeds activity.
+            if( seed_inv.empty() ) {
+                continue;
+            }
+            iexamine::plant_seed( p, src_loc, itype_id( seed ) );
+            break;
         }
     } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_id( "AXE" ), 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {

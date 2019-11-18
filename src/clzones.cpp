@@ -668,17 +668,13 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 
 const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
 {
-    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data &zone : zones ) {
         if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
     auto vzones = g->m.get_vehicle_zones( g->get_levz() );
-    for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
         }
