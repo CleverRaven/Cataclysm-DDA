@@ -6327,11 +6327,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part += p != nullptr ? p->get_weight() : 0_gram;
         }
 
-        if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
-            m_part += units::from_gram( animal_mass );
-        }
-
         if( use_precalc ) {
             xf += vp.part().precalc[0].x * m_part;
             yf += vp.part().precalc[0].y * m_part;
