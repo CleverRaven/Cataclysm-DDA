@@ -1615,10 +1615,22 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+
+        // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
-        mvwprintz( w, point( 31, 3 ), points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red,
-                   ngettext( "Upgrading %s costs %d point", "Upgrading %s costs %d points", cost ),
-                   currentSkill->name(), cost );
+        const int level = u.get_skill_level( currentSkill->ident() );
+        const int upgrade_levels = level == 0 ? 2 : 1;
+        // We have two different strings to pluralize, so we have to use two
+        // translation calls.
+        const std::string upgrade_levels_s = string_format(
+                //~ levels here are skill levels at character creation time
+                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+        const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
+        mvwprintz( w, point( 31, 3 ), color,
+                   //~ Second string is e.g. "1 level" or "2 levels"
+                   ngettext( "Upgrading %s by %s costs %d point",
+                             "Upgrading %s by %s costs %d points", cost ),
+                   currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
         // Copy the skills, and boost the copy
