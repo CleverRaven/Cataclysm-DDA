@@ -24,7 +24,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ ["glass_shard", 17 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 17 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
