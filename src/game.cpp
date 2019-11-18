@@ -4864,6 +4864,11 @@ bool game::swap_critters( Creature &a, Creature &b )
 
     if( first.is_player() ) {
         g->walk_move( temp );
+    } else {
+        first.setpos( temp );
+        if( g->m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
+        }
     }
 
     if( other_npc && g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
