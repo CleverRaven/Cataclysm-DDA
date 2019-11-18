@@ -8,6 +8,6 @@
     "name_suffix": "Survivor",
     "mission": 7,
     "chat": "TALK_STRANGER_NEUTRAL",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   }
 ]

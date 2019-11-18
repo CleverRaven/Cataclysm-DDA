@@ -23,7 +23,7 @@
     "charges": 12,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
-    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 48 ] ] ]
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },
   {
     "result": "tinyweldtank",

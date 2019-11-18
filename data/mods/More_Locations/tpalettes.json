@@ -512,7 +512,7 @@
       "S": { "item": "cleaning", "chance": 5 }
     },
     "mapping": {
-      "*": { "furniture": "f_rubble", "item": { "item": "heavy_flashlight_on" } },
+      "*": { "furniture": "f_rubble", "item": { "item": "heavy_flashlight" } },
       "W": { "furniture": "f_woodstove", "item": { "item": "2x4", "amount": 10 }, "fields": { "field": "fd_fire" } }
     }
   },

@@ -1,5 +1,15 @@
 [
   {
+    "id": "remains_human_generic",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
+      { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
+      { "item": "hstomach", "prob": 50 }
+    ]
+  },
+  {
     "id": "remains_pilot",
     "type": "item_group",
     "subtype": "collection",
@@ -70,5 +80,59 @@
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
       { "item": "hstomach", "prob": 100 }
     ]
+  },
+  {
+    "id": "corpses",
+    "type": "item_group",
+    "items": [
+      [ "corpse_generic_male", 80 ],
+      [ "corpse_generic_female", 80 ],
+      [ "corpse_generic_boy", 15 ],
+      [ "corpse_generic_girl", 15 ],
+      [ "corpse_generic_human", 10 ],
+      [ "corpse_bloody", 10 ],
+      [ "corpse_painful", 10 ],
+      [ "corpse_scorched", 10 ],
+      [ "corpse_stabbed", 10 ],
+      [ "corpse_gunned", 10 ],
+      [ "corpse_halved_upper", 10 ],
+      [ "corpse_half_beheaded", 10 ],
+      [ "corpse_child_calm", 10 ],
+      [ "corpse_child_gunned", 10 ],
+      [ "corpse_oldwoman_jewelry", 10 ]
+    ]
+  },
+  {
+    "id": "corpse_male",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_male" },
+      { "item": "corpse_bloody" },
+      { "item": "corpse_painful" },
+      { "item": "corpse_stabbed" },
+      { "item": "corpse_half_beheaded" },
+      { "item": "corpse_generic_boy" }
+    ]
+  },
+  {
+    "id": "corpse_female",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_female" },
+      { "item": "corpse_bloody" },
+      { "item": "corpse_painful" },
+      { "item": "corpse_gunned" },
+      { "item": "corpse_half_beheaded" },
+      { "item": "corpse_oldwoman_jewelry" },
+      { "item": "corpse_generic_girl" }
+    ]
+  },
+  {
+    "id": "corpse_child",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "corpse_child_calm" }, { "item": "corpse_child_gunned" } ]
   }
 ]

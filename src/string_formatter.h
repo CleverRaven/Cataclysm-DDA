@@ -372,7 +372,7 @@ class string_formatter
          * not guaranteed - technically it's undefined behaviour.
          */
         // Implemented in output.cpp
-        static std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
+        static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
 #undef PRINTF_LIKE
 };
 

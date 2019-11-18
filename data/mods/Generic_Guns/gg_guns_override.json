@@ -64,7 +64,8 @@
     "name": "pump action shotgun",
     "description": "A pump-action single-barreled shotgun.  It holds six shells in an internal tubular magazine",
     "clip_size": 6,
-    "reload": 100
+    "reload": 100,
+    "magazines": [ [ "shot", [ "shot_speedloader6" ] ] ]
   },
   {
     "id": "m1014",

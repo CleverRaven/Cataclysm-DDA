@@ -1,0 +1,99 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_slab",
+    "name": "stone slab",
+    "description": "A flat slab of heavy stone.",
+    "symbol": "n",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 12,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT", "MINEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 2, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grave_head",
+    "name": "headstone",
+    "description": "Keeps the bodies.",
+    "symbol": "_",
+    "color": "light_gray",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 150,
+      "sound": "crash!",
+      "sound_fail": "thump!",
+      "items": [ { "item": "rock", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grave_stone",
+    "name": "gravestone",
+    "description": "Keeps the bodies.  More fancy.",
+    "symbol": "^",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 160,
+      "sound": "crash!",
+      "sound_fail": "thump!",
+      "items": [ { "item": "rock", "count": [ 8, 14 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grave_stone_old",
+    "name": "worn gravestone",
+    "description": "A worn-out gravestone.",
+    "symbol": "^",
+    "color": "dark_gray",
+    "move_cost_mod": 1.5,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM", "UNSTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "thump!",
+      "items": [ { "item": "rock", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grave_monument",
+    "name": "obelisk",
+    "description": "Monument to pride.",
+    "symbol": "$",
+    "color": "black_white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "MINEABLE", "NOITEM" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crash!",
+      "sound_fail": "thunk!",
+      "items": [ { "item": "rock", "count": [ 18, 30 ] } ]
+    }
+  }
+]

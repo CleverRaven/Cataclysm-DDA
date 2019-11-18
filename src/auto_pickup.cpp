@@ -269,14 +269,14 @@ void user_interface::show()
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
-                                    "* is used as a Wildcard. A few Examples:\n"
-                                    " \n"
+                                    "* is used as a Wildcard.  A few Examples:\n"
+                                    "\n"
                                     "wooden arrow    matches the itemname exactly\n"
                                     "wooden ar*      matches items beginning with wood ar\n"
                                     "*rrow           matches items ending with rrow\n"
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
-                                    " \n"
+                                    "\n"
                                     "Pickup based on item materials:\n"
                                     "m:kevlar        matches items made of kevlar\n"
                                     "M:copper        matches items made purely of copper\n"
@@ -496,7 +496,7 @@ void player_settings::add_rule( const item *it )
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
-        query_yn( _( "Autopickup is not enabled in the options. Enable it now?" ) ) ) {
+        query_yn( _( "Autopickup is not enabled in the options.  Enable it now?" ) ) ) {
         get_options().get_option( "AUTO_PICKUP" ).setNext();
         get_options().save();
     }
@@ -667,7 +667,7 @@ bool player_settings::save_global()
 
 bool player_settings::save( const bool bCharacter )
 {
-    auto savefile = FILENAMES["autopickup"];
+    auto savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
         savefile = g->get_player_base_save_path() + ".apu.json";
@@ -696,7 +696,7 @@ void player_settings::load_global()
 
 void player_settings::load( const bool bCharacter )
 {
-    std::string sFile = FILENAMES["autopickup"];
+    std::string sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
         sFile = g->get_player_base_save_path() + ".apu.json";
     }
@@ -754,7 +754,7 @@ void rule_list::deserialize( JsonIn &jsin )
 
 bool player_settings::load_legacy( const bool bCharacter )
 {
-    std::string sFile = FILENAMES["legacy_autopickup2"];
+    std::string sFile = PATH_INFO::legacy_autopickup2();
 
     if( bCharacter ) {
         sFile = g->get_player_base_save_path() + ".apu.txt";
@@ -768,7 +768,7 @@ bool player_settings::load_legacy( const bool bCharacter )
     const auto &reader = std::bind( &rule_list::load_legacy_rules, std::ref( rules ), _1 );
     if( !read_from_file_optional( sFile, reader ) ) {
         if( !bCharacter ) {
-            return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
+            return read_from_file_optional( PATH_INFO::legacy_autopickup(), reader );
         } else {
             return false;
         }

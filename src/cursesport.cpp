@@ -390,23 +390,23 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 }
 
 //Prints a formatted string to a window at the current cursor, base function
-void catacurses::wprintw( const window &win, const std::string &printbuf )
+void catacurses::wprintw( const window &win, const std::string &text )
 {
     if( !win ) {
         // TODO: log this
         return;
     }
 
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Prints a formatted string to a window, moves the cursor
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &printbuf )
+void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
 {
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES

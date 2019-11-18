@@ -18,10 +18,12 @@
 #include "bionics.h"
 #include "construction.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "effect.h"
 #include "emit.h"
+#include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
@@ -127,7 +129,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             for( const auto &elem : data ) {
                 discarded << elem.first;
             }
-            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
                       data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
@@ -140,7 +142,7 @@ static void load_ignored_type( JsonObject &jo )
     // This does nothing!
     // This function is used for types that are to be ignored
     // (for example for testing or for unimplemented types)
-    ( void ) jo;
+    jo.allow_omitted_members();
 }
 
 void DynamicDataLoader::add( const std::string &type,
@@ -194,6 +196,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
+    add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
@@ -208,6 +211,8 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
+    add( "enchantment", &enchantment::load_enchantment );
+    add( "hit_range", &Creature::load_hit_range );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -290,9 +295,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
     add( "MIGRATION", []( JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
@@ -303,6 +307,8 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
+
+    add( "LOOT_ZONE", &zone_type::load_zones );
     add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
@@ -373,6 +379,9 @@ void DynamicDataLoader::initialize()
     add( "SPELL", &spell_type::load_spell );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
+    add( "event_transformation", &event_transformation::load_transformation );
+    add( "event_statistic", &event_statistic::load_statistic );
+    add( "score", &score::load_score );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -384,7 +393,7 @@ void DynamicDataLoader::initialize()
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization. Must be unloaded first." );
+    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -517,6 +526,9 @@ void DynamicDataLoader::unload_data()
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
+    event_transformation::reset();
+    event_statistic::reset();
+    score::reset();
 
     // TODO:
     //    Name::clear();
@@ -561,6 +573,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
+            { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
@@ -581,6 +594,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
+            { _( "Mutations" ), &mutation_branch::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -665,7 +679,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
             { _( "Anatomies" ), &anatomy::check_consistency },
-            { _( "Spells" ), &spell_type::check_consistency }
+            { _( "Spells" ), &spell_type::check_consistency },
+            { _( "Transformations" ), &event_transformation::check_consistency },
+            { _( "Statistics" ), &event_statistic::check_consistency },
+            { _( "Scores" ), &score::check_consistency }
         }
     };
 

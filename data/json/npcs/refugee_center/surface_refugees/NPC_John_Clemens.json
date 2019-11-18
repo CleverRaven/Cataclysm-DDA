@@ -133,7 +133,7 @@
     "dynamic_line": "My story?  Just a wanderin' cowhand, eatin' dust on the trail.  I settled here for a spell after I came upon some hard times.",
     "responses": [
       {
-        "text": "You... you do know what's going on here, right?  With the evacuation and stuff?",
+        "text": "You… you do know what's going on here, right?  With the evacuation and stuff?",
         "topic": "TALK_REFUGEE_John_Background_cataclysm"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

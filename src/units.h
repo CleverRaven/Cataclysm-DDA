@@ -9,6 +9,7 @@
 
 #include "calendar.h"
 #include "json.h"
+#include "translations.h"
 
 namespace units
 {
@@ -308,11 +309,11 @@ inline constexpr double to_liter( const volume &v )
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
 
-class mass_in_gram_tag
+class mass_in_milligram_tag
 {
 };
 
-using mass = quantity<int, mass_in_gram_tag>;
+using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -321,28 +322,35 @@ const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>:
                                    units::mass::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_gram_tag> from_gram(
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
     const value_type v )
 {
-    return quantity<value_type, mass_in_gram_tag>( v, mass_in_gram_tag{} );
+    return quantity<value_type, mass_in_milligram_tag>( v, mass_in_milligram_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_gram_tag> from_kilogram(
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_gram(
+    const value_type v )
+{
+    return from_milligram( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
     const value_type v )
 {
     return from_gram( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_gram( const quantity<value_type, mass_in_gram_tag> &v )
+inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
-    return v / from_gram<value_type>( 1 );
+    return v.value() / 1000.0;
 }
 
 inline constexpr double to_kilogram( const mass &v )
 {
-    return v.value() / 1000.0;
+    return v.value() / 1000000.0;
 }
 
 class energy_in_millijoule_tag
@@ -367,13 +375,22 @@ inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
 {
-    return from_millijoule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // Check for overflow - if the energy provided is greater than max energy, then it
+    // if overflow when converted to millijoules
+    const value_type energy = v > max_energy_joules ? max_energy_joules : v;
+    return from_millijoule<value_type>( energy * 1000 );
 }
 
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
 {
-    return from_joule<value_type>( v * 1000 );
+    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
+    // This checks for value_type overflow - if the energy we are given in Joules is greater
+    // than the max energy in Joules, overflow will occur when it is converted to millijoules
+    // The value we are given is in kJ, multiply by 1000 to convert it to joules, for use in from_joule
+    value_type energy = v * 1000 > max_energy_joules ? max_energy_joules : v * 1000;
+    return from_joule<value_type>( energy );
 }
 
 template<typename value_type>
@@ -394,12 +411,61 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
     return to_joule( v ) / 1000.0;
 }
 
+class money_in_cent_tag
+{
+};
+
+using money = quantity<int, money_in_cent_tag>;
+
+const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
+                                      units::money::unit_type{} );
+
+const money money_max = units::money( std::numeric_limits<units::money::value_type>::max(),
+                                      units::money::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, money_in_cent_tag> from_cent(
+    const value_type v )
+{
+    return quantity<value_type, money_in_cent_tag>( v, money_in_cent_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, money_in_cent_tag> from_usd( const value_type v )
+{
+    return from_cent<value_type>( v * 100 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, money_in_cent_tag> from_kusd( const value_type v )
+{
+    return from_usd<value_type>( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_cent( const quantity<value_type, money_in_cent_tag> &v )
+{
+    return v / from_cent<value_type>( 1 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_usd( const quantity<value_type, money_in_cent_tag> &v )
+{
+    return to_cent( v ) / 100.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_tag> &v )
+{
+    return to_usd( v ) / 1000.0;
+}
+
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
-inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
+inline std::ostream &operator<<( std::ostream &o, mass_in_milligram_tag )
 {
-    return o << "g";
+    return o << "mg";
 }
 
 inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
@@ -412,10 +478,29 @@ inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
     return o << "mJ";
 }
 
+inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
+{
+    return o << "cent";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
+}
+
+inline std::string display( const units::energy v )
+{
+    const int kj = units::to_kilojoule( v );
+    const int j = units::to_joule( v );
+    if( kj >= 1 && float( j ) / kj == 1000 ) { // at least 1 kJ and there is no fraction
+        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+    }
+    const int mj = units::to_millijoule( v );
+    if( j >= 1 && float( mj ) / j  == 1000 ) { // at least 1 J and there is no fraction
+        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+    }
+    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
@@ -432,7 +517,23 @@ inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operat
     return units::from_milliliter( v );
 }
 
+// Implicitly converted to volume, which has int as value_type!
+inline constexpr units::volume operator"" _liter( const unsigned long long v )
+{
+    return units::from_milliliter( v * 1000 );
+}
+
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+    const long double v )
+{
+    return units::from_milliliter( v * 1000 );
+}
+
 // Implicitly converted to mass, which has int as value_type!
+inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+{
+    return units::from_milligram( v );
+}
 inline constexpr units::mass operator"" _gram( const unsigned long long v )
 {
     return units::from_gram( v );
@@ -443,13 +544,19 @@ inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
     return units::from_kilogram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _gram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
+    const long double v )
+{
+    return units::from_milligram( v );
+}
+
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
     const long double v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _kilogram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
     const long double v )
 {
     return units::from_kilogram( v );
@@ -488,12 +595,57 @@ inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operat
     return units::from_kilojoule( v );
 }
 
+inline constexpr units::money operator"" _cent( const unsigned long long v )
+{
+    return units::from_cent( v );
+}
+
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _cent(
+    const long double v )
+{
+    return units::from_cent( v );
+}
+
+inline constexpr units::money operator"" _USD( const unsigned long long v )
+{
+    return units::from_usd( v );
+}
+
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _USD(
+    const long double v )
+{
+    return units::from_usd( v );
+}
+
+inline constexpr units::money operator"" _kUSD( const unsigned long long v )
+{
+    return units::from_kusd( v );
+}
+
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
+    const long double v )
+{
+    return units::from_kusd( v );
+}
+
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
+    }
+};
+static const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "mg", 1_milligram },
+        { "g", 1_gram },
+        { "kg", 1_kilogram },
+    }
+};
+static const std::vector<std::pair<std::string, money>> money_units = { {
+        { "cent", 1_cent },
+        { "USD", 1_USD },
+        { "kUSD", 1_kUSD },
     }
 };
 } // namespace units

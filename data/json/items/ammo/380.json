@@ -4,9 +4,10 @@
     "type": "AMMO",
     "name": ".380 ACP FMJ",
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider carrying.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "250 ml",
-    "price": 2600,
+    "price": 140,
+    "price_postapoc": 2600,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -35,10 +36,29 @@
     "type": "AMMO",
     "name": ".380 ACP +P",
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximize performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
-    "price": 3800,
+    "price": 190,
+    "price_postapoc": 3800,
     "count": 25,
     "relative": { "damage": 4, "pierce": 2, "dispersion": -15 },
     "proportional": { "recoil": 1.1 }
+  },
+  {
+    "id": "bp_380_FMJ",
+    "copy-from": "380_FMJ",
+    "type": "AMMO",
+    "name": ".380 ACP FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_380_JHP",
+    "copy-from": "380_JHP",
+    "type": "AMMO",
+    "name": ".380 ACP JHP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_380_FMJ",

@@ -113,7 +113,7 @@
         "w": { "item": "stash_wood", "chance": 30 }
       },
       "add": [ { "item": "ash", "chance": 2, "x": 11, "y": 11, "repeat": 2 }, { "item": "charcoal", "chance": 3, "x": 11, "y": 11 } ],
-      "traps": { "p": { "trap": "tr_spike_pit", "chance": 70 } },
+      "traps": { "p": { "trap": "tr_spike_pit" } },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 11, "y": 10 },
         { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 10, "y": 9 },

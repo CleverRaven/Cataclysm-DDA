@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "dispersion.h"
+#include "event_bus.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "input.h"
@@ -71,13 +72,15 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
@@ -122,20 +125,10 @@ double Creature::ranged_target_size() const
 
 int range_with_even_chance_of_good_hit( int dispersion )
 {
-    // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
-    static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
-            1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
-            151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
-            78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
-            46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
-            41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
-            33, 33, 32, 30, 30, 30, 30, 29, 28
-        }
-    };
     int even_chance_range = 0;
     while( static_cast<unsigned>( even_chance_range ) <
-           dispersion_for_even_chance_of_good_hit.size() &&
-           dispersion < dispersion_for_even_chance_of_good_hit[ even_chance_range ] ) {
+           Creature::dispersion_for_even_chance_of_good_hit.size() &&
+           dispersion < Creature::dispersion_for_even_chance_of_good_hit[ even_chance_range ] ) {
         even_chance_range++;
     }
     return even_chance_range;
@@ -158,23 +151,35 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it, int shots_fired )
+bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
         return false;
     }
 
+    int dirt = it.get_var( "dirt", 0 );
+    int dirtadder = 0;
+    double dirt_dbl = static_cast<double>( dirt );
+    if( it.faults.count( fault_gun_chamber_spent ) ) {
+        return false;
+    }
+
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
+    if( !it.has_flag( "NEVER_JAMS" ) &&
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 1000000000000.0 ) ) {
+        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
+                               _( "<npcname>'s %s misfires with a muffled click!" ),
+                               it.tname() );
+        return false;
+    }
+
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing->durability;
-    if( it.faults.count( fault_gun_blackpowder ) && effective_durability > 2 ) {
-        effective_durability -= 1;
-    }
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
@@ -183,51 +188,28 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         // Here we check for a chance for the weapon to suffer a mechanical malfunction.
         // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
         // effect as current guns have a durability between 5 and 9 this results in
-        // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
-        // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
-    } else if( ( one_in( 2 << effective_durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
+        // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
+        // the malfunction can't cause damage
+    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
-                               it.tname() );
-        if( it.damage() < it.max_damage() && one_in( 4 * effective_durability ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the mechanical malfunction!" ),
-                                   _( "<npcname>'s %s is damaged by the mechanical malfunction!" ),
-                                   it.tname() );
-            // Don't increment until after the message
-            it.inc_damage();
-        }
-        return false;
-        // Here we check for a chance for the weapon to suffer a misfire due to
-        // using OEM bullets. Note that these misfires cause no damage to the weapon and
-        // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-    } else if( !curammo_effects.count( "NEVER_MISFIRES" ) && one_in( 1728 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
-                               _( "<npcname>'s %s misfires with a dry click!" ),
                                it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
-        // player-made ammunition have this effect the misfire may cause damage, but never
-        // enough to push the weapon beyond 'shattered'.
+        // player-made ammunition have this effect.
     } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( effective_durability ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the misfired round!" ),
-                                   _( "<npcname>'s %s is damaged by the misfired round!" ),
-                                   it.tname() );
-            // Don't increment until after the message
-            it.inc_damage();
-        }
         return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( "CONSUMABLE" )  && !curammo_effects.count( "LASER" ) &&
-               !curammo_effects.count( "PLASMA" ) ) {
+    } else if( it.has_flag( "CONSUMABLE" ) && !curammo_effects.count( "LASER" ) &&
+               !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
@@ -259,25 +241,45 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             }
         }
     }
-    if( curammo_effects.count( "BLACKPOWDER" ) ) {
-        if( !it.faults.count( fault_gun_blackpowder ) &&
-            it.faults_potential().count( fault_gun_blackpowder ) ) {
+    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) &&
+        !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( curammo_effects.count( "BLACKPOWDER" ) ) {
+            if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+                it.faults_potential().count( fault_gun_chamber_spent ) ) {
+                add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                       _( "<npcname>'s %s fails to cycle!" ),
+                                       it.tname() );
+                it.faults.insert( fault_gun_chamber_spent );
+                // Don't return false in this case; this shot happens, follow-up ones won't.
+            }
+        }
+        // These are the dirtying/fouling mechanics
+        if( dirt < 10000 ) {
+            dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                        2 ) );
+            if( dirtadder < 0 ) {
+                dirtadder = 0;
+            }
+            it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+        }
+        dirt = it.get_var( "dirt", 0 );
+        dirt_dbl = static_cast<double>( dirt );
+        if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+            it.faults.insert( fault_gun_dirt );
+        }
+        if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+            it.faults.erase( fault_gun_dirt );
             it.faults.insert( fault_gun_blackpowder );
         }
-        if( one_in( firing->blackpowder_tolerance ) &&
-            it.faults_potential().count( fault_gun_clogged ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
-                                   _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
-                                   it.tname() );
-            it.faults.insert( fault_gun_clogged );
-            return false;
-        }
-        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil && shots_fired > 0 ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                   _( "<npcname>'s %s fails to cycle!" ),
-                                   it.tname() );
-            return false;
-        }
+        // end fouling mechanics
+    }
+    if( dirt_dbl > 5000 &&
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
+                               _( "<npcname>'s %s is damaged by the high pressure!" ),
+                               it.tname() );
+        // Don't increment until after the message
+        it.inc_damage();
     }
     return true;
 }
@@ -355,7 +357,13 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( !handle_gun_damage( gun, curshot ) ) {
+        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+            moves -= 50;
+            gun.faults.erase( fault_gun_chamber_spent );
+            add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
+        }
+
+        if( !handle_gun_damage( gun ) ) {
             break;
         }
 
@@ -399,7 +407,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( shot.missed_by <= .1 ) {
-            lifetime_stats.headshots++; // TODO: check head existence for headshot
+            // TODO: check head existence for headshot
+            g->events().send<event_type::character_gets_headshot>( getID() );
         }
 
         if( shot.hit_critter ) {
@@ -455,7 +464,7 @@ static int throw_cost( const player &c, const item &to_throw )
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
                                     ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = static_cast<float>( c.stamina ) / c.get_stamina_max();
+    const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
@@ -496,10 +505,11 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     int throw_difficulty = 1000;
     // 1000 penalty for every liter after the first
     // TODO: Except javelin type items
-    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
+    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
-    throw_difficulty += std::max( 0, weight / 1_gram - get_str() * 100 );
+    const int weight_in_gram = units::to_gram( weight );
+    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -556,8 +566,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     const skill_id &skill_used = skill_throw;
-    const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-
+    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
@@ -591,7 +604,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -640,10 +653,15 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "TANGLE" );
     }
 
+    Creature *critter = g->critter_at( target, true );
+    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
+                                          blind_throw_from_pos.has_value() );
+    const itype *thrown_type = thrown.type;
+
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown.has_flag( "CUSTOM_EXPLOSION" ) ) {
-        proj.set_custom_explosion( thrown.type->explosion );
+    if( thrown_type->item_tags.count( "CUSTOM_EXPLOSION" ) ) {
+        proj.set_custom_explosion( thrown_type->explosion );
     }
 
     // Throw from the player's position, unless we're blind throwing, in which case
@@ -660,16 +678,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
-    Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
-                                          blind_throw_from_pos.has_value() );
     auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, this );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        lifetime_stats.headshots++;
+        g->events().send<event_type::character_gets_headshot>( getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
@@ -771,7 +786,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim. (10 moves)" ),
+        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
                    front_or( "AIM", ' ' ) );
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
@@ -1041,7 +1056,8 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
     mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, point( 1, line_number++ ), "*  %s", e->name() );
+        nc_color o = c_white;
+        print_colored_text( w, point( 1, line_number++ ), o, o, string_format( "*  %s", e->name() ) );
     }
 
     return line_number;
@@ -1173,7 +1189,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
 
     // TODO: last_target should be member of target_handler
@@ -1293,7 +1309,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;
@@ -1395,11 +1411,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
                 const itype *cur = ammo ? ammo : m->ammo_data();
                 if( cur ) {
-                    auto str = string_format( m->ammo_remaining() ?
-                                              _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
-                                              _( "Ammo: <color_%s>%s</color>" ),
-                                              get_all_colors().get_name( cur->color ),
-                                              cur->nname( std::max( m->ammo_remaining(), 1 ) ),
+                    auto str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                                              colorize( cur->nname( std::max( m->ammo_remaining(), 1 ) ), cur->color ),
                                               m->ammo_remaining(), m->ammo_capacity() );
 
                     print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
@@ -1582,12 +1595,23 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
+                ammo = relevant->gun_current_mode().target->ammo_data();
+                range = relevant->gun_current_mode().target->gun_range( &pc );
+                if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+                    relevant->gun_cycle_mode();
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
             } else {
-                g->reload( pc.get_item_position( relevant ), true );
+                const int pos = pc.get_item_position( relevant );
+                const item it = g->u.i_at( pos );
+                if( it.typeId() == "null" ) {
+                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
+                } else {
+                    g->reload( pos, true );
+                }
                 ret.clear();
                 break;
             }
@@ -1802,7 +1826,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( dst == pc.pos() ) {
             return true;
         }
-        if( npc *const who_ = g->critter_at<npc>( dst ) ) {
+        if( npc *const who_ = g->critter_at<npc>( dst, false ) ) {
             const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;
@@ -1912,19 +1936,21 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
-                casting.effect() == "area_pull" || casting.effect() == "area_push" ) {
+                casting.effect() == "area_pull" || casting.effect() == "area_push" ||
+                casting.effect() == "ter_transform" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Effective Spell Radius: %i%s" ), casting.aoe(), rl_dist( src,
-                                                       dst ) <= casting.aoe() ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
+                                               _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
+                                               casting.in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
             } else if( casting.effect() == "cone_attack" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Cone Arc: %i degrees" ), casting.aoe() );
+                                               _( "Cone Arc: %s degrees" ), casting.aoe_string() );
             } else if( casting.effect() == "line_attack" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
-                                               _( "Line width: %i" ), casting.aoe() );
+                                               _( "Line width: %s" ), casting.aoe_string() );
             }
         }
-        mvwprintz( w_target, point( 1, line_number++ ), c_light_red, _( "Damage: %i" ), casting.damage() );
+        mvwprintz( w_target, point( 1, line_number++ ), c_light_red, _( "Damage: %s" ),
+                   casting.damage_string() );
         line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, clr,
                                        casting.description() );
         // Skip blank lines if we're short on space.

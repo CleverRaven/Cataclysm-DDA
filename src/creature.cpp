@@ -10,12 +10,15 @@
 #include "avatar.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "projectile.h"
@@ -51,6 +54,7 @@ const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -123,6 +127,7 @@ void Creature::reset_bonuses()
     hit_bonus = 0;
     bash_bonus = 0;
     cut_bonus = 0;
+    size_bonus = 0;
 
     bash_mult = 1.0f;
     cut_mult = 1.0f;
@@ -145,7 +150,9 @@ void Creature::process_turn()
     reset_stats();
 
     // add an appropriate number of moves
-    moves += get_speed();
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
@@ -174,8 +181,9 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 
 bool Creature::sees( const Creature &critter ) const
 {
+    // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {
-        return true;    // Can always see ourselves.
+        return true;
     }
 
     if( critter.is_hallucination() ) {
@@ -189,20 +197,16 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    // Creatures always see themselves (simplifies drawing).
-    if( this == &critter ) {
-        return true;
-    }
     // This check is ridiculously expensive so defer it to after everything else.
-    auto visible = []( const player * p ) {
-        return p == nullptr || !p->is_invisible();
+    auto visible = []( const Character * ch ) {
+        return ch == nullptr || !ch->is_invisible();
     };
 
-    const player *p = critter.as_player();
+    const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return visible( p );
+        return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -211,14 +215,14 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( p != nullptr ) {
-        if( p->movement_mode_is( PMM_CROUCH ) ) {
+    if( ch != nullptr ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
             float size_modifier = 1.0;
-            switch( p->get_size() ) {
+            switch( ch->get_size() ) {
                 case MS_TINY:
                     size_modifier = 2.0;
                     break;
@@ -236,22 +240,22 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
             return false;
         }
     }
-    return sees( critter.pos(), p != nullptr ) && visible( p );
+    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
+bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
     }
 
     const int range_cur = sight_range( g->m.ambient_light_at( t ) );
-    const int range_day = sight_range( current_daylight_level( calendar::turn ) );
+    const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
@@ -271,7 +275,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
         if( range_mod > 0 ) {
             range = std::min( range, range_mod );
         }
-        if( is_player ) {
+        if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
@@ -290,14 +294,10 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    tripoint tmp = pos;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = pos.x - area; x < pos.x + area; x++ ) {
-        for( y = pos.y - area; y < pos.y + area; y++ ) {
-            if( veh_area.count( tmp ) > 0 ) {
-                return true;
-            }
+    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+            pos + tripoint( area - 1, area - 1, 0 ) ) ) {
+        if( veh_area.count( tmp ) > 0 ) {
+            return true;
         }
     }
 
@@ -486,16 +486,16 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
+    // melee attack will start off as targeted at mount
     if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
                 return;
             }
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -552,16 +552,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        if( !has_flag( MF_MECH_DEFENSIVE ) ) {
-            // If carrying a rider, there is a chance the hits may hit rider instead.
-            // big mounts and small player = big shield for player.
-            if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
-                g->u.deal_projectile_attack( source, attack, print_messages );
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
                 return;
             }
         }
-        //otherwise it would thoroughly protect the rider(or pilot actually)
-
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
@@ -727,6 +725,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count( "APPLY_SAP" ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
+        add_effect( effect_paralyzepoison, 5_minutes );
+    }
 
     int stun_strength = 0;
     if( proj.proj_effects.count( "BEANBAG" ) ) {
@@ -791,7 +793,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.removeCreatureHP();
                 }
 
-                add_msg( m_good, _( "You hit %s for %d damage." ),
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
                          disp_name(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
@@ -893,6 +896,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;
@@ -901,6 +909,12 @@ bool Creature::is_fake() const
 void Creature::set_fake( const bool fake_value )
 {
     fake = fake_value;
+}
+
+void Creature::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+                force, deferred );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
@@ -912,7 +926,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     }
     if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
             has_effect( effect_riding ) ) ) {
-        g->u.forced_dismount();
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            mons->mounted_player->forced_dismount();
+        }
     }
 
     if( !eff_id.is_valid() ) {
@@ -1005,13 +1022,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             e.set_intensity( e.get_max_intensity() );
         }
         ( *effects )[eff_id][bp] = e;
-        if( is_player() ) {
-            if( !type.get_apply_message().empty() ) {
+        if( Character *ch = as_character() ) {
+            g->events().send<event_type::character_gains_effect>( ch->getID(), eff_id );
+            if( is_player() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
-            }
-            if( !type.get_apply_memorial_log().empty() ) {
-                add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
-                                  pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1056,14 +1070,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
     const effect_type &type = eff_id.obj();
 
-    if( is_player() ) {
-        if( !type.get_remove_message().empty() ) {
-            add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+    if( Character *ch = as_character() ) {
+        if( is_player() ) {
+            if( !type.get_remove_message().empty() ) {
+                add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+            }
         }
-        if( !type.get_remove_memorial_log().empty() ) {
-            add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
-                              pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
-        }
+        g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
     // num_bp means remove all of a given effect id
@@ -1097,6 +1110,18 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
         }
         return false;
     }
+}
+
+bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+{
+    for( auto &elem : *effects ) {
+        for( const std::pair<body_part, effect> &_it : elem.second ) {
+            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
@@ -1233,28 +1258,32 @@ int Creature::get_perceived_pain() const
     return get_pain();
 }
 
-std::string Creature::get_pain_description() const
+std::pair<std::string, nc_color> Creature::get_pain_description() const
 {
     float scale = get_perceived_pain() / 10.f;
+    std::string pain_string;
+    nc_color pain_color = c_yellow;
     if( scale > 7 ) {
-        return _( "Severe pain" );
+        pain_string = _( "Severe pain" );
     } else if( scale > 6 ) {
-        return _( "Intense pain" );
+        pain_string = _( "Intense pain" );
     } else if( scale > 5 ) {
-        return _( "Unmanageable pain" );
+        pain_string = _( "Unmanageable pain" );
     } else if( scale > 4 ) {
-        return _( "Distressing pain" );
+        pain_string = _( "Distressing pain" );
     } else if( scale > 3 ) {
-        return _( "Distracting pain" );
+        pain_string = _( "Distracting pain" );
     } else if( scale > 2 ) {
-        return _( "Moderate pain" );
+        pain_string = _( "Moderate pain" );
     } else if( scale > 1 ) {
-        return _( "Mild pain" );
+        pain_string = _( "Mild pain" );
     } else if( scale > 0 ) {
-        return _( "Minimal pain" );
+        pain_string = _( "Minimal pain" );
     } else {
-        return _( "No pain" );
+        pain_string = _( "No pain" );
+        pain_color = c_white;
     }
+    return std::make_pair( pain_string, pain_color );
 }
 
 int Creature::get_moves() const
@@ -1445,6 +1474,7 @@ void Creature::set_armor_cut_bonus( int ncutarm )
     armor_cut_bonus = ncutarm;
 }
 
+
 void Creature::set_speed_base( int nspeed )
 {
     speed_base = nspeed;
@@ -1457,6 +1487,7 @@ void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;
@@ -1496,6 +1527,10 @@ void Creature::mod_bash_bonus( int nbash )
 void Creature::mod_cut_bonus( int ncut )
 {
     cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 void Creature::set_bash_mult( float nbashmult )
@@ -1607,16 +1642,16 @@ std::string Creature::attitude_raw_string( Attitude att )
     }
 }
 
-const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
-    using pair_t = std::pair<std::string, nc_color>;
+    using pair_t = std::pair<translation, nc_color>;
     static const std::array<pair_t, 5> strings {
         {
-            pair_t {_( "Hostile" ), c_red},
-            pair_t {_( "Neutral" ), h_white},
-            pair_t {_( "Friendly" ), c_green},
-            pair_t {_( "Any" ), c_yellow},
-            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "Hostile" ), c_red},
+            pair_t {to_translation( "Neutral" ), h_white},
+            pair_t {to_translation( "Friendly" ), c_green},
+            pair_t {to_translation( "Any" ), c_yellow},
+            pair_t {to_translation( "BUG: Behavior unnamed.  (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 
@@ -1699,4 +1734,21 @@ void Creature::add_msg_player_or_say( game_message_type type, const translation 
                                       const translation &npc ) const
 {
     return add_msg_player_or_say( type, pc.translated(), npc.translated() );
+}
+
+std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
+        1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
+        151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
+        78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
+        46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
+        41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
+        33, 33, 32, 30, 30, 30, 30, 29, 28
+    }
+};
+
+void Creature::load_hit_range( JsonObject &jo )
+{
+    if( jo.has_array( "even_good" ) ) {
+        jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
+    }
 }

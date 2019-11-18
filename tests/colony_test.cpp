@@ -217,6 +217,7 @@ TEST_CASE( "colony basics", "[colony]" )
     // Move test
     CHECK( test_colony_2.size() == 400 );
 
+    // NOLINTNEXTLINE(bugprone-use-after-move)
     test_colony.insert( &ten );
 
     // Insert to post-moved-colony test

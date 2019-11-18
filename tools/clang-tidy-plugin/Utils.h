@@ -89,6 +89,15 @@ inline auto isXParam()
     return matchesName( "[xX]" );
 }
 
+inline bool isPointType( const CXXRecordDecl *R )
+{
+    if( !R ) {
+        return false;
+    }
+    StringRef name = R->getName();
+    return name == "point" || name == "tripoint";
+}
+
 // Struct to help identify and construct names of associated points and
 // coordinates
 class NameConvention

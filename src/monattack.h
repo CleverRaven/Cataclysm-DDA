@@ -63,6 +63,7 @@ bool fear_paralyze( monster *z );
 bool nurse_check_up( monster *z );
 bool nurse_assist( monster *z );
 bool nurse_operate( monster *z );
+bool check_money_left( monster *z );
 bool photograph( monster *z );
 bool tazer( monster *z );
 bool flamethrower( monster *z );
@@ -83,6 +84,8 @@ bool parrot( monster *z );
 bool parrot_at_danger( monster *parrot );
 bool darkman( monster *z );
 bool slimespring( monster *z );
+bool tindalos_teleport( monster *z );
+bool flesh_tendril( monster *z );
 bool bio_op_takedown( monster *z );
 bool ranged_pull( monster *z );
 bool grab( monster *z );
@@ -96,6 +99,7 @@ bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
+bool zombie_fuse( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4

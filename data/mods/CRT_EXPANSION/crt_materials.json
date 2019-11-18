@@ -11,7 +11,7 @@
     "fire_resist": 1,
     "elec_resist": 20,
     "chip_resist": 9,
-    "repaired_with": [ "plastic_chunk", "chunk_rubber" ],
+    "repaired_with": "plastic_chunk",
     "salvaged_into": "chunk_rubber",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",

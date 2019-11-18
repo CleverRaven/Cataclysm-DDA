@@ -10,7 +10,7 @@
     "weighting": 1,
     "mult_bonuses": [ [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "damage", "stab", "str", 0.1 ], [ "damage", "stab", "per", 0.2 ] ],
-    "messages": [ "You lean forward and stab at %s", "<npcname> stabs into %s flesh" ],
+    "messages": [ "You step forward and stab at %s", "<npcname> stabs into %s flesh" ],
     "description": "110% Stab damage, STR (E) and PER (D) provides bonus damage, min 1 melee"
   },
   {

@@ -48,7 +48,7 @@ class basic_animation
             g->draw_panels();
 
             query_popup()
-            .wait_message( "%s", _( "Hang on a bit..." ) )
+            .wait_message( "%s", _( "Hang on a bit…" ) )
             .on_top( true )
             .show();
 
@@ -563,27 +563,29 @@ void draw_line_curses( game &g, const tripoint &pos, const tripoint &center,
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, ret ); // TODO: needed for tiles ver too??
+        draw_line_curses( *this, p, center, points ); // TODO: needed for tiles ver too??
         return;
     }
 
-    tilecontext->init_draw_line( p, ret, "line_target", true );
+    tilecontext->init_draw_line( p, points, "line_target", true );
 }
 #else
-void game::draw_line( const tripoint &p, const tripoint &center, const std::vector<tripoint> &ret )
+void game::draw_line( const tripoint &p, const tripoint &center,
+                      const std::vector<tripoint> &points )
 {
     if( !u.sees( p ) ) {
         return;
     }
 
-    draw_line_curses( *this, p, center, ret );
+    draw_line_curses( *this, p, center, points );
 }
 #endif
 
@@ -602,17 +604,17 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
-    draw_line_curses( *this, vPoint );
-    tilecontext->init_draw_line( p, vPoint, "line_trail", false );
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &vPoint )
+void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     ( void )p; //unused
 
-    draw_line_curses( *this, vPoint );
+    draw_line_curses( *this, points );
 }
 #endif
 
@@ -771,5 +773,141 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
 void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
 {
     draw_zones_curses( w_terrain, start, end, offset );
+}
+#endif
+
+#if defined(TILES)
+void game::draw_radiation_override( const tripoint &p, const int rad )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_radiation_override( p, rad );
+    }
+}
+#else
+void game::draw_radiation_override( const tripoint &, const int )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_terrain_override( const tripoint &p, const ter_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_terrain_override( p, id );
+    }
+}
+#else
+void game::draw_terrain_override( const tripoint &, const ter_id & )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_furniture_override( const tripoint &p, const furn_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_furniture_override( p, id );
+    }
+}
+#else
+void game::draw_furniture_override( const tripoint &, const furn_id & )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_graffiti_override( const tripoint &p, const bool has )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_graffiti_override( p, has );
+    }
+}
+#else
+void game::draw_graffiti_override( const tripoint &, const bool )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_trap_override( const tripoint &p, const trap_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_trap_override( p, id );
+    }
+}
+#else
+void game::draw_trap_override( const tripoint &, const trap_id & )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_field_override( const tripoint &p, const field_type_id &id )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_field_override( p, id );
+    }
+}
+#else
+void game::draw_field_override( const tripoint &, const field_type_id & )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                               const bool hilite )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_item_override( p, id, mid, hilite );
+    }
+}
+#else
+void game::draw_item_override( const tripoint &, const itype_id &, const mtype_id &,
+                               const bool )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int part_mod,
+                                const int veh_dir, const bool hilite, const point &mount )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
+    }
+}
+#else
+void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
+                                const int, const bool, const point & )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_below_override( const tripoint &p, const bool draw )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_below_override( p, draw );
+    }
+}
+#else
+void game::draw_below_override( const tripoint &, const bool )
+{
+}
+#endif
+
+#if defined(TILES)
+void game::draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
+                                  const bool more, const Creature::Attitude att )
+{
+    if( use_tiles ) {
+        tilecontext->init_draw_monster_override( p, id, count, more, att );
+    }
+}
+#else
+void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
+                                  const bool, const Creature::Attitude )
+{
 }
 #endif

@@ -5,6 +5,7 @@
 #include <limits>
 #include <algorithm>
 
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -58,8 +59,8 @@ double default_daylight_level()
 
 moon_phase get_moon_phase( const time_point &p )
 {
-    //One full phase every 2 rl months = 2/3 season length
-    const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
+    //One full phase every 1 rl months = 1/3 season length
+    const time_duration moon_phase_duration = calendar::season_length() / 3.0;
     //Switch moon phase at noon so it stays the same all night
     const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
@@ -71,7 +72,7 @@ moon_phase get_moon_phase( const time_point &p )
 time_point sunrise( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -91,7 +92,7 @@ time_point sunrise( const time_point &p )
 time_point sunset( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -106,6 +107,17 @@ time_point sunset( const time_point &p )
 
     const time_point midnight = p - time_past_midnight( p );
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
+}
+
+time_point night_time( const time_point &p )
+{
+    return sunset( p ) + twilight_duration;
+}
+
+time_point daylight_time( const time_point &p )
+{
+    // @TODO Actual dailight should start 18 degrees before sunrise
+    return sunrise( p ) + 15_minutes;
 }
 
 bool is_night( const time_point &p )
@@ -154,12 +166,14 @@ double current_daylight_level( const time_point &p )
         case WINTER:
             modifier = ( 1. - deviation ) + ( percent * deviation );
             break;
+        default:
+            debugmsg( "Invalid season" );
     }
 
     return modifier * default_daylight_level();
 }
 
-float sunlight( const time_point &p )
+float sunlight( const time_point &p, const bool vision )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -172,7 +186,8 @@ float sunlight( const time_point &p )
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = 1 + static_cast<int>( current_phase * moonlight_per_quarter );
+    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
+                          0;
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
@@ -439,7 +454,7 @@ float calendar::season_ratio()
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 14;
+    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 

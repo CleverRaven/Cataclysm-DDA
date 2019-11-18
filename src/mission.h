@@ -33,6 +33,7 @@ class JsonOut;
 class overmapbuffer;
 class item;
 class npc;
+template<typename T> struct enum_traits;
 
 enum npc_mission : int;
 
@@ -49,6 +50,11 @@ enum mission_origin {
     ORIGIN_SECONDARY,  // Given at the end of another mission
     ORIGIN_COMPUTER,   // Taken after reading investigation provoking entries in computer terminal
     NUM_ORIGIN
+};
+
+template<>
+struct enum_traits<mission_origin> {
+    static constexpr mission_origin last = mission_origin::NUM_ORIGIN;
 };
 
 enum mission_goal {
@@ -71,25 +77,10 @@ enum mission_goal {
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
 };
-const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
-        { "MGOAL_NULL", MGOAL_NULL },
-        { "MGOAL_GO_TO", MGOAL_GO_TO },
-        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
-        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
-        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
-        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
-        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
-        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
-        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
-        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
-        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
-        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
-        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
-        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
-        { "MGOAL_TALK_TO_NPC", MGOAL_TALK_TO_NPC },
-        { "MGOAL_CONDITION", MGOAL_CONDITION }
-    }
+
+template<>
+struct enum_traits<mission_goal> {
+    static constexpr mission_goal last = mission_goal::NUM_MGOAL;
 };
 
 struct mission_place {
@@ -188,7 +179,7 @@ tripoint get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
-bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
+bool load_funcs( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
 struct mission_goal_condition_context {
@@ -207,9 +198,9 @@ struct mission_type {
         bool was_loaded = false;
     private:
         // The untranslated name of the mission
-        std::string name = translate_marker( "Bugged mission type" );
+        translation name = to_translation( "Bugged mission type" );
     public:
-        std::string description = "";
+        translation description;
         // The basic goal type
         mission_goal goal;
         // Difficulty; TODO: come up with a scale
@@ -221,6 +212,11 @@ struct mission_type {
         time_duration deadline_high = 0_turns;
         // If true, the NPC will press this mission!
         bool urgent = false;
+        // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
+        bool has_generic_rewards = true;
+
+        // A limited subset of the talk_effects on the mission
+        std::vector<std::pair<int, std::string>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
@@ -249,12 +245,6 @@ struct mission_type {
         std::function<bool( const mission_goal_condition_context & )> goal_condition;
 
         mission_type() = default;
-        mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF, int VAL,
-                      bool URGENT,
-                      std::function<bool( const tripoint & )> PLACE,
-                      std::function<void( mission * )> START,
-                      std::function<void( mission * )> END,
-                      std::function<void( mission * )> FAIL );
 
         mission create( character_id npc_id ) const;
 
@@ -300,7 +290,8 @@ class mission
             yet_to_start,
             in_progress,
             success,
-            failure
+            failure,
+            num_mission_status
         };
     private:
         // So mission_type::create is simpler
@@ -353,7 +344,7 @@ class mission
 
         std::string name();
         mission_type_id mission_id();
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
         mission();
@@ -371,6 +362,8 @@ class mission
         int get_id() const;
         const std::string &get_item_id() const;
         character_id get_npc_id() const;
+        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.
@@ -471,6 +464,11 @@ class mission
             const itype_id &actual_container,
             bool &specific_container_required );
 
+};
+
+template<>
+struct enum_traits<mission::mission_status> {
+    static constexpr mission::mission_status last = mission::mission_status::num_mission_status;
 };
 
 #endif

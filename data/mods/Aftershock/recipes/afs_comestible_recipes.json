@@ -10,7 +10,7 @@
     "charges": 2,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "tools": [ [ "afs_rolling_pin" ] ],
+    "tools": [ [ "rolling_pin" ] ],
     "components": [ [ [ "flour", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
@@ -63,28 +63,6 @@
   },
   {
     "type": "recipe",
-    "result": "afs_cake",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "charges": 10,
-    "components": [
-      [ [ "afs_dough", 5 ] ],
-      [ [ "salt", 10 ] ],
-      [ [ "sugar", 20 ] ],
-      [ [ "chocolate", 3 ] ],
-      [ [ "cooking_oil", 3 ], [ "cooking_oil2", 3 ] ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "afs_calorie_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -93,20 +71,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "afs_calorie_pill", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_fried_donut_holes",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": 10000,
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "charges": 4,
-    "components": [ [ [ "afs_dough", 1 ] ], [ [ "salt", 5 ] ], [ [ "sugar", 16 ] ] ]
   },
   {
     "type": "recipe",

@@ -77,7 +77,7 @@ item_location disassemble( player &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
-item_location read( avatar &you );
+item_location read( player &pl );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, player &victim );
 /** Item activation menu. */

@@ -21,10 +21,5 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 }
     ]
-  },
-  {
-    "name": "GROUP_TURRET_SMG",
-    "type": "monstergroup",
-    "default": "mon_turret"
   }
 ]

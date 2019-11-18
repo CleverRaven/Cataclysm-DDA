@@ -172,44 +172,39 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 TEST_CASE( "snippet-tag-test" )
 {
     // Actually used tags
-    static const std::set<std::string> npc_talk_tags = {{
+    static const std::set<std::string> npc_talk_tags = {
+        {
             "<name_b>", "<thirsty>", "<swear!>",
             "<sad>", "<greet>", "<no>",
             "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
             "<wait>", "<no_faction>", "<name_g>",
             "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<catch_up>", "<really>",
+            "<okay>", "<really>",
             "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_weapon>", "<swear>", "<lets_talk>",
+            "<drop_it>", "<swear>", "<lets_talk>",
             "<hands_up>", "<move>", "<hungry>",
             "<fuck_you>",
         }
     };
 
     for( const auto &tag : npc_talk_tags ) {
-        const auto ids = SNIPPET.all_ids_from_category( tag );
-        std::set<std::string> valid_snippets;
-        for( int id : ids ) {
-            const auto &snip = SNIPPET.get( id );
-            valid_snippets.insert( snip );
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( SNIPPET.random_from_category( tag ).has_value() );
         }
-
-        // We want to get all the snippets in the category
-        std::set<std::string> found_snippets;
-        // Brute force random snippets to see if they are all in their category
-        for( size_t i = 0; i < ids.size() * 100; i++ ) {
-            const auto &roll = SNIPPET.random_from_category( tag );
-            CHECK( valid_snippets.count( roll ) > 0 );
-            found_snippets.insert( roll );
-        }
-
-        CHECK( found_snippets == valid_snippets );
     }
 
-    // Special tags, those should have empty replacements
-    CHECK( SNIPPET.all_ids_from_category( "<yrwp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<mywp>" ).empty() );
-    CHECK( SNIPPET.all_ids_from_category( "<ammo>" ).empty() );
+    // Special tags, those should have no replacements
+    static const std::set<std::string> special_tags = {
+        {
+            "<yrwp>", "<mywp>", "<ammo>"
+        }
+    };
+
+    for( const std::string &tag : special_tags ) {
+        for( int i = 0; i < 100; i++ ) {
+            CHECK( !SNIPPET.random_from_category( tag ).has_value() );
+        }
+    }
 }
 
 /* Test setup. Player should always be at top-left.

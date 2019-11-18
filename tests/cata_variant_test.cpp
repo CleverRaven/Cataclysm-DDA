@@ -1,6 +1,9 @@
 #include "catch/catch.hpp"
 
+#include <sstream>
+
 #include "cata_variant.h"
+#include "json.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
 {
@@ -29,6 +32,12 @@ TEST_CASE( "variant_construction", "[variant]" )
         CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
         CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
     }
+    SECTION( "construction_from_const_lvalue" ) {
+        const character_id i;
+        cata_variant v( i );
+        CHECK( v.type() == cata_variant_type::character_id );
+        CHECK( v.get<character_id>() == i );
+    }
 }
 
 TEST_CASE( "variant_copy_move", "[variant]" )
@@ -49,7 +58,32 @@ TEST_CASE( "variant_type_name_round_trip", "[variant]" )
     int num_types = static_cast<int>( cata_variant_type::num_types );
     for( int i = 0; i < num_types; ++i ) {
         cata_variant_type type = static_cast<cata_variant_type>( i );
-        std::string type_as_string = cata_variant_detail::to_string( type );
-        CHECK( cata_variant_detail::from_string( type_as_string ) == type );
+        std::string type_as_string = io::enum_to_string( type );
+        CHECK( io::string_to_enum<cata_variant_type>( type_as_string ) == type );
     }
+}
+
+TEST_CASE( "variant_default_constructor", "[variant]" )
+{
+    cata_variant v;
+    CHECK( v.type() == cata_variant_type::void_ );
+    CHECK( v.get_string().empty() );
+}
+
+TEST_CASE( "variant_serialization", "[variant]" )
+{
+    cata_variant v = cata_variant( mtype_id( "zombie" ) );
+    std::ostringstream os;
+    JsonOut jsout( os );
+    v.serialize( jsout );
+    CHECK( os.str() == R"(["mtype_id","zombie"])" );
+}
+
+TEST_CASE( "variant_deserialization", "[variant]" )
+{
+    std::istringstream is( R"(["mtype_id","zombie"])" );
+    JsonIn jsin( is );
+    cata_variant v;
+    v.deserialize( jsin );
+    CHECK( v == cata_variant( mtype_id( "zombie" ) ) );
 }

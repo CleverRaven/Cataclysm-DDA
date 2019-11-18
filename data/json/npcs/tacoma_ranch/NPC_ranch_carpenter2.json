@@ -16,7 +16,7 @@
     "dynamic_line": "Howdy.",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_RANCH_CONSTRUCTION_2_JOB" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {

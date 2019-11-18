@@ -101,6 +101,32 @@ struct centroid {
     float weight;
 };
 
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
+{
+    switch ( data ) {
+    case sounds::sound_t::background: return "background";
+    case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::music: return "music";
+    case sounds::sound_t::movement: return "movement";
+    case sounds::sound_t::speech: return "speech";
+    case sounds::sound_t::activity: return "activity";
+    case sounds::sound_t::destructive_activity: return "destructive_activity";
+    case sounds::sound_t::alarm: return "alarm";
+    case sounds::sound_t::combat: return "combat";
+    case sounds::sound_t::alert: return "alert";
+    case sounds::sound_t::order: return "order";
+    case sounds::sound_t::_LAST: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
+}
+// *INDENT-ON*
+} // namespace io
+
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
 static std::vector<std::pair<tripoint, int>> recent_sounds;
@@ -131,6 +157,12 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     sounds_since_last_turn.emplace_back( std::make_pair( p,
                                          sound_event {vol, category, description, ambient,
                                                  false, id, variant} ) );
+}
+
+void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
@@ -269,6 +301,9 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
             case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
@@ -298,6 +333,9 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
                 return true;
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
         }
     }
     return true;
@@ -378,7 +416,7 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
+        const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );
@@ -679,7 +717,7 @@ void sfx::do_vehicle_engine_sfx()
         add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     sfx::get_heard_volume( g->u.pos() ), ch, 1000, pitch );
-        add_msg( m_debug, string_format( "PITCH %f", pitch ) );
+        add_msg( m_debug, "PITCH %f", pitch );
     }
     previous_speed = current_speed;
     previous_gear = current_gear;
@@ -1139,39 +1177,39 @@ void sfx::do_fatigue()
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
-    if( g->u.stamina >= g->u.get_stamina_max() * .75 ) {
+    if( g->u.get_stamina() >= g->u.get_stamina_max() * .75 ) {
         fade_audio_group( group::fatigue, 2000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                !g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                !g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                !g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );

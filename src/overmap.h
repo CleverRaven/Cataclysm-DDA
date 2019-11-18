@@ -152,6 +152,43 @@ class overmap_special_batch
         point origin_overmap;
 };
 
+static const std::map<std::string, oter_flags> oter_flags_map = {
+    { "KNOWN_DOWN", known_down },
+    { "KNOWN_UP", known_up },
+    { "RIVER", river_tile },
+    { "SIDEWALK", has_sidewalk },
+    { "NO_ROTATE", no_rotate },
+    { "LINEAR", line_drawing },
+    { "SUBWAY", subway_connection },
+    { "LAKE", lake },
+    { "LAKE_SHORE", lake_shore },
+    { "GENERIC_LOOT", generic_loot },
+    { "RISK_HIGH", risk_high },
+    { "RISK_LOW", risk_low },
+    { "SOURCE_AMMO", source_ammo },
+    { "SOURCE_ANIMALS", source_animals },
+    { "SOURCE_BOOKS", source_books },
+    { "SOURCE_CHEMISTRY", source_chemistry },
+    { "SOURCE_CLOTHING", source_clothing },
+    { "SOURCE_CONSTRUCTION", source_construction },
+    { "SOURCE_COOKING", source_cooking },
+    { "SOURCE_DRINK", source_drink },
+    { "SOURCE_ELECTRONICS", source_electronics },
+    { "SOURCE_FABRICATION", source_fabrication },
+    { "SOURCE_FARMING", source_farming },
+    { "SOURCE_FOOD", source_food },
+    { "SOURCE_FORAGE", source_forage },
+    { "SOURCE_FUEL", source_fuel },
+    { "SOURCE_GUN", source_gun },
+    { "SOURCE_LUXURY", source_luxury },
+    { "SOURCE_MEDICINE", source_medicine },
+    { "SOURCE_PEOPLE", source_people },
+    { "SOURCE_SAFETY", source_safety },
+    { "SOURCE_TAILORING", source_tailoring },
+    { "SOURCE_VEHICLES", source_vehicles },
+    { "SOURCE_WEAPON", source_weapon }
+};
+
 class overmap
 {
     public:
@@ -188,8 +225,8 @@ class overmap
          */
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
-        oter_id &ter( const tripoint &p );
-        oter_id get_ter( const tripoint &p ) const;
+        void ter_set( const tripoint &p, const oter_id &id );
+        const oter_id &ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );
@@ -270,7 +307,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
-        std::vector<city> roads_out;
+        std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
@@ -327,9 +364,9 @@ class overmap
         // Parse per-player overmap view data.
         void unserialize_view( std::istream &fin );
         // Save data in an opened overmap file
-        void serialize( std::ostream &fin ) const;
+        void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.
-        void serialize_view( std::ostream &fin ) const;
+        void serialize_view( std::ostream &fout ) const;
     private:
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
@@ -358,6 +395,9 @@ class overmap
         void place_roads( const overmap *north, const overmap *east, const overmap *south,
                           const overmap *west );
 
+        void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
+                const overmap *south, const overmap *west );
+
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
 
@@ -370,8 +410,8 @@ class overmap
                         const std::string &prefix, int train_odds );
         void build_anthill( const tripoint &p, int s );
         void build_tunnel( const tripoint &p, int s, om_direction::type dir );
-        bool build_slimepit( const tripoint &p, int s );
-        void build_mine( const tripoint &p, int s );
+        bool build_slimepit( const tripoint &origin, int s );
+        void build_mine( const tripoint &origin, int s );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
@@ -432,8 +472,8 @@ class overmap
 
         void add_mon_group( const mongroup &group );
 
-        void load_monster_groups( JsonIn &jo );
-        void load_legacy_monstergroups( JsonIn &jo );
+        void load_monster_groups( JsonIn &jsin );
+        void load_legacy_monstergroups( JsonIn &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
         static void load_obsolete_terrains( JsonObject &jo );
@@ -458,4 +498,19 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
 */
 om_special_sectors get_sectors( int sector_width );
 
+/**
+* Returns the string of oter without any directional suffix
+*/
+std::string oter_no_dir( const oter_id &oter );
+
+/**
+* Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
+* Return 0 if theres' no suffix
+*/
+int oter_get_rotation( const oter_id &oter );
+
+/**
+* Return the directional suffix or "" if there isn't one.
+*/
+std::string oter_get_rotation_string( const oter_id &oter );
 #endif

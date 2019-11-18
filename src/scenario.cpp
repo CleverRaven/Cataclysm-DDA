@@ -34,8 +34,10 @@ bool string_id<scenario>::is_valid() const
 }
 
 scenario::scenario()
-    : id( "" ), _name_male( "null" ), _name_female( "null" ),
-      _description_male( "null" ), _description_female( "null" )
+    : id( "" ), _name_male( no_translation( "null" ) ),
+      _name_female( no_translation( "null" ) ),
+      _description_male( no_translation( "null" ) ),
+      _description_female( no_translation( "null" ) )
 {
 }
 
@@ -51,19 +53,21 @@ void scenario::load( JsonObject &jo, const std::string & )
     if( !was_loaded || jo.has_string( "name" ) ) {
         // These may differ depending on the language settings!
         const std::string name = jo.get_string( "name" );
-        _name_female = pgettext( "scenario_female", name.c_str() );
-        _name_male = pgettext( "scenario_male", name.c_str() );
+        _name_female = to_translation( "scenario_female", name );
+        _name_male = to_translation( "scenario_male", name );
     }
 
     if( !was_loaded || jo.has_string( "description" ) ) {
         // These also may differ depending on the language settings!
         const std::string desc = jo.get_string( "description" );
-        _description_male = pgettext( "scen_desc_male", desc.c_str() );
-        _description_female = pgettext( "scen_desc_female", desc.c_str() );
+        _description_male = to_translation( "scen_desc_male", desc );
+        _description_female = to_translation( "scen_desc_female", desc );
     }
 
     if( !was_loaded || jo.has_string( "start_name" ) ) {
-        _start_name = pgettext( "start_name", jo.get_string( "start_name" ).c_str() );
+        // Specifying translation context here and above to avoid adding unnecessary json code for every scenario
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        _start_name = to_translation( "start_name", jo.get_string( "start_name" ) );
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
@@ -188,18 +192,18 @@ const string_id<scenario> &scenario::ident() const
 std::string scenario::gender_appropriate_name( bool male ) const
 {
     if( male ) {
-        return _name_male;
+        return _name_male.translated();
     } else {
-        return _name_female;
+        return _name_female.translated();
     }
 }
 
 std::string scenario::description( bool male ) const
 {
     if( male ) {
-        return _description_male;
+        return _description_male.translated();
     } else {
-        return _description_female;
+        return _description_female.translated();
     }
 }
 
@@ -276,7 +280,7 @@ std::string scenario::prof_count_str() const
 
 std::string scenario::start_name() const
 {
-    return _start_name;
+    return _start_name.translated();
 }
 
 bool scenario::traitquery( const trait_id &trait ) const

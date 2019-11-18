@@ -9,6 +9,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "auto_note.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -28,6 +29,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -43,6 +45,7 @@
 #include "popup.h"
 #include "ranged.h"
 #include "safemode_ui.h"
+#include "scores_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -240,7 +243,8 @@ input_context game::get_player_input( std::string &action )
                     for( auto &elem : SCT.vSCT ) {
                         //Erase previous text from w_terrain
                         if( elem.getStep() > 0 ) {
-                            for( size_t i = 0; i < elem.getText().length(); ++i ) {
+                            const int width = utf8_width( elem.getText() );
+                            for( int i = 0; i < width; ++i ) {
                                 const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
                                 const lit_level lighting = visibility_cache[location.x][location.y];
                                 wmove( w_terrain, location.xy() + point( -offset_x, -offset_y ) );
@@ -261,8 +265,8 @@ input_context game::get_player_input( std::string &action )
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
                     const direction oCurDir = iter->getDirecton();
-
-                    for( int i = 0; i < static_cast<int>( iter->getText().length() ); ++i ) {
+                    const int width = utf8_width( iter->getText() );
+                    for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
@@ -303,7 +307,7 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
 
                 query_popup()
-                .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
+                .wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
                 .on_top( true )
                 .show();
 
@@ -367,7 +371,7 @@ static void rcdrive( int dx, int dy )
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         tripoint src( cx, cy, cz );
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
+        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -399,26 +403,26 @@ static void pldrive( int x, int y )
         remote = false;
     }
     if( !veh ) {
-        dbg( D_ERROR ) << "game::pldrive: can't find vehicle! Drive mode is now off.";
-        debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
+        dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
+        debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
         return;
     }
     if( !remote ) {
         int pctr = veh->part_with_feature( part, "CONTROLS", true );
         if( pctr < 0 ) {
-            add_msg( m_info, _( "You can't drive the vehicle from here. You need controls!" ) );
+            add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             u.controlling_vehicle = false;
             return;
         }
     } else {
         if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
-            add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
+            add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
     }
 
-    veh->pldrive( x, y );
+    veh->pldrive( point( x, y ) );
 }
 
 inline static void pldrive( point d )
@@ -662,7 +666,7 @@ static void smash()
     }
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!", true, "smash", "web" );
+        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -734,8 +738,8 @@ static int try_set_alarm()
     const bool already_set = g->u.has_effect( effect_alarm_clock );
 
     as_m.text = already_set ?
-                _( "You already have an alarm set. What do you want to do?" ) :
-                _( "You have an alarm clock. What do you want to do?" );
+                _( "You already have an alarm set.  What do you want to do?" ) :
+                _( "You have an alarm clock.  What do you want to do?" );
 
     as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
@@ -794,7 +798,7 @@ static void wait()
         }
 
     } else {
-        if( g->u.stamina < g->u.get_stamina_max() ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
@@ -820,14 +824,14 @@ static void wait()
         };
 
         add_menu_item( 7,  'd',
-                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
-                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
+                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
-                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
-                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
+                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight + 0_hours ) );
@@ -882,7 +886,10 @@ static void wait()
 static void sleep()
 {
     player &u = g->u;
-
+    if( u.is_mounted() ) {
+        u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
+        return;
+    }
     uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
@@ -918,8 +925,8 @@ static void sleep()
         }
 
         const auto &info = bio.info();
-        if( info.power_over_time > 0 ) {
-            active.push_back( info.name );
+        if( info.power_over_time > 0_kJ ) {
+            active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : u.get_mutations() ) {
@@ -966,9 +973,9 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-                    _( "You have an alarm clock. Set an alarm?" );
+        as_m.text = can_hibernate
+                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
+                    : _( "You have an alarm clock.  Set an alarm?" );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -997,24 +1004,19 @@ static void loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4,
-        PlantPlots = 8,
         FertilizePlots = 16,
-        HarvestPlots = 32,
         ConstructPlots = 64,
-    };
-
-    auto just_one = []( int flags ) {
-        return flags && !( flags & ( flags - 1 ) );
+        MultiFarmPlots = 128,
+        Multichoptrees = 256,
+        Multichopplanks = 512,
+        Multideconvehicle = 1024,
+        Multirepairvehicle = 2048,
+        MultiButchery = 4096
     };
 
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
-    const bool has_seeds = u.has_item_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
@@ -1024,14 +1026,18 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
-        flags |= TillPlots;
-        flags |= PlantPlots;
         flags |= FertilizePlots;
-        flags |= HarvestPlots;
+        flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
+    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+                                 u.pos() ) ? Multideconvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1040,46 +1046,52 @@ static void loot()
         return;
     }
 
-    if( !just_one( flags ) ) {
-        uilist menu;
-        menu.text = _( "Pick action:" );
-        menu.desc_enabled = true;
+    uilist menu;
+    menu.text = _( "Pick action:" );
+    menu.desc_enabled = true;
 
-        if( flags & SortLoot ) {
-            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-        }
-
-        if( flags & TillPlots ) {
-            menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
-                                _( "Tills nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                                !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
-                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-        }
-        if( flags & FertilizePlots ) {
-            menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                                !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                                _( "Fertilize any nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & HarvestPlots ) {
-            menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
-                                _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
-        }
-        if( flags & ConstructPlots ) {
-            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
-                                _( "Work on any nearby Blueprint: construction zones" ) );
-        }
-
-        menu.query();
-        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    if( flags & SortLoot ) {
+        menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
+
+    if( flags & FertilizePlots ) {
+        menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
+                            !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                            _( "Fertilize any nearby Farm: Plot zones." ) );
+    }
+
+    if( flags & ConstructPlots ) {
+        menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
+                            _( "Work on any nearby Blueprint: construction zones." ) );
+    }
+    if( flags & MultiFarmPlots ) {
+        menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm plots" ),
+                            _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) );
+    }
+    if( flags & Multichoptrees ) {
+        menu.addentry_desc( Multichoptrees, true, 'C', _( "Chop trees" ),
+                            _( "Chop down any trees in the designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multichopplanks ) {
+        menu.addentry_desc( Multichopplanks, true, 'P', _( "Chop planks" ),
+                            _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) );
+    }
+    if( flags & Multideconvehicle ) {
+        menu.addentry_desc( Multideconvehicle, true, 'v', _( "Deconstruct vehicle" ),
+                            _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multirepairvehicle ) {
+        menu.addentry_desc( Multirepairvehicle, true, 'V', _( "Repair vehicle" ),
+                            _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & MultiButchery ) {
+        menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
+                            _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
+    }
+
+    menu.query();
+    flags = ( menu.ret >= 0 ) ? menu.ret : None;
 
     switch( flags ) {
         case None:
@@ -1088,30 +1100,29 @@ static void loot()
         case SortLoot:
             u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
             break;
-        case TillPlots:
-            if( has_hoe ) {
-                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
-            } else {
-                add_msg( _( "You need a tool to dig with." ) );
-            }
-            break;
-        case PlantPlots:
-            if( !warm_enough_to_plant( g->u.pos() ) ) {
-                add_msg( m_info, _( "It is too cold to plant anything now." ) );
-            } else if( !has_seeds ) {
-                add_msg( m_info, _( "You don't have any seeds." ) );
-            } else {
-                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-            }
-            break;
         case FertilizePlots:
             u.assign_activity( activity_id( "ACT_FERTILIZE_PLOT" ) );
             break;
-        case HarvestPlots:
-            u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
-            break;
         case ConstructPlots:
-            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+            break;
+        case MultiFarmPlots:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+            break;
+        case Multichoptrees:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+            break;
+        case Multichopplanks:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+            break;
+        case Multideconvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+            break;
+        case Multirepairvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+            break;
+        case MultiButchery:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1256,8 +1267,9 @@ static void fire()
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _( "%s from %s (%d)" ),
+                //~ draw (first) gun contained in holster
+                //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
+                options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                                   w.contents.front().tname(),
                                                   w.type_name(),
                                                   w.contents.front().ammo_remaining() ) );
@@ -1288,7 +1300,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );
@@ -1301,7 +1313,7 @@ static void fire()
                 reach_attack( range, u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
             reach_attack( range, u );
@@ -1311,7 +1323,7 @@ static void fire()
 
 static void open_movement_mode_menu()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
@@ -1323,13 +1335,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( PMM_WALK );
+            u.set_movement_mode( CMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( PMM_RUN );
+            u.set_movement_mode( CMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( PMM_CROUCH );
+            u.set_movement_mode( CMM_CROUCH );
             break;
         default:
             break;
@@ -1761,7 +1773,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
-                    advanced_inv();
+                    create_advanced_inv();
                 }
                 break;
 
@@ -1889,7 +1901,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICK_STYLE:
-                u.pick_style();
+                u.martial_arts_data.pick_style( u );
                 break;
 
             case ACTION_RELOAD_ITEM:
@@ -2044,6 +2056,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
+                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else {
                     control_vehicle();
                 }
@@ -2063,7 +2077,7 @@ bool game::handle_action()
                     turnssincelastmon = 0;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
-                             ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
+                             ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
                 }
                 if( u.has_effect( effect_laserlocked ) ) {
                     u.remove_effect( effect_laserlocked );
@@ -2160,12 +2174,12 @@ bool game::handle_action()
                 list_missions();
                 break;
 
-            case ACTION_KILLS:
-                disp_kills();
+            case ACTION_SCORES:
+                show_scores_ui( stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:
@@ -2195,6 +2209,11 @@ bool game::handle_action()
 
             case ACTION_AUTOPICKUP:
                 get_auto_pickup().show();
+                refresh_all();
+                break;
+
+            case ACTION_AUTONOTES:
+                get_auto_notes_settings().show_gui();
                 refresh_all();
                 break;
 
@@ -2263,6 +2282,28 @@ bool game::handle_action()
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
+            case ACTION_TOGGLE_THIEF_MODE:
+                if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will not pick up other peoples belongings." ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will pick up also those things that belong to others!" ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                    u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will be reminded not to steal." ) );
+                } else {
+                    // ERROR
+                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), g->u.get_value( "THIEF_MODE" ) );
+                }
+                break;
+
             case ACTION_TOGGLE_AUTO_FORAGING:
                 get_options().get_option( "AUTO_FORAGING" ).setNext();
                 get_options().save();
@@ -2294,12 +2335,24 @@ bool game::handle_action()
                 }
                 display_temperature();
                 break;
-
+            case ACTION_DISPLAY_VEHICLE_AI:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_vehicle_ai();
+                break;
             case ACTION_DISPLAY_VISIBILITY:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_visibility();
+                break;
+
+            case ACTION_DISPLAY_LIGHTING:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_lighting();
                 break;
 
             case ACTION_DISPLAY_RADIATION:

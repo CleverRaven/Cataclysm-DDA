@@ -51,7 +51,7 @@ class rule
         rule( const std::string &r, const bool a, const bool e ) : sRule( r ), bActive( a ), bExclude( e ) {
         }
 
-        void serialize( JsonOut &json ) const;
+        void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
         void test_pattern() const;
@@ -63,7 +63,7 @@ class rule
 class rule_list : public std::vector<rule>
 {
     public:
-        void serialize( JsonOut &json ) const;
+        void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
         void load_legacy_rules( std::istream &fin );
@@ -156,7 +156,7 @@ class npc_settings : public base_settings
 
         void show( const std::string &name );
 
-        void serialize( JsonOut &json ) const;
+        void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
         bool empty() const;

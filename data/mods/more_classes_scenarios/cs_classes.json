@@ -147,14 +147,16 @@
           "roadmap",
           "restaurantmap",
           "shavingkit",
-          "mess_kit",
           "aluminum_foil",
           "can_chowder",
           "apple_cider",
           "fruit_leather",
           "suitcase_m"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -307,49 +309,12 @@
   },
   {
     "type": "profession",
-    "ident": "bio_gangster",
-    "name": "Bionic Gangster",
-    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
-    "points": 8,
-    "CBMs": [
-      "bio_targeting",
-      "bio_shock",
-      "bio_carbon",
-      "bio_adrenaline",
-      "bio_night_vision",
-      "bio_face_mask",
-      "bio_metabolics",
-      "bio_power_storage_mkII"
-    ],
-    "skills": [
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "stabbing" },
-      { "level": 1, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "driving" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses" ],
-        "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "ref_lighter", "charges": 100 }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "waken",
     "name": "Awakened",
     "description": "You were awoken in the middle of the night by a noise. Armed only with a flashlight you went to investigate, now you face the cataclysm.",
     "points": 0,
     "items": {
-      "both": [ "slippers", "flashlight" ],
+      "both": { "items": [ "slippers" ], "entries": [ { "group": "charged_flashlight" } ] },
       "male": [ "boxer_shorts", "socks", "house_coat" ],
       "female": [ "bra", "panties", "stockings", "gown" ]
     }
@@ -386,18 +351,13 @@
     "points": 4,
     "skills": [ { "level": 1, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "socks",
-        "wearable_light",
-        "goggles_welding",
-        "jumpsuit",
-        "gloves_work",
-        "boots_steel",
-        "tool_belt",
-        "apron_leather",
-        "oxy_torch",
-        "tinyweldtank"
-      ],
+      "both": {
+        "items": [ "socks", "goggles_welding", "jumpsuit", "gloves_work", "boots_steel", "tool_belt", "apron_leather" ],
+        "entries": [
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "wearable_light" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
     }

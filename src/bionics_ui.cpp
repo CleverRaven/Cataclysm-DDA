@@ -59,28 +59,60 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
     werase( window );
-    std::ostringstream fuel_stream;
-    fuel_stream << _( "Available Fuel: " );
+    std::string fuel_string;
+    bool found_fuel = false;
+    fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
-            fuel_stream << item( fuel ).tname() << ": " << "<color_green>" << p->get_value(
-                            fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
+            found_fuel = true;
+            const item temp_fuel( fuel ) ;
+            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
+                continue;
+            }
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+                           c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
     }
+    if( !found_fuel ) {
+        fuel_string.clear();
+    }
+    std::string power_string;
+    const int curr_power = units::to_millijoule( p->get_power_level() );
+    const int kilo = curr_power / units::to_millijoule( 1_kJ );
+    const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
+    const int milli = curr_power % units::to_millijoule( 1_J );
+    if( kilo > 0 ) {
+        power_string = to_string( kilo );
+        if( joule > 0 ) {
+            power_string += pgettext( "decimal separator", "." ) + to_string( joule );
+        }
+        power_string += pgettext( "energy unit: kilojoule", "kJ" );
+    } else if( joule > 0 ) {
+        power_string = to_string( joule );
+        if( milli > 0 ) {
+            power_string += pgettext( "decimal separator", "." ) + to_string( milli );
+        }
+        power_string += pgettext( "energy unit: joule", "J" );
+    } else {
+        power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
+    }
+
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
-                                         string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                                 p->power_level, p->max_power_level ) );
+                                         string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
+                                                 power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
+        fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
+        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
     }
     int n_pt_y = 0;
     fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_stream.str() );
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_string );
     wrefresh( window );
 }
 
@@ -90,16 +122,18 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.power_activate > 0 ) {
-        properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+    if( bio_data.power_activate > 0_kJ ) {
+        properties.push_back( string_format( _( "%s act" ),
+                                             units::display( bio_data.power_activate ) ) );
     }
-    if( bio_data.power_deactivate > 0 ) {
-        properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+    if( bio_data.power_deactivate > 0_kJ ) {
+        properties.push_back( string_format( _( "%s deact" ),
+                                             units::display( bio_data.power_deactivate ) ) );
     }
-    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
-                              ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                              : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                              ? string_format( _( "%s/turn" ), units::display( bio_data.power_over_time ) )
+                              : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
@@ -107,6 +141,9 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     }
     if( bio.incapacitated_time > 0_turns ) {
         properties.push_back( _( "(incapacitated)" ) );
+    }
+    if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
+        properties.push_back( _( "(fuel saving mode ON)" ) );
     }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
@@ -129,16 +166,21 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
 {
     werase( win );
 
-    const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
+    const std::vector<std::pair<bionic_tab_mode, std::string>> tabs = {
+        { bionic_tab_mode::TAB_ACTIVE, string_format( _( "ACTIVE (%i)" ), active_num ) },
+        { bionic_tab_mode::TAB_PASSIVE, string_format( _( "PASSIVE (%i)" ), passive_num ) },
+    };
+    draw_tabs( win, tabs, current_mode );
 
-    const std::string active_tab_name = string_format( _( "ACTIVE (%i)" ), active_num );
-    const std::string passive_tab_name = string_format( _( "PASSIVE (%i)" ), passive_num );
-    const int tab_step = 3;
-    int tab_x = 1;
-    draw_tab( win, tab_x, active_tab_name, current_mode == TAB_ACTIVE );
-    tab_x += tab_step + utf8_width( active_tab_name );
-    draw_tab( win, tab_x, passive_tab_name, current_mode == TAB_PASSIVE );
+    // Draw symbols to connect additional lines to border
+    int width = getmaxx( win );
+    int height = getmaxy( win );
+    for( int i = 0; i < height - 1; ++i ) {
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+    }
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
     wrefresh( win );
 }
@@ -148,12 +190,12 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
-    int ypos = fold_and_print( win, point_zero, width, c_white, bio.id->name );
+    int ypos = fold_and_print( win, point_zero, width, c_white, "%s", bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string );
     }
-    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, bio.id->description );
+    ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, "%s", bio.id->description );
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -349,8 +391,8 @@ void player::power_bionics()
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, point( START_X + 1,
-                                TAB_START_Y ) );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
+                                point( START_X, TAB_START_Y ) );
 
     int scroll_position = 0;
     int cursor = 0;
@@ -373,6 +415,7 @@ void player::power_bionics()
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "TOGGLE_SAFE_FUEL" );
 
     bool recalc = false;
     bool redraw = true;
@@ -408,9 +451,6 @@ void player::power_bionics()
 
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
-            // Draw symbols to connect additional lines to border
-            mvwputch( wBio, point( 0, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             int max_width = 0;
             std::vector<std::string>bps;
@@ -481,6 +521,7 @@ void player::power_bionics()
         }
         wrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
+
         draw_bionics_titlebar( w_title, this, menu_mode );
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
             draw_description( w_description, *( *current_bionic_list )[cursor] );
@@ -490,6 +531,7 @@ void player::power_bionics()
         const int ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = nullptr;
         bool confirmCheck = false;
+        bool toggle_safe_fuel = false;
 
         if( action == "DOWN" ) {
             redraw = true;
@@ -536,7 +578,7 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const int newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
+            const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
@@ -547,7 +589,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid bionic letter.  Only those characters are valid:\n\n%s" ),
                        bionic_chars.get_allowed_chars() );
                 continue;
             }
@@ -581,12 +623,29 @@ void player::power_bionics()
         } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
             redraw = true;
+        } else if( action == "TOGGLE_SAFE_FUEL" ) {
+            toggle_safe_fuel = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if( action == "CONFIRM" ) {
             confirmCheck = true;
         } else {
             confirmCheck = true;
+        }
+
+        if( toggle_safe_fuel ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() ) {
+                    tmp->toggle_safe_fuel_mod();
+                    g->refresh_all();
+                    redraw = true;
+                } else {
+                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM." ) );
+                }
+
+            }
         }
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if( confirmCheck ) {

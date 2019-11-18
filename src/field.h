@@ -9,6 +9,8 @@
 #include "color.h"
 #include "field_type.h"
 
+class effect;
+
 /**
  * An active or passive effect existing on a tile.
  * Each effect can vary in intensity and age (usually used as a time to live).
@@ -102,6 +104,9 @@ class field_entry
             return type.obj().accelerated_decay;
         }
 
+        effect field_effect() const;
+        bool inside_immune() const;
+
     private:
         // The field identifier.
         field_type_id type;
@@ -158,7 +163,7 @@ class field
          * function returns true.
          * @return True if the field was removed, false if it did not exist in the first place.
          */
-        bool remove_field( field_type_id type_to_remove );
+        bool remove_field( field_type_id field_to_remove );
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.

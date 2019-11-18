@@ -8,12 +8,13 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <set>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 class player;
@@ -93,6 +94,8 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
+        std::set<std::string> flags;
+
         bool main_parts_only;
 
         // Determines if effect should be shown in description.
@@ -150,11 +153,11 @@ class effect
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
-        /** Dummy effect returned when getting an effect that doesn't exist. */
-        static effect null_effect;
-
-        /** Compares pointers of this effect with the dummy above. */
+        /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;
+
+        /** Dummy used for "reference to effect()" */
+        static effect null_effect;
 
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;
@@ -248,6 +251,9 @@ class effect
          *  multiplier on the overall chance of a modifier type activating. */
         bool activated( const time_point &when, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
+
+        /** Check if the effect has the specified flag */
+        bool has_flag( const std::string &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;

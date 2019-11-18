@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
+#include "lru_cache.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
@@ -57,7 +58,7 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
-struct mapgendata;
+class mapgendata;
 class basecamp;
 class computer;
 class Character;
@@ -171,6 +172,8 @@ struct level_cache {
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
+
+    int max_populated_zlev;
 };
 
 /**
@@ -265,7 +268,7 @@ class map
         /**
          * Callback invoked when a vehicle has moved.
          */
-        void on_vehicle_moved( int zlev );
+        void on_vehicle_moved( int smz );
 
         struct apparent_light_info {
             bool obstructed;
@@ -317,7 +320,7 @@ class map
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
                      bool invert, bool show_items,
                      const tripoint &view_center,
-                     bool low_light = false, bool bright_level = false,
+                     bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
 
         /**
@@ -342,7 +345,7 @@ class map
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
-        void load( const tripoint &p, bool update_vehicles );
+        void load( const tripoint &w, bool update_vehicles );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -404,6 +407,7 @@ class map
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
+        bool is_wall_adjacent( const tripoint &center ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -527,7 +531,7 @@ class map
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
-        void update_vehicle_list( submap *to, int zlev );
+        void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
         bool check_vehicle_zones( int zlev );
         std::vector<zone_data *> get_vehicle_zones( int zlev );
@@ -540,7 +544,7 @@ class map
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed( VehicleList &vehs );
+        bool vehproceed( VehicleList &vehicle_list );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -567,8 +571,9 @@ class map
         bool displace_water( const tripoint &dp );
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
+        // When ignore_movement_modifiers is set to true, it returns the area of the wheels touching the ground
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh ) const;
+        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const;
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
@@ -627,8 +632,11 @@ class map
         // connect_group.  From least-significant bit the order is south, east,
         // west, north (because that's what cata_tiles expects).
         // Based on a combination of visibility and memory, not simply the true
-        // terrain.
-        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
+        // terrain. Additional overrides can be passed in to override terrain
+        // at specific positions. This is used to display terrain overview in
+        // the map editor.
+        uint8_t get_known_connections( const tripoint &p, int connect_group,
+                                       const std::map<tripoint, ter_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -656,12 +664,14 @@ class map
          * the creature is at p or at an adjacent square).
          */
         bool sees_some_items( const tripoint &p, const Creature &who ) const;
+        bool sees_some_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Check if the creature could see items at p if there were
          * any items. This is similar to @ref sees_some_items, but it
          * does not check that there are actually any items.
          */
         bool could_see_items( const tripoint &p, const Creature &who ) const;
+        bool could_see_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
@@ -820,6 +830,8 @@ class map
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
+        /** bash a square for a set number of times at set power.  Does not destroy */
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
@@ -829,9 +841,10 @@ class map
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint &p );
         /** Causes a collapse at p, such as from destroying a wall */
-        void collapse_at( const tripoint &p, bool silent );
+        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
+                          bool destroy_pos = true );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint &p, int power );
+        void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
@@ -898,7 +911,6 @@ class map
 
         // Items
         void process_active_items();
-        void trigger_rc_items( const std::string &signal );
 
         // Items: 2D
         map_stack i_at( const point &p );
@@ -985,9 +997,9 @@ class map
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, int range, itype_id type,
-                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
@@ -1122,6 +1134,7 @@ class map
          * @return NULL if there is no such field entry at that place.
          */
         field_entry *get_field( const tripoint &p, field_type_id type );
+        bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
@@ -1165,7 +1178,7 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint &p, const std::string &name );
+        void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         // Graffiti
@@ -1213,10 +1226,12 @@ class map
          */
         void process_falling();
 
+        bool is_cornerfloor( const tripoint &p ) const;
+
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point &p1, const point &p2, float intensity,
+                           const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
         void place_gas_pump( const point &p, int charges );
@@ -1321,8 +1336,12 @@ class map
         }
 
         // Not protected/private for mapgen_functions.cpp access
-        void rotate( int turns ); // Rotates the current map 90*turns degrees clockwise
+        // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
+        // @param turns number of 90 clockwise turns to make
+        // @param setpos_safe if true, being used outside of mapgen and can use setpos to
+        // set NPC positions.  if false, cannot use setpos
+        void rotate( int turns, bool setpos_safe = false );
 
         // Monster spawning:
     public:
@@ -1413,40 +1432,20 @@ class map
         void shift_traps( const tripoint &shift );
 
         void copy_grid( const tripoint &to, const tripoint &from );
-        void draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
-                       const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
-                       const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
-                       const oter_id &t_above, const oter_id &t_below, const time_point &when,
-                       float density, int zlevel, const regional_settings *rsettings );
+        void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                                float density );
-        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                       float density );
-        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
-        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                             float density );
-        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                            float density );
-        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              float density );
-        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
+        void draw_office_tower( mapgendata &dat );
+        void draw_lab( mapgendata &dat );
+        void draw_temple( mapgendata &dat );
+        void draw_mine( mapgendata &dat );
+        void draw_spiral( mapgendata &dat );
+        void draw_sarcophagus( mapgendata &dat );
+        void draw_fema( mapgendata &dat );
+        void draw_anthill( mapgendata &dat );
+        void draw_slimepit( mapgendata &dat );
+        void draw_spider_pit( mapgendata &dat );
+        void draw_triffid( mapgendata &dat );
+        void draw_connections( mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -1524,6 +1523,8 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
+        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+        void calc_max_populated_zlev();
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
@@ -1652,6 +1653,11 @@ class map
          */
         std::set<tripoint> submaps_with_active_items;
 
+        /**
+         * Cache of coordinate pairs recently checked for visibility.
+         */
+        mutable lru_cache<point, char> skew_vision_cache;
+
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
@@ -1678,6 +1684,14 @@ class map
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        /**
+         * Yields a range of all points that are contained in the map and have the z-level of
+         * this map (@ref abs_sub).
+         */
+        tripoint_range points_on_zlevel() const;
+        /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
+        /// returns an empty range.
+        tripoint_range points_on_zlevel( int z ) const;
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
@@ -1701,7 +1715,7 @@ void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 std::vector<point> closest_points_first( int radius, const point &center );
 // Does not build "piles" - does the same as above functions, except in tripoints
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
+std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &center );
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
 class tinymap : public map
 {
@@ -1709,7 +1723,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                        int fake_map_z );
 };
 
 #endif

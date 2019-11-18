@@ -63,6 +63,7 @@
       { "group": "supplies_mechanics", "prob": 80 },
       [ "goggles_welding", 50 ],
       [ "welding_book", 10 ],
+      [ "welding_mask", 30 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       [ "metal_tank", 8 ],

@@ -13,18 +13,18 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FARMER_1",
-    "dynamic_line": "...",
+    "dynamic_line": "…",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_RANCH_FARMER_1_JOB" },
       { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_FARMER_1_HIRE" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FARMER_1_JOB",
     "dynamic_line": "I was sent here to assist in setting-up the farm.  Most of us have no real skills that transfer from before the cataclysm so things are a bit of trial and error.",
-    "responses": [ { "text": "...", "topic": "TALK_RANCH_FARMER_1" } ]
+    "responses": [ { "text": "…", "topic": "TALK_RANCH_FARMER_1" } ]
   },
   {
     "type": "talk_topic",

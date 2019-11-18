@@ -25,7 +25,7 @@ class teleporter_list
         // does not do any loading or unloading
         bool place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const;
     public:
-        bool knows_translocator( const tripoint &omt_pt ) const;
+        bool knows_translocator( const tripoint &omt_pos ) const;
         // adds teleporter to known_teleporters and does any other activation necessary
         bool activate_teleporter( const tripoint &omt_pt, const tripoint &local_pt );
         void deactivate_teleporter( const tripoint &omt_pt, const tripoint &local_pt );
