@@ -180,5 +180,24 @@
       [ "candycigarette", 15 ],
       [ "maple_candy", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "salty_snacks",
+    "items": [
+      [ "chips", 65 ],
+      [ "chips2", 65 ],
+      [ "chips3", 65 ],
+      [ "pretzels", 55 ],
+      [ "jerky", 55 ],
+      [ "porkstick", 55 ],
+      [ "nachos", 50 ],
+      [ "chocpretzels", 40 ],
+      [ "popcorn", 25 ],
+      [ "popcorn2", 35 ],
+      [ "popcorn3", 35 ],
+      [ "cracklins", 25 ],
+      [ "fried_seeds", 25 ]
+    ]
   }
 ]
