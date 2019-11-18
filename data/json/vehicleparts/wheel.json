@@ -132,6 +132,20 @@
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
+    "id": "rail_wheel_small_pair",
+    "type": "vehicle_part",
+    "name": "pair of small rail wheels",
+    "item": "wheel_rail_small_pair",
+    "copy-from": "rail_wheel",
+    "symbol": "=",
+    "difficulty": 2,
+    "durability": 150,
+    "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 60 }
+  },
+  {
     "id": "roller_drum",
     "type": "vehicle_part",
     "name": "roller drum",

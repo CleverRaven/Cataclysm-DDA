@@ -698,9 +698,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 // Convert to position within overmap
                 point omp_in_om( omp.xy() );
                 omt_to_om_remain( omp_in_om );
-                point group_target = sm_to_omt_copy( mgroup->target.xy() );
-
-                if( mgroup && group_target == omp_in_om ) {
+                if( mgroup && sm_to_omt_copy( mgroup->target.xy() ) == omp_in_om ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {

@@ -40,7 +40,7 @@
         { "chance": 15, "item": "magazines", "x": 6, "y": 2 }
       ],
       "place_toilets": [ { "x": 3, "y": 20 }, { "x": 20, "y": 20 } ],
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 5 ] } ],
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 6, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 3 ] } ],
       "rows": [
         "sssssssssssssssssssssss_",
         "_||||||||||++||||||||||_",
@@ -297,6 +297,7 @@
         { "chance": 10, "repeat": [ 1, 2 ], "item": "magazines", "x": 2, "y": 17 }
       ],
       "place_toilets": [ { "x": 6, "y": 3 }, { "x": 8, "y": 3 }, { "x": 15, "y": 3 }, { "x": 17, "y": 3 } ],
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 3 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
@@ -473,6 +474,7 @@
         "{": "t_floor",
         "|": "t_brick_wall"
       },
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 3 ] } ],
       "place_signs": [ { "signage": "Women", "x": 9, "y": 19 }, { "signage": "Men", "x": 14, "y": 19 } ]
     },
     "om_terrain": "pool_3",
@@ -690,7 +692,7 @@
         "s": "t_sidewalk"
       },
       "furniture": { "n": "f_dive_block" },
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 6 ] } ]
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -741,13 +743,13 @@
         "n": "f_dive_block",
         "x": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
       },
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 7 ] } ]
+      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 3 ] } ]
     }
   },
   {
     "name": "GROUP_MAPGEN_POOL",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 300, "cost_multiplier": 0 } ]
   }
 ]

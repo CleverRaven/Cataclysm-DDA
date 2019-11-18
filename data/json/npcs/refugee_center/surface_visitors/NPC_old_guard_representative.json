@@ -40,7 +40,7 @@
     "dynamic_line": "I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was chosen to coordinate civilian and militia efforts in support of military operations.",
     "responses": [
       { "text": "So what are you actually doing here?", "topic": "TALK_OLD_GUARD_REP_NEW_DOING" },
-      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
@@ -50,14 +50,14 @@
     "responses": [
       { "text": "Is there a catch?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
       { "text": "Anything more to it?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
-      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
     "type": "talk_topic",
     "dynamic_line": "Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need... you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
-    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_WORLD",
@@ -66,26 +66,26 @@
     "responses": [
       { "text": "The 2nd Fleet?", "topic": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" },
       { "text": "Tell me about the footholds.", "topic": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" },
-      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET",
     "type": "talk_topic",
     "dynamic_line": "I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.",
-    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS",
     "type": "talk_topic",
     "dynamic_line": "They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.'  Around here I was told that there were a few places like this one but I couldn't tell you where.",
-    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_ASK_JOIN",
     "type": "talk_topic",
     "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
-    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_1",

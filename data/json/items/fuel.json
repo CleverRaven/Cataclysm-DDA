@@ -184,7 +184,7 @@
     "name": "flamethrower fuel",
     "name_plural": "flamethrower fuel",
     "copy-from": "gasoline",
-    "description": "A mixture of gasoline and diesel oil in equal parts. Its combustion properties make it unfit for applications where you would use any of them separately, but it can be used to feed a flamethrower.",
+    "description": "A mixture of gasoline and diesel oil in equal parts.  Its combustion properties make it unfit for applications where you would use any of them separately, but it can be used to feed a flamethrower.",
     "price": 400,
     "ammo_type": "flammable",
     "range": 0

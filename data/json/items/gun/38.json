@@ -1,6 +1,7 @@
 [
   {
     "id": "2_shot_special",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "2 Shot Special",
@@ -36,6 +37,7 @@
   {
     "id": "cop_38",
     "copy-from": "pistol_base",
+    "looks_like": "glock_17",
     "type": "GUN",
     "name": "COP .357 Derringer",
     "description": "A small, chubby derringer pistol bearing a slight resemblance to the Mossberg Brownie.  It uses a rotating firing pin to fire the individual hammers of the four barrels arranged in a square formation.",
@@ -67,6 +69,7 @@
   {
     "id": "rifle_38",
     "copy-from": "gun_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .38 Special",
     "name_plural": "pipe rifles: .38 Special",
@@ -104,6 +107,7 @@
   {
     "id": "ruger_lcr_38",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Ruger LCR .38",
     "name_plural": "Ruger LCR .38",
@@ -138,6 +142,7 @@
   {
     "id": "sw_619",
     "copy-from": "pistol_revolver",
+    "//": "Tileset whitelist for revolvers.",
     "type": "GUN",
     "name": "S&W 619",
     "name_plural": "S&W 619",

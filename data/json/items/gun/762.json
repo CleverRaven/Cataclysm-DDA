@@ -1,6 +1,7 @@
 [
   {
     "id": "ak47",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AKM",
@@ -17,7 +18,7 @@
     "skill": "rifle",
     "dispersion": 180,
     "durability": 9,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -38,6 +39,7 @@
   },
   {
     "id": "arx160",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Beretta ARX-160",
@@ -56,7 +58,7 @@
     "skill": "rifle",
     "dispersion": 160,
     "durability": 9,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -77,6 +79,7 @@
   },
   {
     "id": "sks",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "SKS",

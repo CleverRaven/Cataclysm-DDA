@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "plastic chunk",
     "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
-    "weight": "70 g",
+    "weight": "50 g",
     "volume": "250 ml",
     "price": 0,
     "material": "plastic",

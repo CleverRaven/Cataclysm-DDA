@@ -517,6 +517,18 @@ inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operat
     return units::from_milliliter( v );
 }
 
+// Implicitly converted to volume, which has int as value_type!
+inline constexpr units::volume operator"" _liter( const unsigned long long v )
+{
+    return units::from_milliliter( v * 1000 );
+}
+
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+    const long double v )
+{
+    return units::from_milliliter( v * 1000 );
+}
+
 // Implicitly converted to mass, which has int as value_type!
 inline constexpr units::mass operator"" _milligram( const unsigned long long v )
 {

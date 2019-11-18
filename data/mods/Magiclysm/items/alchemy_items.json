@@ -42,12 +42,21 @@
     "description": "This bracelet has runes engraved on it. You sense a faint air of mysticism when you look at it. It would be useful for imbuing mana into material."
   },
   {
+    "id": "silver_infuser",
+    "copy-from": "silver_bracelet",
+    "type": "ARMOR",
+    "qualities": [ [ "MANA_INFUSE", 2 ] ],
+    "name": "silver infusion bracelet",
+    "name_plural": "silver infusion bracelets",
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
+  },
+  {
     "id": "copper_circlet",
     "type": "ARMOR",
     "category": "armor",
     "name": "copper circlet",
     "name_plural": "copper circlets",
-    "description": "A wooden band with copper trimmings to be worn on the head. Touching your temples with it on makes you feel very calm.",
+    "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
     "weight": 700,
     "volume": "600ml",
     "price": 1500,
@@ -87,7 +96,7 @@
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
     "name": "potion starter",
-    "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form. You can still drink it, if you want."
+    "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
     "id": "adrenal_gland_large",
@@ -95,7 +104,7 @@
     "type": "COMESTIBLE",
     "name": "large adrenal gland",
     "name_plural": "large adrenal glands",
-    "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone. This one is huge, whether by nature or mutation.",
+    "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
     "price": 2000
   },
@@ -182,5 +191,21 @@
     "charges": 1,
     "phase": "liquid",
     "freezing_point": -100
+  },
+  {
+    "id": "stirge_proboscis",
+    "type": "GENERIC",
+    "name": "stirge proboscis",
+    "name_plural": "stirge proboscises",
+    "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
+    "volume": "100 ml",
+    "weight": "100 g",
+    "price": 2000,
+    "symbol": ",",
+    "color": "red",
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "cutting": 7,
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   }
 ]

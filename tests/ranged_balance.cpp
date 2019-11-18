@@ -382,7 +382,7 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
                 j_out.end_array();
             }, _( "hit_range file" ) );
         } else {
-            WARN( "Didn't write. Data too similar to previous test results." );
+            WARN( "Didn't write.  Data too similar to previous test results." );
         }
         REQUIRE( similar_to_previous_test_results );
     }

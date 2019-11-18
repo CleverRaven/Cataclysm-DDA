@@ -51,10 +51,10 @@ struct trap;
 
 enum m_size : int {
     MS_TINY = 1,    // Squirrel
-    MS_SMALL = 2,      // Dog
-    MS_MEDIUM = 3,    // Human
-    MS_LARGE = 4,    // Cow
-    MS_HUGE = 5    // TAAAANK
+    MS_SMALL,      // Dog
+    MS_MEDIUM,    // Human
+    MS_LARGE,    // Cow
+    MS_HUGE     // TAAAANK
 };
 
 enum FacingDirection {
@@ -72,7 +72,8 @@ class Creature
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
-        virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
+        virtual std::string disp_name( bool possessive = false,
+                                       bool capitalize_first = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
         virtual std::vector<std::string> get_grammatical_genders() const;
@@ -488,6 +489,7 @@ class Creature
         virtual void mod_block_bonus( int nblock );
         virtual void mod_bash_bonus( int nbash );
         virtual void mod_cut_bonus( int ncut );
+        virtual void mod_size_bonus( int nsize );
 
         virtual void set_dodge_bonus( float ndodge );
         virtual void set_hit_bonus( float nhit );
@@ -753,6 +755,7 @@ class Creature
         float hit_bonus;
         int bash_bonus;
         int cut_bonus;
+        int size_bonus;
 
         float bash_mult;
         float cut_mult;

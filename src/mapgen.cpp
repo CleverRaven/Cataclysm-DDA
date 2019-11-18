@@ -256,7 +256,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     }
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
-        for( auto &ptr : pr.second ) {
+        for( std::unique_ptr<mapgen_function_json_nested> &ptr : pr.second ) {
             ptr->setup();
         }
     }
@@ -330,6 +330,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                 }
             }
         }
+        jio.allow_omitted_members();
         return nullptr; // nothing
     } else if( jio.has_string( "method" ) ) {
         const std::string mgtype = jio.get_string( "method" );
@@ -598,7 +599,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
         } else if( pjo.read( "set", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
-            debugmsg( "Warning, set: [ { \"set\": ... } is deprecated, use set: [ { \"point\": ... " );
+            debugmsg( "Warning, set: [ { \"set\": … } is deprecated, use set: [ { \"point\": … " );
         } else if( pjo.read( "line", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_LINE;
         } else if( pjo.read( "square", tmpval ) ) {
@@ -624,6 +625,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
         if( !check_inbounds( tmp_x, tmp_y, pjo ) ) {
+            pjo.allow_omitted_members();
             continue;
         }
         if( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
@@ -832,7 +834,7 @@ class jmapgen_sign : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                signtext = SNIPPET.get( SNIPPET.assign( snippet ) );
+                signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
                 signtext = signage;
             }
@@ -884,7 +886,7 @@ class jmapgen_graffiti : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+                graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
                 graffiti = text;
             }
@@ -1772,6 +1774,8 @@ void jmapgen_objects::load_objects( JsonArray parray )
 
         if( check_bounds( where, jsi ) ) {
             add( where, std::make_shared<PieceType>( jsi ) );
+        } else {
+            jsi.allow_omitted_members();
         }
     }
 }
@@ -1785,6 +1789,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         where.offset( m_offset );
 
         if( !check_bounds( where, jsi ) ) {
+            jsi.allow_omitted_members();
             continue;
         }
 
@@ -1969,6 +1974,7 @@ void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &memb
                 pjo.throw_error( "format map key must be 1 character", key );
             }
             JsonObject sub = pjo.get_object( key );
+            sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;
             }
@@ -2215,7 +2221,7 @@ void mapgen_function_json_base::setup_common()
     }
 }
 
-bool mapgen_function_json_base::setup_common( JsonObject jo )
+bool mapgen_function_json_base::setup_common( JsonObject &jo )
 {
     bool qualifies = setup_internal( jo );
     JsonArray parray;
@@ -6678,7 +6684,7 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
  * degrees.
  * @param turns How many 90-degree turns to rotate the map.
  */
-void map::rotate( int turns )
+void map::rotate( int turns, const bool setpos_safe )
 {
 
     //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
@@ -6698,6 +6704,8 @@ void map::rotate( int turns )
     for( const std::shared_ptr<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
+        const point local_sq = getlocal( sq ).xy();
+
         real_coords np_rc;
         np_rc.fromabs( sq.x, sq.y );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
@@ -6708,7 +6716,6 @@ void map::rotate( int turns )
         // OK, this is ugly: we remove the NPC from the whole map
         // Then we place it back from scratch
         // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-        auto npc_ptr = overmap_buffer.remove_npc( np.getID() );
 
         int old_x = np_rc.sub_pos.x;
         int old_y = np_rc.sub_pos.y;
@@ -6719,10 +6726,21 @@ void map::rotate( int turns )
             old_y += SEEY;
         }
 
-        const auto new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
-
-        np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
-        overmap_buffer.insert_npc( npc_ptr );
+        const point new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
+        if( setpos_safe ) {
+            // setpos can't be used during mapgen, but spawn_at_precise clips position
+            // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
+            // calls
+            const tripoint new_global_sq = sq - local_sq + new_pos;
+            np.setpos( g->m.getlocal( new_global_sq ) );
+        } else {
+            // OK, this is ugly: we remove the NPC from the whole map
+            // Then we place it back from scratch
+            // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
+            std::shared_ptr<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
+            np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
+            overmap_buffer.insert_npc( npc_ptr );
+        }
     }
 
     clear_vehicle_cache( abs_sub.z );
@@ -7696,15 +7714,14 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     tinymap update_tmap;
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, false );
-    const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
 
     // If the existing map is rotated, we need to rotate it back to the north
     // orientation before applying our updates.
-    int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
+    const int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
     if( rotation > 0 ) {
-        md.m.rotate( rotation );
+        md.m.rotate( rotation, true );
     }
 
     const bool applied = update_map( md, offset, verify );
@@ -7712,7 +7729,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     // If we rotated the map before applying updates, we now need to rotate
     // it back to where we found it.
     if( rotation ) {
-        md.m.rotate( 4 - rotation );
+        md.m.rotate( 4 - rotation, true );
     }
 
     if( applied ) {
@@ -7780,6 +7797,10 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id )
 {
+    const int fake_map_z = -9;
+    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
+    const tripoint tripoint_fake_map_edge( 23, 23, fake_map_z );
+
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
 
@@ -7790,7 +7811,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     }
 
     tinymap fake_map;
-    if( !fake_map.fake_load( f_null, t_dirt, tr_null ) ) {
+    if( !fake_map.fake_load( f_null, t_dirt, tr_null, fake_map_z ) ) {
         return std::make_pair( terrains, furnitures );
     }
     oter_id any = oter_id( "field" );
@@ -7801,7 +7822,8 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
                         any, any, 0, dummy_settings, fake_map, any, 0.0f, calendar::turn, nullptr );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_zero, { 23, 23, 0 } ) ) {
+        for( const tripoint &pos : fake_map.points_in_rectangle( tripoint_below_zero,
+                tripoint_fake_map_edge ) ) {
             ter_id ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
                 if( terrains.find( ter_at_pos ) == terrains.end() ) {
