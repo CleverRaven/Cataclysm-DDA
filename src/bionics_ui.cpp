@@ -59,17 +59,23 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
     werase( window );
-    std::ostringstream fuel_stream;
-    fuel_stream << _( "Available Fuel: " );
+    std::string fuel_string;
+    bool found_fuel = false;
+    fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
         for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
-            const item temp_fuel( fuel );
+            found_fuel = true;
+            const item temp_fuel( fuel ) ;
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_stream << temp_fuel.tname() << ": " << "<color_green>" << p->get_value(
-                            fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+                           c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
+    }
+    if( !found_fuel ) {
+        fuel_string.clear();
     }
     std::string power_string;
     const int curr_power = units::to_millijoule( p->get_power_level() );
@@ -98,6 +104,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
+        fuel_string.clear();
     } else if( mode == ACTIVATING ) {
         desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
     } else if( mode == EXAMINING ) {
@@ -105,7 +112,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     int n_pt_y = 0;
     fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
-    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_stream.str() );
+    fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, fuel_string );
     wrefresh( window );
 }
 
