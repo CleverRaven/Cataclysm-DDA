@@ -162,8 +162,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
             }
         }
     }
-#endif
+#else
+    ( void ) base_path;
     ( void ) extension;
+#endif
     return fallback;
 }
 std::string PATH_INFO::autopickup()
