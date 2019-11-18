@@ -4869,7 +4869,6 @@ bool game::swap_critters( Creature &a, Creature &b )
     if( other_npc && g->m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         g->m.board_vehicle( other_npc->pos(), other_npc );
     }
-
     return true;
 }
 
