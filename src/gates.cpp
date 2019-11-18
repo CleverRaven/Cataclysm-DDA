@@ -304,7 +304,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         auto items_in_way = m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
         if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
-            const units::volume max_nudge = 25000_ml;
+            const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
             [&max_nudge]( const item & it ) {

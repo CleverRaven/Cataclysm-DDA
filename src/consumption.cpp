@@ -72,7 +72,7 @@ const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3000_ml ) ;
+const units::volume furnace_max_volume( 3_liter ) ;
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {

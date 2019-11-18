@@ -3738,7 +3738,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     std::string burntext;
     if( with_prefix && !made_of_from_type( LIQUID ) ) {
-        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
+        if( volume() >= 1_liter && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if( burnt > 0 ) {
             burntext = pgettext( "burnt adjective", "burnt " );
