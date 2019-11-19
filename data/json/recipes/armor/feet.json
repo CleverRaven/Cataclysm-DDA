@@ -33,7 +33,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 8 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
   },
   {
     "result": "boots_acidchitin",
@@ -47,7 +47,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 12 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 20 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
   },
   {
     "result": "boots_fsurvivor",

@@ -514,7 +514,7 @@
     "id": "bio_lighter",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Mini-Flamethrower CBM",
+    "name": "Finger Lighter CBM",
     "looks_like": "bio_int_enhancer",
     "description": "Powerful fire starters which extend from the tip of both hands' index fingers.",
     "price": 130000,

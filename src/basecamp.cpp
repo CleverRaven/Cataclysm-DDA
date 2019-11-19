@@ -18,6 +18,7 @@
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -189,7 +190,8 @@ void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_new_0" +
+                                oter_get_rotation_string( omt_ref ) ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -621,12 +623,8 @@ void basecamp::form_crafting_inventory( map &target_map )
         mgr.cache_vzones();
     }
     if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
-        for( const tripoint &src : src_set ) {
-            for( const item &it : target_map.i_at( target_map.getlocal( src ) ) ) {
-                _inv.add_item( it );
-            }
-        }
+        std::unordered_set<tripoint> src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+        _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
      * something of a hack: add the resources we know the camp has
