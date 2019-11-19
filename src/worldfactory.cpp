@@ -93,7 +93,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return FILENAMES["savedir"] + utf8_to_native( world_name );
+    return PATH_INFO::savedir() + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -228,7 +228,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + FILENAMES["worldoptions"];
+        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -264,8 +264,8 @@ void worldfactory::init()
     load_last_world_info();
 
     std::vector<std::string> qualifiers;
-    qualifiers.push_back( FILENAMES["worldoptions"] );
-    qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
+    qualifiers.push_back( PATH_INFO::worldoptions() );
+    qualifiers.push_back( PATH_INFO::legacy_worldoptions() );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();
@@ -273,7 +273,7 @@ void worldfactory::init()
     // get the master files. These determine the validity of a world
     // worlds exist by having an option file
     // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, FILENAMES["savedir"], true ) ) {
+    for( const auto &world_dir : get_directories_with( qualifiers, PATH_INFO::savedir(), true ) ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -559,7 +559,7 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( FILENAMES["lastworld"], std::ifstream::in | std::ifstream::binary );
+    std::ifstream file( PATH_INFO::lastworld(), std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }
@@ -572,7 +572,7 @@ void worldfactory::load_last_world_info()
 
 void worldfactory::save_last_world_info()
 {
-    write_to_file( FILENAMES["lastworld"], [&]( std::ostream & file ) {
+    write_to_file( PATH_INFO::lastworld(), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
         jsout.start_object();
         jsout.member( "world_name", last_world_name );
@@ -1174,6 +1174,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
+#if defined(TILES) || defined(_WIN32)
+                    handle_redraw();
+#endif
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -1184,6 +1187,9 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
+#if defined(TILES) || defined(_WIN32)
+                    handle_redraw();
+#endif
                     return 1;
                 } else {
                     continue;
@@ -1301,7 +1307,11 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
         }
     };
 
-    draw_tabs( w, tab_strings, current );
+    std::vector<std::string> tab_strings_translated( tab_strings );
+    std::for_each( tab_strings_translated.begin(),
+                   tab_strings_translated.end(), []( std::string & str )->void { str = _( str ); } );
+
+    draw_tabs( w, tab_strings_translated, current );
     draw_border_below_tabs( w );
 }
 
@@ -1386,14 +1396,14 @@ bool WORLD::load_options()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = folder_path() + "/" + FILENAMES["worldoptions"];
+    const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
     if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
     load_options( jsin );
     } ) ) {
         return true;
     }
 
-    const auto legacy_path = folder_path() + "/" + FILENAMES["legacy_worldoptions"];
+    const auto legacy_path = folder_path() + "/" + PATH_INFO::legacy_worldoptions();
     if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
         if( save() ) {
             // Remove old file as the options have been saved to the new file.
@@ -1462,7 +1472,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    return candidate.find( FILENAMES["worldoptions"] ) != std::string::npos ||
+    return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;
 }
 

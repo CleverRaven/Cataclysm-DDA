@@ -640,11 +640,7 @@ void popup_status( const char *const title, const std::string &mes )
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                            const std::string &sItemName, const std::string &sTypeName,
-                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                            int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
-                            const unsigned int padding )
+                            item_info_data &data )
 {
     catacurses::window win =
         catacurses::newwin( iHeight, iWidth,
@@ -656,9 +652,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wrefresh( win );
 
-    const auto result = draw_item_info(
-                            win, sItemName, sTypeName, vItemDisplay, vItemCompare, selected, without_getch,
-                            without_border, handle_scrolling, scrollbar_left, use_full_win, padding );
+    const input_event result = draw_item_info( win, data );
     return result;
 }
 
@@ -819,31 +813,25 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer;
 }
 
-input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
-                            const std::string &sTypeName,
-                            const std::vector<iteminfo> &vItemDisplay,
-                            const std::vector<iteminfo> &vItemCompare,
-                            int &selected, const bool without_getch, const bool without_border,
-                            const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
-                            const unsigned int padding )
+input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {
     std::string buffer;
-    int line_num = use_full_win || without_border ? 0 : 1;
-    if( !sItemName.empty() ) {
-        buffer += sItemName + "\n";
+    int line_num = data.use_full_win || data.without_border ? 0 : 1;
+    if( !data.get_item_name().empty() ) {
+        buffer += data.get_item_name() + "\n";
     }
-    if( sItemName != sTypeName && !sTypeName.empty() ) {
-        buffer += sTypeName + "\n";
+    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+        buffer += data.get_type_name() + "\n";
     }
-    for( unsigned int i = 0; i < padding; i++ ) {
+    for( unsigned int i = 0; i < data.padding; i++ ) {
         buffer += "\n";
     }
 
-    buffer += format_item_info( vItemDisplay, vItemCompare );
+    buffer += format_item_info( data.get_item_display(), data.get_item_compare() );
 
-    const auto b = use_full_win ? 0 : ( without_border ? 1 : 2 );
-    const auto width = getmaxx( win ) - ( use_full_win ? 1 : b * 2 );
-    const auto height = getmaxy( win ) - ( use_full_win ? 0 : 2 );
+    const int b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
+    const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+    const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
 
     input_event result;
     while( true ) {
@@ -852,42 +840,43 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
             const auto vFolded = foldstring( buffer, width - 1 );
             iLines = vFolded.size();
 
-            if( selected < 0 ) {
-                selected = 0;
+            if( data.selected < 0 ) {
+                data.selected = 0;
             } else if( iLines < height ) {
-                selected = 0;
-            } else if( selected >= iLines - height ) {
-                selected = iLines - height;
+                data.selected = 0;
+            } else if( data.selected >= iLines - height ) {
+                data.selected = iLines - height;
             }
 
-            fold_and_print_from( win, point( b, line_num ), width - 1, selected, c_light_gray, buffer );
+            fold_and_print_from( win, point( b, line_num ), width - 1, data.selected, c_light_gray, buffer );
 
-            draw_scrollbar( win, selected, height, iLines, point( scrollbar_left ? 0 : getmaxx( win ) - 1,
-                            ( without_border && use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
+            draw_scrollbar( win, data.selected, height, iLines,
+                            point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
+                                   ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         }
 
-        if( !without_border ) {
+        if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
             wrefresh( win );
         }
 
-        if( without_getch ) {
+        if( data.without_getch ) {
             break;
         }
 
         // TODO: use input context
         result = inp_mngr.get_input_event();
         const int ch = static_cast<int>( result.get_first_input() );
-        if( handle_scrolling && ch == KEY_PPAGE ) {
-            selected--;
+        if( data.handle_scrolling && ch == KEY_PPAGE ) {
+            data.selected--;
             werase( win );
-        } else if( handle_scrolling && ch == KEY_NPAGE ) {
-            selected++;
+        } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
+            data.selected++;
             werase( win );
-        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+        } else if( data.selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
             result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
-        } else if( selected == KEY_LEFT ) {
+        } else if( data.selected == KEY_LEFT ) {
             result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {

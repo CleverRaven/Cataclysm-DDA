@@ -23,6 +23,7 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
 #include "text_style_check.h"
 #include "cursesdef.h"
 #include "cata_utility.h"
@@ -35,7 +36,7 @@ extern bool test_mode;
 static void reload_names()
 {
     Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+    Name::load_from_file( PATH_INFO::names() );
 }
 
 static bool sanity_checked_genders = false;
@@ -208,11 +209,11 @@ void set_language()
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
-    locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
+    locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !FILENAMES["base_path"].empty() ) {
-        locale_dir = FILENAMES["base_path"] + "share/locale";
+    if( !PATH_INFO::base_path().empty() ) {
+        locale_dir = PATH_INFO::base_path() + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }
@@ -577,6 +578,16 @@ bool translation::operator==( const translation &that ) const
 bool translation::operator!=( const translation &that ) const
 {
     return !operator==( that );
+}
+
+cata::optional<int> translation::legacy_hash() const
+{
+    if( needs_translation && !ctxt && !raw_pl ) {
+        return djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) );
+    }
+    // Otherwise the translation must have been added after snippets were changed
+    // to use string ids only, so the translation doesn't have a legacy hash value.
+    return cata::nullopt;
 }
 
 translation to_translation( const std::string &raw )

@@ -416,7 +416,7 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
+        const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );

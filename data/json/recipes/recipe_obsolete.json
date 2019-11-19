@@ -1920,5 +1920,10 @@
     "type": "recipe",
     "result": "pressure_cooker",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "obsolete": true
   }
 ]

@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "clzones.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -17,6 +18,7 @@
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -33,6 +35,9 @@
 #include "type_id.h"
 #include "flat_set.h"
 #include "line.h"
+
+const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -185,7 +190,8 @@ void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_new_0" +
+                                oter_get_rotation_string( omt_ref ) ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -610,8 +616,16 @@ void basecamp::consume_components( const recipe &making, int batch_size )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    _inv.form_from_map( target_map, origin, range, nullptr, false, false );
+    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint &origin = target_map.getlocal( dump_spot );
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
+    }
+    if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+        _inv.form_from_zone( target_map, src_set, nullptr, false );
+    }
     /*
      * something of a hack: add the resources we know the camp has
      * the hacky part is that we're adding resources based on the camp's flags, which were

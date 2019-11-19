@@ -322,7 +322,7 @@ enum action_id : int {
  *  Sets the state of a keymap in memory to the state of a keymap state saved to disk.
  *  The actual filename we read the keymap from is returned by reference, not specified in this
  *  function call.  The filename used is set elsewhere (in a variety of places).  Take a look at
- *  @ref FILENAMES to see where this happens.  The returned file name is used to detect errors, such
+ *  @ref path_info to see where this happens.  The returned file name is used to detect errors, such
  *  as a non-existent file or a file that didn't actually contain a keymap.
  *
  *  Output is returned as two separate maps:

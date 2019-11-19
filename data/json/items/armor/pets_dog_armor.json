@@ -3,6 +3,7 @@
     "type": "PET_ARMOR",
     "id": "kevlar_harness",
     "symbol": "[",
+    "looks_like": "tacvest",
     "color": "blue",
     "name": "Kevlar dog harness",
     "name_plural": "Kevlar dog harnesses",

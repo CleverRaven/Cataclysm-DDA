@@ -82,6 +82,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "VEHICLE_PATROL" ),
                    zone_type( translate_marker( "Vehicle Patrol Zone" ),
                               translate_marker( "Vehicles with an autopilot will patrol in this zone." ) ) );
+    types.emplace( zone_type_id( "CAMP_STORAGE" ),
+                   zone_type( translate_marker( "Basecamp: Storage" ),
+                              translate_marker( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -170,20 +173,18 @@ int blueprint_options::get_final_construction(
         return idx;
     }
 
-    if( string_ends_with( con.post_terrain, "_half" ) ||
-        string_ends_with( con.post_terrain, "_halfway" ) ) {
-        for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
-            if( i == idx || skip_index.find( i ) != skip_index.end() ) {
-                continue;
-            }
-            const construction &con_next =  list_constructions[i];
-            if( con.description == con_next.description &&
-                con.post_terrain == con_next.pre_terrain ) {
-                skip_index.insert( idx );
-                return get_final_construction( list_constructions, i, skip_index );
-            }
+    for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
+        if( i == idx || skip_index.find( i ) != skip_index.end() ) {
+            continue;
+        }
+        const construction &con_next = list_constructions[i];
+        if( con.description == con_next.description &&
+            con.post_terrain == con_next.pre_terrain ) {
+            skip_index.insert( idx );
+            return get_final_construction( list_constructions, i, skip_index );
         }
     }
+
     return idx;
 }
 
@@ -667,17 +668,13 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 
 const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
 {
-    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data &zone : zones ) {
         if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
     auto vzones = g->m.get_vehicle_zones( g->get_levz() );
-    for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
         }
