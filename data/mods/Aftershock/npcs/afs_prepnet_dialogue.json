@@ -41,7 +41,8 @@
         "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "How do I join the phyle?", "topic": "TALK_PrepNet_gardener_ask_membership" }
+      { "text": "How do I join the phyle?", "topic": "TALK_PrepNet_gardener_ask_membership" },
+      { "text": "I'm going on my way now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -49,7 +50,7 @@
     "id": "TALK_PrepNet_gardener_firstmeet",
     "dynamic_line": "I'm a gardener for PrepNet Phyle.  Who are you?",
     "responses": [
-      { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_PrepNet_gardener_ask_food" },
+      { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_PrepNet_gardener_food" },
       { "text": "I am just a fellow survivor.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1" }
     ]
@@ -59,9 +60,10 @@
     "id": "TALK_PrepNet_gardener_place",
     "dynamic_line": "This is a PrepNet Phyle orchard. We were a community of survivalists gathering resources to prepare for climate change, but it left us better prepared for what actually happened than most.",
     "responses": [
-      { "text": "Can you give me something to eat then?", "topic": "TALK_PrepNet_gardener_ask_food" },
+      { "text": "Can you give me something to eat then?", "topic": "TALK_PrepNet_gardener_food" },
       { "text": "What can I buy here?", "topic": "TALK_PrepNet_gardener_ask_goods" },
-      { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" }
+      { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
+      { "text": "Only the insane will prosper, I guess.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -69,8 +71,9 @@
     "id": "TALK_PrepNet_gardener_food",
     "dynamic_line": "This food has to go back to our core communities. But maybe we can trade some food for services",
     "responses": [
-      { "text": "I can pay.", "topic": "TALK_prepnet_gardener_ask_food_bribe" },
-      { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" }
+      { "text": "I can pay.", "topic": "TALK_PrepNet_gardener_ask_food_bribe" },
+      { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Well I'm heading out then", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -94,7 +97,8 @@
     "dynamic_line": "Here? Fruits and berries. Maybe the occasional piece of farm equipment, but you need crypto coins",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What are crypto coins?", "topic": "TALK_PrepNet_gardener_currency" }
+      { "text": "What are crypto coins?", "topic": "TALK_PrepNet_gardener_currency" },
+      { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
@@ -115,7 +119,7 @@
     "dynamic_line": "We use crypto coins for money here. They were a pre cataclysm attempt to abstract money even further and create electronic cash. We figured we'd keep it up. Barter only gets you so far.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What can I buy here?", "topic": "TALK_PrepNet_gardener_ask_goods" }
+      { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }
     ]
   },
   {
