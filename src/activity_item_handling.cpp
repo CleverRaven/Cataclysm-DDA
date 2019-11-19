@@ -2459,8 +2459,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
     const do_activity_reason &reason = act_info.reason;
     const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
 
-    const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
-                                     act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
+    const bool needs_to_be_in_zone = act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
@@ -2487,7 +2486,8 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
         return true;
-    } else if( reason == NO_COMPONENTS || reason == NEEDS_PLANTING ||
+    } else if( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
+               reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
                reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
                reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
                reason == NEEDS_TREE_CHOPPING ||
