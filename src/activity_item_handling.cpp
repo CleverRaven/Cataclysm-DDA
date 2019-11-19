@@ -2312,7 +2312,8 @@ static void check_npc_revert( player &p )
     }
 }
 
-static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr, const activity_id &act_id )
+static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
+                                      const activity_id &act_id )
 {
     zone_type_id ret = zone_type_id( "" );
     if( act_id == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
@@ -2339,7 +2340,7 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         ret = zone_type_id( "FISHING_SPOT" );
     }
-    if( act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ){
+    if( act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ) {
         ret = mgr.get_zone_at( g->m.getabs( src_loc ) )->get_type();
     }
     return ret;
