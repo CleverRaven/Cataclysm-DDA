@@ -61,17 +61,6 @@
   },
   {
     "type": "mutation",
-    "id": "PAINRESIST",
-    "name": "Pain Resistant",
-    "points": 2,
-    "description": "You have a high tolerance for pain.",
-    "starting_trait": true,
-    "valid": false,
-    "cancels": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ],
-    "category": [ "MEDICAL", "VAMP" ]
-  },
-  {
-    "type": "mutation",
     "id": "NIGHTVISION",
     "name": "Night Vision",
     "points": 2,
