@@ -1441,7 +1441,7 @@ void advanced_inventory::display()
                     redraw = true;
                 }
             } else {
-                popup( _( "No vehicle there!" ) );
+                popup( _( "No vehicle storage space there!" ) );
                 redraw = true;
             }
         }
