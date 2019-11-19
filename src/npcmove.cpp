@@ -1644,19 +1644,17 @@ bool npc::wants_to_recharge_cbm()
     const units::energy curr_power =  get_power_level();
     const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
     const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
+    const bool &no_fueled_cbm = get_fueled_bionics().empty();
 
-    bool no_fueled_cbm = true;
-    for( const bionic_id bid : get_fueled_bionics() ) {
-        no_fueled_cbm = false;
-        if( get_fuel_available( bid ).empty() ) {
-            return true;
-        } else if( curr_power < max_pow_allowed && !use_bionic_by_id( bid ) ) {
-            return true;
+    if( curr_power < max_pow_allowed ) {
+        for( const bionic_id bid : get_fueled_bionics() ) {
+            if( !has_active_bionic( bid ) ) {
+                return true;
+            }
         }
+        return no_fueled_cbm;
     }
-    if( no_fueled_cbm ) {
-        return curr_power < max_pow_allowed;
-    }
+
     return false;
 }
 
@@ -1694,6 +1692,10 @@ bool npc::recharge_cbm()
     }
 
     for( bionic_id &bid : get_fueled_bionics() ) {
+        if( has_active_bionic( bid ) ) {
+            continue;
+        }
+
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
