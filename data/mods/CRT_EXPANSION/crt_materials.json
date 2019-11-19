@@ -56,8 +56,8 @@
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
-      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500_ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": 0.5 },
+      { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": 1 },
       { "fuel": 2, "smoke": 1, "burn": 3 }
     ]
   }
