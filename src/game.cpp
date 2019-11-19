@@ -9144,18 +9144,20 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) &&
-        !u.movement_mode_is( CMM_RUN ) ) {
-        std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
-        std::string key_message = press_x( ACTION_TOGGLE_RUN );
-        if( key_message == ( "Try" ) ) {
-            key_message = press_x( ACTION_CYCLE_MOVE );
-        }
-        add_msg( m_warning,
-                 _( "Stepping into that %1$s looks risky. %2$s to run into it to force movement." ),
-                 enumerate_as_string( harmful_stuff ), key_message );
 
-        return true;
+    if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
+        if( !u.movement_mode_is( CMM_RUN ) ) {
+            std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+            std::string key_message = press_x( ACTION_TOGGLE_RUN );
+            add_msg( m_warning,
+                     _( "Stepping into that %1$s looks risky. %2$s to run into it to force movement." ),
+                     enumerate_as_string( harmful_stuff ), key_message );
+            return true;
+        } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
+            if( !prompt_dangerous_tile( dest_loc ) ) {
+                return true;
+            }
+        }
     }
     // Used to decide whether to print a 'moving is slow message
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move

@@ -1139,6 +1139,11 @@ void options_manager::add_options_general()
          false
        );
 
+    add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
+         translate_marker( "If true, will not prevent the user from walking unto know hazardous tiles while running." ),
+         false
+       );
+
     mOptionsSort["general"]++;
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
