@@ -18,7 +18,7 @@
     "id": "MARTIAL_CRT",
     "name": "C.R.I.T Melee Training",
     "points": 3,
-    "description": "You have received defensive training. For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
+    "description": "You have received offensive melee training. Gain various combat bonuses that scale off of your stats.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_crt_cqb", "style_crt_blade", "style_crt_enforcement" ],
     "valid": false
@@ -27,7 +27,7 @@
     "type": "martial_art",
     "id": "style_crt_cqb",
     "name": "C.R.I.T CQB",
-    "description": "A style centered around rapid strikes and piercing jabs for an agent eqiupped with the Razor Fingertip CBM or claw mutation.  Each attack landed adds a plethora of combat bonuses.",
+    "description": "A style centered around rapid strikes and piercing jabs that works best for an agent equipped with the Razor Fingertip CBM or a claw mutation.  Each attack landed adds a plethora of combat bonuses.",
     "initiate": [ " You settle into a pointed stance.", "%s begins to knifehand." ],
     "arm_block": 3,
     "leg_block": 6,
@@ -38,12 +38,13 @@
         "description": "DEX provides dodge ability, accuracy and minor armor piercing capability.",
         "unarmed_allowed": true,
         "melee_allowed": false,
+        "min_unarmed": 0,
         "flat_bonuses": [
           [ "arpen", "bash", "dex", 0.25 ],
           [ "arpen", "stab", "dex", 0.25 ],
           [ "arpen", "cut", "dex", 0.25 ],
           [ "dodge", "dex", 0.1 ],
-          [ "hit", "dex", 0.15 ]
+          [ "hit", "dex", 0.2 ]
         ]
       }
     ],
@@ -54,11 +55,11 @@
         "description": "+Atk Speed and other small bonuses based on DEX per stack. Max of 10 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "min_unarmed": 1,
+        "min_unarmed": 3,
         "buff_duration": 2,
         "max_stacks": 10,
         "flat_bonuses": [ [ "movecost", "dex", -0.05 ], [ "movecost", 0.1 ], [ "damage", "stab", "dex", 0.1 ] ],
-        "mult_bonuses": [ [ "damage", "stab", 1.1 ], [ "damage", "cut", 1.1 ], [ "arpen", "stab", 1.1 ] ]
+        "mult_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "stab", 1 ] ]
       }
     ],
     "techniques": [ "tec_crt_cqb_normal", "tec_crt_cqb_rapid", "tec_crt_cqb_precise", "tec_crt_cqb_arpen", "tec_feint" ]
@@ -116,7 +117,7 @@
     "flat_bonuses": [ [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
-      "You envision a gathering tempest in and then release it's energy on %s's top half",
+      "You envision a gathering tempest and then release it's energy on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1,
