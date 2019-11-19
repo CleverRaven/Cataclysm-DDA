@@ -1644,7 +1644,6 @@ bool npc::wants_to_recharge_cbm()
     const units::energy curr_power =  get_power_level();
     const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
     const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
-    const bool &no_fueled_cbm = get_fueled_bionics().empty();
 
     if( curr_power < max_pow_allowed ) {
         for( const bionic_id &bid : get_fueled_bionics() ) {
@@ -1652,9 +1651,8 @@ bool npc::wants_to_recharge_cbm()
                 return true;
             }
         }
-        return no_fueled_cbm;
+        return get_fueled_bionics().empty(); //NPC might have power CBM that doesn't use the json fuel_opts entry
     }
-
     return false;
 }
 
