@@ -27,6 +27,7 @@
     "worn_override": "afs_gardener_worn",
     "carry_override": "afs_gardener_carried",
     "weapon_override": "afs_gardener_wield",
+    "shopkeeper_item_group": "afs_gardener_misc",
     "bionics": [
       { "id": "bio_carbon", "chance": 100 },
       { "id": "bio_claws", "chance": 100 },
