@@ -1,17 +1,17 @@
 [
- {
+  {
     "type": "npc",
     "id": "magus_old",
     "//": "old magus in the wizard tower.",
     "name_suffix": "magus",
     "class": "NC_OLD_MAGUS",
-	"worn_override": "NC_OLD_MAGUS_worn",
+    "worn_override": "NC_OLD_MAGUS_worn",
     "attitude": 0,
     "mission": 7,
-	"mission_offered": "MISSION_GET_MAGIC_BOOK",
+    "mission_offered": "MISSION_GET_MAGIC_BOOK",
     "chat": "TALK_OLD_MAGUS",
     "faction": "wizards_ancient"
-  }, 
+  },
   {
     "type": "npc",
     "id": "techno_kid",
@@ -20,7 +20,7 @@
     "class": "NC_TECHNO_KID",
     "attitude": 0,
     "mission": 7,
-	"mission_offered": "MISSION_GET_POWER_CBM",
+    "mission_offered": "MISSION_GET_POWER_CBM",
     "chat": "TALK_TECHNO_KID",
     "faction": "no_faction"
   },
@@ -32,7 +32,7 @@
     "class": "NC_BIO_PRIEST",
     "attitude": 0,
     "mission": 7,
-	"mission_offered": "MISSION_PURGE_50_Z",
+    "mission_offered": "MISSION_PURGE_50_Z",
     "chat": "TALK_HEALER_GREY",
     "faction": "healers_grey"
   }

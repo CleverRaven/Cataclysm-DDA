@@ -1,7 +1,7 @@
 [
   {
     "type": "faction",
-    "id": "wizards",
+    "id": "wizards_ancient",
     "name": "The Ancient Ones",
     "likes_u": 0,
     "respects_u": 0,
@@ -62,7 +62,7 @@
   },
   {
     "type": "faction",
-    "id": "healers",
+    "id": "healers_grey",
     "name": "The Grey Flame",
     "likes_u": 10,
     "respects_u": 10,
