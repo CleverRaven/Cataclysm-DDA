@@ -218,7 +218,7 @@
     "type": "ARMOR",
     "name": "stone pouch",
     "name_plural": "stone pouches",
-    "description": "A medium sized pouch for storing rocks with straps for attaching it to your belt or other webbing.",
+    "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",
     "price": 5900,
