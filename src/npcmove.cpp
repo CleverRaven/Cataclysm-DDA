@@ -1647,7 +1647,7 @@ bool npc::wants_to_recharge_cbm()
     const bool &no_fueled_cbm = get_fueled_bionics().empty();
 
     if( curr_power < max_pow_allowed ) {
-        for( const bionic_id bid : get_fueled_bionics() ) {
+        for( const bionic_id &bid : get_fueled_bionics() ) {
             if( !has_active_bionic( bid ) ) {
                 return true;
             }
