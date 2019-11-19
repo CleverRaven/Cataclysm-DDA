@@ -2340,7 +2340,8 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         ret = zone_type_id( "FISHING_SPOT" );
     }
-    if( src_loc != tripoint_zero && mgr.get_zone_at( g->m.getabs( src_loc ) ) && act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ) {   
+    if( src_loc != tripoint_zero && mgr.get_zone_at( g->m.getabs( src_loc ) ) &&
+        act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ) {
         ret = mgr.get_zone_at( g->m.getabs( src_loc ) )->get_type();
     }
     return ret;
