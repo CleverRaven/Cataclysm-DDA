@@ -9244,7 +9244,8 @@ int item::contain_monster( const tripoint &target )
     set_var( "contained_name", f.type->nname() );
     set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ),
                                     f.type->nname() ) );
-    set_var( "weight", to_milligram( f.get_weight() ) );
+    // Need to add the weight of the empty container because item::weight uses the "weight" variable directly.
+    set_var( "weight", to_milligram( type->weight + f.get_weight() ) );
     g->remove_zombie( f );
     return 0;
 }
