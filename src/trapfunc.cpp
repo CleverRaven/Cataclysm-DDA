@@ -126,7 +126,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name() );
+        add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
         c->moves -= 100;
         return true;
     }
@@ -150,7 +150,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
                                   _( "A bear trap closes on <npcname>'s foot!" ) );
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
-            g->u.add_effect( effect_beartrap, 1_turns, hit, true );
         }
         // Actual effects
         c->add_effect( effect_beartrap, 1_turns, hit, true );
@@ -547,7 +546,6 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     // Messages
     if( c->has_effect( effect_ridden ) ) {
         add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
-        g->u.add_effect( effect_lightsnare, 1_turns, hit, true );
     }
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
                               _( "A snare closes on <npcname>s leg." ) );
@@ -572,8 +570,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     // Determine what got hit
     const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
     if( c->has_effect( effect_ridden ) ) {
-        add_msg( m_bad, _( "A snare closes on your %s's leg" ), c->get_name() );
-        g->u.add_effect( effect_heavysnare, 1_turns, hit, true );
+        add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
     }
     //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),

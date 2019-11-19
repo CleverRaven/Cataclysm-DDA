@@ -363,7 +363,7 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "chitin_piece", 5 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "chitin_piece", 12 ] ] ]
   },
   {
     "result": "helmet_conical",
@@ -390,7 +390,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "acidchitin_piece", 8 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "acidchitin_piece", 12 ] ] ]
   },
   {
     "result": "helmet_galea",

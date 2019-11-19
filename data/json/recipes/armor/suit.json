@@ -75,7 +75,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 15 ] ] ]
+    "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -89,7 +89,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 15 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_farmor",

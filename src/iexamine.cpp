@@ -3503,10 +3503,14 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
-
     if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
+            const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                add_msg( m_info, _( "It is too dark to construct right now." ) );
+                return;
+            }
             const std::vector<construction> &list_constructions = get_constructions();
             const construction &built = list_constructions[pc->id];
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
@@ -4427,7 +4431,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
                                      c_red ) + warning_sign;
         autodoc_header = warning +
-                         _( " \n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>. \n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
     uilist amenu;
     amenu.text = autodoc_header;
@@ -5401,7 +5405,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                              _( "Reload with charcoal" ),
                              string_format(
                                  _( "You need %d charges of charcoal for %s %s of food.  Minimal amount of charcoal is %d charges." ),
-                                 sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(),
+                                 sm_rack::CHARCOAL_PER_LITER, format_volume( 1_liter ), volume_units_long(),
                                  sm_rack::MIN_CHARCOAL ) );
 
     } else {

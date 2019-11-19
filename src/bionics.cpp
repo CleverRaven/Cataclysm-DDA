@@ -531,9 +531,9 @@ bool player::activate_bionic( int b, bool eff_only )
         if( pnt && g->m.is_flammable( *pnt ) ) {
             g->m.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
-            mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         } else {
             add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            mod_power_level( bionics[bionic_id( "bio_lighter" )].power_activate );
         }
     } else if( bio.id == "bio_geiger" ) {
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
@@ -869,8 +869,9 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
 
-            if( get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency >
-                get_max_power_level() ) {
+            if( !bio.has_flag( "SAFE_FUEL_OFF" ) &&
+                get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
+                > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ),
                                        bio.info().name );
@@ -1878,7 +1879,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                  installer );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
-        if( fail_type == 5 ) {
+        if( fail_type > 3 ) {
             fail_type = rng( 1, 3 );
         }
     }
@@ -1997,38 +1998,7 @@ std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bi
 
 int player::get_total_bionics_slots( const body_part bp ) const
 {
-    switch( bp ) {
-        case bp_torso:
-            return 80;
-
-        case bp_head:
-            return 18;
-
-        case bp_eyes:
-        case bp_mouth:
-            return 4;
-
-        case bp_arm_l:
-        case bp_arm_r:
-            return 20;
-
-        case bp_hand_l:
-        case bp_hand_r:
-            return 5;
-
-        case bp_leg_l:
-        case bp_leg_r:
-            return 30;
-
-        case bp_foot_l:
-        case bp_foot_r:
-            return 7;
-
-        case num_bp:
-            debugmsg( "number of slots for incorrect bodypart is requested!" );
-            return 0;
-    }
-    return 0;
+    return convert_bp( bp )->bionic_slots();
 }
 
 int player::get_free_bionics_slots( const body_part bp ) const
@@ -2313,6 +2283,21 @@ void finalize_bionics()
     }
 }
 
+void bionic::set_flag( const std::string flag )
+{
+    bionic_tags.insert( flag );
+}
+
+void bionic::remove_flag( const std::string flag )
+{
+    bionic_tags.erase( flag );
+}
+
+bool bionic::has_flag( const std::string flag ) const
+{
+    return bionic_tags.find( flag ) != bionic_tags.end();
+}
+
 int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
@@ -2329,6 +2314,18 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
     return std::find( fuel_op.begin(), fuel_op.end(), this_fuel ) != fuel_op.end();
 }
 
+void bionic::toggle_safe_fuel_mod()
+{
+    if( info().fuel_opts.empty() ) {
+        return;
+    }
+    if( !has_flag( "SAFE_FUEL_OFF" ) ) {
+        set_flag( "SAFE_FUEL_OFF" );
+    } else {
+        remove_flag( "SAFE_FUEL_OFF" );
+    }
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2338,6 +2335,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge_timer );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
+    json.member( "bionic_tags", bionic_tags );
     if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
@@ -2360,6 +2358,13 @@ void bionic::deserialize( JsonIn &jsin )
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }
+    if( jo.has_array( "bionic_tags" ) ) {
+        JsonArray jsar = jo.get_array( "bionic_tags" );
+        while( jsar.has_more() ) {
+            bionic_tags.insert( jsar.next_string() );
+        }
+    }
+
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,

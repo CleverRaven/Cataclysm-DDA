@@ -398,6 +398,16 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
     form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
 }
 
+void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
+                                bool assign_invlet )
+{
+    std::vector<tripoint> pts;
+    for( const tripoint &elem : zone_pts ) {
+        pts.push_back( m.getlocal( elem ) );
+    }
+    form_from_map( m, pts, pl, assign_invlet );
+}
+
 void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
@@ -414,9 +424,14 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
             reachable_pts.emplace_back( p );
         }
     }
+    form_from_map( m, reachable_pts, pl, assign_invlet );
+}
 
+void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+                               bool assign_invlet )
+{
     items.clear();
-    for( const tripoint &p : reachable_pts ) {
+    for( const tripoint &p : pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -583,7 +598,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
             add_item( chemistry_set );
         }
     }
-    reachable_pts.clear();
+    pts.clear();
 }
 
 std::list<item> inventory::reduce_stack( const int position, const int quantity )

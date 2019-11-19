@@ -4112,7 +4112,8 @@ static std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        return SNIPPET.random_from_category( "music_description" );
+        return SNIPPET.expand( SNIPPET.random_from_category( "<music_description>" ).value_or(
+                                   translation() ).translated() );
     }
 
     return _( "a sweet guitar solo!" );
@@ -9377,7 +9378,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
 washing_requirements washing_requirements_for_volume( const units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
-    int cleanser = divide_round_up( vol, 1000_ml );
+    int cleanser = divide_round_up( vol, 1_liter );
     int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
     return { water, cleanser, time };
 }

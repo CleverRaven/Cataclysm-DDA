@@ -369,15 +369,6 @@
     "based_on": "neither"
   },
   {
-    "id": "ACT_TILL_PLOT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "tilling the farm plot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
-  },
-  {
     "id": "ACT_FETCH_REQUIRED",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -395,24 +386,6 @@
     "based_on": "neither",
     "no_resume": true,
     "multi_activity": true
-  },
-  {
-    "id": "ACT_PLANT_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "planting seeds",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HARVEST_PLOT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "harvesting plots",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
   },
   {
     "id": "ACT_FERTILIZE_PLOT",
