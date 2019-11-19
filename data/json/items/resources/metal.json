@@ -70,6 +70,25 @@
     "price_postapoc": 300
   },
   {
+    "type": "GENERIC",
+    "id": "cu_tube_large",
+    "name": "large copper tube",
+    "description": "A copper tube.  Would be useful as a melee weapon, if it weren't mostly empty.",
+    "category": "spare_parts",
+    "//": "5.9cm diameter copper tube, around 50cm long, with a cylindrical void inside of diameter 4.75cm",
+    "weight": "4444 g",
+    "to_hit": -1,
+    "color": "light_red",
+    "symbol": "/",
+    "looks_like": "cu_pipe",
+    "material": [ "copper" ],
+    "techniques": [ "WBLOCK_1" ],
+    "volume": "2400 ml",
+    "bashing": 9,
+    "price": 15000,
+    "price_postapoc": 1000
+  },
+  {
     "id": "material_aluminium_ingot",
     "type": "GENERIC",
     "category": "spare_parts",
