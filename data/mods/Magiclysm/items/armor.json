@@ -28,4 +28,3 @@
       "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
     }
   ]
-  
