@@ -8,7 +8,7 @@
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
       { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "rifle" },
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "survival" },
@@ -35,10 +35,10 @@
     "description": "*Sigh* Your life has been a wreck. Hopping place to place you finally found a job at C.R.I.T... as a janitor of sorts. The pay was good and you got some sneak-peeks on some pretty cool stuff. After all non-essential personel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
     "points": 6,
     "skills": [
-      { "level": 2, "name": "tailor" },
+      { "level": 1, "name": "tailor" },
       { "level": 3, "name": "barter" },
       { "level": 3, "name": "driving" },
-      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "speech" },
       { "level": 1, "name": "unarmed" }
     ],
     "items": {
@@ -73,7 +73,7 @@
     "points": 10,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
-      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "gun" },
       { "level": 2, "name": "rifle" },
       { "level": 1, "name": "melee" },
       { "level": 4, "name": "speech" },
@@ -156,7 +156,7 @@
     "type": "profession",
     "ident": "crt_medic",
     "name": "CRIT Combat Medic",
-    "description": "You were the team nerd. A combat medic taught on how to engage strange anomalies. However, your main focus was  keeping your squadmates in one piece. For weeks, you slogged through hell and back and ensured that everyone made it. Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction. Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
+    "description": "You were the team nerd. A combat medic taught on how to engage strange anomalies. However, your main focus was keeping your squadmates in one piece. For weeks, you slogged through hell and back and ensured that everyone made it. Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction. Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
     "points": 8,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
@@ -249,8 +249,8 @@
     "points": 9,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
       { "level": 4, "name": "speech" },
       { "level": 3, "name": "barter" },
       { "level": 2, "name": "firstaid" }
@@ -289,9 +289,9 @@
     "type": "profession",
     "ident": "crt_guard",
     "name": "CRIT Enforcer",
-    "description": "STR 10 recommended. You were a granted the authority of a U.S Marshal. As a guard, others joked that you were nothing more than a mall cop with a fancy badge. Knowingly, you laughed it off as the you donned on your equipment and deployed. While you mainly spent time at base, you honed your skills and recieved special implants to do your job easier at the low low cost of serving as a \"guard\" forever. Time to do your job, mission parameters look like they've expanded quite a bit though.",
+    "description": "You were a granted the authority of a U.S Marshal. As a guard, others joked that you were nothing more than a mall cop with a fancy badge. Knowingly, you laughed it off as the you donned on your equipment and deployed. While you mainly spent time at base, you honed your skills and recieved special implants to do your job easier at the low low cost of serving as a \"guard\" forever. Time to do your job, mission parameters look like they've expanded quite a bit though.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
-    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer" ],
+    "CBMs": [ "bio_sunglasses", "bio_ears" ],
     "points": 12,
     "skills": [
       { "level": 3, "name": "gun" },
@@ -348,17 +348,12 @@
       "bio_armor_arms",
       "bio_armor_legs",
       "bio_batteries",
-      "bio_razors",
       "bio_sunglasses",
       "bio_ears",
-      "bio_speed",
-      "bio_str_enhancer",
-      "bio_dex_enhancer",
       "bio_tattoo_led",
       "bio_eye_optic",
       "bio_targeting",
       "bio_eye_enhancer",
-      "bio_carbon",
       "bio_power_storage_mkII",
       "bio_power_storage_mkII"
     ],
@@ -751,11 +746,11 @@
     "type": "profession",
     "ident": "ds3_lknight",
     "name": "Knight of Lothric",
-    "description": "You are a celebrated knight of Lothric. As the sun grew darker and darker, you too had succumbed to the Undead Curse. Overtime you witnessed the Age of Fire start to plunge into the Deep with what sanity you had left. Be it a Miracle of the gods or magic gone awry, you awaken in another land that feels alien and yet so familiar...",
+    "description": "You are a celebrated knight of Lothric. As the sun grew darker and darker, you too had succumbed to the Undead Curse. Overtime you witnessed the Age of Fire start to plunge into the Deep with what sanity you had left. Be it a Miracle of the gods or magic gone awry, you awaken with your Humanity restored in another land that feels alien and yet so familiar...",
     "traits": [ "DEFT", "GOODCARDIO", "PAINRESIST" ],
     "points": 10,
     "skills": [
-      { "level": 1, "name": "archery" },
+      { "level": 3, "name": "archery" },
       { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "cutting" },
       { "level": 2, "name": "bashing" },
