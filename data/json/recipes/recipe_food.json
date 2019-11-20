@@ -2763,7 +2763,7 @@
         [ "honey_bottled", 2 ],
         [ "honey_glassed", 2 ]
       ],
-      [ [ "meat", 1 ], [ "mutant_meat", 1 ] ],
+      [ [ "meat_raw_steak", 1, "LIST" ] ],
       [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "edible_tallow_lard", 1, "LIST" ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "pepper", 1 ] ]

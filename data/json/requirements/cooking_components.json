@@ -105,25 +105,22 @@
     "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
   },
   {
+    "id": "meat_raw_steak",
+    "type": "requirement",
+    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ] ] ]
+  },
+  {
     "id": "meat_red_raw",
     "type": "requirement",
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
+    "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
   },
   {
     "id": "meat_red",
     "type": "requirement",
     "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
-    "components": [
-      [
-        [ "meat", 1 ],
-        [ "mutant_meat", 1 ],
-        [ "meat_scrap", 10 ],
-        [ "mutant_meat_scrap", 10 ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ]
-      ]
-    ]
+    "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
   },
   {
     "id": "meat_nofish",
@@ -374,19 +371,31 @@
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow",
+    "type": "requirement",
+    "//": "Any type of edible tallow.",
+    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ] ] ]
   },
   {
     "id": "any_tallow",
     "type": "requirement",
     "//": "Any type of tallow.",
-    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "tallow_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is safe for consumption.",
+    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ] ] ]
   },
   {
     "id": "edible_tallow_lard",
     "type": "requirement",
     "//": "Any type of edible rendered fat.",
-    "components": [ [ [ "tallow", 1 ], [ "lard", 1 ], [ "mutant_tallow", 1 ], [ "mutant_lard", 1 ] ] ]
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
   },
   {
     "id": "seasoning_mild",
