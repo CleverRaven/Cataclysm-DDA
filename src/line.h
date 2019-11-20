@@ -6,6 +6,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "math_defines.h"
 #include "point.h"
@@ -109,14 +110,44 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
-float trig_dist( const point &loc1, const point &loc2 );
-float trig_dist( const tripoint &loc1, const tripoint &loc2 );
-// Roguelike distance; minimum of dX and dY
-int square_dist( const point &loc1, const point &loc2 );
-int square_dist( const tripoint &loc1, const tripoint &loc2 );
+
+extern bool trigdist;
+
+inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+                 ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
+                 ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+}
+inline float trig_dist( const point &loc1, const point &loc2 )
+{
+    return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
+}
+
+// Roguelike distance; maximum of dX and dY
+inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    const tripoint d = abs( loc1 - loc2 );
+    return std::max( { d.x, d.y, d.z } );
+}
+inline int square_dist( const point &loc1, const point &loc2 )
+{
+    const point d = abs( loc1 - loc2 );
+    return std::max( d.x, d.y );
+}
+
 // Choose between the above two according to the "circular distances" option
-int rl_dist( const point &a, const point &b );
-int rl_dist( const tripoint &loc1, const tripoint &loc2 );
+inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist( loc1, loc2 );
+    }
+    return square_dist( loc1, loc2 );
+}
+inline int rl_dist( const point &a, const point &b )
+{
+    return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
