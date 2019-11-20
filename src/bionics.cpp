@@ -972,6 +972,10 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
+    if( calendar::once_every( 1_hours ) && !bio.id->fuel_opts.empty() &&
+        bio.has_flag( "AUTO_START_ON" ) && power_level <= 0_mJ ) {
+        g->u.activate_bionic( b );
+    }
     // Only powered bionics should be processed
     if( !bio.powered ) {
         return;

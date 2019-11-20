@@ -1473,14 +1473,7 @@ void Character::suffer()
     }
 
     for( size_t i = 0; i < my_bionics->size(); i++ ) {
-        bionic &bio = ( *my_bionics )[i];
-        if( calendar::once_every( 1_hours ) && !bio.id->fuel_opts.empty() &&
-            bio.has_flag( "AUTO_START_ON" ) && power_level <= 0_mJ ) {
-            g->u.activate_bionic( i );
-        }
-        if( bio.powered ) {
-            process_bionic( i );
-        }
+        process_bionic( i );
     }
 
     for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
