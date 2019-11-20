@@ -95,7 +95,7 @@
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "color": "red",
-    "covers": [ "HEAD", "EYES", "MOUTH"],
+    "covers": [ "HEAD", "EYES", "MOUTH" ],
     "coverage": 15,
     "encumbrance": 20,
     "material_thickness": 2,
