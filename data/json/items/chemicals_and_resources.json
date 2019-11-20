@@ -1121,6 +1121,20 @@
     "count": 20
   },
   {
+  "type": "AMMO",
+  "id": "soap_flakes",
+  "category": "chems",
+  "price": 500,
+  "name": "soap flakes",
+  "symbol": "=",
+  "color": "white",
+  "description": "A bar of soap cut into flakes suitable for use in a washing machine.",
+  "volume": "250 ml",
+  "weight": "1 g",
+  "ammo_type": "components",
+  "count": 20
+  },
+  {
     "type": "COMESTIBLE",
     "id": "lye",
     "name": "lye",
