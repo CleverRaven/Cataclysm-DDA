@@ -739,7 +739,6 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
-    "difficulty": 0,
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
