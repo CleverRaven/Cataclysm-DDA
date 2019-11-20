@@ -251,7 +251,7 @@ void monster::wander_to( const tripoint &p, int f )
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
-    const int d = rl_dist( pos(), c.pos() );
+    const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
         return INT_MAX;
     }
@@ -266,7 +266,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( !smart ) {
-        return d;
+        return int( d );
     }
 
     float power = c.power_rating();
@@ -277,7 +277,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return d / power;
+        return int( d ) / power;
     }
 
     return INT_MAX;

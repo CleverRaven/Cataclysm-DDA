@@ -148,6 +148,62 @@ inline int rl_dist( const point &a, const point &b )
 {
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
+
+/**
+ * Helper type for the return value of dist_fast().
+ *
+ * This lets us delay the sqrt() call of trigdist until the actual length is needed.
+ */
+struct FastDistanceApproximation {
+    private:
+        int value;
+    public:
+        inline FastDistanceApproximation( int value ) : value( value ) { }
+        template<typename T>
+        inline bool operator<=( const T &rhs ) const {
+            if( trigdist ) {
+                return value <= rhs * rhs;
+            }
+            return value <= rhs;
+        }
+        template<typename T>
+        inline bool operator>=( const T &rhs ) const {
+            if( trigdist ) {
+                return value >= rhs * rhs;
+            }
+            return value >= rhs;
+        }
+        inline operator int() const {
+            if( trigdist ) {
+                return sqrt( value );
+            }
+            return value;
+        }
+};
+
+inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    return ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
+           ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
+           ( loc1.z - loc2.z ) * ( loc1.z - loc2.z );
+}
+inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    const tripoint d = abs( loc1 - loc2 );
+    return std::max( { d.x, d.y, d.z } );
+}
+inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist_fast( loc1, loc2 );
+    }
+    return square_dist_fast( loc1, loc2 );
+}
+inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
+{
+    return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
+}
+
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
