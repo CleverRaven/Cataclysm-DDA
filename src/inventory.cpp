@@ -884,7 +884,7 @@ void inventory::rust_iron_items()
                 //Scale with volume, bigger = slower (see #24204)
                 one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
                                           static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
-                //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
+                //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item

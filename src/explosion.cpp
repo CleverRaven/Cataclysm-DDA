@@ -136,7 +136,7 @@ static void do_blast( const tripoint &p, const float power,
                       const float distance_factor, const bool fire )
 {
     const float tile_dist = 1.0f;
-    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
+    const float diag_dist = trigdist ? M_SQRT2 * tile_dist : 1.0f * tile_dist;
     const float zlev_dist = 2.0f; // Penalty for going up/down
     // 7 3 5
     // 1 . 2

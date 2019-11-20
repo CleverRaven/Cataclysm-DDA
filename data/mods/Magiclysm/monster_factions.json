@@ -12,5 +12,10 @@
     "type": "MONSTER_FACTION",
     "name": "ooze",
     "friendly": [ "dragon_black" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dragon_brown",
+    "friendly": [ "fungal" ]
   }
 ]
