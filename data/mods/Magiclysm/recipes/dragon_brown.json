@@ -37,7 +37,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 40 ] ], [ [ "dragon_brown_scale", 150 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
-    "result": "suit_xlblack_dragon_hide",
+    "result": "suit_xl_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -45,11 +45,11 @@
     "difficulty": 6,
     "skills_required": [ "spellcraft", 4 ],
     "time": "70 h",
-    "book_learn": [ [ "black_dragons", 5 ] ],
+    "book_learn": [ [ "brown_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 350 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 250 ] ], [ [ "dragon_essence", 20 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 60 ] ], [ [ "dragon_brown_scale", 250 ] ], [ [ "dragon_essence", 20 ] ] ]
   },
   {
     "result": "suit_brown_dragon_scale",
@@ -67,7 +67,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 40 ] ], [ [ "dragon_brown_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
-    "result": "suit_xlblack_dragon_scale",
+    "result": "suit_xlbrown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -75,11 +75,11 @@
     "difficulty": 8,
     "skills_required": [ "spellcraft", 6 ],
     "time": "340 h",
-    "book_learn": [ [ "black_dragons", 6 ] ],
+    "book_learn": [ [ "brown_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 350 ], [ "welding_standard", 100 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 60 ] ], [ [ "dragon_brown_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
   },
   {
     "result": "boots_brown_dragon_hide",
@@ -97,7 +97,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 15 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
-    "result": "boots_xlblack_dragon_hide",
+    "result": "boots_xlbrown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -105,11 +105,11 @@
     "difficulty": 6,
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 5 ] ],
+    "book_learn": [ [ "brown_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 20 ] ], [ [ "dragon_essence", 3 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 6 ] ], [ [ "dragon_brown_scale", 20 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
     "result": "boots_brown_dragon_scale",
@@ -127,7 +127,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 6 ] ], [ [ "dragon_brown_scale", 75 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
-    "result": "boots_xlblack_dragon_scale",
+    "result": "boots_xlbrown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -135,11 +135,11 @@
     "difficulty": 8,
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 6 ] ],
+    "book_learn": [ [ "brown_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 8 ] ], [ [ "dragon_black_scale", 125 ] ], [ [ "dragon_essence", 6 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 8 ] ], [ [ "dragon_brown_scale", 125 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
   {
     "result": "helmet_brown_dragon_hide",
@@ -157,7 +157,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 3 ] ], [ [ "dragon_brown_scale", 8 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
-    "result": "helmet_xlblack_dragon_hide",
+    "result": "helmet_xlbrown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -165,11 +165,11 @@
     "difficulty": 6,
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 5 ] ],
+    "book_learn": [ [ "brown_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 12 ] ], [ [ "dragon_essence", 3 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 12 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
     "result": "helmet_brown_dragon_scale",
@@ -187,7 +187,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 1 ] ], [ [ "dragon_brown_scale", 90 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
-    "result": "helmet_xlblack_dragon_scale",
+    "result": "helmet_xlbrown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -195,11 +195,11 @@
     "difficulty": 8,
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 6 ] ],
+    "book_learn": [ [ "brown_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_black_scale", 140 ] ], [ [ "dragon_essence", 6 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 2 ] ], [ [ "dragon_brown_scale", 140 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
   {
     "result": "gloves_brown_dragon_hide",
@@ -217,7 +217,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 3 ] ], [ [ "dragon_brown_scale", 10 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
-    "result": "gloves_xlblack_dragon_hide",
+    "result": "gloves_xlbrown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -225,11 +225,11 @@
     "difficulty": 6,
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 5 ] ],
+    "book_learn": [ [ "brown_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 15 ] ], [ [ "dragon_essence", 4 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 15 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
     "result": "gauntlets_brown_dragon_scale",
@@ -247,7 +247,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 50 ] ], [ [ "dragon_essence", 5 ] ] ]
   },
   {
-    "result": "gauntlets_xlblack_dragon_scale",
+    "result": "gauntlets_xlbrown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -255,10 +255,10 @@
     "difficulty": 8,
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
-    "book_learn": [ [ "black_dragons", 6 ] ],
+    "book_learn": [ [ "brown_dragons", 6 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "chisel", -1 ] ] ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 7 ] ] ]
+    "components": [ [ [ "brown_dragon_tanned_hide", 6 ] ], [ [ "dragon_brown_scale", 75 ] ], [ [ "dragon_essence", 7 ] ] ]
   }
 ]
