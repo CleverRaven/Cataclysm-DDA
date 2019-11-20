@@ -1127,6 +1127,7 @@
     "price": 500,
     "name": "soap flakes",
     "name_plural": "soap flakes",
+	"looks_like": "detergent",
     "symbol": "=",
     "color": "white",
     "description": "A bar of soap cut into flakes suitable for use in a washing machine.",

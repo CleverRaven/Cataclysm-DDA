@@ -729,7 +729,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "45 m",
+    "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "soap", 1 ] ] ]
