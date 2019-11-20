@@ -1504,12 +1504,11 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
-void avatar::use_item( int pos )
+void avatar::use_item( item_location &loc )
 {
     bool use_loc = false;
-    item_location loc;
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         loc = game_menus::inv::use( *this );
 
         if( !loc ) {
@@ -1522,7 +1521,7 @@ void avatar::use_item( int pos )
             use_loc = true;
         } else {
             int obtain_cost = loc.obtain_cost( *this );
-            pos = loc.obtain( *this );
+            loc.obtain( *this );
             // This method only handles items in te inventory, so refund the obtain cost.
             moves += obtain_cost;
         }
@@ -1537,7 +1536,7 @@ void avatar::use_item( int pos )
 
         make_active( loc );
     } else {
-        use( pos );
+        use( loc );
     }
 
     invalidate_crafting_inventory();
