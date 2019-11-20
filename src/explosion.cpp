@@ -577,6 +577,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
+        if( critter.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
             g->knockback( p, critter.pos(), force, stun, dam_mult );
@@ -584,6 +587,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
     for( npc &guy : g->all_npcs() ) {
+        if( guy.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( guy.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
             g->knockback( p, guy.pos(), force, stun, dam_mult );
