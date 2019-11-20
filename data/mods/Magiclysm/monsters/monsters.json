@@ -356,10 +356,9 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "harvest": "clay_golem",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE" ]
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
   },
   {
     "id": "mon_stonegolem",
@@ -373,7 +372,7 @@
     "volume": "120 L",
     "weight": 162000,
     "hp": 250,
-    "speed": 70,
+    "speed": 60,
     "material": [ "stone" ],
     "symbol": "X",
     "color": "gray",
@@ -388,10 +387,9 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "harvest": "rock_golem",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE" ]
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
   },
   {
     "id": "mon_irongolem",
@@ -420,9 +418,8 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "harvest": "iron_golem",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE" ]
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
   }
 ]
