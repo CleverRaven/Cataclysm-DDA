@@ -2085,7 +2085,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
             switch( cMenu ) {
                 case 'a':
-                    use_item( pos );
+                    u.use_item( pos );
                     break;
                 case 'E':
                     eat( pos );
@@ -5036,13 +5036,13 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
-void game::use_item( int pos )
+void avatar::use_item( int pos )
 {
     bool use_loc = false;
     item_location loc;
 
     if( pos == INT_MIN ) {
-        loc = game_menus::inv::use( u );
+        loc = game_menus::inv::use( *this );
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
@@ -5053,26 +5053,26 @@ void game::use_item( int pos )
         if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
             use_loc = true;
         } else {
-            int obtain_cost = loc.obtain_cost( u );
-            pos = loc.obtain( u );
+            int obtain_cost = loc.obtain_cost( *this );
+            pos = loc.obtain( *this );
             // This method only handles items in te inventory, so refund the obtain cost.
-            u.moves += obtain_cost;
+            moves += obtain_cost;
         }
     }
 
-    refresh_all();
+    g->refresh_all();
 
     if( use_loc ) {
         update_lum( loc, false );
-        u.use( loc );
+        use( loc );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        u.use( pos );
+        use( pos );
     }
 
-    u.invalidate_crafting_inventory();
+    invalidate_crafting_inventory();
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
