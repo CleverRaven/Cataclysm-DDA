@@ -1504,6 +1504,12 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
+void avatar::use_item()
+{
+    item_location loc;
+    use_item( loc );
+}
+
 void avatar::use_item( item_location &loc )
 {
     bool use_loc = false;
