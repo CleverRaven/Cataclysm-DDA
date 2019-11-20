@@ -23,7 +23,6 @@
 #include "debug.h"
 #include "optional.h"
 #include "enums.h"
-#include "vpart_position.h"
 #include "vpart_range.h"
 
 static const itype_id fuel_type_battery( "battery" );
