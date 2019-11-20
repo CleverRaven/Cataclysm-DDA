@@ -48,3 +48,12 @@ TEST_CASE( "if_covers_nothing_omit_irreelevant_info", "[item][iteminfo]" )
         "--\n"
         "Covers: <color_c_cyan>Nothing</color>.\n" );
 }
+
+TEST_CASE( "gun_lists_default_ammo", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
+    iteminfo_test(
+        item( "compbow" ), q,
+        "--\n"
+        "Gun is not loaded, so stats below assume the default ammo: <color_c_light_blue>wooden broadhead arrow</color>\n" );
+}
