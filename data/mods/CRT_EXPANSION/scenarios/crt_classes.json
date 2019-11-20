@@ -777,5 +777,14 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "experimental_test",
+    "name": "Mod Tester",
+    "description": "You are a here to test some new stuff out!",
+    "points": 20,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "speech" } ],
+    "items": { "both": { "items": [ "holy_symbol" ] }, "male": [ "boxer_shorts" ], "female": [ "sports_bra", "boxer_shorts" ] }
   }
 ]
