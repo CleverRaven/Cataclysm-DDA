@@ -2340,9 +2340,11 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         ret = zone_type_id( "FISHING_SPOT" );
     }
-    if( src_loc != tripoint_zero && mgr.get_zone_at( g->m.getabs( src_loc ) ) &&
-        act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ) {
-        ret = mgr.get_zone_at( g->m.getabs( src_loc ) )->get_type();
+    if( src_loc != tripoint_zero && act_id == activity_id( "ACT_MULTIPLE_FETCH" ) ) {
+        const zone_data *zd = mgr.get_zone_at( g->m.getabs( src_loc ) );
+        if( zd ) {
+            ret = zd->get_type();
+        }
     }
     return ret;
 }
@@ -2460,7 +2462,8 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
     const do_activity_reason &reason = act_info.reason;
     const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
 
-    const bool needs_to_be_in_zone = act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
+    const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
+                                     act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
