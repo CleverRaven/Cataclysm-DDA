@@ -770,9 +770,10 @@
           "lothric_leggings",
           "socks",
           "lothric_shield",
-          "holy_symbol"
+          "holy_symbol",
+          
         ],
-        "entries": [ { "item": "lothric_sword", "container-item": "scabbard" } ]
+        "entries": [ { "item": "lothric_sword", "container-item": "scabbard" }, { "item": "arrow_wood", "container-item": "quiver" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -784,7 +785,7 @@
     "name": "Mod Tester",
     "description": "You are a here to test some new stuff out!",
     "points": 20,
-    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "speech" } ],
+    "skills": [ { "level": 10, "name": "melee" }, { "level": 10, "name": "speech" } ],
     "items": { "both": { "items": [ "holy_symbol" ] }, "male": [ "boxer_shorts" ], "female": [ "sports_bra", "boxer_shorts" ] }
   }
 ]
