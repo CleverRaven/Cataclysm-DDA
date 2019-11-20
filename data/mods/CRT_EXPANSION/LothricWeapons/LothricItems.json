@@ -143,5 +143,33 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "knights_bow",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": "reflex bow",
+    "description": "A bow with limbs that curve away from the archer near the riser for power.  Smaller than some bows, but decently powerful and quick.",
+    "price": 42000,
+    "material": [ "wood", "bone" ],
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "skill": "archery",
+    "ammo": "arrow",
+    "min_strength": 8,
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "bashing": 12,
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "electric", "amount": 10 },
+    "range": 12,
+    "dispersion": 120,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 40,
+    "valid_mod_locations": [ [ "dampening", 1 ] ]
   }
 ]
