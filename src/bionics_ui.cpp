@@ -649,7 +649,7 @@ void player::power_bionics()
                     g->refresh_all();
                     redraw = true;
                 } else {
-                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM." ) );
+                    popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
 
             }
