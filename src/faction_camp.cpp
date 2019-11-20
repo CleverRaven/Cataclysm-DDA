@@ -1669,7 +1669,7 @@ void basecamp::start_menial_labor()
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
-    std::shared_ptr<npc> comp = talk_function::companion_choose();
+    shared_ptr_fast<npc> comp = talk_function::companion_choose();
     if( comp == nullptr ) {
         return;
     }
@@ -2546,7 +2546,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     //Success of finding an NPC to recruit, based on survival/tracking
     int skill = comp->get_skill_level( skill_survival );
     if( rng( 1, 20 ) + skill > 17 ) {
-        recruit = std::make_shared<npc>();
+        recruit = make_shared_fast<npc>();
         recruit->normalize();
         recruit->randomize();
         popup( _( "%s encountered %s…" ), comp->name, recruit->name );

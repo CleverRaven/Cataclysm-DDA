@@ -33,6 +33,7 @@
 #include "int_id.h"
 #include "item.h"
 #include "point.h"
+#include "memory_fast.h"
 
 namespace auto_pickup
 {
@@ -513,9 +514,9 @@ struct npc_short_term_cache {
     float total_danger;
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
-    std::weak_ptr<Creature> target;
+    weak_ptr_fast<Creature> target;
     // target is hostile, ally is for aiding actions
-    std::weak_ptr<Creature> ally;
+    weak_ptr_fast<Creature> ally;
     healing_options can_heal;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
@@ -528,7 +529,7 @@ struct npc_short_term_cache {
     double my_weapon_value;
 
     // Use weak_ptr to avoid circular references between Creatures
-    std::vector<std::weak_ptr<Creature>> friends;
+    std::vector<weak_ptr_fast<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
 
     std::map<direction, float> threat_map;
@@ -772,7 +773,7 @@ class npc : public player
         }
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
-        std::weak_ptr<monster> chosen_mount;
+        weak_ptr_fast<monster> chosen_mount;
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );

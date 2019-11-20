@@ -410,8 +410,8 @@ void monster::plan()
                 continue;
             }
 
-            for( const std::weak_ptr<monster> &weak : fac.second ) {
-                const std::shared_ptr<monster> shared = weak.lock();
+            for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
                 if( !shared ) {
                     continue;
                 }
@@ -442,8 +442,8 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const std::weak_ptr<monster> &weak : myfaction_iter->second ) {
-            const std::shared_ptr<monster> shared = weak.lock();
+        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
+            const shared_ptr_fast<monster> shared = weak.lock();
             if( !shared ) {
                 continue;
             }

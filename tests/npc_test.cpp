@@ -28,6 +28,7 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "point.h"
+#include "memory_fast.h"
 
 class Creature;
 
@@ -351,7 +352,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                std::shared_ptr<npc> guy = std::make_shared<npc>();
+                shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 do {
                     guy->normalize();
                     guy->randomize();
