@@ -5011,69 +5011,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
     }
 
 }
-static void make_active( item_location loc )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item_location loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
-void avatar::use_item( int pos )
-{
-    bool use_loc = false;
-    item_location loc;
-
-    if( pos == INT_MIN ) {
-        loc = game_menus::inv::use( *this );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
-        } else {
-            int obtain_cost = loc.obtain_cost( *this );
-            pos = loc.obtain( *this );
-            // This method only handles items in te inventory, so refund the obtain cost.
-            moves += obtain_cost;
-        }
-    }
-
-    g->refresh_all();
-
-    if( use_loc ) {
-        update_lum( loc, false );
-        use( loc );
-        update_lum( loc, true );
-
-        make_active( loc );
-    } else {
-        use( pos );
-    }
-
-    invalidate_crafting_inventory();
-}
 
 void game::exam_vehicle( vehicle &veh, const point &c )
 {
