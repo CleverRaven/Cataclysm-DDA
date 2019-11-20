@@ -2326,6 +2326,18 @@ void bionic::toggle_safe_fuel_mod()
     }
 }
 
+void bionic::toggle_auto_start_mod()
+{
+    if( info().fuel_opts.empty() ) {
+        return;
+    }
+    if( !has_flag( "AUTO_START_ON" ) ) {
+        set_flag( "AUTO_START_ON" );
+    } else {
+        remove_flag( "AUTO_START_ON" );
+    }
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();

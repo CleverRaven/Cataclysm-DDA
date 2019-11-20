@@ -164,6 +164,7 @@ struct bionic {
 
         bool is_this_fuel_powered( const itype_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
+        void toggle_auto_start_mod();
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
