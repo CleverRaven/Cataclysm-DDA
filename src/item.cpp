@@ -1657,9 +1657,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
         if( curammo->ammo->prop_damage ) {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.push_back( iteminfo( "GUN", "ammo_mult", "*",
-                                          iteminfo::no_newline | iteminfo::no_name,
-                                          *curammo->ammo->prop_damage ) );
+                info.push_back(
+                    iteminfo( "GUN", "ammo_mult", "*",
+                              iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                              *curammo->ammo->prop_damage ) );
             }
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
