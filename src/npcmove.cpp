@@ -475,7 +475,7 @@ void npc::assess_danger()
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
             // so either one would count as a friendly for this purpose.
             if( guy.lock() ) {
-                is_too_close |= too_close( critter.pos(), guy.lock().get()->pos(), def_radius );
+                is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
             }
             return is_too_close;
         };
@@ -516,7 +516,7 @@ void npc::assess_danger()
         }
         bool is_too_close = dist <= def_radius;
         for( const weak_ptr_fast<Creature> guy : ai_cache.friends ) {
-            is_too_close |= too_close( foe.pos(), guy.lock().get()->pos(), def_radius );
+            is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
             }
