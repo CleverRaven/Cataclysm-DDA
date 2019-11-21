@@ -894,6 +894,16 @@ bool Character::burn_fuel( int b, bool start )
                         if( fuel == itype_id( "sunlight" ) ) {
                             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * fuel_efficiency );
+                        } else if( fuel == itype_id( "wind" ) ) {
+                            int vehwindspeed = 0;
+                            const optional_vpart_position vp = g->m.veh_at( pos() );
+                            if( vp ) {
+                                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+                            }
+                            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
+                                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                                                     g->is_sheltered( pos() ) );
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * fuel_efficiency );
                         }
                     } else {
                         current_fuel_stock -= 1;
@@ -948,6 +958,16 @@ void Character::passive_power_gen( int b )
         if( fuel == itype_id( "sunlight" ) ) {
             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * passive_fuel_efficiency );
+        } else if( fuel == itype_id( "wind" ) ) {
+            int vehwindspeed = 0;
+            const optional_vpart_position vp = g->m.veh_at( pos() );
+            if( vp ) {
+                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+            }
+            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
+                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                                     g->is_sheltered( pos() ) );
+            mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * passive_fuel_efficiency );
         } else {
             mod_power_level( units::from_kilojoule( fuel_energy ) * passive_fuel_efficiency );
         }
