@@ -71,7 +71,19 @@
       [ "scratch", 7 ],
       { "type": "spell", "spell_id": "dragon_breath_black", "spell_level": 4, "cooldown": 20 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_2", "WARM", "SWIMS", "ATTACKMON", "ACIDPROOF", "PUSH_MON", "FLIES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_2",
+      "WARM",
+      "SWIMS",
+      "ATTACKMON",
+      "ACIDPROOF",
+      "PUSH_MON",
+      "FLIES"
+    ]
   },
   {
     "id": "mon_dragon_black_young",
@@ -150,13 +162,20 @@
     "path_settings": { "//min_dist": 8 },
     "harvest": "dragon_brown",
     "death_function": [ "NORMAL" ],
-    "special_attacks": [
-      { "type": "bite", "cooldown": 10 },
-      [ "scratch", 7 ],
-      [ "GROWPLANTS", 2 ],
-      [ "PARA_STING", 10 ]
-    ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_2", "WARM", "SWIMS", "ATTACKMON", "ACIDPROOF", "PUSH_MON", "FLIES" ]
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "scratch", 7 ], [ "GROWPLANTS", 2 ], [ "PARA_STING", 10 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_2",
+      "WARM",
+      "SWIMS",
+      "ATTACKMON",
+      "ACIDPROOF",
+      "PUSH_MON",
+      "FLIES"
+    ]
   },
   {
     "id": "mon_dragon_brown_young",
@@ -174,10 +193,7 @@
     "melee_cut": 16,
     "armor_bash": 8,
     "armor_cut": 20,
-    "special_attacks": [
-      { "type": "bite", "cooldown": 10 },
-      [ "scratch", 5 ]
-    ]
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "scratch", 5 ] ]
   },
   {
     "id": "mon_dragon_brown_adult",
@@ -197,9 +213,6 @@
     "//": "Large means powerful, but it does not mean fast.",
     "speed": 100,
     "emit_fields": [ "emit_dragon_adult_fright" ],
-    "special_attacks": [
-      { "type": "bite", "cooldown": 10 },
-      [ "scratch", 3 ]
-    ]
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "scratch", 3 ] ]
   }
 ]
