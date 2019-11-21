@@ -2086,7 +2086,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
             switch( cMenu ) {
                 case 'a':
-                    u.use_item( locThisItem );
+                    avatar_action::use_item( u, locThisItem );
                     break;
                 case 'E':
                     eat( pos );
