@@ -22,7 +22,7 @@
     "id": "brown_dragons",
     "type": "BOOK",
     "name": { "str": "Brown Dragons: Deep Forrest Dwellers", "str_pl": "copies of Brown Dragons: Deep Forrest Dwellers" },
-    "description": "This book details brown dragons: The most deceptive of dragons, fickle and malevolent, these dragons dwell in deep, rugged woodland caves.  The book also details how to prepare its hide and craft various armors that make use of some of its nature resistances.",
+    "description": "This book details brown dragons: The most deceptive of dragons, fickle and malevolent, these dragons dwell in deep, rugged, woodland caves.  The book also details how to prepare its hide and craft various armors that make use of some of its nature resistances.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
