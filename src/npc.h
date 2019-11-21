@@ -60,7 +60,7 @@ using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me,
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
 
 /*
@@ -175,7 +175,7 @@ enum npc_action : int;
 enum npc_need {
     need_none,
     need_ammo, need_weapon, need_gun,
-    need_food, need_drink,
+    need_food, need_drink, need_safety,
     num_needs
 };
 
@@ -736,6 +736,10 @@ struct npc_chatbin {
      * The martial art style this NPC offers to train.
      */
     matype_id style;
+    /**
+     * The spell this NPC offers to train
+     */
+    spell_id dialogue_spell;
     std::string first_topic = "TALK_NONE";
 
     npc_chatbin() = default;
@@ -908,6 +912,8 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                   bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
         healing_options has_healing_options();
@@ -1006,6 +1012,8 @@ class npc : public player
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
+        int calc_spell_training_cost( bool knows, int difficulty, int level );
+
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
 
@@ -1021,6 +1029,11 @@ class npc : public player
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *used, const std::string &method ) override;
+        bool invoke_item( item * ) override;
 
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
@@ -1092,6 +1105,8 @@ class npc : public player
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
         // Same as if the player pressed '.'
         void move_pause();
+
+        void set_movement_mode( character_movemode mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
@@ -1245,6 +1260,7 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.

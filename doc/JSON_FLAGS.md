@@ -1,6 +1,7 @@
 # JSON Flags
 
 * [Notes](#notes)
+* [Inheritance](#inheritance)
 * [TODO](#todo)
 * [Ammo](#ammo)
   + [Ammo type](#ammo-type)
@@ -72,6 +73,11 @@
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+
+
+## Inheritance
+
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
 
 
 ## TODO
@@ -465,7 +471,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
+- ```HIDDEN_POISON``` ... Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
@@ -518,6 +524,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
+- ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
@@ -569,6 +576,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -1256,6 +1264,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
 - ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
@@ -1272,6 +1281,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
@@ -1371,6 +1381,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
+- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.

@@ -2,6 +2,7 @@
   {
     "id": "raging_bull",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Taurus Raging Bull",
     "name_plural": "Taurus Raging Bull",

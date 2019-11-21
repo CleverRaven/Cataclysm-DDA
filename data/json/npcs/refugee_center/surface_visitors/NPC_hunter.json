@@ -19,7 +19,7 @@
       "no": "Huh, thought I smelled someone new.  Can I help you?"
     },
     "responses": [
-      { "text": "You... smelled me?", "topic": "TALK_EVAC_HUNTER_SMELL" },
+      { "text": "You… smelled me?", "topic": "TALK_EVAC_HUNTER_SMELL" },
       { "text": "What do you do around here?", "topic": "TALK_EVAC_HUNTER_DO" },
       { "text": "Got anything for sale?", "topic": "TALK_EVAC_HUNTER_SALE" },
       { "text": "Got any survival advice?", "topic": "TALK_EVAC_HUNTER_ADVICE" },
@@ -45,19 +45,19 @@
     "id": "TALK_EVAC_HUNTER_LIFE",
     "type": "talk_topic",
     "dynamic_line": "Not really, just trying to lead my life.",
-    "responses": [ { "text": "...", "topic": "TALK_EVAC_HUNTER" } ]
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
     "id": "TALK_EVAC_HUNTER_HUNT",
     "type": "talk_topic",
     "dynamic_line": "Yep.  Whatever game I spot, I bag and sell the meat and other parts here.  Got the occasional fish and basket full of wild fruit, but nothing comes close to a freshly-cooked moose steak for supper!",
-    "responses": [ { "text": "Great, now my mouth is watering...", "topic": "TALK_EVAC_HUNTER" } ]
+    "responses": [ { "text": "Great, now my mouth is watering…", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
     "id": "TALK_EVAC_HUNTER_SALE",
     "type": "talk_topic",
     "dynamic_line": "Sure, just bagged a fresh batch of meat.  You may want to grill it up before it gets too, uh... 'tender'.",
-    "responses": [ { "text": "...", "effect": "start_trade", "topic": "TALK_EVAC_HUNTER" } ]
+    "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
     "id": "TALK_EVAC_HUNTER_ADVICE",
@@ -71,12 +71,12 @@
       "A steady diet of cooked meat and clean water will keep you alive forever, but your taste buds and your colon may start to get angry at you.  Eat a piece of fruit every once in a while.",
       "Smoke crack to get more shit done."
     ],
-    "responses": [ { "text": "...", "topic": "TALK_EVAC_HUNTER" } ]
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
     "id": "TALK_EVAC_HUNTER_BYE",
     "type": "talk_topic",
     "dynamic_line": "Watch your back out there.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

@@ -317,6 +317,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        /* if this is a carried part, what is the name of the carried vehicle */
+        std::string carried_name() const;
         /*@}*/
 
     public:
@@ -771,8 +773,15 @@ class vehicle
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
-        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
+        std::set<point> collision_check_points;
+        void autopilot_patrol();
+        double get_angle_from_targ( const tripoint &targ );
+        void drive_to_local_target( tripoint target, bool follow_protocol );
+        tripoint get_autodrive_target() {
+            return autodrive_local_target;
+        }
         void do_autodrive();
+        void stop_autodriving();
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -784,7 +793,8 @@ class vehicle
 
         // Attempt to start an engine
         bool start_engine( int e );
-
+        // stop all engines
+        void stop_engines();
         // Attempt to start the vehicle's active engines
         void start_engines( bool take_control = false, bool autodrive = false );
 
@@ -1477,6 +1487,9 @@ class vehicle
         void play_chimes();
         void operate_planter();
         std::string tracking_toggle_string();
+        void autopilot_patrol_check();
+        void toggle_autopilot();
+        void enable_patrol();
         void toggle_tracking();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
@@ -1706,6 +1719,8 @@ class vehicle
         std::array<int, 2> pivot_rotation = { { 0, 0 } };
 
         bounding_box rail_wheel_bounding_box;
+        point front_left;
+        point front_right;
         // points used for rotation of mount precalc values
         std::array<point, 2> pivot_anchor;
         // frame direction
@@ -1738,6 +1753,7 @@ class vehicle
     public:
         bool is_autodriving = false;
         bool is_following = false;
+        bool is_patrolling = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
@@ -1751,6 +1767,7 @@ class vehicle
         // vehicle has alarm on
         bool is_alarm_on = false;
         bool camera_on = false;
+        bool autopilot_on = false;
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts

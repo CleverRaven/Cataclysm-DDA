@@ -7,7 +7,7 @@
 #include "type_id.h"
 
 class addiction;
-class player;
+class Character;
 
 enum add_type : int;
 
@@ -16,7 +16,7 @@ constexpr int MAX_ADDICTION_LEVEL = 20;
 
 // cancel_activity is called when the addiction effect wants to interrupt the player
 // with an optional pre-translated message.
-void addict_effect( player &u, addiction &add );
+void addict_effect( Character &u, addiction &add );
 
 std::string addiction_type_name( add_type cur );
 

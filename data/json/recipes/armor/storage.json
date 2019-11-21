@@ -30,6 +30,19 @@
     "components": [ [ [ "leather", 8 ], [ "rag", 8 ] ], [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
+    "result": "stone_pouch",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "throw", 1 ] ],
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "leather", 4 ] ], [ [ "filament", 600, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
+  },
+  {
     "result": "chestrig",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -161,6 +174,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ], [ [ "string_6", 4 ], [ "filament", 200, "LIST" ] ] ]
+  },
+  {
+    "result": "bholster",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "lycra_patch", 12 ] ] ]
   },
   {
     "result": "bindle",
@@ -327,7 +353,7 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_tainted_leather", 50 ], [ "raw_tainted_fur", 50 ] ] ],
+    "components": [ [ [ "raw_tainted_leather", 6 ], [ "raw_tainted_fur", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -53,6 +53,7 @@
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "wcwidth.h"
 #include "json.h"
 #include "optional.h"
 #include "point.h"
@@ -854,7 +855,7 @@ static void find_videodisplays()
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
-                       translate_marker( "Sets which video display will be used to show the game. Requires restart." ),
+                       translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
                        displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
@@ -932,7 +933,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, 
 
 static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( auto &i : framebuffer ) {
+    for( curseline &i : framebuffer ) {
         std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
@@ -1086,10 +1087,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
             }
 
-            for( size_t i = 0; i < text.display_width(); ++i ) {
+            int width = 0;
+            for( size_t i = 0; i < text.size(); ++i ) {
                 const int x0 = win->pos.x * fontwidth;
                 const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + i ) * map_font->fontwidth + coord.x;
+                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->fontwidth + coord.x;
                 const int y = y0 + coord.y;
 
                 // Clip to window bounds.
@@ -1099,11 +1101,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( text.substr_display( i, 1 ).str(), x, y, ft.color );
+                const uint32_t ch = text.at( i );
+                map_font->OutputChar( utf32_to_utf8( ch ), x, y, ft.color );
+                width += mk_wcwidth( ch );
             }
 
             prev_coord = coord;
-            x_offset = text.display_width();
+            x_offset = width;
         }
 
         invalidate_framebuffer( terminal_framebuffer, win->pos.x, win->pos.y,
@@ -1685,12 +1689,17 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
-        SetupRenderTarget();
-        game_ui::init_ui();
+        handle_redraw();
 
         return true;
     }
     return false;
+}
+
+void handle_redraw()
+{
+    SetupRenderTarget();
+    game_ui::init_ui();
 }
 
 void toggle_fullscreen_window()
@@ -2141,7 +2150,7 @@ void draw_quick_shortcuts()
         float text_scale = default_text_scale;
         if( text.empty() || text == " " ) {
             text = inp_mngr.get_keyname( key, event.type );
-            text_scale = std::min( text_scale, 0.75f * ( width / ( font->fontwidth * text.length() ) ) );
+            text_scale = std::min( text_scale, 0.75f * ( width / ( font->fontwidth * utf8_width( text ) ) ) );
         }
         hovered = is_quick_shortcut_touch && hovered_quick_shortcut == &event;
         show_hint = hovered &&
@@ -2211,10 +2220,10 @@ void draw_quick_shortcuts()
         SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
         int text_x, text_y;
         if( shortcut_right ) {
-            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->fontwidth * text.length() ) * text_scale *
-                       0.5f ) / text_scale;
+            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->fontwidth * utf8_width(
+                           text ) ) * text_scale * 0.5f ) / text_scale;
         } else {
-            text_x = ( ( i + 0.5f ) * width - ( font->fontwidth * text.length() ) * text_scale * 0.5f ) /
+            text_x = ( ( i + 0.5f ) * width - ( font->fontwidth * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
         }
         text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
@@ -2335,7 +2344,7 @@ bool is_string_input( input_context &ctx )
 
 int get_key_event_from_string( const std::string &str )
 {
-    if( str.length() ) {
+    if( !str.empty() ) {
         return str[0];
     }
     return -1;
@@ -2547,11 +2556,11 @@ static void CheckMessages()
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.movement_mode_is( PMM_RUN ) ) {
+                if( g->u.movement_mode_is( CMM_RUN ) ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
-                if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+                if( g->u.movement_mode_is( CMM_CROUCH ) ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 
@@ -3144,7 +3153,7 @@ static bool ends_with( const std::string &text, const std::string &suffix )
 static void font_folder_list( std::ostream &fout, const std::string &path,
                               std::set<std::string> &bitmap_fonts )
 {
-    for( const auto &f : get_files_from_path( "", path, true, false ) ) {
+    for( const std::string &f : get_files_from_path( "", path, true, false ) ) {
         TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
         if( !fnt ) {
             continue;
@@ -3210,14 +3219,19 @@ static void save_font_list()
 {
     try {
         std::set<std::string> bitmap_fonts;
-        write_to_file( FILENAMES["fontlist"], [&]( std::ostream & fout ) {
-            font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
+        write_to_file( PATH_INFO::fontlist(), [&]( std::ostream & fout ) {
+            font_folder_list( fout, PATH_INFO::fontdir(), bitmap_fonts );
 
 #if defined(_WIN32)
-            char buf[256];
-            GetSystemWindowsDirectory( buf, 256 );
-            strcat( buf, "\\fonts" );
-            font_folder_list( fout, buf, bitmap_fonts );
+            constexpr UINT max_dir_len = 256;
+            char buf[max_dir_len];
+            const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
+            if( dir_len == 0 ) {
+                throw std::runtime_error( "GetSystemWindowsDirectory failed" );
+            } else if( dir_len >= max_dir_len ) {
+                throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
+            }
+            font_folder_list( fout, buf + std::string( "\\fonts" ), bitmap_fonts );
 #elif defined(_APPLE_) && defined(_MACH_)
             /*
             // Well I don't know how osx actually works ....
@@ -3242,31 +3256,18 @@ static void save_font_list()
     } catch( const std::exception &err ) {
         // This is called during startup, the UI system may not be initialized (because that
         // needs the font file in order to load the font for it).
-        dbg( D_ERROR ) << "Faied to create fontlist file \"" << FILENAMES["fontlist"] << "\": " <<
+        dbg( D_ERROR ) << "Faied to create fontlist file \"" << PATH_INFO::fontlist() << "\": " <<
                        err.what();
     }
 }
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
 {
-    const std::string fontlist_path = FILENAMES["fontlist"];
+    const std::string fontlist_path = PATH_INFO::fontlist();
     std::ifstream fin( fontlist_path.c_str() );
     if( !fin.is_open() ) {
-        // Try opening the fontlist at the old location.
-        fin.open( FILENAMES["legacy_fontlist"].c_str() );
-        if( !fin.is_open() ) {
-            dbg( D_INFO ) << "Generating fontlist";
-            assure_dir_exist( FILENAMES["config_dir"] );
-            save_font_list();
-            fin.open( fontlist_path.c_str() );
-            if( !fin ) {
-                dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
-                return cata::nullopt;
-            }
-        } else {
-            // Write out fontlist to the new location.
-            save_font_list();
-        }
+        // Write out fontlist to the new location.
+        save_font_list();
     }
     if( fin.is_open() ) {
         std::string fname;
@@ -3503,7 +3504,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         // Try to load as bitmap font.
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                          FILENAMES["fontdir"] + typeface ) );
+                                          PATH_INFO::fontdir() + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -3802,13 +3803,13 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
+        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
+        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;

@@ -72,6 +72,7 @@ const skill_id skill_launcher( "launcher" );
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
@@ -463,7 +464,7 @@ static int throw_cost( const player &c, const item &to_throw )
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
                                     ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = static_cast<float>( c.stamina ) / c.get_stamina_max();
+    const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
@@ -504,7 +505,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     int throw_difficulty = 1000;
     // 1000 penalty for every liter after the first
     // TODO: Except javelin type items
-    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
+    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
@@ -565,8 +566,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     const skill_id &skill_used = skill_throw;
-    const int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-
+    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
@@ -600,7 +604,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
+                         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
@@ -1052,7 +1056,8 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
     mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, point( 1, line_number++ ), "*  %s", e->name() );
+        nc_color o = c_white;
+        print_colored_text( w, point( 1, line_number++ ), o, o, string_format( "*  %s", e->name() ) );
     }
 
     return line_number;
@@ -1184,7 +1189,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
 
     // TODO: last_target should be member of target_handler
@@ -1590,12 +1595,23 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
+                ammo = relevant->gun_current_mode().target->ammo_data();
+                range = relevant->gun_current_mode().target->gun_range( &pc );
+                if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+                    relevant->gun_cycle_mode();
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
             } else {
-                g->reload( pc.get_item_position( relevant ), true );
+                const int pos = pc.get_item_position( relevant );
+                const item it = g->u.i_at( pos );
+                if( it.typeId() == "null" ) {
+                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
+                } else {
+                    g->reload( pos, true );
+                }
                 ret.clear();
                 break;
             }

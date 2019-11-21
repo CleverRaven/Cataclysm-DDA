@@ -29,7 +29,7 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( FILENAMES["help"], [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -189,5 +189,5 @@ void help::display_help()
 
 std::string get_hint()
 {
-    return SNIPPET.get( SNIPPET.assign( "hint" ) );
+    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
 }

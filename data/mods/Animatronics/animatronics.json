@@ -615,7 +615,6 @@
     "type": "MONSTER",
     "id": "mon_animatronic_sheep",
     "name": { "str": "animatronic sheep", "str_pl": "animatronic sheep" },
-    "name_plural": "animatronic sheep",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "S",

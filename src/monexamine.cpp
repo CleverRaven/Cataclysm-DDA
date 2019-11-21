@@ -386,7 +386,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
-bool player::can_mount( const monster &critter ) const
+bool Character::can_mount( const monster &critter ) const
 {
     const auto &avoid = get_path_avoid();
     auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
@@ -398,7 +398,7 @@ bool player::can_mount( const monster &critter ) const
              !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() / 5 );
+                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
 }
 
 void monexamine::mount_pet( monster &z )
@@ -419,9 +419,7 @@ void monexamine::swap( monster &z )
             z.remove_effect( effect_tied );
         }
 
-        tripoint zp = z.pos();
-        z.move_to( g->u.pos(), true );
-        g->u.setpos( zp );
+        g->swap_critters( g->u, z );
 
         if( t ) {
             z.add_effect( effect_tied, 1_turns, num_bp, true );
@@ -455,7 +453,7 @@ void monexamine::rename_pet( monster &z )
                               .title( _( "Enter new pet name:" ) )
                               .width( 20 )
                               .query_string();
-    if( unique_name.length() > 0 ) {
+    if( !unique_name.empty() ) {
         z.unique_name = unique_name;
     }
 }
@@ -694,7 +692,7 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
+    const auto milked_item = source_mon.type->starting_ammo.find( "milk_raw" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
                   source_mon.get_name() );

@@ -734,15 +734,15 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000, 1200 ],
-      "sleep_min": [ 60, 30 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360, 180 ],
+      "fatigue_chance": [ -102 ]
     },
     "scaling_mods": {
       "pain_max_val": [ 30, 20 ],
       "str_mod": [ -1, -0.5 ],
       "dex_mod": [ -1, -0.5 ],
       "vomit_chance": [ -400 ],
-      "sleep_chance": [ 101 ]
+      "fatigue_chance": [ 101 ]
     }
   },
   {
@@ -760,10 +760,10 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
-      "sleep_min": [ 60 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360 ],
+      "fatigue_chance": [ -102 ]
     },
-    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "sleep_chance": [ 101 ] }
+    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
   },
   {
     "type": "effect_type",
@@ -851,6 +851,17 @@
     "desc": [ "Your hands just won't stop shaking." ],
     "miss_messages": [ [ "You tremble", 4 ] ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "motor_seizure",
+    "name": [ "Seizure" ],
+    "//": "Intended to be applied with downed to make it nearly impossible for player to stand.",
+    "rating": "bad",
+    "remove_message": "You regain control of your muscles!",
+    "desc": [ "Your muscles have seized up, and you can't control them!" ],
+    "miss_messages": [ [ "Your muscles won't cooperate!", 20 ] ],
+    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] }
   },
   {
     "type": "effect_type",
@@ -1260,8 +1271,8 @@
     "base_mods": {
       "vomit_chance": [ -43 ],
       "sleep_chance": [ -1003 ],
-      "sleep_min": [ 2500 ],
-      "sleep_max": [ 3500 ],
+      "sleep_min": [ 15000 ],
+      "sleep_max": [ 21000 ],
       "pkill_amount": [ 3 ],
       "pkill_max_val": [ 3 ],
       "pkill_min": [ 1 ],
@@ -1572,6 +1583,19 @@
   },
   {
     "type": "effect_type",
+    "id": "toxin_buildup",
+    "name": [ "", "Concerning symptoms", "Unnerving symptoms" ],
+    "desc": [
+      "",
+      "Your muscles keep twitching strangely.",
+      "Your nervous system is malfunctioning, almost like it's being torn apart from the inside."
+    ],
+    "base_mods": { "h_mod_min": [ -1 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 5 ], "h_mod_tick": [ 1800 ] },
+    "max_intensity": 3,
+    "scaling_mods": { "h_mod_min": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
@@ -1775,10 +1799,40 @@
   },
   {
     "type": "effect_type",
+    "id": "grown_of_fuse",
+    "name": [ "Grown of Fusion" ],
+    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "//": "stats modified by the zombie_fuse special attack.",
+    "//1": "scaling:",
+    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/160 HP: +1 size",
+    "max_intensity": 480,
+    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
+    "scaling_mods": {
+      "hit_mod": [ 0.0104 ],
+      "dodge_mod": [ 0.0104 ],
+      "speed_mod": [ 0.1042 ],
+      "bash_mod": [ 0.08333 ],
+      "size_mod": [ 0.00625 ]
+    },
+    "int_decay_step": 0
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "recently_coughed"
+  },
+  {
+    "type": "effect_type",
+    "id": "ignore_fall_damage",
+    "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

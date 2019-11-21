@@ -1,5 +1,139 @@
 [
   {
+    "result": "g_shovel",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "result": "sickle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "result": "knife_paring",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "knife_chef",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "knife_carving",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "knife_bread",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "knife_vegetable_cleaver",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "knife_meat_cleaver",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "knife_folding",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "5 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "steel_pan",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
     "result": "awl_bone",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -40,20 +174,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
-    "type": "recipe",
-    "result": "xacto",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "5 h",
-    "autolearn": true,
-    "using": [ [ "forging_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "fishing_rod_professional",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -90,7 +210,7 @@
     "skills_required": [ "mechanics", 3 ],
     "time": "300 m",
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
   },
@@ -311,9 +431,7 @@
     "difficulty": 2,
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   },
   {
     "result": "crowbar",
@@ -416,7 +534,7 @@
     "batch_time_factors": [ 50, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "splinter", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ], [ [ "pine_bough", 2 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ], [ [ "pine_bough", 2 ] ] ]
   },
   {
     "type": "recipe",

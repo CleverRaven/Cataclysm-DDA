@@ -380,6 +380,39 @@ class item : public visitable<item>
         */
         std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
+        /* type specific helper functions for info() that should probably be in itype() */
+        void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                       int batch, bool debug ) const;
+        void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                        int batch, bool debug ) const;
+        void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const;
+        void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool debug ) const;
+        void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                           bool debug ) const;
+        void container_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
+        void qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.
@@ -1022,7 +1055,7 @@ class item : public visitable<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( player *p, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1162,7 +1195,7 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &snippet_id );
+        void set_snippet( const std::string &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
@@ -1959,8 +1992,9 @@ class item : public visitable<item>
          * Handle failure during crafting.
          * Destroy components, lose progress, and set a new failure point.
          * @param crafter the crafting player.
+         * @return whether the craft being worked on should be entirely destroyed
          */
-        void handle_craft_failure( player &crafter );
+        bool handle_craft_failure( player &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -1968,6 +2002,20 @@ class item : public visitable<item>
          * @return what is needed to continue craft, may be empty requirement data
          */
         requirement_data get_continue_reqs() const;
+
+        /**
+         * @brief Inherit applicable flags from the given parent item.
+         *
+         * @param parent Item to inherit from
+         */
+        void inherit_flags( const item &parent );
+
+        /**
+         * @brief Inherit applicable flags from the given list of parent items.
+         *
+         * @param parents Items to inherit from
+         */
+        void inherit_flags( const std::list<item> &parents );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2068,7 +2116,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        int note = 0;              // Associated dynamic text snippet.
+        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.

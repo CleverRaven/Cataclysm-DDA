@@ -67,7 +67,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         } else {
             const bool poor_soul_is_u = ( poor_soul == &g->u );
             if( poor_soul_is_u ) {
-                add_msg( m_bad, _( "..." ) );
+                add_msg( m_bad, _( "…" ) );
                 add_msg( m_bad, _( "You explode into thousands of fragments." ) );
             }
             if( p ) {

@@ -753,6 +753,7 @@
     "charges": 4,
     "fun": -10,
     "flags": [ "HIDDEN_POISON" ],
+    "use_action": "POISON",
     "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
   },
   {
