@@ -893,7 +893,6 @@ bool Character::burn_fuel( int b, bool start )
                     } else if( tmp_fuel.has_flag( "PERPETUAL" ) ) {
                         if( fuel == itype_id( "sunlight" ) ) {
                             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
-                            add_msg( std::to_string( fuel_energy * modifier * fuel_efficiency ) );
                             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * fuel_efficiency );
                         }
                     } else {
@@ -937,6 +936,43 @@ bool Character::burn_fuel( int b, bool start )
         }
     }
     return true;
+}
+
+void Character::passive_power_gen( int b )
+{
+    bionic &bio = ( *my_bionics )[b];
+    const float &passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
+    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ||
+        passive_fuel_efficiency == 0.0 ) {
+    }
+    const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
+
+    for( const itype_id &fuel : fuel_available ) {
+        const item &tmp_fuel = item( fuel );
+        const int fuel_energy = tmp_fuel.fuel_energy();
+        if( !tmp_fuel.has_flag( "PERPETUAL" ) ) {
+            continue;
+        }
+
+        if( fuel == itype_id( "sunlight" ) ) {
+            const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
+            mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * passive_fuel_efficiency );
+        } else {
+            mod_power_level( units::from_kilojoule( fuel_energy ) * passive_fuel_efficiency );
+        }
+
+        if( bio.info().exothermic_power_gen ) {
+            const int heat_prod = fuel_energy * ( 1 - passive_fuel_efficiency );
+            const int heat_level = std::min( heat_prod / 10, 4 );
+            const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+            const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
+            g->m.emit_field( pos(), hotness, heat_spread );
+            for( const auto bp : bio.info().occupied_bodyparts ) {
+                add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
+            }
+        }
+        g->m.emit_field( pos(), bio.info().power_gen_emission );
+    }
 }
 
 /**
@@ -983,6 +1019,7 @@ void Character::process_bionic( int b )
     bionic &bio = ( *my_bionics )[b];
     // Only powered bionics should be processed
     if( !bio.powered ) {
+        passive_power_gen( b );
         return;
     }
 

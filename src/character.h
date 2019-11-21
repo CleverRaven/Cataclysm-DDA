@@ -787,6 +787,7 @@ class Character : public Creature, public visitable<Character>
         virtual bool deactivate_bionic( int b, bool eff_only = false );
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
+        void passive_power_gen( int b );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
