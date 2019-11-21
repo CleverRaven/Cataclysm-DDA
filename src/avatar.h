@@ -177,8 +177,6 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
-        void use_item( item_location &loc ); // Use item; also tries E,R,W  'a'
-        void use_item();
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
