@@ -45,7 +45,7 @@
   },
   {
     "type": "item_group",
-    "sub-type": "collection",
+    "subtype": "collection",
     "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
     "items": [
       { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 90 },

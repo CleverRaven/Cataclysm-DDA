@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "avatar_action.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -13,6 +14,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memorial_logger.h"
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -51,6 +53,29 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<mutagen_technique>( mutagen_technique data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mutagen_technique::consumed_mutagen: return "consumed_mutagen";
+        case mutagen_technique::injected_mutagen: return "injected_mutagen";
+        case mutagen_technique::consumed_purifier: return "consumed_purifier";
+        case mutagen_technique::injected_purifier: return "injected_purifier";
+        case mutagen_technique::injected_smart_purifier: return "injected_smart_purifier";
+        // *INDENT-ON*
+        case mutagen_technique::num_mutagen_techniques:
+            break;
+    }
+    debugmsg( "Invalid mutagen_technique" );
+    abort();
+}
+
+} // namespace io
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -293,10 +318,107 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-void player::activate_mutation( const trait_id &mut )
+bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().allowed_category.empty() ) {
+            restricted = true;
+        }
+        for( const std::string &Mu_cat : category ) {
+            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+                allowed = true;
+                break;
+            }
+        }
+
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+
+}
+
+bool Character::is_category_allowed( const std::string &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+            restricted = true;
+            if( Ch_cat == category ) {
+                allowed = true;
+            }
+        }
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+}
+
+bool Character::is_weak_to_water() const
+{
+    for( const auto &mut : my_mutations ) {
+        if( mut.first.obj().weakness_to_water > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::can_use_heal_item( const item &med ) const
+{
+    const itype_id heal_id = med.typeId();
+
+    bool can_use = false;
+    bool got_restriction = false;
+
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().can_only_heal_with.empty() ) {
+            got_restriction = true;
+        }
+        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+            can_use = true;
+            break;
+        }
+    }
+    if( !got_restriction ) {
+        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+    }
+
+    if( !can_use ) {
+        for( const trait_id &mut : get_mutations() ) {
+            if( mut.obj().can_heal_with.count( heal_id ) ) {
+                can_use = true;
+                break;
+            }
+        }
+    }
+
+    return can_use;
+}
+
+bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
+{
+    bool can_install = true;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const body_part bp : bps ) {
+            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+                can_install = false;
+                break;
+            }
+        }
+    }
+    return can_install;
+}
+
+void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    auto &tdata = my_mutations[mut];
+    trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // Preserve the fake weapon used to initiate ranged mutation firing
     static item mut_ranged( weapon );
@@ -344,30 +466,20 @@ void player::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        // Oops, no room to divide!
-        if( valid.empty() ) {
+        monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
+        if( !slime ) {
+            // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
             tdata.powered = false;
             return;
         }
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
-        int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mtype_id( "mon_player_blob" ), target ) ) {
-                slime->friendly = -1;
-            }
-        }
+        slime->friendly = -1;
         if( one_in( 3 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "wow! you look just like me! we should look out for each other!" ) );
+            add_msg_if_player( m_good,
+                               //~ Usual enthusiastic slimespring small voices! :D
+                               _( "wow!  you look just like me!  we should look out for each other!" ) );
         } else if( one_in( 2 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );
@@ -405,14 +517,10 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
         // Check for adjacent trees.
-        const tripoint p = pos();
         bool adjacent_tree = false;
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                const tripoint p2 = p + point( dx, dy );
-                if( g->m.has_flag( "TREE", p2 ) ) {
-                    adjacent_tree = true;
-                }
+        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->m.has_flag( "TREE", p2 ) ) {
+                adjacent_tree = true;
             }
         }
         if( !adjacent_tree ) {
@@ -440,7 +548,7 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        max_power_level += 100;
+        mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;
@@ -460,7 +568,7 @@ void player::activate_mutation( const trait_id &mut )
     }
 }
 
-void player::deactivate_mutation( const trait_id &mut )
+void Character::deactivate_mutation( const trait_id &mut )
 {
     my_mutations[mut].powered = false;
 
@@ -479,8 +587,11 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if( !is_category_allowed( mutation->category ) ) {
+        return false;
+    }
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
     }
@@ -502,7 +613,7 @@ bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_
     return true;
 }
 
-void player::mutate()
+void Character::mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -519,6 +630,10 @@ void player::mutate()
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
+
+    if( !is_category_allowed( cat ) ) {
+        cat.clear();
+    }
 
     // See if we should upgrade/extend an existing mutation...
     std::vector<trait_id> upgrades;
@@ -617,7 +732,7 @@ void player::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.valid ) {
+                if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
                     valid.push_back( traits_iter.id );
                 }
             }
@@ -655,7 +770,7 @@ void player::mutate()
     }
 }
 
-void player::mutate_category( const std::string &cat )
+void Character::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
@@ -704,7 +819,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
+bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -720,7 +835,7 @@ bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool player::mutate_towards( const trait_id &mut )
+bool Character::mutate_towards( const trait_id &mut )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -802,7 +917,7 @@ bool player::mutate_towards( const trait_id &mut )
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( threshold ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
     if( profession ) {
@@ -818,7 +933,7 @@ bool player::mutate_towards( const trait_id &mut )
 
     // No crossing The Threshold by simply not having it
     if( !has_threshreq && !threshreq.empty() ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
 
@@ -876,9 +991,8 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_loss_effect( replacing );
         mutation_effect( mut );
@@ -899,9 +1013,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          replace_mdata.name(), mdata.name() );
+        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_loss_effect( replacing2 );
         mutation_effect( mut );
@@ -925,9 +1037,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
-                          pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                          cancel_mdata.name(), mdata.name() );
+        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_loss_effect( i );
         mutation_effect( mut );
@@ -948,9 +1058,7 @@ bool player::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        add_memorial_log( pgettext( "memorial_male", "Gained the mutation '%s'." ),
-                          pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                          mdata.name() );
+        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
         mutation_effect( mut );
     }
 
@@ -959,7 +1067,7 @@ bool player::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut, bool silent )
+void Character::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1111,9 +1219,9 @@ void player::remove_mutation( const trait_id &mut, bool silent )
     drench_mut_calc();
 }
 
-bool player::has_child_flag( const trait_id &flag ) const
+bool Character::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : flag->replacements ) {
+    for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
@@ -1122,7 +1230,7 @@ bool player::has_child_flag( const trait_id &flag ) const
     return false;
 }
 
-void player::remove_child_flag( const trait_id &flag )
+void Character::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
@@ -1139,8 +1247,8 @@ void player::remove_child_flag( const trait_id &flag )
 static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
 {
     if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
         p.add_msg_if_player( m_warning,
+                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
                              _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
         return mutagen_rejection::rejected;
     }
@@ -1161,8 +1269,11 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
             p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             g->m.ter_set( p.pos(), t_fungus );
-            p.add_memorial_log( pgettext( "memorial_male", "Destroyed a harmful invader." ),
-                                pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male", "Destroyed a harmful invader." ),
+                    pgettext( "memorial_female", "Destroyed a harmful invader." ) );
+            }
             return mutagen_rejection::destroyed;
         } else {
             p.add_msg_if_player( m_bad,
@@ -1189,15 +1300,22 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             p.add_msg_if_player( m_warning,
                                  _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
-            p.add_memorial_log( pgettext( "memorial_male",
-                                          "Burned out a particularly nasty fungal infestation." ),
-                                pgettext( "memorial_female", "Burned out a particularly nasty fungal infestation." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male",
+                              "Burned out a particularly nasty fungal infestation." ),
+                    pgettext( "memorial_female",
+                              "Burned out a particularly nasty fungal infestation." ) );
+            }
         } else {
             p.add_msg_if_player( m_warning,
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                  it.tname() );
-            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
-                                pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            if( p.is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                    pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+            }
         }
 
         return mutagen_rejection::destroyed;
@@ -1207,13 +1325,13 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
 }
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const std::string &memorial_male, const std::string &memorial_female )
+                                       const mutagen_technique technique )
 {
+    g->events().send<event_type::administers_mutagen>( p.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( p, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
     }
-    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
     if( status == mutagen_rejection::destroyed ) {
         return mutagen_attempt( false, it.type->charges_to_use() );
     }
@@ -1221,10 +1339,10 @@ mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category )
 {
     // Threshold-check.  You only get to cross once!
-    if( p.crossed_threshold() ) {
+    if( guy.crossed_threshold() ) {
         return;
     }
 
@@ -1237,11 +1355,11 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
     std::string mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
-        total += p.mutation_category_level[ iter.first ];
+        total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
-    const std::string &primary = p.get_highest_category();
-    int breach_power = p.mutation_category_level[primary];
+    const std::string &primary = guy.get_highest_category();
+    int breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
     // That said, you're required to have hit third-stage dreams first.
@@ -1256,34 +1374,33 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         }
         int breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
-            p.add_msg_if_player( m_good,
-                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
-            p.set_mutation( mutation_thresh );
-            p.add_memorial_log( m_category.memorial_message_male(),
-                                m_category.memorial_message_female() );
+            guy.add_msg_if_player( m_good,
+                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+            guy.set_mutation( mutation_thresh );
+            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && p.has_trait( trait_CARNIVORE ) ) {
-                p.unset_mutation( trait_CARNIVORE );
-                p.add_msg_if_player( _( "Your appetite for blood fades." ) );
+            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
+                guy.unset_mutation( trait_CARNIVORE );
+                guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
-    } else if( p.has_trait( trait_NOPAIN ) ) {
+    } else if( guy.has_trait( trait_NOPAIN ) ) {
         //~NOPAIN is a post-Threshold trait, so you shouldn't
         //~legitimately have it and get here!
-        p.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+        guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
     } else if( breach_power > 100 ) {
-        p.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
-        p.mod_pain_noresist( 8 );
-        p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
+        guy.add_msg_if_player( m_bad, _( "You stagger with a piercing headache!" ) );
+        guy.mod_pain_noresist( 8 );
+        guy.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
     } else if( breach_power > 80 ) {
-        p.add_msg_if_player( m_bad,
-                             _( "Your head throbs with memories of your life, before all this..." ) );
-        p.mod_pain_noresist( 6 );
-        p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
+        guy.add_msg_if_player( m_bad,
+                               _( "Your head throbs with memories of your life, before all this…" ) );
+        guy.mod_pain_noresist( 6 );
+        guy.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
     } else if( breach_power > 60 ) {
-        p.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
-        p.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
+        guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
+        guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
 }

@@ -12,15 +12,17 @@
 
 #include "enums.h"
 #include "item_location.h"
-#include "string_id.h"
 #include "point.h"
+#include "string_id.h"
 
+class avatar;
 class player;
 class Character;
 class JsonIn;
 class JsonOut;
 class activity_type;
 class monster;
+class translation;
 
 using activity_id = string_id<activity_type>;
 
@@ -66,6 +68,7 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
+        bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
@@ -78,10 +81,16 @@ class player_activity
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
-        std::string get_verb() const;
+        const translation &get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
+
+        /**
+         * Helper that returns an activity specific progress message.
+         */
+        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+
         /**
          * If this returns true, the action can be continued without
          * starting from scratch again (see player::backlog). This is only
@@ -90,7 +99,7 @@ class player_activity
          */
         bool is_suspendable() const;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );

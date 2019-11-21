@@ -646,6 +646,11 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string colorize( const translation &text, const nc_color &color )
+{
+    return colorize( text.translated(), color );
+}
+
 std::string get_note_string_from_color( const nc_color &color )
 {
     for( auto i : color_by_string_map ) {
@@ -782,7 +787,7 @@ void color_manager::show_gui()
 
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );
 
-        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5 );
+        draw_scrollbar( w_colors_border, iCurrentLine, iContentHeight, iMaxColors, point( 0, 5 ) );
         wrefresh( w_colors_border );
 
         auto iter = name_color_map.begin();
@@ -861,7 +866,7 @@ void color_manager::show_gui()
             finalize(); // Need to recalculate caches
 
         } else if( action == "LOAD_TEMPLATE" ) {
-            auto vFiles = get_files_from_path( ".json", FILENAMES["color_templates"], false, true );
+            auto vFiles = get_files_from_path( ".json", PATH_INFO::color_templates(), false, true );
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
@@ -973,7 +978,7 @@ void color_manager::show_gui()
 
 bool color_manager::save_custom()
 {
-    const auto savefile = FILENAMES["custom_colors"];
+    const auto savefile = PATH_INFO::custom_colors();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -983,7 +988,7 @@ bool color_manager::save_custom()
 
 void color_manager::load_custom( const std::string &sPath )
 {
-    const auto file = sPath.empty() ? FILENAMES["custom_colors"] : sPath;
+    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
     read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
         deserialize( jsonin );

@@ -55,7 +55,7 @@
     "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
-    "responses": [ { "text": "...", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_STORY2",

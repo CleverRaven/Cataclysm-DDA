@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "barb",
+    "name": "barb",
+    "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -55,6 +61,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
@@ -64,6 +76,12 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotpaper",
+    "name": "20ga percussion",
+    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -428,7 +446,7 @@
   {
     "type": "ammunition_type",
     "id": "RPG-7",
-    "name": "93mm RPG-7",
+    "name": "RPG-7 rocket",
     "default": "RPG-7_ammo"
   },
   {
@@ -478,6 +496,12 @@
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "papershot",
+    "name": "20ga percussion",
+    "default": "nail"
   },
   {
     "type": "ammunition_type",
@@ -544,6 +568,12 @@
     "id": "milk",
     "name": "milk",
     "default": "milk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",

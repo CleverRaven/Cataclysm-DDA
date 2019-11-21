@@ -57,6 +57,15 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
+enum precip_class : int {
+    PRECIP_NONE,
+    PRECIP_LIGHT,
+    PRECIP_HEAVY
+};
+
+double precip_mm_per_hour( precip_class p );
+void do_rain( weather_type w );
+
 /**
  * Weather animation class.
  */
@@ -89,10 +98,14 @@ struct weather_printable {
  */
 namespace weather_effect
 {
+
+enum sun_intensity : int {
+    normal = 1,
+    high
+};
+
 void none();        //!< Fallback weather.
-void glare( bool );
-void wet();
-void very_wet();
+void glare( sun_intensity );
 void thunder();
 void lightning();
 void light_acid();
@@ -100,7 +113,6 @@ void acid();
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();
 void sunny();
-void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
@@ -116,6 +128,9 @@ struct weather_datum {
     int light_modifier;           //!< Modification to ambient light.
     int sound_attn;               //!< Sound attenuation of a given weather type.
     bool dangerous;               //!< If true, our activity gets interrupted.
+    precip_class precip;          //!< Amount of associated precipitation.
+    bool rains;                   //!< Whether said precipitation falls as rain.
+    bool acidic;                  //!< Whether said precipitation is acidic.
     weather_effect_fn effect;     //!< Function pointer for weather effects.
 };
 
@@ -138,6 +153,9 @@ float sight_penalty( weather_type type );
 int light_modifier( weather_type type );
 int sound_attn( weather_type type );
 bool dangerous( weather_type type );
+precip_class precip( weather_type type );
+bool rains( weather_type type );
+bool acidic( weather_type type );
 weather_effect_fn effect( weather_type type );
 } // namespace weather
 
@@ -195,6 +213,16 @@ int get_hourly_rotpoints_at_temp( int temp );
 bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
+
+weather_type current_weather( const tripoint &location,
+                              const time_point &t = calendar::turn );
+
+/**
+ * Amount of sunlight incident at the ground, taking weather and time of day
+ * into account.
+ */
+int incident_sunlight( weather_type wtype,
+                       const time_point &t = calendar::turn );
 
 class weather_manager
 {

@@ -47,5 +47,15 @@
     "min": -5600,
     "rate": "15 m",
     "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
+  },
+  {
+    "id": "mutant_toxin",
+    "type": "vitamin",
+    "name": "Toxins",
+    "excess": "toxin_buildup",
+    "min": 0,
+    "max": 1800,
+    "rate": "15 m",
+    "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
   }
 ]

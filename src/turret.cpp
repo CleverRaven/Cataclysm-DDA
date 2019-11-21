@@ -292,11 +292,15 @@ void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
+    std::vector<vehicle_part *> turret_controls;
 
     for( auto &p : parts ) {
-        if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
+        if( p.base.is_gun() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
+        }
+        if( part_flag( index_of_part( &p ), "TURRET_CONTROLS" ) ) {
+            turret_controls.push_back( &p );
         }
     }
 
@@ -312,8 +316,11 @@ void vehicle::turrets_set_targeting()
         menu.w_y = 2;
 
         for( auto &p : turrets ) {
-            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name(),
-                           p->enabled ? _( "auto" ) : _( "manual" ) );
+            menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
+                           "%s [%s]", p->name(), p->enabled ?
+                           _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
+                           _( "manual -> auto" ) :
+                           _( "manual (turret control unit required for auto mode)" ) );
         }
 
         menu.query();
@@ -322,7 +329,12 @@ void vehicle::turrets_set_targeting()
         }
 
         sel = menu.ret;
-        turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
+        if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
+            turrets[sel]->enabled = !turrets[sel]->enabled;
+            turret_controls[sel]->enabled = turrets[sel]->enabled;
+        } else {
+            turrets[sel]->enabled = false;
+        }
 
         // clear the turret's current targets to prevent unwanted auto-firing
         tripoint pos = locations[ sel ];
@@ -381,7 +393,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
     } ), last );
 
     if( opts.empty() ) {
-        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
+        add_msg( m_warning,
+                 _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
         return false;
     }
 
@@ -497,7 +510,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
-    cpu.name = "fake targeting npc";
+    cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
 
@@ -511,6 +524,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
+    cpu.set_fac( get_owner() );
     return cpu;
 }
 

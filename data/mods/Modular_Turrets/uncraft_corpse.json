@@ -2,7 +2,7 @@
   {
     "result": "broken_manhack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -13,7 +13,7 @@
   {
     "result": "broken_flashbang_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -24,7 +24,7 @@
   {
     "result": "broken_gasbomb_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -35,7 +35,7 @@
   {
     "result": "broken_EMP_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -46,7 +46,7 @@
   {
     "result": "broken_grenade_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -57,7 +57,7 @@
   {
     "result": "broken_c4_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -68,7 +68,7 @@
   {
     "result": "broken_mininuke_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 5,
     "time": 2000,
@@ -92,14 +92,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -111,14 +115,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -130,14 +138,18 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 4 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -147,7 +159,7 @@
     "difficulty": 2,
     "time": 3000,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "override": "true",
+    "override": true,
     "components": [ [ [ "broken_turret_disarmed", 1 ] ], [ [ "robopart_9mm", 1 ] ] ]
   },
   {
@@ -274,7 +286,7 @@
     "difficulty": 2,
     "time": 3000,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "override": "true",
+    "override": true,
     "components": [ [ [ "broken_advturret_disarmed", 1 ] ], [ [ "robopart_laser", 1 ] ] ]
   },
   {

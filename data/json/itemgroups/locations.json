@@ -322,8 +322,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "gum", 15 ]
     ]
@@ -337,8 +336,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "fries", 7 ],
       [ "cheese_fries", 5 ],
@@ -571,7 +569,7 @@
       },
       {
         "distribution": [
-          { "item": "protein_powder", "prob": 15 },
+          { "item": "protein_powder", "prob": 7 },
           { "item": "dry_veggy", "prob": 10 },
           { "item": "dry_fruit", "prob": 10 },
           { "item": "granola", "prob": 5 }
@@ -685,13 +683,11 @@
     "id": "ic_merch_vending",
     "//": "for cs_internet_cafe",
     "items": [
+      { "group": "salty_snacks", "prob": 300 },
       [ "water_clean", 100 ],
       [ "water_mineral", 100 ],
       [ "coffee", 100 ],
-      [ "atomic_coffee", 100 ],
-      [ "chips", 100 ],
-      [ "chips2", 100 ],
-      [ "chips3", 100 ]
+      [ "atomic_coffee", 100 ]
     ]
   },
   {
@@ -819,7 +815,7 @@
       [ "nyquil", 5 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 30 ],
+      [ "protein_powder", 15 ],
       [ "smoxygen_tank", 20 ],
       [ "elec_hairtrimmer", 15 ],
       [ "survnote", 5 ],
@@ -937,7 +933,7 @@
     ]
   },
   {
-    "id": "corpse_male",
+    "id": "corpse_male_mortuary",
     "type": "item_group",
     "//": "For mortuary",
     "subtype": "collection",
@@ -950,7 +946,7 @@
     ]
   },
   {
-    "id": "corpse_female",
+    "id": "corpse_female_mortuary",
     "type": "item_group",
     "//": "For mortuary",
     "subtype": "collection",
@@ -1072,6 +1068,8 @@
     "//": "for ws_regional_dump",
     "items": [
       { "group": "ammo_pocket_batteries", "prob": 30 },
+      { "group": "candy_chocolate", "prob": 570 },
+      { "group": "snacks", "prob": 820 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -1081,43 +1079,7 @@
       [ "cell_phone", 10 ],
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ],
-      [ "chips", 65 ],
-      [ "fried_seeds", 25 ],
-      [ "pretzels", 55 ],
-      [ "chocpretzels", 40 ],
-      [ "chocolate", 50 ],
-      [ "jerky", 55 ],
-      [ "cracklins", 25 ],
-      [ "pemmican", 5 ],
-      [ "granola", 10 ],
-      [ "porkstick", 55 ],
-      [ "candy", 80 ],
-      [ "candy2", 80 ],
-      [ "candy3", 80 ],
-      [ "maple_candy", 10 ],
-      [ "powder_candy", 60 ],
-      [ "neccowafers", 80 ],
-      [ "maltballs", 80 ],
-      [ "mintpatties", 80 ],
-      [ "cookies", 80 ],
-      [ "tea_raw", 10 ],
-      [ "coffee_raw", 15 ],
-      [ "choco_coffee_beans", 10 ],
-      [ "nachos", 50 ],
-      [ "chips2", 65 ],
-      [ "chips3", 65 ],
-      [ "salt", 10 ],
-      [ "pepper", 10 ],
-      [ "syrup", 10 ],
-      [ "coffee_syrup", 10 ],
-      [ "popcorn", 25 ],
-      [ "popcorn2", 35 ],
-      [ "popcorn3", 35 ],
-      [ "fruit_leather", 25 ],
-      [ "kernels", 25 ],
-      [ "pine_nuts", 5 ],
-      [ "candycigarette", 20 ]
+      [ "manual_mechanics", 10 ]
     ]
   },
   {
@@ -1218,6 +1180,39 @@
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
       [ "scrap_copper", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_mill",
+    "//": "for the steel mill in the well, steel mill",
+    "items": [
+      { "item": "scrap", "prob": 50, "charges-min": 1, "charges-max": 3 },
+      { "item": "steel_chunk", "prob": 50, "charges-min": 1, "charges-max": 2 },
+      { "item": "steel_lump", "prob": 50, "charges-min": 1, "charges-max": 2 },
+      [ "chain", 35 ],
+      [ "rebar", 35 ],
+      [ "pipe", 40 ],
+      [ "wire", 40 ],
+      [ "sheet_metal", 25 ],
+      [ "sheet_metal_small", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_foundry",
+    "//": "for the foundry in the steel mill",
+    "items": [
+      { "item": "steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
+      [ "chain", 35 ],
+      [ "rebar", 35 ],
+      [ "pipe", 40 ],
+      [ "wire", 40 ],
+      { "item": "sheet_metal", "prob": 5 },
+      { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -1336,7 +1331,8 @@
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
       [ "circuit", 35 ],
-      [ "small_lcd_screen", 20 ],
+      [ "small_lcd_screen", 10 ],
+      [ "large_lcd_screen", 10 ],
       [ "RAM", 35 ],
       [ "processor", 10 ],
       [ "amplifier", 7 ],
@@ -1428,6 +1424,27 @@
       [ "fishing_hook_basic", 100 ],
       [ "fishing_hook_bone", 100 ]
     ]
+  },
+  {
+    "id": "hotel_coffee_bar",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coffeemaker", "prob": 60, "charges": [ 0, 200 ] },
+      { "group": "coffee_display", "prob": 60, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "hotel_luggage",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "bags_trip", "prob": 25 }, { "group": "dresser", "prob": 25, "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "book_hotel_tower_bible",
+    "subtype": "collection",
+    "items": [ { "item": "holybook_bible3", "prob": 100 } ]
   },
   {
     "id": "laundromat_bleach",

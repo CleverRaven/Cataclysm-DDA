@@ -17,8 +17,7 @@ const species_id MOLLUSK( "MOLLUSK" );
 mtype::mtype()
 {
     id = mtype_id::NULL_ID();
-    name = "human";
-    name_plural = "humans";
+    name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -34,13 +33,11 @@ mtype::mtype()
     upgrade_group = mongroup_id::NULL_ID();
 
     reproduces = false;
-    baby_timer = -1;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
     baby_egg = "null";
 
     biosignatures = false;
-    biosig_timer = -1;
     biosig_item = "null";
 
     burn_into = mtype_id::NULL_ID();
@@ -58,7 +55,7 @@ mtype::mtype()
 
 std::string mtype::nname( unsigned int quantity ) const
 {
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
@@ -218,7 +215,7 @@ int mtype::get_meat_chunks_count() const
 
 std::string mtype::get_description() const
 {
-    return _( description );
+    return description.translated();
 }
 
 std::string mtype::get_footsteps() const

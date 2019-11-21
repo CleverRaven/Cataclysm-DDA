@@ -4,9 +4,10 @@
     "type": "AMMO",
     "name": ".32 ACP",
     "description": "The .32 ACP was a popular handgun cartridge in the 20th century.  Not so powerful as the .38 or the 9x19mm though.",
-    "weight": 5,
-    "volume": 1,
-    "price": 1800,
+    "weight": "5 g",
+    "volume": "250 ml",
+    "price": 160,
+    "price_postapoc": 1800,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -19,6 +20,15 @@
     "dispersion": 70,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_32_acp",
+    "copy-from": "32_acp",
+    "type": "AMMO",
+    "name": ".32 ACP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_32_acp",

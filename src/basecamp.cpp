@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "clzones.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -17,6 +18,7 @@
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -33,6 +35,32 @@
 #include "type_id.h"
 #include "flat_set.h"
 #include "line.h"
+
+const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
+
+const std::map<point, base_camps::direction_data> base_camps::all_directions = {
+    // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
+    { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
+    { point_north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
+    { point_north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
+    { point_east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
+    { point_south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
+    { point_south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
+    { point_south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
+    { point_west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
+    { point_north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
+};
+
+point base_camps::direction_from_id( const std::string &id )
+{
+    for( const auto &dir : all_directions ) {
+        if( dir.second.id == id ) {
+            return dir.first;
+        }
+    }
+    return base_dir;
+}
 
 std::string base_camps::faction_encode_short( const std::string &type )
 {
@@ -79,9 +107,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     return max_upgrade_cache[type];
 }
 
-basecamp::basecamp()
-{
-}
+basecamp::basecamp() = default;
 
 basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
@@ -89,9 +115,9 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    const std::vector<std::string> &directions_,
-                    const std::map<std::string, expansion_data> &expansions_ ):
-    directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
+                    const std::vector<point> &directions_,
+                    const std::map<point, expansion_data> &expansions_ )
+    : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
 
@@ -99,6 +125,11 @@ std::string basecamp::board_name() const
 {
     //~ Name of a basecamp
     return string_format( _( "%s Board" ), name );
+}
+
+void basecamp::set_by_radio( bool access_by_radio )
+{
+    by_radio = access_by_radio;
 }
 
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
@@ -121,17 +152,16 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
         return;
     }
 
-    const std::string dir = talk_function::om_simple_dir( omt_pos, new_pos );
+    const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
     resources_updated = false;
-    reset_camp_resources( by_radio );
+    reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
-                              const std::string &dir )
+                              const point &dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -143,11 +173,11 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
     update_resources( bldg );
 }
 
-void basecamp::define_camp( npc &p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
 {
     query_new_name();
-    omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+    omt_pos = p;
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
@@ -159,12 +189,13 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.type = base_camps::faction_decode( camp_type );
         e.cur_level = -1;
         e.pos = omt_pos;
-        expansions[ base_camps::base_dir ] = e;
-        omt_ref = oter_id( "faction_base_camp_0" );
+        expansions[base_camps::base_dir] = e;
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_new_0" +
+                                oter_get_rotation_string( omt_ref ) ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
-                         expansions[ base_camps::base_dir ] );
+                         expansions[base_camps::base_dir] );
     } else {
-        expansions[ base_camps::base_dir ] = parse_expansion( om_cur, omt_pos );
+        expansions[base_camps::base_dir] = parse_expansion( om_cur, omt_pos );
     }
 }
 
@@ -197,7 +228,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
+std::string basecamp::next_upgrade( const point &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -230,16 +261,17 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const std::string &dir, int level ) const
+bool basecamp::has_provides( const std::string &req, const cata::optional<point> dir,
+                             int level ) const
 {
-    if( dir == "all" ) {
+    if( !dir ) {
         for( const auto &e : expansions ) {
             if( has_provides( req, e.second, level ) ) {
                 return true;
             }
         }
     } else {
-        const auto &e = expansions.find( dir );
+        const auto &e = expansions.find( *dir );
         if( e != expansions.end() ) {
             return has_provides( req, e->second, level );
         }
@@ -252,7 +284,14 @@ bool basecamp::can_expand()
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
+bool basecamp::has_water()
+{
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
+           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
+           has_provides( "faction_base_blacksmith_11" );
+}
+
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -314,20 +353,23 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &d
 }
 
 // recipes and craft support functions
-std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 {
-    std::map<std::string, std::string> recipes = recipe_group::get_recipes_by_bldg( dir );
-    if( !recipes.empty() ) {
-        return recipes;
-    }
+    std::map<recipe_id, translation> recipes;
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return recipes;
     }
     for( const auto &provides : e->second.provides ) {
         const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
-        recipes.insert( test_s.begin(), test_s.end() );
+        recipes.insert( test_s.cbegin(), test_s.cend() );
     }
+    return recipes;
+}
+
+std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
+{
+    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
     return recipes;
 }
 
@@ -381,7 +423,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
+void basecamp::update_in_progress( const std::string &bldg, const point &dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -401,7 +443,7 @@ void basecamp::update_in_progress( const std::string &bldg, const std::string &d
     }
 }
 
-void basecamp::reset_camp_resources( bool by_radio )
+void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
     if( !resources_updated ) {
@@ -420,7 +462,7 @@ void basecamp::reset_camp_resources( bool by_radio )
             }
         }
     }
-    form_crafting_inventory( by_radio );
+    form_crafting_inventory();
 }
 
 // available companion list manipulation
@@ -440,24 +482,32 @@ void basecamp::validate_assignees()
 {
     for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
         auto ptr = *it2;
-        if( ptr->mission != NPC_MISSION_GUARD_ALLY || ptr->global_omt_location() != omt_pos ||
+        if( ptr->mission != NPC_MISSION_ASSIGNED_CAMP || ptr->global_omt_location() != omt_pos ||
             ptr->has_companion_mission() ) {
             it2 = assigned_npcs.erase( it2 );
         } else {
             ++it2;
         }
     }
-    for( auto elem : g->get_follower_list() ) {
+    for( character_id elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
         }
-        if( npc_to_add->global_omt_location() == omt_pos &&
-            npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
-            !npc_to_add->has_companion_mission() ) {
-            assigned_npcs.push_back( npc_to_add );
+        if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
+            continue;
+        } else {
+            if( npc_to_add->global_omt_location() == omt_pos &&
+                npc_to_add->mission == NPC_MISSION_ASSIGNED_CAMP &&
+                !npc_to_add->has_companion_mission() ) {
+                assigned_npcs.push_back( npc_to_add );
+            }
         }
     }
+    // remove duplicates - for legacy handling.
+    std::sort( assigned_npcs.begin(), assigned_npcs.end() );
+    auto last = std::unique( assigned_npcs.begin(), assigned_npcs.end() );
+    assigned_npcs.erase( last, assigned_npcs.end() );
 }
 
 std::vector<npc_ptr> basecamp::get_npcs_assigned()
@@ -484,7 +534,7 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( string_format( _( "Name this camp" ) ) )
+    popup.title( _( "Name this camp" ) )
     .width( 40 )
     .text( "" )
     .max_length( 25 )
@@ -528,8 +578,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     return ret;
 }
 
-void basecamp::consume_components( map &target_map, const recipe &making, int batch_size,
-                                   bool by_radio )
+void basecamp::consume_components( map &target_map, const recipe &making, int batch_size )
 {
     const tripoint &origin = target_map.getlocal( get_dumping_spot() );
     const auto &req = making.requirements();
@@ -552,23 +601,31 @@ void basecamp::consume_components( map &target_map, const recipe &making, int ba
     }
 }
 
-void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
+void basecamp::consume_components( const recipe &making, int batch_size )
 {
     if( by_radio ) {
         tinymap target_map;
         target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
-        consume_components( target_map, making, batch_size, by_radio );
+        consume_components( target_map, making, batch_size );
         target_map.save();
     } else {
-        consume_components( g->m, making, batch_size, by_radio );
+        consume_components( g->m, making, batch_size );
     }
 }
 
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    _inv.form_from_map( target_map, origin, range, false, false );
+    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint &origin = target_map.getlocal( dump_spot );
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
+    }
+    if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+        _inv.form_from_zone( target_map, src_set, nullptr, false );
+    }
     /*
      * something of a hack: add the resources we know the camp has
      * the hacky part is that we're adding resources based on the camp's flags, which were
@@ -616,7 +673,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 }
 
-void basecamp::form_crafting_inventory( const bool by_radio )
+void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;
@@ -628,7 +685,7 @@ void basecamp::form_crafting_inventory( const bool by_radio )
 }
 
 // display names
-std::string basecamp::expansion_tab( const std::string &dir ) const
+std::string basecamp::expansion_tab( const point &dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
@@ -637,7 +694,8 @@ std::string basecamp::expansion_tab( const std::string &dir ) const
 
     const auto &e = expansions.find( dir );
     if( e != expansions.end() ) {
-        const auto e_type = expansion_types.find( base_camps::faction_encode_abs( e->second, 0 ) );
+        recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
+        const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
             return e_type->second + _( "Expansion" );
         }

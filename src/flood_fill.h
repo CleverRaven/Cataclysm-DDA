@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "enums.h"
+#include "point.h"
 
 namespace ff
 {

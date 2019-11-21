@@ -63,6 +63,7 @@ void harvest_ter_nectar( player &p, const tripoint &examp );
 void harvest_ter( player &p, const tripoint &examp );
 void harvested_plant( player &p, const tripoint &examp );
 void locked_object( player &p, const tripoint &examp );
+void locked_object_pickable( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );
@@ -131,10 +132,13 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
-void harvest_plant( player &p, const tripoint &examp );
+void harvest_plant( player &p, const tripoint &examp, bool from_activity = false );
 void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
 ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer );
+
+// Skill training common functions
+void practice_survival_while_foraging( player *p );
 
 } //namespace iexamine
 

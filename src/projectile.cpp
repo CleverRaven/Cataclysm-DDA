@@ -91,6 +91,11 @@ void projectile::unset_custom_explosion()
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
+    if( effects.count( "EXPLOSIVE_RAUFOSS" ) > 0 ) {
+        // TODO: Make this actually fill a ~4m radius circle with fire and 20 shrapnel bits.  Or better, a 30 deg, 15m long arc.
+        explosion_handler::explosion( p, 2.4, 0.6, true, 28, 1.4 );
+    }
+
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
         // TODO: double-check if this is sensible.
         explosion_handler::explosion( p, 360, 0.4 );
@@ -119,6 +124,14 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1 );
+        }
+    }
+
+    if( effects.count( "PYROPHORIC" ) > 0 ) {
+        explosion_handler::explosion( p, 360, 0.8, true );
+        // Extreme heat near the center of the explosion
+        for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 2 );
         }
     }
 

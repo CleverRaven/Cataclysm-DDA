@@ -24,6 +24,60 @@
   },
   {
     "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "name": "Animal Empathy",
+    "points": 1,
+    "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
+    "starting_trait": true,
+    "category": [ "BEAST", "ELFA", "VAMP", "WENDIGO" ],
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "cancels": [ "ANIMALDISCORD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "name": "Animal Kinship",
+    "points": 2,
+    "description": "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
+    "category": [ "ELFA", "VAMP", "WENDIGO" ],
+    "prereqs": [ "ANIMALEMPATH" ],
+    "cancels": [ "ANIMALDISCORD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "name": "Strong Scent",
+    "points": -1,
+    "description": "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
+    "starting_trait": true,
+    "changes_to": [ "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "category": [ "FELINE", "LUPINE", "MOUSE", "WENDIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHEROMONE_MAMMAL",
+    "name": "Mammal Pheromones",
+    "points": 2,
+    "description": "Your body produces low-level pheromones which put mammals at ease.  They will be less likely to attack or flee from you.",
+    "prereqs": [ "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "category": [ "BEAST", "CATTLE", "WENDIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "REGEN",
+    "name": "Regeneration",
+    "points": 6,
+    "description": "Your flesh regenerates from wounds incredibly quickly.",
+    "types": [ "HEALING" ],
+    "prereqs": [ "FASTHEALER2" ],
+    "category": [ "SLIME", "TROGLOBITE", "WENDIGO" ],
+    "healing_awake": 2.0,
+    "healing_resting": 1.5
+  },
+  {
+    "type": "mutation",
     "id": "SLASHERS",
     "name": "Slashers",
     "points": 5,
@@ -34,7 +88,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_WENDIGO" ],
     "category": [ "WENDIGO" ],
-    "social_modifiers": { "intimidate": 15 },
+    "social_modifiers": { "intimidate": 30 },
     "attacks": [
       {
         "attack_text_u": "You tear into %s with your blades",

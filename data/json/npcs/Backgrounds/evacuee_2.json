@@ -25,7 +25,7 @@
     "id": "BGSS_EVACUEE_2_NOTYET",
     "type": "talk_topic",
     "dynamic_line": "What do you think happened?  You see them around anywhere?",
-    "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" },
+    "speaker_effect": [ { "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "14000" } } ],
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character_id.h"
 #include "creature.h"
 #include "enums.h"
 #include "bodypart.h"
@@ -47,7 +48,7 @@ class mon_special_attack
         int cooldown = 0;
         bool enabled = true;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
@@ -66,6 +67,7 @@ enum monster_attitude {
 enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
+    VISION_IMPAIRED,
     NUM_MEFF
 };
 
@@ -112,12 +114,14 @@ class monster : public Creature
         int get_hp_max() const override;
         int hp_percentage() const override;
 
+        float get_mountable_weight_ratio() const;
+
         // Access
         std::string get_name() const override;
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
-        std::string disp_name( bool possessive = false ) const override;
+        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
@@ -148,14 +152,14 @@ class monster : public Creature
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
-        void shift( const point &sp ); // Shifts the monster to the appropriate submap
+        void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
@@ -196,6 +200,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+        // check if a monster at a position will drown and kill it if necessary
+        // returns true if the monster dies
+        // chance is the one_in( chance ) that the monster will drown
+        bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -257,7 +265,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint &target );
 
         void stumble();
-        void knock_back_to( const tripoint &p ) override;
+        void knock_back_to( const tripoint &to ) override;
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing
@@ -268,6 +276,8 @@ class monster : public Creature
         bool is_underwater() const override;
         bool is_on_ground() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
@@ -276,14 +286,14 @@ class monster : public Creature
 
         void absorb_hit( body_part bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
-        void melee_attack( Creature &p );
-        void melee_attack( Creature &p, float accuracy );
+        void melee_attack( Creature &target );
+        void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int amount,
+        void apply_damage( Creature *source, body_part bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -293,7 +303,7 @@ class monster : public Creature
          * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
          * Returns actually healed hp.
          */
-        int heal( int hp_delta, bool overheal = false );
+        int heal( int delta_hp, bool overheal = false );
         /**
          * Directly set the current @ref hp of the monster (not capped at the maximal hp).
          * You might want to use @ref heal / @ref apply_damage or @ref deal_damage instead.
@@ -370,7 +380,7 @@ class monster : public Creature
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
 
-        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
+        void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death();
 
         // Other
@@ -388,6 +398,7 @@ class monster : public Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+
         /**
          * Makes monster react to heard sound
          *
@@ -395,7 +406,7 @@ class monster : public Creature
          * @param source_volume Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
-        void hear_sound( const tripoint &from, int source_volume, int distance );
+        void hear_sound( const tripoint &source, int vol, int distance );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
@@ -410,12 +421,13 @@ class monster : public Creature
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
-        int dragged_foe_id = -1; // id of player being dragged by the monster
+        Character *mounted_player = nullptr; // player that is mounting this creature
+        character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
+        character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
@@ -476,15 +488,15 @@ class monster : public Creature
         void init_from_item( const item &itm );
 
         time_point last_updated = calendar::turn_zero;
-        int last_baby;
-        int last_biosig;
-
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
         void on_unload();
         /**
          * Retroactively update monster.
+         * Call this after a preexisting monster has been placed on map.
+         * Don't call for monsters that have been freshly created, it may cause
+         * the monster to upgrade itself into another monster type.
          */
         void on_load();
 
@@ -511,9 +523,9 @@ class monster : public Creature
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        int baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures;
-        int biosig_timer;
+        cata::optional<time_point> biosig_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
@@ -524,11 +536,11 @@ class monster : public Creature
         void nursebot_operate( player *dragged_foe );
 
     protected:
-        void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void store( JsonOut &json ) const;
+        void load( JsonObject &data );
 
         /** Processes monster-specific effects of an effect. */
-        void process_one_effect( effect &e, bool is_new ) override;
+        void process_one_effect( effect &it, bool is_new ) override;
 };
 
 #endif

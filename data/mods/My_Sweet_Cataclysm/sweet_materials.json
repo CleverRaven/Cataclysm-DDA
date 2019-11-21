@@ -1,0 +1,22 @@
+[
+  {
+    "type": "material",
+    "ident": "sugar",
+    "name": "Sugar",
+    "density": 1.54,
+    "specific_heat_liquid": 2.03,
+    "specific_heat_solid": 2.03,
+    "latent_heat": 57,
+    "edible": true,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "acid_resist": 1,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
+  }
+]

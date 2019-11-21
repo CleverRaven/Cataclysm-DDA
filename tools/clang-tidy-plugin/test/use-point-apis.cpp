@@ -143,3 +143,69 @@ int g12()
     // CHECK-MESSAGES: warning: Call to 'f12' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f12( point( 0, 1 ) );
 }
+
+int f13( int X, int Y );
+int f13( const point &p );
+
+int g13()
+{
+    return f13( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f13' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f13( point( 0, 1 ) );
+}
+
+int f14( int x1, int y1 );
+int f14( const point &p );
+
+int g14()
+{
+    return f14( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f14' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f14( point( 0, 1 ) );
+}
+
+int f15( int foo_x, int foo_y );
+int f15( const point &p );
+
+int g15()
+{
+    return f15( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'f15' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f15( point( 0, 1 ) );
+}
+
+int f16( int x = 0, int y = 0 );
+int f16( const point &p );
+
+int g16()
+{
+    return f16();
+}
+
+struct A17 {
+    A17( int x, int y );
+    A17( const point &p );
+};
+
+A17 g17()
+{
+    return A17( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'A17' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return A17( point( 0, 1 ) );
+}
+
+point g18()
+{
+    return point( 0, 1 );
+}
+
+// Check const-qualification is ignored on extra params
+int f19( const int x, const int y, const int i );
+int f19( const point &p, int i );
+
+int g19()
+{
+    return f19( 0, 1, 2 );
+    // CHECK-MESSAGES: warning: Call to 'f19' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f19( point( 0, 1 ), 2 );
+}

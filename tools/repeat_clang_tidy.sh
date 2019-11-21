@@ -5,11 +5,12 @@
 # It runs clang-tidy on all files (or, if you provide suitable arguments, all
 # files matching a particular regex).
 # It notes any file which had an error, and runs again on all those files.
-# It repeats until there are no more errors.
+# It repeats until there are no more errors or until it has performed 10
+# passes.
 # This is useful to catch refactoring changes from checks which open the
 # possibility for more refactoring changes.
 # There are a couple of limitations:
-# - If an error has no FIX-IT, then the script will just run forever repeating
+# - If an error has no FIX-IT, then the script will just keep repeating
 #   that error.  You can go fix it by hand while the script is still running.
 # - If you run clang-tidy in parallel (pass the number of jobs as an argument
 #   to this script) and multiple clang-tidy runs try to fix the same header at
@@ -31,7 +32,7 @@ fi
 
 if [ $# -ge 2 ]
 then
-    file_regex="$1"
+    file_regex="$2"
 else
     file_regex='.'
 fi
@@ -49,6 +50,7 @@ fi
 
 temp_file=$(mktemp)
 trap "rm -f $temp_file" EXIT
+num_iterations=0
 
 while [ -n "$list_of_files" ]
 do
@@ -60,4 +62,8 @@ do
         "$script_dir/repeat_clang_tidy_helper.sh" \
         -quiet -fix ${plugin_opt:+"$plugin_opt"}
     list_of_files="$(cat $temp_file)"
+    if (( ++num_iterations >= 10 ))
+    then
+        break
+    fi
 done

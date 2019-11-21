@@ -35,8 +35,8 @@
 const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, faction *fac,
-                                  std::list<item_location *> &from_map, bool npc_gives )
+                                  player &receiver, std::list<item_location *> &from_map,
+                                  bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
@@ -49,7 +49,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         item gift = *ip.loc.get_item();
-        gift.set_owner( fac );
+        gift.set_owner( receiver );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
@@ -139,17 +139,23 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         np_p = dynamic_cast<npc *>( &seller );
     }
     npc &np = *np_p;
-    faction *fac = np.my_fac;
+    faction *fac = np.get_faction();
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result]( item_location && loc, int count = 1 ) {
+    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
+    loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
-
         item &it = *it_ptr;
+
+        // Don't sell items we don't own.
+        if( !it.is_owned_by( seller ) ) {
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
@@ -168,7 +174,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), 1 ) ) {
+    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
         buy_helper( cursor, check_item );
     }
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
@@ -278,11 +284,11 @@ void trading_window::update_win( npc &np, const std::string &deal )
                                       format_money( std::abs( your_balance ) ) );
         }
 
-        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2, 3 ),
+        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - utf8_width( cost_str ) ) / 2, 3 ),
                    trade_color, cost_str );
 
         if( !deal.empty() ) {
-            mvwprintz( w_head, point( ( TERMX - deal.length() ) / 2, 3 ),
+            mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                        trade_color_light, deal );
         }
         draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
@@ -343,7 +349,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 std::string price_str = format_money( ip.price );
                 nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
                                        c_light_gray );
-                mvwprintz( w_whose, point( win_w - price_str.length(), i - offset + 1 ),
+                mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                            price_color, price_str );
             }
             if( offset > 0 ) {
@@ -391,8 +397,12 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ),
-                              it.display_name(), total_count );
+    const bool contained = it.is_container() && !it.contents.empty();
+
+    const std::string title = contained ?
+                              string_format( _( "Trade how many containers with %s [MAX: %d]: " ),
+                                      it.get_contained().type_name( how_many ), total_count ) :
+                              string_format( _( "Trade how many %s [MAX: %d]: " ), it.type_name( how_many ), total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -409,7 +419,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
     // Shopkeeps are happy to have large inventories.
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = 5'000'000_ml;
+        volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
 
@@ -470,7 +480,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 } else if( calc_npc_owes_you( np ) < your_balance ) {
                     // NPC is happy with the trade, but isn't willing to remember the whole debt.
                     const bool trade_ok = query_yn(
-                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                              _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                               format_money( np.max_willing_to_owe() )
                                           );
 
@@ -479,7 +489,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         ch = ' ';
                     }
                 } else {
-                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
+                    if( ! query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
                         update = true;
                         ch = ' ';
                     }
@@ -532,10 +542,12 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         change_amount *= -1;
                     }
                     int delta_price = ip.price * change_amount;
-                    if( ! np.will_exchange_items_freely() ) {
+                    if( !np.will_exchange_items_freely() ) {
                         your_balance -= delta_price;
-                        volume_left -= ip.vol * change_amount;
-                        weight_left -= ip.weight * change_amount;
+                    }
+                    if( ip.loc.where() == item_location::type::character ) {
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
                     }
                 }
                 ch = 0;
@@ -580,6 +592,10 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     np.shop_restock();
+    //np.drop_items( np.weight_carried() - np.weight_capacity(),
+    //               np.volume_carried() - np.volume_capacity() );
+    np.drop_invalid_inventory();
+
     trading_window trade_win;
     trade_win.setup_win( np );
     trade_win.setup_trade( cost, np );
@@ -590,10 +606,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u,
-                                     g->faction_manager_ptr->get( faction_id( "your_followers" ) ),
-                                     from_map, true );
+        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
+        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             loc_ptr->remove_item();

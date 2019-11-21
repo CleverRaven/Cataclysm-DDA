@@ -12,6 +12,12 @@
     "items": [ [ "flare_gmod", 25 ] ]
   },
   {
+    "type": "item_group",
+    "id": "guns_energy",
+    "//": "Assorted factory crafted energy weapons.",
+    "items": [ { "item": "crt_laser_pistol", "prob": 5 }, { "item": "crt_laser_carbine", "prob": 10 } ]
+  },
+  {
     "id": "clothing_soldier_set",
     "type": "item_group",
     "subtype": "collection",
@@ -38,7 +44,8 @@
       [ "crt_gasmask", 3 ],
       [ "crt_em_vest", 3 ],
       [ "flare_gmod", 10 ],
-      [ "crt_backpack", 8 ]
+      [ "crt_backpack", 8 ],
+      [ "crt_laser_pistol", 1 ]
     ]
   }
 ]

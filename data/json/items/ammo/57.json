@@ -4,9 +4,10 @@
     "type": "AMMO",
     "name": "5.7x28mm SS190",
     "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil and its armor penetration is a defining feature.",
-    "weight": 6,
-    "volume": 1,
-    "price": 5000,
+    "weight": "6 g",
+    "volume": "250 ml",
+    "price": 350,
+    "price_postapoc": 5000,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
@@ -22,11 +23,22 @@
     "effects": [ "COOKOFF" ]
   },
   {
+    "id": "bp_57mm",
+    "copy-from": "57mm",
+    "type": "AMMO",
+    "name": "5.7x28mm blackpowder",
+    "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
+    "proportional": { "price": 0.3, "damage": 0.56, "recoil": 0.56, "pierce": 0.1, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_57mm",
     "copy-from": "57mm",
     "type": "AMMO",
     "name": "reloaded 5.7x28mm",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "description": "5.7x28mm ammunition with 31gr AP FMJ bullets.  The 5.7x28mm cartridge was designed by FN Herstal to replace the 9x19mm round in NATO use.  Although the project to replace 9x19mm Parabellum was effectively canceled the 5.7x28mm round has seen action in many conflicts and has proven to be reliable.  It has very low recoil but no usual armor penetration due to using simple lead bullets rather than proper factory-made penetrator projectiles.",
+    "proportional": { "price": 0.7, "damage": 0.9, "pierce": 0.2, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }

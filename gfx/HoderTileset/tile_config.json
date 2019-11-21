@@ -1899,13 +1899,7 @@
             "rotates":false
         },
         {
-            "id":"tr_shotgun_2",
-			"fg":1403,
-			"bg":191,
-            "rotates":false
-        },
-        {
-            "id":"tr_shotgun_1",
+            "id": [ "tr_shotgun_2", "tr_shotgun_2_1", "tr_shotgun_1" ],
 			"fg":1403,
 			"bg":191,
             "rotates":false

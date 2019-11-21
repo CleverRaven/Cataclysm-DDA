@@ -29,19 +29,20 @@
 #include "item.h"
 #include "pldata.h"
 #include "units.h"
+#include "translations.h"
 #include "type_id.h"
 #include "point.h"
 #include "weather.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
-std::vector<std::string> tut_text;
+static std::vector<translation> tut_text;
 
 bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    calendar::turn = HOURS( 12 ); // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }
@@ -69,13 +70,13 @@ bool tutorial_game::init()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint p( i, j, 0 );
-            starting_om.ter( p + tripoint_below ) = rock;
+            starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
         }
     }
-    starting_om.ter( lp ) = oter_id( "tutorial" );
-    starting_om.ter( lp + tripoint_below ) = oter_id( "tutorial" );
+    starting_om.ter_set( lp, oter_id( "tutorial" ) );
+    starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( trait_id( "QUICK" ) );
@@ -117,7 +118,7 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[LESSON_BUTCHER] ) {
-        for( const item &it : g->m.i_at( g->u.posx(), g->u.posy() ) ) {
+        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
             if( it.is_corpse() ) {
                 add_message( LESSON_BUTCHER );
                 break;
@@ -125,32 +126,29 @@ void tutorial_game::per_turn()
         }
     }
 
-    bool showed_message = false;
-    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1 && !showed_message; x++ ) {
-        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1 && !showed_message; y++ ) {
-            if( g->m.ter( x, y ) == t_door_o ) {
-                add_message( LESSON_OPEN );
-                showed_message = true;
-            } else if( g->m.ter( x, y ) == t_door_c ) {
-                add_message( LESSON_CLOSE );
-                showed_message = true;
-            } else if( g->m.ter( x, y ) == t_window ) {
-                add_message( LESSON_SMASH );
-                showed_message = true;
-            } else if( g->m.furn( x, y ) == f_rack && !g->m.i_at( x, y ).empty() ) {
-                add_message( LESSON_EXAMINE );
-                showed_message = true;
-            } else if( g->m.ter( x, y ) == t_stairs_down ) {
-                add_message( LESSON_STAIRS );
-                showed_message = true;
-            } else if( g->m.ter( x, y ) == t_water_sh ) {
-                add_message( LESSON_PICKUP_WATER );
-                showed_message = true;
-            }
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( g->m.ter( p ) == t_door_o ) {
+            add_message( LESSON_OPEN );
+            break;
+        } else if( g->m.ter( p ) == t_door_c ) {
+            add_message( LESSON_CLOSE );
+            break;
+        } else if( g->m.ter( p ) == t_window ) {
+            add_message( LESSON_SMASH );
+            break;
+        } else if( g->m.furn( p ) == f_rack && !g->m.i_at( p ).empty() ) {
+            add_message( LESSON_EXAMINE );
+            break;
+        } else if( g->m.ter( p ) == t_stairs_down ) {
+            add_message( LESSON_STAIRS );
+            break;
+        } else if( g->m.ter( p ) == t_water_sh ) {
+            add_message( LESSON_PICKUP_WATER );
+            break;
         }
     }
 
-    if( !g->m.i_at( g->u.posx(), g->u.posy() ).empty() ) {
+    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
         add_message( LESSON_PICKUP );
     }
 }
@@ -160,8 +158,8 @@ void tutorial_game::pre_action( action_id &act )
     switch( act ) {
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
-            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
-                      "Weird things might happen when you load this save. You have been warned." ) );
+            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds.  "
+                      "Weird things might happen when you load this save.  You have been warned." ) );
             break;
         default:
             // Other actions are fine.
@@ -174,9 +172,9 @@ void tutorial_game::post_action( action_id act )
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
             if( g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE] ) {
-                g->summon_mon( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
-                g->summon_mon( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
-                g->summon_mon( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
+                g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
                 add_message( LESSON_GUN_FIRE );
             }
             break;
@@ -266,7 +264,7 @@ void tutorial_game::add_message( tut_lesson lesson )
         return;
     }
     tutorials_seen[lesson] = true;
-    popup( tut_text[lesson], PF_ON_TOP );
+    popup( tut_text[lesson].translated(), PF_ON_TOP );
     g->refresh_all();
 }
 
@@ -276,7 +274,9 @@ void load_tutorial_messages( JsonObject &jo )
     tut_text.clear();
     JsonArray messages = jo.get_array( "messages" );
     while( messages.has_more() ) {
-        tut_text.push_back( _( messages.next_string() ) );
+        translation next;
+        messages.read_next( next );
+        tut_text.emplace_back( next );
     }
 }
 

@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
@@ -59,6 +60,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "weather.h"
 #include "enums.h"
@@ -118,9 +120,9 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 static const bionic_id bio_syringe( "bio_syringe" );
 
-iuse_actor *iuse_transform::clone() const
+std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
-    return new iuse_transform( *this );
+    return std::make_unique<iuse_transform>( *this );
 }
 
 void iuse_transform::load( JsonObject &obj )
@@ -160,22 +162,22 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "need_fire", need_fire );
     need_fire = std::max( need_fire, 0 );
-    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
-                       ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
+    if( !obj.read( "need_charges_msg", need_charges_msg ) ) {
+        need_charges_msg = to_translation( "The %s is empty!" );
+    }
 
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
-    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
-                    _( "You need a source of fire!" );
+    if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
+        need_fire_msg = to_translation( "You need a source of fire!" );
+    }
 
     obj.read( "need_worn", need_worn );
+    obj.read( "need_wielding", need_wielding );
 
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
-    if( !menu_text.empty() ) {
-        menu_text = _( menu_text );
-    }
 }
 
 int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -189,6 +191,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( possess && need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
     if( need_charges && it.units_remaining( p ) < need_charges ) {
@@ -210,7 +216,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( possess && !msg_transform.empty() ) {
-        p.add_msg_if_player( m_neutral, _( msg_transform ), it.tname() );
+        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
     if( possess ) {
@@ -252,12 +258,12 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
-ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1 );
+    inv.form_from_map( p.pos(), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -271,15 +277,14 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
-                                        "You need tools with %s.", unmet_reqs.size() ),
-                                        unmet_reqs_string ) );
+    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+                                        unmet_reqs.size() ), unmet_reqs_string );
 }
 
 std::string iuse_transform::get_name() const
 {
     if( !menu_text.empty() ) {
-        return menu_text;
+        return menu_text.translated();
     }
     return iuse_actor::get_name();
 }
@@ -305,7 +310,10 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    const item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    if( it.has_flag( "FIT" ) ) {
+        dummy.item_tags.insert( "FIT" );
+    }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
     if( countdown > 0 ) {
@@ -318,9 +326,9 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-iuse_actor *countdown_actor::clone() const
+std::unique_ptr<iuse_actor> countdown_actor::clone() const
 {
-    return new countdown_actor( *this );
+    return std::make_unique<countdown_actor>( *this );
 }
 
 void countdown_actor::load( JsonObject &obj )
@@ -349,7 +357,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
     return 0;
 }
 
-ret_val<bool> countdown_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
     if( it.active ) {
@@ -377,9 +385,9 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 
-iuse_actor *explosion_iuse::clone() const
+std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 {
-    return new explosion_iuse( *this );
+    return std::make_unique<explosion_iuse>( *this );
 }
 
 // For an explosion (which releases some kind of gas), this function
@@ -502,9 +510,9 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-iuse_actor *unfold_vehicle_iuse::clone() const
+std::unique_ptr<iuse_actor> unfold_vehicle_iuse::clone() const
 {
-    return new unfold_vehicle_iuse( *this );
+    return std::make_unique<unfold_vehicle_iuse>( *this );
 }
 
 void unfold_vehicle_iuse::load( JsonObject &obj )
@@ -515,13 +523,16 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 }
 
-int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/*pos*/ ) const
+int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
@@ -531,13 +542,12 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         }
     }
 
-    vehicle *veh = g->m.add_vehicle( vehicle_id, p.posx(), p.posy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos().xy(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-    veh->set_owner( yours );
+    veh->set_owner( p );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -587,9 +597,9 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
     return 1;
 }
 
-iuse_actor *consume_drug_iuse::clone() const
+std::unique_ptr<iuse_actor> consume_drug_iuse::clone() const
 {
-    return new consume_drug_iuse( *this );
+    return std::make_unique<consume_drug_iuse>( *this );
 }
 
 static effect_data load_effect_data( JsonObject &e )
@@ -727,9 +737,9 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     return it.type->charges_to_use();
 }
 
-iuse_actor *delayed_transform_iuse::clone() const
+std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
 {
-    return new delayed_transform_iuse( *this );
+    return std::make_unique<delayed_transform_iuse>( *this );
 }
 
 void delayed_transform_iuse::load( JsonObject &obj )
@@ -754,9 +764,9 @@ int delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &po
     return iuse_transform::use( p, it, t, pos );
 }
 
-iuse_actor *place_monster_iuse::clone() const
+std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
 {
-    return new place_monster_iuse( *this );
+    return std::make_unique<place_monster_iuse>( *this );
 }
 
 void place_monster_iuse::load( JsonObject &obj )
@@ -771,37 +781,31 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
+int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    monster newmon( mtypeid );
-    tripoint target;
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    monster &newmon = *newmon_ptr;
+    newmon.init_from_item( it );
     if( place_randomly ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        if( valid.empty() ) { // No valid points!
+        // place_critter_around returns the same pointer as its parameter (or null)
+        if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             return 0;
         }
-        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
-            target = *pnt_;
-        } else {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        if( !pnt_ ) {
             return 0;
         }
-        if( !g->is_empty( target ) ) {
+        // place_critter_at returns the same pointer as its parameter (or null)
+        if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
             return 0;
         }
     }
     p.moves -= moves;
-    newmon.spawn( target );
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, 0 );
@@ -824,7 +828,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ 
             amdef.second = ammo_item.charges;
         }
     }
-    newmon.init_from_item( it );
     int skill_offset = 0;
     if( skill1 ) {
         skill_offset += p.get_skill_level( skill1 ) / 2;
@@ -853,13 +856,12 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ 
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon, true );
     return 1;
 }
 
-iuse_actor *ups_based_armor_actor::clone() const
+std::unique_ptr<iuse_actor> ups_based_armor_actor::clone() const
 {
-    return new ups_based_armor_actor( *this );
+    return std::make_unique<ups_based_armor_actor>( *this );
 }
 
 void ups_based_armor_actor::load( JsonObject &obj )
@@ -871,7 +873,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -915,9 +917,9 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
     return 0;
 }
 
-iuse_actor *pick_lock_actor::clone() const
+std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
 {
-    return new pick_lock_actor( *this );
+    return std::make_unique<pick_lock_actor>( *this );
 }
 
 void pick_lock_actor::load( JsonObject &obj )
@@ -930,23 +932,51 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Use your lockpick where?" ) );
+
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
+
+    const std::set<ter_id> allowed_ter_id {
+        t_chaingate_l,
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_metal_pickable,
+        t_door_bar_locked
+    };
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
+            return false;
+        }
+        const ter_id type = g->m.ter( pnt );
+        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        return is_allowed_terrain;
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Use your lockpick where?" ), f, false, true );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
-
-    if( pnt == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-        return 0;
-    }
-    if( g->critter_at<npc>( pnt ) ) {
-        p.add_msg_if_player( m_info,
-                             _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
-        return 0;
-    }
-
+    const tripoint &pnt = *pnt_;
     const ter_id type = g->m.ter( pnt );
+    if( !f( pnt ) ) {
+        if( pnt == p.pos() ) {
+            p.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
+        } else if( g->critter_at<npc>( pnt ) ) {
+            p.add_msg_if_player( m_info,
+                                 _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
+        } else if( type == t_door_c ) {
+            p.add_msg_if_player( m_info, _( "That door isn't locked." ) );
+        } else {
+            p.add_msg_if_player( m_info, _( "That cannot be picked." ) );
+        }
+        return 0;
+    }
+
     ter_id new_type;
     std::string open_message;
     if( type == t_chaingate_l ) {
@@ -965,15 +995,10 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( type == t_door_bar_locked ) {
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open..." );
-    } else if( type == t_door_c ) {
-        add_msg( m_info, _( "That door isn't locked." ) );
-        return 0;
+        open_message = _( "The door swings open…" );
     } else {
-        add_msg( m_info, _( "That cannot be picked." ) );
         return 0;
     }
-
     p.practice( skill_mechanics, 1 );
 
     /** @EFFECT_DEX speeds up door lock picking */
@@ -1019,9 +1044,9 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     return it.type->charges_to_use();
 }
 
-iuse_actor *deploy_furn_actor::clone() const
+std::unique_ptr<iuse_actor> deploy_furn_actor::clone() const
 {
-    return new deploy_furn_actor( *this );
+    return std::make_unique<deploy_furn_actor>( *this );
 }
 
 void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -1074,6 +1099,10 @@ void deploy_furn_actor::load( JsonObject &obj )
 
 int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
@@ -1114,9 +1143,9 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     return 1;
 }
 
-iuse_actor *reveal_map_actor::clone() const
+std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
 {
-    return new reveal_map_actor( *this );
+    return std::make_unique<reveal_map_actor>( *this );
 }
 
 void reveal_map_actor::load( JsonObject &obj )
@@ -1185,9 +1214,9 @@ void firestarter_actor::load( JsonObject &obj )
     need_sunlight = obj.get_bool( "need_sunlight", false );
 }
 
-iuse_actor *firestarter_actor::clone() const
+std::unique_ptr<iuse_actor> firestarter_actor::clone() const
 {
-    return new firestarter_actor( *this );
+    return std::make_unique<firestarter_actor>( *this );
 }
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
@@ -1220,7 +1249,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     return !has_unactivated_brazier ||
            query_yn(
-               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
+               _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1231,7 +1260,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
         } else {
             if( one_in( 4 ) ) {
                 p.add_msg_if_player( m_mixed,
-                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+                                     _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
                 p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
@@ -1241,7 +1270,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
     }
 }
 
-ret_val<bool> firestarter_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( p.is_underwater() ) {
@@ -1309,11 +1338,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
-        static const std::string sun_msg =
-            _( "If the current weather holds, it will take around %d minutes to light a fire." );
-        static const std::string normal_msg =
-            _( "At your skill level, it will take around %d minutes to light a fire." );
-        p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ),
+        p.add_msg_if_player( m_info, need_sunlight ?
+                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
+                             _( "At your skill level, it will take around %d minutes to light a fire." ),
                              moves / to_moves<int>( 1_minutes ) );
     } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
@@ -1345,9 +1372,9 @@ void salvage_actor::load( JsonObject &obj )
     }
 }
 
-iuse_actor *salvage_actor::clone() const
+std::unique_ptr<iuse_actor> salvage_actor::clone() const
 {
-    return new salvage_actor( *this );
+    return std::make_unique<salvage_actor>( *this );
 }
 
 int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -1538,7 +1565,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.x, pos.y, result, amount, 0 );
+                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
                 }
             }
         } else {
@@ -1570,12 +1597,12 @@ void inscribe_actor::load( JsonObject &obj )
     }
 }
 
-iuse_actor *inscribe_actor::clone() const
+std::unique_ptr<iuse_actor> inscribe_actor::clone() const
 {
-    return new inscribe_actor( *this );
+    return std::make_unique<inscribe_actor>( *this );
 }
 
-bool inscribe_actor::item_inscription( item &cut ) const
+bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
     if( !cut.made_of( SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
@@ -1583,7 +1610,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = _( verb );
+        std::string lower_verb = verb.translated();
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb, cut.display_name() );
@@ -1596,35 +1623,36 @@ bool inscribe_actor::item_inscription( item &cut ) const
     };
 
     uilist menu;
-    menu.text = string_format( _( "%s meaning?" ), _( verb ) );
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
 
     std::string carving;
-    std::string carving_type;
+    std::string carving_tool;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
-            carving_type = "item_label_type";
+            carving_tool = "item_label_tool";
             break;
         case INSCRIPTION_NOTE:
             carving = "item_note";
-            carving_type = "item_note_type";
+            carving_tool = "item_note_tool";
             break;
         default:
             return false;
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
-                                string_format( _( "%1$s on the %2$s is: " ),
-                                        _( gerund ), cut.type_name() );
+    std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
+                                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                                string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
+                                        gerund, cut.type_name() );
 
     string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), _( verb ) ) )
+    popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : "" )
+    .text( hasnote ? cut.get_var( carving ) : std::string() )
     .description( messageprefix )
     .identifier( "inscribe_item" )
     .max_length( 128 )
@@ -1633,12 +1661,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
         return false;
     }
     const std::string message = popup.text();
-    if( hasnote && message == "." ) {
+    if( message.empty() ) {
         cut.erase_var( carving );
-        cut.erase_var( carving_type );
+        cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, _( gerund ) );
+        cut.set_var( carving_tool, tool.typeId() );
     }
 
     return true;
@@ -1653,7 +1681,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uilist imenu;
-        imenu.text = string_format( _( "%s on what?" ), _( verb ) );
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -1669,14 +1697,22 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item &cut = p.i_at( pos );
+    if( cut.is_null() ) {
+        p.add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+    if( &cut == &it ) {
+        p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
+        return 0;
+    }
     // inscribe_item returns false if the action fails or is canceled somehow.
 
-    if( item_inscription( cut ) ) {
+    if( item_inscription( it, cut ) ) {
         return cost >= 0 ? cost : it.ammo_required();
     }
 
@@ -1689,9 +1725,9 @@ void cauterize_actor::load( JsonObject &obj )
     assign( obj, "flame", flame );
 }
 
-iuse_actor *cauterize_actor::clone() const
+std::unique_ptr<iuse_actor> cauterize_actor::clone() const
 {
-    return new cauterize_actor( *this );
+    return std::make_unique<cauterize_actor>( *this );
 }
 
 static heal_actor prepare_dummy()
@@ -1736,7 +1772,10 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( t ) {
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     bool has_disease = p.has_effect( effect_bite ) || p.has_effect( effect_bleed );
     bool did_cauterize = false;
 
@@ -1764,7 +1803,7 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 }
 
-ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
                                         const tripoint & ) const
 {
     if( !p.has_effect( effect_bite ) &&
@@ -1775,6 +1814,9 @@ ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
 
         return ret_val<bool>::make_failure(
                    _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
+    }
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You cannot cauterize while mounted." ) );
     }
 
     if( flame ) {
@@ -1801,9 +1843,9 @@ void enzlave_actor::load( JsonObject &obj )
     assign( obj, "cost", cost );
 }
 
-iuse_actor *enzlave_actor::clone() const
+std::unique_ptr<iuse_actor> enzlave_actor::clone() const
 {
-    return new enzlave_actor( *this );
+    return std::make_unique<enzlave_actor>( *this );
 }
 
 int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -1811,8 +1853,11 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( t ) {
         return 0;
     }
-
-    auto items = g->m.i_at( p.posx(), p.posy() );
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
+    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
     for( auto &it : items ) {
@@ -1864,7 +1909,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( tolerance_level == 0 ) {
         // You just don't care, no message.
     } else if( tolerance_level <= 5 ) {
-        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat..." ) );
+        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat…" ) );
     } else {
         add_msg( m_bad, _( "You feel horrible for mutilating and enslaving someone's corpse." ) );
 
@@ -1918,7 +1963,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     return cost >= 0 ? cost : it.ammo_required();
 }
 
-ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const tripoint & ) const
+ret_val<bool> enzlave_actor::can_use( const Character &p, const item &, bool,
+                                      const tripoint & ) const
 {
     /** @EFFECT_SURVIVAL >=1 allows enzlavement */
 
@@ -1930,7 +1976,9 @@ ret_val<bool> enzlave_actor::can_use( const player &p, const item &, bool, const
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
                                             skill_survival->name() );
     }
-
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You cannot do that while mounted." ) );
+    }
     if( p.get_skill_level( skill_firstaid ) < 1 ) {
         //~ %s - name of the required skill.
         return ret_val<bool>::make_failure( _( "You need at least %s 1." ),
@@ -1951,9 +1999,9 @@ void fireweapon_off_actor::load( JsonObject &obj )
     success_chance      = obj.get_int( "success_chance", INT_MIN );
 }
 
-iuse_actor *fireweapon_off_actor::clone() const
+std::unique_ptr<iuse_actor> fireweapon_off_actor::clone() const
 {
-    return new fireweapon_off_actor( *this );
+    return std::make_unique<fireweapon_off_actor>( *this );
 }
 
 int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -1984,7 +2032,7 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     return it.type->charges_to_use();
 }
 
-ret_val<bool> fireweapon_off_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2012,9 +2060,9 @@ void fireweapon_on_actor::load( JsonObject &obj )
     }
 }
 
-iuse_actor *fireweapon_on_actor::clone() const
+std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
 {
-    return new fireweapon_on_actor( *this );
+    return std::make_unique<fireweapon_on_actor>( *this );
 }
 
 int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -2057,9 +2105,9 @@ void manualnoise_actor::load( JsonObject &obj )
     moves               = obj.get_int( "moves", 0 );
 }
 
-iuse_actor *manualnoise_actor::clone() const
+std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
 {
-    return new manualnoise_actor( *this );
+    return std::make_unique<manualnoise_actor>( *this );
 }
 
 int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -2082,7 +2130,7 @@ int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) cons
     return it.type->charges_to_use();
 }
 
-ret_val<bool> manualnoise_actor::can_use( const player &, const item &it, bool,
+ret_val<bool> manualnoise_actor::can_use( const Character &, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
@@ -2092,9 +2140,9 @@ ret_val<bool> manualnoise_actor::can_use( const player &, const item &it, bool,
     return ret_val<bool>::make_success();
 }
 
-iuse_actor *musical_instrument_actor::clone() const
+std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
 {
-    return new musical_instrument_actor( *this );
+    return std::make_unique<musical_instrument_actor>( *this );
 }
 
 void musical_instrument_actor::load( JsonObject &obj )
@@ -2112,6 +2160,12 @@ void musical_instrument_actor::load( JsonObject &obj )
 
 int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
+                                 _( "<npcname> can't play music while mounted." ) );
+        it.active = false;
+        return 0;
+    }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You can't play music underwater" ),
@@ -2216,20 +2270,23 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     return 0;
 }
 
-ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
+ret_val<bool> musical_instrument_actor::can_use( const Character &p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't do that while mounted." ) );
+    }
 
     return ret_val<bool>::make_success();
 }
 
-iuse_actor *learn_spell_actor::clone() const
+std::unique_ptr<iuse_actor> learn_spell_actor::clone() const
 {
-    return new learn_spell_actor( *this );
+    return std::make_unique<learn_spell_actor>( *this );
 }
 
 void learn_spell_actor::load( JsonObject &obj )
@@ -2248,7 +2305,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
     for( const std::string sp : spells ) {
-        dump.emplace_back( "SPELL", spell_id( sp ).obj().name );
+        dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
     }
 }
 
@@ -2265,8 +2322,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     for( const std::string sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
-        const std::string sp_nm = sp_id.obj().name;
-        uilist_entry entry( sp_nm );
+        uilist_entry entry( sp_id.obj().name.translated() );
         if( p.magic.knows_spell( sp_id ) ) {
             const spell sp = p.magic.get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
@@ -2340,9 +2396,9 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     return 0;
 }
 
-iuse_actor *cast_spell_actor::clone() const
+std::unique_ptr<iuse_actor> cast_spell_actor::clone() const
 {
-    return new cast_spell_actor( *this );
+    return std::make_unique<cast_spell_actor>( *this );
 }
 
 void cast_spell_actor::load( JsonObject &obj )
@@ -2350,23 +2406,34 @@ void cast_spell_actor::load( JsonObject &obj )
     no_fail = obj.get_bool( "no_fail" );
     item_spell = spell_id( obj.get_string( "spell_id" ) );
     spell_level = obj.get_int( "level" );
+    need_worn = obj.get_bool( "need_worn", false );
+    need_wielding = obj.get_bool( "need_wielding", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    const std::string message = string_format( _( "This item casts %s at level %i." ),
-                                _( item_spell->name ),
-                                spell_level );
+    //~ %1$s: spell name, %2$i: spell level
+    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
+                                item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
         dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
     }
 }
 
-int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
+int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
+    if( need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+
     spell casting = spell( spell_id( item_spell ) );
-    int charges = itm.type->charges_to_use();
+    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2379,7 +2446,7 @@ int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
         cast_spell.values.emplace_back( 0 );
     }
     cast_spell.name = casting.id().c_str();
-    if( itm.has_flag( "USE_PLAYER_ENERGY" ) ) {
+    if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
         charges = 0;
@@ -2391,9 +2458,9 @@ int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
     return charges;
 }
 
-iuse_actor *holster_actor::clone() const
+std::unique_ptr<iuse_actor> holster_actor::clone() const
 {
-    return new holster_actor( *this );
+    return std::make_unique<holster_actor>( *this );
 }
 
 void holster_actor::load( JsonObject &obj )
@@ -2486,7 +2553,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
 int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return 0;
     }
@@ -2569,9 +2636,9 @@ units::volume holster_actor::max_stored_volume() const
     return max_volume * multi;
 }
 
-iuse_actor *bandolier_actor::clone() const
+std::unique_ptr<iuse_actor> bandolier_actor::clone() const
 {
-    return new bandolier_actor( *this );
+    return std::make_unique<bandolier_actor>( *this );
 }
 
 void bandolier_actor::load( JsonObject &obj )
@@ -2677,7 +2744,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
 
 int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( &p.weapon == &it ) {
+    if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ),
                              it.type_name() );
         return 0;
@@ -2689,12 +2756,11 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::function<void()>> actions;
 
     menu.addentry( -1, it.contents.empty() || it.contents.front().charges < capacity,
-                   'r', string_format( _( "Store ammo in %s" ), it.type_name() ) );
+                   'r', _( "Store ammo in %s" ), it.type_name() );
 
     actions.emplace_back( [&] { reload( p, it ); } );
 
-    menu.addentry( -1, !it.contents.empty(), 'u', string_format( _( "Unload %s" ),
-                   it.type_name() ) );
+    menu.addentry( -1, !it.contents.empty(), 'u', _( "Unload %s" ), it.type_name() );
 
     actions.emplace_back( [&] {
         if( p.i_add_or_drop( it.contents.front() ) )
@@ -2730,9 +2796,9 @@ units::volume bandolier_actor::max_stored_volume() const
     return max_ammo_volume * capacity;
 }
 
-iuse_actor *ammobelt_actor::clone() const
+std::unique_ptr<iuse_actor> ammobelt_actor::clone() const
 {
-    return new ammobelt_actor( *this );
+    return std::make_unique<ammobelt_actor>( *this );
 }
 
 void ammobelt_actor::load( JsonObject &obj )
@@ -2797,6 +2863,13 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
+    if( p.is_mounted() ) {
+        if( print_msg ) {
+            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
+                                     _( "<npcname> can't do that while mounted." ) );
+        }
+        return false;
+    }
     if( p.fine_detail_vision_mod() > 4 ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "You can't see to do that!" ) );
@@ -2815,10 +2888,28 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
 
 static item_location get_item_location( player &p, item &it, const tripoint &pos )
 {
+    // Item on a character
     if( p.has_item( it ) ) {
         return item_location( p, &it );
     }
 
+    // Item in a vehicle
+    if( const optional_vpart_position &vp = g->m.veh_at( pos ) ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        bool found_in_vehicle = false;
+        vc.visit_items( [&]( const item * e ) {
+            if( e == &it ) {
+                found_in_vehicle = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( found_in_vehicle ) {
+            return item_location( vc, &it );
+        }
+    }
+
+    // Item on the map
     return item_location( pos, &it );
 }
 
@@ -2837,9 +2928,9 @@ int repair_item_actor::use( player &p, item &it, bool, const tripoint &position 
     return 0;
 }
 
-iuse_actor *repair_item_actor::clone() const
+std::unique_ptr<iuse_actor> repair_item_actor::clone() const
 {
-    return new repair_item_actor( *this );
+    return std::make_unique<repair_item_actor>( *this );
 }
 
 bool repair_item_actor::handle_components( player &pl, const item &fix,
@@ -2853,7 +2944,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
         }
     }
 
-    std::vector<item_comp> comps;
     if( valid_entries.empty() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is not made of any of:" ),
@@ -2888,8 +2978,16 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     }
 
     // Go through all discovered repair items and see if we have any of them available
+    std::vector<item_comp> comps;
     for( const auto &entry : valid_entries ) {
-        const auto component_id = entry.obj().repaired_with();
+        const itype_id &component_id = entry.obj().repaired_with();
+        // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
+        // This checks avoids adding the same component twice, which is annoying to the user.
+        if( std::find_if( comps.begin(), comps.end(), [&]( const item_comp & ic ) {
+        return ic.type == component_id;
+    } ) != comps.end() ) {
+            continue;
+        }
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -2904,7 +3002,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             for( const auto &entry : valid_entries ) {
                 const auto &mat_comp = entry.obj().repaired_with();
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that. Have: %d, need: %d" ),
+                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.amount_of( mat_comp, false ) :
@@ -3125,7 +3223,7 @@ static bool damage_item( player &pl, item_location &fix )
     const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
     const std::string resultdurability = fix->durability_indicator( true );
-    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+    pl.add_msg_if_player( m_bad, _( "You damage your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                           startdurability, resultdurability );
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
@@ -3198,10 +3296,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                                       startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ), fix->tname( 1,
                                       false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
@@ -3269,20 +3367,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     return AS_CANT;
 }
 
-const std::string &repair_item_actor::action_description( repair_item_actor::repair_type rt )
+std::string repair_item_actor::action_description( repair_item_actor::repair_type rt )
 {
     static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
-            _( "Nothing" ),
-            _( "Repairing" ),
-            _( "Refitting" ),
-            _( "Downsizing" ),
-            _( "Upsizing" ),
-            _( "Reinforcing" ),
-            _( "Practicing" )
+            translate_marker( "Nothing" ),
+            translate_marker( "Repairing" ),
+            translate_marker( "Refitting" ),
+            translate_marker( "Downsizing" ),
+            translate_marker( "Upsizing" ),
+            translate_marker( "Reinforcing" ),
+            translate_marker( "Practicing" )
         }
     };
 
-    return arr[rt];
+    return _( arr[rt] );
 }
 
 std::string repair_item_actor::get_name() const
@@ -3361,7 +3459,10 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return 0;
+    }
     if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
@@ -3395,9 +3496,9 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
     return it.type->charges_to_use();
 }
 
-iuse_actor *heal_actor::clone() const
+std::unique_ptr<iuse_actor> heal_actor::clone() const
 {
-    return new heal_actor( *this );
+    return std::make_unique<heal_actor>( *this );
 }
 
 int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
@@ -3588,7 +3689,7 @@ static hp_part pick_part_to_heal(
             return healed_part;
         }
 
-        if( patient.hp_cur[healed_part] == 0 ) {
+        if( patient.is_limb_broken( healed_part ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
@@ -3612,6 +3713,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int head_bonus = get_heal_value( healer, hp_head );
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
+
+    if( !patient.can_use_heal_item( it ) ) {
+        patient.add_msg_player_or_npc( m_bad,
+                                       _( "Your biology is not compatible with that item." ),
+                                       _( "<npcname>'s biology is not compatible with that item." ) );
+        return num_hp_parts; // canceled
+    }
 
     if( healer.is_npc() ) {
         // NPCs heal whatever has sustained the most damaged that they can heal but never
@@ -3656,7 +3764,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+        const std::string menu_header = string_format( pgettext( "healing",
+                                        //~ %1$s: patient name, %2$s: healing item name
+                                        "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
@@ -3732,7 +3842,7 @@ place_trap_actor::place_trap_actor( const std::string &type ) :
 
 place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
-void place_trap_actor::data::load( JsonObject obj )
+void place_trap_actor::data::load( JsonObject &obj )
 {
     assign( obj, "trap", trap );
     assign( obj, "done_message", done_message );
@@ -3748,15 +3858,16 @@ void place_trap_actor::load( JsonObject &obj )
     assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
     assign( obj, "bury_question", bury_question );
     if( !bury_question.empty() ) {
-        buried_data.load( obj.get_object( "bury" ) );
+        JsonObject buried_json = obj.get_object( "bury" );
+        buried_data.load( buried_json );
     }
     unburied_data.load( obj );
     assign( obj, "outer_layer_trap", outer_layer_trap );
 }
 
-iuse_actor *place_trap_actor::clone() const
+std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 {
-    return new place_trap_actor( *this );
+    return std::make_unique<place_trap_actor>( *this );
 }
 
 static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
@@ -3779,7 +3890,7 @@ static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::string &name ) const
 {
     if( !allow_under_player && pos == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "Yeah. Place the %s at your feet. Real damn smart move." ),
+        p.add_msg_if_player( m_info, _( "Yeah.  Place the %s at your feet.  Real damn smart move." ),
                              name );
         return false;
     }
@@ -3802,7 +3913,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
     const trap &existing_trap = g->m.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ),
+            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
@@ -3827,6 +3938,10 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
@@ -3894,9 +4009,9 @@ int emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
     return 1;
 }
 
-iuse_actor *emit_actor::clone() const
+std::unique_ptr<iuse_actor> emit_actor::clone() const
 {
-    return new emit_actor( *this );
+    return std::make_unique<emit_actor>( *this );
 }
 
 void emit_actor::finalize( const itype_id &my_item_type )
@@ -3969,9 +4084,9 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
     return ret_val<bool>::make_success();
 }
 
-iuse_actor *saw_barrel_actor::clone() const
+std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
-    return new saw_barrel_actor( *this );
+    return std::make_unique<saw_barrel_actor>( *this );
 }
 
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
@@ -3983,19 +4098,31 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
     }
 }
 
-ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
     }
-
+    const bionic_id &bid = it.type->bionic->id;
+    if( p.is_mounted() ) {
+        return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
+    }
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
         !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
+    } else if( !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        if( it.has_flag( "FILTHY" ) ) {
+            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+        } else if( it.has_flag( "NO_STERILE" ) ) {
+            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+        } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            return ret_val<bool>::make_failure(
+                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
+        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
+        }
     }
-
-    const bionic_id &bid = it.type->bionic->id;
 
     if( p.has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
@@ -4013,9 +4140,9 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     return ret_val<bool>::make_success();
 }
 
-iuse_actor *install_bionic_actor::clone() const
+std::unique_ptr<iuse_actor> install_bionic_actor::clone() const
 {
-    return new install_bionic_actor( *this );
+    return std::make_unique<install_bionic_actor>( *this );
 }
 
 void install_bionic_actor::finalize( const itype_id &my_item_type )
@@ -4051,7 +4178,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
     return 0;
 }
 
-ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bool,
+ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     const auto mods = it.gunmods();
@@ -4075,9 +4202,9 @@ ret_val<bool> detach_gunmods_actor::can_use( const player &p, const item &it, bo
     return ret_val<bool>::make_success();
 }
 
-iuse_actor *detach_gunmods_actor::detach_gunmods_actor::clone() const
+std::unique_ptr<iuse_actor> detach_gunmods_actor::detach_gunmods_actor::clone() const
 {
-    return new detach_gunmods_actor( *this );
+    return std::make_unique<detach_gunmods_actor>( *this );
 }
 
 void detach_gunmods_actor::finalize( const itype_id &my_item_type )
@@ -4087,9 +4214,9 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-iuse_actor *mutagen_actor::clone() const
+std::unique_ptr<iuse_actor> mutagen_actor::clone() const
 {
-    return new mutagen_actor( *this );
+    return std::make_unique<mutagen_actor>( *this );
 }
 
 void mutagen_actor::load( JsonObject &obj )
@@ -4101,9 +4228,8 @@ void mutagen_actor::load( JsonObject &obj )
 
 int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Consumed mutagen." ),
-                             pgettext( "memorial_female", "Consumed mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4118,7 +4244,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
                 mutation_category );
 
     if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
+        p.add_msg_if_player( m_good, _( "You quiver with anticipation…" ) );
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
@@ -4145,9 +4271,9 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
     return it.type->charges_to_use();
 }
 
-iuse_actor *mutagen_iv_actor::clone() const
+std::unique_ptr<iuse_actor> mutagen_iv_actor::clone() const
 {
-    return new mutagen_iv_actor( *this );
+    return std::make_unique<mutagen_iv_actor>( *this );
 }
 
 void mutagen_iv_actor::load( JsonObject &obj )
@@ -4157,9 +4283,8 @@ void mutagen_iv_actor::load( JsonObject &obj )
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    mutagen_attempt checks = mutagen_common_checks( p, it, false,
-                             pgettext( "memorial_male", "Injected mutagen." ),
-                             pgettext( "memorial_female", "Injected mutagen." ) );
+    mutagen_attempt checks =
+        mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4221,9 +4346,9 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     return it.type->charges_to_use();
 }
 
-iuse_actor *deploy_tent_actor::clone() const
+std::unique_ptr<iuse_actor> deploy_tent_actor::clone() const
 {
-    return new deploy_tent_actor( *this );
+    return std::make_unique<deploy_tent_actor>( *this );
 }
 
 void deploy_tent_actor::load( JsonObject &obj )
@@ -4240,7 +4365,10 @@ void deploy_tent_actor::load( JsonObject &obj )
 int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     const cata::optional<tripoint> dir = choose_direction( string_format(
             _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
@@ -4320,12 +4448,16 @@ void weigh_self_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int weigh_self_actor::use( player &p, item &, bool, const tripoint & ) const
 {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot weigh yourself while mounted." ) );
+        return 0;
+    }
     // this is a weight, either in kgs or in lbs.
     double weight = convert_weight( p.get_weight() );
     if( weight > convert_weight( max_weight ) ) {
         popup( _( "ERROR: Max weight of %.0f %s exceeded" ), convert_weight( max_weight ), weight_units() );
     } else {
-        popup( string_format( "%.0f %s", weight, weight_units() ) );
+        popup( "%.0f %s", weight, weight_units() );
     }
     return 0;
 }
@@ -4335,9 +4467,9 @@ void weigh_self_actor::load( JsonObject &jo )
     assign( jo, "max_weight", max_weight );
 }
 
-iuse_actor *weigh_self_actor::clone() const
+std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 {
-    return new weigh_self_actor( *this );
+    return std::make_unique<weigh_self_actor>( *this );
 }
 
 void sew_advanced_actor::load( JsonObject &obj )
@@ -4365,7 +4497,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_npc() ) {
         return 0;
     }
-
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        return 0;
+    }
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
@@ -4419,11 +4554,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     // We need extra thread to lose it on bad rolls
     const int thread_needed = mod.volume() / 125_ml + 10;
-    // Returns true if the item already has the mod or if we have enough materials and thread to add it
-    const auto can_add_mod = [&]( const std::string & new_mod, const itype_id & mat_item ) {
-        return mod.item_tags.count( new_mod ) > 0 ||
-               ( it.charges >= thread_needed && has_enough[mat_item] );
-    };
+
+    const auto valid_mods = mod.find_armor_data()->valid_mods;
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -4442,25 +4574,51 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     };
 
     uilist tmenu;
-    // TODO: Tell how much thread will we use
-    if( it.charges >= thread_needed ) {
-        tmenu.text = _( "How do you want to modify it?" );
-    } else {
-        tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
-    }
+    tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
     for( auto cm : clothing_mods ) {
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
-        bool enab = can_add_mod( obj.flag, obj.item_string );
+
+        bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            prompt = string_format( "%s (%d %s)", obj.implement_prompt, items_needed,
-                                    item::nname( obj.item_string, items_needed ) );
+            // @TODO Fix for UTF-8 strings
+            // @TODO find other places where this is used and make a global function for all
+            static const auto tolower = []( std::string t ) {
+                if( !t.empty() ) {
+                    t.front() = std::tolower( t.front() );
+                }
+                return t;
+            };
+            // Mod not already present, check if modification is possible
+            if( it.charges < thread_needed ) {
+                //~ %1$s: modification desc, %2$d: number of thread needed
+                prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
+                                        tolower( obj.implement_prompt ), thread_needed );
+            } else if( !has_enough[obj.item_string] ) {
+                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ) );
+            } else if( obj.restricted &&
+                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
+            } else {
+                // Modification is possible
+                enab = true;
+                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
+            }
+
         } else {
-            prompt = obj.destroy_prompt;
+            // Mod already present, give option to destroy
+            enab = true;
+            prompt = _( obj.destroy_prompt );
         }
         std::ostringstream desc;
         desc << format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
@@ -4476,8 +4634,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          format_volume( before ), volume_units_abbr(), format_volume( after ),
                                          volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
 
-        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, string_format( "%s", _( prompt.c_str() ) ),
-                             desc.str() );
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc.str() );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
@@ -4520,7 +4677,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         const std::string startdurability = mod.durability_indicator( true );
         const auto destroyed = mod.inc_damage();
         const std::string resultdurability = mod.durability_indicator( true );
-        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!  ( %s-> %s)" ),
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
@@ -4548,7 +4705,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     return thread_needed / 2;
 }
 
-iuse_actor *sew_advanced_actor::clone() const
+std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
 {
-    return new sew_advanced_actor( *this );
+    return std::make_unique<sew_advanced_actor>( *this );
 }

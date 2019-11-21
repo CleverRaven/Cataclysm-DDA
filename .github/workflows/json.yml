@@ -1,0 +1,20 @@
+name: JSON Validation
+
+on:
+  pull_request
+
+jobs:
+  style-json:
+    name: JSON style check
+ 
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: JSON style check
+      run: make style-json
+    - name: Display Corrections
+      if: failure()
+      run: git diff

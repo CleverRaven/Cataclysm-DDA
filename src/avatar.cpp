@@ -24,6 +24,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -78,6 +79,7 @@ const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_stim( "stim" );
 const efftype_id effect_stim_overdose( "stim_overdose" );
+const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -108,227 +110,6 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
-}
-
-void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
-{
-    static const char *eol = cata_files::eol();
-
-    //Size of indents in the memorial file
-    const std::string indent = "  ";
-
-    const std::string pronoun = male ? _( "He" ) : _( "She" );
-
-    //Avoid saying "a male unemployed" or similar
-    std::string profession_name;
-    if( prof == profession::generic() ) {
-        if( male ) {
-            profession_name = _( "an unemployed male" );
-        } else {
-            profession_name = _( "an unemployed female" );
-        }
-    } else {
-        profession_name = string_format( _( "a %s" ), prof->gender_appropriate_name( male ) );
-    }
-
-    const std::string locdesc = overmap_buffer.get_description_at( global_sm_location() );
-    //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
-    // that designates the location relative to its surroundings.
-    const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
-                                   pronoun, locdesc );
-
-    //Header
-    memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
-                                    getVersionString() ) << eol;
-    memorial_file << eol;
-    memorial_file << string_format( _( "In memory of: %s" ), name ) << eol;
-    if( epitaph.length() > 0 ) {  //Don't record empty epitaphs
-        //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
-    }
-    //~ First parameter: Pronoun, second parameter: a profession name (with article)
-    memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
-                                    pronoun, profession_name ) << eol;
-    memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun,
-                                    to_string( time_point( calendar::turn ) ) ) << eol;
-    memorial_file << kill_place << eol;
-    memorial_file << eol;
-
-    //Misc
-    memorial_file << string_format( _( "Cash on hand: %s" ), format_money( cash ) ) << eol;
-    memorial_file << eol;
-
-    //HP
-
-    const auto limb_hp =
-    [this, &memorial_file, &indent]( const std::string & desc, const hp_part bp ) {
-        memorial_file << indent << string_format( desc, get_hp( bp ), get_hp_max( bp ) ) << eol;
-    };
-
-    memorial_file << _( "Final HP:" ) << eol;
-    limb_hp( _( " Head: %d/%d" ), hp_head );
-    limb_hp( _( "Torso: %d/%d" ), hp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
-    memorial_file << eol;
-
-    //Stats
-    memorial_file << _( "Final Stats:" ) << eol;
-    memorial_file << indent << string_format( _( "Str %d" ), str_cur )
-                  << indent << string_format( _( "Dex %d" ), dex_cur )
-                  << indent << string_format( _( "Int %d" ), int_cur )
-                  << indent << string_format( _( "Per %d" ), per_cur ) << eol;
-    memorial_file << _( "Base Stats:" ) << eol;
-    memorial_file << indent << string_format( _( "Str %d" ), str_max )
-                  << indent << string_format( _( "Dex %d" ), dex_max )
-                  << indent << string_format( _( "Int %d" ), int_max )
-                  << indent << string_format( _( "Per %d" ), per_max ) << eol;
-    memorial_file << eol;
-
-    //Last 20 messages
-    memorial_file << _( "Final Messages:" ) << eol;
-    std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages( 20 );
-    for( const std::pair<std::string, std::string> &recent_message : recent_messages ) {
-        memorial_file << indent << recent_message.first << " " << recent_message.second;
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Kill list
-    memorial_file << _( "Kills:" ) << eol;
-
-    int total_kills = 0;
-
-    std::map<std::tuple<std::string, std::string>, int> kill_counts;
-
-    // map <name, sym> to kill count
-    for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type.id ) > 0 ) {
-            kill_counts[std::tuple<std::string, std::string>(
-                                                    type.nname(),
-                                                    type.sym
-                                                )] += g->kill_count( type.id );
-            total_kills += g->kill_count( type.id );
-        }
-    }
-
-    for( const std::pair<std::tuple<std::string, std::string>, int> &entry : kill_counts ) {
-        memorial_file << "  " << std::get<1>( entry.first ) << " - "
-                      << string_format( "%4d", entry.second ) << " "
-                      << std::get<0>( entry.first ) << eol;
-    }
-
-    if( total_kills == 0 ) {
-        memorial_file << indent << _( "No monsters were killed." ) << eol;
-    } else {
-        memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << eol;
-    }
-    memorial_file << eol;
-
-    //Skills
-    memorial_file << _( "Skills:" ) << eol;
-    for( const std::pair<skill_id, SkillLevel> &pair : *_skills ) {
-        const SkillLevel &lobj = pair.second;
-        //~ 1. skill name, 2. skill level, 3. exercise percentage to next level
-        memorial_file << indent << string_format( _( "%s: %d (%d %%)" ), pair.first->name(), lobj.level(),
-                      lobj.exercise() ) << eol;
-    }
-    memorial_file << eol;
-
-    //Traits
-    memorial_file << _( "Traits:" ) << eol;
-    for( const std::pair<trait_id, Character::trait_data> &iter : my_mutations ) {
-        memorial_file << indent << mutation_branch::get_name( iter.first ) << eol;
-    }
-    if( !my_mutations.empty() ) {
-        memorial_file << indent << _( "(None)" ) << eol;
-    }
-    memorial_file << eol;
-
-    //Effects (illnesses)
-    memorial_file << _( "Ongoing Effects:" ) << eol;
-    bool had_effect = false;
-    if( get_perceived_pain() > 0 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Pain" ) << " (" << get_perceived_pain() << ")";
-    }
-    if( !had_effect ) {
-        memorial_file << indent << _( "(None)" ) << eol;
-    }
-    memorial_file << eol;
-
-    //Bionics
-    memorial_file << _( "Bionics:" ) << eol;
-    int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << i + 1 << ": " << ( *my_bionics )[i].id->name << eol;
-        total_bionics++;
-    }
-    if( total_bionics == 0 ) {
-        memorial_file << indent << _( "No bionics were installed." ) << eol;
-    } else {
-        memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
-    }
-    memorial_file << string_format(
-                      _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ), power_level,
-                      max_power_level ) << eol;
-    memorial_file << eol;
-
-    //Equipment
-    memorial_file << _( "Weapon:" ) << eol;
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
-    memorial_file << eol;
-
-    memorial_file << _( "Equipment:" ) << eol;
-    for( const item &elem : worn ) {
-        item next_item = elem;
-        memorial_file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            memorial_file << " (" << next_item.contents.front().charges << ")";
-        }
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Inventory
-    memorial_file << _( "Inventory:" ) << eol;
-    inv.restack( *this );
-    invslice slice = inv.slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
-        memorial_file << indent << next_item.invlet << " - " <<
-                      next_item.tname( static_cast<unsigned>( elem->size() ), false );
-        if( elem->size() > 1 ) {
-            memorial_file << " [" << elem->size() << "]";
-        }
-        if( next_item.charges > 0 ) {
-            memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            memorial_file << " (" << next_item.contents.front().charges << ")";
-        }
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Lifetime stats
-    memorial_file << _( "Lifetime Stats" ) << eol;
-    memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
-                  lifetime_stats.squares_walked ) << eol;
-    memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
-                  lifetime_stats.damage_taken ) << eol;
-    memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
-                  lifetime_stats.damage_healed ) << eol;
-    memorial_file << indent << string_format( _( "Headshots: %d" ),
-                  lifetime_stats.headshots ) << eol;
-    memorial_file << eol;
-
-    //History
-    memorial_file << _( "Game History" ) << eol;
-    memorial_file << dump_memorial();
 }
 
 void avatar::toggle_map_memory()
@@ -412,6 +193,14 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
+void avatar::reset_all_misions()
+{
+    active_mission = nullptr;
+    active_missions.clear();
+    completed_missions.clear();
+    failed_missions.clear();
+}
+
 tripoint avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
@@ -485,7 +274,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
                                           skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
@@ -521,7 +310,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
+            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -565,7 +354,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     int retval = type->time * reading_speed;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
-    const int effective_int = std::min( {int_cur, reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
@@ -605,14 +394,14 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
     player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0,
-                         reader->getID() );
+                         reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( it.typeId() ) ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
         return true;
@@ -660,11 +449,11 @@ bool avatar::read( int inventory_position, const bool continuous )
         } else if( skill && lvl < type->level ) {
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
-            act.values.push_back( elem->getID() );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.emplace_back( "1" );
         }
     }
@@ -676,7 +465,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
             // Some helpers to reduce repetition:
             auto length = []( const std::pair<npc *, std::string> &elem ) {
-                return elem.first->disp_name().size() + elem.second.size();
+                return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
@@ -693,7 +482,7 @@ bool avatar::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( "%-*s%s", static_cast<int>( max_length( m ) ), name_text, lvl_text );
+                return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -704,12 +493,13 @@ bool avatar::read( int inventory_position, const bool continuous )
             };
 
             menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name() ) :
-                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name(),
+                         //~ %1$s: book name, %2$s: skill name, %3$d and %4$d: skill levels
+                         string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), it.type_name(),
                                         skill_name, type->req, type->level );
 
             if( skill ) {
                 const int lvl = get_skill_level( skill );
-                menu.addentry( getID(), lvl < type->level, '0',
+                menu.addentry( getID().get_value(), lvl < type->level, '0',
                                string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
             } else {
                 menu.addentry( -1, false, '0', _( "Read until you gain a level" ) );
@@ -719,7 +509,8 @@ bool avatar::read( int inventory_position, const bool continuous )
             if( skill && !learners.empty() ) {
                 add_header( _( "Read until this NPC gains a level:" ) );
                 for( const auto &elem : learners ) {
-                    menu.addentry( elem.first->getID(), true, -1, get_text( learners, elem ) );
+                    menu.addentry( elem.first->getID().get_value(), true, -1,
+                                   get_text( learners, elem ) );
                 }
             }
             if( !fun_learners.empty() ) {
@@ -744,7 +535,7 @@ bool avatar::read( int inventory_position, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( g->u.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+            if( g->u.martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
@@ -754,7 +545,7 @@ bool avatar::read( int inventory_position, const bool continuous )
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
             menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -771,18 +562,19 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( !continuous || activity.position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         } else if( !learners.empty() || !fun_learners.empty() ) {
-            add_msg( m_info, _( "You read aloud..." ) );
+            add_msg( m_info, _( "You read aloud…" ) );
         }
     }
 
     if( !continuous ||
     !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
-    return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
+    return std::count( activity.values.begin(), activity.values.end(),
+                       elem.first->getID().get_value() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
-        return learners.find( g->find_npc( elem ) ) != learners.end();
+        return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
         if( learners.size() == 1 ) {
@@ -812,23 +604,24 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
         add_msg( m_warning,
-                 _( "It's difficult for %s to see fine details right now. Reading will take longer than usual." ),
+                 _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );
     }
 
-    const bool complex_penalty = type->intel > std::min( int_cur, reader->get_int() ) &&
+    const int intelligence = get_int();
+    const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < int_cur ? reader : this;
+    const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
-                 _( "This book is too complex for %s to easily understand. It will take longer to read." ),
+                 _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
                  complex_player->disp_name() );
     }
 
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-        if( g->u.stamina < g->u.get_stamina_max() / 10 ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
@@ -942,7 +735,7 @@ void avatar::do_read( item &book )
 
     std::vector<std::pair<player *, double>> learners; //learners and their penalties
     for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( activity.values[i] );
+        player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
             const std::string &s = activity.get_str_value( i, "1" );
             learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
@@ -1000,25 +793,21 @@ void avatar::do_read( item &book )
             std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
+                g->events().send<event_type::gains_skill_level>(
+                    learner->getID(), skill, skill_level.level() );
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
-                    if( skill_level.level() % 4 == 0 ) {
-                        //~ %s is skill name. %d is skill level
-                        add_memorial_log( pgettext( "memorial_male", "Reached skill level %1$d in %2$s." ),
-                                          pgettext( "memorial_female", "Reached skill level %1$d in %2$s." ),
-                                          skill_level.level(), skill_name );
-                    }
                 } else {
                     add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(), skill_name );
                 }
             } else {
                 //skill_level == originalSkillLevel
-                if( activity.index == learner->getID() ) {
+                if( activity.index == learner->getID().get_value() ) {
                     continuous = true;
                 }
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
+                    add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name, skill_level.exercise() );
                 } else {
                     little_learned.insert( learner->disp_name() );
                 }
@@ -1059,7 +848,7 @@ void avatar::do_read( item &book )
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
                  book.type_name(), names );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
-            add_msg( m_info, _( "Maybe you should find something new to read..." ) );
+            add_msg( m_info, _( "Maybe you should find something new to read…" ) );
         }
     }
 
@@ -1076,7 +865,7 @@ void avatar::do_read( item &book )
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == g->u.getID() ) {
+            if( activity.index == g->u.getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:
@@ -1136,9 +925,9 @@ void avatar::wake_up()
         }
         if( has_effect( effect_slept_through_alarm ) ) {
             if( has_bionic( bio_watch ) ) {
-                add_msg( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
-                add_msg( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
             }
         }
     }
@@ -1164,19 +953,31 @@ void avatar::vomit()
 void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
-    if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+
+    int fatigue_penalty = 0;
+    if( get_fatigue() >= MASSIVE_FATIGUE && equilibrium > 20 ) {
+        fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
-    } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+    } else if( get_fatigue() >= EXHAUSTED && equilibrium > 40 ) {
+        fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
-    } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+    } else if( get_fatigue() >= DEAD_TIRED && equilibrium > 60 ) {
+        fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
-    } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+    } else if( get_fatigue() >= TIRED && equilibrium > 80 ) {
+        fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
-    morale->display( equilibrium );
+
+    int pain_penalty = 0;
+    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+    }
+
+    morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::calc_focus_equilibrium() const
+int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
@@ -1195,7 +996,7 @@ int avatar::calc_focus_equilibrium() const
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
-    if( !has_trait( trait_CENOBITE ) ) {
+    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
         eff_morale = eff_morale - get_perceived_pain();
     }
 
@@ -1208,7 +1009,7 @@ int avatar::calc_focus_equilibrium() const
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
         * Each block of 50 takes twice as many morale points as the previous one:
-        * 50 focus at 50 morale (as before)
+        * 150 focus at 50 morale (as before)
         * 200 focus at 150 morale (100 more morale)
         * 250 focus at 350 morale (200 more morale)
         * ...
@@ -1284,7 +1085,7 @@ void avatar::update_mental_focus()
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
+            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
             activity.set_to_null();
         }
     }
@@ -1292,6 +1093,8 @@ void avatar::update_mental_focus()
 
 void avatar::reset_stats()
 {
+    const int current_stim = get_stim();
+
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -1364,12 +1167,12 @@ void avatar::reset_stats()
     set_fake_effect_dur( effect_sad, 1_turns * -morale );
 
     // Stimulants
-    set_fake_effect_dur( effect_stim, 1_turns * stim );
-    set_fake_effect_dur( effect_depressants, 1_turns * -stim );
+    set_fake_effect_dur( effect_stim, 1_turns * current_stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -current_stim );
     if( has_trait( trait_STIMBOOST ) ) {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 60 ) );
     } else {
-        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
     const float bmi = get_bmi();
@@ -1430,7 +1233,7 @@ void avatar::reset_stats()
     mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
 
     // Apply static martial arts buffs
-    ma_static_effects();
+    martial_arts_data.ma_static_effects( *this );
 
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
@@ -1477,8 +1280,7 @@ int avatar::get_per_base() const
 
 int avatar::kill_xp() const
 {
-    // TODO: game::kills probably should be avatar::kills
-    return g->kill_xp();
+    return g->get_kill_tracker().kill_xp();
 }
 
 // based on  D&D 5e level progression
@@ -1543,11 +1345,15 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
         case PERCEPTION:
             stat_string = _( "perception" );
             break;
+        case DUMMY_STAT:
+            stat_string = _( "invalid stat" );
+            debugmsg( "Tried to use invalid stat" );
+            break;
         default:
             return;
     }
 
-    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
             case STRENGTH:
@@ -1562,6 +1368,313 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
             case PERCEPTION:
                 per_upgrade++;
                 break;
+            case DUMMY_STAT:
+                debugmsg( "Tried to use invalid stat" );
+                break;
         }
+    }
+}
+
+faction *avatar::get_faction() const
+{
+    return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+}
+
+void avatar::set_movement_mode( character_movemode new_mode )
+{
+    switch( new_mode ) {
+        case CMM_WALK: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
+                } else {
+                    add_msg( _( "You nudge your steed into a steady trot." ) );
+                }
+            } else {
+                add_msg( _( "You start walking." ) );
+            }
+            break;
+        }
+        case CMM_RUN: {
+            if( can_run() ) {
+                if( is_hauling() ) {
+                    stop_hauling();
+                }
+                if( is_mounted() ) {
+                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
+                    } else {
+                        add_msg( _( "You spur your steed into a gallop." ) );
+                    }
+                } else {
+                    add_msg( _( "You start running." ) );
+                }
+            } else {
+                if( is_mounted() ) {
+                    // mounts dont currently have stamina, but may do in future.
+                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else if( get_working_leg_count() < 2 ) {
+                    add_msg( m_bad, _( "You need two functional legs to run." ) );
+                } else {
+                    add_msg( m_bad, _( "You're too tired to run." ) );
+                }
+                return;
+            }
+            break;
+        }
+        case CMM_CROUCH: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
+                } else {
+                    add_msg( _( "You slow your steed to a walk." ) );
+                }
+            } else {
+                add_msg( _( "You start crouching." ) );
+            }
+            break;
+        }
+        default: {
+            return;
+        }
+    }
+    move_mode = new_mode;
+}
+
+void avatar::toggle_run_mode()
+{
+    if( move_mode == CMM_RUN ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_RUN );
+    }
+}
+
+void avatar::toggle_crouch_mode()
+{
+    if( move_mode == CMM_CROUCH ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_CROUCH );
+    }
+}
+
+void avatar::reset_move_mode()
+{
+    if( move_mode != CMM_WALK ) {
+        set_movement_mode( CMM_WALK );
+    }
+}
+
+void avatar::cycle_move_mode()
+{
+    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
+    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    // if a movemode is disabled then just cycle to the next one
+    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    }
+}
+
+bool avatar::wield( item &target )
+{
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    if( !unwield() ) {
+        return false;
+    }
+    cached_info.erase( "weapon_value" );
+    if( target.is_null() ) {
+        return true;
+    }
+
+    // Query whether to draw an item from a holster when attempting to wield the holster
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
+            invoke_item( &target );
+            return false;
+        }
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    bool worn = is_worn( target );
+    int mv = item_handling_cost( target, true,
+                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+
+    if( worn ) {
+        target.on_takeoff( *this );
+    }
+
+    add_msg( m_debug, "wielding took %d moves", mv );
+    moves -= mv;
+
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
+    } else {
+        weapon = target;
+    }
+
+    last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
+
+    weapon.on_wield( *this, mv );
+
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
+    return true;
+}
+
+bool avatar::invoke_item( item *used, const tripoint &pt )
+{
+    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return invoke_item( used, use_methods.begin()->first, pt );
+    }
+
+    uilist umenu;
+
+    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
+    umenu.hilight_disabled = true;
+
+    for( const auto &e : use_methods ) {
+        const auto res = e.second.can_call( *this, *used, false, pt );
+        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
+                             res.str() );
+    }
+
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(),
+    umenu.entries.end(), []( const uilist_entry & elem ) {
+        return !elem.desc.empty();
+    } );
+
+    umenu.query();
+
+    int choice = umenu.ret;
+    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+        return false;
+    }
+
+    const std::string &method = std::next( use_methods.begin(), choice )->first;
+
+    return invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+{
+    return Character::invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+points_left::points_left()
+{
+    limit = MULTI_POOL;
+    init_from_options();
+}
+
+void points_left::init_from_options()
+{
+    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
+}
+
+// Highest amount of points to spend on stats without points going invalid
+int points_left::stat_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return std::min( trait_points_left(),
+                             stat_points + std::min( 0, trait_points + skill_points ) );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::trait_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return stat_points + trait_points + std::min( 0, skill_points );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::skill_points_left() const
+{
+    return stat_points + trait_points + skill_points;
+}
+
+bool points_left::is_freeform()
+{
+    return limit == FREEFORM;
+}
+
+bool points_left::is_valid()
+{
+    return is_freeform() ||
+           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
+             skill_points_left() >= 0 );
+}
+
+bool points_left::has_spare()
+{
+    return !is_freeform() && is_valid() && skill_points_left() > 0;
+}
+
+std::string points_left::to_string()
+{
+    if( limit == MULTI_POOL ) {
+        return string_format(
+                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
+                   trait_points >= 0 ? '+' : '-',
+                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   skill_points >= 0 ? '+' : '-',
+                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
+    } else if( limit == ONE_POOL ) {
+        return string_format( _( "Points left: %4d" ), skill_points_left() );
+    } else if( limit == TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    } else {
+        return _( "Freeform" );
     }
 }

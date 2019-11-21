@@ -12,7 +12,8 @@
         "s_apt_2": 400,
         "s_cardealer": 200,
         "s_camping": 100,
-        "s_games": 100
+        "s_games": 100,
+        "s_electronicstore": 400
       }
     }
   }

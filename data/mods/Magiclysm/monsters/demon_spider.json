@@ -50,7 +50,7 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
     "burn_data": [
-      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250_ml" },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ]
@@ -224,9 +224,6 @@
     "vision_night": 18,
     "harvest": "demon_spider_queen",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
-    "special_attacks": [
-      { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 35 },
-      { "type": "spell", "spell_id": "mon_demon_fireball", "cooldown": 10 }
-    ]
+    "special_attacks": [ { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 14 } ]
   }
 ]

@@ -48,7 +48,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( time_duration ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq );
+        void display( int focus_eq, int pain_penalty, int fatigue_penalty );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;

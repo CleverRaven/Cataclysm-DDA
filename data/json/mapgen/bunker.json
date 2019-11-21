@@ -115,29 +115,30 @@
     "om_terrain": [ "bunker_basement" ],
     "weight": 250,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
-        "#Ms    {{M  5M ?A MbCbM#",
+        "#Ms  6 {{M3 5M ?A2MbCbM#",
         "#Ms ct   ^   +    /   M#",
-        "#Mt     6M   MCCCgMbCbM#",
+        "#Mt     2M   MCCCgMbCbM#",
         "#MMMMMMMMM   MMMMMMMMMM#",
-        "#MrrrrrrrM    Mb  bl bM#",
+        "#MrrrrrrrM   2Mb  23 bM#",
         "#M       +    Ml     lM#",
         "#MLLLLLLLM5   *      bM#",
         "#MMMMMMMMMM   Mb     lM#",
-        "#Mc t t t M   Ml     bM#",
-        "#Mt c c c M   Mlb bl lM#",
+        "#Mc t t t2M   Ml     bM#",
+        "#Mt c c cWM   Mlb bl lM#",
         "#Mc       *   MMMMMMMMM#",
-        "#MMMM*MMMMM   M}     %M#",
-        "#M       TM   *       M#",
+        "#MMMM*MMMMM   M}   2 %M#",
+        "#M2      TM   *       M#",
         "#MSBOCCfCCM   MYsssY{{M#",
-        "#MMMMMMMMMM   MMMMMMMMM#",
+        "#MMMMMMMMMM ~ MMMMMMMMM#",
         "#ML *             *  SM#",
-        "#MMMMM^MMMMM+MMM*MM  SM#",
+        "#MMMMM^MMMMM+MMM*MM2 SM#",
         "#Ms Mr cd|   5M   M   M#",
         "#Ms Mr cd|    M*M*M*M*M#",
-        "#Mt *    M << M1M1M&M&M#",
+        "#Mt *   2M << M1M1M&M&M#",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
@@ -164,7 +165,9 @@
         "g": "f_glass_fridge",
         "{": "f_bookcase",
         "}": "f_pinball_machine",
-        "%": "f_floor_canvas"
+        "%": "f_floor_canvas",
+        "2": "f_air_conditioner",
+        "3": "f_speaker_cabinet"
       },
       "items": {
         "b": { "item": "bed", "chance": 60 },
@@ -199,7 +202,8 @@
         { "item": "anesthetic_kit", "x": 17, "y": 4 },
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
-      ]
+      ],
+      "monster": { "~": { "monster": "mon_turret_rifle" } }
     }
   },
   {
@@ -208,29 +212,30 @@
     "om_terrain": [ "bunker_basement" ],
     "weight": 500,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
-        "#Ms    {{M  5M ?A MbCbM#",
+        "#Ms  6 {{M3 5M ?A2MbCbM#",
         "#Ms cY   ^   +    /   M#",
-        "#Mt     6M   MCCCgMbCbM#",
+        "#Mt     2M   MCCCgMbCbM#",
         "#MMMMMMMMM   MMMMMMMMMM#",
-        "#MrrrrrrrM    Mb  bl bM#",
+        "#MrrrrrrrM   2Mb  23 bM#",
         "#M       +    Ml     lM#",
         "#MLLLLLLLM5   *      bM#",
         "#MMMMMMMMMM   Mb     lM#",
-        "#Mc t t t M   Ml     bM#",
-        "#Mt c c c M   Mlb bl lM#",
+        "#Mc t t t2M   Ml     bM#",
+        "#Mt c c cWM   Mlb bl lM#",
         "#Mc       *   MMMMMMMMM#",
-        "#MMMM*MMMMM   M}     %M#",
-        "#M       TM   *       M#",
+        "#MMMM*MMMMM   M}   2 %M#",
+        "#M2      TM   *       M#",
         "#MSBOCCfCCM   MYsssY{{M#",
-        "#MMMMMMMMMM   MMMMMMMMM#",
+        "#MMMMMMMMMM ~ MMMMMMMMM#",
         "#ML *             *  SM#",
-        "#MMMMM^MMMMM+MMM*MM  SM#",
+        "#MMMMM^MMMMM+MMM*MM2 SM#",
         "#Ms Mr cd|   5M   M   M#",
         "#Ms Mr cd|    M*M*M*M*M#",
-        "#Mt *    M << M1M1M&M&M#",
+        "#Mt *   2M << M1M1M&M&M#",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
@@ -257,7 +262,9 @@
         "g": "f_glass_fridge",
         "{": "f_bookcase",
         "}": "f_pinball_machine",
-        "%": "f_floor_canvas"
+        "%": "f_floor_canvas",
+        "2": "f_air_conditioner",
+        "3": "f_speaker_cabinet"
       },
       "items": {
         "b": { "item": "bed", "chance": 60 },
@@ -290,7 +297,8 @@
         { "item": "anesthetic_kit", "x": 17, "y": 4 },
         { "item": "television", "x": 17, "y": 13, "chance": 95 },
         { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
-      ]
+      ],
+      "monster": { "~": { "monster": "mon_turret_rifle" } }
     }
   },
   {
@@ -338,8 +346,8 @@
     "items": [
       { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
       { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
-      { "item": "corpse" },
-      { "group": "underwear" }
+      { "group": "underwear" },
+      { "item": "corpse" }
     ]
   },
   {

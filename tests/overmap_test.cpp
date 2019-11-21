@@ -93,7 +93,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
     bool found_optional = false;
     for( int x = 0; x < OMAPX; ++x ) {
         for( int y = 0; y < OMAPY; ++y ) {
-            const oter_id t = test_overmap->get_ter( { x, y, 0 } );
+            const oter_id t = test_overmap->ter( { x, y, 0 } );
             if( t->id == "cabin" ||
                 t->id == "cabin_north" || t->id == "cabin_east" ||
                 t->id == "cabin_south" || t->id == "cabin_west" ) {

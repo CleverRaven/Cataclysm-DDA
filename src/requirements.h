@@ -10,11 +10,14 @@
 #include <utility>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class nc_color;
 class JsonObject;
 class JsonArray;
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 
@@ -36,8 +39,7 @@ enum component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
-    // Translated name
-    std::string name;
+    translation name;
 
     std::vector<std::pair<int, std::string>> usages;
 
@@ -57,7 +59,7 @@ struct component {
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
 
-    component() { }
+    component() = default;
     component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
@@ -71,13 +73,13 @@ struct component {
 };
 
 struct tool_comp : public component {
-    tool_comp() { }
+    tool_comp() = default;
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
@@ -87,13 +89,13 @@ struct tool_comp : public component {
 };
 
 struct item_comp : public component {
-    item_comp() { }
+    item_comp() = default;
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     component_type get_component_type() const {
@@ -112,10 +114,10 @@ struct quality_requirement {
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &ja );
+    void load( JsonArray &jsarr );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int = 0 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
@@ -216,7 +218,11 @@ struct requirement_data {
          */
         static void save_requirement( const requirement_data &req,
                                       const requirement_id &id = requirement_id::NULL_ID() );
-
+        /**
+         * Serialize custom created requirement objects for fetch activities
+         */
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 

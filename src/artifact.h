@@ -10,6 +10,7 @@
 class JsonObject;
 class JsonOut;
 class item;
+template<typename T> struct enum_traits;
 
 enum art_effect_active : int {
     AEA_NULL = 0,
@@ -52,6 +53,11 @@ enum art_effect_active : int {
     NUM_AEAS
 };
 
+template<>
+struct enum_traits<art_effect_active> {
+    static constexpr art_effect_active last = art_effect_active::NUM_AEAS;
+};
+
 enum art_charge : int {
     ARTC_NULL,    // Never recharges!
     ARTC_TIME,    // Very slowly recharges with time
@@ -63,6 +69,11 @@ enum art_charge : int {
     NUM_ARTCS
 };
 
+template<>
+struct enum_traits<art_charge> {
+    static constexpr art_charge last = art_charge::NUM_ARTCS;
+};
+
 enum art_charge_req : int {
     ACR_NULL = 0, //No extra requirement
     ACR_EQUIP,    //Must be worn/wielded as appropriate
@@ -72,6 +83,11 @@ enum art_charge_req : int {
     ACR_WET,      //Must be wet or in rain
     ACR_SKY,      //Must be on a Z-level above the surface
     NUM_ACRS
+};
+
+template<>
+struct enum_traits<art_charge_req> {
+    static constexpr art_charge_req last = art_charge_req::NUM_ACRS;
 };
 
 /* CLASSES */

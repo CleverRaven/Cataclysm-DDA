@@ -103,7 +103,7 @@
       [ "optical_cloak", 1 ],
       [ "UPS_off", 5 ],
       [ "adv_UPS_off", 3 ],
-      [ "chestrig", 10 ],
+      [ "tacvest", 10 ],
       [ "backpack", 8 ],
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],

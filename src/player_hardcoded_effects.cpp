@@ -4,8 +4,11 @@
 #include <cstdlib>
 
 #include "avatar.h"
+#include "activity_handlers.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -22,6 +25,7 @@
 #include "enums.h"
 #include "mtype.h"
 #include "stomach.h"
+#include "teleport.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -58,12 +62,14 @@ const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_motor_seizure( "motor_seizure" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -79,6 +85,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_toxin_buildup( "toxin_buildup" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -157,19 +164,19 @@ static void eff_fun_fungus( player &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 120 ) ) {
-                if( u.hp_cur[hp_arm_l] <= 0 || u.hp_cur[hp_arm_r] <= 0 ) {
-                    if( u.hp_cur[hp_arm_l] <= 0 && u.hp_cur[hp_arm_r] <= 0 ) {
+                if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
+                    if( u.is_limb_broken( hp_arm_l ) && u.is_limb_broken( hp_arm_r ) ) {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     } else {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     }
                 } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge. Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge. Fungus stalks burst through the bulge!" ) );
+                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
+                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                 }
                 u.apply_damage( nullptr, bp_arm_l, 999 );
                 u.apply_damage( nullptr, bp_arm_r, 999 );
@@ -249,21 +256,21 @@ static void eff_fun_hallu( player &u, effect &it )
         }
         if( u.is_npc() && one_in( 1200 ) ) {
             static const std::array<std::string, 4> npc_hallu = {{
-                    _( "\"I think it's starting to kick in.\"" ),
-                    _( "\"Oh God, what's happening?\"" ),
-                    _( "\"Of course... it's all fractals!\"" ),
-                    _( "\"Huh?  What was that?\"" )
+                    translate_marker( "\"I think it's starting to kick in.\"" ),
+                    translate_marker( "\"Oh God, what's happening?\"" ),
+                    translate_marker( "\"Of course… it's all fractals!\"" ),
+                    translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
 
-            const std::string &npc_text = random_entry_ref( npc_hallu );
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                           false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
@@ -335,7 +342,7 @@ static void eff_fun_cold( player &u, effect &it )
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
             { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
             { { bp_mouth, 2 }, { 0, 0, 0, 1, "", 0, "" } },
-            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold. You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
             { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
             { { bp_arm_l, 3 }, { 0, 2, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
             { { bp_arm_l, 2 }, { 0, 1, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
@@ -424,8 +431,8 @@ static void eff_fun_frostbite( player &u, effect &it )
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
-        if( buff->is_valid_player( *this ) ) {
-            buff->apply_player( *this );
+        if( buff->is_valid_character( *this ) ) {
+            buff->apply_character( *this );
         } else {
             it.set_duration( 0_turns ); // removes the effect
         }
@@ -478,23 +485,14 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                if( num_insects == 0 ) {
-                    break;
-                } else if( pos() == dest ) {
-                    continue;
-                }
-                if( !g->critter_at( dest ) ) {
-                    if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
-                        if( one_in( 3 ) ) {
-                            grub->friendly = -1;
-                        }
+            for( ; num_insects > 0; num_insects-- ) {
+                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
+                    if( one_in( 3 ) ) {
+                        grub->friendly = -1;
                     }
-                    num_insects--;
                 }
             }
-            add_memorial_log( pgettext( "memorial_male", "Dermatik eggs hatched." ),
-                              pgettext( "memorial_female", "Dermatik eggs hatched." ) );
+            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
             remove_effect( effect_formication, bp );
             moves -= 600;
             triggered = true;
@@ -508,7 +506,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_formication ) {
         ///\EFFECT_INT decreases occurrence of itching from formication effect
-        if( x_in_y( intense, 600 + 300 * get_int() ) ) {
+        if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
@@ -567,7 +565,7 @@ void player::hardcoded_effects( effect &it )
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        mongroup_id( "GROUP_NETHER" ) );
-                g->summon_mon( spawn_details.name, dest );
+                g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                         _( "A monster appears nearby!" ) );
@@ -613,11 +611,24 @@ void player::hardcoded_effects( effect &it )
             if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
-                    add_memorial_log( pgettext( "memorial_male", "Spontaneous teleport." ),
-                                      pgettext( "memorial_female", "Spontaneous teleport." ) );
                 }
-                g->teleport();
+                teleport::teleport( *this );
+                g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
+            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+                    if( g->m.is_cornerfloor( dest ) ) {
+                        g->m.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                        break;
+                    }
+                }
+                if( one_in( 2 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
@@ -654,7 +665,7 @@ void player::hardcoded_effects( effect &it )
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            mongroup_id( "GROUP_NETHER" ) );
-                    g->summon_mon( spawn_details.name, dest );
+                    g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                             _( "A monster appears nearby!" ) );
@@ -681,7 +692,7 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
             if( one_in( 12000 - to_turns<int>( dur ) ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights..." ) );
+                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
                     // Set ourselves up for removal
@@ -719,10 +730,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            if( is_player() ) {
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to an asthma attack." ),
-                                  pgettext( "memorial_female", "Succumbed to an asthma attack." ) );
-            }
+            g->events().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -780,8 +788,8 @@ void player::hardcoded_effects( effect &it )
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
             focus_pool--;
         }
-        if( dur > 200_minutes && one_in( 48 ) && stim < 20 ) {
-            stim++;
+        if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
+            mod_stim( 1 );
         }
         if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
             focus_pool--;
@@ -843,8 +851,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            add_memorial_log( pgettext( "memorial_male", "Died of datura overdose." ),
-                              pgettext( "memorial_female", "Died of datura overdose." ) );
+            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
@@ -852,14 +859,13 @@ void player::hardcoded_effects( effect &it )
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
+            if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
+            //If intensity isn't pass the cap, average it with # of zeds
+            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -971,8 +977,7 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                add_memorial_log( pgettext( "memorial_male", "Succumbed to the infection." ),
-                                  pgettext( "memorial_female", "Succumbed to the infection." ) );
+                g->events().send<event_type::dies_of_infection>( getID() );
                 hurtall( 500, nullptr );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
@@ -996,12 +1001,12 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         }
         if( dur == 1_turns && !sleeping ) {
-            add_msg_if_player( _( "You try to sleep, but can't..." ) );
+            add_msg_if_player( _( "You try to sleep, but can't…" ) );
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
 #if defined(TILES)
-        if( is_player() && calendar::once_every( 10_minutes ) ) {
+        if( is_player() ) {
             SDL_PumpEvents();
         }
 #endif // TILES
@@ -1215,9 +1220,9 @@ void player::hardcoded_effects( effect &it )
                 remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
                 } else {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm…" ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
                 remove_effect( effect_alarm_clock );
@@ -1278,7 +1283,7 @@ void player::hardcoded_effects( effect &it )
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
-                    add_msg( "Your alarm went off." );
+                    add_msg( _( "Your alarm went off." ) );
                 }
             }
         }
@@ -1299,5 +1304,78 @@ void player::hardcoded_effects( effect &it )
             hp_cur[i] += 10;
         }
         mod_pain( -10 );
+    } else if( id == effect_toxin_buildup ) {
+        // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
+        // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
+        // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
+        // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
+
+        if( in_sleep_state() ) {
+            return;
+        }
+        // Modifier for symptom frequency.
+        // Each symptom is twice as frequent for each level of intensity above the one it first appears for.
+        int mod = 1;
+        switch( intense ) {
+            case 3:
+                // Tonic-clonic seizure (full body convulsive seizure)
+                if( one_turn_in( 3_days ) && !has_effect( effect_valium ) ) {
+                    add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
+                    time_duration td = rng( 30_seconds, 4_minutes );
+                    add_effect( effect_motor_seizure, td );
+                    add_effect( effect_downed, td );
+                    add_effect( effect_stunned, td );
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "You lose conciousness!" ) );
+                        fall_asleep( td );
+                    }
+                }
+                mod *= 2;
+            /* fallthrough */
+            case 2:
+                // Myoclonic seizure (muscle spasm)
+                if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
+                    std::string limb = random_entry<std::vector<std::string>>( {
+                        translate_marker( "arm" ), translate_marker( "hand" ), translate_marker( "leg" )
+                    } );
+                    add_msg_if_player( m_bad, string_format(
+                                           _( "Your %s suddenly jerks in an unexpected direction!" ), _( limb ) ) );
+                    if( limb == "arm" ) {
+                        mod_dex_bonus( -8 );
+                        recoil = MAX_RECOIL;
+                    } else if( limb == "hand" ) {
+                        if( is_armed() && can_unwield( weapon ).success() ) {
+                            if( dice( 4, 4 ) > get_dex() ) {
+                                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
+                            } else {
+                                add_msg_if_player( m_neutral, _( "However, you manage to keep hold of your weapon." ) );
+                            }
+                        }
+                    } else if( limb == "leg" ) {
+                        if( dice( 4, 4 ) > get_dex() ) {
+                            add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
+                        }
+                    }
+                }
+                // Atonic seizure (a.k.a. drop seizure)
+                if( one_turn_in( 2_days / mod ) && !has_effect( effect_valium ) ) {
+                    add_msg_if_player( m_bad,
+                                       _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
+                    add_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
+                    add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                }
+                mod *= 2;
+            /* fallthrough */
+            case 1:
+                // Migraine
+                if( one_turn_in( 2_days / mod ) ) {
+                    add_msg_if_player( m_bad, _( "You have a splitting headache." ) );
+                    mod_pain( 12 );
+                }
+
+                break;
+        }
     }
 }

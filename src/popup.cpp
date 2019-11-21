@@ -191,7 +191,7 @@ void query_popup::init() const
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
-                    buttons.emplace_back( opt, button_x, msg_height );
+                    buttons.emplace_back( opt, point( button_x, msg_height ) );
                     button_x += utf8_width( opt, true ) + horz_padding;
                 }
                 msg_height += 1 + vert_padding;
@@ -343,8 +343,7 @@ std::string query_popup::wait_text( const std::string &text, const nc_color &bar
     static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
     static size_t phase = phase_icons.size() - 1;
     phase = ( phase + 1 ) % phase_icons.size();
-    return string_format( " <color_%s>%s</color> %s",
-                          string_from_color( bar_color ), phase_icons[phase], text );
+    return string_format( " %s %s", colorize( phase_icons[phase], bar_color ), text );
 }
 
 std::string query_popup::wait_text( const std::string &text )
@@ -369,7 +368,7 @@ query_popup::query_option::query_option(
 {
 }
 
-query_popup::button::button( const std::string &text, const int x, const int y )
-    : text( text ), pos( x, y )
+query_popup::button::button( const std::string &text, const point &p )
+    : text( text ), pos( p )
 {
 }

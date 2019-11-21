@@ -17,7 +17,7 @@
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
-          { "item": "allclothes", "chance": 3, "damage": [ 3, 4 ] },
+          { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
           { "item": "wheels", "chance": 1 },
           { "item": "creepy", "chance": 1 },
@@ -172,7 +172,7 @@
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
-          { "item": "allclothes", "chance": 3, "damage": [ 3, 4 ] },
+          { "item": "allclothes_damaged", "chance": 3 },
           { "item": "stoner", "chance": 1 },
           { "item": "wheels", "chance": 1 },
           { "item": "creepy", "chance": 1 },
@@ -307,7 +307,7 @@
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
-          { "item": "allclothes", "chance": 1, "damage": [ 3, 4 ] },
+          { "item": "allclothes_damaged", "chance": 1 },
           { "item": "stoner", "chance": 1 },
           { "item": "wheels", "chance": 1 },
           { "item": "creepy", "chance": 1 },
@@ -451,7 +451,7 @@
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
-          { "item": "allclothes", "chance": 1, "damage": [ 3, 4 ] },
+          { "item": "allclothes_damaged", "chance": 1 },
           { "item": "stoner", "chance": 1 },
           { "item": "wheels", "chance": 1 },
           { "item": "creepy", "chance": 1 },
@@ -596,7 +596,7 @@
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
           { "item": "road", "chance": 1 },
-          { "item": "allclothes", "chance": 1, "damage": [ 3, 4 ] },
+          { "item": "allclothes_damaged", "chance": 1 },
           { "item": "stoner", "chance": 1 },
           { "item": "wheels", "chance": 1 },
           { "item": "creepy", "chance": 1 },

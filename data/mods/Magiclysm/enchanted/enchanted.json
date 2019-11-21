@@ -3,7 +3,7 @@
     "type": "recipe_category",
     "id": "CC_ENCHANTED",
     "recipe_subcategories": [
-      "CSC_ENCHANTED_ALL",
+      "CSC_ALL",
       "CSC_ENCHANTED_MATERIALS",
       "CSC_ENCHANTED_TOOLS",
       "CSC_ENCHANTED_WEAPONS",

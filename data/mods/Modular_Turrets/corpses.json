@@ -2,7 +2,7 @@
   {
     "abstract": "broken_turret_base",
     "type": "GENERIC",
-    "override": "true",
+    "override": true,
     "symbol": ",",
     "looks_like": "bot_turret",
     "color": "light_gray",
@@ -245,7 +245,7 @@
   {
     "abstract": "broken_hack_base",
     "type": "GENERIC",
-    "override": "true",
+    "override": true,
     "symbol": ",",
     "color": "light_green",
     "name": "broken hack",

@@ -28,7 +28,7 @@ void formatted_set_simple( map *m, const int startx, const int starty, const cha
             }
             if( furn != f_null ) {
                 if( furn == f_toilet ) {
-                    m->place_toilet( x, y );
+                    m->place_toilet( point( x, y ) );
                 } else {
                     m->furn_set( point( x, y ), furn );
                 }

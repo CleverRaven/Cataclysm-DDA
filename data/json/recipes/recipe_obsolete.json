@@ -1810,5 +1810,120 @@
     "type": "recipe",
     "result": "years_old_newspaperuncraft",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_plut_filteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactor_upgradeuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_advreactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry_dense",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22_mag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38_mag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "magbandolier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "washcloth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rolling_pin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_fried_donut_holes",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_cake",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_shovel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_scraped",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanned_hide_scraped",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "matchbomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_black_powder_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_sand_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pressure_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "obsolete": true
   }
 ]

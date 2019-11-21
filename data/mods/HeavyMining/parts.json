@@ -1,0 +1,78 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "v_roadheader_item",
+    "symbol": "&",
+    "name": "roadheader",
+    "color": "dark_gray",
+    "description": "A large and heavy jagged metalhead with a lot of spikes for destroying mine walls.",
+    "weight": "6200000 g",
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 9500,
+    "volume": "140000 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "v_balance_item",
+    "symbol": "&",
+    "name": "Balancer",
+    "color": "dark_gray",
+    "description": "A large and heavy metal bar for balancing a vehicle.",
+    "weight": "1000000 g",
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 9500,
+    "volume": "140000 ml"
+  },
+  {
+    "id": "balancer",
+    "type": "vehicle_part",
+    "name": "Balancer",
+    "item": "v_balance_item",
+    "location": "inside",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "white",
+    "broken_color": "light_gray",
+    "looks_like": "55gal_drum",
+    "difficulty": 8,
+    "damage_modifier": 100,
+    "durability": 300,
+    "description": "A large and heavy metal drum for balancing a vehicle.",
+    "folded_volume": 12,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 26 ] },
+      { "item": "steel_chunk", "count": [ 4, 15 ] },
+      { "item": "scrap", "count": [ 4, 100 ] }
+    ],
+    "flags": [ "PROTRUSION", "EXTRA_DRAG" ],
+    "damage_reduction": { "all": 132 }
+  },
+  {
+    "id": "roadheader",
+    "type": "vehicle_part",
+    "name": "roadheader",
+    "item": "v_roadheader_item",
+    "location": "structure",
+    "symbol": "&",
+    "broken_symbol": "x",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "looks_like": "crane_medium",
+    "difficulty": 8,
+    "damage_modifier": 100,
+    "durability": 300,
+    "description": "A large metal jagged metalhead, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will destroy walls near it.",
+    "folded_volume": 12,
+    "power": -70000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 26 ] },
+      { "item": "steel_chunk", "count": [ 4, 15 ] },
+      { "item": "scrap", "count": [ 4, 100 ] }
+    ],
+    "transform_terrain": { "pre_flags": [ "MINEABLE" ], "post_terrain": "don't used" },
+    "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND" ],
+    "damage_reduction": { "all": 132 }
+  }
+]

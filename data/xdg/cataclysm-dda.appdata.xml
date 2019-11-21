@@ -1,25 +1,209 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>cataclysm-dda</id>
-    <metadata_license>CC-BY-SA-3.0</metadata_license>
-    <project_license>CC-BY-SA-3.0</project_license>
-    <name>Cataclysm: Dark Days Ahead</name>
-    <summary>A turn-based survival game set in a post-apocalyptic world.</summary>
-    <description>
-        <p>Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a
-            "zombie game", there is far more to Cataclysm than that.</p>
-        <p>Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead
-            civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the
-            hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies
-            to giant insects to killer robots and things far stranger and deadlier, and against the others like
-            yourself, that want what you have...</p>
-    </description>
-    <url type="homepage">https://www.cataclysmdda.org/</url>
-    <url type="bugtracker">https://github.com/CleverRaven/Cataclysm-DDA/issues</url>
-    <url type="translate">https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/</url>
-    <launchable type="desktop-id">cataclysm-dda.desktop</launchable>
-    <provides>
-        <binary>cataclysm</binary>
-        <binary>cataclysm-tiles</binary>
-    </provides>
+  <id>cataclysm-dda</id>
+  <metadata_license>CC-BY-SA-3.0</metadata_license>
+  <project_license>CC-BY-SA-3.0</project_license>
+  <name>Cataclysm: Dark Days Ahead</name>
+  <summary>
+    A turn-based survival game set in a post-apocalyptic world
+  </summary>
+  <description>
+    <p>
+      Struggle to survive in a harsh, persistent, procedurally
+      generated world. Scavenge the remnants of a dead civilization
+      for food, equipment, or, if you are lucky, a vehicle with a full
+      tank of gas to get you the hell out of Dodge. Fight to defeat or
+      escape from a wide variety of powerful monstrosities, from
+      zombies to giant insects to killer robots and things far
+      stranger and deadlier, and against the others like yourself,
+      that want what you have...
+    </p>
+    <p>
+      As your game begins, you awaken with hazy memories of violence
+      and terror from when the world suddenly unravelled around
+      you. Now you need to explore your surroundings, and secure food,
+      water and safety. After that, who knows? Long term survival will
+      mean tapping abilities you haven’t used before, learning to
+      survive in this new environment and developing new skills.
+    </p>
+  </description>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">intense</content_attribute>
+    <content_attribute id="violence-bloodshed">intense</content_attribute>
+    <content_attribute id="violence-sexual">intense</content_attribute>
+    <content_attribute id="violence-desecration">intense</content_attribute>
+    <content_attribute id="violence-slavery">intense</content_attribute>
+    <content_attribute id="violence-worship">intense</content_attribute>
+    <content_attribute id="drugs-alcohol">moderate</content_attribute>
+    <content_attribute id="drugs-narcotics">moderate</content_attribute>
+    <content_attribute id="drugs-tobacco">moderate</content_attribute>
+    <content_attribute id="sex-nudity">intense</content_attribute>
+    <content_attribute id="sex-themes">intense</content_attribute>
+    <content_attribute id="sex-homosexuality">intense</content_attribute>
+    <content_attribute id="sex-prostitution">intense</content_attribute>
+    <content_attribute id="sex-adultery">intense</content_attribute>
+    <content_attribute id="sex-appearance">intense</content_attribute>
+    <content_attribute id="language-profanity">moderate</content_attribute>
+    <content_attribute id="language-humor">mild</content_attribute>
+    <content_attribute id="language-discrimination">intense</content_attribute>
+  </content_rating>
+  <url type="homepage">
+    https://www.cataclysmdda.org
+  </url>
+  <url type="bugtracker">
+    https://github.com/CleverRaven/Cataclysm-DDA/issues
+  </url>
+  <url type="translate">
+    https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+  </url>
+  <launchable type="desktop-id">cataclysm-dda.desktop</launchable>
+  <provides>
+    <binary>cataclysm-tiles</binary>
+  </provides>
+  <releases>
+    <release version="0.D Danny" date="2019-03-08">
+      <description>
+        <p>
+          The Danny release is characterized by MORE. More UI polish,
+          more features, more content, more long-asked-for
+          changes. It’s the longest-lived and largest in every way
+          release we’ve ever done, and we hope to never do it
+          again. Future releases are planned for roughly 6-month
+          intervals. This release is made up of 37,604 commits
+          authored by over 700 contributors, and it roughly doubled
+          the number of everything in the game, items, monsters, map
+          buildings, you name it, we doubled it.
+        </p>
+        <p>
+          It’s honestly way too huge to summarize in any meaningful
+          way, but here are the absolute biggest changes, and you’ll
+          just have to dig into the changelog or the game itself for
+          more detail.
+        </p>
+        <ul>
+          <li>
+            Many quality of life enhancements such as auto-pulp,
+            autopickup, batch actions, interacting with adjacent items
+            and improved long-action handling.
+          </li>
+          <li>
+            Pixel minimap for tiles mode.
+          </li>
+          <li>
+            Guns accept magazines when appropriate.
+          </li>
+          <li>
+            Player stamina stat that is burned by running and other
+            physical exertion.
+          </li>
+          <li>
+            Player faction base that allows incremental growth and
+            autonomous work by NPCs.
+          </li>
+          <li>
+            The player remembers terrain and furniture they have seen.
+          </li>
+          <li>
+            Carrying racks for small vehicles.
+          </li>
+          <li>
+            Vehicle system (speed, fuel consumption, terrain effects)
+            overhaul.
+          </li>
+          <li>
+            Overhauled nutrition, food spoilage and food state changes
+            (freezing).
+          </li>
+          <li>
+            Overhauled bomb fragment handling.
+          </li>
+          <li>
+            NPC dialogue support, group commands, tactical
+            instructions and backstories.
+          </li>
+          <li>
+            Dynamic Lighting.
+          </li>
+          <li>
+            Roughly DOUBLED the amount of in-game content.
+          </li>
+          <li>
+            Unheard-of levels of bugfixing.
+          </li>
+          <li>
+            Full translations for Chinese, German, Japanese, Polish
+            and Russian.
+          </li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.C Cooper" date="2015-03-09">
+      <p>
+        The Cooper release is named in honor of the new monster
+        infighting system. Now you can sit back and watch as your
+        enemies tear each other to pieces! Don’t get too close though,
+        they’re still out for your blood.
+      </p>
+      <ul>
+        <li>
+          This release also brings the long-requested DeathCam system,
+          which lets you see the aftermath of the glorious fireball or
+          atrocious train wreck that was your demise.
+        </li>
+        <li>
+          Gun users will notice a new aiming menu: you can now spend
+          time to steady your aim. Do you take the shot now, or wait
+          until the zombie gets a little closer?
+        </li>
+        <li>
+          Tailoring-oriented survivors (and who isn’t?) will note the
+          new tailor’s kit item, which lets you add insulation or
+          protective patches to your clothes.
+        </li>
+        <li>
+          Survivors with gigantic death-mobiles may appreciate the new
+          turret options, including being able to enable/disable
+          individual turrets, and being able to fire some turrets
+          manually.
+        </li>
+        <li>
+          Finally, for survivors with, shall we say, “well-stocked”
+          bases, there are massive improvements to performance when
+          there are many thousands of items nearby.
+        </li>
+      </ul>
+    </release>
+    <release version="0.B Brin" date="2014-11-17">
+      <p>
+        The Brin release is named in honor of significant improvements
+        to PC/NPC relations.
+      </p>
+      <p>
+        This release, containing over 9,000 commits (@kevingranade
+        counted) brings an unheard-of amount of new features and
+        content, most of which wants you dead.
+      </p>
+      <p>
+        Start your adventure in a wide variety of different locations,
+        with a selection of different starting scenarios, now with
+        unique character traits. Explore new locations, some of which
+        are ridiculously big (did somebody say ‘mall’?), and some of
+        which have inhabitants that don’t want to eat you for a
+        change. Vehicles have gotten some love, and now form a basis
+        for an electrical network should you desire to build one. If
+        you’ve ever wanted to strap a C4 pack onto an RC car and drive
+        it under a Zombie Hulk, you got your chance.
+      </p>
+    </release>
+    <release version="0.A Kaufman" date="2014-03-22">
+      <p>
+        The Kaufman is named in honor of a huge expansion to
+        Cataclysm’s mutation system.  The release, our largest yet
+        also brings innumerable bugfixes, performance enhancements,
+        new items, a long-awaited module manager, new monsters,
+        fullscreen mode, better mouse support, new map tiles and an
+        unheard-of level of stability.
+      </p>
+    </release>
+  </releases>
 </component>

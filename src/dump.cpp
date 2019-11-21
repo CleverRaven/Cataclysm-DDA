@@ -337,6 +337,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         case dump_mode::TSV:
             rows.insert( rows.begin(), header );
             for( const auto &r : rows ) {
+                // NOLINTNEXTLINE(cata-text-style): using tab to align the output
                 std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
                 std::cout << r.back() << "\n";
             }

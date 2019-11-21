@@ -1,10 +1,11 @@
 [
   {
     "id": "bio_shotgun_gun",
+    "looks_like": "remington_870",
     "type": "GUN",
     "name": "bionic shotgun",
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
-    "volume": 9,
+    "volume": "2250 ml",
     "price": 0,
     "to_hit": -2,
     "bashing": 9,
@@ -24,8 +25,8 @@
     "type": "GUN",
     "name": "EMP Projector",
     "description": "this a pseudo item",
-    "weight": 2950,
-    "volume": 8,
+    "weight": "2950 g",
+    "volume": "2 L",
     "price": 1600000,
     "to_hit": -1,
     "bashing": 12,
@@ -39,7 +40,6 @@
     "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
     "durability": 10,
     "loudness": 20,
-    "reload": 0,
     "modes": [ [ "DEFAULT", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
@@ -49,7 +49,7 @@
     "type": "GUN",
     "name": "laser finger",
     "description": "this a pseudo item",
-    "volume": 12,
+    "volume": "3 L",
     "price": 0,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -62,7 +62,6 @@
     "dispersion": 10,
     "durability": 10,
     "loudness": 7,
-    "reload": 500,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER" ]
   },
@@ -71,7 +70,7 @@
     "type": "GUN",
     "name": "Chain Lightning",
     "description": "this a pseudo item",
-    "volume": 12,
+    "volume": "3 L",
     "price": 0,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -83,7 +82,6 @@
     "dispersion": 10,
     "durability": 10,
     "loudness": 10,
-    "reload": 500,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
@@ -93,7 +91,7 @@
     "name": "Assault barbs",
     "name_plural": "Assault barbs",
     "description": "this a pseudo item",
-    "volume": 12,
+    "volume": "3 L",
     "price": 0,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -104,7 +102,6 @@
     "dispersion": 600,
     "durability": 10,
     "loudness": 5,
-    "reload": 500,
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }

@@ -139,7 +139,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const auto get_move_dir = [&]( const tripoint & dir, const tripoint & from ) {
         tileray mdir;
 
-        mdir.init( dir.x, dir.y );
+        mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );

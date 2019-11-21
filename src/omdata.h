@@ -65,7 +65,7 @@ const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - 
 const std::string &id( type dir );
 
 /** Get Human readable name of a direction */
-const std::string &name( type dir );
+std::string name( type dir );
 
 /** Various rotations. */
 point rotate( const point &p, type dir );
@@ -163,6 +163,31 @@ enum oter_flags {
     subway_connection,
     lake,
     lake_shore,
+    generic_loot,
+    risk_high,
+    risk_low,
+    source_ammo,
+    source_animals,
+    source_books,
+    source_chemistry,
+    source_clothing,
+    source_construction,
+    source_cooking,
+    source_drink,
+    source_electronics,
+    source_fabrication,
+    source_farming,
+    source_food,
+    source_forage,
+    source_fuel,
+    source_gun,
+    source_luxury,
+    source_medicine,
+    source_people,
+    source_safety,
+    source_tailoring,
+    source_vehicles,
+    source_weapon,
     num_oter_flags
 };
 
@@ -186,7 +211,7 @@ struct oter_type_t {
 
         std::string get_symbol() const;
 
-        oter_type_t() {}
+        oter_type_t() = default;
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
@@ -359,7 +384,7 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() {}
+    overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;

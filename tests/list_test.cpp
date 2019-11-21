@@ -196,7 +196,7 @@ TEST_CASE( "list basics", "[list]" )
             }
 
             CHECK( count == 200 );
-            CHECK( test_list.size() == 0 );
+            CHECK( test_list.empty() );
         }
 
         SECTION( "negative iteration" ) {
@@ -234,6 +234,7 @@ TEST_CASE( "list basics", "[list]" )
 
         SECTION( "swap() and max_size()" ) {
             cata::list<int *> test_list_2;
+            // NOLINTNEXTLINE(bugprone-use-after-move)
             test_list_2 = test_list;
 
             CHECK( test_list_2.size() == 400 );
@@ -297,7 +298,7 @@ TEST_CASE( "list insert and erase", "[list]" )
 
         } while( !test_list.empty() );
 
-        CHECK( test_list.size() == 0 );
+        CHECK( test_list.empty() );
     }
 
     SECTION( "erase randomly till half empty" ) {
@@ -951,6 +952,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
         }
 
         CHECK( passed );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( test_list.empty() );
     }
 
@@ -974,6 +976,7 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
         }
 
         CHECK( passed );
+        // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( test_list_2.empty() );
     }
 

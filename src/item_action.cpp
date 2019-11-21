@@ -204,7 +204,7 @@ void item_action_generator::check_consistency() const
     for( const auto &elem : item_actions ) {
         const auto &action = elem.second;
         if( !item_controller->has_iuse( action.id ) ) {
-            debugmsg( "Item action \"%s\" isn't known to the game. Check item action definitions in JSON.",
+            debugmsg( "Item action \"%s\" isn't known to the game.  Check item action definitions in JSON.",
                       action.id.c_str() );
         }
     }
@@ -220,6 +220,10 @@ void game::item_action_menu()
     item toolset( "toolset", calendar::turn );
     if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         pseudos.push_back( &toolset );
+    }
+    item bio_claws( "bio_claws_weapon", calendar::turn );
+    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
+        pseudos.push_back( &bio_claws );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
@@ -327,7 +331,7 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<bool> iuse_actor::can_use( const player &, const item &, bool, const tripoint & ) const
+ret_val<bool> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
 {
     return ret_val<bool>::make_success();
 }
