@@ -845,7 +845,7 @@ bool Character::burn_fuel( int b, bool start )
         return true;
     }
     const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
-    const std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
+    const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
     const float fuel_efficiency = bio.info().fuel_efficiency;
 
     if( start && fuel_available.empty() ) {
@@ -902,16 +902,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_power_level( units::from_kilojoule( fuel_energy ) * fuel_efficiency );
                     }
 
-                    if( bio.info().exothermic_power_gen ) {
-                        const int heat_prod = fuel_energy * ( 1 - fuel_efficiency );
-                        const int heat_level = std::min( heat_prod / 10, 4 );
-                        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
-                        const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
-                        g->m.emit_field( pos(), hotness, heat_spread );
-                        for( const auto bp : bio.info().occupied_bodyparts ) {
-                            add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
-                        }
-                    }
+                    heat_emission( b, fuel_energy, fuel_efficiency );
                     g->m.emit_field( pos(), bio.info().power_gen_emission );
                 } else {
 
@@ -940,8 +931,8 @@ bool Character::burn_fuel( int b, bool start )
 
 void Character::passive_power_gen( int b )
 {
-    bionic &bio = ( *my_bionics )[b];
-    const float &passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
+    const bionic &bio = ( *my_bionics )[b];
+    const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ||
         passive_fuel_efficiency == 0.0 ) {
     }
@@ -961,17 +952,26 @@ void Character::passive_power_gen( int b )
             mod_power_level( units::from_kilojoule( fuel_energy ) * passive_fuel_efficiency );
         }
 
-        if( bio.info().exothermic_power_gen ) {
-            const int heat_prod = fuel_energy * ( 1 - passive_fuel_efficiency );
-            const int heat_level = std::min( heat_prod / 10, 4 );
-            const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
-            const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
-            g->m.emit_field( pos(), hotness, heat_spread );
-            for( const auto bp : bio.info().occupied_bodyparts ) {
-                add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
-            }
-        }
+        heat_emission( b, fuel_energy, passive_fuel_efficiency );
         g->m.emit_field( pos(), bio.info().power_gen_emission );
+
+    }
+}
+
+void Character::heat_emission( int b, int fuel_energy, float efficiency )
+{
+    const bionic &bio = ( *my_bionics )[b];
+    if( !bio.info().exothermic_power_gen ) {
+        return;
+    }
+
+    const int &heat_prod = fuel_energy * ( 1 - efficiency );
+    const int &heat_level = std::min( heat_prod / 10, 4 );
+    const int &heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+    const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
+    g->m.emit_field( pos(), hotness, heat_spread );
+    for( const auto bp : bio.info().occupied_bodyparts ) {
+        add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
     }
 }
 
