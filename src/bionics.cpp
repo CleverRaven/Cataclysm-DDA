@@ -861,12 +861,13 @@ bool Character::burn_fuel( int b, bool start )
         for( const itype_id &fuel : fuel_available ) {
             const item &tmp_fuel = item( fuel );
             const int fuel_energy = tmp_fuel.fuel_energy();
+            const bool is_perpetual_fuel = tmp_fuel.has_flag( "PERPETUAL" );
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
                 current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
                                                get_healthy_kcal() );
-            } else if( tmp_fuel.has_flag( "PERPETUAL" ) ) {
+            } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
@@ -875,9 +876,19 @@ bool Character::burn_fuel( int b, bool start )
             if( !bio.has_flag( "SAFE_FUEL_OFF" ) &&
                 get_power_level() + units::from_kilojoule( fuel_energy ) * fuel_efficiency
                 > get_max_power_level() ) {
-                add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                       _( "<npcname>'s %s turns off to not waste fuel." ),
-                                       bio.info().name );
+                if( is_metabolism_powered ) {
+                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
+                                           _( "<npcname>'s %s turns off to not waste calories." ),
+                                           bio.info().name );
+                } else if( is_perpetual_fuel ) {
+                    add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                           _( "<npcname>'s %s turns off after filling their power banks." ),
+                                           bio.info().name );
+                } else {
+                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                           _( "<npcname>'s %s turns off to not waste fuel." ),
+                                           bio.info().name );
+                }
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
@@ -890,7 +901,7 @@ bool Character::burn_fuel( int b, bool start )
                         const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency;
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
-                    } else if( tmp_fuel.has_flag( "PERPETUAL" ) ) {
+                    } else if( is_perpetual_fuel ) {
                         if( fuel == itype_id( "sunlight" ) ) {
                             const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * fuel_efficiency );
