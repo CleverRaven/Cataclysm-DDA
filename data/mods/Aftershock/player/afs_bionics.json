@@ -1,7 +1,6 @@
 [
   {
     "id": "bn_bio_solar",
-    "//": "That's right, it's taken from Bright Nights. Sue me!",
     "type": "bionic",
     "name": "Solar Panels",
     "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
