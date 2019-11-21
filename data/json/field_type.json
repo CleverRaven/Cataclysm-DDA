@@ -952,6 +952,52 @@
     "display_field": true
   },
   {
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effect_id": "migo_atmosphere",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 1,
+        "effect_min_duration": "2 seconds",
+        "effect_max_duration": "6 seconds",
+        "inside_immune": true
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effect_id": "migo_atmosphere",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 2,
+        "effect_min_duration": "7 seconds",
+        "effect_max_duration": "21 seconds"
+      },
+      {
+        "name": "foul-smelling air",
+        "effect_id": "migo_atmosphere",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 4,
+        "effect_min_duration": "15 seconds",
+        "effect_max_duration": "45 seconds"
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_fungicidal_gas",
     "type": "field_type",
     "legacy_enum_id": 49,
