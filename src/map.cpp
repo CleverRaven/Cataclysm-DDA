@@ -594,7 +594,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         veh.on_move();
         // Actually change position
         tripoint pt = veh.global_pos3(); // displace_vehicle needs a non-const reference
-        new_vehicle = displace_vehicle( pt, dp1 );
+        displace_vehicle( new_vehicle, pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -1007,7 +1007,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     unboard_vehicle( *vp, passenger, dead_passenger );
 }
 
-vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
+bool map::displace_vehicle( vehicle *veh, tripoint &p, const tripoint &dp )
 {
     const tripoint p2 = p + dp;
     const tripoint src = p;
@@ -1016,7 +1016,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
                  src.x, src.y, src.z, dst.x, dst.y, dst.z );
-        return nullptr;
+        return false;
     }
 
     point src_offset;
@@ -1026,37 +1026,29 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 
     // first, let's find our position in current vehicles vector
     int our_i = -1;
-    for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
-        if( src_submap->vehicles[i]->pos == src_offset ) {
-            our_i = i;
-            break;
-        }
-    }
-    if( our_i < 0 ) {
-        vehicle *v = veh_pointer_or_null( veh_at( p ) );
-        for( auto &smap : grid ) {
-            for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
-                if( smap->vehicles[i].get() == v ) {
-                    our_i = i;
-                    src_submap = smap;
-                    break;
-                }
+    for( auto &smap : grid ) {
+        for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
+            if( smap->vehicles[i].get() == veh ) {
+                our_i = i;
+                src_submap = smap;
+                break;
             }
         }
     }
+
     if( our_i < 0 ) {
         add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
-        return nullptr;
+        return false;
     }
+
     // move the vehicle
-    vehicle *veh = src_submap->vehicles[our_i].get();
     // don't let it go off grid
     if( !inbounds( p2 ) ) {
         veh->stop();
         // Silent debug
         dbg( D_ERROR ) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
                        << dp.x << ", " << dp.y << ", " << dp.z << ")";
-        return veh;
+        return true;
     }
 
     // Need old coordinates to check for remote control
@@ -1155,7 +1147,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     veh->zones_dirty = true;
 
     on_vehicle_moved( veh->sm_pos.z );
-    return veh;
+    return true;
 }
 
 bool map::displace_water( const tripoint &p )
