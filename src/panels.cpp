@@ -1414,7 +1414,7 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     wrefresh( w );
 }
 
@@ -1474,7 +1474,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     nc_color color = c_light_gray;
     print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     // style
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.get_combat_style().name.translated() );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
@@ -1856,17 +1856,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
-    std::string style;
-    const auto &cur_style = u.style_selected.obj();
-    if( !u.weapon.is_gun() ) {
-        if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = cur_style.name.translated();
-        } else if( u.is_armed() ) {
-            style = _( "Normal" );
-        } else {
-            style = _( "No Style" );
-        }
-    }
+    const std::string style = u.martial_arts_data.selected_style_name( u );
 
     if( !style.empty() ) {
         const auto style_color = u.is_armed() ? c_red : c_blue;
@@ -2145,7 +2135,7 @@ void panel_manager::update_offsets( int x )
 
 bool panel_manager::save()
 {
-    return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
+    return write_to_file( PATH_INFO::panel_options(), [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
     }, _( "panel options" ) );
@@ -2153,7 +2143,7 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( FILENAMES["panel_options"], [&]( JsonIn & jsin ) {
+    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }

@@ -830,6 +830,8 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
         }
 };
 
+using string_reader = auto_flags_reader<>;
+
 /**
  * Uses a map (unordered or standard) to convert strings from JSON to some other type
  * (the mapped type of the map: `C::mapped_type`). It works for all mapped types, not just enums.

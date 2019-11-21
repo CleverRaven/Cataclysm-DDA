@@ -36,10 +36,24 @@ class zone_type
         std::string name_;
         std::string desc_;
     public:
+
+        zone_type_id id;
+        bool was_loaded;
+
+        zone_type() = default;
         explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
             desc_( desc ) {}
+
         std::string name() const;
         std::string desc() const;
+
+        static void load_zones( JsonObject &jo, const std::string &src );
+        void load( JsonObject &jo, const std::string & );
+        /**
+         * All spells in the game.
+         */
+        static const std::vector<zone_type> &get_all();
+        bool is_valid() const;
 };
 
 class zone_options

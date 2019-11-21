@@ -141,7 +141,7 @@
     "requirements": { "install": { "time": 30000, "using": [ [ "rope_natural_short", 2 ] ] } },
     "damage_modifier": 50,
     "durability": 40,
-    "description": "A mattress, strapped onto the vehicle. It could serve to blunt any impact.",
+    "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
     "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
     "damage_reduction": { "bash": 20 },
     "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE", "TOOL_NONE" ]

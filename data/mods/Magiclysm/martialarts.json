@@ -14,7 +14,8 @@
         "gauntlet_pounding",
         "stonefist",
         "stormglove",
-        "rune_earthshaper_weapon"
+        "rune_earthshaper_weapon",
+        "shotcestus"
       ]
     }
   },
@@ -39,7 +40,10 @@
         "kukri_plus_two",
         "tanto_plus_one",
         "tanto_plus_two",
-        "rune_animist_weapon"
+        "rune_animist_weapon",
+        "springstaff-retracted",
+        "mjolnir",
+        "gram"
       ]
     }
   },
@@ -57,7 +61,8 @@
         "cavalry_sabre_plus_one",
         "cavalry_sabre_plus_two",
         "broadsword_plus_one",
-        "broadsword_plus_two"
+        "broadsword_plus_two",
+        "springstaff-retracted"
       ]
     }
   },
@@ -101,7 +106,8 @@
         "gauntlet_pounding",
         "stonefist",
         "stormglove",
-        "rune_earthshaper_weapon"
+        "rune_earthshaper_weapon",
+        "shotcestus"
       ]
     }
   },
@@ -126,7 +132,10 @@
         "kukri_plus_two",
         "tanto_plus_one",
         "tanto_plus_two",
-        "rune_animist_weapon"
+        "rune_animist_weapon",
+        "m47a1",
+        "springstaff-retracted",
+        "gram"
       ]
     }
   },
@@ -147,7 +156,9 @@
         "longsword_plus_two",
         "zweihander_plus_one",
         "zweihander_plus_two",
-        "rune_kelvinist_weapon"
+        "rune_kelvinist_weapon",
+        "gunblade",
+        "gram"
       ]
     }
   },
@@ -204,7 +215,9 @@
         "wakizashi_plus_two",
         "rune_animist_weapon",
         "rune_kelvinist_weapon",
-        "rune_magus_weapon"
+        "rune_magus_weapon",
+        "springstaff-extended",
+        "gunblade"
       ]
     }
   },
@@ -258,7 +271,11 @@
         "rune_animist_weapon",
         "rune_biomancer_weapon",
         "rune_magus_weapon",
-        "bonespear"
+        "bonespear",
+        "springstaff-retracted",
+        "springstaff-extended",
+        "gungnir",
+        "laevateinn"
       ]
     }
   },
@@ -280,7 +297,8 @@
         "qiang_plus_one",
         "qiang_plus_two",
         "rune_biomancer_weapon",
-        "bonespear"
+        "bonespear",
+        "gungnir"
       ]
     }
   }

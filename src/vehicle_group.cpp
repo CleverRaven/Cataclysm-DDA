@@ -224,7 +224,7 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
     if( ! loc ) {
-        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s_semi",
+        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle.  placement %s_semi",
                   terrainid );
         return;
     }

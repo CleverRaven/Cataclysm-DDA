@@ -2,6 +2,7 @@
   {
     "id": "1895sbl",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Marlin 1895 SBL",
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
@@ -34,6 +35,7 @@
   {
     "id": "bfr",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Magnum Research BFR",
     "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
@@ -64,6 +66,7 @@
   {
     "id": "sharps",
     "copy-from": "gun_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "1874 Sharps",
     "name_plural": "1874 Sharps",

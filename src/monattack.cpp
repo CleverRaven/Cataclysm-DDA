@@ -706,7 +706,8 @@ bool mattack::shockstorm( monster *z )
 bool mattack::shocking_reveal( monster *z )
 {
     shockstorm( z );
-    std::string WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" );
+    const translation WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" ).value_or(
+                                         translation() );
     sounds::sound( z->pos(), 10, sounds::sound_t::alert,
                    string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
                                   z->name(), WHAT_A_SCOOP ) );
@@ -959,6 +960,7 @@ bool mattack::resurrect( monster *z )
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
     assert( raised.second ); // To appease static analysis
+    // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
@@ -2603,22 +2605,23 @@ bool mattack::grab( monster *z )
         return true;
     }
 
+    item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed if DEX>STR
 
     ///\EFFECT_STR increases chance to avoid being grabbed if STR>DEX
-    if( pl->can_grab_break() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
+    if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
         rng( 0, pl->get_dex() ) : rng( 0, pl->get_str() ) > rng( 0,
                 z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->style_selected.obj().has_weapon( pl->weapon.typeId() ) ) ) {
+                                              pl->martial_arts_data.selected_has_weapon( pl->weapon.typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
-            ma_technique tech = pl->get_grab_break_tec();
-            target->add_msg_player_or_npc( m_info, _( tech.player_message ), _( tech.npc_message ), z->name() );
+            ma_technique tech = pl->martial_arts_data.get_grab_break_tec( cur_weapon );
+            target->add_msg_player_or_npc( m_info, _( tech.avatar_message ), _( tech.npc_message ), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
                                            _( "The %s tries to grab <npcname>, but they break its grab!" ),
@@ -2760,7 +2763,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ), z->name() );
+            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {
@@ -4881,7 +4884,8 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( ( !foe->is_armed() || foe->style_selected.obj().has_weapon( foe->weapon.typeId() ) ) &&
+    } else if( ( !foe->is_armed() ||
+                 foe->martial_arts_data.selected_has_weapon( foe->weapon.typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;

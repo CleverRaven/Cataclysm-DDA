@@ -93,10 +93,8 @@ const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_batteries( "bio_batteries" );
 const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
 
 // active defense CBMs - activate when in danger
@@ -154,10 +152,7 @@ namespace
 {
 const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
-        bio_batteries,
-        bio_ethanol,
         bio_furnace,
-        bio_metabolics,
         bio_reactor,
     }
 };
@@ -1646,17 +1641,25 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-    for( const bionic_id bid : get_fueled_bionics() ) {
-        return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
-                !use_bionic_by_id( bid ) );
+    const units::energy curr_power =  get_power_level();
+    const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
+    const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
+
+    if( curr_power < max_pow_allowed ) {
+        for( const bionic_id &bid : get_fueled_bionics() ) {
+            if( !has_active_bionic( bid ) ) {
+                return true;
+            }
+        }
+        return get_fueled_bionics().empty(); //NPC might have power CBM that doesn't use the json fuel_opts entry
     }
-    return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
+    return false;
 }
 
 bool npc::can_use_offensive_cbm() const
 {
-    return get_power_level() > ( get_max_power_level() * static_cast<int>( rules.cbm_reserve ) / 100 );
+    const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+    return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
@@ -1686,9 +1689,11 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    use_bionic_by_id( bio_metabolics );
-
     for( bionic_id &bid : get_fueled_bionics() ) {
+        if( has_active_bionic( bid ) ) {
+            continue;
+        }
+
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
@@ -1704,7 +1709,19 @@ bool npc::recharge_cbm()
                 use_bionic_by_id( bid );
                 return true;
             } else {
-                complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                const bool need_alcohol = std::find( fuel_op.begin(), fuel_op.end(),
+                                                     "chem_ethanol" ) != fuel_op.end() ||
+                                          std::find( fuel_op.begin(), fuel_op.end(), "chem_methanol" ) != fuel_op.end() ||
+                                          std::find( fuel_op.begin(), fuel_op.end(), "denat_alcohol" ) != fuel_op.end();
+
+                if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
+                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+                } else if( need_alcohol ) {
+                    complain_about( "need_booze", 3_hours, "<need_booze>", false );
+                } else {
+                    complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+                }
             }
         }
     }
@@ -1718,29 +1735,6 @@ bool npc::recharge_cbm()
             return true;
         } else {
             complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_batteries ) ) {
-        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
-            return it.typeId() == itype_id( "battery" );
-        };
-        if( consume_cbm_items( battery_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_ethanol ) ) {
-        const std::function<bool( const item & )> ethanol_filter = []( const item & it ) {
-            return it.type->can_use( "WEAK_ALCOHOL" ) || it.type->can_use( "ALCOHOL" ) ||
-                   it.type->can_use( "STRONG_ALOCHOL" );
-        };
-        if( consume_cbm_items( ethanol_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_booze", 3_hours, "<need_booze>", false );
         }
     }
 
@@ -1948,7 +1942,8 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || ( is_player_ally() &&
+            mission != NPC_MISSION_TRAVELLING ) ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
@@ -3690,8 +3685,8 @@ bool npc::consume_food()
 {
     float best_weight = 0.0f;
     int index = -1;
-    int want_hunger = get_hunger();
-    int want_quench = get_thirst();
+    int want_hunger = std::max( 0, get_hunger() );
+    int want_quench = std::max( 0, get_thirst() );
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
@@ -3872,7 +3867,15 @@ void npc::reach_omt_destination()
                 }
             }
         } else {
-            revert_after_activity();
+            // for now - they just travel to a nearby place they want as a base
+            // and chill there indefinitely, the plan is to add systems for them to build
+            // up their base, then go out on looting missions,
+            // then return to base afterwards.
+            set_mission( NPC_MISSION_GUARD );
+            if( !needs.empty() && needs[0] == need_safety ) {
+                // we found our base.
+                base_location = global_omt_location();
+            }
         }
         return;
     }
@@ -3943,10 +3946,29 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        dest_type = get_location_for( fulfill )->get_random_terrain().id().str();
-        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 100, false );
+        // look for the closest occurence of any of that locations terrain types
+        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
+        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
+        omt_find_params find_params;
+        std::vector<std::pair<std::string, ot_match_type>> temp_types;
+        for( const oter_type_id &elem : loc_list ) {
+            std::pair<std::string, ot_match_type> temp_pair;
+            temp_pair.first = elem.id().str();
+            temp_pair.second = ot_match_type::type;
+            temp_types.push_back( temp_pair );
+        }
+        find_params.search_range = 75;
+        find_params.min_distance = 0;
+        find_params.must_see = false;
+        find_params.cant_see = false;
+        find_params.types = temp_types;
+        find_params.existing_only = false;
+        goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
-        if( goal != overmap::invalid_tripoint && !omt_path.empty() ) {
+        if( goal != overmap::invalid_tripoint ) {
+            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        }
+        if( !omt_path.empty() ) {
             break;
         }
     }

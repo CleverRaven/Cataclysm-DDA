@@ -264,8 +264,8 @@ void cata_tiles::reinit()
 static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
-    const std::string default_json = FILENAMES["defaulttilejson"];
-    const std::string default_tileset = FILENAMES["defaulttilepng"];
+    const std::string default_json = PATH_INFO::defaulttilejson();
+    const std::string default_tileset = PATH_INFO::defaulttilepng();
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -516,13 +516,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
-        get_tile_information( tileset_root + '/' + FILENAMES["tileset-conf"],
+        get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
                               json_conf, tileset_path );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
-        json_conf = FILENAMES["defaulttilejson"];
-        tileset_path = FILENAMES["defaulttilepng"];
+        json_conf = PATH_INFO::defaulttilejson();
+        tileset_path = PATH_INFO::defaulttilepng();
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
@@ -1075,7 +1075,32 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             g->displaying_visibility_creature = nullptr;
         }
     }
-
+    std::unordered_set<point> collision_checkpoints;
+    std::unordered_set<point> target_points;
+    for( const wrapped_vehicle &elem : g->m.get_vehicles() ) {
+        if( elem.v->get_autodrive_target() != tripoint_zero ) {
+            target_points.insert( g->m.getlocal( elem.v->get_autodrive_target().xy() ) );
+        }
+        if( elem.v->collision_check_points.empty() ) {
+            continue;
+        } else {
+            for( const point &pt_elem : elem.v->collision_check_points ) {
+                collision_checkpoints.insert( g->m.getlocal( pt_elem ) );
+            }
+        }
+    }
+    if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
+        for( const point &pt_elem : collision_checkpoints ) {
+            overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
+                                     formatted_text( "CHECK", catacurses::yellow,
+                                             NORTH ) );
+        }
+        for( const point &pt_elem : target_points ) {
+            overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
+                                     formatted_text( "TARGET", catacurses::red,
+                                             NORTH ) );
+        }
+    }
     static const point neighborhood[4] = {
         point_south, point_east, point_west, point_north
     };
@@ -1202,8 +1227,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     }
 
                     // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
-                                               1.0 );
+                    float ambient = g->m.ambient_light_at( {x, y, center.z} );
+                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
 
                     auto tile_pos = player_to_screen( point( x, y ) );
 
@@ -1215,7 +1240,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                     // string overlay
                     overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
-                                             formatted_text( string_format( "%.1f", lighting ), catacurses::black, NORTH ) );
+                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, NORTH ) );
                 }
             }
 
@@ -1223,7 +1248,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
-                    ( critter && g->u.sees_with_infrared( *critter ) ) ) {
+                    ( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) ) {
 
                     invisible[0] = true;
                 } else {
@@ -2613,7 +2638,8 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     // Check if the player can actually see the critter. We don't care if
     // it's via infrared or not, just whether or not they're seen. If not,
     // we can bail.
-    if( !g->u.sees( *critter ) && !g->u.sees_with_infrared( *critter ) ) {
+    if( !g->u.sees( *critter ) && !( g->u.sees_with_infrared( *critter ) ||
+                                     g->u.sees_with_specials( *critter ) ) ) {
         return false;
     }
 
@@ -2672,7 +2698,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         const Creature &critter = *pcritter;
 
         if( !g->u.sees( critter ) ) {
-            if( g->u.sees_with_infrared( critter ) ) {
+            if( g->u.sees_with_infrared( critter ) || g->u.sees_with_specials( critter ) ) {
                 return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
                                             LL_LIT, false, height_3d );
             }
@@ -2732,7 +2758,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     } else { // invisible
         const Creature *critter = g->critter_at( p, true );
-        if( critter && g->u.sees_with_infrared( *critter ) ) {
+        if( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0, LL_LIT, false,

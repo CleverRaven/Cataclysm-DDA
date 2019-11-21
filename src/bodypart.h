@@ -111,6 +111,12 @@ struct body_part_struct {
         static void finalize_all();
         // Verifies that body parts make sense
         static void check_consistency();
+
+        int bionic_slots() const {
+            return bionic_slots_;
+        }
+    private:
+        int bionic_slots_;
 };
 
 class body_part_set

@@ -304,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     int z = veh->sm_pos.z;
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range! name=%s, submap:%d,%d,%d",
+        debugmsg( "detach_vehicle got a vehicle outside allowed z-level range!  name=%s, submap:%d,%d,%d",
                   veh->name, veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
         // Try to fix by moving the vehicle here
         z = veh->sm_pos.z = abs_sub.z;
@@ -334,7 +334,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             return result;
         }
     }
-    debugmsg( "detach_vehicle can't find it! name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
+    debugmsg( "detach_vehicle can't find it!  name=%s, submap:%d,%d,%d", veh->name, veh->sm_pos.x,
               veh->sm_pos.y, veh->sm_pos.z );
     return std::unique_ptr<vehicle>();
 }
@@ -2949,13 +2949,17 @@ int map::collapse_check( const tripoint &p )
 
 // there is still some odd behavior here and there and you can get floating chunks of
 // unsupported floor, but this is much better than it used to be
-void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting )
+void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
+                       const bool destroy_pos )
 {
     const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
     const bool wall = was_supporting || has_flag( "WALL", p );
-    destroy( p, silent );
-    crush( p );
-    make_rubble( p );
+    // don't bash again if the caller already bashed here
+    if( destroy_pos ) {
+        destroy( p, silent );
+        crush( p );
+        make_rubble( p );
+    }
     const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
 
     // If something supporting the roof collapsed, see what else collapses
@@ -3414,8 +3418,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash->explosive, 0.8, false );
     }
 
-    if( will_collapse ) {
-        collapse_at( p, params.silent, true );
+    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
+        collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
 
     params.did_bash = true;
@@ -3537,6 +3541,14 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     while( count <= 25 && furn( p ) != f_null && bash( p, 999, silent, true ).success ) {
+        count++;
+    }
+}
+
+void map::batter( const tripoint &p, int power, int tries, const bool silent )
+{
+    int count = 0;
+    while( count < tries && bash( p, power, silent ).success ) {
         count++;
     }
 }
@@ -4463,8 +4475,8 @@ item &map::add_item( const tripoint &p, item new_item )
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
         if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
-            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
-                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
+            new_item.convert( dynamic_cast<const iuse_transform *>
+                              ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
         }
         new_item.active = true;
     }
@@ -5633,9 +5645,8 @@ basecamp map::hoist_submap_camp( const tripoint &p )
     return pcamp ? *pcamp : basecamp();
 }
 
-void map::add_camp( const tripoint &p, const std::string &name )
+void map::add_camp( const tripoint &omt_pos, const std::string &name )
 {
-    tripoint omt_pos = ms_to_omt_copy( getabs( p ) );
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     g->u.camps.insert( omt_pos );
@@ -7667,21 +7678,24 @@ bool tinymap::inbounds( const tripoint &p ) const
 
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
-bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type )
+bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                         int fake_map_z )
 {
+    const tripoint tripoint_below_zero( 0, 0, fake_map_z );
+
     bool do_terset = true;
-    set_abs_sub( tripoint_zero );
+    set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const tripoint gridp( gridx, gridy, 0 );
+            const tripoint gridp( gridx, gridy, fake_map_z );
             submap *tmpsub = MAPBUFFER.lookup_submap( gridp );
             if( tmpsub == nullptr ) {
                 generate_uniform( gridp, ter_type );
                 do_terset = false;
                 tmpsub = MAPBUFFER.lookup_submap( gridp );
                 if( tmpsub == nullptr ) {
-                    dbg( D_ERROR ) << "failed to generate a fake submap at 0, 0, 0 ";
-                    debugmsg( "failed to generate a fake submap at 0,0,0" );
+                    dbg( D_ERROR ) << "failed to generate a fake submap at 0,0,-9 ";
+                    debugmsg( "failed to generate a fake submap at 0,0,-9" );
                     return false;
                 }
             }
@@ -7691,8 +7705,8 @@ bool tinymap::fake_load( const furn_id &fur_type, const ter_id &ter_type, const 
         }
     }
 
-    for( const tripoint &pos : points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( const tripoint &pos : points_in_rectangle( tripoint_below_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, fake_map_z ) ) ) {
         if( do_terset ) {
             ter_set( pos, ter_type );
         }

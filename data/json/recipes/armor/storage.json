@@ -30,6 +30,19 @@
     "components": [ [ [ "leather", 8 ], [ "rag", 8 ] ], [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
+    "result": "stone_pouch",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "throw", 1 ] ],
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "leather", 4 ] ], [ [ "filament", 600, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
+  },
+  {
     "result": "chestrig",
     "type": "recipe",
     "category": "CC_ARMOR",

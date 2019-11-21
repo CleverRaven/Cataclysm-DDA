@@ -18,6 +18,8 @@
 
 #include "cata_utility.h"
 
+extern bool test_mode;
+
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
@@ -99,7 +101,8 @@ JsonObject::JsonObject( JsonIn &j )
 void JsonObject::finish()
 {
 #ifndef CATA_IN_TOOL
-    if( report_unvisited_members && !reported_unvisited_members && !std::uncaught_exception() ) {
+    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+        !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<std::string, int> &p : positions ) {
             const std::string &name = p.first;
@@ -1435,7 +1438,20 @@ void JsonIn::error( const std::string &message, int offset )
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
     stream->read( &buffer[0], pos - startpos );
-    err << buffer;
+    auto it = buffer.begin();
+    for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
+        // skip starting newlines
+    }
+    for( ; it < buffer.end(); ++it ) {
+        if( *it == '\r' ) {
+            err << '\n';
+            if( it + 1 < buffer.end() && *( it + 1 ) == '\n' ) {
+                ++it;
+            }
+        } else {
+            err << *it;
+        }
+    }
     if( !is_whitespace( peek() ) ) {
         err << peek();
     }
@@ -1463,22 +1479,27 @@ void JsonIn::error( const std::string &message, int offset )
     }
     // print the next couple lines as well
     int line_count = 0;
-    for( int i = 0; i < 240; ++i ) {
+    for( int i = 0; line_count < 3 && stream->good() && i < 240; ++i ) {
         stream->get( ch );
-        err << ch;
+        if( !stream->good() ) {
+            break;
+        }
         if( ch == '\r' ) {
+            ch = '\n';
             ++line_count;
-            if( peek() == '\n' ) {
-                err << stream->get();
+            if( stream->peek() == '\n' ) {
+                stream->get( ch );
             }
         } else if( ch == '\n' ) {
             ++line_count;
         }
-        if( line_count > 2 ) {
-            break;
-        }
+        err << ch;
     }
-    throw JsonError( err.str() );
+    std::string msg = err.str();
+    if( !msg.empty() && msg.back() != '\n' ) {
+        msg.push_back( '\n' );
+    }
+    throw JsonError( msg );
 }
 
 bool JsonIn::error_or_false( bool throw_, const std::string &message, int offset )

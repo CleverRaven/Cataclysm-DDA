@@ -830,6 +830,8 @@ class map
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( const tripoint &p, bool inside, bool check_only = false );
         // Destruction
+        /** bash a square for a set number of times at set power.  Does not destroy */
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
@@ -839,7 +841,8 @@ class map
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
         int collapse_check( const tripoint &p );
         /** Causes a collapse at p, such as from destroying a wall */
-        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false );
+        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
+                          bool destroy_pos = true );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
         void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
@@ -1175,7 +1178,7 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint &p, const std::string &name );
+        void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         // Graffiti
@@ -1333,8 +1336,12 @@ class map
         }
 
         // Not protected/private for mapgen_functions.cpp access
-        void rotate( int turns ); // Rotates the current map 90*turns degrees clockwise
+        // Rotates the current map 90*turns degrees clockwise
         // Useful for houses, shops, etc
+        // @param turns number of 90 clockwise turns to make
+        // @param setpos_safe if true, being used outside of mapgen and can use setpos to
+        // set NPC positions.  if false, cannot use setpos
+        void rotate( int turns, bool setpos_safe = false );
 
         // Monster spawning:
     public:
@@ -1716,7 +1723,8 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type );
+        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                        int fake_map_z );
 };
 
 #endif

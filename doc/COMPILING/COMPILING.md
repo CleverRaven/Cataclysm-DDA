@@ -10,11 +10,11 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#debian-troubleshooting)
+  * [Troubleshooting](#linux-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
-  * [Troubleshooting](#mac-troubleshooting)
+  * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
   * [Building with Visual Studio](#building-with-visual-studio)
   * [Building with MSYS2](#building-with-msys2)
@@ -548,7 +548,7 @@ Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like 
 
 You should see a `Cataclysm.dmg` file.
 
-## Troubleshooting
+## Mac OS X Troubleshooting
 
 ### ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier
 

@@ -269,7 +269,7 @@
     "quench": -1,
     "healthy": -1,
     "calories": 209,
-    "description": "A handful of peanut butter cups...  your favorite!",
+    "description": "A handful of peanut butter cups… your favorite!",
     "price": 180,
     "material": "junk",
     "volume": "250 ml",
@@ -488,7 +488,7 @@
     "copy-from": "jihelucake",
     "stim": 8,
     "quench": -5,
-    "description": "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it...",
+    "description": "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it…",
     "fun": 20
   },
   {
@@ -561,7 +561,7 @@
     "symbol": "%",
     "healthy": -2,
     "calories": 165,
-    "description": "A handful of soft chocolate-covered peppermint patties...  yum!",
+    "description": "A handful of soft chocolate-covered peppermint patties… yum!",
     "price": 130,
     "material": "junk",
     "volume": "250 ml",

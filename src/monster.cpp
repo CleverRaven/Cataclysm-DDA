@@ -169,12 +169,12 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_KILLER( "KILLER" );
 
-static const std::map<m_size, std::string> size_names {
-    {m_size::MS_TINY, translate_marker( "tiny" )},
-    {m_size::MS_SMALL, translate_marker( "small" )},
-    {m_size::MS_MEDIUM, translate_marker( "medium" )},
-    {m_size::MS_LARGE, translate_marker( "large" )},
-    {m_size::MS_HUGE, translate_marker( "huge" )},
+static const std::map<m_size, translation> size_names {
+    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
+    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
+    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
+    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
+    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -466,14 +466,16 @@ void monster::try_biosignature()
     if( !biosig_timer ) {
         biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
-
+    int counter = 0;
     while( true ) {
-        if( *biosig_timer > calendar::turn ) {
+        // dont catch up too much, otherwise on some scenarios,
+        // we could have years worth of poop just deposited on the floor.
+        if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-
         g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
+        counter += 1;
     }
 }
 
@@ -532,12 +534,12 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive ) const
+std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name() );
+        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name() );
+        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
 }
 
@@ -672,7 +674,7 @@ std::string monster::extended_description() const
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ),
-                         _( size_names.at( get_size() ) ) ) << std::endl;
+                         size_names.at( get_size() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -2107,8 +2109,8 @@ void monster::die( Creature *nkiller )
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
-                std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
-                ch->add_msg_if_player( m_good, _( snip ) );
+                const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+                ch->add_msg_if_player( m_good, "%s", snip );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
@@ -2719,6 +2721,11 @@ int monster::get_hp( hp_part ) const
 int monster::get_hp() const
 {
     return hp;
+}
+
+float monster::get_mountable_weight_ratio() const
+{
+    return type->mountable_weight_ratio;
 }
 
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
