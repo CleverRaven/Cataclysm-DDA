@@ -1025,19 +1025,24 @@ bool map::displace_vehicle( vehicle *veh, tripoint &p, const tripoint &dp )
     submap *const dst_submap = get_submap_at( dst, dst_offset );
 
     // first, let's find our position in current vehicles vector
-    int our_i = -1;
+    size_t our_i = 0;
+    bool found = false;
     for( auto &smap : grid ) {
         for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
             if( smap->vehicles[i].get() == veh ) {
                 our_i = i;
                 src_submap = smap;
+                found = true;
                 break;
             }
         }
+        if( found ) {
+            break;
+        }
     }
 
-    if( our_i < 0 ) {
-        add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
+    if( !found ) {
+        add_msg( m_debug, "displace_vehicle [%s] failed", veh->name );
         return false;
     }
 
