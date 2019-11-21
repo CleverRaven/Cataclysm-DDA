@@ -1819,6 +1819,26 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_atmosphere",
+    "name": [ "Alien gas" ],
+    "desc": [ "The air in here smells like vinegar and mold." ],
+    "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
+    "rating": "bad",
+    "miss_messages": [ [ "You feel short of breath in this sweltering, foul air.", 2 ] ],
+    "harmful_cough": false,
+    "max_duration": "1 m",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 300, 1000 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300, 900 ],
+      "vomit_chance": [ 600, 1200 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {
