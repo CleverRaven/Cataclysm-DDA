@@ -12,7 +12,7 @@
     "volume": "75 ml",
     "bashing": 0,
     "to_hit": -4,
-    "description": "A scale from a brown dragon.  It still has its magical properties and acid resistance."
+    "description": "A scale from a brown dragon.  It still has its magical properties and nature resistance."
   },
   {
     "type": "COMESTIBLE",
@@ -62,7 +62,7 @@
     "symbol": ",",
     "color": "brown_white",
     "name": "brown dragon hide",
-    "description": "Prepared hide from a brown dragon.  Hard, acid-resistant, and with more scales could make a suit of armor as hard as steel and half as heavy.",
+    "description": "Prepared hide from a brown dragon.  Hard, nature-resistant, and with more scales could make a suit of armor as hard as steel and half as heavy.",
     "price": 50000,
     "material": [ "brown_dragon_hide" ],
     "weight": 2500,
