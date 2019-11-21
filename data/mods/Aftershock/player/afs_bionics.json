@@ -6,7 +6,10 @@
     "name": "Solar Panels",
     "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE" ]
+    "fuel_options": [ "sunlight" ],
+    "fuel_efficiency": 1.0,
+    "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
     "id": "afs_bio_precision_solderers",

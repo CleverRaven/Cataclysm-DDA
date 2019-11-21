@@ -859,12 +859,15 @@ bool Character::burn_fuel( int b, bool start )
     //in the menu
     if( !start ) {
         for( const itype_id &fuel : fuel_available ) {
-            const int fuel_energy = item( fuel ).fuel_energy();
+            const item &tmp_fuel = item( fuel );
+            const int fuel_energy = tmp_fuel.fuel_energy();
 
             int current_fuel_stock;
             if( is_metabolism_powered ) {
                 current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
                                                get_healthy_kcal() );
+            } else if( tmp_fuel.has_flag( "PERPETUAL" ) ) {
+                current_fuel_stock = 1;
             } else {
                 current_fuel_stock = std::stoi( get_value( fuel ) );
             }
@@ -887,6 +890,12 @@ bool Character::burn_fuel( int b, bool start )
                         const units::energy power_gain = kcal_consumed * 4184_J * fuel_efficiency;
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
+                    } else if( tmp_fuel.has_flag( "PERPETUAL" ) ) {
+                        if( fuel == itype_id( "sunlight" ) ) {
+                            const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
+                            add_msg( std::to_string( fuel_energy * modifier * fuel_efficiency ) );
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * fuel_efficiency );
+                        }
                     } else {
                         current_fuel_stock -= 1;
                         set_value( fuel, std::to_string( current_fuel_stock ) );
