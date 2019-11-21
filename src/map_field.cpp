@@ -72,7 +72,6 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_relax_gas( "relax_gas" );
 const efftype_id effect_sap( "sap" );
-const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_stung( "stung" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teargas( "teargas" );
