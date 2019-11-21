@@ -9,6 +9,7 @@
 
 class avatar;
 class item;
+class item_location;
 class map;
 struct targeting_data;
 
@@ -58,6 +59,9 @@ bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 // Throw an item  't'
 void plthrow( avatar &you, int pos = INT_MIN,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
+
+void use_item( avatar &you, item_location &loc ); // Use item; also tries E,R,W  'a'
+void use_item( avatar &you );
 } // namespace avatar_action
 
 #endif // !AVATAR_MOVE_H

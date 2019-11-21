@@ -20,7 +20,6 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
-#include "game_inventory.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
@@ -1477,75 +1476,6 @@ void avatar::cycle_move_mode()
         as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
         set_movement_mode( static_cast<character_movemode>( as_uchar ) );
     }
-}
-
-static void make_active( item_location loc )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item_location loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
-void avatar::use_item()
-{
-    item_location loc;
-    use_item( loc );
-}
-
-void avatar::use_item( item_location &loc )
-{
-    bool use_loc = false;
-
-    if( !loc ) {
-        loc = game_menus::inv::use( *this );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
-        } else {
-            int obtain_cost = loc.obtain_cost( *this );
-            loc.obtain( *this );
-            // This method only handles items in te inventory, so refund the obtain cost.
-            moves += obtain_cost;
-        }
-    }
-
-    g->refresh_all();
-
-    if( use_loc ) {
-        update_lum( loc, false );
-        use( loc );
-        update_lum( loc, true );
-
-        make_active( loc );
-    } else {
-        use( loc );
-    }
-
-    invalidate_crafting_inventory();
 }
 
 bool avatar::wield( item &target )
