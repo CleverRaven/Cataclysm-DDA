@@ -771,7 +771,6 @@
           "socks",
           "lothric_shield",
           "holy_symbol"
-          
         ],
         "entries": [ { "item": "lothric_sword", "container-item": "scabbard" }, { "item": "arrow_wood", "container-item": "quiver" } ]
       },
