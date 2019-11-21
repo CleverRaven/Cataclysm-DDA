@@ -340,7 +340,7 @@ class item_location::impl::item_on_person : public item_location::impl
 
             if( who->is_armed() && &who->weapon == target() ) {
                 // no penalties because we already have this item in our hands
-                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, 0 );
+                mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
             } else {
                 auto parents = who->parents( *target() );
                 if( !parents.empty() && who->is_worn( *parents.back() ) ) {
