@@ -71,7 +71,7 @@
     "to_hit": -1
   },
   {
-    "id": "boots_xlbrown_dragon_scale",
+    "id": "boots_xl_brown_dragon_scale",
     "copy-from": "boots_brown_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "pair of XL brown dragonscale boots", "str_pl": "pairs of XL brown dragonscale boots" },
@@ -105,7 +105,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "boots_xlbrown_dragon_hide",
+    "id": "boots_xl_brown_dragon_hide",
     "copy-from": "boots_brown_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "pair of XL brown dragonhide boots", "str_pl": "pairs of XL brown dragonhide boots" },
@@ -139,7 +139,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "helmet_xlbrown_dragon_scale",
+    "id": "helmet_xl_brown_dragon_scale",
     "copy-from": "helmet_brown_dragon_scale",
     "type": "ARMOR",
     "name": "XL brown dragonscale helmet",
@@ -173,7 +173,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "helmet_xlbrown_dragon_hide",
+    "id": "helmet_xl_brown_dragon_hide",
     "copy-from": "helmet_brown_dragon_hide",
     "type": "ARMOR",
     "name": "XL brown dragonhide helmet",
@@ -207,7 +207,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "suit_xlbrown_dragon_scale",
+    "id": "suit_xl_brown_dragon_scale",
     "copy-from": "suit_brown_dragon_scale",
     "type": "ARMOR",
     "name": "XL brown dragonscale armor",
@@ -240,7 +240,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "suit_xlbrown_dragon_hide",
+    "id": "suit_xl_brown_dragon_hide",
     "copy-from": "suit_brown_dragon_hide",
     "type": "ARMOR",
     "name": "XL brown dragonhide armor",
@@ -273,7 +273,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "gauntlets_xlbrown_dragon_scale",
+    "id": "gauntlets_xl_brown_dragon_scale",
     "copy-from": "gauntlets_brown_dragon_scale",
     "type": "ARMOR",
     "name": { "str": "pair of XL brown dragonscale gauntlets", "str_pl": "pairs of XL brown dragonscale gauntlets" },
@@ -306,7 +306,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "gloves_xlbrown_dragon_hide",
+    "id": "gloves_xl_brown_dragon_hide",
     "copy-from": "gloves_brown_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "pair of XL brown dragonhide gloves", "str_pl": "pairs of XL brown dragonhide gloves" },

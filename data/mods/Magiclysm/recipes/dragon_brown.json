@@ -67,7 +67,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 40 ] ], [ [ "dragon_brown_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
-    "result": "suit_xlbrown_dragon_scale",
+    "result": "suit_xl_brown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -97,7 +97,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 15 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
-    "result": "boots_xlbrown_dragon_hide",
+    "result": "boots_xl_brown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -127,7 +127,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 6 ] ], [ [ "dragon_brown_scale", 75 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
-    "result": "boots_xlbrown_dragon_scale",
+    "result": "boots_xl_brown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -157,7 +157,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 3 ] ], [ [ "dragon_brown_scale", 8 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
   {
-    "result": "helmet_xlbrown_dragon_hide",
+    "result": "helmet_xl_brown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -187,7 +187,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 1 ] ], [ [ "dragon_brown_scale", 90 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
   {
-    "result": "helmet_xlbrown_dragon_scale",
+    "result": "helmet_xl_brown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -217,7 +217,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 3 ] ], [ [ "dragon_brown_scale", 10 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
   {
-    "result": "gloves_xlbrown_dragon_hide",
+    "result": "gloves_xl_brown_dragon_hide",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -247,7 +247,7 @@
     "components": [ [ [ "brown_dragon_tanned_hide", 4 ] ], [ [ "dragon_brown_scale", 50 ] ], [ [ "dragon_essence", 5 ] ] ]
   },
   {
-    "result": "gauntlets_xlbrown_dragon_scale",
+    "result": "gauntlets_xl_brown_dragon_scale",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
