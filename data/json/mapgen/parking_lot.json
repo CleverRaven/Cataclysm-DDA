@@ -33,7 +33,7 @@
         "............................_______--_______...."
       ],
       "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y" },
-      "furniture": { "Y": "t_street_light" }
+      "furniture": { "Y": "f_street_light" }
     }
   },
   {
@@ -70,7 +70,7 @@
         "...........Y..............Y..............Y.........._______--_______...."
       ],
       "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y" },
-      "furniture": { "Y": "t_street_light" }
+      "furniture": { "Y": "f_street_light" }
     }
   },
   {
@@ -132,7 +132,7 @@
         "..........................._______--_______....."
       ],
       "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y", ",": "t_concrete" },
-      "furniture": { "Y": "t_street_light" }
+      "furniture": { "Y": "f_street_light" }
     }
   }
 ]
