@@ -938,7 +938,6 @@
   {
     "id": "fd_hot_air_sauna",
     "type": "field_type",
-    "legacy_enum_id": 48,
     "intensity_levels": [
       { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 57 },
       { "color": "yellow", "convection_temperature_mod": 62 },
