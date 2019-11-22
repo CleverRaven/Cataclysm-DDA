@@ -733,9 +733,51 @@
     "type": "field_type",
     "legacy_enum_id": 39,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true, "translucency": 5 },
-      { "name": "sedative gas", "color": "pink" },
-      { "name": "relaxation gas", "color": "cyan" }
+      {
+        "name": "hazy cloud",
+        "sym": ".",
+        "dangerous": true,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_outside_vehicle": 3,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "sedative gas",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      },
+      {
+        "name": "relaxation gas",
+        "color": "cyan",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 6,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
