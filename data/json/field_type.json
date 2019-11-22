@@ -185,34 +185,48 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "2 seconds",
-        "inside_immune": true
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
       },
       {
         "name": "smoke",
         "color": "light_gray",
         "transparent": false,
         "translucency": 10,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 2,
-        "effect_min_duration": "7 seconds",
-        "effect_max_duration": "7 seconds",
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
         "scent_neutralization": 1
       },
       {
         "name": "thick smoke",
         "color": "dark_gray",
         "translucency": 0,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 4,
-        "effect_min_duration": "15 seconds",
-        "effect_max_duration": "15 seconds",
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
         "scent_neutralization": 5
       }
     ],

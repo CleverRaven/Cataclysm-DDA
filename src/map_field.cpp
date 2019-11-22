@@ -1694,10 +1694,25 @@ void map::player_in_field( player &u )
 
 void map::creature_in_field( Creature &critter )
 {
+    bool in_vehicle = false;
+    bool inside_vehicle = false;
+    player *u = critter.as_player();
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
-    } else if( player *p = critter.as_player() ) {
-        player_in_field( *p );
+    } else {
+        if( u ) {
+            in_vehicle = u->in_vehicle;
+            // If we are in a vehicle figure out if we are inside (reduces effects usually)
+            // and what part of the vehicle we need to deal with.
+            if( in_vehicle ) {
+                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                    if( vp->is_inside() ) {
+                        inside_vehicle = true;
+                    }
+                }
+            }
+            player_in_field( *u );
+        }
     }
 
     field &curfield = get_field( critter.pos() );
@@ -1707,25 +1722,44 @@ void map::creature_in_field( Creature &critter )
             continue;
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
-        const effect field_fx = cur_field_entry.field_effect();
-        if( field_fx.is_null() ||
-            critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
-            critter.is_immune_effect( field_fx.get_id() ) ) {
-            continue;
-        }
-        player *u = critter.as_player();
-        if( u && cur_field_entry.inside_immune() ) {
-            // If we are in a vehicle figure out if we are inside (reduces effects usually)
-            // and what part of the vehicle we need to deal with.
-            if( u->in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
-                    if( vp->is_inside() ) {
-                        continue;
-                    }
-                }
+
+        for( const auto &fe : cur_field_entry.field_effects() ) {
+            if( in_vehicle && fe.immune_in_vehicle ) {
+                continue;
+            }
+            if( inside_vehicle && fe.immune_inside_vehicle ) {
+                continue;
+            }
+            if( !inside_vehicle && fe.immune_outside_vehicle ) {
+                continue;
+            }
+            if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
+                continue;
+            }
+            if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
+                continue;
+            }
+            if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
+                continue;
+            }
+
+            const effect field_fx = fe.get_effect();
+            if( field_fx.is_null() ||
+                critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
+                critter.is_immune_effect( field_fx.get_id() ) ) {
+                continue;
+            }
+            bool effect_added = false;
+            if( fe.is_environmental ) {
+                effect_added = critter.add_env_effect( fe.id, fe.bp, fe.intensity, fe.get_duration() );
+            } else {
+                effect_added = true;
+                critter.add_effect( field_fx );
+            }
+            if( effect_added ) {
+                critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
         }
-        critter.add_effect( field_fx );
     }
 }
 
