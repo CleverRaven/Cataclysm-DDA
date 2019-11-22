@@ -962,8 +962,8 @@
         "effect_id": "migo_atmosphere",
         "effect_body_part": "MOUTH",
         "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "6 seconds",
+        "effect_min_duration": "5 seconds",
+        "effect_max_duration": "10 seconds",
         "inside_immune": true
       },
       {
@@ -972,8 +972,8 @@
         "effect_id": "migo_atmosphere",
         "effect_body_part": "MOUTH",
         "effect_intensity": 2,
-        "effect_min_duration": "7 seconds",
-        "effect_max_duration": "21 seconds"
+        "effect_min_duration": "10 seconds",
+        "effect_max_duration": "25 seconds"
       },
       {
         "name": "foul-smelling air",
@@ -981,7 +981,7 @@
         "effect_body_part": "MOUTH",
         "effect_intensity": 4,
         "effect_min_duration": "15 seconds",
-        "effect_max_duration": "45 seconds"
+        "effect_max_duration": "25 seconds"
       }
     ],
     "decay_amount_factor": 5,
@@ -994,8 +994,7 @@
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
-    "display_items": false,
-    "display_field": true
+    "display_items": false
   },
   {
     "id": "fd_fungicidal_gas",
