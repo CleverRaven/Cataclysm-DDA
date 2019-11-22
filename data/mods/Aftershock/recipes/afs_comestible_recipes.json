@@ -15,6 +15,19 @@
   },
   {
     "type": "recipe",
+    "result": "butter",
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "qualities": [ { "id": "CHURN", "level": 2 } ],
+    "autolearn": true,
+    "components": [ [ [ "milk_raw", 45 ] ], [ [ "salt", 15 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "flatbread",
     "id_suffix": "afs_from_dough",
     "category": "CC_FOOD",
