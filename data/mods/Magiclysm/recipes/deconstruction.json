@@ -14,7 +14,7 @@
     "skill_used": "spellcraft",
     "difficulty": 4,
     "time": "4 h",
-    "qualities": [ { "id": "HAMMER", "level": 1 },  ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock", 222 ] ], [ [ "sharp_rock", 33 ] ] ]
   },
   {
