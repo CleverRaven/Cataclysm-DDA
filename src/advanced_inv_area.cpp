@@ -40,7 +40,6 @@
 #include <utility>
 #include <numeric>
 
-
 int advanced_inv_area::get_item_count() const
 {
     if( id == AIM_INVENTORY ) {
@@ -180,7 +179,6 @@ void advanced_inv_area::init()
         flags.erase( 0, 1 );
     }
 }
-
 
 units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
@@ -402,7 +400,6 @@ void advanced_inv_area::set_container_position()
         vstor = -1;
     }
 }
-
 
 aim_location advanced_inv_area::offset_to_location() const
 {

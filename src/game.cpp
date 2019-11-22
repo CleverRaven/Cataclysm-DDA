@@ -8570,8 +8570,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             break;
     }
 
-
-
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
         it = &u.i_at( loc.obtain( u ) );
@@ -9990,7 +9988,6 @@ void game::on_move_effects()
             }
         }
     }
-
 
     if( u.movement_mode_is( CMM_RUN ) ) {
         if( !u.can_run() ) {

@@ -5456,7 +5456,6 @@ void Character::cough( bool harmful, int loudness )
     add_effect( effect_recently_coughed, 5_minutes );
 }
 
-
 void Character::wake_up()
 {
     remove_effect( effect_sleep );
@@ -6610,7 +6609,6 @@ void Character::check_and_recover_morale()
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
     }
 }
-
 
 void Character::start_hauling()
 {
