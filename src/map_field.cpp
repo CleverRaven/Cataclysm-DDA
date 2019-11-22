@@ -1415,12 +1415,8 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_sap ) {
-            // Sap causes the player to get sap disease, slowing them down.
             // Sap does nothing to cars.
             if( !u.in_vehicle ) {
-                u.add_msg_player_or_npc( m_bad, _( "The sap sticks to you!" ),
-                                         _( "The sap sticks to <npcname>!" ) );
-                u.add_effect( effect_sap, cur.get_field_intensity() * 2_turns );
                 // Use up sap.
                 cur.set_field_intensity( cur.get_field_intensity() - 1 );
             }

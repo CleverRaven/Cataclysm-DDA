@@ -115,9 +115,58 @@
     "type": "field_type",
     "legacy_enum_id": 8,
     "intensity_levels": [
-      { "name": "sap splatter", "sym": "5", "color": "yellow", "dangerous": true },
-      { "name": "glob of sap" },
-      { "name": "pool of sap", "color": "brown" }
+      {
+        "name": "sap splatter",
+        "sym": "5",
+        "color": "yellow",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "glob of sap",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "pool of sap",
+        "color": "brown",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "is_splattering": true,
     "priority": 2,
