@@ -21,6 +21,11 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
+static std::string find_quad_path( const std::string &dirname, const tripoint &om_addr )
+{
+    return string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y, om_addr.z );
+}
+
 mapbuffer MAPBUFFER;
 
 mapbuffer::mapbuffer() = default;
@@ -140,8 +145,7 @@ void mapbuffer::save( bool delete_after_save )
         tripoint segment_addr = omt_to_seg_copy( om_addr );
         const std::string dirname = string_format( "%s/%d.%d.%d", map_directory, segment_addr.x,
                                     segment_addr.y, segment_addr.z );
-        const std::string quad_path = string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y,
-                                      om_addr.z );
+        const std::string quad_path = find_quad_path( dirname, om_addr );
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
@@ -243,8 +247,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
     const std::string dirname = string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(),
                                 segment_addr.x, segment_addr.y, segment_addr.z );
-    const std::string quad_path = string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y,
-                                  om_addr.z );
+    const std::string quad_path = find_quad_path( dirname, om_addr );
 
     using namespace std::placeholders;
     if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
