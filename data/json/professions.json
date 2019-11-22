@@ -4036,7 +4036,7 @@
       "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
-    },
+    }
   },
   {
     "type": "profession",
