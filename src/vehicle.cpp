@@ -1679,7 +1679,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
         discovered.pop_front();
         auto current = current_part.mount;
 
-        for( const point &cardinal_direction: five_cardinal_directions ) {
+        for( const point &cardinal_direction : five_cardinal_directions ) {
             point next = current + cardinal_direction;
 
             if( next == target ) {
@@ -5646,11 +5646,14 @@ void vehicle::refresh_insides()
             continue;
         }
 
-        parts[p].inside = true; // inside if not otherwise
-        for( const point &cardinal_direction : five_cardinal_directions ) { // let's check four neighbor parts
+        // inside if not otherwise
+        parts[p].inside = true;
+        // let's check four neighbor parts
+        for( const point &cardinal_direction : five_cardinal_directions ) {
             point near_mount = parts[ p ].mount + cardinal_direction;
             std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
-            bool cover = false; // if we aren't covered from sides, the roof at p won't save us
+            // if we aren't covered from sides, the roof at p won't save us
+            bool cover = false;
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
                 if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
@@ -5659,7 +5662,8 @@ void vehicle::refresh_insides()
                 } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
                     if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
-                        continue; // door and it's open -- can't cover
+                        // door and it's open -- can't cover
+                        continue;
                     }
                     cover = true;
                     break;
