@@ -26,6 +26,13 @@ static std::string find_quad_path( const std::string &dirname, const tripoint &o
     return string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y, om_addr.z );
 }
 
+static std::string find_dirname( const tripoint &om_addr )
+{
+    const tripoint segment_addr = omt_to_seg_copy( om_addr );
+    return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
+                          segment_addr.y, segment_addr.z );
+}
+
 mapbuffer MAPBUFFER;
 
 mapbuffer::mapbuffer() = default;
@@ -108,8 +115,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    const std::string map_directory = g->get_world_base_save_path() + "/maps";
-    assure_dir_exist( map_directory );
+    assure_dir_exist( g->get_world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -142,9 +148,7 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        tripoint segment_addr = omt_to_seg_copy( om_addr );
-        const std::string dirname = string_format( "%s/%d.%d.%d", map_directory, segment_addr.x,
-                                    segment_addr.y, segment_addr.z );
+        const std::string dirname = find_dirname( om_addr );
         const std::string quad_path = find_quad_path( dirname, om_addr );
 
         // delete_on_save deletes everything, otherwise delete submaps
@@ -244,9 +248,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint om_addr = sm_to_omt_copy( p );
-    const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    const std::string dirname = string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(),
-                                segment_addr.x, segment_addr.y, segment_addr.z );
+    const std::string dirname = find_dirname( om_addr );
     const std::string quad_path = find_quad_path( dirname, om_addr );
 
     using namespace std::placeholders;
