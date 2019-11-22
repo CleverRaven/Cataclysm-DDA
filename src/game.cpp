@@ -2668,8 +2668,6 @@ void game::load( const save_t &name )
         u.deserialize_map_memory( jsin );
     } );
 
-    read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather,
-                             this, _1 ) );
     weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
@@ -2878,9 +2876,6 @@ bool game::save_player_data()
         JsonOut jsout( fout );
         u.serialize_map_memory( jsout );
     }, _( "player map memory" ) );
-    const bool saved_weather = write_to_file( playerfile + ".weather", [&]( std::ostream & fout ) {
-        save_weather( fout );
-    }, _( "weather state" ) );
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
@@ -2890,7 +2885,7 @@ bool game::save_player_data()
     }, _( "quick shortcuts" ) );
 #endif
 
-    return saved_data && saved_map_memory && saved_weather && saved_log
+    return saved_data && saved_map_memory && saved_log
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif

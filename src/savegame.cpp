@@ -263,46 +263,6 @@ void scent_map::deserialize( const std::string &data )
     }
 }
 
-///// weather
-void game::load_weather( std::istream &fin )
-{
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-
-    //Check for "lightning:" marker - if absent, ignore
-    if( fin.peek() == 'l' ) {
-        std::string line;
-        getline( fin, line );
-        weather.lightning_active = line == "lightning: 1";
-    } else {
-        weather.lightning_active = false;
-    }
-    if( fin.peek() == 's' ) {
-        std::string line;
-        std::string label;
-        getline( fin, line );
-        std::stringstream liness( line );
-        liness >> label >> seed;
-    }
-}
-
-void game::save_weather( std::ostream &fout )
-{
-    fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
-    fout << "seed: " << seed;
-}
-
 #if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
@@ -1620,6 +1580,10 @@ void game::unserialize_master( std::istream &fin )
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
+            } else if( name == "weather" ) {
+                JsonObject w = jsin.get_object();
+                w.read( "lightning", weather.lightning_active );
+                w.read( "seed", seed );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1653,6 +1617,12 @@ void game::serialize_master( std::ostream &fout )
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
+
+        json.member( "weather" );
+        json.start_object();
+        json.member( "lightning", weather.lightning_active );
+        json.member( "seed", seed );
+        json.end_object();
 
         json.end_object();
     } catch( const JsonError &e ) {

@@ -709,7 +709,6 @@ class game
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
-        void load_weather( std::istream &fin );
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
 #endif
@@ -724,7 +723,6 @@ class game
         bool save_artifacts();
         // returns false if saving failed for whatever reason
         bool save_maps();
-        void save_weather( std::ostream &fout );
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
