@@ -91,7 +91,7 @@
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_BONE_SEER",
-    "faction": "wasteland_scavengers",
+    "faction": "no_faction",
     "mission_offered": "MISSION_SEER_GATHER_BONE"
   },
   {

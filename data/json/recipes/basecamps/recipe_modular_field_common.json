@@ -594,7 +594,7 @@
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "frame", 1 ] ],
       [ [ "circuit", 4 ] ],

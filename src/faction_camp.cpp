@@ -95,7 +95,7 @@ const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 const zone_type_id z_camp_food( "CAMP_FOOD" );
 
@@ -609,8 +609,8 @@ void talk_function::basecamp_mission( npc &p )
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
-        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+        if( mgr.has_near( z_camp_storage, abspos, 60 ) ) {
+            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {
@@ -1018,12 +1018,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                    "Have a companion attempt to completely dissemble a vehicle into "
                    "components.\n\n"
                    "Skill used: mechanics\n"
-                   "Difficulty: 2 \n"
+                   "Difficulty: 2\n"
                    "Effects:\n"
                    "> Removed parts placed on the furniture in the garage.\n"
                    "> Skill plays a huge role to determine what is salvaged.\n\n"
                    "Risk: None\n"
-                   "Time: 5 days \n" );
+                   "Time: 5 days\n" );
         mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
                                npc_list.empty() );
         if( !npc_list.empty() ) {
@@ -1073,13 +1073,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::plow ) +
                     _( "\n\n"
                        "Skill used: fabrication\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Restores only the plots created in the last expansion upgrade.\n"
                        "> Does not damage existing crops.\n\n"
                        "Risk: None\n"
-                       "Time: 5 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 5 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir,
                                    entry, plots > 0 );
         } else {
@@ -1100,14 +1100,14 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::plant ) +
                     _( "\n\n"
                        "Skill used: survival\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Choose which seed type or all of your seeds.\n"
                        "> Stops when out of seeds or planting locations.\n"
                        "> Will plant in ALL dirt mounds in the expansion.\n\n"
                        "Risk: None\n"
-                       "Time: 1 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 1 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id,
                                    dir_abbr + miss_info.desc, dir, entry,
                                    plots > 0 && warm_enough_to_plant( omt_trg ) );
@@ -1128,12 +1128,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     farm_description( omt_trg, plots, farm_ops::harvest ) +
                     _( "\n\n"
                        "Skill used: survival\n"
-                       "Difficulty: N/A \n"
+                       "Difficulty: N/A\n"
                        "Effects:\n"
                        "> Will dump all harvesting products onto your location.\n\n"
                        "Risk: None\n"
-                       "Time: 3 Min / Plot \n"
-                       "Positions: 0/1 \n" );
+                       "Time: 3 Min / Plot\n"
+                       "Positions: 0/1\n" );
             mission_key.add_start( dir_id + miss_info.miss_id,
                                    dir_abbr + miss_info.desc, dir, entry,
                                    plots > 0 );
@@ -1247,10 +1247,9 @@ void basecamp::get_available_missions( mission_data &mission_key )
     if( !by_radio ) {
         entry = string_format( _( "Notes:\n"
                                   "Distribute food to your follower and fill you larders.  "
-                                  "Place the food you wish to distribute in the camp food "
-                                  "zone.  You must have a camp food zone, an unsorted loot "
-                                  "zone, and at least one loot destination zone or you will "
-                                  "be prompted to create them using the zone manager.\n"
+                                  "Place the food you wish to distribute in the camp food zone.  "
+                                  "You must have a camp food zone, and a camp storage zone, "
+                                  "or you will be prompted to create them using the zone manager.\n"
                                   "Effects:\n"
                                   "> Increases your faction's food supply value which in "
                                   "turn is used to pay laborers for their time\n\n"
@@ -1263,20 +1262,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Total faction food stock: %d kcal\nor %d day's rations" ),
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
-
-        entry = string_format( _( "Notes:\n"
-                                  "Reset the zones that items are sorted to using the "
-                                  "[ Menial Labor ] mission.\n\n"
-                                  "Effects:\n"
-                                  "> Assign sort zones using the zone manager.  You must "
-                                  "have a camp food zone, an unsorted loot zone, and at "
-                                  "least one loot destination zone.\n"
-                                  "> Only items that are in the unsorted loot zone and not "
-                                  "in any other zone will be sorted.\n"
-                                  "Items that do not have a loot destination zone will be "
-                                  "sorted using the normal rules for automatic zone "
-                                  "sorting." ) );
-        mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
         validate_assignees();
         std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
@@ -1318,10 +1303,6 @@ bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point>
 
     if( miss_id == "Distribute Food" ) {
         distribute_food();
-    }
-
-    if( miss_id == "Reset Sort Points" ) {
-        set_sort_points();
     }
 
     if( miss_id.size() > 12 && miss_id.substr( 0, 12 ) == "Upgrade Camp" ) {
@@ -3372,17 +3353,16 @@ bool basecamp::validate_sort_points()
         mgr.cache_vzones();
     }
     tripoint src_loc = bb_pos + point_north;
-    const auto abspos = g->m.getabs( g->u.pos() );
-    if( !mgr.has_near( z_loot_unsorted, abspos ) ||
-        !mgr.has_near( z_camp_food, abspos ) || !mgr.has_loot_dest_near( abspos ) ) {
+    const tripoint abspos = g->m.getabs( g->u.pos() );
+    if( !mgr.has_near( z_camp_storage, abspos, 60 ) || !mgr.has_near( z_camp_food, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
             return false;
         }
     } else {
-        const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, abspos );
+        const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
             src_loc = g->m.getlocal( src );
@@ -3396,8 +3376,7 @@ bool basecamp::validate_sort_points()
 bool basecamp::set_sort_points()
 {
     popup( _( "Sorting zones have changed.  Please create some sorting zones.  "
-              "You must create a camp food zone for your camp, an unsorted loot zone, "
-              "and at least one destination loot zone." ) );
+              "You must create a camp food zone, and a camp storage zone." ) );
     g->zones_manager();
     return validate_sort_points();
 }
@@ -3674,8 +3653,8 @@ bool basecamp::distribute_food()
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    const tripoint &abspos = g->m.getabs( g->u.pos() );
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( z_camp_food, abspos );
+    const tripoint &abspos = get_dumping_spot();
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( z_camp_food, abspos, 60 );
 
     tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
 
@@ -3769,8 +3748,8 @@ void basecamp::place_results( item result )
             mgr.cache_vzones();
         }
         const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+        if( mgr.has_near( z_camp_storage, abspos ) ) {
+            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {

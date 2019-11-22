@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
@@ -79,7 +80,7 @@ advanced_inventory::advanced_inventory()
     : head_height( 5 )
     , min_w_height( 10 )
     , min_w_width( FULL_SCREEN_WIDTH )
-    , max_w_width( 120 )
+    , max_w_width( get_option<bool>( "AIM_WIDTH" ) ? TERMX : std::max( 120, TERMX - 2 * ( panel_manager::get_manager().get_width_right() + panel_manager::get_manager().get_width_left() ) ) )
     , inCategoryMode( false )
     , recalc( true )
     , redraw( true )
@@ -1384,10 +1385,10 @@ void advanced_inventory::display()
                 std::vector<iteminfo> vThisItem;
                 std::vector<iteminfo> vDummy;
                 it.info( true, vThisItem );
-                int iDummySelect = 0;
-                ret = draw_item_info( info_startx,
-                                      info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
-                                      false, false, true ).get_first_input();
+
+                item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+
+                ret = draw_item_info( info_startx, info_width, 0, 0, data ).get_first_input();
             }
             if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 spane.scroll_by( +1 );
@@ -1440,7 +1441,7 @@ void advanced_inventory::display()
                     redraw = true;
                 }
             } else {
-                popup( _( "No vehicle there!" ) );
+                popup( _( "No vehicle storage space there!" ) );
                 redraw = true;
             }
         }

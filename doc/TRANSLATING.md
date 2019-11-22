@@ -313,6 +313,7 @@ issues reported by the `translation` class.
 | Recipe descriptions
 | Inscribe use action verbs/gerunds
 | Monster names (plural supported) and descriptions
+| Snippets
 
 ### Recommendations
 

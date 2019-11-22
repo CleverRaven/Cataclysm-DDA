@@ -16,7 +16,7 @@
     "color": "dark_gray",
     "dispersion": 450,
     "durability": 6,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 25,
     "reload": 400,
     "barrel_length": 3,
@@ -71,7 +71,7 @@
     "material": [ "aluminum", "steel" ],
     "dispersion": 855,
     "durability": 6,
-    "burst": 6,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 6,
     "reload": 110,
     "valid_mod_locations": [

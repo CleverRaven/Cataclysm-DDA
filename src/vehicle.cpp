@@ -204,7 +204,7 @@ units::volume vehicle_stack::max_volume() const
 {
     if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, 10000000_ml );
+        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -6325,11 +6325,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
-        }
-
-        if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
-            m_part += units::from_gram( animal_mass );
         }
 
         if( use_precalc ) {

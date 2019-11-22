@@ -135,7 +135,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 3420,
-    "burst": 8,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "barrel_length": 4,
     "valid_mod_locations": [
       [ "accessories", 4 ],
