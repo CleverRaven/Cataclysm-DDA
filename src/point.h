@@ -358,6 +358,10 @@ static constexpr std::array<point, 4> offsets = {{
     }
 };
 
+static constexpr std::array<point, 4> four_cardinal_directions{{
+        point_west, point_east, point_north, point_south
+    }};
+
 static constexpr std::array<point, 5> five_cardinal_directions{{
         point_west, point_east, point_north, point_south, point_zero
     }};

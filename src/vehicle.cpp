@@ -1679,8 +1679,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
         discovered.pop_front();
         auto current = current_part.mount;
 
-        for( const point &cardinal_direction : five_cardinal_directions ) {
-            point next = current + cardinal_direction;
+        for( const point &offset : four_adjacent_offsets ) {
+            point next = current + offset;
 
             if( next == target ) {
                 //Success!
@@ -1811,8 +1811,8 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
         for( auto rack_part : this_bike_rack ) {
             tripoint rack_pos = global_part_pos3( rack_part );
             int i = 0;
-            for( const point &cardinal_direction : five_cardinal_directions ) {
-                tripoint search_pos( rack_pos + cardinal_direction );
+            for( const point &offset : four_cardinal_directions ) {
+                tripoint search_pos( rack_pos + offset );
                 test_veh = veh_pointer_or_null( g->m.veh_at( search_pos ) );
                 if( test_veh == nullptr || test_veh == this ) {
                     continue;
@@ -1897,8 +1897,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             // There's no mathematical transform from global pos3 to vehicle mount, so search for the
             // carry part in global pos3 after translating
             point carry_mount;
-            for( const point &cardinal_direction : five_cardinal_directions ) {
-                carry_mount = parts[ rack_part ].mount + cardinal_direction;
+            for( const point &offset : four_cardinal_directions ) {
+                carry_mount = parts[ rack_part ].mount + offset;
                 tripoint possible_pos = mount_to_tripoint( carry_mount );
                 if( possible_pos == carry_pos ) {
                     break;
@@ -1909,7 +1909,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             // We checked the adjacent points from the mounting rack and managed
             // to find the current structure part were looking for nearby. If the part was not
             // near this particular rack, we would look at each in the list of rack_parts
-            const bool carry_part_next_to_this_rack = j < five_cardinal_directions.size() - 1;
+            const bool carry_part_next_to_this_rack = j < four_adjacent_offsets.size();
             if( carry_part_next_to_this_rack ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
@@ -2290,8 +2290,8 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 veh_parts.push_back( p );
             }
             checked_parts.insert( test_part );
-            for( const point &cardinal_direction : five_cardinal_directions ) {
-                const point dp = parts[test_part].mount + cardinal_direction;
+            for( const point &offset : four_adjacent_offsets ) {
+                const point dp = parts[test_part].mount + offset;
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
@@ -5649,8 +5649,8 @@ void vehicle::refresh_insides()
         // inside if not otherwise
         parts[p].inside = true;
         // let's check four neighbor parts
-        for( const point &cardinal_direction : five_cardinal_directions ) {
-            point near_mount = parts[ p ].mount + cardinal_direction;
+        for( const point &offset : four_adjacent_offsets ) {
+            point near_mount = parts[ p ].mount + offset;
             std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
             // if we aren't covered from sides, the roof at p won't save us
             bool cover = false;
