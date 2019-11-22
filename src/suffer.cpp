@@ -1473,9 +1473,7 @@ void Character::suffer()
     }
 
     for( size_t i = 0; i < my_bionics->size(); i++ ) {
-        if( ( *my_bionics )[i].powered ) {
-            process_bionic( i );
-        }
+        process_bionic( i );
     }
 
     for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
