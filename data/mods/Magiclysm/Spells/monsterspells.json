@@ -50,9 +50,9 @@
     "range_increment": 0.2,
     "effect": "target_attack",
     "field_id": "fd_toxic_gas",
-	  "field_chance": 100,
-	  "min_field_intensity": 1,
-	  "max_field_intensity": 1,
+    "field_chance": 100,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
     "min_duration": 1000,
     "max_duration": 6000
   }
