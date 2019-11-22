@@ -256,9 +256,6 @@ void scent_map::deserialize( const std::string &data )
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {
-    std::string linebuf;
-    std::stringstream linein;
-
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
