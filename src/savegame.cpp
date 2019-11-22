@@ -1564,10 +1564,11 @@ void game::unserialize_master( std::istream &fin )
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
+            } else if( name == "seed" ) {
+                jsin.read( seed );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
                 w.read( "lightning", weather.lightning_active );
-                w.read( "seed", seed );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1601,11 +1602,11 @@ void game::serialize_master( std::ostream &fout )
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
+        json.member( "seed", seed );
 
         json.member( "weather" );
         json.start_object();
         json.member( "lightning", weather.lightning_active );
-        json.member( "seed", seed );
         json.end_object();
 
         json.end_object();
