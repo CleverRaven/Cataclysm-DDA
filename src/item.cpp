@@ -2896,7 +2896,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( is_bionic() && has_flag( "NO_STERILE" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouche</info> to sterilize it. " ) ) );
+                                      _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouch</info> to sterilize it. " ) ) );
         }
         insert_separation_line( info );
 
