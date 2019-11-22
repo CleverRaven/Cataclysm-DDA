@@ -248,9 +248,71 @@
     "type": "field_type",
     "legacy_enum_id": 13,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
-      { "name": "toxic gas", "color": "light_green", "transparent": false, "translucency": 10 },
-      { "name": "thick toxic gas", "color": "green", "translucency": 0 }
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the hazy cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "toxic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick toxic gas",
+        "color": "green",
+        "translucency": 0,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,

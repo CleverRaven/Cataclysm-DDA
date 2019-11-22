@@ -1537,25 +1537,6 @@ void map::player_in_field( player &u )
                 u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
             }
         }
-        if( ft == fd_toxic_gas ) {
-            // Toxic gas at low levels poisons you.
-            // Toxic gas at high levels will cause very nasty poison.
-            {
-                bool inhaled = false;
-                if( ( cur.get_field_intensity() == 2 && !inside ) ||
-                    ( cur.get_field_intensity() == 3 && inside ) ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
-                } else if( cur.get_field_intensity() == 3 && !inside ) {
-                    inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );
-                } else if( cur.get_field_intensity() == 1 && !inside ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 2, 2_minutes );
-                }
-                if( inhaled ) {
-                    // Player does not know how the npc feels, so no message.
-                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name() );
-                }
-            }
-        }
 
         if( cur.extra_radiation_min() > 0 ) {
             // Get irradiated by the nuclear fallout.
