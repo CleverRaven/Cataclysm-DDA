@@ -1,0 +1,52 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_claygolem",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken clay golem",
+    "category": "other",
+    "description": "A broken clay golem, looking like piece of post-modern art.  Could be smashed for clay.",
+    "price": 10000,
+    "material": [ "clay" ],
+    "weight": "122000 g",
+    "volume": "120 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_stonegolem",
+    "symbol": "x",
+    "color": "gray",
+    "name": "broken stone golem",
+    "category": "other",
+    "description": "A broken stone golem, not that much different from big boulder.  Could be smashed for stone.",
+    "price": 10000,
+    "material": [ "stone" ],
+    "weight": "162000 g",
+    "volume": "120 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_irongolem",
+    "symbol": "x",
+    "color": "black",
+    "name": "broken iron golem",
+    "category": "other",
+    "description": "A broken iron golem, with all iron you would possibly ever need.  Could be smashed for iron.",
+    "price": 100000,
+    "material": [ "iron" ],
+    "weight": "945000 g",
+    "volume": "120 L",
+    "bashing": 30,
+    "to_hit": -5,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  }
+]
