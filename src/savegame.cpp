@@ -150,8 +150,6 @@ static void chkversion( std::istream &fin )
 void game::unserialize( std::istream &fin )
 {
     chkversion( fin );
-    std::string linebuf;
-
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
@@ -187,7 +185,7 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
-        linebuf.clear();
+        std::string linebuf;
         if( data.read( "grscent", linebuf ) ) {
             scent.deserialize( linebuf );
         } else {
