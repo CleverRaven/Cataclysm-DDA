@@ -364,7 +364,7 @@
     "id": "mon_stonegolem",
     "type": "MONSTER",
     "name": "stone golem",
-    "description": "Large human-like golem made from stone.  It has large stone fists and you feel slower around it.",
+    "description": "Large human-like golem made from stone.  Its fists look similar to rockets.",
     "default_faction": "robot",
     "bodytype": "human",
     "species": [ "ROBOT" ],
@@ -387,6 +387,7 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
+    "special_attacks": [ { "type": "spell", "spell_id": "rocket_punch", "spell_level": 5, "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
@@ -418,6 +419,7 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
+    "special_attacks": [ { "type": "spell", "spell_id": "gas_attack", "spell_level": 5, "cooldown": 60 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACID_IMMUNE", "LOUDMOVES" ]
