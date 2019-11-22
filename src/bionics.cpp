@@ -1026,7 +1026,8 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
                 }
             }
         }
-        effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100 * occupied_bodyparts.size() ) )
+        effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100.0 *
+                               occupied_bodyparts.size() ) )
                                * coverage_penalty.value() );
     }
     return effective_efficiency;
