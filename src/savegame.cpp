@@ -149,18 +149,7 @@ static void chkversion( std::istream &fin )
  */
 void game::unserialize( std::istream &fin )
 {
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
+    chkversion( fin );
     std::string linebuf;
 
     int tmpturn = 0;
