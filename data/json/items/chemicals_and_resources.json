@@ -1116,6 +1116,7 @@
     "material": "powder",
     "volume": "250 ml",
     "weight": "1 g",
+    "flags": [ "DETERGENT" ],
     "ammo_type": "components",
     "container": "box_small",
     "count": 20
