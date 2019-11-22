@@ -1432,13 +1432,13 @@ void game::open_consume_item_menu()
 
     switch( as_m.ret ) {
         case 0:
-            avatar_action::eat( u, game_menus::inv::consume_food );
+            avatar_action::eat( u, game_menus::inv::consume_food( u ) );
             break;
         case 1:
-            avatar_action::eat( u, game_menus::inv::consume_drink );
+            avatar_action::eat( u, game_menus::inv::consume_drink( u ) );
             break;
         case 2:
-            avatar_action::eat( u, game_menus::inv::consume_meds );
+            avatar_action::eat( u, game_menus::inv::consume_meds( u ) );
             break;
         default:
             break;
@@ -1884,11 +1884,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                avatar_action::eat( u );
+                if ( !avatar_action::eat_here( u ) ) {
+                    avatar_action::eat( u );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                open_consume_item_menu();
+                if ( !avatar_action::eat_here( u ) ) {
+                    open_consume_item_menu();
+                }
                 break;
 
             case ACTION_READ:

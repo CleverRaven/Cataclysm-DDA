@@ -849,43 +849,27 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
-
-void avatar_action::eat( avatar &you )
-{
-    avatar_action::eat( you, game_menus::inv::consume, INT_MIN );
-}
-
-void avatar_action::eat( avatar &you, int pos )
-{
-    avatar_action::eat( you, game_menus::inv::consume, pos );
-}
-
-void avatar_action::eat( avatar &you, item_location( *menu )( player &p ) )
-{
-    avatar_action::eat( you, menu, INT_MIN );
-}
-
-void avatar_action::eat( avatar &you, item_location( *menu )( player &p ), int pos )
+bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
         if( you.get_hunger() < 20 ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
-            return;
+            return true;
         } else {
             you.moves -= 400;
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
             you.eat( food );
-            return;
+            return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
             g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
         if( you.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
-            return;
+            return true;
         } else {
             you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
@@ -899,45 +883,47 @@ void avatar_action::eat( avatar &you, item_location( *menu )( player &p ), int p
             } else {
                 g->m.ter_set( you.pos(), t_dirt );
             }
-            return;
+            return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
         if( g->m.ter( you.pos() ) == t_grass_golf ) {
             add_msg( _( "This grass is too short to graze." ) );
-            return;
+            return true;
         } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
             add_msg( _( "This grass is dead and too mangled for you to graze." ) );
-            return;
+            return true;
         } else if( g->m.ter( you.pos() ) == t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
-            return;
+            return true;
         }
     }
+    return false;
+}
 
-    if( pos != INT_MIN ) {
-        you.consume( pos );
-        return;
-    }
+void avatar_action::eat( avatar &you )
+{
+    item_location loc = game_menus::inv::consume( you );
+    avatar_action::eat( you, loc );
+}
 
-    auto item_loc = menu( you );
-    if( !item_loc ) {
+void avatar_action::eat( avatar &you, item_location loc )
+{
+    if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-
-    item *it = item_loc.get_item();
-    pos = you.get_item_position( it );
-    if( pos != INT_MIN ) {
-        you.consume( pos );
+    item *it = loc.get_item();
+    if( loc.where() == item_location::type::character ) {
+        you.consume( loc );
 
     } else if( you.consume_item( *it ) ) {
         if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
             it->contents.erase( it->contents.begin() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
         } else {
-            item_loc.remove_item();
+            loc.remove_item();
         }
     }
     if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {

@@ -2090,7 +2090,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     avatar_action::use_item( u, locThisItem );
                     break;
                 case 'E':
-                    avatar_action::eat( u, pos );
+                    avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
                     u.wear( oThisItem );

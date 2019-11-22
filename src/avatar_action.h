@@ -19,9 +19,10 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you );
-void eat( avatar &you, item_location( *menu )( player &p ) );
-void eat( avatar &you, int pos );
-void eat( avatar &you, item_location( *menu )( player &p ), int pos );
+void eat( avatar &you, item_location loc );
+// special rules for eating: grazing etc
+// returns false if no rules are needed
+bool eat_here( avatar &you );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
