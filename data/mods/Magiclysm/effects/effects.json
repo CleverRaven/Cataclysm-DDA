@@ -222,16 +222,5 @@
     "remove_message": "Your fear dissipates.",
     "rating": "bad",
     "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "slow",
-    "name": [ "Slow" ],
-    "max_intensity": 1,
-    "desc": [ "You slow down." ],
-    "apply_message": "Your speed decreases.",
-    "remove_message": "You return to your normal speed.",
-    "rating": "bad",
-    "base_mods": { "speed_mod": [ -20 ] }
   }
 ]
