@@ -2894,8 +2894,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
         insert_separation_line( info );
 
-        const bionic_id bid = type->bionic->id;
+        if( is_bionic() && has_flag( "NO_STERILE" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouch</info> to sterilize it. " ) ) );
+        }
+        insert_separation_line( info );
 
+        const bionic_id bid = type->bionic->id;
         const std::vector<itype_id> &fuels = bid->fuel_opts;
         if( !fuels.empty() ) {
             const int &fuel_numb = fuels.size();
