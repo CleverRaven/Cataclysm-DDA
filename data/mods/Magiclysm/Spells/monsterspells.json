@@ -16,5 +16,42 @@
     "range_increment": 0.2,
     "effect": "projectile_attack",
     "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
+  },
+  {
+    "id": "rocket_punch",
+    "type": "SPELL",
+    "name": "Rocket Punch",
+    "description": "Ejects giant fist from arm.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS" ],
+    "damage_type": "bash",
+    "min_damage": 30,
+    "max_damage": 40,
+    "damage_increment": 2,
+    "max_level": 5,
+    "min_range": 1,
+    "max_range": 2.5,
+    "range_increment": 0.3,
+    "effect": "projectile_attack"
+  },
+  {
+    "id": "gas_attack",
+    "type": "SPELL",
+    "name": "Gas Attack",
+    "description": "Spreads toxic gas around itself.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "damage_type": "bio",
+    "min_damage": 0,
+    "max_damage": 0,
+    "max_level": 5,
+    "min_range": 1,
+    "max_range": 3,
+    "range_increment": 0.2,
+    "effect": "target_attack",
+    "field_id": "fd_toxic_gas",
+	  "field_chance": 100,
+	  "min_field_intensity": 1,
+	  "max_field_intensity": 1
   }
 ]
