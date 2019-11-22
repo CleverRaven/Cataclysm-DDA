@@ -1108,7 +1108,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
-            int temp_x, temp_y;
+            int temp_x;
+            int temp_y;
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
