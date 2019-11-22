@@ -489,7 +489,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint &p )
     // but monster groups are defined with submap coordinates.
     tripoint p_sm = omt_to_sm_copy( p );
     std::vector<mongroup *> result;
-    for( point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
