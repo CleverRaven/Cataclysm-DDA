@@ -349,6 +349,10 @@ static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
     }};
 
+static constexpr std::array<point, 4> neighborhood{ {
+        point_south, point_east, point_west, point_north
+    }};
+
 static constexpr std::array<point, 5> five_cardinal_directions{{
         point_west, point_east, point_north, point_south, point_zero
     }};
