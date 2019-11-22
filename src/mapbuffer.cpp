@@ -249,7 +249,19 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     // Map the tripoint to the submap quad that stores it.
     const tripoint om_addr = sm_to_omt_copy( p );
     const std::string dirname = find_dirname( om_addr );
-    const std::string quad_path = find_quad_path( dirname, om_addr );
+    std::string quad_path = find_quad_path( dirname, om_addr );
+
+    if( !file_exist( quad_path ) ) {
+        // Fix for old saves where the path was generated using std::stringstream, which
+        // did format the number using the current locale. That formatting may insert
+        // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
+        // of "map/1234.7.8.map".
+        std::ostringstream buffer;
+        buffer << dirname << "/" << om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+        if( file_exist( buffer.str() ) ) {
+            quad_path = buffer.str();
+        }
+    }
 
     using namespace std::placeholders;
     if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
