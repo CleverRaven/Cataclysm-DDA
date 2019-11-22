@@ -1639,7 +1639,7 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
-        bool check_encumbrance;
+        bool check_encumbrance = true;
 
         int stim;
         int pkill;
