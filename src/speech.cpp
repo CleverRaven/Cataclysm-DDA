@@ -17,12 +17,7 @@ void load_speech( JsonObject &jo )
     jo.read( "sound", sound );
     const int volume = jo.get_int( "volume" );
     for( const std::string &label : jo.get_tags( "speaker" ) ) {
-        std::map<std::string, std::vector<SpeechBubble>>::iterator speech_type = speech.find( label );
-        // Construct a vector matching the label if needed.
-        if( speech_type == speech.end() ) {
-            speech_type = speech.emplace( label, std::vector<SpeechBubble>() ).first;
-        }
-        speech_type->second.emplace_back( SpeechBubble{ sound, volume } );
+        speech[label].emplace_back( sound, volume );
     }
 }
 
