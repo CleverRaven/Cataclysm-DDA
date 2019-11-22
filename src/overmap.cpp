@@ -4078,8 +4078,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
         for( const point &candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
-                int current_distance = square_dist( pos(),
-                                                    candidate_addr );
+                int current_distance = square_dist( pos(), candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
                     nearest_candidates.push_back( candidate_addr );
                     previous_distance = current_distance;
