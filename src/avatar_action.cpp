@@ -63,6 +63,9 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -844,6 +847,102 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     };
     you.set_targeting_data( args );
     return avatar_action::fire( you, m );
+}
+
+
+void avatar_action::eat( avatar &you )
+{
+    avatar_action::eat( you, game_menus::inv::consume, INT_MIN );
+}
+
+void avatar_action::eat( avatar &you, int pos )
+{
+    avatar_action::eat( you, game_menus::inv::consume, pos );
+}
+
+void avatar_action::eat( avatar &you, item_location( *menu )( player &p ) )
+{
+    avatar_action::eat( you, menu, INT_MIN );
+}
+
+void avatar_action::eat( avatar &you, item_location( *menu )( player &p ), int pos )
+{
+    if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
+        ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
+        if( you.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
+            return;
+        } else {
+            you.moves -= 400;
+            g->m.ter_set( you.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            you.eat( food );
+            return;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
+            g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
+        if( you.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+            return;
+        } else {
+            you.moves -= 400;
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            you.eat( food );
+            g->m.ter_set( you.pos(), t_dirt );
+            if( g->m.ter( you.pos() ) == t_grass_tall ) {
+                g->m.ter_set( you.pos(), t_grass_long );
+            } else if( g->m.ter( you.pos() ) == t_grass_long ) {
+                g->m.ter_set( you.pos(), t_grass );
+            } else {
+                g->m.ter_set( you.pos(), t_dirt );
+            }
+            return;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) ) {
+        if( g->m.ter( you.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return;
+        } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return;
+        } else if( g->m.ter( you.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return;
+        }
+    }
+
+    if( pos != INT_MIN ) {
+        you.consume( pos );
+        return;
+    }
+
+    auto item_loc = menu( you );
+    if( !item_loc ) {
+        you.cancel_activity();
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    item *it = item_loc.get_item();
+    pos = you.get_item_position( it );
+    if( pos != INT_MIN ) {
+        you.consume( pos );
+
+    } else if( you.consume_item( *it ) ) {
+        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
+            it->contents.erase( it->contents.begin() );
+            add_msg( _( "You leave the empty %s." ), it->tname() );
+        } else {
+            item_loc.remove_item();
+        }
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
 }
 
 void avatar_action::plthrow( avatar &you, int pos,

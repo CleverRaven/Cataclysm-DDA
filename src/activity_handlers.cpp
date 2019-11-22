@@ -2668,22 +2668,22 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    g->eat();
+    avatar_action::eat( g->u );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_food );
+    avatar_action::eat( g->u, game_menus::inv::consume_food );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_drink );
+    avatar_action::eat( g->u, game_menus::inv::consume_drink );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_meds );
+    avatar_action::eat( g->u, game_menus::inv::consume_meds );
 }
 
 void activity_handlers::move_items_do_turn( player_activity *act, player *p )

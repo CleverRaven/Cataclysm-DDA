@@ -11,10 +11,18 @@ class avatar;
 class item;
 class item_location;
 class map;
+class player;
 struct targeting_data;
 
 namespace avatar_action
 {
+
+/** Eat food or fuel  'E' (or 'a') */
+void eat( avatar &you );
+void eat( avatar &you, item_location( *menu )( player &p ) );
+void eat( avatar &you, int pos );
+void eat( avatar &you, item_location( *menu )( player &p ), int pos );
+
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
 bool move( avatar &you, map &m, int dx, int dy, int dz = 0 );
