@@ -359,6 +359,72 @@ static void load_overmap_lake_settings( JsonObject &jo,
     }
 }
 
+static void load_region_terrain_and_furniture_settings( JsonObject &jo,
+        region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "region_terrain_and_furniture" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"region_terrain_and_furniture\": { … } required for default" );
+        }
+    } else {
+        JsonObject region_terrain_and_furniture_settings_jo =
+            jo.get_object( "region_terrain_and_furniture" );
+
+        if( !region_terrain_and_furniture_settings_jo.has_object( "terrain" ) ) {
+            if( !overlay ) {
+                region_terrain_and_furniture_settings_jo.throw_error( "terrain required" );
+            }
+        } else {
+            JsonObject template_terrain_jo = region_terrain_and_furniture_settings_jo.get_object( "terrain" );
+            std::set<std::string> template_terrain_ids = template_terrain_jo.get_member_names();
+            for( const auto &template_terrain_id : template_terrain_ids ) {
+                if( template_terrain_id == "//" ) {
+                    continue;
+                }
+                JsonObject terrain_jo = template_terrain_jo.get_object( template_terrain_id );
+                std::set<std::string> terrain_ids = terrain_jo.get_member_names();
+                for( const auto &terrain_id : terrain_ids ) {
+                    if( terrain_id == "//" ) {
+                        continue;
+                    }
+                    int weight = 0;
+                    if( terrain_jo.read( terrain_id, weight ) ) {
+                        region_terrain_and_furniture_settings.unfinalized_terrain[template_terrain_id][terrain_id] = weight;
+                    }
+                }
+            }
+        }
+
+        if( !region_terrain_and_furniture_settings_jo.has_object( "furniture" ) ) {
+            if( !overlay ) {
+                region_terrain_and_furniture_settings_jo.throw_error( "furniture required" );
+            }
+        } else {
+            JsonObject template_furniture_jo =
+                region_terrain_and_furniture_settings_jo.get_object( "furniture" );
+            std::set<std::string> template_furniture_ids = template_furniture_jo.get_member_names();
+            for( const auto &template_furniture_id : template_furniture_ids ) {
+                if( template_furniture_id == "//" ) {
+                    continue;
+                }
+                JsonObject furniture_jo = template_furniture_jo.get_object( template_furniture_id );
+                std::set<std::string> furniture_ids = furniture_jo.get_member_names();
+                for( const auto &furniture_id : furniture_ids ) {
+                    if( furniture_id == "//" ) {
+                        continue;
+                    }
+                    int weight = 0;
+                    if( furniture_jo.read( furniture_id, weight ) ) {
+                        region_terrain_and_furniture_settings.unfinalized_furniture[template_furniture_id][furniture_id] =
+                            weight;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -539,6 +605,9 @@ void load_region_settings( JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
+    load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
+            false );
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -701,6 +770,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
+
+    load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
 
 void groundcover_extra::finalize()   // FIXME: return bool for failure
@@ -899,6 +970,67 @@ void overmap_lake_settings::finalize()
     }
 }
 
+void region_terrain_and_furniture_settings::finalize()
+{
+    for( auto const &template_pr : unfinalized_terrain ) {
+        const ter_str_id template_tid( template_pr.first );
+        if( !template_tid.is_valid() ) {
+            debugmsg( "Tried to add invalid regional template terrain %s to region_terrain_and_furniture terrain.",
+                      template_tid.c_str() );
+            continue;
+        }
+        for( auto const &actual_pr : template_pr.second ) {
+            const ter_str_id tid( actual_pr.first );
+            if( !tid.is_valid() ) {
+                debugmsg( "Tried to add invalid regional terrain %s to region_terrain_and_furniture terrain template %s.",
+                          tid.c_str(), template_tid.c_str() );
+                continue;
+            }
+            terrain[template_tid.id()].add( tid.id(), actual_pr.second );
+        }
+    }
+
+    for( auto const &template_pr : unfinalized_furniture ) {
+        const furn_str_id template_fid( template_pr.first );
+        if( !template_fid.is_valid() ) {
+            debugmsg( "Tried to add invalid regional template furniture %s to region_terrain_and_furniture furniture.",
+                      template_fid.c_str() );
+            continue;
+        }
+        for( auto const &actual_pr : template_pr.second ) {
+            const furn_str_id fid( actual_pr.first );
+            if( !fid.is_valid() ) {
+                debugmsg( "Tried to add invalid regional furniture %s to region_terrain_and_furniture furniture template %s.",
+                          fid.c_str(), template_fid.c_str() );
+                continue;
+            }
+            furniture[template_fid.id()].add( fid.id(), actual_pr.second );
+        }
+    }
+}
+
+ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
+{
+    ter_id result = tid;
+    auto region_list = terrain.find( result );
+    while( region_list != terrain.end() ) {
+        result = *region_list->second.pick();
+        region_list = terrain.find( result );
+    }
+    return result;
+}
+
+furn_id region_terrain_and_furniture_settings::resolve( const furn_id fid ) const
+{
+    furn_id result = fid;
+    auto region_list = furniture.find( result );
+    while( region_list != furniture.end() ) {
+        result = *region_list->second.pick();
+        region_list = furniture.find( result );
+    }
+    return result;
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -912,6 +1044,7 @@ void regional_settings::finalize()
         forest_composition.finalize();
         forest_trail.finalize();
         overmap_lake.finalize();
+        region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }

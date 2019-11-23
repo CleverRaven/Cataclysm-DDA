@@ -37,9 +37,6 @@ using namespace std::placeholders;
 
 #define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
@@ -819,7 +816,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                                        point( iMinScreenWidth / 2 + 2 + iOffsetX, 5 ) );
     catacurses::window w_description = catacurses::newwin( 4, iMinScreenWidth - 4,
                                        point( 1 + iOffsetX, TERMY - 5 ) );
-
 
     draw_modselection_borders( win, ctxt );
     std::vector<std::string> headers;

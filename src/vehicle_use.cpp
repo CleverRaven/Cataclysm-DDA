@@ -814,7 +814,7 @@ bool vehicle::fold_up()
     }
 
     if( can_be_folded ) {
-        bicycle.set_var( "weight", to_gram( total_mass() ) );
+        bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
@@ -1747,7 +1747,7 @@ void vehicle::use_bike_rack( int part )
                 cur_vehicle.clear();
                 continue;
             }
-            for( const point &mount_dir : vehicles::cardinal_d ) {
+            for( const point &mount_dir : five_cardinal_directions ) {
                 point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {

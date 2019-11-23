@@ -670,5 +670,84 @@
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_street_light",
+    "name": "street light",
+    "looks_like": "f_utility_pole",
+    "description": "Raised source of light which used to illuminate streets and their surrounding area, but it's useless without electricity.",
+    "symbol": "Y",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 32,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "light_bulb", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_traffic_light",
+    "name": "traffic light",
+    "looks_like": "f_utility_pole",
+    "description": "Signaling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity.",
+    "symbol": "P",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 32,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 5 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "light_bulb", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_utility_pole",
+    "name": "utility pole",
+    "description": "A long wooden post which used to support overhead power lines and other public utilities, but it doesn't work anymore.",
+    "symbol": "i",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 26,
+    "flags": [ "BASHABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 3, 5 ] }
+      ]
+    }
   }
 ]

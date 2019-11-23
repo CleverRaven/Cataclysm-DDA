@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "optional.h"
 #include "enums.h"
+#include "vpart_range.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -292,15 +293,11 @@ void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
-    std::vector<vehicle_part *> turret_controls;
 
     for( auto &p : parts ) {
-        if( p.base.is_gun() ) {
+        if( p.is_turret() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
-        }
-        if( part_flag( index_of_part( &p ), "TURRET_CONTROLS" ) ) {
-            turret_controls.push_back( &p );
         }
     }
 
@@ -331,9 +328,15 @@ void vehicle::turrets_set_targeting()
         sel = menu.ret;
         if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
             turrets[sel]->enabled = !turrets[sel]->enabled;
-            turret_controls[sel]->enabled = turrets[sel]->enabled;
         } else {
             turrets[sel]->enabled = false;
+        }
+
+        for( const vpart_reference &vp : get_avail_parts( "TURRET_CONTROLS" ) ) {
+            vehicle_part &e = vp.part();
+            if( e.mount == turrets[sel]->mount ) {
+                e.enabled = turrets[sel]->enabled;
+            }
         }
 
         // clear the turret's current targets to prevent unwanted auto-firing

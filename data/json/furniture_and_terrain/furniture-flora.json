@@ -286,5 +286,32 @@
       "sound_fail": "whump.",
       "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shrub_bee_hive",
+    "name": "shrub with bee hive",
+    "looks_like": "t_underbrush",
+    "description": "Shrub with a bee hive hidden somewhere deep inside.  A constant buzzing is heard near it.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 3,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "EMITTER" ],
+    "emissions": [ "emit_bees" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "honeycomb", "base_num": [ 0, 4 ] }, { "drop": "wax", "base_num": [ 0, 4 ] } ]
+      }
+    ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "items": [ { "item": "honeycomb", "prob": 30, "count": [ 0, 4 ] }, { "item": "wax", "prob": 30, "count": [ 0, 4 ] } ]
+    }
   }
 ]

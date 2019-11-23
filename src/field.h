@@ -104,8 +104,7 @@ class field_entry
             return type.obj().accelerated_decay;
         }
 
-        effect field_effect() const;
-        bool inside_immune() const;
+        std::vector<field_effect> field_effects() const;
 
     private:
         // The field identifier.

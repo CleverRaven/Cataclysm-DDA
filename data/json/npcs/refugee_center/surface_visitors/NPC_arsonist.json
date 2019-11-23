@@ -10,7 +10,7 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_ARSONIST",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "talk_topic",

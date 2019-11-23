@@ -4516,7 +4516,7 @@
     "type": "TOOL",
     "name": "glass pipe",
     "description": "This is a hand-blown glass pipe.  It's of the type most commonly used to smoke recreational substances.",
-    "weight": "442 g",
+    "weight": "163 g",
     "volume": "250 ml",
     "price": 2000,
     "to_hit": -10,
@@ -5751,7 +5751,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

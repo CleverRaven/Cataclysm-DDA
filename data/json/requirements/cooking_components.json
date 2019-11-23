@@ -133,7 +133,7 @@
         [ "bacon", 4 ],
         [ "lunchmeat", 5 ],
         [ "bologna", 5 ],
-        [ "can_spam", 4 ],
+        [ "can_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "meat_pickled", 1 ],
         [ "dry_meat", 1 ],
@@ -160,8 +160,8 @@
         [ "bacon", 1 ],
         [ "lunchmeat", 2 ],
         [ "bologna", 5 ],
-        [ "can_spam", 4 ],
-        [ "fried_spam", 4 ],
+        [ "can_spam", 2 ],
+        [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
         [ "fish_smoked", 1 ],
@@ -190,6 +190,167 @@
     "type": "requirement",
     "//": "Cooked meat that non-cannibals would be unhappy eating.",
     "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ] ] ]
+  },
+  {
+    "id": "meat_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "irradiated_potato", 1 ],
+        [ "potato", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
+    ]
+  },
+  {
+    "id": "human_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_human", 2 ] ],
+      [
+        [ "irradiated_potato", 1 ],
+        [ "potato", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "fish_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "veggy_any", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "can_corn", 1 ],
+        [ "dry_veggy", 1 ],
+        [ "con_milk", 1 ],
+        [ "flatbread", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "biscuit", 1 ],
+        [ "hardtack", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "flour", 2 ],
+        [ "cornmeal", 2 ],
+        [ "milk_powder", 1 ],
+        [ "crackers", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "acorns_cooked", 1 ]
+      ],
+      [
+        [ "fish", 2 ],
+        [ "dry_fish", 2 ],
+        [ "fish_smoked", 2 ],
+        [ "fish_pickled", 2 ],
+        [ "salted_fish", 2 ],
+        [ "fish_canned", 2 ],
+        [ "can_salmon", 2 ],
+        [ "can_tuna", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "woods_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
+      [
+        [ "meat_nofish", 1, "LIST" ],
+        [ "fish", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "dry_fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "powder_eggs", 2 ],
+        [ "eggs_bird", 2, "LIST" ],
+        [ "egg_reptile", 2 ]
+      ],
+      [
+        [ "veggy_wild", 2 ],
+        [ "veggy", 2 ],
+        [ "rehydrated_veggy", 2 ],
+        [ "dry_veggy", 2 ],
+        [ "dry_beans", 2 ],
+        [ "can_beans", 2 ],
+        [ "raw_beans", 2 ],
+        [ "beans_cooked", 2 ],
+        [ "dry_lentils", 2 ],
+        [ "raw_lentils", 2 ],
+        [ "dry_rice", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "mushroom", 2 ],
+        [ "dry_mushroom", 2 ],
+        [ "mushroom_cooked", 2 ],
+        [ "morel_cooked", 2 ],
+        [ "acorns_cooked", 2 ]
+      ]
+    ]
   },
   {
     "id": "any_fat",
@@ -392,6 +553,75 @@
     "id": "veggy_any",
     "type": "requirement",
     "components": [ [ [ "dandelion_cooked", 1 ], [ "veggy_any_uncooked", 1, "LIST" ], [ "veggy_canned", 1 ], [ "veggy_salted", 1 ] ] ]
+  },
+  {
+    "id": "mushroom_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 1 ] ],
+      [ [ "mushroom", 1 ], [ "mushroom_cooked", 1 ], [ "dry_mushroom", 1 ], [ "morel_cooked", 1 ] ],
+      [ [ "flour", 1 ] ]
+    ]
+  },
+  {
+    "id": "broth_ingredients",
+    "type": "requirement",
+    "components": [
+      [
+        [ "veggy_any", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "mushroom_cooked", 1 ],
+        [ "morel_cooked", 1 ],
+        [ "mushroom", 1 ],
+        [ "dry_mushroom", 1 ]
+      ],
+      [
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "pepper", 4 ],
+        [ "garlic_clove", 2 ],
+        [ "salt_water", 1 ],
+        [ "salt", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_soup_ingredients",
+    "type": "requirement",
+    "components": [
+      [ [ "broth", 1 ] ],
+      [
+        [ "spaghetti_raw", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "noodles_fast", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "potato", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "veggy_green", 1, "LIST" ],
+        [ "sauerkraut", 1 ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_beans", 1 ],
+        [ "dry_rice", 1 ],
+        [ "can_beans", 1 ],
+        [ "beans_cooked", 1 ],
+        [ "dandelion_cooked", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "tofu", 1 ],
+        [ "dry_tofu", 1 ],
+        [ "raw_edamame", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "raw_lentils", 1 ]
+      ],
+      [ [ "veggy_any", 1, "LIST" ] ]
+    ]
   },
   {
     "id": "wash_liquor",

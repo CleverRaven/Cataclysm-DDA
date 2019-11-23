@@ -91,6 +91,8 @@ struct bionic_data {
     float fuel_efficiency;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency;
+    /**Fraction of coverage diminishing fuel_efficiency*/
+    cata::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -164,6 +166,7 @@ struct bionic {
 
         bool is_this_fuel_powered( const itype_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
+        void toggle_auto_start_mod();
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
