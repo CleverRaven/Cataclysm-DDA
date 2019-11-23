@@ -269,5 +269,27 @@
     "charges": 10,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_cream",
+    "name": "heavy cream",
+    "name_plural": "heavy cream",
+    "weight": "254 g",
+    "color": "white",
+    "spoils_in": "1 day",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 10,
+    "calories": 490,
+    "description": "Raw milk that has been allowed to separate into buttermilk and cream. This is the cream that has been skimmed from the top.",
+    "price": 70,
+    "price_postapoc": 150,
+    "looks_like": "milk",
+    "material": "milk",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "fun": 0
   }
 ]
