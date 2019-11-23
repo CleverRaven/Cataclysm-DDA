@@ -806,7 +806,6 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'

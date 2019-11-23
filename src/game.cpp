@@ -2096,7 +2096,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.wear( oThisItem );
                     break;
                 case 'w':
-                    wield( pos );
+                    wield( locThisItem );
                     break;
                 case 't':
                     avatar_action::plthrow( u, pos );
@@ -8679,12 +8679,6 @@ void game::mend( int pos )
 bool game::unload( item &it )
 {
     return u.unload( it );
-}
-
-void game::wield( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    wield( loc );
 }
 
 void game::wield( item_location &loc )
