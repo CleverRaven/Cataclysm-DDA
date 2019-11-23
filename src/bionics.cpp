@@ -1075,11 +1075,16 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
-    if( !bio.id->fuel_opts.empty() && calendar::once_every( 1_minutes ) &&
-        bio.has_var( "AUTO_START" ) ) {
+
+    if( !bio.id->fuel_opts.empty() && bio.has_var( "AUTO_START" ) ) {
+        const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
         const float start_threshold = std::stoi( bio.get_var( "AUTO_START" ) ) / 100.0;
-        if( get_power_level() <= start_threshold * get_max_power_level() ) {
+        if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
             g->u.activate_bionic( b );
+        } else if( calendar::once_every( 1_hours ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to use Auto Start." ),
+                                   _( "<npcname>'s %s does not have enought fuel to use Auto Start." ),
+                                   bio.info().name );
         }
     }
 
@@ -2477,9 +2482,9 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        tmenu.addentry( 2, true, 't', _( "Bellow 25 percent" ) );
-        tmenu.addentry( 3, true, 'f', _( "Bellow 50 percent" ) );
-        tmenu.addentry( 4, true, 's', _( "Bellow 75 percent" ) );
+        tmenu.addentry( 2, true, 't', _( "Bellow 25 %%" ) );
+        tmenu.addentry( 3, true, 'f', _( "Bellow 50 %%" ) );
+        tmenu.addentry( 4, true, 's', _( "Bellow 75 %%" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
