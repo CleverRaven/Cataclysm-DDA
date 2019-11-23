@@ -2166,6 +2166,7 @@ int time_to_fire( const Character &p, const itype &firing )
         {skill_id {"archery"},  {20, 220, 25}},
         {skill_id {"throw"},    {50, 220, 25}},
         {skill_id {"launcher"}, {30, 200, 20}},
+        {skill_id {"boltaction"}, {60, 400, 20}},
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
