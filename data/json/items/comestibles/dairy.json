@@ -289,10 +289,7 @@
     "material": "milk",
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [
-      [ "vitA", 2 ],
-      [ "calcium", 7 ]
-    ],
-    "fun": 0
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "fun": 1
   }
 ]
