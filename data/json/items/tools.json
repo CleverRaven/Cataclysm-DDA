@@ -1991,6 +1991,26 @@
     }
   },
   {
+    "id": "butter_churn",
+    "type": "TOOL",
+    "name": "pseudo butter churn",
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "6464 g",
+    "volume": "9 L",
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": "wood",
+    "qualities": [
+      [ "CHURN", 1 ]
+    ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
+  },
+  {
     "id": "eink_tablet_pc",
     "type": "TOOL",
     "name": "e-ink tablet PC",
