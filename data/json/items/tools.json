@@ -1972,7 +1972,7 @@
     "id": "milk_cream_rising",
     "type": "GENERIC",
     "category": "food",
-    "name": "milk cream jar",
+    "name": "rising cream jar",
     "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
     "weight": "52 g",
     "volume": "3000 ml",
@@ -1986,7 +1986,7 @@
       "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 86400,
+      "transform_age": 21600,
       "not_ready_msg": "The cream has not risen yet."
     }
   },
@@ -2001,14 +2001,10 @@
     "to_hit": -2,
     "bashing": 9,
     "material": "wood",
-    "qualities": [
-      [ "CHURN", 1 ]
-    ],
+    "qualities": [ [ "CHURN", 1 ] ],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "eink_tablet_pc",
