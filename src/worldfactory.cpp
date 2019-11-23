@@ -37,9 +37,6 @@ using namespace std::placeholders;
 
 #define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
 
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
