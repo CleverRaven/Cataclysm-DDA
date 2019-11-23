@@ -1415,12 +1415,8 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_sap ) {
-            // Sap causes the player to get sap disease, slowing them down.
             // Sap does nothing to cars.
             if( !u.in_vehicle ) {
-                u.add_msg_player_or_npc( m_bad, _( "The sap sticks to you!" ),
-                                         _( "The sap sticks to <npcname>!" ) );
-                u.add_effect( effect_sap, cur.get_field_intensity() * 2_turns );
                 // Use up sap.
                 cur.set_field_intensity( cur.get_field_intensity() - 1 );
             }
@@ -1524,11 +1520,6 @@ void map::player_in_field( player &u )
                 u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
             }
         }
-        if( ft == fd_relax_gas ) {
-            if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_relax_gas, bp_mouth, cur.get_field_intensity() * 2, 3_turns );
-            }
-        }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_id( "M_IMMUNE" ) ) && ( !inside || one_in( 4 ) ) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
@@ -1540,25 +1531,6 @@ void map::player_in_field( player &u )
                 u.add_env_effect( effect_blind, bp_eyes, 10, 10_turns );
             } else {
                 u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
-            }
-        }
-        if( ft == fd_toxic_gas ) {
-            // Toxic gas at low levels poisons you.
-            // Toxic gas at high levels will cause very nasty poison.
-            {
-                bool inhaled = false;
-                if( ( cur.get_field_intensity() == 2 && !inside ) ||
-                    ( cur.get_field_intensity() == 3 && inside ) ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, 3_minutes );
-                } else if( cur.get_field_intensity() == 3 && !inside ) {
-                    inhaled = u.add_env_effect( effect_badpoison, bp_mouth, 5, 3_minutes );
-                } else if( cur.get_field_intensity() == 1 && !inside ) {
-                    inhaled = u.add_env_effect( effect_poison, bp_mouth, 2, 2_minutes );
-                }
-                if( inhaled ) {
-                    // Player does not know how the npc feels, so no message.
-                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name() );
-                }
             }
         }
 
@@ -1694,10 +1666,25 @@ void map::player_in_field( player &u )
 
 void map::creature_in_field( Creature &critter )
 {
+    bool in_vehicle = false;
+    bool inside_vehicle = false;
+    player *u = critter.as_player();
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
-    } else if( player *p = critter.as_player() ) {
-        player_in_field( *p );
+    } else {
+        if( u ) {
+            in_vehicle = u->in_vehicle;
+            // If we are in a vehicle figure out if we are inside (reduces effects usually)
+            // and what part of the vehicle we need to deal with.
+            if( in_vehicle ) {
+                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                    if( vp->is_inside() ) {
+                        inside_vehicle = true;
+                    }
+                }
+            }
+            player_in_field( *u );
+        }
     }
 
     field &curfield = get_field( critter.pos() );
@@ -1707,25 +1694,42 @@ void map::creature_in_field( Creature &critter )
             continue;
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
-        const effect field_fx = cur_field_entry.field_effect();
-        if( field_fx.is_null() ||
-            critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
-            critter.is_immune_effect( field_fx.get_id() ) ) {
-            continue;
-        }
-        player *u = critter.as_player();
-        if( u && cur_field_entry.inside_immune() ) {
-            // If we are in a vehicle figure out if we are inside (reduces effects usually)
-            // and what part of the vehicle we need to deal with.
-            if( u->in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
-                    if( vp->is_inside() ) {
-                        continue;
-                    }
-                }
+
+        for( const auto &fe : cur_field_entry.field_effects() ) {
+            if( in_vehicle && fe.immune_in_vehicle ) {
+                continue;
+            }
+            if( inside_vehicle && fe.immune_inside_vehicle ) {
+                continue;
+            }
+            if( !inside_vehicle && fe.immune_outside_vehicle ) {
+                continue;
+            }
+            if( in_vehicle && !one_in( fe.chance_in_vehicle ) ) {
+                continue;
+            }
+            if( inside_vehicle && !one_in( fe.chance_inside_vehicle ) ) {
+                continue;
+            }
+            if( !inside_vehicle && !one_in( fe.chance_outside_vehicle ) ) {
+                continue;
+            }
+
+            const effect field_fx = fe.get_effect();
+            if( critter.is_immune_field( cur_field_id ) || critter.is_immune_effect( field_fx.get_id() ) ) {
+                continue;
+            }
+            bool effect_added = false;
+            if( fe.is_environmental ) {
+                effect_added = critter.add_env_effect( fe.id, fe.bp, fe.intensity, fe.get_duration() );
+            } else {
+                effect_added = true;
+                critter.add_effect( field_fx );
+            }
+            if( effect_added ) {
+                critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
         }
-        critter.add_effect( field_fx );
     }
 }
 
