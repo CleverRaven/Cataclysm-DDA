@@ -817,7 +817,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     catacurses::window w_description = catacurses::newwin( 4, iMinScreenWidth - 4,
                                        point( 1 + iOffsetX, TERMY - 5 ) );
 
-
     draw_modselection_borders( win, ctxt );
     std::vector<std::string> headers;
     headers.push_back( _( "Mod List" ) );

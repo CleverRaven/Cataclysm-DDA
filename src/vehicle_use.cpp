@@ -1747,7 +1747,7 @@ void vehicle::use_bike_rack( int part )
                 cur_vehicle.clear();
                 continue;
             }
-            for( const point &mount_dir : vehicles::cardinal_d ) {
+            for( const point &mount_dir : five_cardinal_directions ) {
                 point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {

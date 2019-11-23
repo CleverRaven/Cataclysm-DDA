@@ -1077,7 +1077,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
-
         // drawing related stuff
         /**
          * Returns a list of the IDs of overlays on this character,
