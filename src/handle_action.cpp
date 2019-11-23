@@ -1868,7 +1868,7 @@ bool game::handle_action()
             case ACTION_USE:
                 // Shell-users are presumed to be able to mess with their inventories, etc
                 // while in the shell.  Eating, gear-changing, and item use are OK.
-                use_item();
+                avatar_action::use_item( u );
                 break;
 
             case ACTION_USE_WIELDED:

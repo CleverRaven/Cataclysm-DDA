@@ -59,6 +59,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for CBMs that are sun-powered",
+    "id": "sunlight",
+    "symbol": "?",
+    "color": "white",
+    "name": "sun light",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, used as fuel type for CBMs that are metabolism-powered",
     "id": "metabolism",
     "symbol": "?",

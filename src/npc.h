@@ -509,9 +509,9 @@ struct healing_options {
 
 // Data relevant only for this action
 struct npc_short_term_cache {
-    float danger;
-    float total_danger;
-    float danger_assessment;
+    float danger = 0;
+    float total_danger = 0;
+    float danger_assessment = 0;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
     // target is hostile, ally is for aiding actions
@@ -525,7 +525,7 @@ struct npc_short_term_cache {
     int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
-    double my_weapon_value;
+    double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
     std::vector<std::weak_ptr<Creature>> friends;

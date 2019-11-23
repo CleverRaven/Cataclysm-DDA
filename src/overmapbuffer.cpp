@@ -489,7 +489,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint &p )
     // but monster groups are defined with submap coordinates.
     tripoint p_sm = omt_to_sm_copy( p );
     std::vector<mongroup *> result;
-    for( point offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -1497,9 +1497,26 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id, const t
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
+        // Filter the sectors to those which are in in range of our center point, so
+        // that we don't end up creating specials in areas that are outside of our radius,
+        // since the whole point is to create a special that is within the parameters.
+        std::vector<point> sector_points_in_range;
+        std::copy_if( sectors.sectors.begin(), sectors.sectors.end(),
+        std::back_inserter( sector_points_in_range ), [&]( point & p ) {
+            const point global_sector_point = om->global_base_point() + p;
+            // We'll include this sector if it's within our radius. We reduce the radius by
+            // the length of the longest side of our special so that we don't end up in a
+            // scenario where one overmap terrain of the special is within the radius but the
+            // rest of it is outside the radius (due to size, rotation, etc), which would
+            // then result in us placing the special but then not finding it later if we
+            // search using the same radius value we used in placing it.
+            return square_dist( global_sector_point, center.xy() ) <= radius - longest_side;
+        } );
+        om_special_sectors sectors_in_range {sector_points_in_range, sectors.sector_width};
+
         // Attempt to place the specials using our batch and sectors. We
         // require they be placed in unexplored terrain right now.
-        om->place_specials_pass( batch, sectors, true, true );
+        om->place_specials_pass( batch, sectors_in_range, true, true );
 
         // The place special pass will erase specials that have reached their
         // maximum number of instances so first check if its been erased.
