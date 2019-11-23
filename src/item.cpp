@@ -8718,8 +8718,8 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || ( !carrier->is_wearing( "solarpack_on" ) ||
-                                             !carrier->is_wearing( "q_solarpack_on" ) ) ) {
+        if( !carrier->has_item( *this ) || !( carrier->is_wearing( "solarpack_on" ) ||
+                                              carrier->is_wearing( "q_solarpack_on" ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
