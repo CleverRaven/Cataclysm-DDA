@@ -993,8 +993,7 @@
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
-    "phase": "gas",
-    "display_items": false
+    "phase": "gas"
   },
   {
     "id": "fd_fungicidal_gas",
