@@ -1075,10 +1075,14 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
-    if( calendar::once_every( 1_hours ) && !bio.id->fuel_opts.empty() &&
-        bio.has_flag( "AUTO_START_ON" ) && power_level <= 0_mJ ) {
-        g->u.activate_bionic( b );
+    if( !bio.id->fuel_opts.empty() && calendar::once_every( 1_minutes ) &&
+        bio.has_var( "AUTO_START" ) ) {
+        const float start_threshold = std::stoi( bio.get_var( "AUTO_START" ) ) / 100.0;
+        if( get_power_level() <= start_threshold * get_max_power_level() ) {
+            g->u.activate_bionic( b );
+        }
     }
+
     // Only powered bionics should be processed
     if( !bio.powered ) {
         passive_power_gen( b );
@@ -2469,10 +2473,33 @@ void bionic::toggle_auto_start_mod()
     if( info().fuel_opts.empty() ) {
         return;
     }
-    if( !has_flag( "AUTO_START_ON" ) ) {
-        set_flag( "AUTO_START_ON" );
+    if( !has_var( "AUTO_START" ) ) {
+        uilist tmenu;
+        tmenu.text = _( "Chose Start Power Level Threshold" );
+        tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
+        tmenu.addentry( 2, true, 't', _( "Bellow 25 percent" ) );
+        tmenu.addentry( 3, true, 'f', _( "Bellow 50 percent" ) );
+        tmenu.addentry( 4, true, 's', _( "Bellow 75 percent" ) );
+        tmenu.query();
+
+        switch( tmenu.ret ) {
+            case 1:
+                set_var( "AUTO_START", "0" );
+                break;
+            case 2:
+                set_var( "AUTO_START", "25" );
+                break;
+            case 3:
+                set_var( "AUTO_START", "50" );
+                break;
+            case 4:
+                set_var( "AUTO_START", "75" );
+                break;
+            default:
+                break;
+        }
     } else {
-        remove_flag( "AUTO_START_ON" );
+        erase_var( "AUTO_START" );
     }
 }
 
