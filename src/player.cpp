@@ -3720,7 +3720,7 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( item_location &loc )
+bool player::consume( item_location loc )
 {
     item &target = *loc;
     const bool wielding = is_wielding( target );
