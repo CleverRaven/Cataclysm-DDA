@@ -129,7 +129,8 @@
             "immune_in_vehicle": true,
             "is_environmental": false,
             "message": "The sap sticks to you!",
-            "message_npc": "The sap sticks to <npcname>!"
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
           }
         ]
       },
@@ -144,7 +145,8 @@
             "immune_in_vehicle": true,
             "is_environmental": false,
             "message": "The sap sticks to you!",
-            "message_npc": "The sap sticks to <npcname>!"
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
           }
         ]
       },
@@ -160,7 +162,8 @@
             "immune_in_vehicle": true,
             "is_environmental": false,
             "message": "The sap sticks to you!",
-            "message_npc": "The sap sticks to <npcname>!"
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
           }
         ]
       }
@@ -307,7 +310,8 @@
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the hazy cloud"
+            "message": "You feel sick from inhaling the hazy cloud",
+            "message_type": "bad"
           }
         ]
       },
@@ -324,7 +328,8 @@
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the toxic gas"
+            "message": "You feel sick from inhaling the toxic gas",
+            "message_type": "bad"
           }
         ]
       },
@@ -341,7 +346,8 @@
             "max_duration": "3 minutes",
             "//": "won't be applied outside of vehicles, so it could apply harsher effect",
             "immune_outside_vehicle": true,
-            "message": "You feel sick from inhaling the thick toxic gas"
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
           },
           {
             "effect_id": "badpoison",
@@ -351,7 +357,8 @@
             "max_duration": "3 minutes",
             "//": "won't be applied inside of vehicles, so it could apply lesser effect",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the thick toxic gas"
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
           }
         ]
       }
