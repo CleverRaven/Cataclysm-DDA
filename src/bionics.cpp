@@ -849,8 +849,8 @@ bool Character::burn_fuel( int b, bool start )
     const float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
 
     if( start && fuel_available.empty() ) {
-        add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to start." ),
-                               _( "<npcname>'s %s does not have enought fuel to start." ),
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                               _( "<npcname>'s %s does not have enough fuel to start." ),
                                bio.info().name );
         deactivate_bionic( b );
         return false;
@@ -1082,8 +1082,8 @@ void Character::process_bionic( int b )
         if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
             g->u.activate_bionic( b );
         } else if( calendar::once_every( 1_hours ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s does not have enought fuel to use Auto Start." ),
-                                   _( "<npcname>'s %s does not have enought fuel to use Auto Start." ),
+            add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to use Auto Start." ),
+                                   _( "<npcname>'s %s does not have enough fuel to use Auto Start." ),
                                    bio.info().name );
         }
     }
