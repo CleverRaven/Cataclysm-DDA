@@ -2407,6 +2407,35 @@ bool bionic::has_flag( const std::string flag ) const
     return bionic_tags.find( flag ) != bionic_tags.end();
 }
 
+void bionic::set_var( const std::string &key, const std::string &value )
+{
+    bionic_vars[key] = value;
+}
+
+std::string bionic::get_var( const std::string &key, const std::string &default_value ) const
+{
+    const auto it = bionic_vars.find( key );
+    if( it == bionic_vars.end() ) {
+        return default_value;
+    }
+    return it->second;
+}
+
+bool bionic::has_var( const std::string &key ) const
+{
+    return bionic_vars.count( key ) > 0;
+}
+
+void bionic::erase_var( const std::string &key )
+{
+    bionic_vars.erase( key );
+}
+
+void bionic::clear_vars()
+{
+    bionic_vars.clear();
+}
+
 int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
