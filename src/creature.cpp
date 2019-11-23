@@ -1474,7 +1474,6 @@ void Creature::set_armor_cut_bonus( int ncutarm )
     armor_cut_bonus = ncutarm;
 }
 
-
 void Creature::set_speed_base( int nspeed )
 {
     speed_base = nspeed;

@@ -2871,12 +2871,6 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( g->is_in_sunlight( pos() ) ) {
-        if( has_bionic( bn_bio_solar ) ) {
-            mod_power_level( units::from_kilojoule( rate_multiplier * 25 ) );
-        }
-    }
-
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );

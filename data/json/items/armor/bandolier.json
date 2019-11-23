@@ -214,6 +214,28 @@
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
+    "id": "stone_pouch",
+    "type": "ARMOR",
+    "name": "stone pouch",
+    "name_plural": "stone pouches",
+    "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
+    "weight": "90 g",
+    "volume": "250 ml",
+    "price": 5900,
+    "price_postapoc": 9900,
+    "rigid": false,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "ammo_satchel",
+    "color": "dark_gray",
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": { "type": "bandolier", "capacity": 10, "ammo": [ "rock" ], "draw_cost": 20 },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
     "id": "grenadebandolier",
     "type": "ARMOR",
     "name": "large grenade pouch",

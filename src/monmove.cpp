@@ -1201,7 +1201,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( point q : swath ) {
+        for( const point &q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 

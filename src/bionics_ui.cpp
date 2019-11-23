@@ -106,9 +106,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
+        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode." );
+        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
     }
     int n_pt_y = 0;
     fold_and_print( window, point( 1, n_pt_y++ ), pwr_str_pos, c_white, desc );
@@ -143,7 +143,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
         properties.push_back( _( "(incapacitated)" ) );
     }
     if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
-        properties.push_back( _( "(fuel saving mode ON)" ) );
+        properties.push_back( _( "(fuel saving ON)" ) );
+    }
+    if( bio.has_flag( "AUTO_START_ON" ) && !bio.info().fuel_opts.empty() ) {
+        properties.push_back( _( "(auto start ON)" ) );
     }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
@@ -416,6 +419,7 @@ void player::power_bionics()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_AUTO_START" );
 
     bool recalc = false;
     bool redraw = true;
@@ -532,6 +536,7 @@ void player::power_bionics()
         bionic *tmp = nullptr;
         bool confirmCheck = false;
         bool toggle_safe_fuel = false;
+        bool toggle_auto_start = false;
 
         if( action == "DOWN" ) {
             redraw = true;
@@ -625,6 +630,8 @@ void player::power_bionics()
             redraw = true;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
             toggle_safe_fuel = true;
+        } else if( action == "TOGGLE_AUTO_START" ) {
+            toggle_auto_start = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if( action == "CONFIRM" ) {
@@ -642,11 +649,26 @@ void player::power_bionics()
                     g->refresh_all();
                     redraw = true;
                 } else {
-                    popup( _( "You can't toggle fuel saving mode on a non fueled CBM." ) );
+                    popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
 
             }
         }
+
+        if( toggle_auto_start ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() ) {
+                    tmp->toggle_auto_start_mod();
+                    g->refresh_all();
+                    redraw = true;
+                } else {
+                    popup( _( "You can't toggle auto start mode on a non-fueled CBM." ) );
+                }
+            }
+        }
+
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if( confirmCheck ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;

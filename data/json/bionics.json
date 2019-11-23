@@ -884,15 +884,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_solar",
-    "type": "bionic",
-    "name": "Solar Panels",
-    "description": "You have a few solar panels surgically installed.  While in direct sunlight, your power level will slowly recharge.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
-    "//": "Should be removed after 0.D."
-  },
-  {
     "id": "bio_spasm",
     "type": "bionic",
     "name": "Motor Control Overstimulator",

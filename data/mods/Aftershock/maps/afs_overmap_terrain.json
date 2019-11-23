@@ -10,6 +10,15 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "prepnet_orchard",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "PrepNet orchard",
+    "sym": "#",
+    "color": "i_green",
+    "flags": [ "SOURCE_FOOD" ]
+  },
+  {
     "id": "municipal_reactor_ware",
     "type": "overmap_terrain",
     "name": "warehouse",
