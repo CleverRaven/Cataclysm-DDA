@@ -1965,6 +1965,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
     int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = u.i_at( pos );
+    item_location locThisItem( u, &oThisItem );
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -2085,13 +2086,13 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
             switch( cMenu ) {
                 case 'a':
-                    use_item( pos );
+                    avatar_action::use_item( u, locThisItem );
                     break;
                 case 'E':
                     eat( pos );
                     break;
                 case 'W':
-                    u.wear( u.i_at( pos ) );
+                    u.wear( oThisItem );
                     break;
                 case 'w':
                     wield( pos );
@@ -2103,7 +2104,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     change_side( pos );
                     break;
                 case 'T':
-                    u.takeoff( u.i_at( pos ) );
+                    u.takeoff( oThisItem );
                     break;
                 case 'd':
                     u.drop( pos, u.pos() );
@@ -2124,13 +2125,13 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.read( pos );
                     break;
                 case 'D':
-                    u.disassemble( item_location( u, &u.i_at( pos ) ), false );
+                    u.disassemble( locThisItem, false );
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
-                    game_menus::inv::reassign_letter( u, u.i_at( pos ) );
+                    game_menus::inv::reassign_letter( u, oThisItem );
                     break;
                 case KEY_PPAGE:
                     iScrollPos--;
@@ -5009,69 +5010,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     }
 
-}
-static void make_active( item_location loc )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item_location loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
-void game::use_item( int pos )
-{
-    bool use_loc = false;
-    item_location loc;
-
-    if( pos == INT_MIN ) {
-        loc = game_menus::inv::use( u );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
-        } else {
-            int obtain_cost = loc.obtain_cost( u );
-            pos = loc.obtain( u );
-            // This method only handles items in te inventory, so refund the obtain cost.
-            u.moves += obtain_cost;
-        }
-    }
-
-    refresh_all();
-
-    if( use_loc ) {
-        update_lum( loc, false );
-        u.use( loc );
-        update_lum( loc, true );
-
-        make_active( loc );
-    } else {
-        u.use( pos );
-    }
-
-    u.invalidate_crafting_inventory();
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )

@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "creature.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -953,4 +955,73 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+        default:
+            break;
+    }
+}
+
+void avatar_action::use_item( avatar &you )
+{
+    item_location loc;
+    avatar_action::use_item( you, loc );
+}
+
+void avatar_action::use_item( avatar &you, item_location &loc )
+{
+    bool use_loc = false;
+
+    if( !loc ) {
+        loc = game_menus::inv::use( you );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        const item &it = *loc.get_item();
+        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_loc = true;
+        } else {
+            int obtain_cost = loc.obtain_cost( you );
+            loc.obtain( you );
+            // This method only handles items in te inventory, so refund the obtain cost.
+            you.mod_moves( obtain_cost );
+        }
+    }
+
+    g->refresh_all();
+
+    if( use_loc ) {
+        update_lum( loc, false );
+        you.use( loc );
+        update_lum( loc, true );
+
+        make_active( loc );
+    } else {
+        you.use( loc );
+    }
+
+    you.invalidate_crafting_inventory();
 }

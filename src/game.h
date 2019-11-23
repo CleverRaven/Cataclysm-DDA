@@ -766,7 +766,6 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-        void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload( int pos, bool prompt = false );
