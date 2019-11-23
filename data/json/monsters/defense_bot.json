@@ -239,7 +239,7 @@
     "id": "mon_dispatch_military",
     "type": "MONSTER",
     "name": "NR-V05-M Dispatch",
-    "description": "The Northrop Dispatch.  The dark green paint job marks the lethal and feared military variant, carrying extreme and deadly firepower.",
+    "description": "The Northrop Dispatch, designed for crowd control situations, carries and deploys kamikaze drones of various types.  The dark green paint job marks the lethal and feared military variant, carrying extreme and deadly firepower.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 30,
