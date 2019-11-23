@@ -939,9 +939,9 @@
     "id": "fd_hot_air_sauna",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 57 },
-      { "color": "yellow", "convection_temperature_mod": 62 },
-      { "color": "red", "convection_temperature_mod": 65 }
+      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 65 },
+      { "color": "yellow", "convection_temperature_mod": 68 },
+      { "color": "red", "convection_temperature_mod": 71 }
     ],
     "decay_amount_factor": 5,
     "percent_spread": 100,
@@ -994,8 +994,7 @@
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
-    "display_items": false,
-    "display_field": true
+    "display_items": false
   },
   {
     "id": "fd_fungicidal_gas",
