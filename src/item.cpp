@@ -1555,24 +1555,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                      int /* batch */, bool /* debug */ ) const
 {
     const std::string space = "  ";
-    // many statistics are dependent upon loaded ammo
-    // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
-    item *aprox = nullptr;
-    item tmp;
-    if( mod->ammo_required() && !mod->ammo_remaining() ) {
-        tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
-        tmp = *mod;
-        aprox = &tmp;
-    }
 
     const islot_gun &gun = *mod->type->gun;
-    const itype *curammo = mod->ammo_data();
-
-    bool has_ammo = curammo && mod->ammo_remaining();
-
-    // TODO: This doesn't cover multiple damage types
-    int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
-    int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
 
     const Skill &skill = *mod->gun_skill();
 
@@ -1618,7 +1602,25 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     insert_separation_line( info );
 
-    int max_gun_range = mod->gun_range( &g->u );
+    // many statistics are dependent upon loaded ammo
+    // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
+    const item *loaded_mod = mod;
+    item tmp;
+    if( mod->ammo_required() && !mod->ammo_remaining() ) {
+        tmp = *mod;
+        tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
+        loaded_mod = &tmp;
+        if( parts->test( iteminfo_parts::GUN_DEFAULT_AMMO ) ) {
+            info.emplace_back( "GUN",
+                               _( "Gun is not loaded, so stats below assume the default ammo: " ),
+                               string_format( "<stat>%s</stat>",
+                                              loaded_mod->ammo_data()->nname( 1 ) ) );
+        }
+    }
+
+    const itype *curammo = loaded_mod->ammo_data();
+
+    int max_gun_range = loaded_mod->gun_range( &g->u );
     if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
         info.emplace_back( "GUN", _( "Maximum range: " ), "<num>", iteminfo::no_flags,
                            max_gun_range );
@@ -1632,13 +1634,16 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             if( type.name.empty() ) {
                 continue;
             }
-            info.emplace_back( "GUN", _( type.name ) );
-            int max_dispersion = g->u.get_weapon_dispersion( *mod ).max();
+            // For item comparison to work correctly each info object needs a
+            // distinct tag per aim type.
+            const std::string tag = "GUN_" + type.name;
+            info.emplace_back( tag, _( type.name ) );
+            int max_dispersion = g->u.get_weapon_dispersion( *loaded_mod ).max();
             int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
-            info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
+            info.emplace_back( tag, _( "Even chance of good hit at range: " ),
                                _( "<num>" ), iteminfo::no_flags, range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
-            info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> moves " ),
+            info.emplace_back( tag, _( "Time to reach aim level: " ), _( "<num> moves " ),
                                iteminfo::is_decimal | iteminfo::lower_is_better, aim_mv );
         }
     }
@@ -1648,17 +1653,18 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                   mod->gun_damage( false ).total_damage() ) );
     }
 
-    if( has_ammo ) {
+    if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        if( mod->ammo_data()->ammo->prop_damage ) {
+        if( curammo->ammo->prop_damage ) {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.push_back( iteminfo( "GUN", "ammo_mult", "*",
-                                          iteminfo::no_newline | iteminfo::no_name,
-                                          *mod->ammo_data()->ammo->prop_damage ) );
+                info.push_back(
+                    iteminfo( "GUN", "ammo_mult", "*",
+                              iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                              *curammo->ammo->prop_damage ) );
             }
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
-                damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
+                damage_instance ammo_dam = curammo->ammo->damage;
                 info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                           iteminfo::no_newline | iteminfo::no_name |
                                           iteminfo::show_plus, ammo_dam.total_damage() ) );
@@ -1667,15 +1673,18 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                       iteminfo::no_newline | iteminfo::no_name,
-                                      mod->gun_damage( true ).total_damage() ) );
+                                      loaded_mod->gun_damage( true ).total_damage() ) );
         }
     }
+
+    // TODO: This doesn't cover multiple damage types
 
     if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) ) {
         info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
                                   iteminfo::no_newline, get_ranged_pierce( gun ) ) );
     }
-    if( has_ammo ) {
+    if( mod->ammo_required() ) {
+        int ammo_pierce = get_ranged_pierce( *curammo->ammo );
         // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
         if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) ) {
             info.push_back( iteminfo( "GUN", "ammo_armor_pierce", "",
@@ -1695,7 +1704,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                   mod->gun_dispersion( false, false ) ) );
     }
-    if( has_ammo ) {
+    if( mod->ammo_required() ) {
+        int ammo_dispersion = curammo->ammo->dispersion;
         // ammo_dispersion and sum_of_dispersion don't need to translate.
         if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
             info.push_back( iteminfo( "GUN", "ammo_dispersion", "",
@@ -1706,7 +1716,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( parts->test( iteminfo_parts::GUN_DISPERSION_TOTAL ) ) {
             info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
                                       iteminfo::lower_is_better | iteminfo::no_name,
-                                      mod->gun_dispersion( true, false ) ) );
+                                      loaded_mod->gun_dispersion( true, false ) ) );
         }
     }
     info.back().bNewLine = true;
@@ -1732,31 +1742,17 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     bool bipod = mod->has_flag( "BIPOD" );
-    if( aprox ) {
-        if( aprox->gun_recoil( g->u ) ) {
-            if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
-                info.emplace_back( "GUN", _( "Approximate recoil: " ), "",
-                                   iteminfo::no_newline | iteminfo::lower_is_better,
-                                   aprox->gun_recoil( g->u ) );
-            }
-            if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
-                info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
-                                   iteminfo::lower_is_better | iteminfo::no_name,
-                                   aprox->gun_recoil( g->u, true ) );
-            }
+
+    if( loaded_mod->gun_recoil( g->u ) ) {
+        if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
+            info.emplace_back( "GUN", _( "Effective recoil: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better,
+                               loaded_mod->gun_recoil( g->u ) );
         }
-    } else {
-        if( mod->gun_recoil( g->u ) ) {
-            if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
-                info.emplace_back( "GUN", _( "Effective recoil: " ), "",
-                                   iteminfo::no_newline | iteminfo::lower_is_better,
-                                   mod->gun_recoil( g->u ) );
-            }
-            if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
-                info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
-                                   iteminfo::lower_is_better | iteminfo::no_name,
-                                   mod->gun_recoil( g->u, true ) );
-            }
+        if( bipod && parts->test( iteminfo_parts::GUN_RECOIL_BIPOD ) ) {
+            info.emplace_back( "GUN", "bipod_recoil", _( " (with bipod <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_recoil( g->u, true ) );
         }
     }
     info.back().bNewLine = true;
