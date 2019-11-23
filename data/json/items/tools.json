@@ -2005,6 +2005,7 @@
     "material": "glass",
     "symbol": "%",
     "color": "white",
+  },
   {
     "id": "butter_churn",
     "type": "TOOL",
