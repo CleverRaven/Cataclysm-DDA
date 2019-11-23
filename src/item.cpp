@@ -192,6 +192,7 @@ const int item::INFINITE_CHARGES = INT_MAX;
 item::item() : bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
+    charges = 0;
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
