@@ -17,7 +17,7 @@ void load_speech( JsonObject &jo )
     jo.read( "sound", sound );
     const int volume = jo.get_int( "volume" );
     for( const std::string &label : jo.get_tags( "speaker" ) ) {
-        speech[label].emplace_back( sound, volume );
+        speech[label].emplace_back( SpeechBubble{ sound, volume } );
     }
 }
 
