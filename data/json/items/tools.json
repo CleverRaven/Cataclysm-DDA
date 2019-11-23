@@ -1978,7 +1978,7 @@
     "volume": "3000 ml",
     "price": 10,
     "bashing": 8,
-    "material": [ "glass", "dairy" ],
+    "material": "glass",
     "symbol": "%",
     "color": "white",
     "use_action": {
