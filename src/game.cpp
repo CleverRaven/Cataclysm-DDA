@@ -2879,7 +2879,7 @@ bool game::save_player_data()
         JsonOut jsout( fout );
         u.serialize_map_memory( jsout );
     }, _( "player map memory" ) );
-    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
+    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
