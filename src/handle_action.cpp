@@ -1884,13 +1884,13 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                if ( !avatar_action::eat_here( u ) ) {
+                if( !avatar_action::eat_here( u ) ) {
                     avatar_action::eat( u );
                 }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                if ( !avatar_action::eat_here( u ) ) {
+                if( !avatar_action::eat_here( u ) ) {
                     open_consume_item_menu();
                 }
                 break;
