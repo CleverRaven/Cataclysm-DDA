@@ -6,7 +6,8 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 4, "t_grass_long": 2, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 10, "t_grass_long": 2, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3, "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 30,
           "t_shrub": 5,
