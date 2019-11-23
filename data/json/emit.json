@@ -293,5 +293,11 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_bees",
+    "type": "emit",
+    "field": "fd_bees",
+    "qty": 3
   }
 ]

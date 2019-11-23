@@ -1431,10 +1431,6 @@ ter_id map::ter( const tripoint &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
-    constexpr std::array<point, 4> offsets = {{
-            point_south, point_east, point_west, point_north
-        }
-    };
     auto &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
@@ -2965,6 +2961,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
     // If something supporting the roof collapsed, see what else collapses
     if( supports && !still_supports ) {
         for( const tripoint &t : points_in_radius( p, 1 ) ) {
+            // If z-levels are off, tz == t, so we end up skipping a lot of stuff to avoid bugs.
             const tripoint &tz = tripoint( t.xy(), t.z + 1 );
             // if nothing above us had the chance of collapsing, move on
             if( !one_in( collapse_check( tz ) ) ) {
@@ -2972,7 +2969,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // if a wall collapses, walls without support from below risk collapsing and
             //propogate the collapse upwards
-            if( wall && p == t && has_flag( "WALL", tz ) ) {
+            if( zlevels && wall && p == t && has_flag( "WALL", tz ) ) {
                 collapse_at( tz, silent );
             }
             // floors without support from below risk collapsing into open air and can propogate
@@ -2982,8 +2979,10 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // this tile used to support a roof, now it doesn't, which means there is only
             // open air above us
-            ter_set( tz, t_open_air );
-            furn_set( tz, f_null );
+            if( zlevels ) {
+                ter_set( tz, t_open_air );
+                furn_set( tz, f_null );
+            }
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
