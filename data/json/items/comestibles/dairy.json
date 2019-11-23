@@ -105,7 +105,7 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "charges": 32,
-    "vitamins": [ [ "vitA", 7 ],  [ "vitB", 3 ], ],
+    "vitamins": [ [ "vitA", 7 ],  [ "vitB", 3 ] ],
     "fun": -1
   },
   {
