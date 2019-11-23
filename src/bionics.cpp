@@ -2482,9 +2482,9 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        tmenu.addentry( 2, true, 't', _( "Bellow 25 %%" ) );
-        tmenu.addentry( 3, true, 'f', _( "Bellow 50 %%" ) );
-        tmenu.addentry( 4, true, 's', _( "Bellow 75 %%" ) );
+        tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
+        tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
+        tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
