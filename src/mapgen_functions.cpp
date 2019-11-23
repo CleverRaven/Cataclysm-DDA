@@ -46,9 +46,6 @@ const mtype_id mon_ant_queen( "mon_ant_queen" );
 const mtype_id mon_bat( "mon_bat" );
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_beekeeper( "mon_beekeeper" );
-const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
-const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
-const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
 const mtype_id mon_rat_king( "mon_rat_king" );
 const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
@@ -102,9 +99,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "hive",             &mapgen_hive },
             { "spider_pit",       &mapgen_spider_pit },
-            { "fungal_bloom",     &mapgen_fungal_bloom },
-            { "fungal_tower",     &mapgen_fungal_tower },
-            { "fungal_flowers",   &mapgen_fungal_flowers },
             { "road_straight",    &mapgen_road },
             { "road_curved",      &mapgen_road },
             { "road_end",         &mapgen_road },
@@ -511,85 +505,6 @@ void mapgen_spider_pit( mapgendata &dat )
             }
         }
     }
-}
-
-void mapgen_fungal_bloom( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 4 ) ) {
-                m->ter_set( point( i, j ), t_marloss );
-            } else if( one_in( 10 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_tree_fungal );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 5 ) ) {
-                m->ter_set( point( i, j ), t_shrub_fungal );
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_fungus_mound );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_queen, 1, point( 12, 12 ) );
-}
-
-void mapgen_fungal_tower( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( 8 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_tree_fungal );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_fungus_mound );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_tower, 1, point( 12, 12 ) );
-}
-
-void mapgen_fungal_flowers( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 6 ) ) {
-                m->ter_set( point( i, j ), t_fungus );
-                m->furn_set( point( i, j ), f_flower_marloss );
-            } else if( one_in( 10 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_fungus_mound );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 5 ) ) {
-                m->ter_set( point( i, j ), t_fungus );
-                m->furn_set( point( i, j ), f_flower_fungal );
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_shrub_fungal );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_seeder, 1, point( 12, 12 ) );
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
