@@ -1965,6 +1965,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
     int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = u.i_at( pos );
+    item_location locThisItem( u, &oThisItem );
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -2085,13 +2086,13 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
             switch( cMenu ) {
                 case 'a':
-                    use_item( pos );
+                    avatar_action::use_item( u, locThisItem );
                     break;
                 case 'E':
                     eat( pos );
                     break;
                 case 'W':
-                    u.wear( u.i_at( pos ) );
+                    u.wear( oThisItem );
                     break;
                 case 'w':
                     wield( pos );
@@ -2103,7 +2104,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     change_side( pos );
                     break;
                 case 'T':
-                    u.takeoff( u.i_at( pos ) );
+                    u.takeoff( oThisItem );
                     break;
                 case 'd':
                     u.drop( pos, u.pos() );
@@ -2124,13 +2125,13 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.read( pos );
                     break;
                 case 'D':
-                    u.disassemble( item_location( u, &u.i_at( pos ) ), false );
+                    u.disassemble( locThisItem, false );
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
-                    game_menus::inv::reassign_letter( u, u.i_at( pos ) );
+                    game_menus::inv::reassign_letter( u, oThisItem );
                     break;
                 case KEY_PPAGE:
                     iScrollPos--;
@@ -2619,7 +2620,7 @@ void game::move_save_to_graveyard()
 void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = get_world_base_save_path() + "/master.gsav";
+    const auto datafile = get_world_base_save_path() + "/" + SAVE_MASTER;
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
@@ -2660,21 +2661,21 @@ void game::load( const save_t &name )
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item( "null", 0 );
-    if( !read_from_file( playerpath + ".sav", std::bind( &game::unserialize, this, _1 ) ) ) {
+    if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
     }
 
-    read_from_file_optional_json( playerpath + ".mm", [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( playerpath + SAVE_EXTENSION_MAP_MEMORY, [&]( JsonIn & jsin ) {
         u.deserialize_map_memory( jsin );
     } );
 
     weather.nextweather = calendar::turn;
 
-    read_from_file_optional( worldpath + name.base_path() + ".log",
+    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
                              std::bind( &memorial_logger::load, &memorial(), _1 ) );
 
 #if defined(__ANDROID__)
-    read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
+    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS,
                              std::bind( &game::load_shortcuts, this, _1 ) );
 #endif
 
@@ -2754,7 +2755,7 @@ void game::load_world_modfiles( loading_ui &ui )
         mods.insert( mods.begin(), mod_id( "dda" ) );
     }
 
-    load_artifacts( get_world_base_save_path() + "/artifacts.gsav" );
+    load_artifacts( get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
     // this code does not care about mod dependencies,
     // it assumes that those dependencies are static and
     // are resolved during the creation of the world.
@@ -2840,7 +2841,7 @@ void game::reset_npc_dispositions()
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = get_world_base_save_path() + "/master.gsav";
+    std::string masterfile = get_world_base_save_path() + "/" + SAVE_MASTER;
     return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
@@ -2848,7 +2849,7 @@ bool game::save_factions_missions_npcs()
 
 bool game::save_artifacts()
 {
-    std::string artfilename = get_world_base_save_path() + "/artifacts.gsav";
+    std::string artfilename = get_world_base_save_path() + "/" + SAVE_ARTIFACTS;
     return ::save_artifacts( artfilename );
 }
 
@@ -2869,18 +2870,21 @@ bool game::save_player_data()
 {
     const std::string playerfile = get_player_base_save_path();
 
-    const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream & fout ) {
+    const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
-    const bool saved_map_memory = write_to_file( playerfile + ".mm", [&]( std::ostream & fout ) {
+    const bool saved_map_memory = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
+    std::ostream & fout ) {
         JsonOut jsout( fout );
         u.serialize_map_memory( jsout );
     }, _( "player map memory" ) );
-    const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
+    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
+    std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
-    const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
+    const bool saved_shortcuts = write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
+    std::ostream & fout ) {
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
@@ -5004,69 +5008,6 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     }
 
-}
-static void make_active( item_location loc )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
-static void update_lum( item_location loc, bool add )
-{
-    switch( loc.where() ) {
-        case item_location::type::map:
-            g->m.update_lum( loc, add );
-            break;
-        default:
-            break;
-    }
-}
-
-void game::use_item( int pos )
-{
-    bool use_loc = false;
-    item_location loc;
-
-    if( pos == INT_MIN ) {
-        loc = game_menus::inv::use( u );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
-        } else {
-            int obtain_cost = loc.obtain_cost( u );
-            pos = loc.obtain( u );
-            // This method only handles items in te inventory, so refund the obtain cost.
-            u.moves += obtain_cost;
-        }
-    }
-
-    refresh_all();
-
-    if( use_loc ) {
-        update_lum( loc, false );
-        u.use( loc );
-        update_lum( loc, true );
-
-        make_active( loc );
-    } else {
-        u.use( pos );
-    }
-
-    u.invalidate_crafting_inventory();
 }
 
 void game::exam_vehicle( vehicle &veh, const point &c )
@@ -8565,8 +8506,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             break;
     }
 
-
-
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
         it = &u.i_at( loc.obtain( u ) );
@@ -9985,7 +9924,6 @@ void game::on_move_effects()
             }
         }
     }
-
 
     if( u.movement_mode_is( CMM_RUN ) ) {
         if( !u.can_run() ) {

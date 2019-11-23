@@ -787,6 +787,12 @@ class Character : public Creature, public visitable<Character>
         virtual bool deactivate_bionic( int b, bool eff_only = false );
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
+        /**Passively produce power from PERPETUAL fuel*/
+        void passive_power_gen( int b );
+        /**Handle heat from exothermic power generation*/
+        void heat_emission( int b, int fuel_energy );
+        /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
+        float get_effective_efficiency( int b, float fuel_efficiency );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
@@ -1070,7 +1076,6 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
-
 
         // drawing related stuff
         /**

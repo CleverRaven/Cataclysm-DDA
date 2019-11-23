@@ -176,18 +176,15 @@ void gates::open_gate( const tripoint &pos )
     bool close = false;
     bool fail = false;
 
-    for( int i = 0; i < 4; ++i ) {
-        static constexpr tripoint dir[4] = {
-            { tripoint_east }, { tripoint_south }, { tripoint_west }, { tripoint_north }
-        };
-        const tripoint wall_pos = pos + dir[i];
+    for( const point &wall_offset : four_adjacent_offsets ) {
+        const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( auto j : dir ) {
-            const tripoint gate_pos = wall_pos + j;
+        for( const point &gate_offset : four_adjacent_offsets ) {
+            const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
@@ -198,7 +195,7 @@ void gates::open_gate( const tripoint &pos )
                 while( g->m.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
-                    cur_pos += j;
+                    cur_pos += gate_offset;
                 }
             }
 
@@ -213,7 +210,7 @@ void gates::open_gate( const tripoint &pos )
                     } else if( ter != gate.floor.id() ) {
                         break;
                     }
-                    cur_pos += j;
+                    cur_pos += gate_offset;
                 }
             }
         }

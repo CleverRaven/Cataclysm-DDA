@@ -9,7 +9,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "-||||||||||||||-        ",
-        "-FwlwL-P#######-4       ",
+        "-FwlwL-P#######-4      Y",
         "-Flwlw#..U.U.U.g        ",
         "-#wlwl@........g        ",
         "-#lwlw#........g        ",
@@ -20,7 +20,7 @@
         "-#wlwl#........g        ",
         "-wlwlw#....BB..g        ",
         "-lwlwl#....TT..g        ",
-        "-##f###....BB..-        ",
+        "-##f###....BB..-       Y",
         "-.............P-rfrrrrrR",
         "-..............-cccccccR",
         "-C.....BB..BB..gccccBccR",
@@ -77,6 +77,7 @@
         "P": "f_indoor_plant",
         "T": "f_table",
         "U": "f_chair",
+        "Y": "f_street_light",
         "s": "f_sink",
         "{": "f_rack"
       },
@@ -190,7 +191,7 @@
         "  SbbgTH.TTTT.....R.HTB|",
         "  Sxx|TH.BBBB.........P|",
         "  Sbb|||||||||...|||||||",
-        "  S   |Fl{|$l@...QXQXQX|",
+        "  S  Y|Fl{|$l@...QXQXQX|",
         "  S   |FlO|$l#........Q|",
         "  S   |FlO|$l#........X|",
         "  S   |Fl{|ll#..CRRRRRR|",
@@ -200,7 +201,7 @@
         "|...|   |LLlL|||||||||||",
         "|...DSSSDlllL|W..<|     ",
         "|...|   |||||||D|||     ",
-        "|...|                   "
+        "|...|                  Y"
       ],
       "terrain": {
         " ": [
@@ -263,6 +264,7 @@
         "U": "f_chair",
         "s": "f_sink",
         "W": "f_water_heater",
+        "Y": "f_street_light",
         "{": "f_rack"
       },
       "items": {
