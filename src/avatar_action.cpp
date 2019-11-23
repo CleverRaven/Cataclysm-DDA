@@ -875,7 +875,6 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
             you.eat( food );
-            g->m.ter_set( you.pos(), t_dirt );
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );
             } else if( g->m.ter( you.pos() ) == t_grass_long ) {
