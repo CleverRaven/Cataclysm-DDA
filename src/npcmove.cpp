@@ -1743,7 +1743,7 @@ healing_options npc::patient_assessment( const Character &c )
 npc_action npc::address_needs( float danger )
 {
     // rng because NPCs are not meant to be hypervigilant hawks that notice everything
-    // and swing into action with alarming alacrity.
+    // and swing into action with alarming alacrity
     // no sometimes they are just looking the other way, sometimes they hestitate.
     // ( also we can get huge performance boosts )
     if( one_in( 3 ) ) {
