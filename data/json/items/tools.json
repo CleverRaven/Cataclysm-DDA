@@ -1980,7 +1980,7 @@
     "bashing": 8,
     "material": "glass",
     "symbol": "%",
-    "looks_like" :"jar_sauerkraut_pickled",
+    "looks_like": "jar_sauerkraut_pickled",
     "color": "white",
     "use_action": {
       "target": "milk_cream_jar",
@@ -1996,7 +1996,7 @@
     "type": "GENERIC",
     "category": "food",
     "name": "milk cream jar",
-    "looks_like" :"jar_sauerkraut_pickled",
+    "looks_like": "jar_sauerkraut_pickled",
     "description": "This jar contains raw milk separated into cream.  It is sealed until you are ready to use it.",
     "weight": "52 g",
     "volume": "3000 ml",
