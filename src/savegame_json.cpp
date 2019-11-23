@@ -912,10 +912,6 @@ void player::load( JsonObject &data )
         remove_mutation( trait_MYOPIC );
     }
 
-    if( has_bionic( bionic_id( "bio_solar" ) ) ) {
-        remove_bionic( bionic_id( "bio_solar" ) );
-    }
-
     if( data.has_array( "faction_warnings" ) ) {
         JsonArray warning_arr = data.get_array( "faction_warnings" );
         while( warning_arr.has_more() ) {
