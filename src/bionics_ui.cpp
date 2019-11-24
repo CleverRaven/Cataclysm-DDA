@@ -145,8 +145,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }
-    if( bio.has_var( "AUTO_START" ) && !bio.info().fuel_opts.empty() ) {
-        const std::string label = _( "(auto start < " ) + bio.get_var( "AUTO_START" ) + " %)";
+    if( bio.is_auto_start_on() && !bio.info().fuel_opts.empty() ) {
+        const std::string label = _( "(auto start < " ) + std::to_string( static_cast<int>
+                                  ( bio.get_auto_start_thresh() *
+                                    100 ) ) + " %)";
         properties.push_back( label );
     }
 

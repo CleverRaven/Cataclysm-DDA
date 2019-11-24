@@ -162,27 +162,21 @@ struct bionic {
         void remove_flag( std::string flag );
         bool has_flag( std::string flag ) const ;
 
-        void set_var( const std::string &key, const std::string &value );
-        /** Get the variable, if it does not exists, returns an empty string. */
-        std::string get_var( const std::string &key, const std::string &default_value = "" ) const;
-        /** Whether the variable is defined at all. */
-        bool has_var( const std::string &key ) const;
-        /** Erase the value of the given variable. */
-        void erase_var( const std::string &key );
-        /** Removes all item variables. */
-        void clear_vars();
-
         int get_quality( const quality_id &quality ) const;
 
         bool is_this_fuel_powered( const itype_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 
+        void set_auto_start_thresh( float val );
+        float get_auto_start_thresh() const;
+        bool is_auto_start_on() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
         cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
-        std::map<std::string, std::string> bionic_vars;
+        float auto_start_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

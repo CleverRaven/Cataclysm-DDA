@@ -1075,10 +1075,9 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
-
-    if( !bio.id->fuel_opts.empty() && bio.has_var( "AUTO_START" ) ) {
+    if( !bio.id->fuel_opts.empty() && bio.is_auto_start_on() ) {
+        const float start_threshold = bio.get_auto_start_thresh();
         const std::vector<itype_id> &fuel_available = get_fuel_available( bio.id );
-        const float start_threshold = std::stoi( bio.get_var( "AUTO_START" ) ) / 100.0;
         if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
             g->u.activate_bionic( b );
         } else if( get_power_level() <= start_threshold * get_max_power_level() &&
@@ -2417,35 +2416,6 @@ bool bionic::has_flag( const std::string flag ) const
     return bionic_tags.find( flag ) != bionic_tags.end();
 }
 
-void bionic::set_var( const std::string &key, const std::string &value )
-{
-    bionic_vars[key] = value;
-}
-
-std::string bionic::get_var( const std::string &key, const std::string &default_value ) const
-{
-    const auto it = bionic_vars.find( key );
-    if( it == bionic_vars.end() ) {
-        return default_value;
-    }
-    return it->second;
-}
-
-bool bionic::has_var( const std::string &key ) const
-{
-    return bionic_vars.count( key ) > 0;
-}
-
-void bionic::erase_var( const std::string &key )
-{
-    bionic_vars.erase( key );
-}
-
-void bionic::clear_vars()
-{
-    bionic_vars.clear();
-}
-
 int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
@@ -2479,7 +2449,7 @@ void bionic::toggle_auto_start_mod()
     if( info().fuel_opts.empty() ) {
         return;
     }
-    if( !has_var( "AUTO_START" ) ) {
+    if( !is_auto_start_on() ) {
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
@@ -2490,23 +2460,38 @@ void bionic::toggle_auto_start_mod()
 
         switch( tmenu.ret ) {
             case 1:
-                set_var( "AUTO_START", "0" );
+                set_auto_start_thresh( 0.0 );
                 break;
             case 2:
-                set_var( "AUTO_START", "25" );
+                set_auto_start_thresh( 0.25 );
                 break;
             case 3:
-                set_var( "AUTO_START", "50" );
+                set_auto_start_thresh( 0.5 );
                 break;
             case 4:
-                set_var( "AUTO_START", "75" );
+                set_auto_start_thresh( 0.75 );
                 break;
             default:
                 break;
         }
     } else {
-        erase_var( "AUTO_START" );
+        set_auto_start_thresh( -1.0 );
     }
+}
+
+void bionic::set_auto_start_thresh( float val )
+{
+    auto_start_threshold = val;
+}
+
+float bionic::get_auto_start_thresh() const
+{
+    return auto_start_threshold;
+}
+
+bool bionic::is_auto_start_on() const
+{
+    return get_auto_start_thresh() > -1.0;
 }
 
 void bionic::serialize( JsonOut &json ) const
@@ -2522,6 +2507,10 @@ void bionic::serialize( JsonOut &json ) const
     if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
+    if( is_auto_start_on() ) {
+        json.member( "auto_start_threshold", auto_start_threshold );
+    }
+
     json.end_object();
 }
 
@@ -2540,6 +2529,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
+    }
+    if( jo.has_float( "auto_start_threshold" ) ) {
+        auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         JsonArray jsar = jo.get_array( "bionic_tags" );
