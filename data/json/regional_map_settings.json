@@ -11,6 +11,7 @@
         "t_region_shrub": {
           "t_underbrush": 30,
           "t_shrub": 5,
+          "t_fern": 2,
           "t_shrub_blueberry": 1,
           "t_shrub_strawberry": 1,
           "t_shrub_blackberry": 1,
@@ -60,8 +61,8 @@
           "t_tree_dead": 16
         },
         "t_region_tree_shade": {
-          "t_tree": 128,
-          "t_tree_young": 128,
+          "t_tree": 64,
+          "t_tree_young": 32,
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
@@ -133,9 +134,7 @@
           "f_black_eyed_susan": 1,
           "f_lily": 1,
           "f_flower_tulip": 1,
-          "f_boulder_small": 3,
-          "f_boulder_medium": 2,
-          "f_boulder_large": 1
+          "f_mutpoppy": 1
         }
       }
     },
@@ -238,33 +237,7 @@
             "chance": 12,
             "clear_types": false,
             "types": {
-              "t_tree_young": 128,
-              "t_tree": 32,
-              "t_tree_birch": 16,
-              "t_tree_elm": 16,
-              "t_tree_cottonwood": 16,
-              "t_tree_pine": 32,
-              "t_tree_maple": 32,
-              "t_tree_willow": 32,
-              "t_tree_hickory": 16,
-              "t_tree_walnut": 8,
-              "t_tree_chestnut": 8,
-              "t_tree_hazelnut": 2,
-              "t_tree_beech": 2,
-              "t_tree_blackjack": 8,
-              "t_tree_coffee": 2,
-              "t_tree_apple": 2,
-              "t_tree_apricot": 2,
-              "t_tree_cherry": 2,
-              "t_tree_juniper": 2,
-              "t_tree_peach": 2,
-              "t_tree_pear": 2,
-              "t_tree_plum": 2,
-              "t_tree_elderberry": 2,
-              "t_tree_mulberry": 2,
-              "t_tree_deadpine": 16,
-              "t_tree_hickory_dead": 16,
-              "t_tree_dead": 16
+              "t_region_tree": 128
             }
           },
           "shrubs_and_flowers": {
@@ -272,28 +245,8 @@
             "chance": 10,
             "clear_types": false,
             "types": {
-              "t_underbrush": 30,
-              "t_fern": 9,
-              "t_shrub": 5,
-              "t_shrub_blueberry": 1,
-              "t_shrub_strawberry": 1,
-              "t_shrub_blackberry": 1,
-              "t_shrub_raspberry": 1,
-              "t_shrub_huckleberry": 1,
-              "t_shrub_grape": 1,
-              "t_shrub_rose": 1,
-              "t_shrub_hydrangea": 1,
-              "t_shrub_lilac": 1,
-              "f_black_eyed_susan": 1,
-              "f_lily": 1,
-              "f_flower_tulip": 1,
-              "f_flower_spurge": 1,
-              "f_chamomile": 1,
-              "f_dandelion": 1,
-              "f_datura": 1,
-              "f_dahlia": 1,
-              "f_bluebell": 1,
-              "f_mutpoppy": 1
+              "t_region_shrub": 100,
+              "f_region_weed": 20
             }
           },
           "clutter": {
@@ -330,33 +283,7 @@
             "chance": 5,
             "clear_types": false,
             "types": {
-              "t_tree": 128,
-              "t_tree_young": 128,
-              "t_tree_birch": 16,
-              "t_tree_elm": 16,
-              "t_tree_cottonwood": 16,
-              "t_tree_pine": 32,
-              "t_tree_maple": 32,
-              "t_tree_willow": 32,
-              "t_tree_hickory": 16,
-              "t_tree_walnut": 8,
-              "t_tree_chestnut": 8,
-              "t_tree_hazelnut": 2,
-              "t_tree_beech": 2,
-              "t_tree_blackjack": 8,
-              "t_tree_coffee": 2,
-              "t_tree_apple": 2,
-              "t_tree_apricot": 2,
-              "t_tree_cherry": 2,
-              "t_tree_juniper": 2,
-              "t_tree_peach": 2,
-              "t_tree_pear": 2,
-              "t_tree_plum": 2,
-              "t_tree_elderberry": 2,
-              "t_tree_mulberry": 2,
-              "t_tree_deadpine": 16,
-              "t_tree_hickory_dead": 16,
-              "t_tree_dead": 16
+              "t_region_tree": 100
             }
           },
           "shrubs_and_flowers": {
@@ -364,28 +291,8 @@
             "chance": 5,
             "clear_types": false,
             "types": {
-              "t_underbrush": 30,
-              "t_fern": 9,
-              "t_shrub": 5,
-              "t_shrub_blueberry": 1,
-              "t_shrub_strawberry": 1,
-              "t_shrub_blackberry": 1,
-              "t_shrub_raspberry": 1,
-              "t_shrub_huckleberry": 1,
-              "t_shrub_grape": 1,
-              "t_shrub_rose": 1,
-              "t_shrub_hydrangea": 1,
-              "t_shrub_lilac": 1,
-              "f_black_eyed_susan": 1,
-              "f_lily": 1,
-              "f_flower_tulip": 1,
-              "f_flower_spurge": 1,
-              "f_chamomile": 1,
-              "f_dandelion": 1,
-              "f_datura": 1,
-              "f_dahlia": 1,
-              "f_bluebell": 1,
-              "f_mutpoppy": 1
+              "t_region_shrub": 100,
+              "f_region_weed": 20
             }
           },
           "clutter": {
@@ -453,27 +360,8 @@
             "chance": 15,
             "clear_types": false,
             "types": {
-              "t_underbrush": 30,
-              "t_shrub": 5,
-              "t_shrub_blueberry": 1,
-              "t_shrub_strawberry": 1,
-              "t_shrub_blackberry": 1,
-              "t_shrub_raspberry": 1,
-              "t_shrub_huckleberry": 1,
-              "t_shrub_grape": 1,
-              "t_shrub_rose": 1,
-              "t_shrub_hydrangea": 1,
-              "t_shrub_lilac": 1,
-              "f_black_eyed_susan": 1,
-              "f_lily": 1,
-              "f_flower_tulip": 1,
-              "f_flower_spurge": 1,
-              "f_chamomile": 1,
-              "f_dandelion": 1,
-              "f_datura": 1,
-              "f_dahlia": 1,
-              "f_bluebell": 1,
-              "f_mutpoppy": 1
+              "t_region_shrub": 80,
+              "f_region_weed": 30
             }
           },
           "clutter": {
