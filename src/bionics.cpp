@@ -1081,7 +1081,8 @@ void Character::process_bionic( int b )
         const float start_threshold = std::stoi( bio.get_var( "AUTO_START" ) ) / 100.0;
         if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
             g->u.activate_bionic( b );
-        } else if( get_power_level() <= start_threshold * get_max_power_level() && calendar::once_every( 1_hours ) ) {
+        } else if( get_power_level() <= start_threshold * get_max_power_level() &&
+                   calendar::once_every( 1_hours ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to use Auto Start." ),
                                    _( "<npcname>'s %s does not have enough fuel to use Auto Start." ),
                                    bio.info().name );
