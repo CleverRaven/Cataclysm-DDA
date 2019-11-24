@@ -152,7 +152,6 @@ namespace
 {
 const std::vector<bionic_id> power_cbms = { {
         bio_advreactor,
-        bio_ethanol,
         bio_furnace,
         bio_reactor,
     }
@@ -1646,17 +1645,13 @@ bool npc::wants_to_recharge_cbm()
     const float allowed_ratio = static_cast<int>( rules.cbm_recharge ) / 100.0f;
     const units::energy max_pow_allowed = get_max_power_level() * allowed_ratio;
 
-    bool no_fueled_cbm = true;
-    for( const bionic_id bid : get_fueled_bionics() ) {
-        no_fueled_cbm = false;
-        if( get_fuel_available( bid ).empty() ) {
-            return true;
-        } else if( curr_power < max_pow_allowed && !use_bionic_by_id( bid ) ) {
-            return true;
+    if( curr_power < max_pow_allowed ) {
+        for( const bionic_id &bid : get_fueled_bionics() ) {
+            if( !has_active_bionic( bid ) ) {
+                return true;
+            }
         }
-    }
-    if( no_fueled_cbm ) {
-        return curr_power < max_pow_allowed;
+        return get_fueled_bionics().empty(); //NPC might have power CBM that doesn't use the json fuel_opts entry
     }
     return false;
 }
@@ -1695,6 +1690,10 @@ bool npc::recharge_cbm()
     }
 
     for( bionic_id &bid : get_fueled_bionics() ) {
+        if( has_active_bionic( bid ) ) {
+            continue;
+        }
+
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
@@ -1711,8 +1710,15 @@ bool npc::recharge_cbm()
                 return true;
             } else {
                 const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                const bool need_alcohol = std::find( fuel_op.begin(), fuel_op.end(),
+                                                     "chem_ethanol" ) != fuel_op.end() ||
+                                          std::find( fuel_op.begin(), fuel_op.end(), "chem_methanol" ) != fuel_op.end() ||
+                                          std::find( fuel_op.begin(), fuel_op.end(), "denat_alcohol" ) != fuel_op.end();
+
                 if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+                } else if( need_alcohol ) {
+                    complain_about( "need_booze", 3_hours, "<need_booze>", false );
                 } else {
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
@@ -1729,18 +1735,6 @@ bool npc::recharge_cbm()
             return true;
         } else {
             complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_ethanol ) ) {
-        const std::function<bool( const item & )> ethanol_filter = []( const item & it ) {
-            return it.type->can_use( "WEAK_ALCOHOL" ) || it.type->can_use( "ALCOHOL" ) ||
-                   it.type->can_use( "STRONG_ALOCHOL" );
-        };
-        if( consume_cbm_items( ethanol_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_booze", 3_hours, "<need_booze>", false );
         }
     }
 

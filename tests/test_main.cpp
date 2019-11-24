@@ -100,18 +100,18 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         assert( !"Unable to make config directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         assert( !"Unable to make save directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         assert( !"Unable to make templates directory.  Check permissions." );
     }
 

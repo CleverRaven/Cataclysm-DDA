@@ -1789,7 +1789,7 @@
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
     "weight": "226 g",
-    "volume": 0,
+    "volume": "250 ml",
     "price": 14000,
     "cutting": 12,
     "material": [ "steel", "plastic" ],
@@ -2076,9 +2076,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 3500,
-    "max_charges": 7000,
-    "charges_per_use": 3500,
+    "initial_charges": 4000,
+    "max_charges": 8000,
+    "charges_per_use": 500,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -4516,7 +4516,7 @@
     "type": "TOOL",
     "name": "glass pipe",
     "description": "This is a hand-blown glass pipe.  It's of the type most commonly used to smoke recreational substances.",
-    "weight": "442 g",
+    "weight": "163 g",
     "volume": "250 ml",
     "price": 2000,
     "to_hit": -10,
@@ -5751,7 +5751,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

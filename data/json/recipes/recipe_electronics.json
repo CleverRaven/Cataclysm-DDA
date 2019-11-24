@@ -2162,7 +2162,7 @@
       [ [ "antenna", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "small_lcd_screen", 1 ] ]
+      [ [ "large_lcd_screen", 1 ] ]
     ]
   },
   {

@@ -45,7 +45,7 @@
     "weight": "1251 g",
     "ammo": "9x18",
     "min_cycle_recoil": 270,
-    "burst": 15,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
   }
 ]

@@ -301,7 +301,7 @@
     "type": "BIONIC_ITEM",
     "name": "Ethanol Burner CBM",
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  However, the user will still suffer the inebriating effects of the substance.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accept ethanol, methanol and denatured aclohol as fuel.",
     "price": 120000,
     "difficulty": 4
   },
@@ -514,7 +514,7 @@
     "id": "bio_lighter",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Mini-Flamethrower CBM",
+    "name": "Finger Lighter CBM",
     "looks_like": "bio_int_enhancer",
     "description": "Powerful fire starters which extend from the tip of both hands' index fingers.",
     "price": 130000,

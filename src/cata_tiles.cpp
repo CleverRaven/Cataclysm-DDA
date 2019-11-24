@@ -264,8 +264,8 @@ void cata_tiles::reinit()
 static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
-    const std::string default_json = FILENAMES["defaulttilejson"];
-    const std::string default_tileset = FILENAMES["defaulttilepng"];
+    const std::string default_json = PATH_INFO::defaulttilejson();
+    const std::string default_tileset = PATH_INFO::defaulttilepng();
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -516,13 +516,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
-        get_tile_information( tileset_root + '/' + FILENAMES["tileset-conf"],
+        get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
                               json_conf, tileset_path );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
-        json_conf = FILENAMES["defaulttilejson"];
-        tileset_path = FILENAMES["defaulttilepng"];
+        json_conf = PATH_INFO::defaulttilejson();
+        tileset_path = PATH_INFO::defaulttilepng();
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
@@ -1101,14 +1101,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              NORTH ) );
         }
     }
-    static const point neighborhood[4] = {
-        point_south, point_east, point_west, point_north
-    };
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
-            int temp_x, temp_y;
+            int temp_x;
+            int temp_y;
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
@@ -2138,16 +2136,12 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     const bool overridden = override != terrain_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
     // first memorize the actual terrain
     const ter_id &t = g->m.ter( p );
@@ -2306,16 +2300,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     const bool overridden = override != furniture_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
     // first memorize the actual furniture
     const furn_id &f = g->m.furn( p );
@@ -2383,16 +2373,12 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     const bool overridden = override != trap_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
 
     // first memorize the actual trap

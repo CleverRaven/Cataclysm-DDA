@@ -139,7 +139,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "superalloy", "plastic" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",
     "use_action": {

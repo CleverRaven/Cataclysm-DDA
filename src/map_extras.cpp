@@ -1932,14 +1932,14 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint> occupied = vehicle.v->get_points();
-        for( tripoint t : occupied ) {
+        for( const tripoint &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( tripoint tri : points ) {
+    for( const tripoint &tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
 
@@ -2065,14 +2065,14 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint> occupied = vehicle.v->get_points();
-        for( tripoint t : occupied ) {
+        for( const tripoint &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( tripoint tri : points ) {
+    for( const tripoint &tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
 }

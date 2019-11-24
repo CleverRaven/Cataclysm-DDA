@@ -1250,7 +1250,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         // previously used to set hunger to -10. with the new system, needs to do something
         // else that actually makes sense, so it is a little bit more involved.
-        units::volume fulfill_vol = std::max( p.stomach.capacity() / 8 - p.stomach.contains(), 0_ml );
+        units::volume fulfill_vol = std::max( p.stomach.capacity( p ) / 8 - p.stomach.contains(), 0_ml );
         if( fulfill_vol != 0_ml ) {
             p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
             int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
@@ -1483,7 +1483,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
         mon.friendly = -1;
         mon.add_effect( effect_pet, 1_turns, num_bp, true );
         p.consume_charges( it, 1 );
-        return 1;
+        return 0;
     } else {
         p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
         return 0;
@@ -1511,12 +1511,12 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
                     p.consume_charges( it, 1 );
-                    return 1;
+                    return 0;
                 } else {
                     p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
                     p.consume_charges( it, 1 );
-                    return 1;
+                    return 0;
                 }
             } else {
                 p.add_msg_if_player( _( "Never mind." ) );
@@ -1544,7 +1544,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                         p.add_msg_if_player(
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         p.consume_charges( it, 1 );
-                        return 1;
+                        return 0;
                     }
                 } else {
                     return feedpet( p, mon, it, MF_DOGFOOD,
@@ -3400,13 +3400,33 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
     }
 
     int ch = uilist( _( "Geiger counter:" ), {
-        _( "Scan yourself" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
+        _( "Scan yourself or other person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
     } );
     switch( ch ) {
-        case 0:
-            p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
-                                  p->leak_level( "RADIOACTIVE" ) );
+        case 0: {
+            const std::function<bool( const tripoint & )> f = [&]( const tripoint & pnt ) {
+                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
+            };
+
+            const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ), f, false,
+                                                  true );
+            if( !pnt_ ) {
+                return 0;
+            }
+            const tripoint &pnt = *pnt_;
+            if( pnt == g->u.pos() ) {
+                p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
+                                      p->leak_level( "RADIOACTIVE" ) );
+                break;
+            }
+            if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
+                npc &person = *person_;
+                p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
+                                      person.name, person.radiation,
+                                      person.leak_level( "RADIOACTIVE" ) );
+            }
             break;
+        }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
                                   g->m.get_radiation( p->pos() ) );
@@ -3418,6 +3438,8 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         default:
             return 0;
     }
+    p->mod_moves( -100 );
+
     return it->type->charges_to_use();
 }
 
@@ -4090,7 +4112,8 @@ static std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        return SNIPPET.random_from_category( "music_description" );
+        return SNIPPET.expand( SNIPPET.random_from_category( "<music_description>" ).value_or(
+                                   translation() ).translated() );
     }
 
     return _( "a sweet guitar solo!" );
@@ -9221,26 +9244,8 @@ int item::contain_monster( const tripoint &target )
     set_var( "contained_name", f.type->nname() );
     set_var( "name", string_format( _( "%s holding %s" ), type->nname( 1 ),
                                     f.type->nname() ) );
-    m_size mon_size = f.get_size();
-    int new_weight = 0;
-    switch( mon_size ) {
-        case MS_TINY:
-            new_weight = 1000;
-            break;
-        case MS_SMALL:
-            new_weight = 40750;
-            break;
-        case MS_MEDIUM:
-            new_weight = 81500;
-            break;
-        case MS_LARGE:
-            new_weight = 120000;
-            break;
-        case MS_HUGE:
-            new_weight = 200000;
-            break;
-    }
-    set_var( "weight", new_weight );
+    // Need to add the weight of the empty container because item::weight uses the "weight" variable directly.
+    set_var( "weight", to_milligram( type->weight + f.get_weight() ) );
     g->remove_zombie( f );
     return 0;
 }
@@ -9355,7 +9360,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
 washing_requirements washing_requirements_for_volume( const units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
-    int cleanser = divide_round_up( vol, 1000_ml );
+    int cleanser = divide_round_up( vol, 1_liter );
     int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
     return { water, cleanser, time };
 }

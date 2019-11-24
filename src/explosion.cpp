@@ -136,7 +136,7 @@ static void do_blast( const tripoint &p, const float power,
                       const float distance_factor, const bool fire )
 {
     const float tile_dist = 1.0f;
-    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
+    const float diag_dist = trigdist ? M_SQRT2 * tile_dist : 1.0f * tile_dist;
     const float zlev_dist = 2.0f; // Penalty for going up/down
     // 7 3 5
     // 1 . 2
@@ -577,6 +577,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
+        if( critter.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
             g->knockback( p, critter.pos(), force, stun, dam_mult );
@@ -584,6 +587,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
     for( npc &guy : g->all_npcs() ) {
+        if( guy.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( guy.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
             g->knockback( p, guy.pos(), force, stun, dam_mult );

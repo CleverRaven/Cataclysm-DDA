@@ -132,6 +132,13 @@
     "sort_rank": 8
   },
   {
+    "id": "container",
+    "type": "ITEM_CATEGORY",
+    "name": "CONTAINERS",
+    "zone": "LOOT_CONTAINERS",
+    "sort_rank": 9
+  },
+  {
     "id": "artifacts",
     "type": "ITEM_CATEGORY",
     "name": "ARTIFACTS",

@@ -11,8 +11,30 @@
 #include <windows.h>
 #endif
 
-/** Map where we store filenames */
-std::map<std::string, std::string> FILENAMES;
+/**
+ * Return a locale specific path, or if there is no path for the current
+ * locale, return the default path.
+ * @param path The local path is based on that value.
+ * @param extension File name extension, is automatically added to the path
+ * of the translated file. Can be empty, but must otherwise include the
+ * initial '.', e.g. ".json"
+ * @param fallback The path of the fallback filename.
+ * It is used if no translated file can be found.
+ */
+static std::string find_translated_file( const std::string &path, const std::string &extension,
+        const std::string &fallback );
+
+static std::string motd_value;
+static std::string gfxdir_value;
+static std::string config_dir_value;
+static std::string user_dir_value;
+static std::string datadir_value;
+static std::string base_path_value;
+static std::string savedir_value;
+static std::string autopickup_value;
+static std::string keymap_value;
+static std::string options_value;
+static std::string memorialdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
@@ -23,14 +45,11 @@ void PATH_INFO::init_base_path( std::string path )
         }
     }
 
-    //FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
-    FILENAMES["base_path"] = path;
+    base_path_value = path;
 }
 
-void PATH_INFO::init_user_dir( const char *ud )
+void PATH_INFO::init_user_dir( std::string dir )
 {
-    std::string dir = std::string( ud );
-
     if( dir.empty() ) {
         const char *user_dir;
 #if defined(_WIN32)
@@ -53,122 +72,33 @@ void PATH_INFO::init_user_dir( const char *ud )
 #endif
     }
 
-    FILENAMES["user_dir"] = dir;
-}
-
-void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
-{
-    const std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
-    if( iter != FILENAMES.end() ) {
-        FILENAMES[name] = path;
-    } else {
-        FILENAMES.insert( std::pair<std::string, std::string>( name, path ) );
-    }
-}
-
-void PATH_INFO::update_datadir()
-{
-    // Shared dirs
-    update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
-    update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
-    update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
-    update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
-    update_pathname( "moddir", FILENAMES["datadir"] + "mods/" );
-    update_pathname( "recycledir", FILENAMES["datadir"] + "recycling/" );
-    update_pathname( "namesdir", FILENAMES["datadir"] + "names/" );
-    update_pathname( "titledir", FILENAMES["datadir"] + "title/" );
-    update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
-    update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
-    update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
-    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
-
-    // Shared files
-    update_pathname( "title", FILENAMES["titledir"] + "en.title" );
-    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
-    update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
-    update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
-    update_pathname( "colors", FILENAMES["rawdir"] + "colors.json" );
-    update_pathname( "keybindings", FILENAMES["rawdir"] + "keybindings.json" );
-    update_pathname( "keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json" );
-    update_pathname( "legacy_fontdata", FILENAMES["datadir"] + "fontdata.json" );
-    update_pathname( "sokoban", FILENAMES["rawdir"] + "sokoban.txt" );
-    update_pathname( "defaulttilejson", FILENAMES["gfx"] + "tile_config.json" );
-    update_pathname( "defaulttilepng", FILENAMES["gfx"] + "tinytile.png" );
-    update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
-    update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
-    update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
-    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
-}
-
-void PATH_INFO::update_config_dir()
-{
-    update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
-    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
-    update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
-    update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
-    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
-    update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
-    update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
-    update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
-    update_pathname( "safemode", FILENAMES["config_dir"] + "safemode.json" );
-    update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
-    update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
-    update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
-    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
+    user_dir_value = dir;
 }
 
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
-    if( !FILENAMES["base_path"].empty() ) {
+    if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
-        update_pathname( "datadir", FILENAMES["base_path"] + "share/cataclysm-dda/" );
-        update_pathname( "gfxdir", FILENAMES["datadir"] + "gfx/" );
+        datadir_value = base_path_value + "share/cataclysm-dda/";
+        gfxdir_value = datadir_value + "gfx/";
 #else
-        update_pathname( "datadir", FILENAMES["base_path"] + "data/" );
-        update_pathname( "gfxdir", FILENAMES["base_path"] + "gfx/" );
+        datadir_value = base_path_value + "data/";
+        gfxdir_value = base_path_value + "gfx/";
 #endif
     } else {
-        update_pathname( "datadir", "data/" );
-        update_pathname( "gfxdir", "gfx/" );
+        datadir_value = "data/";
+        gfxdir_value = "gfx/";
     }
 
     // Shared dirs
-    update_pathname( "fontdir", FILENAMES["datadir"] + "font/" );
-    update_pathname( "rawdir", FILENAMES["datadir"] + "raw/" );
-    update_pathname( "jsondir", FILENAMES["datadir"] + "core/" );
-    update_pathname( "moddir", FILENAMES["datadir"] + "mods/" );
-    update_pathname( "namesdir", FILENAMES["datadir"] + "names/" );
-    update_pathname( "titledir", FILENAMES["datadir"] + "title/" );
-    update_pathname( "motddir", FILENAMES["datadir"] + "motd/" );
-    update_pathname( "creditsdir", FILENAMES["datadir"] + "credits/" );
-    update_pathname( "color_templates", FILENAMES["rawdir"] + "color_templates/" );
-    update_pathname( "data_sound", FILENAMES["datadir"] + "sound" );
-    update_pathname( "helpdir", FILENAMES["datadir"] + "help/" );
 
     // Shared files
-    update_pathname( "title", FILENAMES["titledir"] + "en.title" );
-    update_pathname( "halloween", FILENAMES["titledir"] + "en.halloween" );
-    update_pathname( "motd", FILENAMES["motddir"] + "en.motd" );
-    update_pathname( "credits", FILENAMES["creditsdir"] + "en.credits" );
-    update_pathname( "names", FILENAMES["namesdir"] + "en.json" );
-    update_pathname( "colors", FILENAMES["rawdir"] + "colors.json" );
-    update_pathname( "keybindings", FILENAMES["rawdir"] + "keybindings.json" );
-    update_pathname( "keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json" );
-    update_pathname( "sokoban", FILENAMES["rawdir"] + "sokoban.txt" );
-    update_pathname( "defaulttilejson", FILENAMES["gfx"] + "tile_config.json" );
-    update_pathname( "defaulttilepng", FILENAMES["gfx"] + "tinytile.png" );
-    update_pathname( "mods-dev-default", FILENAMES["moddir"] + "default.json" );
-    update_pathname( "mods-replacements", FILENAMES["moddir"] + "replacements.json" );
-    update_pathname( "defaultsounddir", FILENAMES["datadir"] + "sound" );
-    update_pathname( "help", FILENAMES["helpdir"] + "texts.json" );
+    motd_value = datadir_value + "motd/" + "en.motd";
 
-    update_pathname( "savedir", FILENAMES["user_dir"] + "save/" );
-    update_pathname( "memorialdir", FILENAMES["user_dir"] + "memorial/" );
-    update_pathname( "templatedir", FILENAMES["user_dir"] + "templates/" );
-    update_pathname( "user_sound", FILENAMES["user_dir"] + "sound/" );
-    update_pathname( "user_gfx", FILENAMES["user_dir"] + "gfx/" );
+    savedir_value = user_dir_value + "save/";
+    memorialdir_value = user_dir_value + "memorial/";
+
 #if defined(USE_XDG_DIR)
     const char *user_dir;
     std::string dir;
@@ -178,52 +108,18 @@ void PATH_INFO::set_standard_filenames()
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
     }
-    update_pathname( "config_dir", dir );
+    config_dir_value = dir;
 #else
-    update_pathname( "config_dir", FILENAMES["user_dir"] + "config/" );
+    config_dir_value = user_dir_value + "config/";
 #endif
-    update_pathname( "graveyarddir", FILENAMES["user_dir"] + "graveyard/" );
-
-    update_pathname( "options", FILENAMES["config_dir"] + "options.json" );
-    update_pathname( "panel_options", FILENAMES["config_dir"] + "panel_options.json" );
-    update_pathname( "keymap", FILENAMES["config_dir"] + "keymap.txt" );
-    update_pathname( "user_keybindings", FILENAMES["config_dir"] + "keybindings.json" );
-    update_pathname( "debug", FILENAMES["config_dir"] + "debug.log" );
-    update_pathname( "crash", FILENAMES["config_dir"] + "crash.log" );
-    update_pathname( "fontlist", FILENAMES["config_dir"] + "fontlist.txt" );
-    update_pathname( "fontdata", FILENAMES["config_dir"] + "fonts.json" );
-    update_pathname( "autopickup", FILENAMES["config_dir"] + "auto_pickup.json" );
-    update_pathname( "safemode", FILENAMES["config_dir"] + "safemode.json" );
-    update_pathname( "base_colors", FILENAMES["config_dir"] + "base_colors.json" );
-    update_pathname( "custom_colors", FILENAMES["config_dir"] + "custom_colors.json" );
-    update_pathname( "mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json" );
-    update_pathname( "lastworld", FILENAMES["config_dir"] + "lastworld.json" );
-    update_pathname( "user_moddir", FILENAMES["user_dir"] + "mods/" );
-    update_pathname( "worldoptions", "worldoptions.json" );
-
-    // Needed to move files from these legacy locations to the new config directory.
-    update_pathname( "legacy_options", "data/options.txt" );
-    update_pathname( "legacy_options2", FILENAMES["config_dir"] + "options.txt" );
-    update_pathname( "legacy_keymap", "data/keymap.txt" );
-    update_pathname( "legacy_autopickup", "data/auto_pickup.txt" );
-    update_pathname( "legacy_autopickup2", FILENAMES["config_dir"] + "auto_pickup.txt" );
-    update_pathname( "legacy_fontdata", FILENAMES["datadir"] + "fontdata.json" );
-    update_pathname( "legacy_worldoptions", "worldoptions.txt" );
-#if defined(TILES)
-    // Default tileset config file.
-    update_pathname( "tileset-conf", "tileset.txt" );
-#endif
-#if defined(SDL_SOUND)
-    // Default soundpack config file.
-    update_pathname( "soundpack-conf", "soundpack.txt" );
-#endif
+    options_value = config_dir_value + "options.json";
+    keymap_value = config_dir_value + "keymap.txt";
+    autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
-std::string PATH_INFO::find_translated_file( const std::string &pathid,
-        const std::string &extension, const std::string &fallbackid )
+std::string find_translated_file( const std::string &base_path, const std::string &extension,
+                                  const std::string &fallback )
 {
-    const std::string base_path = FILENAMES[pathid];
-
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
     if( get_option<std::string>( "USE_LANG" ).empty() ) {
@@ -266,7 +162,285 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
             }
         }
     }
-#endif
+#else
+    ( void ) base_path;
     ( void ) extension;
-    return FILENAMES[fallbackid];
+#endif
+    return fallback;
+}
+std::string PATH_INFO::autopickup()
+{
+    return autopickup_value;
+}
+std::string PATH_INFO::base_colors()
+{
+    return config_dir_value + "base_colors.json";
+}
+std::string PATH_INFO::base_path()
+{
+    return base_path_value;
+}
+std::string PATH_INFO::colors()
+{
+    return datadir_value + "raw/" + "colors.json";
+}
+std::string PATH_INFO::color_templates()
+{
+    return datadir_value + "raw/" + "color_templates/";
+}
+std::string PATH_INFO::config_dir()
+{
+    return config_dir_value;
+}
+std::string PATH_INFO::custom_colors()
+{
+    return config_dir_value + "custom_colors.json";
+}
+std::string PATH_INFO::datadir()
+{
+    return datadir_value;
+}
+std::string PATH_INFO::debug()
+{
+    return config_dir_value + "debug.log";
+}
+std::string PATH_INFO::defaultsounddir()
+{
+    return datadir_value + "sound";
+}
+std::string PATH_INFO::defaulttilejson()
+{
+    return "tile_config.json";
+}
+std::string PATH_INFO::defaulttilepng()
+{
+    return "tinytile.png";
+}
+std::string PATH_INFO::fontdata()
+{
+    return config_dir_value + "fonts.json";
+}
+std::string PATH_INFO::fontdir()
+{
+    return datadir_value + "font/";
+}
+std::string PATH_INFO::fontlist()
+{
+    return config_dir_value + "fontlist.txt";
+}
+std::string PATH_INFO::graveyarddir()
+{
+    return user_dir_value + "graveyard/";
+}
+std::string PATH_INFO::help()
+{
+    return datadir_value + "help/" + "texts.json";
+}
+std::string PATH_INFO::keybindings()
+{
+    return datadir_value + "raw/" + "keybindings.json";
+}
+std::string PATH_INFO::keybindings_vehicle()
+{
+    return datadir_value + "raw/" + "keybindings/vehicle.json";
+}
+std::string PATH_INFO::keymap()
+{
+    return keymap_value;
+}
+std::string PATH_INFO::lastworld()
+{
+    return config_dir_value + "lastworld.json";
+}
+std::string PATH_INFO::legacy_autopickup()
+{
+    return "data/auto_pickup.txt";
+}
+std::string PATH_INFO::legacy_autopickup2()
+{
+    return config_dir_value + "auto_pickup.txt";
+}
+std::string PATH_INFO::legacy_fontdata()
+{
+    return datadir_value + "fontdata.json";
+}
+std::string PATH_INFO::legacy_keymap()
+{
+    return "data/keymap.txt";
+}
+std::string PATH_INFO::legacy_options()
+{
+    return "data/options.txt";
+}
+std::string PATH_INFO::legacy_options2()
+{
+    return config_dir_value + "options.txt";
+}
+std::string PATH_INFO::legacy_worldoptions()
+{
+    return "worldoptions.txt";
+}
+std::string PATH_INFO::memorialdir()
+{
+    return memorialdir_value;
+}
+std::string PATH_INFO::jsondir()
+{
+    return datadir_value + "core/";
+}
+std::string PATH_INFO::moddir()
+{
+    return datadir_value + "mods/";
+}
+std::string PATH_INFO::options()
+{
+    return options_value;
+}
+std::string PATH_INFO::panel_options()
+{
+    return config_dir_value + "panel_options.json";
+}
+std::string PATH_INFO::safemode()
+{
+    return config_dir_value + "safemode.json";
+}
+std::string PATH_INFO::savedir()
+{
+    return savedir_value;
+}
+std::string PATH_INFO::sokoban()
+{
+    return datadir_value + "raw/" + "sokoban.txt";
+}
+std::string PATH_INFO::templatedir()
+{
+    return user_dir_value + "templates/";
+}
+std::string PATH_INFO::user_dir()
+{
+    return user_dir_value;
+}
+std::string PATH_INFO::user_gfx()
+{
+    return user_dir_value + "gfx/";
+}
+std::string PATH_INFO::user_keybindings()
+{
+    return config_dir_value + "keybindings.json";
+}
+std::string PATH_INFO::user_moddir()
+{
+    return user_dir_value + "mods/";
+}
+std::string PATH_INFO::user_sound()
+{
+    return user_dir_value + "sound/";
+}
+std::string PATH_INFO::worldoptions()
+{
+    return "worldoptions.json";
+}
+std::string PATH_INFO::crash()
+{
+    return config_dir_value + "crash.log";
+}
+std::string PATH_INFO::tileset_conf()
+{
+    return "tileset.txt";
+}
+std::string PATH_INFO::mods_replacements()
+{
+    return datadir_value + "mods/" + "replacements.json";
+}
+std::string PATH_INFO::mods_dev_default()
+{
+    return datadir_value + "mods/" + "default.json";
+}
+std::string PATH_INFO::mods_user_default()
+{
+    return config_dir_value + "user-default-mods.json";
+}
+std::string PATH_INFO::soundpack_conf()
+{
+    return "soundpack.txt";
+}
+std::string PATH_INFO::gfxdir()
+{
+    return gfxdir_value;
+}
+std::string PATH_INFO::data_sound()
+{
+    return datadir_value + "sound";
+}
+
+std::string PATH_INFO::credits()
+{
+    return find_translated_file( datadir_value + "credits/", ".credits",
+                                 datadir_value + "credits/" + "en.credits" );
+}
+
+std::string PATH_INFO::motd()
+{
+    return find_translated_file( datadir_value + "motd/", ".motd", motd_value );
+}
+
+std::string PATH_INFO::title( const bool halloween_theme )
+{
+    return find_translated_file( datadir_value + "title/", halloween_theme ? ".halloween" : ".title",
+                                 halloween_theme ? ( datadir_value + "title/" + "en.halloween" ) : ( datadir_value + "title/" +
+                                         "en.title" ) );
+}
+
+std::string PATH_INFO::names()
+{
+    return find_translated_file( datadir_value + "names/", ".json",
+                                 datadir_value + "names/" + "en.json" );
+}
+
+void PATH_INFO::set_datadir( const std::string &datadir )
+{
+    datadir_value = datadir;
+    // Shared dirs
+    gfxdir_value = datadir_value + "gfx/";
+
+    // Shared files
+    motd_value = datadir_value + "motd/" + "en.motd";
+}
+
+void PATH_INFO::set_config_dir( const std::string &config_dir )
+{
+    config_dir_value = config_dir;
+    options_value = config_dir_value + "options.json";
+    keymap_value = config_dir_value + "keymap.txt";
+    autopickup_value = config_dir_value + "auto_pickup.json";
+}
+
+void PATH_INFO::set_savedir( const std::string &savedir )
+{
+    savedir_value = savedir;
+}
+
+void PATH_INFO::set_memorialdir( const std::string &memorialdir )
+{
+    memorialdir_value = memorialdir;
+}
+
+void PATH_INFO::set_options( const std::string &options )
+{
+    options_value = options;
+}
+
+void PATH_INFO::set_keymap( const std::string &keymap )
+{
+    keymap_value = keymap;
+}
+
+void PATH_INFO::set_autopickup( const std::string &autopickup )
+{
+    autopickup_value = autopickup;
+}
+
+void PATH_INFO::set_motd( const std::string &motd )
+{
+    motd_value = motd;
 }

@@ -29,18 +29,7 @@
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [
-      [ "chocolate", 50 ],
-      [ "cookies", 50 ],
-      [ "candy", 60 ],
-      [ "candy2", 60 ],
-      [ "candy3", 60 ],
-      [ "maple_candy", 25 ],
-      [ "powder_candy", 40 ],
-      [ "neccowafers", 60 ],
-      [ "candycigarette", 45 ],
-      [ "mintpatties", 60 ]
-    ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ] ]
   },
   {
     "id": "tux_shop",
