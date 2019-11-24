@@ -1134,7 +1134,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-	"flags": [ "DETERGENT" ],
+    "flags": [ "DETERGENT" ],
     "count": 20
   },
   {
