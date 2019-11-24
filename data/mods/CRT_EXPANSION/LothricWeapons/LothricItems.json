@@ -77,7 +77,7 @@
     "symbol": "[",
     "color": "red",
     "covers": [ "TORSO", "ARMS" ],
-    "coverage": 15,
+    "coverage": 100,
     "encumbrance": 15,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "OUTER" ]
@@ -96,7 +96,7 @@
     "symbol": "[",
     "color": "red",
     "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 15,
+    "coverage": 100,
     "encumbrance": 20,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "OUTER" ]
