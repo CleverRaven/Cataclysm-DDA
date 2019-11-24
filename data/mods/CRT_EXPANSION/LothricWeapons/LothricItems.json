@@ -111,7 +111,7 @@
     "color": "dark_gray",
     "material": "steel",
     "weight": 1750,
-    "volume": 2.5,
+    "volume": 3,
     "price": 20000,
     "cutting": 35,
     "bashing": 10,
