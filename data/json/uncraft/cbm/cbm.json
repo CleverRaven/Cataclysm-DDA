@@ -27,16 +27,6 @@
   },
   {
     "type": "uncraft",
-    "result": "bio_solar",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 4 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
     "result": "bio_batteries",
     "skill_used": "electronics",
     "difficulty": 7,

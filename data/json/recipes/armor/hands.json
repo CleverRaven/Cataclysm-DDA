@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 10 ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -21,7 +21,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 6 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 10 ] ] ]
   },
   {
     "result": "gauntlets_larmor",

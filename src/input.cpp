@@ -116,19 +116,19 @@ void input_manager::init()
     reset_timeout();
 
     try {
-        load( FILENAMES["keybindings"], false );
+        load( PATH_INFO::keybindings(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::keybindings() + ": " + err.what() );
     }
     try {
-        load( FILENAMES["keybindings_vehicle"], false );
+        load( PATH_INFO::keybindings_vehicle(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::keybindings_vehicle() + ": " + err.what() );
     }
     try {
-        load( FILENAMES["user_keybindings"], true );
+        load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::user_keybindings() + ": " + err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -275,7 +275,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
 void input_manager::save()
 {
-    write_to_file( FILENAMES["user_keybindings"], [&]( std::ostream & data_file ) {
+    write_to_file( PATH_INFO::user_keybindings(), [&]( std::ostream & data_file ) {
         JsonOut jsout( data_file, true );
 
         jsout.start_array();

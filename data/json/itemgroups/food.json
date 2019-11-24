@@ -53,7 +53,7 @@
     "type": "item_group",
     "items": [
       [ "birdfood", 10 ],
-      { "item": "dogfood", "prob": 45, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 45, "container-item": "can_medium" },
       { "item": "catfood", "prob": 45, "container-item": "can_food" }
     ]
   },
@@ -148,6 +148,85 @@
       [ "cholla_bud", 3 ],
       [ "garlic", 3 ],
       [ "pine_nuts", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "softdrinks_canned",
+    "items": [
+      [ "cola", 60 ],
+      [ "colamdew", 55 ],
+      [ "creamsoda", 50 ],
+      [ "lemonlime", 50 ],
+      [ "orangesoda", 45 ],
+      [ "rootbeer", 40 ],
+      [ "crispycran", 35 ],
+      [ "purple_drink", 35 ],
+      [ "choc_drink", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "candy_chocolate",
+    "items": [
+      [ "chocolate", 70 ],
+      [ "candy", 70 ],
+      [ "candy2", 70 ],
+      [ "candy3", 70 ],
+      [ "maltballs", 60 ],
+      [ "mintpatties", 60 ],
+      [ "neccowafers", 55 ],
+      [ "powder_candy", 50 ],
+      [ "candycigarette", 15 ],
+      [ "maple_candy", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "salty_snacks",
+    "items": [
+      [ "chips", 65 ],
+      [ "chips2", 65 ],
+      [ "chips3", 65 ],
+      [ "pretzels", 55 ],
+      [ "jerky", 55 ],
+      [ "porkstick", 55 ],
+      [ "nachos", 50 ],
+      [ "chocpretzels", 40 ],
+      [ "popcorn", 25 ],
+      [ "popcorn2", 35 ],
+      [ "popcorn3", 35 ],
+      [ "cracklins", 25 ],
+      [ "fried_seeds", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "MRE",
+    "items": [
+      [ "mre_chilibeans_box", 45 ],
+      [ "mre_bbqbeef_box", 45 ],
+      [ "mre_chickennoodle_box", 45 ],
+      [ "mre_spaghetti_box", 45 ],
+      [ "mre_chicken_box", 45 ],
+      [ "mre_beeftaco_box", 45 ],
+      [ "mre_beef_box", 45 ],
+      [ "mre_meatball_box", 45 ],
+      [ "mre_beefstew_box", 45 ],
+      [ "mre_chilimac_box", 45 ],
+      [ "mre_veggy_box", 45 ],
+      [ "mre_macaronimarinara_box", 45 ],
+      [ "mre_cheesetort_box", 45 ],
+      [ "mre_mushroomfettuccine_box", 45 ],
+      [ "mre_mexicanchickenstew_box", 45 ],
+      [ "mre_maplesausage_box", 45 ],
+      [ "mre_ravioli_box", 45 ],
+      [ "mre_hashbrownbacon_box", 45 ],
+      [ "mre_lemontuna_box", 45 ],
+      [ "mre_asianbeef_box", 45 ],
+      [ "mre_chickenpesto_box", 45 ],
+      [ "mre_southwestbeef_box", 45 ],
+      [ "mre_hotdog_box", 45 ]
     ]
   }
 ]

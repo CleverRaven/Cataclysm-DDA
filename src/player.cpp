@@ -844,19 +844,9 @@ int player::run_cost( int base_cost, bool diag ) const
         if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 10 * footwear_factor();
         }
-        // Both walk and run speed drop to half their maximums as stamina approaches 0.
-        // Convert stamina to a float first to allow for decimal place carrying
-        float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-        if( move_mode == CMM_RUN && get_stamina() > 0 ) {
-            // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-            stamina_modifier *= 2.0;
-        }
-        if( move_mode == CMM_CROUCH ) {
-            stamina_modifier *= 0.5;
-        }
 
         movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
-        movecost /= stamina_modifier;
+        movecost /= stamina_move_cost_modifier();
     }
 
     if( diag ) {
@@ -2042,7 +2032,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
-        if( !can_wield( weapon ).success() ) {
+        if( !weapon.is_null() && !can_wield( weapon ).success() ) {
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
             i_rem( &weapon );
         }
@@ -2873,12 +2863,6 @@ void player::update_needs( int rate_multiplier )
 
     if( get_painkiller() > 0 ) {
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
-    }
-
-    if( g->is_in_sunlight( pos() ) ) {
-        if( has_bionic( bn_bio_solar ) ) {
-            mod_power_level( units::from_kilojoule( rate_multiplier * 25 ) );
-        }
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
@@ -4588,6 +4572,17 @@ void player::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
+            if( obj->damage() > 0 ) {
+                const std::set<std::string> &rep = obj->repaired_with();
+                const std::string repair_options =
+                enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+                    return item::nname( e );
+                }, enumeration_conjunction::or_ );
+
+                add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
+                                    "%s to use one of those items." ),
+                         repair_options, press_x( ACTION_USE ) );
+            }
         }
         return;
     }

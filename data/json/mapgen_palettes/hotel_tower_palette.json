@@ -26,14 +26,19 @@
     },
     "terrain": {
       ",": "t_pavement_y",
+      "1": "t_flat_roof",
+      "0": "t_glass_roof",
+      "*": "t_open_air",
       "6": "t_wall_glass",
       "_": "t_pavement",
       "2": "t_carpet_green",
       "s": "t_sidewalk",
       "'": [ [ "t_grass", 5 ], "t_dirt", "t_shrub" ],
+      "M": [ "t_shrub_lilac", "t_shrub_hydrangea" ],
       " ": [ [ "t_grass", 5 ], "t_dirt", "t_shrub" ],
-      "-": "t_adobe_brick_wall",
-      "|": "t_adobe_brick_wall",
+      "-": "t_wall_w",
+      "|": "t_wall_w",
+      "%": "t_adobe_brick_wall",
       "T": "t_tree_young",
       "v": "t_pavement",
       "w": "t_water_pool_shallow",
@@ -51,6 +56,7 @@
       ">": "t_stairs_down",
       "#": "t_rock",
       "$": "t_sewage_pipe",
+      "4": "t_gutter_downspout",
       "P": "t_sewage_pump"
     }
   }

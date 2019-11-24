@@ -237,6 +237,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    radiation = 0;
     tank_plut = 0;
     reactor_plut = 0;
     slow_rad = 0;
@@ -281,11 +282,11 @@ Character::~Character() = default;
 Character::Character( Character && ) = default;
 Character &Character::operator=( Character && ) = default;
 
-void Character::setID( character_id i )
+void Character::setID( character_id i, bool force )
 {
-    if( id.is_valid() ) {
+    if( id.is_valid() && !force ) {
         debugmsg( "tried to set id of a npc/player, but has already a id: %d", id.get_value() );
-    } else if( !i.is_valid() ) {
+    } else if( !i.is_valid() && !force ) {
         debugmsg( "tried to set invalid id of a npc/player: %d", i.get_value() );
     } else {
         id = i;
@@ -2041,13 +2042,13 @@ units::volume Character::volume_capacity_reduced_by(
         }
     }
     if( has_bionic( bionic_id( "bio_storage" ) ) ) {
-        ret += 2000_ml;
+        ret += 2_liter;
     }
     if( has_trait( trait_SHELL ) ) {
-        ret += 4000_ml;
+        ret += 4_liter;
     }
     if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
-        ret += 6000_ml;
+        ret += 6_liter;
     }
     if( has_trait( trait_PACKMULE ) ) {
         ret = ret * 1.4;
@@ -3001,8 +3002,8 @@ void Character::print_health() const
 
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
-        const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
+        const translation msg = SNIPPET.random_from_category( iter->second ).value_or( translation() );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, "%s", msg );
     }
 }
 
@@ -4377,7 +4378,7 @@ int Character::throw_range( const item &it ) const
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
-    ret -= tmp.volume() / 1000_ml;
+    ret -= tmp.volume() / 1_liter;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
@@ -5194,7 +5195,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -5206,6 +5207,21 @@ void Character::burn_move_stamina( int moves )
             mod_pain( 1 );
         }
     }
+}
+
+float Character::stamina_move_cost_modifier() const
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+    if( move_mode == CMM_RUN && get_stamina() > 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        stamina_modifier *= 2.0;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        stamina_modifier *= 0.5;
+    }
+    return stamina_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -5250,7 +5266,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns / stamina_move_cost_modifier() ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
@@ -5441,7 +5457,6 @@ void Character::cough( bool harmful, int loudness )
 
     add_effect( effect_recently_coughed, 5_minutes );
 }
-
 
 void Character::wake_up()
 {
@@ -6634,7 +6649,6 @@ void Character::check_and_recover_morale()
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
     }
 }
-
 
 void Character::start_hauling()
 {

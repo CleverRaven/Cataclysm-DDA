@@ -834,7 +834,7 @@ class jmapgen_sign : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                signtext = SNIPPET.get( SNIPPET.assign( snippet ) );
+                signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
                 signtext = signage;
             }
@@ -886,7 +886,7 @@ class jmapgen_graffiti : public jmapgen_piece
 
             if( !snippet.empty() ) {
                 // select a snippet from the category
-                graffiti = SNIPPET.get( SNIPPET.assign( snippet ) );
+                graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
                 graffiti = text;
             }
@@ -2599,6 +2599,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
     objects.apply( md, point_zero );
 
+    resolve_regional_terrain_and_furniture( md );
+
     m->rotate( rotation.get() );
 
     if( md.terrain_type()->is_rotatable() ) {
@@ -2620,6 +2622,8 @@ void mapgen_function_json_nested::nest( mapgendata &dat, const point &offset ) c
     }
 
     objects.apply( dat, offset );
+
+    resolve_regional_terrain_and_furniture( dat );
 }
 
 /*
@@ -6263,6 +6267,8 @@ void map::draw_connections( mapgendata &dat )
             }
         }
     }
+
+    resolve_regional_terrain_and_furniture( dat );
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
@@ -6684,7 +6690,7 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
  * degrees.
  * @param turns How many 90-degree turns to rotate the map.
  */
-void map::rotate( int turns )
+void map::rotate( int turns, const bool setpos_safe )
 {
 
     //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
@@ -6704,6 +6710,8 @@ void map::rotate( int turns )
     for( const std::shared_ptr<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
+        const point local_sq = getlocal( sq ).xy();
+
         real_coords np_rc;
         np_rc.fromabs( sq.x, sq.y );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
@@ -6714,7 +6722,6 @@ void map::rotate( int turns )
         // OK, this is ugly: we remove the NPC from the whole map
         // Then we place it back from scratch
         // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-        auto npc_ptr = overmap_buffer.remove_npc( np.getID() );
 
         int old_x = np_rc.sub_pos.x;
         int old_y = np_rc.sub_pos.y;
@@ -6725,10 +6732,21 @@ void map::rotate( int turns )
             old_y += SEEY;
         }
 
-        const auto new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
-
-        np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
-        overmap_buffer.insert_npc( npc_ptr );
+        const point new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
+        if( setpos_safe ) {
+            // setpos can't be used during mapgen, but spawn_at_precise clips position
+            // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
+            // calls
+            const tripoint new_global_sq = sq - local_sq + new_pos;
+            np.setpos( g->m.getlocal( new_global_sq ) );
+        } else {
+            // OK, this is ugly: we remove the NPC from the whole map
+            // Then we place it back from scratch
+            // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
+            std::shared_ptr<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
+            np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
+            overmap_buffer.insert_npc( npc_ptr );
+        }
     }
 
     clear_vehicle_cache( abs_sub.z );
@@ -7702,15 +7720,14 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     tinymap update_tmap;
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, false );
-    const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
 
     // If the existing map is rotated, we need to rotate it back to the north
     // orientation before applying our updates.
-    int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
+    const int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
     if( rotation > 0 ) {
-        md.m.rotate( rotation );
+        md.m.rotate( rotation, true );
     }
 
     const bool applied = update_map( md, offset, verify );
@@ -7718,7 +7735,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     // If we rotated the map before applying updates, we now need to rotate
     // it back to where we found it.
     if( rotation ) {
-        md.m.rotate( 4 - rotation );
+        md.m.rotate( 4 - rotation, true );
     }
 
     if( applied ) {
@@ -7742,6 +7759,8 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
         return false;
     }
     objects.apply( md, offset );
+
+    resolve_regional_terrain_and_furniture( md );
 
     return true;
 }

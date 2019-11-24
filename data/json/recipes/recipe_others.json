@@ -24,7 +24,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 322 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 17 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2504,6 +2504,19 @@
   },
   {
     "type": "recipe",
+    "result": "can_medium_unsealed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "jackhammer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2935,7 +2948,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
-    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -2948,7 +2961,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 3 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 15 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2961,7 +2974,7 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
-    "components": [ [ [ "glass_shard", 8 ], [ "flask_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 11 ], [ "flask_glass", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3026,7 +3039,7 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3038,7 +3051,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 322 ], [ "flask_glass", 80 ], [ "jar_glass", 40 ] ] ]
+    "components": [ [ [ "glass_shard", 250 ], [ "flask_glass", 63 ], [ "jar_glass", 21 ] ] ]
   },
   {
     "type": "recipe",
@@ -3455,6 +3468,7 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
@@ -3469,6 +3483,7 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ] ] ]

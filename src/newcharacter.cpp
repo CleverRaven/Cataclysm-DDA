@@ -53,8 +53,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-struct points_left;
-
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
 #define COL_STAT_BONUS      c_light_green // Bonus
@@ -87,90 +85,6 @@ struct points_left;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL
-    } limit;
-
-    points_left() {
-        limit = MULTI_POOL;
-        init_from_options();
-    }
-
-    void init_from_options() {
-        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-    }
-
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return std::min( trait_points_left(),
-                                 stat_points + std::min( 0, trait_points + skill_points ) );
-        }
-
-        return 0;
-    }
-
-    int trait_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + std::min( 0, skill_points );
-        }
-
-        return 0;
-    }
-
-    int skill_points_left() const {
-        return stat_points + trait_points + skill_points;
-    }
-
-    bool is_freeform() {
-        return limit == FREEFORM;
-    }
-
-    bool is_valid() {
-        return is_freeform() ||
-               ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-                 skill_points_left() >= 0 );
-    }
-
-    bool has_spare() {
-        return !is_freeform() && is_valid() && skill_points_left() > 0;
-    }
-
-    std::string to_string() {
-        if( limit == MULTI_POOL ) {
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                       trait_points >= 0 ? '+' : '-',
-                       trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
-                       skill_points >= 0 ? '+' : '-',
-                       skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
-                       is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-        } else if( limit == ONE_POOL ) {
-            return string_format( _( "Points left: %4d" ), skill_points_left() );
-        } else {
-            return _( "Freeform" );
-        }
-    }
-};
-
 enum struct tab_direction {
     NONE,
     FORWARD,
@@ -190,7 +104,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, bool al
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const avatar &u, const std::string &name, const points_left &points );
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -465,7 +378,10 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
-            learned_recipes->clear();
+            // Except if it is a character transfer template
+            if( points.limit != points_left::TRANSFER ) {
+                learned_recipes->clear();
+            }
             tab = NEWCHAR_TAB_MAX;
             break;
     }
@@ -491,6 +407,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
         werase( w );
         wrefresh( w );
+
+        if( points.limit == points_left::TRANSFER ) {
+            tab = 6;
+        }
+
         switch( tab ) {
             case 0:
                 result = set_points( w, *this, points );
@@ -543,7 +464,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         return false;
     }
 
-    save_template( *this, _( "Last Character" ), points );
+    if( points.limit == points_left::TRANSFER ) {
+        return true;
+    }
+
+    save_template( _( "Last Character" ), points );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1690,10 +1615,22 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+
+        // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
-        mvwprintz( w, point( 31, 3 ), points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red,
-                   ngettext( "Upgrading %s costs %d point", "Upgrading %s costs %d points", cost ),
-                   currentSkill->name(), cost );
+        const int level = u.get_skill_level( currentSkill->ident() );
+        const int upgrade_levels = level == 0 ? 2 : 1;
+        // We have two different strings to pluralize, so we have to use two
+        // translation calls.
+        const std::string upgrade_levels_s = string_format(
+                //~ levels here are skill levels at character creation time
+                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+        const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
+        mvwprintz( w, point( 31, 3 ), color,
+                   //~ Second string is e.g. "1 level" or "2 levels"
+                   ngettext( "Upgrading %s by %s costs %d point",
+                             "Upgrading %s by %s costs %d points", cost ),
+                   currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
         // Copy the skills, and boost the copy
@@ -2275,7 +2212,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             wrefresh( w_stats );
 
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_base_traits();
+            std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
+                                                   you.get_base_traits();
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
@@ -2300,13 +2238,16 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             profession::StartingSkillList list_skills = you.prof->skills();
             for( auto &elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
-                profession::StartingSkillList::iterator i = list_skills.begin();
-                while( i != list_skills.end() ) {
-                    if( i->first == ( elem )->ident() ) {
-                        level += i->second;
-                        break;
+
+                if( points.limit != points_left::TRANSFER ) {
+                    profession::StartingSkillList::iterator i = list_skills.begin();
+                    while( i != list_skills.end() ) {
+                        if( i->first == ( elem )->ident() ) {
+                            level += i->second;
+                            break;
+                        }
+                        ++i;
                     }
-                    ++i;
                 }
 
                 if( level > 0 ) {
@@ -2434,7 +2375,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                ::save_template( you, *name, points );
+                you.save_template( *name, points );
             }
             // redraw after saving template
             draw_character_tabs( w, _( "DESCRIPTION" ) );
@@ -2607,7 +2548,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const avatar &u, const std::string &name, const points_left &points )
+void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
@@ -2622,7 +2563,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
     }
 #endif
 
-    write_to_file( FILENAMES["templatedir"] + native + ".template", [&]( std::ostream & fout ) {
+    write_to_file( PATH_INFO::templatedir() + native + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -2632,10 +2573,10 @@ void save_template( const avatar &u, const std::string &name, const points_left 
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
-        jsout.member( "start_location", u.start_location );
+        jsout.member( "start_location", start_location );
         jsout.end_object();
 
-        u.serialize( jsout );
+        serialize( jsout );
 
         jsout.end_array();
     }, _( "player template" ) );
@@ -2643,7 +2584,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
 
 bool avatar::load_template( const std::string &template_name, points_left &points )
 {
-    return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
+    return read_from_file_json( PATH_INFO::templatedir() + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {

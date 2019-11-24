@@ -1,22 +1,21 @@
 #include "text_snippets.h"
 
 #include <random>
-#include <string>
 #include <iterator>
 #include <utility>
 
+#include "generic_factory.h"
 #include "json.h"
 #include "rng.h"
-#include "translations.h"
-
-static const std::string null_string;
 
 snippet_library SNIPPET;
 
-snippet_library::snippet_library() = default;
-
 void snippet_library::load_snippet( JsonObject &jsobj )
 {
+    if( hash_to_id_migration.has_value() ) {
+        debugmsg( "snippet_library::load_snippet called after snippet_library::migrate_hash_to_id." );
+    }
+    hash_to_id_migration = cata::nullopt;
     const std::string category = jsobj.get_string( "category" );
     if( jsobj.has_array( "text" ) ) {
         JsonArray jarr = jsobj.get_array( "text" );
@@ -28,10 +27,17 @@ void snippet_library::load_snippet( JsonObject &jsobj )
 
 void snippet_library::add_snippets_from_json( const std::string &category, JsonArray &jarr )
 {
+    if( hash_to_id_migration.has_value() ) {
+        debugmsg( "snippet_library::add_snippets_from_json called after snippet_library::migrate_hash_to_id." );
+    }
+    hash_to_id_migration = cata::nullopt;
     while( jarr.has_more() ) {
         if( jarr.test_string() ) {
-            const std::string text = jarr.next_string();
-            add_snippet( category, text );
+            translation text;
+            if( !jarr.read_next( text ) ) {
+                jarr.throw_error( "Error reading snippet from JSON array" );
+            }
+            snippets_by_category[category].no_id.emplace_back( text );
         } else {
             JsonObject jo = jarr.next_object();
             add_snippet_from_json( category, jo );
@@ -41,71 +47,43 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
 
 void snippet_library::add_snippet_from_json( const std::string &category, JsonObject &jo )
 {
-    const std::string text = jo.get_string( "text" );
-    const int hash = add_snippet( category, text );
+    if( hash_to_id_migration.has_value() ) {
+        debugmsg( "snippet_library::add_snippet_from_json called after snippet_library::migrate_hash_to_id." );
+    }
+    hash_to_id_migration = cata::nullopt;
+    translation text;
+    mandatory( jo, false, "text", text );
     if( jo.has_member( "id" ) ) {
         const std::string id = jo.get_string( "id" );
-        snippets_by_id[id] = hash;
+        if( snippets_by_id.find( id ) != snippets_by_id.end() ) {
+            jo.throw_error( "Duplicate snippet id", "id" );
+        }
+        snippets_by_category[category].ids.emplace_back( id );
+        snippets_by_id[id] = text;
+    } else {
+        snippets_by_category[category].no_id.emplace_back( text );
     }
-}
-
-int snippet_library::add_snippet( const std::string &category, const std::string &text )
-{
-    int hash = djb2_hash( reinterpret_cast<const unsigned char *>( text.c_str() ) );
-    snippets.insert( std::pair<int, std::string>( hash, text ) );
-    categories.insert( std::pair<std::string, int>( category, hash ) );
-    return hash;
-}
-
-bool snippet_library::has_category( const std::string &category ) const
-{
-    return categories.lower_bound( category ) != categories.end();
 }
 
 void snippet_library::clear_snippets()
 {
-    snippets.clear();
+    hash_to_id_migration = cata::nullopt;
+    snippets_by_category.clear();
     snippets_by_id.clear();
-    categories.clear();
 }
 
-int snippet_library::get_snippet_by_id( const std::string &id ) const
+bool snippet_library::has_category( const std::string &category ) const
+{
+    return snippets_by_category.find( category ) != snippets_by_category.end();
+}
+
+cata::optional<translation> snippet_library::get_snippet_by_id( const std::string &id ) const
 {
     const auto it = snippets_by_id.find( id );
-    if( it != snippets_by_id.end() ) {
-        return it->second;
-    }
-    return 0;
-}
-
-int snippet_library::assign( const std::string &category ) const
-{
-    return assign( category, rng_bits() );
-}
-
-int snippet_library::assign( const std::string &category, const unsigned seed ) const
-{
-    const int count = categories.count( category );
-    if( count == 0 ) {
-        return 0;
-    }
-    std::mt19937 generator( seed );
-    std::uniform_int_distribution<int> dis( 0, count - 1 );
-    const int selected_text = dis( generator );
-    std::multimap<std::string, int>::const_iterator it = categories.lower_bound( category );
-    for( int index = 0; index < selected_text; ++index ) {
-        ++it;
+    if( it == snippets_by_id.end() ) {
+        return cata::nullopt;
     }
     return it->second;
-}
-
-std::string snippet_library::get( const int index ) const
-{
-    const std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
-    if( chosen_snippet == snippets.end() ) {
-        return null_string;
-    }
-    return _( chosen_snippet->second );
 }
 
 std::string snippet_library::expand( const std::string &str ) const
@@ -120,42 +98,71 @@ std::string snippet_library::expand( const std::string &str ) const
     }
 
     std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
-    std::string replacement = random_from_category( symbol );
-    if( replacement.empty() ) {
+    cata::optional<translation> replacement = random_from_category( symbol );
+    if( !replacement.has_value() ) {
         return str.substr( 0, tag_end + 1 )
                + expand( str.substr( tag_end + 1 ) );
     }
     return str.substr( 0, tag_begin )
-           + expand( replacement )
+           + expand( replacement.value().translated() )
            + expand( str.substr( tag_end + 1 ) );
 }
 
-std::string snippet_library::random_from_category( const std::string &cat ) const
+cata::optional<std::string> snippet_library::random_id_from_category( const std::string &cat ) const
 {
-    const auto iters = categories.equal_range( cat );
-    if( iters.first == iters.second ) {
-        return null_string;
+    const auto it = snippets_by_category.find( cat );
+    if( it == snippets_by_category.end() ) {
+        return cata::nullopt;
     }
-
-    const int count = std::distance( iters.first, iters.second );
-    const int index = rng( 0, count - 1 );
-    auto iter = iters.first;
-    std::advance( iter, index );
-    return expand( get( iter->second ) );
+    if( !it->second.no_id.empty() ) {
+        debugmsg( "ids are required, but not specified for some snippets in category %s", cat );
+    }
+    if( it->second.ids.empty() ) {
+        return cata::nullopt;
+    }
+    return random_entry( it->second.ids );
 }
 
-std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
+cata::optional<translation> snippet_library::random_from_category( const std::string &cat ) const
 {
-    std::vector<int> ret;
-    const auto iters = categories.equal_range( cat );
-    if( iters.first == categories.end() ) {
-        return ret;
-    }
-
-    for( auto iter = iters.first; iter != iters.second; iter++ ) {
-        ret.push_back( iter->second );
-    }
-
-    return ret;
+    return random_from_category( cat, rng_bits() );
 }
 
+cata::optional<translation> snippet_library::random_from_category( const std::string &cat,
+        unsigned int seed ) const
+{
+    const auto it = snippets_by_category.find( cat );
+    if( it == snippets_by_category.end() ) {
+        return cata::nullopt;
+    }
+    if( it->second.ids.empty() && it->second.no_id.empty() ) {
+        return cata::nullopt;
+    }
+    const size_t count = it->second.ids.size() + it->second.no_id.size();
+    std::mt19937 generator( seed );
+    std::uniform_int_distribution<size_t> dis( 0, count - 1 );
+    const size_t index = dis( generator );
+    if( index < it->second.ids.size() ) {
+        return get_snippet_by_id( it->second.ids[index] );
+    } else {
+        return it->second.no_id[index - it->second.ids.size()];
+    }
+}
+
+cata::optional<std::string> snippet_library::migrate_hash_to_id( const int hash )
+{
+    if( !hash_to_id_migration.has_value() ) {
+        hash_to_id_migration.emplace();
+        for( const auto &id_and_text : snippets_by_id ) {
+            cata::optional<int> hash = id_and_text.second.legacy_hash();
+            if( hash ) {
+                hash_to_id_migration->emplace( hash.value(), id_and_text.first );
+            }
+        }
+    }
+    const auto it = hash_to_id_migration->find( hash );
+    if( it == hash_to_id_migration->end() ) {
+        return cata::nullopt;
+    }
+    return it->second;
+}

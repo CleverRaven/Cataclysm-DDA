@@ -41,6 +41,19 @@
   },
   {
     "type": "recipe",
+    "result": "silver_infuser",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "book_learn": [ [ "alchemy_basic", 3 ], [ "necro_basic", 4 ], [ "techno_basic", 4 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 1 } ],
+    "components": [ [ [ "silver_bracelet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "rune_alchemist",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",

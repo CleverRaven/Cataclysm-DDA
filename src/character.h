@@ -199,7 +199,8 @@ class Character : public Creature, public visitable<Character>
 
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
-        void setID( character_id i );
+        // allows forcing a -1 id which is required for templates to not throw errors
+        void setID( character_id i, bool force = false );
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -786,6 +787,12 @@ class Character : public Creature, public visitable<Character>
         virtual bool deactivate_bionic( int b, bool eff_only = false );
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
+        /**Passively produce power from PERPETUAL fuel*/
+        void passive_power_gen( int b );
+        /**Handle heat from exothermic power generation*/
+        void heat_emission( int b, int fuel_energy );
+        /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
+        float get_effective_efficiency( int b, float fuel_efficiency );
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
@@ -1070,7 +1077,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
-
         // drawing related stuff
         /**
          * Returns a list of the IDs of overlays on this character,
@@ -1343,6 +1349,7 @@ class Character : public Creature, public visitable<Character>
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
+        float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 
@@ -1641,7 +1648,7 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
-        bool check_encumbrance;
+        bool check_encumbrance = true;
 
         int stim;
         int pkill;
