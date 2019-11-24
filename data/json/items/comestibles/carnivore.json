@@ -341,7 +341,8 @@
   },
   {
     "id": "jerky",
-    "copy-from": "meat",
+    "copy-from": "flesh",
+    "price": 500,
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
@@ -354,7 +355,6 @@
     "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
-    "healthy": 0,
     "quench": -5,
     "fun": 4,
     "calories": 348,
