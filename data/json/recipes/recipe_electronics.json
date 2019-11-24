@@ -724,7 +724,7 @@
       [ [ "solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 2 ] ],
-      [ [ "rope_6", 1 ] ]
+      [ [ "rope_natural_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -748,7 +748,7 @@
       [ [ "cable", 20 ] ],
       [ [ "solar_panel_v3", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
-      [ [ "rope_6", 1 ] ]
+      [ [ "rope_natural_short", 1, "LIST" ] ]
     ]
   },
   {
