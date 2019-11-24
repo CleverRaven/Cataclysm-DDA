@@ -850,19 +850,9 @@ int player::run_cost( int base_cost, bool diag ) const
         if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 10 * footwear_factor();
         }
-        // Both walk and run speed drop to half their maximums as stamina approaches 0.
-        // Convert stamina to a float first to allow for decimal place carrying
-        float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-        if( move_mode == CMM_RUN && get_stamina() > 0 ) {
-            // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-            stamina_modifier *= 2.0;
-        }
-        if( move_mode == CMM_CROUCH ) {
-            stamina_modifier *= 0.5;
-        }
 
         movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
-        movecost /= stamina_modifier;
+        movecost /= stamina_move_cost_modifier();
     }
 
     if( diag ) {
@@ -2879,12 +2869,6 @@ void player::update_needs( int rate_multiplier )
 
     if( get_painkiller() > 0 ) {
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
-    }
-
-    if( g->is_in_sunlight( pos() ) ) {
-        if( has_bionic( bn_bio_solar ) ) {
-            mod_power_level( units::from_kilojoule( rate_multiplier * 25 ) );
-        }
     }
 
     // Huge folks take penalties for cramming themselves in vehicles

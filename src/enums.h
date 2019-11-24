@@ -236,6 +236,12 @@ enum game_message_type : int {
     m_headshot,
     m_critical,
     m_grazing,
+    num_game_message_type
+};
+
+template<>
+struct enum_traits<game_message_type> {
+    static constexpr game_message_type last = game_message_type::num_game_message_type;
 };
 
 enum game_message_flags {

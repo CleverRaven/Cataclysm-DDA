@@ -430,22 +430,22 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 787373, 292300, 228600, 75730, 56370 );
-    test_vehicle( "car", 1092322, 520800, 302500, 47060, 26470 );
-    test_vehicle( "car_sports", 1125918, 456200, 312000, 38140, 22390 );
-    test_vehicle( "electric_car", 1097791, 215469, 120379, 17211, 8898 );
-    test_vehicle( "suv", 1291990, 987100, 483000, 69560, 33260 );
+    test_vehicle( "beetle", 745101, 294587, 242197, 79708, 60855 );
+    test_vehicle( "car", 1050050, 522175, 313125, 48143, 29452 );
+    test_vehicle( "car_sports", 1083646, 456200, 320929, 39494, 24378 );
+    test_vehicle( "electric_car", 1055519, 215663, 125341, 18172, 9614 );
+    test_vehicle( "suv", 1249718, 988969, 499869, 73538, 35070 );
     test_vehicle( "motorcycle", 163085, 77300, 63120, 47530, 39030 );
     test_vehicle( "quad_bike", 265345, 75950, 75950, 35190, 35190 );
     test_vehicle( "scooter", 62587, 266900, 258300, 195200, 184400 );
     test_vehicle( "superbike", 242085, 72120, 46820, 34580, 21610 );
-    test_vehicle( "ambulance", 1803929, 432000, 345500, 64010, 47220 );
-    test_vehicle( "fire_engine", 2593241, 1169000, 960700, 244700, 215300 );
-    test_vehicle( "fire_truck", 6279233, 308500, 199100, 19950, 4747 );
+    test_vehicle( "ambulance", 1751089, 432000, 356896, 65848, 50876 );
+    test_vehicle( "fire_engine", 2540401, 1169000, 972534, 246049, 216909 );
+    test_vehicle( "fire_truck", 6226393, 308500, 199989, 19950, 4747 );
     test_vehicle( "truck_swat", 5959334, 505800, 348000, 30060, 7719 );
     test_vehicle( "tractor_plow", 723658, 528000, 528000, 117000, 117000 );
     test_vehicle( "apc", 5801619, 1100000, 948300, 132800, 86880 );
     test_vehicle( "humvee", 5499145, 607600, 341100, 25880, 9263 );
-    test_vehicle( "road_roller", 8779702, 369800, 412000, 22990, 6996 );
+    test_vehicle( "road_roller", 8705726, 359830, 414037, 22990, 6996 );
     test_vehicle( "golf_cart", 444630, 52800, 105591, 27250, 14207 );
 }

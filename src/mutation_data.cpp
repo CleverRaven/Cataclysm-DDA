@@ -18,6 +18,7 @@
 
 using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
 using TraitSet = std::set<trait_id>;
+using trait_reader = auto_flags_reader<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
@@ -380,14 +381,14 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    optional( jo, was_loaded, "prereqs", prereqs );
-    optional( jo, was_loaded, "prereqs2", prereqs2 );
-    optional( jo, was_loaded, "threshreq", threshreq );
-    optional( jo, was_loaded, "cancels", cancels );
-    optional( jo, was_loaded, "changes_to", replacements );
-    optional( jo, was_loaded, "leads_to", additions );
-    optional( jo, was_loaded, "flags", flags );
-    optional( jo, was_loaded, "types", types );
+    optional( jo, was_loaded, "prereqs", prereqs, trait_reader{} );
+    optional( jo, was_loaded, "prereqs2", prereqs2, trait_reader{} );
+    optional( jo, was_loaded, "threshreq", threshreq, trait_reader{} );
+    optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
+    optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
+    optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
+    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "types", types, string_reader{} );
 
     JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
     while( jsar.has_more() ) {

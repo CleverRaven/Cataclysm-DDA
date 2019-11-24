@@ -54,7 +54,7 @@
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 2 ], [ "dry_meat", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
     ]
   },
   {
@@ -81,7 +81,7 @@
         [ "wild_herbs", 10 ]
       ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
-      [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 2 ], [ "dry_meat", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
     ]
   },
   {
@@ -238,7 +238,7 @@
         [ "can_salmon", 1 ],
         [ "can_tuna", 1 ],
         [ "bacon", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "sausage", 1 ],
         [ "bratwurst_sausage", 1 ]
       ],

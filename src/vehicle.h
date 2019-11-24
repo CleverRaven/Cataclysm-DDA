@@ -63,7 +63,6 @@ class window;
 } // namespace catacurses
 namespace vehicles
 {
-extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;

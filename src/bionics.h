@@ -91,6 +91,8 @@ struct bionic_data {
     float fuel_efficiency;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency;
+    /**Fraction of coverage diminishing fuel_efficiency*/
+    cata::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -136,33 +138,40 @@ struct bionic_data {
 };
 
 struct bionic {
-    bionic_id id;
-    int         charge_timer  = 0;
-    char        invlet  = 'a';
-    bool        powered = false;
-    /* Ammunition actually loaded in this bionic gun in deactivated state */
-    itype_id    ammo_loaded = "null";
-    /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
-    unsigned int         ammo_count = 0;
-    /* An amount of time during which this bionic has been rendered inoperative. */
-    time_duration        incapacitated_time;
+        bionic_id id;
+        int         charge_timer  = 0;
+        char        invlet  = 'a';
+        bool        powered = false;
+        /* Ammunition actually loaded in this bionic gun in deactivated state */
+        itype_id    ammo_loaded = "null";
+        /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+        unsigned int         ammo_count = 0;
+        /* An amount of time during which this bionic has been rendered inoperative. */
+        time_duration        incapacitated_time;
+        bionic()
+            : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
+        }
+        bionic( bionic_id pid, char pinvlet )
+            : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
-    bionic()
-        : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
-    }
-    bionic( bionic_id pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
+        const bionic_data &info() const {
+            return *id;
+        }
 
-    const bionic_data &info() const {
-        return *id;
-    }
+        void set_flag( std::string flag );
+        void remove_flag( std::string flag );
+        bool has_flag( std::string flag ) const ;
 
-    int get_quality( const quality_id &quality ) const;
+        int get_quality( const quality_id &quality ) const;
 
-    bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        void toggle_safe_fuel_mod();
+        void toggle_auto_start_mod();
 
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+    private:
+        cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

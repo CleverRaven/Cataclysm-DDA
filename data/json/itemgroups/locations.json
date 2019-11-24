@@ -212,7 +212,7 @@
     "id": "petstore_misc",
     "type": "item_group",
     "items": [
-      { "item": "dogfood", "prob": 35, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 35, "container-item": "can_medium" },
       { "item": "catfood", "prob": 35, "container-item": "can_food" },
       [ "birdfood", 15 ],
       [ "dog_whistle", 15 ],
@@ -223,7 +223,7 @@
     "id": "petstore_shelves",
     "type": "item_group",
     "items": [
-      { "item": "dogfood", "prob": 30, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
       [ "birdfood", 15 ],
       [ "can_tuna", 15 ],
@@ -683,13 +683,11 @@
     "id": "ic_merch_vending",
     "//": "for cs_internet_cafe",
     "items": [
+      { "group": "salty_snacks", "prob": 300 },
       [ "water_clean", 100 ],
       [ "water_mineral", 100 ],
       [ "coffee", 100 ],
-      [ "atomic_coffee", 100 ],
-      [ "chips", 100 ],
-      [ "chips2", 100 ],
-      [ "chips3", 100 ]
+      [ "atomic_coffee", 100 ]
     ]
   },
   {
@@ -850,7 +848,7 @@
       [ "dog_whistle", 10 ],
       [ "pet_carrier", 30 ],
       [ "petpack", 3 ],
-      { "item": "dogfood", "prob": 30, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
       { "item": "catfood", "prob": 30, "container-item": "can_food" },
       [ "birdfood", 10 ],
       [ "towel", 20 ],
@@ -1071,6 +1069,7 @@
     "items": [
       { "group": "ammo_pocket_batteries", "prob": 30 },
       { "group": "candy_chocolate", "prob": 570 },
+      { "group": "snacks", "prob": 820 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -1080,33 +1079,7 @@
       [ "cell_phone", 10 ],
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ],
-      [ "chips", 65 ],
-      [ "fried_seeds", 25 ],
-      [ "pretzels", 55 ],
-      [ "chocpretzels", 40 ],
-      [ "jerky", 55 ],
-      [ "cracklins", 25 ],
-      [ "pemmican", 5 ],
-      [ "granola", 10 ],
-      [ "porkstick", 55 ],
-      [ "cookies", 80 ],
-      [ "tea_raw", 10 ],
-      [ "coffee_raw", 15 ],
-      [ "choco_coffee_beans", 10 ],
-      [ "nachos", 50 ],
-      [ "chips2", 65 ],
-      [ "chips3", 65 ],
-      [ "salt", 10 ],
-      [ "pepper", 10 ],
-      [ "syrup", 10 ],
-      [ "coffee_syrup", 10 ],
-      [ "popcorn", 25 ],
-      [ "popcorn2", 35 ],
-      [ "popcorn3", 35 ],
-      [ "fruit_leather", 25 ],
-      [ "kernels", 25 ],
-      [ "pine_nuts", 5 ]
+      [ "manual_mechanics", 10 ]
     ]
   },
   {

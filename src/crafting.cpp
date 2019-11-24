@@ -205,7 +205,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
     const units::volume &craft_volume = craft.volume();
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000000_ml );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
     return multiplier;
 }
