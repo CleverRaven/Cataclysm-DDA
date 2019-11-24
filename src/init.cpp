@@ -126,12 +126,12 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            std::ostringstream discarded;
+            std::string discarded;
             for( const auto &elem : data ) {
-                discarded << elem.first;
+                discarded += elem.first;
             }
             debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
-                      data.size(), discarded.str() );
+                      data.size(), discarded );
             data.clear();
             return; // made no progress on this cycle so abort
         }

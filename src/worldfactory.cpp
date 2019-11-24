@@ -8,7 +8,6 @@
 #include <iterator>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <unordered_map>
 #include <utility>
 
@@ -430,8 +429,6 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
 
-    std::ostringstream sTemp;
-
     while( true ) {
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -450,9 +447,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
-            sTemp.str( "" );
-            sTemp << i + 1;
-            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, sTemp.str() );
+            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
             std::string world_name = ( world_pages[selpage] )[i];

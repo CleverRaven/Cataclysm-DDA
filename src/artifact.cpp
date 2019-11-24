@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <array>
-#include <sstream>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -709,9 +708,7 @@ std::string new_artifact()
                 if( !weapon.tag.empty() ) {
                     def.item_tags.insert( weapon.tag );
                 }
-                std::ostringstream newname;
-                newname << _( weapon.adjective ) << " " << _( info.name );
-                def.create_name( newname.str() );
+                def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }
         }
         def.description = no_translation(
@@ -843,11 +840,9 @@ std::string new_artifact()
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
         def.armor->storage = info.storage;
-        std::ostringstream description;
-        description << string_format( info.plural ?
-                                      _( "This is the %s.\nThey are the only ones of their kind." ) :
-                                      _( "This is the %s.\nIt is the only one of its kind." ),
-                                      def.nname( 1 ) );
+        std::string description = string_format( info.plural ?
+                                  _( "This is the %s.\nThey are the only ones of their kind." ) :
+                                  _( "This is the %s.\nIt is the only one of its kind." ), def.nname( 1 ) );
 
         // Modify the armor further
         if( !one_in( 4 ) ) {
@@ -893,14 +888,14 @@ std::string new_artifact()
                     def.armor->storage = 0_ml;
                 }
 
-                description << string_format( info.plural ?
+                description += string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
                                               _( modinfo.name ) );
             }
         }
 
-        def.description = no_translation( description.str() );
+        def.description = no_translation( description );
 
         // Finally, pick some effects
         int num_good = 0;

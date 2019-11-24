@@ -1125,26 +1125,29 @@ void player::disp_info()
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
-        std::stringstream starvation_text;
+        std::string starvation_text;
 
         if( bmi < character_weight_category::emaciated ) {
             starvation_name = _( "Severely Malnourished" );
-            starvation_text <<
-                            _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
+            starvation_text =
+                _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
         } else {
             starvation_name = _( "Malnourished" );
-            starvation_text <<
-                            _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
+            starvation_text =
+                _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {
             const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
-            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
-            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
-            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
+            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 100.0f );
+            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 50.0f );
+            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%2.0f%%",
+                               str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text.str() } );
+        effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
