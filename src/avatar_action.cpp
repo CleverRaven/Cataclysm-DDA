@@ -1012,7 +1012,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             }
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
-            // This method only handles items in te inventory, so refund the obtain cost.
+            // This method only handles items in the inventory, so refund the obtain cost.
             you.mod_moves( obtain_cost );
         }
     }
