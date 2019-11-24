@@ -3376,7 +3376,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     }
 
     add_msg( _( "You forage through the %s." ), g->m.tername( examp ) );
-
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging

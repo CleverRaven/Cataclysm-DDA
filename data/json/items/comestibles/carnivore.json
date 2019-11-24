@@ -341,7 +341,7 @@
   },
   {
     "id": "jerky",
-    "copy-from": "meat",
+    "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
@@ -354,13 +354,12 @@
     "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
-    "healthy": 0,
+    "price": 320,
     "quench": -5,
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "flags": "NO_CRAFT_INHERIT",
-    "proportional": { "price": 0.64 }
+    "flags": "NO_CRAFT_INHERIT"
   },
   {
     "id": "salted_fish",
