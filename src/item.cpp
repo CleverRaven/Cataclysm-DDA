@@ -1241,10 +1241,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       active ) );
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
-            std::ostringstream stream;
-            std::copy( item_tags.begin(), item_tags.end(),
-                       std::ostream_iterator<std::string>( stream, "," ) );
-            std::string tags_listed = stream.str();
+            const std::string tags_listed = enumerate_as_string( item_tags, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
             for( auto const &imap : item_vars ) {
                 info.push_back( iteminfo( "BASE",
@@ -3661,8 +3658,6 @@ void item::on_damage( int, damage_type )
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
-    std::stringstream ret;
-
     int dirt_level = get_var( "dirt", 0 ) / 2000;
     std::string dirt_symbol;
     // TODO: MATERIALS put this in json
@@ -3743,32 +3738,24 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
         int amt = 0;
-        ret.str( "" );
-        ret << label( quantity );
+        maintext = label( quantity );
         for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
             if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
                 amt++;
             }
         }
         if( amt ) {
-            ret << string_format( "+%d", amt );
+            maintext += string_format( "+%d", amt );
         }
-        maintext = ret.str();
     } else if( is_armor() && has_clothing_mod() ) {
-        ret.str( "" );
-        ret << label( quantity );
-        ret << "+1";
-        maintext = ret.str();
+        maintext = label( quantity ) + "+1";
     } else if( is_craft() ) {
-        ret.str( "" );
-        const std::string name = _( "in progress %s" );
-        ret << string_format( name, making->result_name() );
+        maintext = string_format( _( "in progress %s" ), making->result_name() );
         if( charges > 1 ) {
-            ret << " (" << charges << ")";
+            maintext += string_format( " (%d)", charges );
         }
         const int percent_progress = item_counter / 100000;
-        ret << " (" << percent_progress << "%)";
-        maintext = ret.str();
+        maintext += string_format( " (%d%%)", percent_progress );
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
@@ -3791,113 +3778,111 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = label( quantity );
     }
 
-    ret.str( "" );
+    std::string tagtext;
     if( is_food() ) {
         if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
-            ret << _( " (poisonous)" );
+            tagtext += _( " (poisonous)" );
         } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
-            ret << _( " (hallucinogenic)" );
+            tagtext += _( " (hallucinogenic)" );
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
+        tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
-            ret << _( " (dirty)" );
+            tagtext += _( " (dirty)" );
         } else if( rotten() ) {
-            ret << _( " (rotten)" );
+            tagtext += _( " (rotten)" );
         } else if( has_flag( "MUSHY" ) ) {
-            ret << _( " (mushy)" );
+            tagtext += _( " (mushy)" );
         } else if( is_going_bad() ) {
-            ret << _( " (old)" );
+            tagtext += _( " (old)" );
         } else if( is_fresh() ) {
-            ret << _( " (fresh)" );
+            tagtext += _( " (fresh)" );
         }
     }
     if( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
-            ret << _( " (hot)" );
+            tagtext += _( " (hot)" );
         }
         if( has_flag( "COLD" ) ) {
-            ret << _( " (cold)" );
+            tagtext += _( " (cold)" );
         }
         if( has_flag( "FROZEN" ) ) {
-            ret << _( " (frozen)" );
+            tagtext += _( " (frozen)" );
         } else if( has_flag( "MELTS" ) ) {
-            ret << _( " (melted)" ); // he melted
+            tagtext += _( " (melted)" ); // he melted
         }
     }
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
     if( sizing_level == sizing::human_sized_small_char ) {
-        ret << _( " (too big)" );
+        tagtext += _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
-        ret << _( " (huge!)" );
+        tagtext += _( " (huge!)" );
     } else if( sizing_level == sizing::human_sized_big_char ||
                sizing_level == sizing::small_sized_human_char ) {
-        ret << _( " (too small)" );
+        tagtext += _( " (too small)" );
     } else if( sizing_level == sizing::small_sized_big_char ) {
-        ret << _( " (tiny!)" );
+        tagtext += _( " (tiny!)" );
     } else if( !has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
-        ret << _( " (poor fit)" );
+        tagtext += _( " (poor fit)" );
     }
 
     if( is_filthy() ) {
-        ret << _( " (filthy)" );
+        tagtext += _( " (filthy)" );
     }
     if( is_bionic() && !has_flag( "NO_PACKED" ) ) {
         if( !has_flag( "NO_STERILE" ) ) {
-            ret << _( " (sterile)" );
+            tagtext += _( " (sterile)" );
         } else {
-            ret << _( " (packed)" );
+            tagtext += _( " (packed)" );
         }
     }
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {
-        ret << _( " (UPS)" );
+        tagtext += _( " (UPS)" );
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        ret << string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
+        tagtext += string_format( " (%s)", nname( get_var( "NANOFAB_ITEM_ID" ) ) );
     }
 
     if( has_flag( "RADIO_MOD" ) ) {
-        ret << _( " (radio:" );
+        tagtext += _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
-            ret << pgettext( "The radio mod is associated with the [R]ed button.", "R)" );
+            tagtext += pgettext( "The radio mod is associated with the [R]ed button.", "R)" );
         } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-            ret << pgettext( "The radio mod is associated with the [B]lue button.", "B)" );
+            tagtext += pgettext( "The radio mod is associated with the [B]lue button.", "B)" );
         } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-            ret << pgettext( "The radio mod is associated with the [G]reen button.", "G)" );
+            tagtext += pgettext( "The radio mod is associated with the [G]reen button.", "G)" );
         } else {
             debugmsg( "Why is the radio neither red, blue, nor green?" );
-            ret << "?)";
+            tagtext += "?)";
         }
     }
 
     if( has_flag( "WET" ) ) {
-        ret << _( " (wet)" );
+        tagtext += _( " (wet)" );
     }
     if( already_used_by_player( g->u ) ) {
-        ret << _( " (used)" );
+        tagtext += _( " (used)" );
     }
     if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
-        ret << _( " (lit)" );
+        tagtext += _( " (lit)" );
     } else if( has_flag( "IS_UPS" ) && get_var( "cable" ) == "plugged_in" ) {
-        ret << _( " (plugged in)" );
+        tagtext += _( " (plugged in)" );
     } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
                typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
-        ret << _( " (active)" );
+        tagtext += _( " (active)" );
     }
 
     if( is_favorite ) {
-        ret << _( " *" ); // Display asterisk for favorite items
+        tagtext += _( " *" ); // Display asterisk for favorite items
     }
-
-    const std::string tagtext = ret.str();
 
     std::string modtext;
     if( gunmod_find( "barrel_small" ) ) {
@@ -3907,21 +3892,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    ret.str( "" );
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
-    ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext, vehtext,
-                          maintext, tagtext );
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext,
+                                     vehtext, maintext, tagtext );
 
-    std::string r = ret.str();
     if( truncate != 0 ) {
-        r = utf8_truncate( r, truncate + truncate_override );
+        ret = utf8_truncate( ret, truncate + truncate_override );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), r );
+        return string_format( _( "*%s*" ), ret );
     } else {
-        return r;
+        return ret;
     }
 }
 

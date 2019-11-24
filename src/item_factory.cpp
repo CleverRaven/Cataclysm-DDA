@@ -5,7 +5,6 @@
 #include <cassert>
 #include <cmath>
 #include <memory>
-#include <sstream>
 #include <array>
 #include <iterator>
 #include <stdexcept>
@@ -804,14 +803,14 @@ void Item_factory::init()
                                        0 );
 }
 
-bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) const
+bool Item_factory::check_ammo_type( std::string &msg, const ammotype &ammo ) const
 {
     if( ammo.is_null() ) {
         return false;
     }
 
     if( !ammo.is_valid() ) {
-        msg << string_format( "ammo type %s is not known", ammo.c_str() ) << "\n";
+        msg += string_format( "ammo type %s is not known\n", ammo.c_str() );
         return false;
     }
 
@@ -819,7 +818,7 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) co
     m_templates.end(), [&ammo]( const decltype( m_templates )::value_type & e ) {
     return e.second.ammo && e.second.ammo->type == ammo;
 } ) ) {
-        msg << string_format( "there is no actual ammo of type %s defined", ammo.c_str() ) << "\n";
+        msg += string_format( "there is no actual ammo of type %s defined\n", ammo.c_str() );
         return false;
     }
     return true;
@@ -828,76 +827,76 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) co
 void Item_factory::check_definitions() const
 {
     for( const auto &elem : m_templates ) {
-        std::ostringstream msg;
+        std::string msg;
         const itype *type = &elem.second;
 
         if( !type->category_force.is_valid() ) {
-            msg << "undefined category " << type->category_force.c_str() << "\n";
+            msg += "undefined category " + type->category_force.str() + "\n";
         }
 
         if( type->weight < 0_gram ) {
-            msg << "negative weight" << "\n";
+            msg += "negative weight\n";
         }
         if( type->volume < 0_ml ) {
-            msg << "negative volume" << "\n";
+            msg += "negative volume\n";
         }
         if( type->count_by_charges() || type->phase == LIQUID ) {
             if( type->stack_size <= 0 ) {
-                msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
+                msg += string_format( "invalid stack_size %d on type using charges\n", type->stack_size );
             }
         }
         if( type->price < 0_cent ) {
-            msg << "negative price" << "\n";
+            msg += "negative price\n";
         }
         if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
-            msg << "invalid damage range" << "\n";
+            msg += "invalid damage range\n";
         }
         if( type->description.empty() ) {
-            msg << "empty description" << "\n";
+            msg += "empty description\n";
         }
 
         for( const material_id &mat_id : type->materials ) {
             if( mat_id.str() == "null" || !mat_id.is_valid() ) {
-                msg << string_format( "invalid material %s", mat_id.c_str() ) << "\n";
+                msg += string_format( "invalid material %s\n", mat_id.c_str() );
             }
         }
 
         if( type->sym.empty() ) {
-            msg << "symbol not defined" << "\n";
+            msg += "symbol not defined\n";
         } else if( utf8_width( type->sym ) != 1 ) {
-            msg << "symbol must be exactly one console cell width" << "\n";
+            msg += "symbol must be exactly one console cell width\n";
         }
 
         for( const auto &_a : type->techniques ) {
             if( !_a.is_valid() ) {
-                msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
+                msg += string_format( "unknown technique %s\n", _a.c_str() );
             }
         }
         if( !type->snippet_category.empty() ) {
             if( !SNIPPET.has_category( type->snippet_category ) ) {
-                msg << string_format( "item %s: snippet category %s without any snippets", type->id.c_str(),
-                                      type->snippet_category.c_str() ) << "\n";
+                msg += string_format( "item %s: snippet category %s without any snippets\n", type->id.c_str(),
+                                      type->snippet_category.c_str() );
             }
         }
         for( auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
-                msg << string_format( "item %s has unknown quality %s", type->id.c_str(), q.first.c_str() ) << "\n";
+                msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
         }
         if( type->default_container && ( !has_template( *type->default_container ) ||
                                          *type->default_container == "null" ) ) {
-            msg << string_format( "invalid container property %s", type->default_container->c_str() ) << "\n";
+            msg += string_format( "invalid container property %s\n", type->default_container->c_str() );
         }
 
         for( const auto &e : type->emits ) {
             if( !e.is_valid() ) {
-                msg << string_format( "item %s has unknown emit source %s", type->id.c_str(), e.c_str() ) << "\n";
+                msg += string_format( "item %s has unknown emit source %s\n", type->id.c_str(), e.c_str() );
             }
         }
 
         for( const auto &f : type->faults ) {
             if( !f.is_valid() ) {
-                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+                msg += string_format( "invalid item fault %s\n", f.c_str() );
             }
         }
 
@@ -905,69 +904,68 @@ void Item_factory::check_definitions() const
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
                 if( !req_tool->tool ) {
-                    msg << string_format( "invalid tool property %s", type->comestible->tool.c_str() ) << "\n";
+                    msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
             }
         }
         if( type->brewable ) {
             if( type->brewable->time < 1_turns ) {
-                msg << "brewable time is less than 1 turn\n";
+                msg += "brewable time is less than 1 turn\n";
             }
 
             if( type->brewable->results.empty() ) {
-                msg << "empty product list" << "\n";
+                msg += "empty product list\n";
             }
 
             for( auto &b : type->brewable->results ) {
                 if( !has_template( b ) ) {
-                    msg << string_format( "invalid result id %s", b.c_str() ) << "\n";
+                    msg += string_format( "invalid result id %s\n", b.c_str() );
                 }
             }
         }
         if( type->seed ) {
             if( type->seed->grow < 1_turns ) {
-                msg << "seed growing time is less than 1 turn\n";
+                msg += "seed growing time is less than 1 turn\n";
             }
             if( !has_template( type->seed->fruit_id ) ) {
-                msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
+                msg += string_format( "invalid fruit id %s\n", type->seed->fruit_id.c_str() );
             }
             for( auto &b : type->seed->byproducts ) {
                 if( !has_template( b ) ) {
-                    msg << string_format( "invalid byproduct id %s", b.c_str() ) << "\n";
+                    msg += string_format( "invalid byproduct id %s\n", b.c_str() );
                 }
             }
         }
         if( type->book ) {
             if( type->book->skill && !type->book->skill.is_valid() ) {
-                msg << "uses invalid book skill." << "\n";
+                msg += "uses invalid book skill.\n";
             }
             if( type->book->martial_art && !type->book->martial_art.is_valid() ) {
-                msg << string_format( "trains invalid martial art '%s'.",
-                                      type->book->martial_art.str() ) << "\n";
+                msg += string_format( "trains invalid martial art '%s'.\n", type->book->martial_art.str() );
             }
             if( type->can_use( "MA_MANUAL" ) && !type->book->martial_art ) {
-                msg << "has use_action MA_MANUAL but does not specify a martial art\n";
+                msg += "has use_action MA_MANUAL but does not specify a martial art\n";
             }
         }
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
-            msg << "has use_action MA_MANUAL but is not a book\n";
+            msg += "has use_action MA_MANUAL but is not a book\n";
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
-                msg << "must define at least one ammo type" << "\n";
+                msg += "must define at least one ammo type\n";
             }
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
                                         *type->ammo->casing == "null" ) ) {
-                msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
+                msg += string_format( "invalid casing property %s\n", type->ammo->casing->c_str() );
             }
             if( type->ammo->drop != "null" && !has_template( type->ammo->drop ) ) {
-                msg << string_format( "invalid drop item %s", type->ammo->drop.c_str() ) << "\n";
+                msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
         }
         if( type->battery ) {
             if( type->battery->max_capacity < 0_mJ ) {
-                msg << "battery cannot have negative maximum charge\n";
+                msg += "battery cannot have negative maximum charge\n";
             }
         }
         if( type->gun ) {
@@ -977,49 +975,49 @@ void Item_factory::check_definitions() const
             if( type->gun->ammo.empty() ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines
                 if( static_cast<bool>( type->gun->clip ) || !type->magazines.empty() ) {
-                    msg << "cannot specify clip_size or magazine without ammo type" << "\n";
+                    msg += "cannot specify clip_size or magazine without ammo type\n";
                 }
 
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
-                    msg << "RELOAD_AND_SHOOT requires an ammo type to be specified" << "\n";
+                    msg += "RELOAD_AND_SHOOT requires an ammo type to be specified\n";
                 }
 
             } else {
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
-                    msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
+                    msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
                     if( !type->gun->clip && !type->magazines.empty() && !type->magazine_default.count( at ) ) {
-                        msg << "specified magazine but none provided for ammo type " << at.str() << "\n";
+                        msg += string_format( "specified magazine but none provided for ammo type %s\n", at.str() );
                     }
                 }
             }
             if( type->gun->barrel_length < 0_ml ) {
-                msg << "gun barrel length cannot be negative" << "\n";
+                msg += "gun barrel length cannot be negative\n";
             }
 
             if( !type->gun->skill_used ) {
-                msg << "uses no skill" << "\n";
+                msg += "uses no skill\n";
             } else if( !type->gun->skill_used.is_valid() ) {
-                msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
+                msg += string_format( "uses an invalid skill %s\n", type->gun->skill_used.str() );
             }
             for( auto &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << "invalid default mod." << "\n";
+                    msg += "invalid default mod.\n";
                 }
             }
             for( auto &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
-                    msg << "invalid built-in mod." << "\n";
+                    msg += "invalid built-in mod.\n";
                 }
             }
         }
         if( type->gunmod ) {
             if( type->gunmod->location.str().empty() ) {
-                msg << "gunmod does not specify location" << "\n";
+                msg += "gunmod does not specify location\n";
             }
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
-                msg << "gunmod must have both sight_dispersion and aim_speed set or neither of them set" << "\n";
+                msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
             }
         }
         if( type->mod ) {
@@ -1034,12 +1032,12 @@ void Item_factory::check_definitions() const
             for( const auto &e : type->mod->magazine_adaptor ) {
                 check_ammo_type( msg, e.first );
                 if( e.second.empty() ) {
-                    msg << "No magazines specified for ammo type " << e.first.str() << "\n";
+                    msg += string_format( "no magazines specified for ammo type %s\n", e.first.str() );
                 }
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
                     if( !mag->magazine || !mag->magazine->type.count( e.first ) ) {
-                        msg << "invalid magazine " << opt << " in magazine adapter\n";
+                        msg += string_format( "invalid magazine %s in magazine adapter\n", opt );
                     }
                 }
             }
@@ -1049,50 +1047,49 @@ void Item_factory::check_definitions() const
                 check_ammo_type( msg, at );
             }
             if( type->magazine->type.empty() ) {
-                msg << "magazine did not specify ammo type" << "\n";
+                msg += "magazine did not specify ammo type\n";
             }
             if( type->magazine->capacity < 0 ) {
-                msg << string_format( "invalid capacity %i", type->magazine->capacity ) << "\n";
+                msg += string_format( "invalid capacity %i\n", type->magazine->capacity );
             }
             if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
-                msg << string_format( "invalid count %i", type->magazine->count ) << "\n";
+                msg += string_format( "invalid count %i\n", type->magazine->count );
             }
             const itype *da = find_template( type->magazine->default_ammo );
             if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
-                msg << string_format( "invalid default_ammo %s", type->magazine->default_ammo.c_str() ) << "\n";
+                msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.c_str() );
             }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100 ) {
-                msg << string_format( "invalid reliability %i", type->magazine->reliability ) << "\n";
+                msg += string_format( "invalid reliability %i\n", type->magazine->reliability );
             }
             if( type->magazine->reload_time < 0 ) {
-                msg << string_format( "invalid reload_time %i", type->magazine->reload_time ) << "\n";
+                msg += string_format( "invalid reload_time %i\n", type->magazine->reload_time );
             }
             if( type->magazine->linkage && ( !has_template( *type->magazine->linkage ) ||
                                              *type->magazine->linkage == "null" ) ) {
-                msg << string_format( "invalid linkage property %s", type->magazine->linkage->c_str() ) << "\n";
+                msg += string_format( "invalid linkage property %s\n", type->magazine->linkage->c_str() );
             }
         }
 
         for( const std::pair<const string_id<ammunition_type>, std::set<std::string>> &ammo_variety :
              type->magazines ) {
             if( ammo_variety.second.empty() ) {
-                msg << "No magazine specified for " << ammo_variety.first.str() << "\n";
+                msg += string_format( "no magazine specified for %s\n", ammo_variety.first.str() );
             }
             for( const std::string &magazine : ammo_variety.second ) {
                 const itype *mag_ptr = find_template( magazine );
                 if( mag_ptr == nullptr ) {
-                    msg << "Magazine \"" << magazine << "\" specified for \""
-                        << ammo_variety.first.str() << "\" does not exist\n";
+                    msg += string_format( "magazine \"%s\" specified for \"%s\" does not exist\n", magazine,
+                                          ammo_variety.first.str() );
                 } else if( !mag_ptr->magazine ) {
-                    msg << "Magazine \"" << magazine << "\" specified for \""
-                        << ammo_variety.first.str() << "\" is not a magazine\n";
+                    msg += string_format( "magazine \"%s\" specified for \"%s\" is not a magazine\n", magazine,
+                                          ammo_variety.first.str() );
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
-                    msg << "magazine \"" << magazine << "\" does not take compatible ammo\n";
+                    msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
                 } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
-                    msg << "Speedloader " << magazine << " capacity ("
-                        << mag_ptr->magazine->capacity << ") does not match gun capacity ("
-                        << type->gun->clip << ").\n";
+                    msg += string_format( "speedloader %s capacity (%d) does not match gun capacity (%d).\n", magazine,
+                                          mag_ptr->magazine->capacity, type->gun->clip );
                 }
             }
         }
@@ -1103,31 +1100,31 @@ void Item_factory::check_definitions() const
             }
             if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
                                            *type->tool->revert_to == "null" ) ) {
-                msg << string_format( "invalid revert_to property %s", type->tool->revert_to->c_str() ) << "\n";
+                msg += string_format( "invalid revert_to property %s\n", type->tool->revert_to->c_str() );
             }
             if( !type->tool->revert_msg.empty() && !type->tool->revert_to ) {
-                msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
+                msg += "cannot specify revert_msg without revert_to\n";
             }
             if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
-                msg << _( "Invalid tool subtype" ) << type->tool->subtype << "\n";
+                msg += string_format( "invalid tool subtype %s\n", type->tool->subtype );
             }
         }
         if( type->bionic ) {
             if( !type->bionic->id.is_valid() ) {
-                msg << string_format( "there is no bionic with id %s", type->bionic->id.c_str() ) << "\n";
+                msg += string_format( "there is no bionic with id %s\n", type->bionic->id.c_str() );
             }
         }
 
         if( type->container ) {
             if( type->container->seals && type->container->unseals_into != "null" ) {
-                msg << string_format( "Resealable container unseals_into %s",
-                                      type->container->unseals_into.c_str() ) << "\n";
+                msg += string_format( "resealable container unseals_into %s\n",
+                                      type->container->unseals_into.c_str() );
             }
             if( type->container->contains <= 0_ml ) {
-                msg << string_format( "\"contains\" (%d) must be >0", type->container->contains.value() ) << "\n";
+                msg += string_format( "\"contains\" (%d) must be >0\n", type->container->contains.value() );
             }
             if( !has_template( type->container->unseals_into ) ) {
-                msg << string_format( "unseals_into invalid id %s", type->container->unseals_into.c_str() ) << "\n";
+                msg += string_format( "unseals_into invalid id %s\n", type->container->unseals_into.c_str() );
             }
         }
 
@@ -1136,18 +1133,18 @@ void Item_factory::check_definitions() const
 
             assert( actor );
             if( !actor->is_valid() ) {
-                msg << string_format( "item action \"%s\" was not described.", actor->type.c_str() ) << "\n";
+                msg += string_format( "item action \"%s\" was not described.\n", actor->type.c_str() );
             }
         }
 
         if( type->fuel && !type->count_by_charges() ) {
-            msg << "fuel value set, but item isn't count_by_charges.\n";
+            msg += "fuel value set, but item isn't count_by_charges.\n";
         }
 
-        if( msg.str().empty() ) {
+        if( msg.empty() ) {
             continue;
         }
-        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str() );
+        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg );
     }
     for( const auto &e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
@@ -2777,9 +2774,8 @@ void item_group::debug_spawn()
         uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
-            std::ostringstream buffer;
-            buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
+                                        string_format( _( "%d x %s" ), e.first, e.second ) );
         }
         menu2.query();
     }
