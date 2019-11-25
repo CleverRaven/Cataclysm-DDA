@@ -2186,31 +2186,23 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.looks_like = jo.get_string( "looks_like" );
     }
 
-    if( jo.has_member( "contextual_names" ) ) {
-        if( jo.has_array( "contextual_names" ) ) {
-            def.contextual_names.clear();
-            JsonArray jarr = jo.get_array( "contextual_names" );
+    if( jo.has_member( "conditional_names" ) ) {
+        if( jo.has_array( "conditional_names" ) ) {
+            def.conditional_names.clear();
+            JsonArray jarr = jo.get_array( "conditional_names" );
             while( jarr.has_more() ) {
-                JsonArray curr = jarr.next_array();
-                if( curr.size() >= 3 ) {
-                    std::string context_type = curr.get_string( 0 );
-                    std::string context = curr.get_string( 1 );
-                    std::string name = curr.get_string( 2 );
-                    translation tname;
-                    if( curr.size() >= 4 ) {
-                        tname = translation::pl_translation( context, name, curr.get_string( 3 ) );
-                    } else {
-                        tname = translation::to_translation( context, name );
-                    }
-                    const std::tuple<std::string, std::string, translation> contextual_name(
-                        context_type, context, tname );
-                    def.contextual_names.push_back( contextual_name );
-                } else {
-                    jo.throw_error( "Contextual names need three entries each.", "contextual_names" );
+                JsonObject curr = jarr.next_object();
+                conditional_name cname;
+                cname.type = curr.get_string( "type" );
+                cname.condition = curr.get_string( "condition" );
+                cname.name = translation( translation::plural_tag() );
+                if( !curr.read( "name", cname.name ) ) {
+                    curr.throw_error( "name unspecified for conditional name" );
                 }
+                def.conditional_names.push_back( cname );
             }
         } else {
-            jo.throw_error( "Contextual names entry is not an array.", "contextual_names" );
+            jo.throw_error( "Conditional names entry is not an array.", "conditional_names" );
         }
     }
 

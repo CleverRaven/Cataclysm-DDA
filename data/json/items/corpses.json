@@ -5,11 +5,11 @@
     "symbol": "%",
     "color": "white",
     "name": "corpse",
-    "contextual_names": [
-      [ "FLAG", "FIELD_DRESS", "field-dressed %s" ],
-      [ "FLAG", "FIELD_DRESS_FAILED", "field-dressed %s" ],
-      [ "FLAG", "QUARTERED", "quartered %s" ],
-      [ "FLAG", "SKINNED", "skinned %s" ]
+    "conditional_names": [
+      { "type": "FLAG", "condition": "FIELD_DRESS", "name": "field-dressed %s" },
+      { "type": "FLAG", "condition": "FIELD_DRESS_FAILED", "name": "field-dressed %s" },
+      { "type": "FLAG", "condition": "QUARTERED", "name": "quartered %s" },
+      { "type": "FLAG", "condition": "SKINNED", "name": "skinned %s" }
     ],
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",

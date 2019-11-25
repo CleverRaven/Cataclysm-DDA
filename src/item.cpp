@@ -9140,28 +9140,24 @@ std::string item::type_name( unsigned int quantity ) const
     } else {
         ret_name = type->nname( quantity );
     }
-    for( const std::tuple<std::string, std::string, translation> &contextual_name :
-         type->contextual_names ) {
-        const std::string &context_type = std::get<0>( contextual_name );
-        const std::string &context = std::get<1>( contextual_name );
-        const translation &name = std::get<2>( contextual_name );
-        if( context_type == "FLAG" && has_flag( context ) ) {
-            ret_name = string_format( name.translated( quantity ), ret_name );
+    for( const conditional_name &cname : type->conditional_names ) {
+        if( cname.type == "FLAG" && has_flag( cname.condition ) ) {
+            ret_name = string_format( cname.name.translated( quantity ), ret_name );
         }
-        if( context_type == "COMPONENT_ID" ) {
+        if( cname.type == "COMPONENT_ID" ) {
             // Lambda for recursively searching for a item ID among all components.
             std::function<bool ( std::string, std::list<item> )> component_id_contains =
             [&]( std::string str, std::list<item> components ) {
                 for( const item &component : components ) {
-                    if( component.type->get_id().find( context ) != std::string::npos ||
+                    if( component.type->get_id().find( str ) != std::string::npos ||
                         component_id_contains( str, component.components ) ) {
                         return true;
                     }
                 }
                 return false;
             };
-            if( component_id_contains( context, components ) ) {
-                ret_name = string_format( name.translated( quantity ), ret_name );
+            if( component_id_contains( cname.condition, components ) ) {
+                ret_name = string_format( cname.name.translated( quantity ), ret_name );
             }
         }
     }

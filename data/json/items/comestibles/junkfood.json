@@ -731,7 +731,7 @@
     "id": "nachosm",
     "name": "meat nachos",
     "name_plural": "meat nachos",
-    "contextual_names": [ [ "COMPONENT_ID", "mutant", "nagual nachos", "nagual nachos" ] ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "nagual nachos", "str_pl": "nagual nachos" } } ],
     "weight": "125 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -773,7 +773,13 @@
     "id": "nachosmc",
     "name": "meat nachos with cheese",
     "name_plural": "meat nachos with cheese",
-    "contextual_names": [ [ "COMPONENT_ID", "mutant", "nagual nachos with cheese", "nagual nachos with cheese" ] ],
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mutant",
+        "name": { "str": "nagual nachos with cheese", "str_pl": "nagual nachos with cheese" }
+      }
+    ],
     "weight": "22 g",
     "color": "yellow",
     "spoils_in": "20 hours",

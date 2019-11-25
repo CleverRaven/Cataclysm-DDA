@@ -766,6 +766,17 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    std::string type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -838,16 +849,8 @@ struct itype {
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
 
-        /**
-         * @brief A list of contextual names.
-         * Names that appear earlier in the list take priority.
-         * Entry 1: Context type  (i.e. "FLAG"          or "COMPONENT_ID")
-         * Entry 2: Context name  (i.e. "CANNIBALISM"   or "mutant")
-         * Entry 3: Name to apply (i.e. "Luigi lasagne" or "smoked mutant")
-         * Entry 4: Optional plural form of the name.
-         * Entries 3 and 4 can use %s which will be replaced by the item's normal name.
-         */
-        std::vector<std::tuple<std::string, std::string, translation>> contextual_names;
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.
