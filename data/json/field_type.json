@@ -968,6 +968,7 @@
             "max_duration": "10 seconds",
             "immune_inside_vehicle": true
           }
+        ]
       },
       {
         "name": "foul-smelling air",
