@@ -1096,7 +1096,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
                        // NOLINTNEXTLINE(cata-text-style): literal comma
                        .description( string_format(
                                          _( "Multiple entries separated with , Excludes starting with -\n"
-                                            "Current search radius is %d. It can be changed in options." ),
+                                            "Current search radius is %d.  It can be changed in options." ),
                                          radius ) )
                        .query_string();
     if( term.empty() ) {
