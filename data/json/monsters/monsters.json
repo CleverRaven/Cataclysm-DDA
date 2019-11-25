@@ -767,7 +767,7 @@
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 1 ] ] },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 4, 6 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
   },
