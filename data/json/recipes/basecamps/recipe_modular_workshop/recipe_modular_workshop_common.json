@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_workshop_room1_common_northeast",
-    "description": "Let's install a metal working forge and a charcoal kiln. We'll need a few tools too, so we'll include some storage space.",
+    "description": "Let's install a metal working forge and a charcoal kiln.  We'll need a few tools too, so we'll include some storage space.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
