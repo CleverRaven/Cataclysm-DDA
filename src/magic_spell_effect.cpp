@@ -56,7 +56,7 @@ struct line_iterable {
     line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
         : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
 
-    const point get() const {
+    point get() const {
         return cur_origin + delta_line[index];
     }
     // Move forward along point set, wrap around and move origin forward if necessary
