@@ -66,7 +66,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // item notes
         case 'n':
             return [filter]( const item & i ) {
-                const auto note = i.get_var( "item_note" );
+                const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
             };
         // by name
