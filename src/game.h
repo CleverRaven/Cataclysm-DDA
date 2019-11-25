@@ -774,7 +774,6 @@ class game
         void butcher(); // Butcher a corpse  'B'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
-        void reload( int pos, bool prompt = false );
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
     public:
@@ -806,7 +805,6 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
