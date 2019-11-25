@@ -9118,16 +9118,7 @@ std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
     std::string ret_name;
-    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
-        if( corpse_name.empty() ) {
-            ret_name = string_format( npgettext( "item name", "%s corpse", "%s corpses", quantity ),
-                                      corpse->nname() );
-        } else {
-            ret_name = string_format( npgettext( "item name", "%s corpse of %s",
-                                                 "%s corpses of %s", quantity ),
-                                      corpse->nname(), corpse_name );
-        }
-    } else if( typeId() == "blood" ) {
+    if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
             return npgettext( "item name", "human blood", "human blood", quantity );
         } else {
@@ -9159,6 +9150,18 @@ std::string item::type_name( unsigned int quantity ) const
             if( component_id_contains( cname.condition, components ) ) {
                 ret_name = string_format( cname.name.translated( quantity ), ret_name );
             }
+        }
+    }
+
+    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
+        if( corpse_name.empty() ) {
+            //~ %1$s: name of corpse with modifiers;  %2$s: species name
+            ret_name = string_format( pgettext( "corpse ownership qualifier", "%1$s of a %2$s" ),
+                                      ret_name, corpse->nname() );
+        } else {
+            //~ %1$s: name of corpse with modifiers;  %2$s: proper name;  %3$s: species name
+            ret_name = string_format( pgettext( "corpse ownership qualifier", "%1$s of %2$s, %3$s" ),
+                                      ret_name, corpse_name, corpse->nname() );
         }
     }
 
