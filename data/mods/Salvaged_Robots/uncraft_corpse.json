@@ -260,16 +260,20 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "time": 30000,
     "components": [
+      [ [ "ai_module_advanced", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "small_storage_battery", 2 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "plastic_chunk", 6 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "steel_chunk", 4 ] ]
     ]
   },
   {
@@ -391,12 +395,10 @@
       [ [ "small_storage_battery", 3 ] ],
       [ [ "bio_digestion", 1 ] ],
       [ [ "bone", 1 ] ],
-      [ [ "motor_small", 1 ] ],
-      [ [ "xlframe", 1 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
     ]
   },
   {
