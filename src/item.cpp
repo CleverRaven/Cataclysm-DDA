@@ -9117,49 +9117,15 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
-    bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
-    bool quartered = has_flag( "QUARTERED" );
-    bool skinned = has_flag( "SKINNED" );
     std::string ret_name;
     if( corpse != nullptr && has_flag( "CORPSE" ) ) {
         if( corpse_name.empty() ) {
-            if( skinned && !f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),
+            ret_name = string_format( npgettext( "item name", "%s corpse", "%s corpses", quantity ),
                                       corpse->nname() );
-            } else if( skinned && f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s carcass", "skinned %s carcasses",
-                                                 quantity ), corpse->nname() );
-            } else if( f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "%s carcass",
-                                                 "%s carcasses", quantity ),
-                                      corpse->nname() );
-            } else if( f_dressed && quartered ) {
-                return string_format( npgettext( "item name", "quartered %s carcass",
-                                                 "quartered %s carcasses", quantity ),
-                                      corpse->nname() );
-            }
-            return string_format( npgettext( "item name", "%s corpse",
-                                             "%s corpses", quantity ),
-                                  corpse->nname() );
         } else {
-            if( skinned && !f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s corpse of %s", "skinned %s corpses of %s",
-                                                 quantity ), corpse->nname(), corpse_name );
-            } else if( skinned && f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s carcass of %s",
-                                                 "skinned %s carcasses of %s", quantity ), corpse->nname(), corpse_name );
-            } else            if( f_dressed && !quartered && !skinned ) {
-                return string_format( npgettext( "item name", "%s carcass of %s",
-                                                 "%s carcasses of %s", quantity ),
+            ret_name = string_format( npgettext( "item name", "%s corpse of %s",
+                                                 "%s corpses of %s", quantity ),
                                       corpse->nname(), corpse_name );
-            } else if( f_dressed && quartered && !skinned ) {
-                return string_format( npgettext( "item name", "quartered %s carcass",
-                                                 "quartered %s carcasses", quantity ),
-                                      corpse->nname() );
-            }
-            return string_format( npgettext( "item name", "%s corpse of %s",
-                                             "%s corpses of %s", quantity ),
-                                  corpse->nname(), corpse_name );
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {

@@ -5,6 +5,12 @@
     "symbol": "%",
     "color": "white",
     "name": "corpse",
+    "contextual_names": [
+      [ "FLAG", "FIELD_DRESS", "field-dressed %s" ],
+      [ "FLAG", "FIELD_DRESS_FAILED", "field-dressed %s" ],
+      [ "FLAG", "QUARTERED", "quartered %s" ],
+      [ "FLAG", "SKINNED", "skinned %s" ]
+    ],
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": 0,
