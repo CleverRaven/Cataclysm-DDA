@@ -164,9 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             return nullptr;
         }
     }
@@ -492,9 +490,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
@@ -761,9 +757,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             break;
         }
     }
@@ -1170,9 +1164,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
-#if defined(TILES) || defined(_WIN32)
-                    handle_redraw();
-#endif
+                    catacurses::refresh();
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -1183,9 +1175,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
-#if defined(TILES) || defined(_WIN32)
-                    handle_redraw();
-#endif
+                    catacurses::refresh();
                     return 1;
                 } else {
                     continue;
