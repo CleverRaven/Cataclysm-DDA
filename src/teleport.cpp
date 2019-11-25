@@ -97,5 +97,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( c_is_u ) {
         g->update_map( *p );
     }
+    critter.remove_effect( efftype_id( "grabbed" ) );
     return true;
 }
