@@ -4189,7 +4189,7 @@ static int hack_level( const player &p )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    target += static_cast<int>( p.int_cur / 2 - 8 );
+    target += p.int_cur / 2 - 8;
     return target;
 }
 
