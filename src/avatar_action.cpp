@@ -1005,11 +1005,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             use_in_place = true;
         } else {
             const int obtain_cost = loc.obtain_cost( you );
-            loc = item_location( you, &you.i_at( loc.obtain( you ) ) );
-            if( !loc ) {
+            item &target = you.i_at( loc.obtain( you ) );
+            if( target.is_null() ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
+            loc = item_location( you, &target );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.
