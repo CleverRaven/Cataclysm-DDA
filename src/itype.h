@@ -838,6 +838,17 @@ struct itype {
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
 
+        /**
+         * @brief A list of contextual names.
+         * Names that appear earlier in the list take priority.
+         * Entry 1: Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+         * Entry 2: Context name  (i.e. "CANNIBALISM"   or "mutant")
+         * Entry 3: Name to apply (i.e. "Luigi lasagne" or "smoked mutant")
+         * Entry 4: Optional plural form of the name.
+         * Entries 3 and 4 can use %s which will be replaced by the item's normal name.
+         */
+        std::vector<std::tuple<std::string, std::string, translation>> contextual_names;
+
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.
         std::vector<material_id> materials;

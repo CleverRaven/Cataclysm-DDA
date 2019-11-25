@@ -9120,6 +9120,7 @@ std::string item::type_name( unsigned int quantity ) const
     bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
     bool quartered = has_flag( "QUARTERED" );
     bool skinned = has_flag( "SKINNED" );
+    std::string ret_name;
     if( corpse != nullptr && has_flag( "CORPSE" ) ) {
         if( corpse_name.empty() ) {
             if( skinned && !f_dressed && !quartered ) {
@@ -9171,8 +9172,35 @@ std::string item::type_name( unsigned int quantity ) const
     } else if( iter != item_vars.end() ) {
         return iter->second;
     } else {
-        return type->nname( quantity );
+        ret_name = type->nname( quantity );
     }
+    for( const std::tuple<std::string, std::string, translation> &contextual_name :
+         type->contextual_names ) {
+        const std::string &context_type = std::get<0>( contextual_name );
+        const std::string &context = std::get<1>( contextual_name );
+        const translation &name = std::get<2>( contextual_name );
+        if( context_type == "FLAG" && has_flag( context ) ) {
+            ret_name = string_format( name.translated( quantity ), ret_name );
+        }
+        if( context_type == "COMPONENT_ID" ) {
+            // Lambda for recursively searching for a item ID among all components.
+            std::function<bool ( std::string, std::list<item> )> component_id_contains =
+            [&]( std::string str, std::list<item> components ) {
+                for( const item &component : components ) {
+                    if( component.type->get_id().find( context ) != std::string::npos ||
+                        component_id_contains( str, component.components ) ) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            if( component_id_contains( context, components ) ) {
+                ret_name = string_format( name.translated( quantity ), ret_name );
+            }
+        }
+    }
+
+    return ret_name;
 }
 
 std::string item::get_corpse_name()

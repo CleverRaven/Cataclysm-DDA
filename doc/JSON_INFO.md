@@ -1152,6 +1152,12 @@ See also VEHICLE_JSON.md
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
     "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
 },
+"contextual_names": [ [           // Optional list of names that will be applied in specified conditions (see Contextual Naming section for more details).
+    "COMPONENT_ID",               // The condition type.
+    "leather",                    // The condition.
+    "pair of leather socks",      // The alternate name to use.
+    "pairs of leather socks"      // Optional plural form of the name.
+] ],
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
@@ -1323,6 +1329,30 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
     "required_level" : 2
 }
 ```
+
+#### Contextual Naming
+
+The `contextual_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, in specific conditions. The syntax is as follows:
+
+```cpp
+"contextual_names": [
+    [ "COMPONENT_ID", "mutant", "creature curry", "creature curries" ],
+    [ "FLAG", "BAD_TASTE", "unpalatable %s" ]
+]
+```
+
+You can list as many contextual names for a given item as you want. Each contextual name must consist of at least 3 elements, and a 4th if a plural version is needed:
+1. The context type:
+    - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the specified string in their ID. The ID only needs to *contain* the specified string, not match it perfectly (though it is case sensitive). For example, supplying a context string of `mutant` would match `mutant_meat`.
+    - `FLAG` which checks if an item has the specified flag (exact match).
+2. The context string you want to look for.
+3. The name to use if a match is found. You may use %s here, which will be replaced by the name of the item. Contextual names defined prior to this one are taken into account.
+4. (Optional) A pluralized version of the name. Only needed if the plural is non-standard (doesn't use "-s" ending). Usually not needed with %s because %s accounts for pluralization already.
+
+So, in the above example, if the food both has the `BAD_TASTE` flag *and* is made from an item with `mutant` in its ID:
+1. First, the item name is entirely replaced with "creature curry" if singular, or "creature curries" if plural.
+2. Next, it is replaced by "unpalatable %s", but %s is replaced with the name as it was before, for a final name of either "unpalatable creature curry" or "unpalatable creature curries".
+
 
 #### Color Key
 

@@ -2186,6 +2186,34 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.looks_like = jo.get_string( "looks_like" );
     }
 
+    if( jo.has_member( "contextual_names" ) ) {
+        if( jo.has_array( "contextual_names" ) ) {
+            def.contextual_names.clear();
+            JsonArray jarr = jo.get_array( "contextual_names" );
+            while( jarr.has_more() ) {
+                JsonArray curr = jarr.next_array();
+                if( curr.size() >= 3 ) {
+                    std::string context_type = curr.get_string( 0 );
+                    std::string context = curr.get_string( 1 );
+                    std::string name = curr.get_string( 2 );
+                    translation tname;
+                    if( curr.size() >= 4 ) {
+                        tname = translation::pl_translation( context, name, curr.get_string( 3 ) );
+                    } else {
+                        tname = translation::to_translation( context, name );
+                    }
+                    const std::tuple<std::string, std::string, translation> contextual_name(
+                        context_type, context, tname );
+                    def.contextual_names.push_back( contextual_name );
+                } else {
+                    jo.throw_error( "Contextual names need three entries each.", "contextual_names" );
+                }
+            }
+        } else {
+            jo.throw_error( "Contextual names entry is not an array.", "contextual_names" );
+        }
+    }
+
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
