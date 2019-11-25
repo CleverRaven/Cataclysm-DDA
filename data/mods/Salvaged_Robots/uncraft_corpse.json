@@ -18,12 +18,13 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
       [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -36,12 +37,14 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "lightstrip_inactive", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -54,12 +57,14 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "lightstrip_inactive", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -72,12 +77,12 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -499,15 +504,19 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "motor", 1 ] ],
       [ [ "hdframe", 1 ] ],
-      [ [ "wheel_small", 4 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
+      [ [ "omni_wheel", 1 ] ],
       [ [ "kevlar_plate", 8 ] ],
       [ [ "steel_chunk", 8 ] ]
     ]
@@ -641,15 +650,19 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "motor", 1 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "wheel_small", 4 ] ],
-      [ [ "processor", 5 ] ],
-      [ [ "RAM", 5 ] ],
-      [ [ "e_scrap", 6 ] ],
+      [ [ "omni_wheel", 1 ] ],
       [ [ "alloy_plate", 6 ] ],
       [ [ "plastic_chunk", 6 ] ],
       [ [ "steel_chunk", 3 ] ]
