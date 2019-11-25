@@ -83,6 +83,7 @@ const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_fungus( "fungus" );
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
@@ -413,6 +414,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
         teleport::teleport( *this );
         add_effect( effect_teleglow, 30_minutes );
+        remove_effect( effect_grabbed );
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
