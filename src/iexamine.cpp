@@ -4894,6 +4894,7 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
                     result.components.push_back( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
                     result.recipe_charges = it.charges;
+                    result.set_flag_recursive( "COOKED" );
                 }
 
                 it = result;

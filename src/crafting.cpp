@@ -1151,6 +1151,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
+                // If this recipe is cooked, components are no longer raw.
+                if( should_heat ) {
+                    comp.set_flag_recursive( "COOKED" );
+                }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
