@@ -472,7 +472,8 @@
     "time": 120000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [[ [ "ai_module", 1 ] ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -622,3 +623,4 @@
     ]
   }
 ]
+
