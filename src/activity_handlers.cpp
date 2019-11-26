@@ -4185,12 +4185,10 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 static int hack_level( const player &p )
 {
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int target = p.get_skill_level( skill_computer );
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    target += p.int_cur / 2 - 8;
-    return target;
+    return p.get_skill_level( skill_computer ) + p.int_cur / 2 - 8;
 }
 
 static hack_result hack_attempt( player &p )
