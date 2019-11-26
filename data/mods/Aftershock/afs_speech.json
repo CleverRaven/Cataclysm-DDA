@@ -1,0 +1,44 @@
+[
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Hello?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Can you help me?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"I have no mouth and yet I scream!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Porque?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Quem é Você?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Eu vou te matar!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"I can't keep myself from killing you, please run!\"",
+    "volume": 60
+  }
+]
