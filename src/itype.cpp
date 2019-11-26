@@ -33,7 +33,7 @@ std::string enum_to_string<condition_type>( condition_type data )
     debugmsg( "Invalid condition_type" );
     abort();
 }
-}
+} // namespace io
 
 std::string itype::nname( unsigned int quantity ) const
 {
