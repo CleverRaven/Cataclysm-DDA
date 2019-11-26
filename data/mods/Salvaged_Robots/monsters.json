@@ -351,7 +351,8 @@
         "range": 3,
         "ranges": [ [ 0, 3, "BURST" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_utilibot_fire",
@@ -377,7 +378,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
+    "extend": { "flags": [ "FIREPROOF", "BASHES", "DROPS_AMMO" ] }
   },
   {
     "id": "mon_utilibot_blob",
@@ -444,7 +445,7 @@
       }
     ],
     "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] },
-    "extend": { "flags": [ "STUMBLES" ] }
+    "extend": { "flags": [ "STUMBLES", "DROPS_AMMO" ] }
   },
   {
     "id": "mon_medibot",
@@ -626,7 +627,7 @@
     "armor_cut": 8,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_hunter",
-    "starting_ammo": { "8mm_caseless": 50 },
+    "starting_ammo": { "8mm_caseless": 120 },
     "special_attacks": [
       {
         "type": "gun",
@@ -640,7 +641,7 @@
         "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
-    ]
+    ],
   },
   {
     "id": "mon_broken_cyborg",
@@ -692,7 +693,7 @@
     "name": "security robot",
     "description": "An automated defense robot still active due to its internal power source. This one is equipped with an electric prod and an integrated shotgun.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "shot_00": 100 },
+    "starting_ammo": { "shot_00": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -706,7 +707,8 @@
         "range": 8,
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "abstract": "mon_milbot_base",
@@ -753,7 +755,7 @@
     "melee_dice_sides": 4,
     "attack_effs": [ { "id": "downed", "chance": 10, "duration": 10 }, { "id": "stunned", "chance": 5, "duration": 10 } ],
     "dodge": 5,
-    "starting_ammo": { "paintball": 500 },
+    "starting_ammo": { "paintball": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -775,7 +777,8 @@
         "targeting_volume": 10
       }
     ],
-    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "milbot_trainer", 1 ] ] }
+    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "milbot_trainer", 1 ] ] },
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_556",
@@ -785,7 +788,7 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "556": 100 },
+    "starting_ammo": { "556": 1600 },
     "special_attacks": [
       {
         "type": "gun",
@@ -806,7 +809,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_308",
@@ -817,7 +821,7 @@
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "luminance": 100,
-    "starting_ammo": { "762_51": 100 },
+    "starting_ammo": { "762_51": 1000 },
     "revert_to_itype": "bot_milbot_308",
     "special_attacks": [
       {
@@ -839,7 +843,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_50bmg",
@@ -850,7 +855,7 @@
     "diff": 30,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "luminance": 100,
-    "starting_ammo": { "50bmg": 100 },
+    "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -871,7 +876,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_8x40mm",
@@ -882,7 +888,7 @@
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "luminance": 100,
-    "starting_ammo": { "8mm_caseless": 100 },
+    "starting_ammo": { "8mm_caseless": 1200 },
     "special_attacks": [
       {
         "type": "gun",
@@ -903,7 +909,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_needle",
@@ -914,7 +921,7 @@
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "luminance": 100,
-    "starting_ammo": { "5x50dart": 100 },
+    "starting_ammo": { "5x50dart": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -935,7 +942,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_40mm",
@@ -968,7 +976,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_flame",
@@ -978,7 +987,7 @@
     "description": "A military robot still operating due to its internal power core. This one is armed with an electric prod and an integrated flamethrower.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "napalm": 200 },
+    "starting_ammo": { "napalm": 1000 },
     "extend": { "flags": [ "FIREPROOF" ] },
     "special_attacks": [
       {
@@ -999,7 +1008,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "abstract": "mon_advbot_base",
@@ -1087,6 +1097,7 @@
     "name": "railgun robot",
     "description": "An advanced robot still functioning due to its internal fusion core. This model is furnished with a powerful railgun.",
     "diff": 30,
+    "starting_ammo": { "steel_rail": 100 },
     "special_attacks": [
       {
         "type": "gun",
@@ -1181,7 +1192,7 @@
     "dodge": 3,
     "vision_day": 10,
     "revert_to_itype": "bot_defbot_cowboy",
-    "starting_ammo": { "shot_00": 100 },
+    "starting_ammo": { "shot_00": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -1195,7 +1206,8 @@
         "range": 3,
         "ranges": [ [ 0, 3, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_defbot_samurai",
@@ -1243,7 +1255,7 @@
     "vision_day": 50,
     "revert_to_itype": "bot_defbot_paladin",
     "emit_fields": [ "emit_smoke_trail" ],
-    "starting_ammo": { "gasoline": 100 },
+    "starting_ammo": { "gasoline": 1000 },
     "special_attacks": [
       [ "PARROT", 0 ],
       {
@@ -1259,7 +1271,7 @@
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
     ],
-    "extend": { "flags": [ "FIREPROOF" ] }
+    "extend": { "flags": [ "FIREPROOF", "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_gaurdian",
@@ -1275,7 +1287,7 @@
     "melee_dice_sides": 4,
     "vision_day": 10,
     "revert_to_itype": "bot_milbot_gaurdian",
-    "starting_ammo": { "9mm": 200 },
+    "starting_ammo": { "9mm": 2000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -1289,7 +1301,8 @@
         "range": "10",
         "ranges": [ [ 0, 10, "AUTO" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_deluxe",
@@ -1315,7 +1328,7 @@
     "melee_dice_sides": 4,
     "vision_day": 20,
     "revert_to_itype": "bot_milbot_protector",
-    "starting_ammo": { "556": 200 },
+    "starting_ammo": { "556": 1600 },
     "special_attacks": [
       {
         "type": "gun",
@@ -1329,7 +1342,8 @@
         "ranges": [ [ 0, 16, "BURST" ] ],
         "require_targeting_player": true
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milbot_defender",
@@ -1345,7 +1359,7 @@
     "melee_dice_sides": 4,
     "vision_day": 50,
     "revert_to_itype": "bot_milbot_defender",
-    "starting_ammo": { "50bmg": 100 },
+    "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -1367,7 +1381,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_advbot_glitter",
@@ -1394,7 +1409,8 @@
         "range": 5,
         "ranges": [ [ 0, 5, "AUTO" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_advbot_bitter",
