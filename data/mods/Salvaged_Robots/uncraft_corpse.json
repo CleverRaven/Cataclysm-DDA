@@ -398,7 +398,7 @@
       [ [ "android_legs", 1 ] ],
       [ [ "android_chassis", 1 ] ],
       [ [ "android_arms", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
     ]
   },
   {
@@ -829,3 +829,4 @@
     ]
   }
 ]
+
