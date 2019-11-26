@@ -17,7 +17,7 @@
     "armor_cut": 16,
     "armor_acid": 14,
     "death_function": [ "BROKEN" ],
-    "death_drops": "broken_robots
+    "death_drops": "broken_robots"
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
@@ -432,7 +432,7 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 20
       }
-    ]
+    ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -459,7 +459,7 @@
         "require_targeting_player": false,
         "ranges": [ [ 0, 20, "DEFAULT" ] ]
       }
-    ]
+    ],
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
