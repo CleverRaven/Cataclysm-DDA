@@ -766,10 +766,21 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
 // A name that is applied under certain conditions.
 struct conditional_name {
     // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
-    std::string type;
+    condition_type type;
     // Context name  (i.e. "CANNIBALISM"   or "mutant")
     std::string condition;
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will

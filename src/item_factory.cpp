@@ -2187,22 +2187,18 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     if( jo.has_member( "conditional_names" ) ) {
-        if( jo.has_array( "conditional_names" ) ) {
-            def.conditional_names.clear();
-            JsonArray jarr = jo.get_array( "conditional_names" );
-            while( jarr.has_more() ) {
-                JsonObject curr = jarr.next_object();
-                conditional_name cname;
-                cname.type = curr.get_string( "type" );
-                cname.condition = curr.get_string( "condition" );
-                cname.name = translation( translation::plural_tag() );
-                if( !curr.read( "name", cname.name ) ) {
-                    curr.throw_error( "name unspecified for conditional name" );
-                }
-                def.conditional_names.push_back( cname );
+        def.conditional_names.clear();
+        JsonArray jarr = jo.get_array( "conditional_names" );
+        while( jarr.has_more() ) {
+            JsonObject curr = jarr.next_object();
+            conditional_name cname;
+            cname.type = curr.get_enum_value<condition_type>( "type" );
+            cname.condition = curr.get_string( "condition" );
+            cname.name = translation( translation::plural_tag() );
+            if( !curr.read( "name", cname.name ) ) {
+                curr.throw_error( "name unspecified for conditional name" );
             }
-        } else {
-            jo.throw_error( "Conditional names entry is not an array.", "conditional_names" );
+            def.conditional_names.push_back( cname );
         }
     }
 
