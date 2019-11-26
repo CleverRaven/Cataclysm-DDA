@@ -451,7 +451,7 @@
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "motor_small", 1 ] ],
-      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "spidery_legs_small", 1 ] ]
     ]
   },
   {
@@ -485,7 +485,7 @@
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "medium_storage_battery", 1 ] ],
-      [ [ "solar_cell", 2 ] ],
+      [ [ "solar_cell", 2 ] ]
     ]
   },
   {
