@@ -146,8 +146,8 @@
   {
     "id": "survivor223mag",
     "type": "MAGAZINE",
-    "name": "makeshift .223 magazine",
-    "description": "An improvised magazine consisting of little more than a bent sheet of rusted metal held together by duct tape and hope.",
+    "name": "STANAG makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with STANAG compatible rifles.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 1200,
@@ -159,5 +159,12 @@
     "reliability": 1,
     "reload_time": 150,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ruger_makeshiftmag",
+    "copy-from": "survivor223mag",
+    "type": "MAGAZINE",
+    "name": "Ruger makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Ruger Mini-14 rifle."
   }
 ]

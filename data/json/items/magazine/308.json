@@ -45,6 +45,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "FN FAL makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN FAL rifle.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 1200,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "308",
+    "capacity": 5,
+    "reliability": 1,
+    "reload_time": 150,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "g3bigmag",
     "type": "MAGAZINE",
     "name": "H&K G3 drum magazine",
@@ -78,6 +95,13 @@
     "capacity": 20,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "g3_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "H&K G3 makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with G3 rifle."
   },
   {
     "id": "m14mag",
@@ -115,6 +139,13 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "m14_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "M14 makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 rifle."
+  },
+  {
     "id": "scarhbigmag",
     "type": "MAGAZINE",
     "name": "FN SCAR-H drum magazine",
@@ -133,6 +164,13 @@
     "flags": [ "MAG_BULKY" ]
   },
   {
+    "id": "scarhmag_30rd",
+    "copy-from": "falbigmag",
+    "type": "MAGAZINE",
+    "name": "FN SCAR-H 30-round magazine",
+    "description": "A 30-round steel box magazine for the FN SCAR-H rifle.  This one actually seems to be a modified FN FAL magazine."
+  },
+  {
     "id": "scarhmag",
     "type": "MAGAZINE",
     "name": "FN SCAR-H magazine",
@@ -148,6 +186,13 @@
     "capacity": 20,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "scarh_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "FN SCAR-H makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with FN SCAR-H rifle."
   },
   {
     "id": "hk417mag_20rd",
@@ -184,6 +229,13 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "hk417_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "HK417 makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with HK417 rifle."
+  },
+  {
     "id": "ar10mag_20rd",
     "type": "MAGAZINE",
     "name": "AR-10 magazine",
@@ -199,5 +251,12 @@
     "capacity": 20,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ar10_makeshiftmag",
+    "copy-from": "fal_makeshiftmag",
+    "type": "MAGAZINE",
+    "name": "AR-10 makeshift magazine",
+    "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with AR-10 rifle."
   }
 ]
