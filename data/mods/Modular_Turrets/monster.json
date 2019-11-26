@@ -17,8 +17,8 @@
     "armor_cut": 16,
     "armor_acid": 14,
     "death_function": [ "BROKEN" ],
-    "death_drops": "broken_robots",
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": "broken_robots
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_disarmed",
@@ -68,7 +68,7 @@
     "color": "light_gray",
     "luminance": 200,
     "revert_to_itype": "bot_turret_9mm",
-    "starting_ammo": { "9mm": 100 },
+    "starting_ammo": { "9mm": 2000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -94,7 +94,7 @@
     "color": "red",
     "luminance": 200,
     "revert_to_itype": "bot_turret_shot",
-    "starting_ammo": { "shot_00": 100 },
+    "starting_ammo": { "shot_00": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -121,7 +121,7 @@
     "color": "blue",
     "luminance": 300,
     "revert_to_itype": "bot_turret_teargas",
-    "starting_ammo": { "40mm_teargas": 50 },
+    "starting_ammo": { "40mm_teargas": 100 },
     "special_attacks": [
       {
         "type": "gun",
@@ -148,7 +148,7 @@
     "color": "blue",
     "luminance": 300,
     "revert_to_itype": "bot_turret_beanbag",
-    "starting_ammo": { "40mm_beanbag": 50 },
+    "starting_ammo": { "40mm_beanbag": 100 },
     "special_attacks": [
       {
         "type": "gun",
@@ -175,7 +175,7 @@
     "color": "green",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_556",
-    "starting_ammo": { "556": 100 },
+    "starting_ammo": { "556": 1600 },
     "special_attacks": [
       {
         "type": "gun",
@@ -209,7 +209,7 @@
     "color": "green",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_308",
-    "starting_ammo": { "762_51": 100 },
+    "starting_ammo": { "762_51": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -243,7 +243,7 @@
     "color": "green",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_50bmg",
-    "starting_ammo": { "50bmg": 100 },
+    "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -278,7 +278,7 @@
     "color": "green",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_8x40mm",
-    "starting_ammo": { "8mm_caseless": 100 },
+    "starting_ammo": { "8mm_caseless": 1200 },
     "special_attacks": [
       {
         "type": "gun",
@@ -312,7 +312,7 @@
     "color": "green",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_needle",
-    "starting_ammo": { "5x50dart": 100 },
+    "starting_ammo": { "5x50dart": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -346,7 +346,7 @@
     "color": "red",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_40mm",
-    "starting_ammo": { "40mm_frag": 50 },
+    "starting_ammo": { "40mm_frag": 100 },
     "special_attacks": [
       {
         "type": "gun",
@@ -380,7 +380,7 @@
     "color": "red",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_flame",
-    "starting_ammo": { "napalm": 100 },
+    "starting_ammo": { "napalm": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -433,6 +433,7 @@
         "targeting_volume": 20
       }
     ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
     "id": "mon_advturret_acid",
@@ -459,6 +460,7 @@
         "ranges": [ [ 0, 20, "DEFAULT" ] ]
       }
     ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
     "id": "mon_advturret_plasma",
@@ -490,7 +492,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "FIREPROOF" ] }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FIREPROOF" ]
   },
   {
     "id": "mon_advturret_rail",
@@ -504,7 +506,7 @@
     "color": "magenta",
     "luminance": 300,
     "revert_to_itype": "bot_advturret_rail",
-    "starting_ammo": { "steel_rail": 100 },
+    "starting_ammo": { "steel_rail": 200 },
     "special_attacks": [
       {
         "type": "gun",
@@ -556,7 +558,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "ELECTRIC" ]
   },
   {
     "id": "mon_advturret_emp",
@@ -587,7 +589,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "ELECTRIC" ]
   },
   {
     "id": "mon_turret_gnome",
@@ -601,7 +603,7 @@
     "diff": 10,
     "color": "red",
     "revert_to_itype": "bot_turret_gnome",
-    "starting_ammo": { "9mm": 100 },
+    "starting_ammo": { "9mm": 2000 },
     "special_attacks": [
       {
         "type": "gun",
