@@ -641,7 +641,7 @@
         "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
-    ],
+    ]
   },
   {
     "id": "mon_broken_cyborg",
@@ -988,7 +988,7 @@
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "napalm": 1000 },
-    "extend": { "flags": [ "FIREPROOF" ] },
+    "extend": { "flags": [ "FIREPROOF", "DROPS_AMMO" ] },
     "special_attacks": [
       {
         "type": "gun",
@@ -1008,8 +1008,7 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    ]
   },
   {
     "abstract": "mon_advbot_base",
