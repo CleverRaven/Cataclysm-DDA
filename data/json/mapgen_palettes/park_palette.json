@@ -28,6 +28,7 @@
       "g": "t_sandbox",
       "h": "t_slide",
       "i": "t_water_sh",
+      "l": "t_wall_log"
       "L": "t_thconc_floor",
       "m": "t_monkey_bars",
       "o": "t_column",
@@ -44,6 +45,7 @@
       "X": "t_thconc_floor",
       "Y": "t_concrete",
       "z": "t_region_shrub_decorative",
+      "Z": "t_region_shrub_fruit",
       "1": [ [ "t_tree_young", 3 ], "t_shrub" ],
       "4": "t_region_tree_evergreen",
       "5": "t_thconc_floor"
