@@ -513,89 +513,39 @@
     "type": "mapgen",
     "weight": 300,
     "object": {
-      "fill_ter": "t_grass",
-      "rows": [
-        "...___.......s.....s....",
-        "...___...*.......*.....s",
-        "....___....s.7.u...7u...",
-        "....____......*.........",
-        "......___.*......u...7.d",
-        "......___...u...*...s...",
-        "..7....___....s...7...d.",
-        "........___........*ddd.",
-        "........___.....u..ddddd",
-        ".........___......ddd.u.",
-        "...0ttt0..__....ddd.....",
-        "..0-|t|-0.___.ddd...###.",
-        "..t|ttt|t.___..d........",
-        "..ttttttt.____.....&7...",
-        "..t|ttt|td_____.........",
-        "..0-|t|-0.__d___...###..",
-        "...0ttt0.___..__________",
-        "........___...._________",
-        ".......____.....___f....",
-        ".......___.......___..f.",
-        "...._____.....7...__....",
-        "_________.f###...f___...",
-        "_______........f...___..",
-        "...........f..d....___.."
+      "fill_ter": "t_grass",      "rows": [
+        "'''sss'''''''Z'''''Z''''",
+        "'''sss'''f'''''''f'''''Z",
+        "''''sss''''Z'c'u'''cu'''",
+        "''''ssss''''''f'''''''''",
+        "''''''sss'f''''''u'''c'_",
+        "''''''sss'''u'''f'''Z'''",
+        "''c''''sss''''Z'''c'''_'",
+        "''''''''sss''''''''f___'",
+        "''''''''sss'''''u''_____",
+        "'''''''''sss''''''___'u'",
+        "'''0:::0''ss''''___'''''",
+        "''0|l:l|0'sss'___'''bbb'",
+        "'':l:::l:'sss''_''''''''",
+        "'':::::::'ssss'''''&c'''",
+        "'':l:::l:_sssss'''''''''",
+        "''0|l:l|0'ss_sss'''bbb''",
+        "'''0:::0'sss''ssssssssss",
+        "''''''''sss''''sssssssss",
+        "'''''''ssss'''''sssd''''",
+        "'''''''sss'''''''sss''d'",
+        "''''sssss'''''c'''ss''''",
+        "sssssssss'dbbb'''dsss'''",
+        "sssssss''''''''d'''sss''",
+        "'''''''''''d''_''''sss''"
       ],
-      "terrain": {
-        "|": "t_wall_log",
-        ".": "t_grass",
-        "7": [
-          [ "t_tree", 4 ],
-          "t_tree_hickory",
-          "t_tree_maple",
-          "t_tree_birch",
-          "t_tree_apple",
-          "t_tree_pine",
-          "t_tree_peach",
-          "t_tree_cherry",
-          "t_tree_pear",
-          "t_tree_young"
-        ],
-        "_": "t_sidewalk",
-        "d": [ "t_dirt", "t_grass_dead" ],
-        "s": [ "t_shrub_blueberry", "t_shrub_strawberry", "t_shrub_raspberry" ],
-        "t": "t_thconc_floor",
-        "u": "t_underbrush",
-        "-": "t_fence"
-      },
-      "furniture": {
-        "#": "f_bench",
-        "&": "f_trashcan",
-        "*": [
-          "f_dandelion",
-          "f_chicory",
-          "f_bluebell",
-          [ "f_datura", 6 ],
-          [ "f_flower_tulip", 2 ],
-          "f_flower_spurge",
-          "f_black_eyed_susan",
-          [ "f_dahlia", 3 ]
-        ],
-        "0": [ [ "f_boulder_small", 2 ], [ "f_boulder_medium", 3 ], "f_boulder_large" ],
-        "f": [
-          [ "f_dandelion", 6 ],
-          [ "f_chicory", 2 ],
-          [ "f_bluebell", 2 ],
-          "f_datura",
-          "f_flower_tulip",
-          "f_flower_spurge",
-          "f_black_eyed_susan",
-          "f_dahlia"
-        ]
-      },
       "items": {
-        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
-        "d": { "item": "forest", "chance": 10 },
-        "#": { "item": "trash", "chance": 5 }
+        "_": { "item": "forest", "chance": 10 }
       },
       "monsters": {
-        "_": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 3, 5 ] },
-        "t": { "monster": "GROUP_PARK_SCENIC", "chance": 2 },
-        ".": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 1, 2 ] }
+        "s": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 3, 5 ] },
+        ":": { "monster": "GROUP_PARK_SCENIC", "chance": 2 },
+        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [ 1, 2 ] }
       }
     }
   },
