@@ -4193,7 +4193,6 @@ static int hack_level( const player &p )
 
 static hack_result hack_attempt( player &p )
 {
-
     if( p.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
