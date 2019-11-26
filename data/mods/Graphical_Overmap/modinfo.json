@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Graphical_Overmap",
+    "name": "Graphical Overmap",
+    "authors": ["Larwick"],
+    "description": "Gives the overmap a graphical overhaul, using custom graphics instead of letters and symbols and changing some of the colors for aesthetic purposes. Please refer to readme for installation.",
+    "category": "graphical",
+    "dependencies": ["dda"]
+  }
+]
