@@ -685,7 +685,7 @@
     "symbol": "%",
     "quench": 2,
     "calories": 142,
-    "description": "Delicious, lumpy, white soup made of meat and potatoes.  A taste of the lost glory of New England.",
+    "description": "Delicious, lumpy, white soup made of meat (normally clam) and potatoes.  A taste of the lost glory of New England.",
     "price": 400,
     "material": [ "flesh", "milk" ],
     "volume": "500 ml",
