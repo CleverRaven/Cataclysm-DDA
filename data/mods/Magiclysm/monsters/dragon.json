@@ -7,11 +7,14 @@
         "name": "dreadful presense",
         "sym": "8",
         "dangerous": true,
-        "effect_id": "eff_frightful_presence",
-        "effect_body_part": "TORSO",
-        "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "2 seconds"
+        "effects": [
+          "effect_id": "eff_frightful_presence",
+          "body_part": "TORSO",
+          "intensity": 1,
+          "min_duration": "2 seconds",
+          "max_duration": "2 seconds",
+          "is_environmental": false
+        ]
       },
       { "name": "frightful presense", "color": "light_gray", "effect_intensity": 2 },
       { "name": "terrifying presense", "color": "dark_gray", "effect_intensity": 3 }
