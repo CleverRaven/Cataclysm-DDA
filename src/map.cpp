@@ -3792,6 +3792,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam = 0;
         }
+    } else if( terrain == t_thconc_floor_olight ) {
+        break_glass( p, 16 );
+        ter_set( p, t_thconc_floor );
+        spawn_item( p, "glass_shard", rng( 8, 16 ) );
+        dam = 0; //Prevent damaging items sine we shoot at the ceiling
+
     } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
@@ -3870,7 +3876,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, damage_message );
+    if( !has_items( p ) ) {
+        //Shoot terrain
+
+    } else {
+        smash_items( p, dam / 3, damage_message );
+    }
 }
 
 bool map::hit_with_acid( const tripoint &p )
