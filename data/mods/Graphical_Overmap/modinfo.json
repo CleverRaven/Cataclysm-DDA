@@ -3,12 +3,12 @@
     "type": "MOD_INFO",
     "ident": "Graphical_Overmap",
     "name": "Graphical Overmap",
-    "authors": [ "Larwick" ],
+    "authors": "Larwick",
     "description": [
       "Gives the overmap a graphical overhaul, using custom icons and changing ",
       "some of the colors. Please refer to readme for installation."
     ],
     "category": "graphical",
-    "dependencies": [ "dda" ]
+    "dependencies": "dda"
   }
 ]

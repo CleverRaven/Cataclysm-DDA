@@ -6267,28 +6267,28 @@
     "id": "ws_fire_lookout_tower_base",
     "copy-from": "ws_fire_lookout_tower_base",
     "sym": "í",
-    "color": "red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_fire_lookout_tower_f1",
     "copy-from": "ws_fire_lookout_tower_f1",
     "sym": "í",
-    "color": "red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_fire_lookout_tower_f2",
     "copy-from": "ws_fire_lookout_tower_f2",
     "sym": "í",
-    "color": "red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_fire_lookout_tower_f3",
     "copy-from": "ws_fire_lookout_tower_f3",
     "sym": "í",
-    "color": "red"
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
