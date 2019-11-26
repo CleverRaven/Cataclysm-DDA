@@ -2005,7 +2005,7 @@
   },
   {
     "type": "speech",
-    "speaker":[ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Suspect on the move!\"",
     "volume": 15
   },
@@ -2371,31 +2371,31 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_dog",
+    "speaker": [ "mon_dog", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_bull",
+    "speaker": [ "mon_dog_bull", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_pitbullmix",
+    "speaker": [ "mon_dog_pitbullmix", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_beagle",
+    "speaker": [ "mon_dog_beagle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "YAP!",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_bcollie",
+    "speaker": [ "mon_dog_bcollie", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
   },
@@ -2407,7 +2407,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_chihuahua",
+    "speaker": [ "mon_dog_chihuahua", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "YAP!",
     "volume": 30
   },
@@ -2425,13 +2425,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_gpyrenees",
+    "speaker": [ "mon_dog_gpyrenees", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "WOOF!",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_dog_rottweiler",
+    "speaker": [ "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "WOOF!",
     "volume": 40
   },
