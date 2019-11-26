@@ -4197,10 +4197,10 @@ static hack_result hack_attempt( player &p )
     if( p.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                             query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
+    const bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
+                                   query_yn( _( "Use electrohack?" ) );
+    const bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                                  p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
