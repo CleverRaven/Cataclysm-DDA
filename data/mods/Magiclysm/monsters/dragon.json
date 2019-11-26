@@ -8,16 +8,44 @@
         "sym": "8",
         "dangerous": true,
         "effects": [
-          "effect_id": "eff_frightful_presence",
-          "body_part": "TORSO",
-          "intensity": 1,
-          "min_duration": "2 seconds",
-          "max_duration": "2 seconds",
-          "is_environmental": false
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
         ]
       },
-      { "name": "frightful presense", "color": "light_gray", "effect_intensity": 2 },
-      { "name": "terrifying presense", "color": "dark_gray", "effect_intensity": 3 }
+      {
+        "name": "frightful presense",
+        "color": "light_gray",
+        "effects": [
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "terrifying presense",
+        "color": "dark_gray",
+        "effects": [
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 3,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,
