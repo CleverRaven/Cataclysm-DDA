@@ -1373,6 +1373,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
+            g->m.set_transparency_cache_dirty( p.z );
             return true;
         }
     }
