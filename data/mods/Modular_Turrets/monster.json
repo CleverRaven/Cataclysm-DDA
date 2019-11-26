@@ -17,7 +17,7 @@
     "armor_cut": 16,
     "armor_acid": 14,
     "death_function": [ "BROKEN" ],
-    "death_drops": "broken_robots"
+    "death_drops": "broken_robots",
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
