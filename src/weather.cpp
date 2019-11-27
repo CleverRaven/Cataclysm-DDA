@@ -361,6 +361,7 @@ static void wet_player( int amount )
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
+
     if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
