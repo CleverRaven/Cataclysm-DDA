@@ -17,7 +17,7 @@
     "volume": "50 ml",
     "stack_size": 1,
     "fun": -8,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
@@ -109,6 +109,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
+    "flags": [ "RAW" ],
     "rot_spawn": "GROUP_EGG_SNAKE",
     "rot_spawn_chance": 60
   },
@@ -199,7 +200,8 @@
     "material": "flesh",
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 24 ], [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "vitB", 985 ] ],
-    "fun": 5
+    "fun": 5,
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -219,7 +221,8 @@
     "volume": "25 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -287,6 +290,7 @@
     "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
     "price": 95,
     "material": "egg",
-    "fun": 2
+    "fun": 2,
+    "flags": [ "FREEZERBURN" ]
   }
 ]

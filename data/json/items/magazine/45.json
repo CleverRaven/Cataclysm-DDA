@@ -50,8 +50,8 @@
   {
     "id": "smg_45_mag",
     "type": "MAGAZINE",
-    "name": "makeshift .45 20-round magazine",
-    "description": "An improvised magazine that is mostly compatible with a homemade 'Luty' submachinegun, with a simplified feed system.  It looks like it might feed 20 rounds of .45 ACP.",
+    "name": "MAC-10 makeshift magazine",
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with MAC-10 SMG.",
     "weight": "300 g",
     "volume": "750 ml",
     "price": 4000,
@@ -131,6 +131,13 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "thompson_makeshiftmag",
+    "copy-from": "smg_45_mag",
+    "type": "MAGAZINE",
+    "name": "Thompson makeshift magazine",
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Thompson SMG."
+  },
+  {
     "id": "ump45mag",
     "type": "MAGAZINE",
     "name": "UMP45 magazine",
@@ -145,6 +152,13 @@
     "capacity": 25,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ump45_makeshiftmag",
+    "copy-from": "smg_45_mag",
+    "type": "MAGAZINE",
+    "name": "UMP45 makeshift magazine",
+    "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the UMP45 SMG."
   },
   {
     "id": "usp45mag",

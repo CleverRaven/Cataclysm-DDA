@@ -2096,7 +2096,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.wear( oThisItem );
                     break;
                 case 'w':
-                    wield( pos );
+                    wield( locThisItem );
                     break;
                 case 't':
                     avatar_action::plthrow( u, pos );
@@ -2114,10 +2114,10 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     unload( pos );
                     break;
                 case 'r':
-                    reload( pos );
+                    reload( locThisItem );
                     break;
                 case 'p':
-                    reload( pos, true );
+                    reload( locThisItem, true );
                     break;
                 case 'm':
                     mend( pos );
@@ -2879,7 +2879,7 @@ bool game::save_player_data()
         JsonOut jsout( fout );
         u.serialize_map_memory( jsout );
     }, _( "player map memory" ) );
-    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_MAP_MEMORY, [&](
+    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
@@ -8454,12 +8454,6 @@ void game::change_side( int pos )
     u.change_side( pos );
 }
 
-void game::reload( int pos, bool prompt )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    reload( loc, prompt );
-}
-
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
@@ -8679,12 +8673,6 @@ void game::mend( int pos )
 bool game::unload( item &it )
 {
     return u.unload( it );
-}
-
-void game::wield( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    wield( loc );
 }
 
 void game::wield( item_location &loc )

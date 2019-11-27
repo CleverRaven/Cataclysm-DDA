@@ -1151,6 +1151,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
+                // If this recipe is cooked, components are no longer raw.
+                if( should_heat ) {
+                    comp.set_flag_recursive( "COOKED" );
+                }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
@@ -1421,6 +1425,18 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             selected.use_from = use_from_both;
             selected.comp = mixed[0];
         }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            debugmsg( "Attempted a recipe with no available components!" );
+            selected.use_from = cancel;
+            return selected;
+        }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
         // Populate options with the names of the items
@@ -1629,6 +1645,17 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         } else {
             selected.use_from = use_from_map;
             selected.comp = map_has[0];
+        }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            selected.use_from = use_from_none;
+            return selected;
         }
     } else { // Variety of options, list them and pick one
         // Populate the list

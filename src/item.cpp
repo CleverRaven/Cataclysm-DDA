@@ -4459,6 +4459,15 @@ item &item::unset_flag( const std::string &flag )
     return *this;
 }
 
+item &item::set_flag_recursive( const std::string &flag )
+{
+    set_flag( flag );
+    for( item &comp : components ) {
+        comp.set_flag_recursive( flag );
+    }
+    return *this;
+}
+
 bool item::has_property( const std::string &prop ) const
 {
     return type->properties.find( prop ) != type->properties.end();
