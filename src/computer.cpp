@@ -927,7 +927,7 @@ void computer::activate_function( computer_action action )
                         if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
-                            g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
+                            g->m.add_item_or_charges( g->u.pos(), transcript );
                         } else {
                             print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                         }
