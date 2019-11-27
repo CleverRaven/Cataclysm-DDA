@@ -797,7 +797,6 @@
     ],
     "items": {
       "both": {
-        "ammo": 100,
         "items": [ "survivor_vest", "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
