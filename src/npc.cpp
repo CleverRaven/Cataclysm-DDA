@@ -2543,7 +2543,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_NULL:
             return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking and butchering" );
+            return _( "Cooking and butchering - Currently only butchering is enabled" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2551,19 +2551,19 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_CONSTRUCTING:
             return _( "Building" );
         case NPCJOB_CRAFTING:
-            return _( "Crafting" );
+            return _( "Crafting - Currently only a placeholder" );
         case NPCJOB_SECURITY:
-            return _( "Guarding and patrolling" );
+            return _( "Guarding and patrolling - Currently only a placeholder" );
         case NPCJOB_FARMING:
-            return _( "Working the fields" );
+            return _( "Farming the fields" );
         case NPCJOB_LUMBERJACK:
             return _( "Chopping wood" );
         case NPCJOB_HUSBANDRY:
-            return _( "Caring for the livestock" );
+            return _( "Caring for the livestock - Currently only a placeholder" );
         case NPCJOB_HUNTING:
-            return _( "Hunting and fishing" );
+            return _( "Hunting and fishing - Currently only fishing is enabled" );
         case NPCJOB_FORAGING:
-            return _( "Gathering edibles" );
+            return _( "Gathering edibles - Currently only a placeholder" );
         default:
             break;
     }
