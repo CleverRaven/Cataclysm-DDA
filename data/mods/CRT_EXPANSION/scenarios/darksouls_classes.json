@@ -40,7 +40,7 @@
     "ident": "ds3_abyss_watcher",
     "name": "Knight of Lothric",
     "description": "You were cast out after you had trainied to be one of Farron's Undead Legion. Regardless of your talent, you were deemed unfit to partake in the Blood of the Wolf and then sent to seek your purpose. However, they were not overly cruel, you were allowed to keep your own equipment and this strange new world has given you back your humanity. Can you keep it?.",
-    "traits": [ "DEFT", "GOODCARDIO"],
+    "traits": [ "DEFT", "GOODCARDIO" ],
     "points": 10,
     "skills": [
       { "level": 4, "name": "stabbing" },
