@@ -9,7 +9,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "superalloy", "plastic" ],
+    "material": "alien_resin",
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -17,7 +17,7 @@
       "monster_id": "afs_mon_migoturret",
       "difficulty": 6,
       "moves": 100,
-      "skill1": "electronics",
+      "skill1": "cooking",
       "skill2": "computer"
     }
   }

@@ -11,7 +11,7 @@
     "weight": 40750,
     "hp": 45,
     "speed": 100,
-    "material": [ "steel", "glass" ],
+    "material": "alien_resin",
     "symbol": "2",
     "color": "green",
     "aggression": 100,
