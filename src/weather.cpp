@@ -361,7 +361,6 @@ static void wet_player( int amount )
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
-
     if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
@@ -396,7 +395,7 @@ void do_rain( weather_type const w )
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
     bool light = weather::precip( w ) == PRECIP_LIGHT;
     g->m.decay_fields_and_scent( light ? 15_turns : 45_turns );
-    wet_player( light ? 30 : 60 );
+    wet_player( light ? 5 : 10 );
 }
 
 void weather_effect::none()
@@ -412,12 +411,12 @@ void weather_effect::sunny()
 
 void weather_effect::snow()
 {
-    wet_player( 10 );
+    wet_player( 2 );
 }
 
 void weather_effect::snowstorm()
 {
-    wet_player( 40 );
+    wet_player( 6 );
 }
 /**
  * Thunder.
