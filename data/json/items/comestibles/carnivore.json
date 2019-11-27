@@ -404,7 +404,7 @@
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
     "name": "smoked meat",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "smoked mutant" } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "%s, mutant" } ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
     "spoils_in": "24 days",
