@@ -1,39 +1,5 @@
 [
   {
-    "id": "hflesh_drink",
-    "copy-from": "protein_drink",
-    "type": "COMESTIBLE",
-    "name": "soylent green drink",
-    "name_plural": "soylent green drinks",
-    "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
-    "primary_material": "water",
-    "material": "hflesh"
-  },
-  {
-    "id": "hflesh_powder",
-    "copy-from": "protein_powder",
-    "type": "COMESTIBLE",
-    "name": { "str": "soylent green powder", "str_pl": "soylent green powder" },
-    "description": "Raw, refined protein made out of people!  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
-    "material": [ "powder", "hflesh" ]
-  },
-  {
-    "id": "hflesh_shake",
-    "copy-from": "protein_shake",
-    "type": "COMESTIBLE",
-    "name": "soylent green shake",
-    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.",
-    "material": [ "fruit", "hflesh" ]
-  },
-  {
-    "id": "hflesh_shake_fortified",
-    "copy-from": "protein_shake_fortified",
-    "type": "COMESTIBLE",
-    "name": "fortified soylent green shake",
-    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "material": [ "fruit", "hflesh" ]
-  },
-  {
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",

@@ -46,15 +46,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "broth_human",
-    "copy-from": "broth_bone",
-    "name": "human broth",
-    "description": "A nutritious broth made from human bones.",
-    "primary_material": "water",
-    "material": [ "bone", "hflesh" ]
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "soup_veggy",
     "name": "vegetable soup",
     "weight": "254 g",
@@ -195,14 +186,6 @@
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
     "fun": 1
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "soup_human",
-    "copy-from": "soup_meat",
-    "name": "sap soup",
-    "description": "A soup made from someone who is a far better meal than person.",
-    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",

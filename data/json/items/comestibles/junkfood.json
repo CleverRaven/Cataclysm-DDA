@@ -757,25 +757,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "nachoshf",
-    "copy-from": "nachosm",
-    "name": "niño nachos",
-    "name_plural": "niño nachos",
-    "description": "Salted chips made from corn tortillas, with human flesh.  Some cheese might make it even better.",
-    "material": [ "junk", "hflesh" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "nachoshc",
-    "copy-from": "nachosmc",
-    "name": "niño nachos with cheese",
-    "name_plural": "niño nachos with cheese",
-    "description": "Salted chips made from corn tortillas with human flesh and smothered in cheese.  Delicious.",
-    "material": [ "hflesh", "milk", "junk" ],
-    "primary_material": "processed_food"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "nachosmc",
     "name": "meat nachos with cheese",
     "name_plural": "meat nachos with cheese",
@@ -928,15 +909,6 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "chilidogs_human",
-    "copy-from": "chilidogs",
-    "name": "cheater chili dogs",
-    "name_plural": "cheater chili dogs",
-    "description": "A hot dog, served with chili con cabron as a topping.  Delightful.",
-    "material": [ "hflesh", "junk", "wheat" ]
   },
   {
     "type": "COMESTIBLE",

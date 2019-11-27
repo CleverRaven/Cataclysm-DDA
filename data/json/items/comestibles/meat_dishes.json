@@ -50,15 +50,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "mannwurst",
-    "copy-from": "sausage",
-    "name": "Mannwurst",
-    "flags": [ "EATEN_HOT", "SMOKED" ],
-    "description": "A hefty long pork sausage that has been cured and smoked for long term storage.  Very tasty, if you're in the market for human flesh.",
-    "material": "hflesh"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "sweet_sausage",
     "name": "sweet sausage",
     "name_plural": "sweet sausages",
