@@ -231,23 +231,8 @@
         "groundcover": { "t_grass_long": 5, "t_grass_tall": 1, "t_dirt": 1 },
         "clear_components": false,
         "components": {
-          "trees": {
-            "sequence": 0,
-            "chance": 12,
-            "clear_types": false,
-            "types": {
-              "t_region_tree": 128
-            }
-          },
-          "shrubs_and_flowers": {
-            "sequence": 1,
-            "chance": 10,
-            "clear_types": false,
-            "types": {
-              "t_region_shrub": 100,
-              "f_region_weed": 20
-            }
-          },
+          "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree": 128 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
           "clutter": {
             "sequence": 2,
             "chance": 80,
@@ -277,23 +262,8 @@
         "groundcover": { "t_grass_long": 5, "t_grass_tall": 1, "t_dirt": 1 },
         "clear_components": false,
         "components": {
-          "trees": {
-            "sequence": 0,
-            "chance": 5,
-            "clear_types": false,
-            "types": {
-              "t_region_tree": 100
-            }
-          },
-          "shrubs_and_flowers": {
-            "sequence": 1,
-            "chance": 5,
-            "clear_types": false,
-            "types": {
-              "t_region_shrub": 100,
-              "f_region_weed": 20
-            }
-          },
+          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree": 100 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
           "clutter": {
             "sequence": 2,
             "chance": 64,
@@ -354,15 +324,7 @@
               "t_tree_dead": 30
             }
           },
-          "shrubs_and_flowers": {
-            "sequence": 1,
-            "chance": 15,
-            "clear_types": false,
-            "types": {
-              "t_region_shrub": 80,
-              "f_region_weed": 30
-            }
-          },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_weed": 30 } },
           "clutter": {
             "sequence": 2,
             "chance": 75,
