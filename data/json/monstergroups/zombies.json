@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_PARK",
+    "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
