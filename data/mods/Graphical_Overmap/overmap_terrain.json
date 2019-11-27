@@ -650,7 +650,7 @@
     "id": "irradiator_1_8",
     "copy-from": "irradiator_1_8",
     "sym": "Ö",
-    "color": "green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -713,7 +713,7 @@
     "id": "irradiator_1_8_roof",
     "copy-from": "irradiator_1_8_roof",
     "sym": "Ö",
-    "color": "green"
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
