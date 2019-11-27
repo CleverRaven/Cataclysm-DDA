@@ -1819,6 +1819,35 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_atmosphere",
+    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
+    "desc": [
+      "The air in here smells like vinegar and mold.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly."
+    ],
+    "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
+    "max_intensity": 5,
+    "int_dur_factor": "5 seconds",
+    "rating": "bad",
+    "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
+    "harmful_cough": false,
+    "base_mods": { "cough_chance": [ -1002 ] },
+    "scaling_mods": {
+      "str_mod": [ -0.25 ],
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.25 ],
+      "int_mod": [ -0.75 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 10 ],
+      "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {

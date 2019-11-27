@@ -147,9 +147,8 @@
         "t_region_shrub": 17,
         "f_region_flower": 73,
         "f_boulder_small": 1,
-        "f_boulder_medium": 0.6,
-        "f_boulder_large": 0.4,
-        "f_shrub_bee_hive": 0.1
+        "f_boulder_medium": 0.6666,
+        "f_boulder_large": 0.3333
       },
       "boost_chance": 0.833,
       "boosted_percent_coverage": 2.5,

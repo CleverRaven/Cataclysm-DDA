@@ -990,7 +990,8 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc )
 {
-    bool use_loc = false;
+    // Some items may be used without being picked up first
+    bool use_in_place = false;
 
     if( !loc ) {
         loc = game_menus::inv::use( you );
@@ -1000,20 +1001,26 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
 
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
+        if( loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_in_place = true;
         } else {
-            int obtain_cost = loc.obtain_cost( you );
-            loc.obtain( you );
-            // This method only handles items in te inventory, so refund the obtain cost.
+            const int obtain_cost = loc.obtain_cost( you );
+            item &target = you.i_at( loc.obtain( you ) );
+            if( target.is_null() ) {
+                debugmsg( "Failed to obtain target item" );
+                return;
+            }
+            loc = item_location( you, &target );
+
+            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
+            // This method only handles items in the inventory, so refund the obtain cost.
             you.mod_moves( obtain_cost );
         }
     }
 
     g->refresh_all();
 
-    if( use_loc ) {
+    if( use_in_place ) {
         update_lum( loc, false );
         you.use( loc );
         update_lum( loc, true );

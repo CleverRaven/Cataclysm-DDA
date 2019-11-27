@@ -170,7 +170,7 @@ void field_type::load( JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "message", fe.message );
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
                 const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
-                optional( jo, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
+                optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
                 intensity_level.field_effects.emplace_back( fe );
             }
         } else {

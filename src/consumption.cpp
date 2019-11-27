@@ -126,6 +126,12 @@ int player::kcal_for( const item &comest ) const
         kcal /= comest.recipe_charges;
     } else {
         kcal = comest.get_comestible()->get_calories();
+
+        // Many raw foods give less calories, as your body has expends more energy digesting them.
+        // We don't want RAW to stack for components and results, so we're doing it in this else block.
+        if( comest.has_flag( "RAW" ) && !comest.has_flag( "COOKED" ) ) {
+            kcal *= 0.75f;
+        }
     }
 
     if( has_trait( trait_GIZZARD ) ) {
