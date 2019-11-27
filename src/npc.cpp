@@ -2563,7 +2563,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_HUNTING:
             return _( "Hunting and fishing - Currently only fishing is enabled" );
         case NPCJOB_FORAGING:
-            return _( "Gathering edibles - Currently only a placeholder." );
+            return _( "Gathering edibles - Currently only a placeholder" );
         default:
             break;
     }
