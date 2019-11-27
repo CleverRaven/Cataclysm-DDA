@@ -186,7 +186,6 @@
     "default_faction": "defense_bot",
     "diff": 2,
     "color": "light_blue",
-    "luminance": 100,
     "revert_to_itype": "bot_turret_water",
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
@@ -265,7 +264,6 @@
     "copy-from": "mon_eyebot",
     "name": "burning eye",
     "color": "red",
-    "luminance": 100,
     "armor_fire": 12,
     "description": "A salvaged eyebot refitted with a laser weapon.  The lack of recoil allows the hovering robot to aim and fire without penalty. It has decent range and damage, but requires an extended recharge time between shots.",
     "revert_to_itype": "bot_eyebot_burn",
@@ -726,7 +724,6 @@
     "color": "red_green",
     "aggression": 100,
     "morale": 100,
-    "luminance": 20,
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -749,7 +746,6 @@
     "name": "military robot",
     "description": "A military training robot still operating due to its internal power core.  This one is armed with a high power paintball gun and a foam baton.",
     "diff": 2,
-    "luminance": 50,
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 4,
@@ -820,7 +816,6 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "luminance": 100,
     "starting_ammo": { "762_51": 1000 },
     "revert_to_itype": "bot_milbot_308",
     "special_attacks": [
@@ -854,7 +849,6 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 50 caliber firearm.",
     "diff": 30,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "luminance": 100,
     "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
       {
@@ -887,7 +881,6 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 8mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "luminance": 100,
     "starting_ammo": { "8mm_caseless": 1200 },
     "special_attacks": [
       {
@@ -920,7 +913,6 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5x50mm flechette gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "luminance": 100,
     "starting_ammo": { "5x50dart": 1000 },
     "special_attacks": [
       {
@@ -954,7 +946,6 @@
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "color": "dark_gray_red",
-    "luminance": 50,
     "starting_ammo": { "40mm_frag": 100 },
     "special_attacks": [
       {
@@ -1038,7 +1029,6 @@
     "name": "laser-emitting robot",
     "description": "An advanced robot still functioning due to its internal fusion core. This model is furnished with a powerful laser-emitter.",
     "diff": 20,
-    "luminance": 120,
     "special_attacks": [
       {
         "type": "gun",
@@ -1067,7 +1057,7 @@
     "description": "An advanced robot still functioning due to its internal fusion core. This model is furnished with a powerful plasma-ejector.",
     "diff": 20,
     "color": "magenta",
-    "luminance": 200,
+    "luminance": 20,
     "extend": { "flags": [ "FIREPROOF" ] },
     "special_attacks": [
       {
@@ -1155,7 +1145,6 @@
     "name": "EMP-projecting robot",
     "description": "An advanced robot still functioning due to its internal fusion core. This model is furnished with a powerful EMP-projector.",
     "diff": 10,
-    "luminance": 120,
     "special_attacks": [
       {
         "type": "gun",
@@ -1183,7 +1172,6 @@
     "description": "A salvaged defense robot refitted with a shotgun and two circular buzzsaws. Due to bootleg targeting software, it can only attack nearby targets.",
     "speed": 100,
     "color": "brown",
-    "luminance": 0,
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
@@ -1421,7 +1409,6 @@
     "color": "light_green",
     "speed": 100,
     "hp": 60,
-    "luminance": 0,
     "revert_to_itype": "bot_advbot_bitter",
     "melee_skill": 4,
     "melee_damage": [ { "damage_type": "acid", "amount": 8 } ],
