@@ -362,7 +362,7 @@ static void wet_player( int amount )
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
-    if( !one_in( 6 ) ) {
+    if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
     const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
