@@ -118,13 +118,13 @@ enum npc_job : int {
     NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
     NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
     NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
-    NPCJOB_CRAFTING, // crafting stuff generally.
-    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
+    NPCJOB_SECURITY,  // patrolling - currently placeholder
     NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
     NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
     NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
     NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
-    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
     NPCJOB_END
 };
 
