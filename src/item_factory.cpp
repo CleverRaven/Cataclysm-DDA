@@ -2264,7 +2264,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     if( iter != migrations.end() ) {
         std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags,
                    obj.item_tags.begin() ) );
-        obj.charges = iter->second.charges;
+        if( iter->second.charges > 0 ) {
+            obj.charges = iter->second.charges;
+        }
 
         for( const auto &c : iter->second.contents ) {
             if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {
