@@ -675,7 +675,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                            ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
-                                                _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire the %s!" ),
+                                                _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
                                                 mode_map.second->tname(), ups_drain, adv_ups_drain ) );
                         fireable = false;
                     }
