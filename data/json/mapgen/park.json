@@ -379,7 +379,7 @@
     "type": "mapgen",
     "weight": 200,
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "''''_''''''''''''''''_''",
         "'0ffffffff0'_0ffffffff0_",
@@ -434,7 +434,7 @@
     "type": "mapgen",
     "weight": 300,
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "''0'0'O'O'O'0'0''''''_''",
         "_''''''$'$''_''''''''''_",
@@ -486,7 +486,7 @@
     "type": "mapgen",
     "weight": 300,
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "'''sss'''''''Z'''''Z''''",
         "'''sss'''f'''''''f'''''Z",
