@@ -184,7 +184,7 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.empty() );
+    bool notfiltering = ( !filtering || filter.empty() );
     int num_entries = entries.size();
     bool nocase = filtering_nocase; // TODO: && is_all_lc( filter )
     std::string fstr;
@@ -768,7 +768,7 @@ bool uilist::scrollby( const int scrollby )
     bool backwards = ( scrollby < 0 );
 
     fselected += scrollby;
-    if( ! looparound ) {
+    if( !looparound ) {
         if( backwards && fselected < 0 ) {
             fselected = 0;
         } else if( fselected >= static_cast<int>( fentries.size() ) ) {

@@ -127,7 +127,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     int new_dx = dest_loc.x - you.posx();
     int new_dy = dest_loc.y - you.posy();
 
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
             if( you.is_mounted() ) {

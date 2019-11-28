@@ -184,7 +184,7 @@ void vehicle::control_doors()
                 if( open ) {
                     int part = next_part_to_open( motor );
                     if( part != -1 ) {
-                        if( ! part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
+                        if( !part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -1061,7 +1061,7 @@ void vehicle::enable_patrol()
 
 void vehicle::honk_horn()
 {
-    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
 
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
@@ -1070,7 +1070,7 @@ void vehicle::honk_horn()
         if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
-        if( ! honked ) {
+        if( !honked ) {
             add_msg( _( "You honk the horn!" ) );
             honked = true;
         }
@@ -1092,7 +1092,7 @@ void vehicle::honk_horn()
         }
     }
 
-    if( ! honked ) {
+    if( !honked ) {
         add_msg( _( "You honk the horn, but nothing happens." ) );
     }
 }

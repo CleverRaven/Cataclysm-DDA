@@ -734,7 +734,7 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
     msg << "> " << "<color_" << string_from_color( format_color ) << ">";
 
     std::ostringstream long_descrip;
-    if( ! description.empty() ) {
+    if( !description.empty() ) {
         long_descrip << description;
     }
     for( const auto &flagid : flags ) {
@@ -742,14 +742,14 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
             continue;
         }
         json_flag flag = json_flag::get( flagid );
-        if( ! flag.info().empty() ) {
-            if( ! long_descrip.str().empty() ) {
+        if( !flag.info().empty() ) {
+            if( !long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
             long_descrip << _( flag.info() );
         }
     }
-    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
+    if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
         long_descrip << "  " << _( nobelt.info() );
     }
@@ -764,7 +764,7 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
                                        base.gun_damage().total_damage() );
     }
 
-    if( ! long_descrip.str().empty() ) {
+    if( !long_descrip.str().empty() ) {
         const auto wrap_descrip = foldstring( long_descrip.str(), width );
         msg << wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {

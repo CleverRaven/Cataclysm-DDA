@@ -1969,14 +1969,14 @@ bool cata_tiles::draw_sprite_at(
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) { // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
             case 2: // 180 degrees, implemented with flips instead of rotation
-                if( ! tile_iso ) { // never flip isometric tiles vertically
+                if( !tile_iso ) { // never flip isometric tiles vertically
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                       static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 } else {
@@ -1987,7 +1987,7 @@ bool cata_tiles::draw_sprite_at(
 #if defined(_WIN32)
                 destination.x -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) { // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );

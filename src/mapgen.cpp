@@ -2261,7 +2261,7 @@ bool mapgen_function_json_base::setup_common( JsonObject &jo )
                 auto iter_ter = format_terrain.find( tmpkey );
                 if( iter_ter != format_terrain.end() ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
-                } else if( ! qualifies ) {  // fill_ter should make this kosher
+                } else if( !qualifies ) {  // fill_ter should make this kosher
                     parray.throw_error(
                         string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
                                        c + 1, i + 1, static_cast<char>( tmpkey ) ) );
@@ -2284,7 +2284,7 @@ bool mapgen_function_json_base::setup_common( JsonObject &jo )
     }
 
     // No fill_ter? No format? GTFO.
-    if( ! qualifies ) {
+    if( !qualifies ) {
         jo.throw_error( "  Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain' (RTFM)" );
         // TODO: write TFM.
     }

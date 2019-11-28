@@ -5214,7 +5214,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
 
     if( current_submap->fld[l.x][l.y].add_field( type, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
-        if( ! current_submap->field_count++ ) {
+        if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }
@@ -5251,7 +5251,7 @@ void map::remove_field( const tripoint &p, const field_type_id field_to_remove )
 
     if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
-        if( ! --current_submap->field_count ) {
+        if( !--current_submap->field_count ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }

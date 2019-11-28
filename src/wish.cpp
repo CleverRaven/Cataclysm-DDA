@@ -74,7 +74,7 @@ class wish_mutate_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -336,7 +336,7 @@ class wish_monster_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 setup( menu );
             }

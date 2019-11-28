@@ -394,7 +394,7 @@ double precip_mm_per_hour( precip_class const p )
 
 void do_rain( weather_type const w )
 {
-    if( ! weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );

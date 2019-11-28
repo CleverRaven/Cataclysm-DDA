@@ -796,7 +796,7 @@ void monster::move()
     int new_dy = destination.y - pos().y;
 
     // toggle facing direction for sdl flip
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx < 0 ) {
             facing = FD_LEFT;
         } else if( new_dx > 0 ) {
