@@ -1341,20 +1341,13 @@ class map
                               bool merge_wrecks = true );
         vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true ) {
-            return add_vehicle( type.obj().pick(), tripoint( p, abs_sub.z ), dir, init_veh_fuel,
-                                init_veh_status, merge_wrecks );
-        }
+                              bool merge_wrecks = true );
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
-                              bool merge_wrecks = true ) {
-            return add_vehicle( type, tripoint( p, abs_sub.z ), dir, init_veh_fuel,
-                                init_veh_status, merge_wrecks );
-        }
-
+                              bool merge_wrecks = true );
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
         // Assumes 0,0 is light map center
