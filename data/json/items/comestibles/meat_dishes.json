@@ -1154,7 +1154,7 @@
     "type": "COMESTIBLE",
     "id": "pelmeni",
     "name": "pelmeni",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perilous %s", "str_pl": "perilous %s" } } ],
     "weight": "151 g",
     "color": "light_red",
     "spoils_in": "2 days",
