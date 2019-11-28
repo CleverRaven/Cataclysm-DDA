@@ -402,7 +402,7 @@
     "allowed_locs": [ "mi-go_camp" ],
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
-    "flags": [ "LONE_START", "CHALLENGE" ]
+    "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
     "type": "scenario",
