@@ -57,7 +57,6 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_inactive", 1 ] ],
       [ [ "element", 1 ] ],
       [ [ "ai_module_basic", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
