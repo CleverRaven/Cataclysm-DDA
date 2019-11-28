@@ -1334,16 +1334,17 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. The syntax is as follows:
 
 ```cpp
+"name": "sausage",
 "conditional_names": [
+  {
+    "type": "FLAG",
+    "condition": "CANNIBALISM",
+    "name": "Mannwurst"
+  },
   {
     "type": "COMPONENT_ID",
     "condition": "mutant",
-    "name": { "str": "creature curry", "str_pl": "creature curries" }
-  },
-  {
-    "type": "FLAG",
-    "condition": "BAD_TASTE",
-    "name": "unpalatable %s"
+    "name": { "str": "sinister %s", "str_pl": "sinister %s" }
   }
 ]
 ```
@@ -1355,9 +1356,11 @@ You can list as many conditional names for a given item as you want. Each condit
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 
-So, in the above example, if the food both has the `BAD_TASTE` flag *and* is made from an item with `mutant` in its ID:
-1. First, the item name is entirely replaced with "creature curry" if singular, or "creature curries" if plural.
-2. Next, it is replaced by "unpalatable %s", but %s is replaced with the name as it was before, for a final name of either "unpalatable creature curry" or "unpalatable creature curries".
+So, in the above example, if the sausage is made from mutant humanoid meat, and therefore both has the `CANNIBALISM` flag, *and* has a component with `mutant` in its ID:
+1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
+2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
+
+NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
 
 
 #### Color Key
