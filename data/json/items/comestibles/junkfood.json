@@ -732,6 +732,7 @@
     "name": "meat nachos",
     "name_plural": "meat nachos",
     "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "niño nachos", "str_pl": "niño nachos" } },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",
@@ -761,6 +762,11 @@
     "name": "meat nachos with cheese",
     "name_plural": "meat nachos with cheese",
     "conditional_names": [
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "niño nachos with cheese", "str_pl": "niño nachos with cheese" }
+      },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",

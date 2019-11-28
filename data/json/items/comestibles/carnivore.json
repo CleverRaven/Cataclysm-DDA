@@ -340,7 +340,10 @@
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
+    ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
     "weight": "85 g",
@@ -380,7 +383,10 @@
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
     "name": "smoked meat",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } } ],
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
+    ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
     "spoils_in": "24 days",
@@ -717,7 +723,7 @@
     "copy-from": "bone",
     "name": "human bone",
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "//": "Not for use in normal food recipes."
+    "flags": [ "CANNIBALISM" ]
   },
   {
     "type": "COMESTIBLE",
