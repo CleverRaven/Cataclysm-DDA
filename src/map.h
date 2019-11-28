@@ -810,10 +810,10 @@ class map
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
         void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
                           const ter_id &floor_type, bool overwrite = false );
-        void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items ) {
+        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
             make_rubble( p, rubble_type, items, t_dirt, false );
         }
-        void map::make_rubble( const tripoint &p ) {
+        void make_rubble( const tripoint &p ) {
             make_rubble( p, f_rubble, false, t_dirt, false );
         }
 
