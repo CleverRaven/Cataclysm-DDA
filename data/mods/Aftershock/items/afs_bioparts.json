@@ -1,0 +1,34 @@
+[
+  {
+    "id": "living_brain_jar",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "living brain in a jar",
+    "description": "This jar contains a human brain kept alive by Mi-Go technology. It has metal veined tendrils that appear to allow it to connect to various devices.",
+    "weight": "365 g",
+    "volume": "3 L",
+    "price": 100,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": "resin",
+    "symbol": ")",
+    "color": "pink",
+    "looks_like": "fluid_preserved_brain"
+  },
+  {
+    "id": "humming_heart",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "humming heart",
+    "description": "This heartlike organ has multiple valves and upon it's proper removal from the bioweapons corpse each valve sealed itself. It hums gently in your hands, as if waiting for an appropriate receptacle.",
+    "weight": "1400 g",
+    "volume": "1 L",
+    "price": 100,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": "flesh",
+    "symbol": ")",
+    "color": "pink",
+    "looks_like": "jabberwock_heart"
+  }
+]
