@@ -779,7 +779,7 @@
     "ident": "captive",
     "name": { "male": "Captive", "female": "Captive" },
     "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place... Are you even on earth anymore?",
-    "points": 0,
+    "points": -2,
     "flags": [ "SCEN_ONLY" ]
   },
   {
