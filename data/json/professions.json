@@ -786,7 +786,7 @@
     "type": "profession",
     "ident": "rescuer",
     "name": { "male": "Rescuer", "female": "Rescuer" },
-    "description": "You were ready, you went in heads on determined to find and rescue your friends.  But now as you walk through those strange corridors the atmosphere grows heavy on you and you're not so sure anymore, you might be the one in need of a rescue now.",
+    "description": "You were ready.  You went in determined to find and rescue your friends.  But now as you walk through those strange corridors, the atmosphere grows heavy and you're not so sure anymore. You might be the one in need of a rescue now.",
     "points": 3,
     "skills": [
       { "level": 4, "name": "dodge" },
