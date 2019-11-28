@@ -201,7 +201,7 @@
   {
     "id": "dogfood_canned",
     "type": "MIGRATION",
-    "replace": "can_food",
+    "replace": "can_medium",
     "contents": [ "dogfood" ]
   },
   {

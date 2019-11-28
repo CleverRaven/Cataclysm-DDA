@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "creature.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -526,7 +528,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
     }
-    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 );
     you.inv.rust_iron_items();
 
     if( !you.is_mounted() ) {
@@ -673,7 +675,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                            ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
-                                                _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire the %s!" ),
+                                                _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
                                                 mode_map.second->tname(), ups_drain, adv_ups_drain ) );
                         fireable = false;
                     }
@@ -953,4 +955,80 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+        default:
+            break;
+    }
+}
+
+void avatar_action::use_item( avatar &you )
+{
+    item_location loc;
+    avatar_action::use_item( you, loc );
+}
+
+void avatar_action::use_item( avatar &you, item_location &loc )
+{
+    // Some items may be used without being picked up first
+    bool use_in_place = false;
+
+    if( !loc ) {
+        loc = game_menus::inv::use( you );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        if( loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_in_place = true;
+        } else {
+            const int obtain_cost = loc.obtain_cost( you );
+            item &target = you.i_at( loc.obtain( you ) );
+            if( target.is_null() ) {
+                debugmsg( "Failed to obtain target item" );
+                return;
+            }
+            loc = item_location( you, &target );
+
+            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
+            // This method only handles items in the inventory, so refund the obtain cost.
+            you.mod_moves( obtain_cost );
+        }
+    }
+
+    g->refresh_all();
+
+    if( use_in_place ) {
+        update_lum( loc, false );
+        you.use( loc );
+        update_lum( loc, true );
+
+        make_active( loc );
+    } else {
+        you.use( loc );
+    }
+
+    you.invalidate_crafting_inventory();
 }

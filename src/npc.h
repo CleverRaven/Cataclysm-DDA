@@ -118,13 +118,13 @@ enum npc_job : int {
     NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
     NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
     NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
-    NPCJOB_CRAFTING, // crafting stuff generally.
-    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
+    NPCJOB_SECURITY,  // patrolling - currently placeholder
     NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
     NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
     NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
     NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
-    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
     NPCJOB_END
 };
 
@@ -509,9 +509,9 @@ struct healing_options {
 
 // Data relevant only for this action
 struct npc_short_term_cache {
-    float danger;
-    float total_danger;
-    float danger_assessment;
+    float danger = 0;
+    float total_danger = 0;
+    float danger_assessment = 0;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
     // target is hostile, ally is for aiding actions
@@ -525,7 +525,7 @@ struct npc_short_term_cache {
     int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
-    double my_weapon_value;
+    double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
     std::vector<std::weak_ptr<Creature>> friends;

@@ -521,6 +521,12 @@
     "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "steel_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -721,5 +727,12 @@
     "craft_inherit": true,
     "//": "Has a bad taste or texture that can't be covered up through cooking.",
     "info": "This food is <bad>unappetizing</bad> in a way that <bad>can't be covered up by most cooking</bad>."
+  },
+  {
+    "id": "RAW",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "//": "Decreases calories as they appear in JSON def by 25%. This penalty is removed if the item is used in a recipe that requires heating.",
+    "info": "This food is <info>raw</info>, and will be <good>more nutritious</good> if cooked."
   }
 ]

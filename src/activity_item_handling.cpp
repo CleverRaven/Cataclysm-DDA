@@ -2312,7 +2312,8 @@ static void check_npc_revert( player &p )
     }
 }
 
-static zone_type_id get_zone_for_act( const activity_id &act_id )
+static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manager &mgr,
+                                      const activity_id &act_id )
 {
     zone_type_id ret = zone_type_id( "" );
     if( act_id == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
@@ -2338,6 +2339,12 @@ static zone_type_id get_zone_for_act( const activity_id &act_id )
     }
     if( act_id == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         ret = zone_type_id( "FISHING_SPOT" );
+    }
+    if( src_loc != tripoint_zero && act_id == activity_id( "ACT_FETCH_REQUIRED" ) ) {
+        const zone_data *zd = mgr.get_zone_at( g->m.getabs( src_loc ) );
+        if( zd ) {
+            ret = zd->get_type();
+        }
     }
     return ret;
 }
@@ -2386,7 +2393,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             }
         }
     }
-    zone_type_id zone_type = get_zone_for_act( act_id );
+    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
     if( act_id != activity_id( "ACT_FETCH_REQUIRED" ) ) {
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
@@ -2453,7 +2460,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
 
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
 
     const bool needs_to_be_in_zone = act_id == activity_id( "ACT_FETCH_REQUIRED" ) ||
                                      act_id == activity_id( "ACT_MULTIPLE_FARM" ) ||
@@ -2483,7 +2490,8 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
         return true;
-    } else if( reason == NO_COMPONENTS || reason == NEEDS_PLANTING ||
+    } else if( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
+               reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
                reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
                reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
                reason == NEEDS_TREE_CHOPPING ||
@@ -2620,7 +2628,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     const std::vector<construction> &list_constructions = get_constructions();
 
     const do_activity_reason &reason = act_info.reason;
-    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( act_id ) );
+    const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
 
     // something needs to be done, now we are there.
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.

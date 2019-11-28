@@ -343,6 +343,12 @@ inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
 }
 
 template<typename value_type>
+inline constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
 inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000.0;

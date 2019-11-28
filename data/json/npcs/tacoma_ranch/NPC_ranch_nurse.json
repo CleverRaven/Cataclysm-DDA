@@ -107,7 +107,7 @@
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment... in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
+      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Aspirin is pretty common in homes and convenience stores.",

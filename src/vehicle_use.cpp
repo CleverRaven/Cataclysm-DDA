@@ -814,7 +814,7 @@ bool vehicle::fold_up()
     }
 
     if( can_be_folded ) {
-        bicycle.set_var( "weight", to_gram( total_mass() ) );
+        bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
@@ -1526,7 +1526,9 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
+    // Get all the items the player has that can be used as detergent
+    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1547,8 +1549,8 @@ void vehicle::use_washing_machine( int p )
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
-    } else if( !detergent_is_enough ) {
-        add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
+    } else if( detergents.empty() ) {
+        add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
@@ -1556,6 +1558,34 @@ void vehicle::use_washing_machine( int p )
         add_msg( m_bad,
                  _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
+        uilist detergent_selector;
+        detergent_selector.text = _( "Use what detergent?" );
+
+        std::vector<itype_id> det_types;
+        for( const item *it : detergents ) {
+            itype_id det_type = it->typeId();
+            // If the vector does not contain the detergent type, add it
+            if( std::find( det_types.begin(), det_types.end(), det_type ) == det_types.end() ) {
+                det_types.emplace_back( det_type );
+            }
+
+        }
+        int chosen_detergent = 0;
+        // If there's a choice to be made on what detergent to use, ask the player
+        if( det_types.size() > 1 ) {
+            for( size_t i = 0; i < det_types.size(); ++i ) {
+                detergent_selector.addentry( i, true, 0, item::nname( det_types[i] ) );
+            }
+            detergent_selector.addentry( UILIST_CANCEL, true, 0, _( "Cancel" ) );
+            detergent_selector.query();
+            chosen_detergent = detergent_selector.ret;
+        }
+
+        // If the player exits the menu, don't do anything else
+        if( chosen_detergent == UILIST_CANCEL ) {
+            return;
+        }
+
         parts[p].enabled = true;
         for( auto &n : items ) {
             n.set_age( 0_turns );
@@ -1568,7 +1598,7 @@ void vehicle::use_washing_machine( int p )
         }
 
         std::vector<item_comp> detergent;
-        detergent.push_back( item_comp( "detergent", 5 ) );
+        detergent.push_back( item_comp( det_types[chosen_detergent], 5 ) );
         g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
@@ -1747,7 +1777,7 @@ void vehicle::use_bike_rack( int part )
                 cur_vehicle.clear();
                 continue;
             }
-            for( const point &mount_dir : vehicles::cardinal_d ) {
+            for( const point &mount_dir : five_cardinal_directions ) {
                 point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {

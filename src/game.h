@@ -35,6 +35,14 @@ class item;
 
 #define DEFAULT_TILESET_ZOOM 16
 
+static const std::string SAVE_MASTER( "master.gsav" );
+static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
+static const std::string SAVE_EXTENSION( ".sav" );
+static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
+static const std::string SAVE_EXTENSION_LOG( ".log" );
+static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
+static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
+
 extern bool test_mode;
 
 // The reference to the one and only game instance.
@@ -709,7 +717,6 @@ class game
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
-        void load_weather( std::istream &fin );
 #if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
 #endif
@@ -724,7 +731,6 @@ class game
         bool save_artifacts();
         // returns false if saving failed for whatever reason
         bool save_maps();
-        void save_weather( std::ostream &fout );
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
@@ -766,10 +772,8 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-        void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
-        void reload( int pos, bool prompt = false );
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
     public:
@@ -801,7 +805,6 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
-        void wield( int pos ); // Wield a weapon  'w'
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
