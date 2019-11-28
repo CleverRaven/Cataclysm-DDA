@@ -167,11 +167,20 @@
         "V": { "item": "vending_drink_home_impr", "chance": 85, "repeat": [ 5, 12 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },
         "2": { "item": "rug", "chance": 80, "repeat": [ 1, 8 ] },
-        "3": [ { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }, { "item": "farming_tools", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "3": [
+          { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] },
+          { "item": "farming_tools", "chance": 15, "repeat": [ 1, 2 ] }
+        ],
         "4": { "item": "supplies_electronics", "chance": 80, "repeat": [ 1, 2 ] },
         "5": { "item": "hardware_clothing", "chance": 80, "repeat": [ 1, 8 ] },
-        "6": [ { "item": "hand_tools", "chance": 80, "repeat": [ 1, 2 ] }, { "item": "power_tools", "chance": 80, "repeat": [ 1, 2 ] } ],
-        "7": [ { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }, { "item": "farming_tools", "chance": 80, "repeat": [ 1, 2 ] } ],
+        "6": [
+          { "item": "hand_tools", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "power_tools", "chance": 80, "repeat": [ 1, 2 ] }
+        ],
+        "7": [
+          { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] },
+          { "item": "farming_tools", "chance": 80, "repeat": [ 1, 2 ] }
+        ],
         "8": { "item": "hardware_bulk", "chance": 80, "repeat": [ 2, 5 ] },
         "9": { "item": "hardware_bulk", "chance": 80, "repeat": [ 2, 5 ] },
         "X": [
