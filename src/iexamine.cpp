@@ -788,8 +788,8 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
         }
-    } else {
-        p.assign_activity( activity_id( "ACT_HACK_DOOR" ), to_moves<int>( 5_minutes ) );
+    } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+        p.assign_activity( activity_id( "ACT_HACKING" ), to_moves<int>( 5_minutes ) );
         p.activity.placement = examp;
     }
 }
@@ -849,8 +849,10 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         sounds::sound( examp, 6, sounds::sound_t::speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
-        p.assign_activity( activity_id( "ACT_HACK_DOOR" ), to_moves<int>( 5_minutes ) );
-        p.activity.placement = examp;
+        if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+            p.assign_activity( activity_id( "ACT_HACKING" ), to_moves<int>( 5_minutes ) );
+            p.activity.placement = examp;
+        }
     }
 }
 
@@ -1226,8 +1228,10 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
-    p.assign_activity( activity_id( "ACT_HACK_SAFE" ), to_moves<int>( 5_minutes ) );
-    p.activity.placement = examp;
+    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
+        p.assign_activity( activity_id( "ACT_HACKING" ), to_moves<int>( 5_minutes ) );
+        p.activity.placement = examp;
+    }
 }
 
 /**
@@ -3768,7 +3772,7 @@ static int getNearPumpCount( const tripoint &p )
     return result;
 }
 
-static cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units )
+cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
 {
     cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
@@ -3876,7 +3880,7 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number )
+cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
 {
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
@@ -3888,7 +3892,7 @@ static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int numbe
     return cata::nullopt;
 }
 
-static bool toPumpFuel( const tripoint &src, const tripoint &dst, int units )
+bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 {
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
@@ -4093,33 +4097,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        switch( hack_attempt( p ) ) {
-            case HACK_UNABLE:
-                break;
-            case HACK_FAIL:
-                g->events().send<event_type::triggers_alarm>( p.getID() );
-                sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                               "alarm" );
-                if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                    g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                         p.global_sm_location() );
-                }
-                break;
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS:
-                const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
-                        uistate.ags_pay_gas_selected_pump );
-                if( pGasPump && toPumpFuel( pTank, *pGasPump, tankGasUnits ) ) {
-                    add_msg( _( "You hack the terminal and route all available fuel to your pump!" ) );
-                    sounds::sound( p.pos(), 6, sounds::sound_t::activity,
-                                   _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ), true, "tool", "gaspump" );
-                } else {
-                    add_msg( _( "Nothing happens." ) );
-                }
-                break;
-        }
+        p.assign_activity( activity_id( "ACT_HACKING" ), to_moves<int>( 5_minutes ) );
+        p.activity.placement = examp;
     }
 
     if( refund == choice ) {
@@ -5764,69 +5743,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
     //No match found
     debugmsg( "Could not find an iexamine function matching '%s'!", function_name );
     return &iexamine::none;
-}
-
-static int hack_level( const player &p )
-{
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int target = p.get_skill_level( skill_computer );
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
-    target += static_cast<int>( p.int_cur / 2 - 8 );
-    return target;
-}
-
-hack_result iexamine::hack_attempt( player &p )
-{
-    if( p.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
-    }
-    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                             query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
-    }
-
-    p.moves -= to_moves<int>( 5_minutes );
-    p.practice( skill_computer, 20 );
-    if( using_fingerhack ) {
-        p.mod_power_level( -25_kJ );
-    } else {
-        p.use_charges( "electrohack", 25 );
-    }
-
-    // only skilled supergenius never cause short circuits, but the odds are low for people
-    // with moderate skills
-    const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( p ), hack_stddev ) );
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
-            p.mod_power_level( -25_kJ );
-        } else {
-            p.use_charges( "electrohack", 25 );
-        }
-
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p.use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p.mod_power_level( units::from_kilojoule( -rng( 25,
-                                   units::to_kilojoule( p.get_power_level() ) ) ) );
-            }
-        }
-        return HACK_FAIL;
-    } else if( success < 6 ) {
-        return HACK_NOTHING;
-    } else {
-        return HACK_SUCCESS;
-    }
 }
 
 void iexamine::practice_survival_while_foraging( player *p )

@@ -771,19 +771,10 @@
     "no_resume": true
   },
   {
-    "id": "ACT_HACK_DOOR",
+    "id": "ACT_HACKING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
-    "suspendable": false,
-    "based_on": "time",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HACK_SAFE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
+    "verb": "hacking",
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
