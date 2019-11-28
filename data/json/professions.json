@@ -776,6 +776,40 @@
   },
   {
     "type": "profession",
+    "ident": "captive",
+    "name": { "male": "Captive", "female": "Captive" },
+    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place... Are you even on earth anymore?",
+    "points": -2,
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "rescuer",
+    "name": { "male": "Rescuer", "female": "Rescuer" },
+    "description": "You were ready.  You went in determined to find and rescue your friends.  But now as you walk through those strange corridors, the atmosphere grows heavy and you're not so sure anymore. You might be the one in need of a rescue now.",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 5, "name": "melee" },
+      { "level": 4, "name": "tailor" },
+      { "level": 3, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "survivor_vest", "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "ident": "medic",
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience.  You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",

@@ -63,10 +63,13 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     bool found_fuel = false;
     fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
-        for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
+        for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel ) ;
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                    continue;
+                }
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }

@@ -395,6 +395,17 @@
   },
   {
     "type": "scenario",
+    "ident": "migo_prisoner",
+    "name": "Challenge - Mi-Go Camp",
+    "points": -8,
+    "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
+    "allowed_locs": [ "mi-go_camp" ],
+    "start_name": "Mi-Go Camp",
+    "professions": [ "captive", "rescuer" ],
+    "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
+  },
+  {
+    "type": "scenario",
     "ident": "mutant",
     "name": "Experiment",
     "points": 2,
