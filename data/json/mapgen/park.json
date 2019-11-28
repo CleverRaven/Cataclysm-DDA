@@ -75,7 +75,10 @@
         "                        "
       ],
       "palettes": [ "park_asphalt_palette" ],
-      "monsters": { ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 20 }, " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 200 } }
+      "monsters": {
+        ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 20 },
+        " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 200 }
+      }
     }
   },
   {
@@ -114,10 +117,7 @@
         "                        "
       ],
       "palettes": [ "park_asphalt_palette" ],
-      "monsters": {
-        ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 50 },
-        "b": { "monster": "GROUP_PARK_DOG", "chance": 100 }
-      }
+      "monsters": { ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 50 }, "b": { "monster": "GROUP_PARK_DOG", "chance": 100 } }
     }
   },
   {
@@ -157,10 +157,7 @@
       ],
       "palettes": [ "park_asphalt_palette" ],
       "items": { "b": { "item": "shoes", "chance": 15, "repeat": [ 2, 5 ] } },
-      "monsters": {
-        "$": { "monster": "GROUP_PARK_SCENIC", "chance": 50 },
-        " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 100 }
-      }
+      "monsters": { "$": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }, " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 100 } }
     }
   },
   {
@@ -311,10 +308,7 @@
         { "item": "feces_dog", "x": 20, "y": 10, "repeat": [ 1, 10 ] },
         { "item": "feces_dog", "x": 11, "y": 12, "repeat": [ 5, 20 ] }
       ],
-      "monsters": {
-        ",": { "monster": "GROUP_PARK_DOG", "chance": 30 },
-        " ": { "monster": "GROUP_PARK_DOG", "chance": 60 }
-      }
+      "monsters": { ",": { "monster": "GROUP_PARK_DOG", "chance": 30 }, " ": { "monster": "GROUP_PARK_DOG", "chance": 60 } }
     }
   },
   {
@@ -474,10 +468,7 @@
         { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
       ],
       "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
-      "monsters": {
-        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 60 },
-        "g": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 40 }
-      },
+      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 60 }, "g": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 40 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
