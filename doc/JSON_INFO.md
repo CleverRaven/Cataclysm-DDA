@@ -1331,22 +1331,24 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 
 #### Conditional Naming
 
-The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. The syntax is as follows:
+The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
 
-```cpp
-"name": "sausage",
-"conditional_names": [
-  {
-    "type": "FLAG",
-    "condition": "CANNIBALISM",
-    "name": "Mannwurst"
-  },
-  {
-    "type": "COMPONENT_ID",
-    "condition": "mutant",
-    "name": { "str": "sinister %s", "str_pl": "sinister %s" }
-  }
-]
+```json
+{
+  "name": "sausage",
+  "conditional_names": [
+    {
+      "type": "FLAG",
+      "condition": "CANNIBALISM",
+      "name": "Mannwurst"
+    },
+    {
+      "type": "COMPONENT_ID",
+      "condition": "mutant",
+      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+    }
+  ]
+}
 ```
 
 You can list as many conditional names for a given item as you want. Each conditional name must consist of 3 elements:
