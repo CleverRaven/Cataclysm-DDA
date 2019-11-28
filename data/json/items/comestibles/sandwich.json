@@ -197,7 +197,7 @@
     "id": "sandwich_t",
     "name": "meat sandwich",
     "name_plural": "meat sandwiches",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "mutant %s" } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } } ],
     "weight": "233 g",
     "color": "light_gray",
     "spoils_in": "1 day 12 hours",

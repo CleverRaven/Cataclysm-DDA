@@ -80,7 +80,7 @@
     "type": "COMESTIBLE",
     "id": "soup_meat",
     "name": "meat soup",
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "mutant %s" } ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } } ],
     "weight": "253 g",
     "color": "red",
     "spoils_in": "5 days",
