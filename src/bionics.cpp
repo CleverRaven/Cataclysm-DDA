@@ -902,9 +902,11 @@ bool Character::burn_fuel( int b, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == itype_id( "sunlight" ) ) {
-                            const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_efficiency );
+                        if( fuel == itype_id( "sunlight" ) && g->is_in_sunlight( pos() ) ) {
+                            const weather_type &wtype = current_weather( pos() );
+                            const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+                            const double intensity = tick_sunlight / default_daylight_level();
+                            mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
                         } else if( fuel == itype_id( "wind" ) ) {
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = g->m.veh_at( pos() );
