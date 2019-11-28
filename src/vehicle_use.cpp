@@ -128,8 +128,10 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
 void vehicle::control_doors()
 {
     const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
-    std::vector< int > doors_with_motors; // Indices of doors
-    std::vector< tripoint > locations; // Locations used to display the doors
+    // Indices of doors
+    std::vector< int > doors_with_motors;
+    // Locations used to display the doors
+    std::vector< tripoint > locations;
     // it is possible to have one door to open and one to close for single motor
     if( empty( door_motors ) ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
@@ -168,7 +170,8 @@ void vehicle::control_doors()
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+    // Move the menu so that we can see our vehicle
+    pmenu.w_y = 0;
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
@@ -429,9 +432,12 @@ bool vehicle::interact_vehicle_locked()
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
-                g->u.activity.values.push_back( abs_veh_pos.x + q.x ); //[0]
-                g->u.activity.values.push_back( abs_veh_pos.y + q.y ); //[1]
-                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
+                //[0]
+                g->u.activity.values.push_back( abs_veh_pos.x + q.x );
+                //[1]
+                g->u.activity.values.push_back( abs_veh_pos.y + q.y );
+                //[2]
+                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) );
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
                     is_alarm_on = true;
@@ -1199,7 +1205,8 @@ void vehicle::crash_terrain_around()
                 }
             }
         }
-        if( g->m.inbounds_z( crush_target.z ) ) { //target chosen
+        //target chosen
+        if( g->m.inbounds_z( crush_target.z ) ) {
             velocity = 0;
             cruise_velocity = 0;
             g->m.destroy( crush_target );

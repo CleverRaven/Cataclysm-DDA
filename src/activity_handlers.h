@@ -56,9 +56,12 @@ enum do_activity_reason : int {
 };
 
 struct activity_reason_info {
-    do_activity_reason reason;          //reason for success or fail
-    bool can_do;                        //is it possible to do this
-    cata::optional<size_t> con_idx;     //construction index
+    //reason for success or fail
+    do_activity_reason reason;
+    //is it possible to do this
+    bool can_do;
+    //construction index
+    cata::optional<size_t> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
                           cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :

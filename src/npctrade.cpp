@@ -495,7 +495,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     }
                 }
                 break;
-            default: // Letters & such
+            default:
+                // Letters & such
                 if( ch >= 'a' && ch <= 'z' ) {
                     ch -= 'a';
                 } else if( ch >= 'A' && ch <= 'Z' ) {

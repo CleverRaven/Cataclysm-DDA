@@ -871,13 +871,15 @@ void uilist::query( bool loop, int timeout )
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
+                // disabled
+                ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
-        } else { // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
+        } else {
+            // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;

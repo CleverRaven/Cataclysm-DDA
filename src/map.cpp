@@ -5401,21 +5401,27 @@ const visibility_variables &map::get_visibility_variables_cache() const
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
-        case LL_DARK: // can't see this square at all
+        case LL_DARK:
+            // can't see this square at all
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER_DARK;
             } else {
                 return VIS_DARK;
             }
-        case LL_BRIGHT_ONLY: // can only tell that this square is bright
+        case LL_BRIGHT_ONLY:
+            // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER;
             } else {
                 return VIS_LIT;
             }
-        case LL_LOW: // low light, square visible in monochrome
-        case LL_LIT: // normal light
-        case LL_BRIGHT: // bright light
+
+        case LL_LOW:
+        // low light, square visible in monochrome
+        case LL_LIT:
+        // normal light
+        case LL_BRIGHT:
+            // bright light
             return VIS_CLEAR;
         case LL_BLANK:
         case LL_MEMORIZED:
@@ -5433,7 +5439,8 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
-        case VIS_LIT: // can only tell that this square is bright
+        case VIS_LIT:
+            // can only tell that this square is bright
             symbol = '#';
             color = c_light_gray;
             break;
@@ -5445,7 +5452,8 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
             symbol = '#';
             color = c_magenta;
             break;
-        case VIS_DARK: // can't see this square at all
+        case VIS_DARK:
+        // can't see this square at all
         case VIS_HIDDEN:
             symbol = ' ';
             color = c_black;

@@ -53,9 +53,9 @@ std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 // use dx = 1, dy = -2.
 //
 // Internal parts should be added after external on the same mount point, i.e:
-//  part {"x": 0, "y": 1, "part": "seat"},       // put a seat (it's external)
-//  part {"x": 0, "y": 1, "part": "controls"},   // put controls for driver here
-//  part {"x": 0, "y": 1, "seatbelt"}   // also, put a seatbelt here
+//  part {"x": 0, "y": 1, "part": "seat"},      // put a seat (it's external)
+//  part {"x": 0, "y": 1, "part": "controls"},  // put controls for driver here
+//  part {"x": 0, "y": 1, "seatbelt"}           // also, put a seatbelt here
 // To determine, what parts can be external, and what can not, check
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
@@ -246,7 +246,8 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
     assign( jo, "contact_area", wh_info.contact_area );
-    if( !jo.has_member( "copy-from" ) ) { // if flag presented, it is already set
+    if( !jo.has_member( "copy-from" ) ) {
+        // if flag presented, it is already set
         wh_info.terrain_mod = standard_terrain_mod;
         wh_info.or_rating = 0.5f;
     }

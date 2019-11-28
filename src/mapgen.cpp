@@ -3551,7 +3551,8 @@ void map::draw_lab( mapgendata &dat )
                 } // end if no lab_4side was found.
                 if( use_hardcoded_4side_map ) {
                     switch( rng( 1, 3 ) ) {
-                        case 1: // Cross shaped
+                        case 1:
+                            // Cross shaped
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( ( i < lw || i > EAST_EDGE - rw ) ||
@@ -3657,7 +3658,8 @@ void map::draw_lab( mapgendata &dat )
 
                             break;
 
-                        case 2: // tic-tac-toe # layout
+                        case 2:
+                            // tic-tac-toe # layout
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i > EAST_EDGE - rw || i == SEEX - 4 ||
@@ -3717,7 +3719,8 @@ void map::draw_lab( mapgendata &dat )
                             }
                             break;
 
-                        case 3: // Big room
+                        case 3:
+                            // Big room
                             for( int i = 0; i < SEEX * 2; i++ ) {
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i >= EAST_EDGE - rw ) {
@@ -4349,19 +4352,22 @@ void map::draw_temple( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     if( terrain_type == "temple" || terrain_type == "temple_stairs" ) {
-        if( dat.zlevel() == 0 ) { // Ground floor
+        if( dat.zlevel() == 0 ) {
+            // Ground floor
             // TODO: More varieties?
             fill_background( this, t_dirt );
             square( this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX );
             ter_set( point( SEEX + 1, SEEY + 1 ), t_pedestal_temple );
-        } else { // Underground!  Shit's about to get interesting!
+        } else {
+            // Underground!  Shit's about to get interesting!
             // Start with all rock floor
             square( this, t_rock_floor, 0, 0, EAST_EDGE, SOUTH_EDGE );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
             switch( 1 + abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
 
-                case 1: // Flame bursts
+                case 1:
+                    // Flame bursts
                     square( this, t_rock, 0, 0, SEEX - 1, SOUTH_EDGE );
                     square( this, t_rock, SEEX + 2, 0, EAST_EDGE, SOUTH_EDGE );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
@@ -4370,7 +4376,8 @@ void map::draw_temple( mapgendata &dat )
                     }
                     break;
 
-                case 2: // Spreading water
+                case 2:
+                    // Spreading water
                     square( this, t_water_dp, 4, 4, 5, 5 );
                     // replaced mon_sewer_snake spawn with GROUP_SEWER
                     // Decide whether a group of only sewer snakes be made, probably not worth it
@@ -4427,7 +4434,8 @@ void map::draw_temple( mapgendata &dat )
                         for( int y = 1; y < 7; y++ ) {
                             for( int x = SEEX; x <= SEEX + 1; x++ ) {
                                 switch( action ) {
-                                    case 1: // Toggle RG
+                                    case 1:
+                                        // Toggle RG
                                         if( ter( point( x, y ) ) == t_floor_red ) {
                                             ter_set( point( x, y ), t_rock_red );
                                         } else if( ter( point( x, y ) ) == t_rock_red ) {
@@ -4438,7 +4446,8 @@ void map::draw_temple( mapgendata &dat )
                                             ter_set( point( x, y ), t_floor_green );
                                         }
                                         break;
-                                    case 2: // Toggle GB
+                                    case 2:
+                                        // Toggle GB
                                         if( ter( point( x, y ) ) == t_floor_blue ) {
                                             ter_set( point( x, y ), t_rock_blue );
                                         } else if( ter( point( x, y ) ) == t_rock_blue ) {
@@ -4449,7 +4458,8 @@ void map::draw_temple( mapgendata &dat )
                                             ter_set( point( x, y ), t_floor_green );
                                         }
                                         break;
-                                    case 3: // Toggle RB
+                                    case 3:
+                                        // Toggle RB
                                         if( ter( point( x, y ) ) == t_floor_blue ) {
                                             ter_set( point( x, y ), t_rock_blue );
                                         } else if( ter( point( x, y ) ) == t_rock_blue ) {
@@ -4460,7 +4470,8 @@ void map::draw_temple( mapgendata &dat )
                                             ter_set( point( x, y ), t_floor_red );
                                         }
                                         break;
-                                    case 4: // Toggle Even
+                                    case 4:
+                                        // Toggle Even
                                         if( y % 2 == 0 ) {
                                             if( ter( point( x, y ) ) == t_floor_blue ) {
                                                 ter_set( point( x, y ), t_rock_blue );
@@ -7193,9 +7204,11 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
     int x2 = x1 + 7;
     int y2 = y1 + 4;
     switch( type ) {
-        case 0: // Empty!
+        case 0:
+            // Empty!
             return;
-        case 1: // Chemistry.
+        case 1:
+            // Chemistry.
             // #######.
             // #.......
             // #.......
@@ -7216,7 +7229,8 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
                             calendar::start_of_cataclysm );
             break;
 
-        case 2: // Hydroponics.
+        case 2:
+            // Hydroponics.
             // #.......
             // #.~~~~~.
             // #.......
@@ -7236,7 +7250,8 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
             m->place_items( "hydro", 92, point( x1 + 1, y2 - 1 ), point( x2 - 1, y2 - 1 ), false, when );
             break;
 
-        case 3: // Electronics.
+        case 3:
+            // Electronics.
             // #######.
             // #.......
             // #.......
@@ -7257,7 +7272,8 @@ void set_science_room( map *m, int x1, int y1, bool faces_right, const time_poin
                             when - 50_turns );
             break;
 
-        case 4: // Monster research.
+        case 4:
+            // Monster research.
             // .|.####.
             // -|......
             // .|......

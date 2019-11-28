@@ -60,8 +60,10 @@ void advanced_inv_area::init()
     pos = g->u.pos() + off;
     veh = nullptr;
     vstor = -1;
-    volume = 0_ml;   // must update in main function
-    weight = 0_gram; // must update in main function
+    // must update in main function
+    volume = 0_ml;
+    // must update in main function
+    weight = 0_gram;
     switch( id ) {
         case AIM_INVENTORY:
         case AIM_WORN:
@@ -182,7 +184,8 @@ void advanced_inv_area::init()
 
 units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
-    assert( id != AIM_ALL ); // should be a specific location instead
+    // should be a specific location instead
+    assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return g->u.volume_capacity() - g->u.volume_carried();
     }

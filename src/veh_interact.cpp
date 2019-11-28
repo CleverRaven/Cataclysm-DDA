@@ -496,21 +496,26 @@ task_reason veh_interact::cant_do( char mode )
     bool enough_light = true;
 
     switch( mode ) {
-        case 'i': // install mode
+        case 'i':
+            // install mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
             //tool checks processed later
             enough_light = g->u.fine_detail_vision_mod() <= 4;
             has_tools = true;
             break;
-        case 'r': // repair mode
+
+        case 'r':
+            // repair mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
-            has_tools = true; // checked later
+            // checked later
+            has_tools = true;
             enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
 
-        case 'm': { // mend mode
+        case 'm': {
+            // mend mode
             enough_morale = g->u.has_morale_to_craft();
             const bool toggling = g->u.has_trait( trait_DEBUG_HS );
             valid_target = std::any_of( veh->parts.begin(),
@@ -522,7 +527,8 @@ task_reason veh_interact::cant_do( char mode )
                 }
             } );
             enough_light = g->u.fine_detail_vision_mod() <= 4;
-            has_tools = true; // checked later
+            // checked later
+            has_tools = true;
         }
         break;
 
@@ -531,7 +537,8 @@ task_reason veh_interact::cant_do( char mode )
             has_tools = true;
             break;
 
-        case 'o': // remove mode
+        case 'o':
+            // remove mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
@@ -540,7 +547,9 @@ task_reason veh_interact::cant_do( char mode )
             has_skill = true;
             enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
-        case 's': // siphon mode
+
+        case 's':
+            // siphon mode
             valid_target = false;
             for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
                 if( vp.part().base.contents_made_of( LIQUID ) ) {
@@ -550,7 +559,9 @@ task_reason veh_interact::cant_do( char mode )
             }
             has_tools = crafting_inv.has_tools( "hose", 1 );
             break;
-        case 'd': // unload mode
+
+        case 'd':
+            // unload mode
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left() ) {
@@ -560,7 +571,9 @@ task_reason veh_interact::cant_do( char mode )
                 }
             }
             break;
-        case 'w': // assign crew
+
+        case 'w':
+            // assign crew
             if( g->allies().empty() ) {
                 return INVALID_TARGET;
             }
@@ -568,7 +581,8 @@ task_reason veh_interact::cant_do( char mode )
                 return e.is_seat();
             } ) ? CAN_DO : INVALID_TARGET;
 
-        case 'a': // relabel
+        case 'a':
+            // relabel
             valid_target = cpart >= 0;
             has_tools = true;
             break;
@@ -594,7 +608,8 @@ task_reason veh_interact::cant_do( char mode )
     if( !part_free ) {
         return NOT_FREE;
     }
-    if( !has_skill ) { // TODO: that is always false!
+    // TODO: that is always false!
+    if( !has_skill ) {
         return LACK_SKILL;
     }
     return CAN_DO;
@@ -1826,7 +1841,8 @@ bool veh_interact::do_unload( std::string &msg )
     }
 
     act_vehicle_unload_fuel( veh );
-    return true; // force redraw
+    // force redraw
+    return true;
 }
 
 bool veh_interact::do_assign_crew( std::string &msg )
@@ -1862,7 +1878,8 @@ bool veh_interact::do_assign_crew( std::string &msg )
             veh->assign_seat( pt, who );
         }
 
-        return true; // force redraw
+        // force redraw
+        return true;
     };
 
     return overview( sel, act );
@@ -1899,7 +1916,8 @@ bool veh_interact::do_relabel( std::string &msg )
                        .width( 20 )
                        .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    vp.set_label( text ); // empty input removes the label
+    // empty input removes the label
+    vp.set_label( text );
     // refresh w_disp & w_part windows:
     move_cursor( point_zero );
 
@@ -1980,7 +1998,8 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
                 if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
-                    continue;    // only add first shape to install list
+                    // only add first shape to install list
+                    continue;
                 }
                 if( can_potentially_install( vp ) ) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vp );
@@ -2020,37 +2039,46 @@ void veh_interact::display_grid()
 
     // match grid lines
     const int y_mode = getmaxy( w_mode ) + 1;
-    mvwputch( w_border, point( 0, y_mode ), BORDER_COLOR, LINE_XXXO );         // |-
-    mvwputch( w_border, point( TERMX - 1, y_mode ), BORDER_COLOR, LINE_XOXX ); // -|
+    // |-
+    mvwputch( w_border, point( 0, y_mode ), BORDER_COLOR, LINE_XXXO );
+    // -|
+    mvwputch( w_border, point( TERMX - 1, y_mode ), BORDER_COLOR, LINE_XOXX );
     const int y_list = getbegy( w_list ) + getmaxy( w_list );
-    mvwputch( w_border, point( 0, y_list ), BORDER_COLOR, LINE_XXXO );         // |-
-    mvwputch( w_border, point( TERMX - 1, y_list ), BORDER_COLOR, LINE_XOXX ); // -|
+    // |-
+    mvwputch( w_border, point( 0, y_list ), BORDER_COLOR, LINE_XXXO );
+    // -|
+    mvwputch( w_border, point( TERMX - 1, y_list ), BORDER_COLOR, LINE_XOXX );
     wrefresh( w_border );
-    w_border = catacurses::window(); // TODO: move code using w_border into a separate scope
+    // TODO: move code using w_border into a separate scope
+    w_border = catacurses::window();
 
     const int grid_w = getmaxx( w_grid );
 
     // Two lines dividing the three middle sections.
     for( int i = 1 + getmaxy( w_mode ); i < ( 1 + getmaxy( w_mode ) + page_size ); ++i ) {
-        mvwputch( w_grid, point( getmaxx( w_disp ), i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ), i ), BORDER_COLOR,
-                  LINE_XOXO ); // |
+        // |
+        mvwputch( w_grid, point( getmaxx( w_disp ), i ), BORDER_COLOR, LINE_XOXO );
+        // |
+        mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ), i ), BORDER_COLOR, LINE_XOXO );
     }
     // Two lines dividing the vertical menu sections.
     for( int i = 0; i < grid_w; ++i ) {
-        mvwputch( w_grid, point( i, getmaxy( w_mode ) ), BORDER_COLOR, LINE_OXOX ); // -
-        mvwputch( w_grid, point( i, getmaxy( w_mode ) + 1 + page_size ), BORDER_COLOR, LINE_OXOX ); // -
+        // -
+        mvwputch( w_grid, point( i, getmaxy( w_mode ) ), BORDER_COLOR, LINE_OXOX );
+        // -
+        mvwputch( w_grid, point( i, getmaxy( w_mode ) + 1 + page_size ), BORDER_COLOR, LINE_OXOX );
     }
     // Fix up the line intersections.
     mvwputch( w_grid, point( getmaxx( w_disp ), getmaxy( w_mode ) ), BORDER_COLOR, LINE_OXXX );
+    // _|_
     mvwputch( w_grid, point( getmaxx( w_disp ), getmaxy( w_mode ) + 1 + page_size ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
+              LINE_XXOX );
     mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ), getmaxy( w_mode ) ),
-              BORDER_COLOR,
-              LINE_OXXX );
+              BORDER_COLOR, LINE_OXXX );
+    // _|_
     mvwputch( w_grid, point( getmaxx( w_disp ) + 1 + getmaxx( w_list ),
                              getmaxy( w_mode ) + 1 + page_size ),
-              BORDER_COLOR, LINE_XXOX ); // _|_
+              BORDER_COLOR, LINE_XXOX );
 
     wrefresh( w_grid );
 }
@@ -2178,8 +2206,10 @@ void veh_interact::display_stats() const
 {
     werase( w_stats );
 
-    const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2; // see exec()
-    const int slots = 24; // 3 * stats_h
+    // see exec()
+    const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
+    // 3 * stats_h
+    const int slots = 24;
     int x[slots], y[slots], w[slots];
 
     units::volume total_cargo = 0_ml;
@@ -2193,15 +2223,18 @@ void veh_interact::display_stats() const
     const int second_column = 33 + ( extraw / 4 );
     const int third_column = 65 + ( extraw / 2 );
     for( int i = 0; i < slots; i++ ) {
-        if( i < stats_h ) { // First column
+        if( i < stats_h ) {
+            // First column
             x[i] = 1;
             y[i] = i;
             w[i] = second_column - 2;
-        } else if( i < ( 2 * stats_h ) ) { // Second column
+        } else if( i < ( 2 * stats_h ) ) {
+            // Second column
             x[i] = second_column;
             y[i] = i - stats_h;
             w[i] = third_column - second_column - 1;
-        } else { // Third column
+        } else {
+            // Third column
             x[i] = third_column;
             y[i] = i - 2 * stats_h;
             w[i] = extraw - third_column - 2;
@@ -2415,7 +2448,8 @@ void veh_interact::display_mode()
 size_t veh_interact::display_esc( const catacurses::window &win )
 {
     std::string backstr = _( "<ESC>-back" );
-    size_t pos = getmaxx( win ) - utf8_width( backstr ) + 2; // right text align
+    // right text align
+    size_t pos = getmaxx( win ) - utf8_width( backstr ) + 2;
     shortcut_print( win, point( pos, 0 ), c_light_gray, c_light_green, backstr );
     wrefresh( win );
     return pos;
@@ -2452,7 +2486,8 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
 void veh_interact::display_details( const vpart_info *part )
 {
 
-    if( !w_details ) { // create details window first if required
+    // create details window first if required
+    if( !w_details ) {
 
         // covers right part of w_name and w_stats in vertical/hybrid
         const int details_y = getbegy( w_name );
@@ -2484,7 +2519,8 @@ void veh_interact::display_details( const vpart_info *part )
         return;
     }
     int details_w = getmaxx( w_details );
-    int column_width = details_w / 2; // displays data in two columns
+    // displays data in two columns
+    int column_width = details_w / 2;
     int col_1 = 2;
     int col_2 = col_1 + column_width;
     int line = 0;

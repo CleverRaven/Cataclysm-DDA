@@ -98,18 +98,21 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             }
         }
         if( you.has_trait( trait_BURROW ) ) {
             item burrowing_item( itype_id( "fake_burrowing" ) );
             you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            you.defer_move( dest_loc ); // don't move into the tile until done mining
+            // don't move into the tile until done mining
+            you.defer_move( dest_loc );
             return true;
         }
     }
@@ -328,7 +331,8 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
 
-    if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
+    // Dive into water!
+    if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
         if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
@@ -799,7 +803,8 @@ bool avatar_action::fire( avatar &you, map &m )
         g->reenter_fullscreen();
         return false;
     }
-    g->draw_ter(); // Recenter our view
+    // Recenter our view
+    g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
 

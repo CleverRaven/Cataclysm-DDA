@@ -84,7 +84,8 @@ void timed_event::actualize()
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
-            if( !one_in( 25 ) ) { // They just keep coming!
+            // They just keep coming!
+            if( !one_in( 25 ) ) {
                 g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS,
                                      calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
@@ -113,7 +114,8 @@ void timed_event::actualize()
                                 monp.y = fault_point->y + n;
                             }
                         }
-                    } else { // Vertical fault
+                    } else {
+                        // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
                             if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
@@ -190,7 +192,8 @@ void timed_event::actualize()
                 }
             }
             if( !flooded ) {
-                return;    // We finished flooding the entire chamber!
+                // We finished flooding the entire chamber!
+                return;
             }
             // Check if we should print a message
             if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.pos() ) ) {
@@ -199,7 +202,8 @@ void timed_event::actualize()
                     g->memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
                         pgettext( "memorial_female", "Water level reached knees." ) );
-                } else { // Must be deep water!
+                } else {
+                    // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
                     g->memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
@@ -227,7 +231,8 @@ void timed_event::actualize()
         break;
 
         default:
-            break; // Nothing happens for other events
+            // Nothing happens for other events
+            break;
     }
 }
 
@@ -239,7 +244,8 @@ void timed_event::per_turn()
             if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = g->m.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
-                    return; // We're safely indoors!
+                    // We're safely indoors!
+                    return;
                 }
                 g->place_critter_at( mon_eyebot, tripoint( place, g->u.posz() ) );
                 if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
@@ -270,7 +276,8 @@ void timed_event::per_turn()
             break;
 
         default:
-            break; // Nothing happens for other events
+            // Nothing happens for other events
+            break;
     }
 }
 

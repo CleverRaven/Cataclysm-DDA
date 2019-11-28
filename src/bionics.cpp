@@ -356,7 +356,8 @@ bool player::activate_bionic( int b, bool eff_only )
         const w_point weatherPoint = *g->weather.weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                            g->is_sheltered( g->u.pos() ) );
-        int water_available = lround( humidity * 3.0 / 100.0 ); // thirst units = 5 mL
+        // thirst units = 5 mL
+        int water_available = lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
             bio.powered = false;
             add_msg_if_player( m_bad, _( "Your %s does not have sufficient humidity to function." ),
@@ -382,7 +383,8 @@ bool player::activate_bionic( int b, bool eff_only )
                        "bio_resonator" );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
-            g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
+            // Multibash effect, so that doors &c will fall
+            g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 );
         }
 
@@ -647,7 +649,8 @@ bool player::activate_bionic( int b, bool eff_only )
         // Calculate local wind power
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+            // vehicle velocity in mph
+            vehwindspeed = abs( vp->vehicle().velocity / 100 );
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
@@ -833,7 +836,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
     bool success = Character::deactivate_bionic( b, eff_only );
     // Compatibility with old saves without the toolset hammerspace
     if( success && !eff_only && bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
-        add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+        // E X T E N D    T O O L S
+        add_bionic( bionic_TOOLS_EXTEND );
     }
     return success;
 }
@@ -911,7 +915,8 @@ bool Character::burn_fuel( int b, bool start )
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = g->m.veh_at( pos() );
                             if( vp ) {
-                                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+                                // vehicle velocity in mph
+                                vehwindspeed = abs( vp->vehicle().velocity / 100 );
                             }
                             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -977,7 +982,8 @@ void Character::passive_power_gen( int b )
             int vehwindspeed = 0;
             const optional_vpart_position vp = g->m.veh_at( pos() );
             if( vp ) {
-                vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+                // vehicle velocity in mph
+                vehwindspeed = abs( vp->vehicle().velocity / 100 );
             }
             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1261,7 +1267,8 @@ void Character::process_bionic( int b )
             const w_point weatherPoint = *g->weather.weather_precise;
             int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                g->is_sheltered( g->u.pos() ) );
-            int water_available = lround( humidity * 3.0 / 100.0 ); // in thirst units = 5 mL water
+            // in thirst units = 5 mL water
+            int water_available = lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {
@@ -1284,7 +1291,8 @@ void Character::process_bionic( int b )
                                bionics[bio.id].name );
             deactivate_bionic( b );
         }
-    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) {
+        // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
@@ -1437,7 +1445,8 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
                                         cbm->bionic->difficulty * 2 * weight;
 
     std::vector<const item *> b_filter = crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( "ANESTHESIA" ); // legacy
+        // legacy
+        return it.has_flag( "ANESTHESIA" );
     } );
 
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
@@ -1726,7 +1735,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
-    if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
+    // don't stack up the effect
+    if( !installer.has_effect( effect_operating ) ) {
         installer.add_effect( effect_operating, duration + 5_turns );
     }
 
@@ -2028,7 +2038,8 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                     return !has_bionic( id );
                 } );
 
-                if( valid.empty() ) { // We've got all the bad bionics!
+                // We've got all the bad bionics!
+                if( valid.empty() ) {
                     if( has_max_power() ) {
                         units::energy old_power = get_max_power_level();
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );

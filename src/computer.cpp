@@ -391,8 +391,10 @@ void computer::activate_function( computer_action action )
     g->u.moves -= 30;
     switch( action ) {
 
-        case COMPACT_NULL: // Unknown action.
-        case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
+        case COMPACT_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_ACTIONS:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         // OPEN_DISARM falls through to just OPEN
@@ -687,7 +689,8 @@ void computer::activate_function( computer_action action )
         }
         break;
 
-        case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        case COMPACT_MISS_DISARM:
+            // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
                 g->events().send<event_type::disarms_nuke>();
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
@@ -1318,8 +1321,10 @@ void computer::activate_failure( computer_failure_type fail )
     bool found_tile = false;
     switch( fail ) {
 
-        case COMPFAIL_NULL: // Unknown action.
-        case NUM_COMPUTER_FAILURES: // Suppress compiler warning [-Wswitch]
+        case COMPFAIL_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_FAILURES:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         case COMPFAIL_SHUTDOWN:
