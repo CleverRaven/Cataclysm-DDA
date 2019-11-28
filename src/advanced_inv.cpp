@@ -330,11 +330,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     // Default name length
     int max_name_length = amt_startpos - name_startpos - 1;
 
-    //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
-    // Header length type 1
+    //~ Items list header (length type 1). Table fields length without spaces: amt - 4, weight - 5, vol - 4.
     const int table_hdr_len1 = utf8_width( _( "amt weight vol" ) );
-    //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
-    // Header length type 2
+    //~ Items list header (length type 2). Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
     const int table_hdr_len2 = utf8_width( _( "src amt weight vol" ) );
 
     mvwprintz( window, point( compact ? 1 : 4, 5 ), c_light_gray, _( "Name (charges)" ) );
