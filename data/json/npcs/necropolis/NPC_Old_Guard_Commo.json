@@ -19,8 +19,8 @@
       "yes": "Marshal, I'm rather surprised to see you here.",
       "no": {
         "u_male": true,
-        "yes": "Sir you are not authorized to be here... you should leave.",
-        "no": "Ma'am you are not authorized to be here... you should leave."
+        "yes": "Sir you are not authorized to be here… you should leave.",
+        "no": "Ma'am you are not authorized to be here… you should leave."
       }
     },
     "responses": [
@@ -61,7 +61,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_COMMO_GOAL",
-    "dynamic_line": "We are securing the external communications array for this facility.  I'm rather restricted in what I can release... go find my commander if you have any questions.",
+    "dynamic_line": "We are securing the external communications array for this facility.  I'm rather restricted in what I can release… go find my commander if you have any questions.",
     "responses": [ { "text": "I'll try and find your commander then…", "topic": "TALK_NONE" } ]
   },
   {

@@ -122,13 +122,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_2",
-    "dynamic_line": "Doing my best to keep going in the face of... everything.  Not getting far.",
+    "dynamic_line": "Doing my best to keep going in the face of… everything.  Not getting far.",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Background",
-    "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our... with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then... everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back... not enough.",
+    "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our… with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then… everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back… not enough.",
     "responses": [
       { "text": "You lost someone…", "topic": "TALK_REFUGEE_Garry_Background_loss" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -138,7 +138,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Background_loss",
-    "dynamic_line": "Yes.  My wife, Linda... thrown from the bus.  She didn't make it.  And... and my nephew, Ash, Boris and Stan's son.  We got him here, but there wasn't anything we could do.  Internal injuries.",
+    "dynamic_line": "Yes.  My wife, Linda… thrown from the bus.  She didn't make it.  And… and my nephew, Ash, Boris and Stan's son.  We got him here, but there wasn't anything we could do.  Internal injuries.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
