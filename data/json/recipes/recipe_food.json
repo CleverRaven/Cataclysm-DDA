@@ -5511,12 +5511,7 @@
     "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
-      [
-        [ "meat", 1 ],
-        [ "mutant_meat", 1 ],
-        [ "human_meat", 1, "LIST" ],
-        [ "rehydrated_meat", 1 ]
-      ],
+      [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_meat", 1, "LIST" ], [ "rehydrated_meat", 1 ] ],
       [ [ "slime_scrap", 2 ] ],
       [ [ "water", 1 ] ]
     ]
@@ -7525,10 +7520,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "batch_time_factors": [ 80, 2 ],
-    "components": [
-      [ [ "fiddlehead_raw", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "broth", 1 ], [ "broth_bone", 1 ] ]
-    ]
+    "components": [ [ [ "fiddlehead_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ], [ "broth", 1 ], [ "broth_bone", 1 ] ] ]
   },
   {
     "type": "recipe",
