@@ -168,10 +168,15 @@ struct bionic {
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 
+        void set_auto_start_thresh( float val );
+        float get_auto_start_thresh() const;
+        bool is_auto_start_on() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
         cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
+        float auto_start_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not
