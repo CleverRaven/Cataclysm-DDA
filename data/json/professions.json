@@ -778,7 +778,7 @@
     "type": "profession",
     "ident": "captive",
     "name": { "male": "Captive", "female": "Captive" },
-    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place... Are you even on earth anymore?",
+    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place… Are you even on earth anymore?",
     "points": -2,
     "flags": [ "SCEN_ONLY" ]
   },
@@ -936,7 +936,7 @@
     "type": "profession",
     "ident": "survivalist",
     "name": "Survivalist",
-    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need...  except your canteen's run out!",
+    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need…  except your canteen's run out!",
     "points": 3,
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1064,7 +1064,7 @@
     "type": "profession",
     "ident": "crazy_cat_lady",
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
-    "description": "Everyone is dead?  Well, it doesn't matter... your cats are all the friends you need!",
+    "description": "Everyone is dead?  Well, it doesn't matter… your cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
     "pets": [ { "name": "mon_cat", "amount": 30 } ],
@@ -1526,7 +1526,7 @@
     "type": "profession",
     "ident": "svictim",
     "name": "Shower Victim",
-    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
     "points": -1,
     "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
