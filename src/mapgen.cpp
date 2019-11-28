@@ -6396,21 +6396,14 @@ void map::apply_faction_ownership( const point &p1, const point &p2,
     }
 }
 
+// A chance of 100 indicates that items should always spawn,
+// the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items( const items_location &loc, const int chance,
-                                      const tripoint &f,
-                                      const tripoint &t, const bool ongrass, const time_point &turn,
+                                      const tripoint &p1,
+                                      const tripoint &p2, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
     // TODO: implement for 3D
-    return place_items( loc, chance, f.xy(), t.xy(), ongrass, turn, magazine, ammo );
-}
-
-// A chance of 100 indicates that items should always spawn,
-// the item group should be responsible for determining the amount of items.
-std::vector<item *> map::place_items( const items_location &loc, int chance, const point &p1,
-                                      const point &p2, bool ongrass, const time_point &turn,
-                                      int magazine, int ammo )
-{
     std::vector<item *> res;
 
     if( chance > 100 || chance <= 0 ) {
@@ -7491,11 +7484,6 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
             m->ter_set( door_point, t_door_c );
         }
     }
-}
-
-void map::create_anomaly( const point &cp, artifact_natural_property prop )
-{
-    create_anomaly( tripoint( cp, abs_sub.z ), prop );
 }
 
 void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble )
