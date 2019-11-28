@@ -3551,6 +3551,13 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam = 0;
         }
+    } else if( terrain == t_thconc_floor_olight ) {
+        if( one_in( 3 ) ) {
+            break_glass( p, 16 );
+            ter_set( p, t_thconc_floor );
+            spawn_item( p, "glass_shard", rng( 8, 16 ) );
+            dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
+        }
     } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
