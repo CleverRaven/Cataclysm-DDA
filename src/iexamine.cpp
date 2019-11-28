@@ -4667,7 +4667,7 @@ static void mill_activate( player &p, const tripoint &examp )
         add_msg( _( "This mill is empty.  Fill it with starchy products such as wheat, barley or oats and try again." ) );
         return;
     }
-    // TODO : currently mill just uses sm_rack defined max volume
+    // TODO: currently mill just uses sm_rack defined max volume
     if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
         add_msg( _( "This mill is overloaded with products, and the millstone can't turn.  Remove some and try again." ) );
         add_msg( pgettext( "volume units", "You think that you can load about %s %s in it." ),

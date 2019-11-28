@@ -899,7 +899,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                // TODO : smarter NPC liquid handling
+                // TODO: smarter NPC liquid handling
                 if( p.is_npc() ) {
                     drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
                 } else {

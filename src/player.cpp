@@ -868,7 +868,7 @@ int player::swim_speed() const
     if( is_mounted() ) {
         monster *mon = mounted_creature.get();
         // no difference in swim speed by monster type yet.
-        // TODO : difference in swim speed by monster type.
+        // TODO: difference in swim speed by monster type.
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
