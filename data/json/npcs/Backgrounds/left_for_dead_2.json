@@ -2,7 +2,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was home with the flu when the world went to shit, and when I recovered enough to make a run to the store for groceries...  Well, I've been running ever since.",
+    "dynamic_line": "I was home with the flu when the world went to shit, and when I recovered enough to make a run to the store for groceries…  Well, I've been running ever since.",
     "responses": [
       { "text": "Come on, don't leave me hanging.", "topic": "BGSS_LEFT_FOR_DEAD_2_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
