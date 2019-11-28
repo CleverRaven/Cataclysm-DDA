@@ -433,44 +433,64 @@ Further extradimensional factions not only could exist, but probably should.
 #### The Mycus
 
 
-**Description**
+**Description**  
 The Mycus loves you, and it just wants to be together forever.
 
 If the Blob is a mugger in an alley that hits you over the head and takes your stuff, the Mycus is a creepy guy with a candy van that tries to tempt you over to it.
 
-**Goals**
+**Goals**  
 The Mycus' goals are actually rather similar to the Blob. It wants our world and our people to become part of it. Its mind, however, seems to be more suited to understanding the individual, at least somewhat. If it can't make you part of it the easy way - by filling your body with spores and using you as soil - it will try to make you part of it another way. Have you tried this fruit? It's delicious, and provides all the nutrients you need to live. Try another, go ahead. We can make all you need. Don't you want to come with us now?
 
 Didn't the fruit work? Hm. Perhaps we'll need to try something else. I know we can find a way to be together.
 
-**For Survivors**
+**For Survivors**  
 It's dangerous and tempting to think the Mycus can be reasoned with. As interactions with NPCs become increasingly complicated it is likely the Mycus can play a big role there. It's the sort of intelligence that would send a sleeper agent into your base and try to put spores into the water. It's the sort of entity that is really tempting to build cults around. After all, if you join us, we will provide for you.
 
-**Notes**: 
+**Notes**:   
 Philosophically speaking... is joining the Mycus all that bad? I guess it depends how much you value individuality. One could see the Blob and the Mycus representing opposite ends of a transhuman spectrum. The Blob is cold and uncaring, but offers freedom. You can use it to become anything you can imagine. The Mycus will help you, but you must give yourself up to it completely.
 
 Also you must like mushrooms a lot.
 
 #### "The Blob", XE-037
 
-**Discovery**:
+**Discovery**:  
 See [the Background document](./lore-background.md) for full details.
 
-**General Description**:
+**General Description**:  
 The Blob is a dispersed intelligence vastly greater than anything conceivable to a human mind. To it, we are as significant as individual cells of a body. Human researchers obtained samples of the Blob. While XEDRA experimented on it, it passively observed them and then decided Earth was a worthwhile location to add to its dispersed body. So, with less effort than a human takes to scratch its ear, the Blob rolled into our world and made us part of it.
 
-**What does it want**?
+**What does it want**?  
 The Blob is vast. It cannot be communicated with nor reasoned with. The most we could possible manage would be to annoy it enough that it would reach out and slap us, and that would be that. Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever. It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
 
-**Quest options**
+**Quest options**  
 With the Blob itself, there really aren't any. You can't convince Azathoth to go away and leave us alone, it's not a thing. Zombies cannot be cured; their brains are mush, they are dead. Perhaps sufficient purifier could clear your own XE-037 infestation for a while, but unless you plan to drink treated water the rest of your life, it's going to come back, and what have you really accomplished? Survivors' best hope is to get the Blob to leave them alone, which is mostly wants to do anyway.
 
-**Ubiquitous, reanimatory, mutagenic**
+**Ubiquitous, reanimatory, mutagenic**  
 See [Effects of Blob Infection](#effects-of-blob-infection) for more information.
 
 The groundwater is infected with XE-037. Every creature on Earth is contaminated. In larger mammals, this contamination allows XE-037 to reanimate us after we die, becoming zombies. In insects, it causes mutation to larger forms.
 
 The XE-037 contaminating all living things is not the Blob, any more than a transistor is a computer processor. This basic Blob biomatter can be coerced into causing mutations in infected targets (i.e. anyone), using mutagen.
+
+### Other Alien Forces
+
+#### Mi-Go
+
+**Discovery**  
+The mi-go have been known to humans, and vice versa, for some time.  At least a few specimens have been captured from crashed ships.  See [the Background document](./lore-background.md) for some details.
+
+**General Description**  
+Mi-go are extraterrestrial, and possibly extradimensional, aliens.  They have a few different subtypes, which may represent castes or subspecies or simply professions.  All of them parrot speech, and seem to be able to parrot shared experiences, but this is not completely universal.  It is assumed they either have a hive mind, or access to some sort of shared network consciousness.
+
+**Goals on Cataclysmic Earth**  
+Before the Cataclysm, mi-go occasionally swung by Earth to observe its inhabitants.  Now, with our governments fallen and our planet on the precipice of complete extinction, they are here to salvage what they can of use.  To them, this means capturing as much of our remaining biodiversity in the form of slaves and samples to be shipped off-world for study.  Some samples will be disassembled for easy transport, but some live specimens will be sent back whole.
+
+**Mi-go Culture, Technology, and Opinions on Humans**  
+Most of this should remain strictly behind the scenes. Mi-go have an advanced spacefaring and dimension crossing culture focused on rigidly engineered biotechnology.  They consider technology that is constructed, rather than grown, to be something of a religious anathema and are strongly opposed to it.  Despite this, the mi-go would not consider themselves overtly hostile to humanity as a whole; to them, most humans have been perfectly reasonable to the mi-go and vice versa.  To the mi-go, cutting up a captured specimen to see how it works is the species equivalent of a cautious handshake, and they would take no offence.  What would bother them heavily is a knowledge of how mi-go biology has been used to design compact bionic modules, but it is unlikely they have an intimate understanding of the specifics of this.
+
+Mi-go technology is inscrutable to humans.  The very principles of their devices are wholly alien and do not make any sense to us.  It is likely they feel similarly about our stuff, if they even had a mind to study it - which they largely don't, seeing our metal trinkets as disgusting garbage. 
+
+Mi-go are immune to the effects of the blob and mycus, but even collectively they do not operate on as high an order of power as these vast interdimensional entities.
 
 
 # Gameplay
