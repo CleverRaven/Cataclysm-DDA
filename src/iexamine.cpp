@@ -560,11 +560,12 @@ void iexamine::vending( player &p, const tripoint &examp )
     auto vend_items = g->m.i_at( examp );
 
     if( vend_items.empty() ) {
-        add_msg( m_info, _( "The vending machine is empty!" ) );
+        add_msg( m_info, _( "The vending machine is empty." ) );
         return;
-    } else if( !money ) {
-        popup( _( "You need a charged cash card to purchase things!" ) );
-        return;
+    }
+
+    if( !money ) {
+        popup( _( "You need some money on a cash card to buy things." ) );
     }
 
     const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
@@ -674,7 +675,7 @@ void iexamine::vending( player &p, const tripoint &examp )
             const int iprice = cur_item->price( false );
 
             if( iprice > money ) {
-                popup( _( "That item is too expensive!" ) );
+                popup( _( "You can't afford that item." ) );
                 continue;
             }
 
@@ -695,7 +696,7 @@ void iexamine::vending( player &p, const tripoint &examp )
 
             item_list.erase( std::begin( item_list ) + cur_pos );
             if( item_list.empty() ) {
-                add_msg( _( "With a beep, the empty vending machine shuts down" ) );
+                add_msg( _( "With a beep, the empty vending machine shuts down." ) );
                 return;
             } else if( cur_pos == num_items - 1 ) {
                 cur_pos--;
