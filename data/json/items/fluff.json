@@ -15,19 +15,19 @@
     "use_action": "MAGIC_8_BALL"
   },
   {
-   "id": "deck_of_cards",
-   "type": "GENERIC",
-   "category": "other",
-   "name": "deck of cards",
-   "description": "A deck of 52 cards.",
-   "weight": "50 g",
-   "volume": "100 ml",
-   "price": 2000,
-   "material": "paper",
-   "symbol": ",",
-   "color": "red",
-   "flags": [ "NO_REPAIR" ],
-   "use_action": "SOLITAIRE"
+    "id": "deck_of_cards",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "deck of cards",
+    "description": "A deck of 52 cards.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": ",",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": "SOLITAIRE"
   },
   {
     "id": "coin_quarter",
