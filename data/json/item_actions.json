@@ -606,6 +606,11 @@
   },
   {
     "type": "item_action",
+    "id": "SOLITAIRE",
+    "name": "Play"
+  },
+  {
+    "type": "item_action",
     "id": "MARLOSS",
     "name": "Consume"
   },

@@ -9715,6 +9715,16 @@ int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::solitaire( player *p, item *it, bool, const tripoint & )
+{
+    if( query_yn( _( "Play a game of the solitaire with the cards?" ) ) ) {
+        p->add_msg_if_player( _( "You lay the cards out and start playing." ) );
+        p->assign_activity( activity_id( "ACT_SOLITAIRE" ), to_moves<int>( 1_hours ), -1,
+                            p->get_item_position( it ), "gaming" );
+    }
+    return 0;
+}
+
 int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 {
     enum {
