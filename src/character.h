@@ -1472,7 +1472,12 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
-
+        bool get_check_encumbrance() {
+            return check_encumbrance;
+        }
+        void set_check_encumbrance( bool new_check ) {
+            check_encumbrance = new_check;
+        }
         /** Ticks down morale counters and removes them */
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */

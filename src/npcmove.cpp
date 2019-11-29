@@ -357,10 +357,13 @@ void npc::assess_danger()
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     // Radius we can attack without moving
-    const int max_range = std::max( weapon.reach_range( *this ),
-                                    confident_shoot_range( weapon,
-                                            get_most_accurate_sight( weapon ) ) );
-
+    int max_range;
+    if( confident_range_cache ) {
+        max_range = *confident_range_cache;
+    } else {
+        invalidate_range_cache();
+        max_range = *confident_range_cache;
+    }
     const auto ok_by_rules = [max_range, def_radius, this]( const Creature & c, int dist,
     int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
@@ -415,7 +418,7 @@ void npc::assess_danger()
     // find our Character friends and enemies
     std::vector<std::weak_ptr<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this || !guy.is_active() ) {
+        if( &guy == this ) {
             continue;
         }
 
@@ -693,7 +696,8 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name, target_name, ai_cache.danger, confident_shoot_range( weapon, recoil_total() ) );
+             name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
+                     recoil_total() ) : weapon.reach_range( *this ) );
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
@@ -1402,68 +1406,6 @@ npc_action npc::method_of_attack()
     return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
 }
 
-bool npc::need_heal( const player &n )
-{
-    // if there are no healing items, there's nothing to do
-    if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
-           ai_cache.can_heal.infect ) ) {
-        return false;
-    }
-    // NPCs heal at 50% remaining HP, minus their bravery and skill in first aid
-    // brave NPCs are less worried, skilled NPCs conserve bandages
-    int threshold = 50 + personality.bravery - get_skill_level( skill_firstaid );
-    // altruist NPCs hold off on healing themselves and heal allies earlier
-    if( n.getID() == getID() ) {
-        threshold -= personality.altruism;
-    } else {
-        threshold += personality.altruism;
-    }
-
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part part = static_cast<hp_part>( i );
-        const body_part bp_wounded = hp_to_bp( part );
-
-        if( ai_cache.can_heal.bleed && n.has_effect( effect_bleed, bp_wounded ) ) {
-            ai_cache.can_heal.clear_all();
-            ai_cache.can_heal.bleed = true;
-            return true;
-        }
-
-        // NPCs don't reapply bandages
-        if( ai_cache.can_heal.bandage && !n.has_effect( effect_bandaged, bp_wounded ) ) {
-            int part_threshold = threshold;
-            if( part == hp_head ) {
-                part_threshold += 20;
-            } else if( part == hp_torso ) {
-                part_threshold += 10;
-            }
-            part_threshold = std::min( 80, part_threshold );
-            part_threshold = part_threshold * n.hp_max[i] / 100;
-
-            if( n.hp_cur[i] <= part_threshold ) {
-                ai_cache.can_heal.clear_all();
-                ai_cache.can_heal.bandage = true;
-                return true;
-            }
-        }
-
-        if( ai_cache.can_heal.bite && n.has_effect( effect_bite, bp_wounded ) ) {
-            ai_cache.can_heal.clear_all();
-            ai_cache.can_heal.bite = true;
-            return true;
-
-        }
-
-        if( ai_cache.can_heal.infect && n.has_effect( effect_infected, bp_wounded ) ) {
-            ai_cache.can_heal.clear_all();
-            ai_cache.can_heal.infect = true;
-            return true;
-        }
-    }
-
-    return false;
-}
-
 npc_action npc::address_needs()
 {
     return address_needs( ai_cache.danger );
@@ -1753,46 +1695,107 @@ bool npc::recharge_cbm()
     return false;
 }
 
+healing_options npc::patient_assessment( const Character &c )
+{
+    healing_options try_to_fix;
+    try_to_fix.clear_all();
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const hp_part part = static_cast<hp_part>( i );
+        const body_part bp_wounded = hp_to_bp( part );
+
+        if( c.has_effect( effect_bleed, bp_wounded ) ) {
+            try_to_fix.bleed = true;
+            return try_to_fix;
+        }
+
+        if( c.has_effect( effect_bite, bp_wounded ) ) {
+            try_to_fix.bite = true;
+            return try_to_fix;
+
+        }
+        // NPCs don't reapply bandages
+        if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
+            int part_threshold = 75;
+            if( part == hp_head ) {
+                part_threshold += 20;
+            } else if( part == hp_torso ) {
+                part_threshold += 10;
+            }
+            part_threshold = std::min( 80, part_threshold );
+            part_threshold = part_threshold * c.hp_max[i] / 100;
+
+            if( c.hp_cur[i] <= part_threshold ) {
+                try_to_fix.bandage = true;
+                return try_to_fix;
+            }
+        }
+
+        if( c.has_effect( effect_infected, bp_wounded ) ) {
+            try_to_fix.infect = true;
+            return try_to_fix;
+        }
+    }
+
+    return try_to_fix;
+}
+
 npc_action npc::address_needs( float danger )
 {
-    ai_cache.can_heal = has_healing_options();
-
-    if( need_heal( *this ) ) {
-        if( !use_bionic_by_id( bio_nanobots ) ) {
-            return npc_heal;
+    // rng because NPCs are not meant to be hypervigilant hawks that notice everything
+    // and swing into action with alarming alacrity.
+    // no sometimes they are just looking the other way, sometimes they hestitate.
+    // ( also we can get huge performance boosts )
+    if( one_in( 3 ) ) {
+        healing_options try_to_fix_me = patient_assessment( *this );
+        if( try_to_fix_me.any_true() ) {
+            if( !use_bionic_by_id( bio_nanobots ) ) {
+                ai_cache.can_heal = has_healing_options();
+                if( ai_cache.can_heal.any_true() ) {
+                    return npc_heal;
+                }
+            }
+        } else {
+            deactivate_bionic_by_id( bio_nanobots );
         }
-    } else {
-        deactivate_bionic_by_id( bio_nanobots );
+        if( get_skill_level( skill_firstaid ) > 0 ) {
+            if( is_player_ally() ) {
+                healing_options try_to_fix_other = patient_assessment( g->u );
+                if( try_to_fix_other.any_true() ) {
+                    ai_cache.can_heal = has_healing_options();
+                    if( ai_cache.can_heal.any_true() ) {
+                        ai_cache.ally = g->shared_from( g->u );
+                        return npc_heal_player;
+                    }
+                }
+            }
+            for( const npc &guy : g->all_npcs() ) {
+                if( &guy == this || !guy.is_ally( *this ) || guy.posz() != posz() || !sees( guy ) ) {
+                    continue;
+                }
+                healing_options try_to_fix_other = patient_assessment( guy );
+                if( try_to_fix_other.any_true() ) {
+                    ai_cache.can_heal = has_healing_options();
+                    if( ai_cache.can_heal.any_true() ) {
+                        ai_cache.ally = g->shared_from( guy );
+                        return npc_heal_player;
+                    }
+                }
+            }
+        }
     }
 
-    if( get_perceived_pain() >= 15 ) {
-        if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
-            return npc_use_painkiller;
-        }
-    } else {
-        deactivate_bionic_by_id( bio_nanobots );
-    }
-
-    // If there are no healing items, there's nothing to do
-    if( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
-        ai_cache.can_heal.infect ) {
-        if( is_player_ally() && need_heal( g->u ) ) {
-            ai_cache.ally = g->shared_from( g->u );
-            return npc_heal_player;
-        }
-
-        const std::vector<npc *> hurt_allies = g->get_npcs_if( [&]( const npc & guy ) {
-            return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
-                   need_heal( guy ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2 && sees( guy.pos() );
-        } );
-
-        for( npc *guy : hurt_allies ) {
-            ai_cache.ally = g->shared_from( *guy );
-            return npc_heal_player;
+    if( one_in( 3 ) ) {
+        if( get_perceived_pain() >= 15 ) {
+            if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
+                return npc_use_painkiller;
+            }
+        } else {
+            deactivate_bionic_by_id( bio_painkiller );
         }
     }
 
-    if( can_reload_current() ) {
+    if( one_in( 3 ) && can_reload_current() ) {
         return npc_reload;
     }
 
@@ -1813,7 +1816,7 @@ npc_action npc::address_needs( float danger )
         }
     }
     //Does the hallucination needs to disappear ?
-    if( g->u.sees( *this ) && is_hallucination() ) {
+    if( is_hallucination() && g->u.sees( *this ) ) {
         if( !g->u.has_effect( effect_hallu ) ) {
             die( nullptr );
         }
@@ -1823,8 +1826,8 @@ npc_action npc::address_needs( float danger )
         return npc_undecided;
     }
 
-    if( get_thirst() > 40 ||
-        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) {
+    if( one_in( 3 ) && ( get_thirst() > 40 ||
+                         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
         }
@@ -1833,18 +1836,18 @@ npc_action npc::address_needs( float danger )
         }
     }
 
-    if( wants_to_recharge_cbm() && recharge_cbm() ) {
+    if( one_in( 3 ) && wants_to_recharge_cbm() && recharge_cbm() ) {
         return npc_noop;
     }
 
-    if( find_corpse_to_pulp() ) {
+    if( one_in( 2 ) && find_corpse_to_pulp() ) {
         if( !do_pulp() ) {
             move_to_next();
         }
         return npc_noop;
     }
 
-    if( adjust_worn() ) {
+    if( one_in( 3 ) && adjust_worn() ) {
         return npc_noop;
     }
 
@@ -1860,7 +1863,7 @@ npc_action npc::address_needs( float danger )
         return false;
     };
     // TODO: More risky attempts at sleep when exhausted
-    if( could_sleep() ) {
+    if( one_in( 3 ) && could_sleep() ) {
         if( !is_player_ally() ) {
             set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
@@ -1985,6 +1988,12 @@ double npc::confidence_mult() const
 int npc::confident_shoot_range( const item &it, int recoil ) const
 {
     int res = 0;
+    if( !it.is_gun() ) {
+        return res;
+    }
+    if( confident_range_cache ) {
+        return *confident_range_cache;
+    }
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
@@ -2002,7 +2011,6 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
-
     add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
              max_dispersion );
     return std::max<int>( confident_range, 1 );
@@ -4373,6 +4381,17 @@ void npc::do_reload( const item &it )
 
 bool npc::adjust_worn()
 {
+    bool any_broken = false;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+            any_broken = true;
+            break;
+        }
+    }
+
+    if( !any_broken ) {
+        return false;
+    }
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {

@@ -1027,8 +1027,6 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
-
-    check_item_encumbrance_flag();
 }
 
 void Character::recalc_hp()

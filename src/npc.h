@@ -505,6 +505,8 @@ struct healing_options {
     bool infect;
     void clear_all();
     void set_all();
+    bool any_true();
+    bool all_false();
 };
 
 // Data relevant only for this action
@@ -530,7 +532,6 @@ struct npc_short_term_cache {
     // Use weak_ptr to avoid circular references between Creatures
     std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
-
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
@@ -916,6 +917,7 @@ class npc : public player
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
+        healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
         item &get_healing_item( healing_options try_to_fix, bool first_best = false );
@@ -953,7 +955,6 @@ class npc : public player
         float danger_assessment();
         // Our guess at how much damage we can deal
         float average_damage_dealt();
-        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;
@@ -1064,6 +1065,7 @@ class npc : public player
         int confident_shoot_range( const item &it, int at_recoil ) const;
         int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
+        void invalidate_range_cache();
         bool wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
         /** Can reload currently wielded gun? */
@@ -1299,6 +1301,7 @@ class npc : public player
         bool hit_by_player;
         bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
+        cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
 

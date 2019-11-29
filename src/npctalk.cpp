@@ -2158,6 +2158,7 @@ void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
         auto rule = combat_engagement_strs.find( setting );
         if( rule != combat_engagement_strs.end() ) {
             d.beta->rules.engagement = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }
@@ -2168,6 +2169,7 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
         auto rule = aim_rule_strs.find( setting );
         if( rule != aim_rule_strs.end() ) {
             d.beta->rules.aim = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }

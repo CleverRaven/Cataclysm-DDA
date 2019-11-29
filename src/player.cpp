@@ -521,11 +521,11 @@ void player::process_turn()
     if( activity.targets.empty() ) {
         drop_invalid_inventory();
     }
-
+    process_items();
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
+    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
     }
 
@@ -536,45 +536,48 @@ void player::process_turn()
     } );
 
     suffer();
+    // NPCs curently dont make any use of their scent, pointless to calculate it
+    // TODO: make use of NPC scent.
+    if( !is_npc() ) {
+        // Set our scent towards the norm
+        int norm_scent = 500;
+        if( has_trait( trait_WEAKSCENT ) ) {
+            norm_scent = 300;
+        }
+        if( has_trait( trait_SMELLY ) ) {
+            norm_scent = 800;
+        }
+        if( has_trait( trait_SMELLY2 ) ) {
+            norm_scent = 1200;
+        }
+        // Not so much that you don't have a scent
+        // but that you smell like a plant, rather than
+        // a human. When was the last time you saw a critter
+        // attack a bluebell or an apple tree?
+        if( has_trait( trait_FLOWERS ) && !has_trait( trait_CHLOROMORPH ) ) {
+            norm_scent -= 200;
+        }
+        // You *are* a plant.  Unless someone hunts triffids by scent,
+        // you don't smell like prey.
+        if( has_trait( trait_CHLOROMORPH ) ) {
+            norm_scent = 0;
+        }
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    if( has_trait( trait_WEAKSCENT ) ) {
-        norm_scent = 300;
-    }
-    if( has_trait( trait_SMELLY ) ) {
-        norm_scent = 800;
-    }
-    if( has_trait( trait_SMELLY2 ) ) {
-        norm_scent = 1200;
-    }
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if( ( has_trait( trait_FLOWERS ) ) && ( !( has_trait( trait_CHLOROMORPH ) ) ) ) {
-        norm_scent -= 200;
-    }
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait( trait_CHLOROMORPH ) ) {
-        norm_scent = 0;
-    }
+        // Scent increases fast at first, and slows down as it approaches normal levels.
+        // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+        // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+        if( scent < rng( 0, norm_scent ) ) {
+            scent++;
+        }
 
-    // Scent increases fast at first, and slows down as it approaches normal levels.
-    // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
-    // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if( scent < rng( 0, norm_scent ) ) {
-        scent++;
-    }
+        // Unusually high scent decreases steadily until it reaches normal levels.
+        if( scent > norm_scent ) {
+            scent--;
+        }
 
-    // Unusually high scent decreases steadily until it reaches normal levels.
-    if( scent > norm_scent ) {
-        scent--;
-    }
-
-    for( const trait_id &mut : get_mutations() ) {
-        scent *= mut.obj().scent_modifier;
+        for( const trait_id &mut : get_mutations() ) {
+            scent *= mut.obj().scent_modifier;
+        }
     }
 
     // We can dodge again! Assuming we can actually move...
@@ -600,7 +603,8 @@ void player::process_turn()
     }
 
     // Update time spent conscious in this overmap tile for the Nomad traits.
-    if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
+    if( !is_npc() && ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ||
+                       has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint ompos = global_omt_location();
         const point pos = ompos.xy();
@@ -611,7 +615,7 @@ void player::process_turn()
         }
     }
     // Decay time spent in other overmap tiles.
-    if( calendar::once_every( 1_hours ) ) {
+    if( !is_npc() && calendar::once_every( 1_hours ) ) {
         const tripoint ompos = global_omt_location();
         const time_point now = calendar::turn;
         time_duration decay_time = 0_days;
@@ -2324,7 +2328,9 @@ void player::update_body()
 
 void player::update_body( const time_point &from, const time_point &to )
 {
-    update_stamina( to_turns<int>( to - from ) );
+    if( !is_npc() ) {
+        update_stamina( to_turns<int>( to - from ) );
+    }
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
@@ -3378,7 +3384,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
     morale->on_worn_item_transform( old_it, new_it );
 }
 
-void player::process_active_items()
+void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = item();
@@ -3402,23 +3408,6 @@ void player::process_active_items()
     std::vector<item *> active_worn_items;
     bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
                          weapon.charges < weapon.type->maximum_charges();
-    // Manual iteration because we only care about *worn* active items.
-    for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
-        }
-        if( !w.active ) {
-            continue;
-        }
-        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-            cloak = &w;
-        }
-        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && w.is_power_armor() ) {
-            power_armor = &w;
-        }
-    }
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -3433,14 +3422,33 @@ void player::process_active_items()
             active_held_items.push_back( index );
         }
     }
-    // Necessary for UPS in Aftershock - check worn items for charge
-    for( const item &it : worn ) {
-        itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
-            ch_UPS += it.ammo_remaining() / 0.6;
+    bool update_required = get_check_encumbrance();
+    for( item &w : worn ) {
+        if( w.has_flag( "USE_UPS" ) &&
+            w.charges < w.type->maximum_charges() ) {
+            active_worn_items.push_back( &w );
         }
+        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
+            cloak = &w;
+        }
+        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+        if( power_armor == nullptr && w.is_power_armor() ) {
+            power_armor = &w;
+        }
+        // Necessary for UPS in Aftershock - check worn items for charge
+        const itype_id &identifier = w.typeId();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += w.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += w.ammo_remaining() / 0.6;
+        }
+        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+            update_required = true;
+        }
+        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+    }
+    if( update_required ) {
+        reset_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
@@ -4096,26 +4104,28 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
-        if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
-            add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
-                               base.tname() );
+        if( !is_npc() ) {
+            if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+                add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
+                                   base.tname() );
 
-        } else if( ammo_match_found ) {
-            add_msg_if_player( m_info, _( "Nothing to reload!" ) );
-        } else {
-            std::string name;
-            if( base.ammo_data() ) {
-                name = base.ammo_data()->nname( 1 );
-            } else if( base.is_watertight_container() ) {
-                name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+            } else if( ammo_match_found ) {
+                add_msg_if_player( m_info, _( "Nothing to reload!" ) );
             } else {
-                name = enumerate_as_string( base.ammo_types().begin(),
-                base.ammo_types().end(), []( const ammotype & at ) {
-                    return at->name();
-                }, enumeration_conjunction::none );
+                std::string name;
+                if( base.ammo_data() ) {
+                    name = base.ammo_data()->nname( 1 );
+                } else if( base.is_watertight_container() ) {
+                    name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+                } else {
+                    name = enumerate_as_string( base.ammo_types().begin(),
+                    base.ammo_types().end(), []( const ammotype & at ) {
+                        return at->name();
+                    }, enumeration_conjunction::none );
+                }
+                add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
+                                   name, base.tname() );
             }
-            add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
-                               name, base.tname() );
         }
         return item::reload_option();
     }

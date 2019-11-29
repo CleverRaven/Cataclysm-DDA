@@ -932,7 +932,7 @@ class player : public Character
         float power_rating() const override;
         float speed_rating() const override;
 
-        void process_active_items();
+        void process_items();
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
