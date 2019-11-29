@@ -200,6 +200,11 @@ How the monster behaves on death. See JSON_FLAGS.md for a list of possible funct
 
 Number of hitpoints regenerated per turn.
 
+## "regenerates_in_dark"
+(boolean, optional)
+
+Monster regenerates very quickly in poorly lit tiles.
+
 ## "special_attack"
 (array of special attack definitions, optional)
 

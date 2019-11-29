@@ -918,18 +918,8 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
-    "flags": [
-      "NOHEAD",
-      "HARDTOSHOOT",
-      "WEBWALK",
-      "FLIES",
-      "PLASTIC",
-      "ELECTRIC",
-      "ACIDPROOF",
-      "SUNDEATH",
-      "REGENERATES_IN_DARK",
-      "NO_BREATHE"
-    ]
+    "regenerates_in_dark": true,
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
   {
     "id": "mon_dementia",
