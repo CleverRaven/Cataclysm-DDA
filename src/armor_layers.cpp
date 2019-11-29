@@ -532,11 +532,13 @@ void player::sort_armor()
 
         // Create ptr list of items to display
         tmp_worn.clear();
-        if( tabindex == num_bp ) { // All
+        if( tabindex == num_bp ) {
+            // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 tmp_worn.push_back( it );
             }
-        } else { // bp_*
+        } else {
+            // bp_*
             body_part bp = static_cast<body_part>( tabindex );
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 if( it->covers( bp ) ) {

@@ -989,7 +989,7 @@ void talk_function::set_npc_pickup( npc &p )
 void talk_function::npc_die( npc &p )
 {
     p.die( nullptr );
-    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
     if( guy && !guy->is_dead() ) {
         guy->marked_for_death = true;
     }

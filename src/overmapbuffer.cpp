@@ -992,7 +992,7 @@ tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &
     return find_random( origin, params );
 }
 
-std::shared_ptr<npc> overmapbuffer::find_npc( character_id id )
+shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
 {
     for( auto &it : overmaps ) {
         if( auto p = it.second->find_npc( id ) ) {
@@ -1012,7 +1012,7 @@ cata::optional<basecamp *> overmapbuffer::find_camp( const point &p )
     return cata::nullopt;
 }
 
-void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
+void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
     assert( who );
     const tripoint npc_omt_pos = who->global_omt_location();
@@ -1020,7 +1020,7 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
     get( npc_om_pos ).insert_npc( who );
 }
 
-std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id &id )
+shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
         if( const auto p = it.second->erase_npc( id ) ) {
@@ -1031,7 +1031,7 @@ std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id &id )
     return nullptr;
 }
 
-std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_player( int radius )
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
     tripoint plpos = g->u.global_omt_location();
     // get_npcs_near needs submap coordinates
@@ -1078,9 +1078,9 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p, 0 ), radius );
 }
 
-std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs()
 {
-    std::vector<std::shared_ptr<npc>> available;
+    std::vector<shared_ptr_fast<npc>> available;
     // TODO: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
@@ -1091,9 +1091,10 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 }
 
 // If z == INT_MIN, allow all z-levels
-std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( const tripoint &p, int radius )
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint &p,
+                               int radius )
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( auto &it : get_overmaps_near( p, radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
@@ -1109,10 +1110,10 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near( const tripoint &
 }
 
 // If z == INT_MIN, allow all z-levels
-std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( const tripoint &p,
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_omt( const tripoint &p,
                                int radius )
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( p.xy() ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
@@ -1191,9 +1192,9 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint &locat
     return result;
 }
 
-std::vector<std::shared_ptr<npc>> overmapbuffer::get_overmap_npcs()
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs()
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( auto &om : overmaps ) {
         const overmap &overmap = *om.second;
         for( auto &guy : overmap.npcs ) {
@@ -1332,7 +1333,8 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
-        monster *const placed = g->place_critter_at( std::make_shared<monster>( this_monster ), local );
+        monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
+                                local );
         if( placed ) {
             placed->on_load();
         }

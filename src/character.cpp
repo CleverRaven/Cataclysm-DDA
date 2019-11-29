@@ -546,7 +546,7 @@ player_activity Character::get_destination_activity() const
 void Character::mount_creature( monster &z )
 {
     tripoint pnt = z.pos();
-    std::shared_ptr<monster> mons = g->shared_from( z );
+    shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
@@ -1027,8 +1027,6 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
-
-    check_item_encumbrance_flag();
 }
 
 void Character::recalc_hp()
@@ -6107,8 +6105,10 @@ void Character::heal( body_part healed, int dam )
 {
     hp_part healpart;
     switch( healed ) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
+        case bp_eyes:
+        // Fall through to head damage
+        case bp_mouth:
+        // Fall through to head damage
         case bp_head:
             healpart = hp_head;
             break;

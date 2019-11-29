@@ -6700,7 +6700,7 @@
     "type": "recipe",
     "result": "drink_martini",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
+    "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "5 m",

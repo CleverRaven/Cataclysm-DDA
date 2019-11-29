@@ -428,14 +428,14 @@ static void load_region_terrain_and_furniture_settings( JsonObject &jo,
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
-    if( ! jo.read( "id", new_region.id ) ) {
+    if( !jo.read( "id", new_region.id ) ) {
         jo.throw_error( "No 'id' field." );
     }
     bool strict = new_region.id == "default";
-    if( ! jo.read( "default_oter", new_region.default_oter ) && strict ) {
+    if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
     }
-    if( ! jo.read( "river_scale", new_region.river_scale ) && strict ) {
+    if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
         jo.throw_error( "river_scale required for default" );
     }
     if( jo.has_array( "default_groundcover" ) ) {
@@ -452,18 +452,18 @@ void load_region_settings( JsonObject &jo )
         jo.throw_error( "Weighted list 'default_groundcover' required for 'default'" );
     }
 
-    if( ! jo.has_object( "field_coverage" ) ) {
+    if( !jo.has_object( "field_coverage" ) ) {
         if( strict ) {
             jo.throw_error( "\"field_coverage\": { … } required for default" );
         }
     } else {
         JsonObject pjo = jo.get_object( "field_coverage" );
         double tmpval = 0.0f;
-        if( ! pjo.read( "percent_coverage", tmpval ) ) {
+        if( !pjo.read( "percent_coverage", tmpval ) ) {
             pjo.throw_error( "field_coverage: percent_coverage required" );
         }
         new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-        if( ! pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
+        if( !pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
             pjo.throw_error( "field_coverage: default_ter required" );
         }
         tmpval = 0.0f;
@@ -481,11 +481,11 @@ void load_region_settings( JsonObject &jo )
         }
         if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
             new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-            if( ! pjo.read( "boosted_percent_coverage", tmpval ) ) {
+            if( !pjo.read( "boosted_percent_coverage", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
             }
             new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-            if( ! pjo.read( "boosted_other_percent", tmpval ) ) {
+            if( !pjo.read( "boosted_other_percent", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
             }
             new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
@@ -510,7 +510,7 @@ void load_region_settings( JsonObject &jo )
 
     load_forest_trail_settings( jo, new_region.forest_trail, strict, false );
 
-    if( ! jo.has_object( "map_extras" ) ) {
+    if( !jo.has_object( "map_extras" ) ) {
         if( strict ) {
             jo.throw_error( "\"map_extras\": { … } required for default" );
         }
@@ -523,11 +523,11 @@ void load_region_settings( JsonObject &jo )
                 JsonObject zjo = pjo.get_object( zone );
                 map_extras extras( 0 );
 
-                if( ! zjo.read( "chance", extras.chance ) && strict ) {
+                if( !zjo.read( "chance", extras.chance ) && strict ) {
                     zjo.throw_error( "chance required for default" );
                 }
 
-                if( ! zjo.has_object( "extras" ) ) {
+                if( !zjo.has_object( "extras" ) ) {
                     if( strict ) {
                         zjo.throw_error( "\"extras\": { … } required for default" );
                     }
@@ -547,25 +547,25 @@ void load_region_settings( JsonObject &jo )
         }
     }
 
-    if( ! jo.has_object( "city" ) ) {
+    if( !jo.has_object( "city" ) ) {
         if( strict ) {
             jo.throw_error( "\"city\": { … } required for default" );
         }
     } else {
         JsonObject cjo = jo.get_object( "city" );
-        if( ! cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
+        if( !cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
         if( !cjo.read( "shop_sigma", new_region.city_spec.shop_sigma ) && strict ) {
             jo.throw_error( "city: shop_sigma required for default" );
         }
-        if( ! cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
+        if( !cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
             jo.throw_error( "city: park_radius required for default" );
         }
         if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
             jo.throw_error( "city: park_sigma required for default" );
         }
-        if( ! cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
+        if( !cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
             jo.throw_error( "city: house_basement_chance required for default" );
         }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
@@ -590,7 +590,7 @@ void load_region_settings( JsonObject &jo )
         load_building_types( "parks", new_region.city_spec.parks );
     }
 
-    if( ! jo.has_object( "weather" ) ) {
+    if( !jo.has_object( "weather" ) ) {
         if( strict ) {
             jo.throw_error( "\"weather\": { … } required for default" );
         }

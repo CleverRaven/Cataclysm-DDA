@@ -1348,6 +1348,9 @@ class item : public visitable<item>
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const std::string &flag );
 
+        /** Idempotent filter recursively setting an item specific flag on this item and its components. */
+        item &set_flag_recursive( const std::string &flag );
+
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/

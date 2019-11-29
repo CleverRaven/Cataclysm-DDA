@@ -306,13 +306,15 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
                 return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
-            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::music:
+            // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
             case sounds::sound_t::combat:
                 return false;
-            case sounds::sound_t::speech: // radios also produce speech sound
+            case sounds::sound_t::speech:
+            // radios also produce speech sound
             case sounds::sound_t::alarm:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
