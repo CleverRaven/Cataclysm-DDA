@@ -714,7 +714,7 @@ std::string monster::extended_description() const
     };
 
     using property_description = std::pair<bool, std::string>;
-    const auto describe_properties = [this, &ss](
+    const auto describe_properties = [&ss](
                                          const std::string & format,
                                          const std::vector<property_description> &property_names,
     const std::string &if_empty = "" ) {
