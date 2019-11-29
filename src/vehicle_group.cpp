@@ -134,14 +134,14 @@ VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
 void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) const
 {
     for( auto i = number.get(); i > 0; i-- ) {
-        if( ! location ) {
+        if( !location ) {
             const size_t replace = placement.find( "%t" );
             const VehicleLocation *loc = vplacement_id( replace != std::string::npos ?
                                          placement.substr( 0, replace ) + terrain_name +
                                          placement.substr( replace + 2 ) :
                                          placement ).obj().pick();
 
-            if( ! loc ) {
+            if( !loc ) {
                 debugmsg( "vehiclefunction_json: unable to get location to place vehicle." );
                 return;
             }
@@ -223,7 +223,7 @@ static void builtin_no_vehicles( map &, const std::string & )
 static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
-    if( ! loc ) {
+    if( !loc ) {
         debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle.  placement %s_semi",
                   terrainid );
         return;
@@ -258,7 +258,7 @@ static void builtin_pileup( map &m, const std::string &, const std::string &vg )
 
     for( int i = 0; i < num_cars; i++ ) {
         const VehicleLocation *loc = vplacement_id( "pileup" ).obj().pick();
-        if( ! loc ) {
+        if( !loc ) {
             debugmsg( "builtin_pileup unable to get location to place vehicle." );
             return;
         }

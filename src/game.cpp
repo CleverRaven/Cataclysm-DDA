@@ -11447,7 +11447,8 @@ void game::process_artifact( item &it, player &p )
                 p.mod_per_bonus( +2 );
                 p.mod_int_bonus( +2 );
                 break;
-            case AEP_SPEED_UP: // Handled in player::current_speed()
+            case AEP_SPEED_UP:
+                // Handled in player::current_speed()
                 break;
 
             case AEP_PBLUE:

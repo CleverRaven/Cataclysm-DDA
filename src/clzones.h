@@ -147,7 +147,8 @@ class plot_options : public zone_options, public mark_option
 class blueprint_options : public zone_options, public mark_option
 {
     private:
-        std::string mark; // furn/ter id as string.
+        // furn/ter id as string.
+        std::string mark;
         std::string con;
         int index;
 
@@ -193,7 +194,8 @@ class blueprint_options : public zone_options, public mark_option
 class loot_options : public zone_options, public mark_option
 {
     private:
-        std::string mark; // basic item filter.
+        // basic item filter.
+        std::string mark;
 
         enum query_loot_result {
             canceled,
@@ -271,8 +273,10 @@ class zone_data
             }
         }
 
-        bool set_name(); // returns true if name is changed
-        bool set_type(); // returns true if type is changed
+        // returns true if name is changed
+        bool set_name();
+        // returns true if type is changed
+        bool set_type();
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
         void set_enabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );

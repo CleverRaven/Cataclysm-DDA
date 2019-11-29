@@ -265,7 +265,8 @@ plot_options::query_seed_result plot_options::query_seed()
         } else {
             return successful;
         }
-    } else if( seed_index == 0 ) { // No seeds
+    } else if( seed_index == 0 ) {
+        // No seeds
         if( !seed.empty() || !mark.empty() ) {
             seed.clear();
             mark.clear();
@@ -801,7 +802,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const bool preserves = it.is_food_container() && it.type->container->preserves;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
-        if( it_food.is_food() ) { // skip food without comestible, like MREs
+        // skip food without comestible, like MREs
+        if( it_food.is_food() ) {
             if( it_food.get_comestible()->comesttype == "DRINK" ) {
                 if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );

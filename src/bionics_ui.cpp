@@ -33,7 +33,8 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const int ch )
 {
-    if( ch == ' ' ) {  // space is a special case for unassigned
+    // space is a special case for unassigned
+    if( ch == ' ' ) {
         return nullptr;
     }
 
@@ -184,11 +185,15 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     int width = getmaxx( win );
     int height = getmaxy( win );
     for( int i = 0; i < height - 1; ++i ) {
-        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+        // |
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO );
+        // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
     }
-    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
+    // |-
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO );
+    // -|
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
     wrefresh( win );
 }
@@ -279,19 +284,33 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // define and draw a proper intersection character
-    int bionic_chr = LINE_OXOX; // '-'                // 001
-    if( move_up && !move_down && !move_same ) {        // 100
-        bionic_chr = LINE_XOOX;  // '_|'
-    } else if( move_up && move_down && !move_same ) {  // 110
-        bionic_chr = LINE_XOXX;  // '-|'
-    } else if( move_up && move_down && move_same ) {   // 111
-        bionic_chr = LINE_XXXX;  // '-|-'
-    } else if( move_up && !move_down && move_same ) {  // 101
-        bionic_chr = LINE_XXOX;  // '_|_'
-    } else if( !move_up && move_down && !move_same ) { // 010
-        bionic_chr = LINE_OOXX;  // '^|'
-    } else if( !move_up && move_down && move_same ) {  // 011
-        bionic_chr = LINE_OXXX;  // '^|^'
+    // 001
+    // '-'
+    int bionic_chr = LINE_OXOX;
+    if( move_up && !move_down && !move_same ) {
+        // 100
+        // '_|'
+        bionic_chr = LINE_XOOX;
+    } else if( move_up && move_down && !move_same ) {
+        // 110
+        // '-|'
+        bionic_chr = LINE_XOXX;
+    } else if( move_up && move_down && move_same ) {
+        // 111
+        // '-|-'
+        bionic_chr = LINE_XXXX;
+    } else if( move_up && !move_down && move_same ) {
+        // 101
+        // '_|_'
+        bionic_chr = LINE_XXOX;
+    } else if( !move_up && move_down && !move_same ) {
+        // 010
+        // '^|'
+        bionic_chr = LINE_OOXX;
+    } else if( !move_up && move_down && move_same ) {
+        // 011
+        // '^|^'
+        bionic_chr = LINE_OXXX;
     }
     mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
 }
@@ -630,7 +649,8 @@ void player::power_bionics()
             }
         } else if( action == "REASSIGN" ) {
             menu_mode = REASSIGNING;
-        } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
+        } else if( action == "TOGGLE_EXAMINE" ) {
+            // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
             redraw = true;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
@@ -735,7 +755,8 @@ void player::power_bionics()
                            bio_data.name, tmp->invlet );
                     redraw = true;
                 }
-            } else if( menu_mode == EXAMINING ) { // Describing bionics, allow user to jump to description key
+            } else if( menu_mode == EXAMINING ) {
+                // Describing bionics, allow user to jump to description key
                 redraw = true;
                 if( action != "CONFIRM" ) {
                     for( size_t i = 0; i < active.size(); i++ ) {

@@ -175,7 +175,8 @@ struct bionic {
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
-        cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
+        // generic bionic specific flags
+        cata::flat_set<std::string> bionic_tags;
         float auto_start_threshold = -1.0;
 };
 
@@ -191,7 +192,8 @@ std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 void check_bionics();
 void finalize_bionics();
 void reset_bionics();
-void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
+// load a bionic from JSON
+void load_bionic( JsonObject &jsobj );
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

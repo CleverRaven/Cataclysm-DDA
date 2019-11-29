@@ -11,7 +11,8 @@ class Character;
 
 enum add_type : int;
 
-constexpr int MIN_ADDICTION_LEVEL = 3; // Minimum intensity before effects are seen
+// Minimum intensity before effects are seen
+constexpr int MIN_ADDICTION_LEVEL = 3;
 constexpr int MAX_ADDICTION_LEVEL = 20;
 
 // cancel_activity is called when the addiction effect wants to interrupt the player

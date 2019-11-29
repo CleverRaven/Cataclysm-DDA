@@ -868,7 +868,7 @@ int player::swim_speed() const
     if( is_mounted() ) {
         monster *mon = mounted_creature.get();
         // no difference in swim speed by monster type yet.
-        // TODO : difference in swim speed by monster type.
+        // TODO: difference in swim speed by monster type.
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
@@ -1833,20 +1833,25 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             break;
         case bp_torso:
             break;
-        case bp_hand_l: // Fall through to arms
+        case bp_hand_l:
+        // Fall through to arms
         case bp_arm_l:
         // Hit to arms/hands are really bad to our aim
-        case bp_hand_r: // Fall through to arms
+        case bp_hand_r:
+        // Fall through to arms
         case bp_arm_r:
             recoil_mul = 200;
             break;
-        case bp_foot_l: // Fall through to legs
+        case bp_foot_l:
+        // Fall through to legs
         case bp_leg_l:
             break;
-        case bp_foot_r: // Fall through to legs
+        case bp_foot_r:
+        // Fall through to legs
         case bp_leg_r:
             break;
-        case bp_mouth: // Fall through to head damage
+        case bp_mouth:
+        // Fall through to head damage
         case bp_head:
             // TODO: Some daze maybe? Move drain?
             break;
@@ -6780,7 +6785,8 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
                 return A_NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
-            case MATT_ZLAVE: // Don't want to harm your zlave!
+            case MATT_ZLAVE:
+                // Don't want to harm your zlave!
                 return A_FRIENDLY;
             case MATT_ATTACK:
                 return A_HOSTILE;

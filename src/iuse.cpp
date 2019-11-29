@@ -4372,7 +4372,8 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
-            default: //Cancel
+            default:
+                //Cancel
                 return 0;
         }
 
@@ -5425,10 +5426,12 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
-            case AEA_SPLIT: // TODO: Add something
+            case AEA_SPLIT:
+                // TODO: Add something
                 break;
 
-            case AEA_NULL: // BUG
+            case AEA_NULL:
+            // BUG
             case NUM_AEAS:
             default:
                 debugmsg( "iuse::artifact(): wrong artifact type (%d)", used );

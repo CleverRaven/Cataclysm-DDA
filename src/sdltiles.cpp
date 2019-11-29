@@ -2921,7 +2921,8 @@ static void CheckMessages()
             case SDL_JOYBUTTONDOWN:
                 last_input = input_event( ev.jbutton.button, CATA_INPUT_KEYBOARD );
                 break;
-            case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
+            case SDL_JOYAXISMOTION:
+                // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
                 break;
             case SDL_MOUSEMOTION:

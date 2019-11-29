@@ -2830,7 +2830,7 @@ void basecamp::search_results( int skill, const Group_tag &group_id, int attempt
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             auto result = item_group::item_from( group_id, calendar::turn );
-            if( ! result.is_null() ) {
+            if( !result.is_null() ) {
                 place_results( result );
             }
         }
@@ -2882,7 +2882,7 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
         if( skill > rng( 0, difficulty ) ) {
             const mtype_id *target = hunting_targets.pick();
             auto result = item::make_corpse( *target, calendar::turn, "" );
-            if( ! result.is_null() ) {
+            if( !result.is_null() ) {
                 place_results( result );
             }
         }

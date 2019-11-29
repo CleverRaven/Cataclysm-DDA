@@ -202,7 +202,8 @@ bool turret_data::can_reload() const
         return false;
     }
     if( !part->base.magazine_integral() ) {
-        return true; // always allow changing of magazines
+        // always allow changing of magazines
+        return true;
     }
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }

@@ -6107,8 +6107,10 @@ void Character::heal( body_part healed, int dam )
 {
     hp_part healpart;
     switch( healed ) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
+        case bp_eyes:
+        // Fall through to head damage
+        case bp_mouth:
+        // Fall through to head damage
         case bp_head:
             healpart = hp_head;
             break;
