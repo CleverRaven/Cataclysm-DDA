@@ -336,7 +336,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         // Requires confirmation if we were on dry land previously
         if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
+            if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
