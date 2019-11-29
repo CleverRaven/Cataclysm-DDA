@@ -2602,19 +2602,8 @@
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
     "regenerates": 50,
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "SWIMS",
-      "PLASTIC",
-      "SLUDGEPROOF",
-      "ACID_BLOOD",
-      "ACIDPROOF",
-      "NOHEAD",
-      "ABSORBS_SPLITS",
-      "REGEN_MORALE",
-      "NOGIB"
-    ]
+    "regen_morale": true,
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {
     "id": "mon_skeleton",

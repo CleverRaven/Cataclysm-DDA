@@ -129,7 +129,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
-        case MF_REGENMORALE: return "REGEN_MORALE";
         case MF_CBM_POWER: return "CBM_POWER";
         case MF_CBM_SCI: return "CBM_SCI";
         case MF_CBM_OP: return "CBM_OP";
@@ -667,6 +666,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "regenerates", regenerates, 0 );
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
+    optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );

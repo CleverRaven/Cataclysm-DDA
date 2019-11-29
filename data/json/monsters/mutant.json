@@ -41,7 +41,8 @@
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "regenerates": 1,
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2", "REGEN_MORALE" ]
+    "regen_morale": true,
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_mutant_evolved",
@@ -77,6 +78,7 @@
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
+    "regen_morale": true,
     "flags": [
       "SEES",
       "HEARS",
@@ -88,8 +90,7 @@
       "BASHES",
       "PATH_AVOID_DANGER_2",
       "PUSH_MON",
-      "PUSH_VEH",
-      "REGEN_MORALE"
+      "PUSH_VEH"
     ]
   }
 ]

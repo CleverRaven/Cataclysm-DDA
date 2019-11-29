@@ -129,7 +129,6 @@ enum m_flag : int {
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
     MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
-    MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
@@ -253,6 +252,8 @@ struct mtype {
         int regenerates = 0;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
+        // Will stop fleeing if at max hp, and regen anger and morale.
+        bool regen_morale = false;
 
         // mountable ratio for rider weight vs. mount weight, default 0.2
         float mountable_weight_ratio = 0.2;

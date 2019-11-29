@@ -1548,18 +1548,8 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "regenerates": 10,
-    "flags": [
-      "ATTACKMON",
-      "BLEED",
-      "BORES",
-      "CAN_DIG",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
-      "REGEN_MORALE",
-      "SMELLS",
-      "WARM"
-    ],
+    "regen_morale": true,
+    "flags": [ "ATTACKMON", "BLEED", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
     "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
   {

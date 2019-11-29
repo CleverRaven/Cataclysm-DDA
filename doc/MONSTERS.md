@@ -205,6 +205,11 @@ Number of hitpoints regenerated per turn.
 
 Monster regenerates very quickly in poorly lit tiles.
 
+## "regen_morale"
+(boolean, optional)
+
+Will stop fleeing if at max hp, and regen anger and morale.
+
 ## "special_attack"
 (array of special attack definitions, optional)
 
