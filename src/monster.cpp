@@ -713,6 +713,22 @@ std::string monster::extended_description() const
         }
     };
 
+    using property_description = std::pair<bool, std::string>;
+    const auto describe_properties = [this, &ss](
+                                         const std::string & format,
+                                         const std::vector<property_description> &property_names,
+    const std::string &if_empty = "" ) {
+        std::string property_descriptions = enumerate_as_string( property_names.begin(),
+        property_names.end(), []( const property_description & pd ) {
+            return pd.first ? pd.second : "";
+        } );
+        if( !property_descriptions.empty() ) {
+            ss << string_format( format, property_descriptions ) << std::endl;
+        } else if( !if_empty.empty() ) {
+            ss << if_empty << std::endl;
+        }
+    };
+
     describe_flags( _( "It has the following senses: %s." ), {
         {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
         {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
