@@ -1107,26 +1107,39 @@ void iexamine::pit_covered( player &p, const tripoint &examp )
  */
 void iexamine::slot_machine( player &p, const tripoint & )
 {
-    if( p.cash < 1000 ) {
-        add_msg( m_info, _( "You need $10 to play." ) );
-    } else if( query_yn( _( "Insert $10?" ) ) ) {
-        do {
-            if( one_in( 5 ) ) {
-                popup( _( "Three cherries… you get your money back!" ) );
-            } else if( one_in( 20 ) ) {
-                popup( _( "Three bells… you win $50!" ) );
-                p.cash += 4000; // Minus the $10 we wagered
-            } else if( one_in( 50 ) ) {
-                popup( _( "Three stars… you win $200!" ) );
-                p.cash += 19000;
-            } else if( one_in( 1000 ) ) {
-                popup( _( "JACKPOT!  You win $3000!" ) );
-                p.cash += 299000;
-            } else {
-                popup( _( "No win." ) );
-                p.cash -= 1000;
-            }
-        } while( p.cash >= 1000 && query_yn( _( "Play again?" ) ) );
+    const int price = 10;
+    auto cents = []( int x ) {
+        return x * 100;
+    };
+    bool played = false;
+    while( true ) {
+        if( p.cash < cents( price ) ) {
+            add_msg( m_info, _( "You need $%d to play." ), price );
+            break;
+        }
+        if( !query_yn( _( played ? "Play again for $%d?" : "Insert $%d?" ), price ) ) {
+            break;
+        }
+        p.cash -= cents( price );
+        played = true;
+        int won;
+        if( one_in( 5 ) ) {
+            won = price;
+            popup( _( "Three cherries… you get your money back!" ) );
+        } else if( one_in( 20 ) ) {
+            won = 50;
+            popup( _( "Three bells… you win $%d!" ), won );
+        } else if( one_in( 50 ) ) {
+            won = 200;
+            popup( _( "Three stars… you win $%d!" ), won );
+        } else if( one_in( 1000 ) ) {
+            won = 3000;
+            popup( _( "JACKPOT!  You win $%d!" ), won );
+        } else {
+            won = 0;
+            popup( _( "No win." ) );
+        }
+        p.cash += cents( won );
     }
 }
 
