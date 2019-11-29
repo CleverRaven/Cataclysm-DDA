@@ -355,6 +355,7 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
+    "coverage": 60,
     "flags": [
       "TRANSPARENT",
       "NOITEM",
