@@ -1758,7 +1758,8 @@ bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
     return common_check_bounds( place.x, place.y, mapgensize, jso );
 }
 
-void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece )
+void jmapgen_objects::add( const jmapgen_place &place,
+                           shared_ptr_fast<const jmapgen_piece> piece )
 {
     objects.emplace_back( place, piece );
 }
@@ -1773,7 +1774,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
         where.offset( m_offset );
 
         if( check_bounds( where, jsi ) ) {
-            add( where, std::make_shared<PieceType>( jsi ) );
+            add( where, make_shared_fast<PieceType>( jsi ) );
         } else {
             jsi.allow_omitted_members();
         }
@@ -1793,7 +1794,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
             continue;
         }
 
-        auto loot = std::make_shared<jmapgen_loot>( jsi );
+        auto loot = make_shared_fast<jmapgen_loot>( jsi );
         auto rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
@@ -1822,7 +1823,7 @@ void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_n
 template<typename PieceType>
 void load_place_mapings( JsonObject jobj, mapgen_palette::placing_map::mapped_type &vect )
 {
-    vect.push_back( std::make_shared<PieceType>( jobj ) );
+    vect.push_back( make_shared_fast<PieceType>( jobj ) );
 }
 
 /*
@@ -1857,7 +1858,7 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key,
 {
     if( pjo.has_string( key ) ) {
         try {
-            vect.push_back( std::make_shared<PieceType>( pjo.get_string( key ) ) );
+            vect.push_back( make_shared_fast<PieceType>( pjo.get_string( key ) ) );
         } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
             pjo.throw_error( err.what(), key );
@@ -1869,7 +1870,7 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key,
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
                 try {
-                    vect.push_back( std::make_shared<PieceType>( jarr.next_string() ) );
+                    vect.push_back( make_shared_fast<PieceType>( jarr.next_string() ) );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
@@ -1892,7 +1893,7 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
     if( !pjo.has_array( key ) ) {
         load_place_mapings_string<PieceType>( pjo, key, vect );
     } else {
-        auto alter = std::make_shared< jmapgen_alternativly<PieceType> >();
+        auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
         JsonArray jarr = pjo.get_array( key );
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
@@ -6380,7 +6381,7 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return character_id(); //Do not generate an npc.
     }
-    std::shared_ptr<npc> temp = std::make_shared<npc>();
+    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
@@ -6710,8 +6711,9 @@ void map::rotate( int turns, const bool setpos_safe )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub, radius );
-    for( const std::shared_ptr<npc> &i : npcs ) {
+    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub,
+                                         radius );
+    for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
         const point local_sq = getlocal( sq ).xy();
@@ -6747,7 +6749,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
             // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-            std::shared_ptr<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
+            shared_ptr_fast<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
             np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
             overmap_buffer.insert_npc( npc_ptr );
         }

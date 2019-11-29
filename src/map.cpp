@@ -7242,7 +7242,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+            monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
             if( placed ) {
                 placed->on_load();
             }
@@ -7286,7 +7286,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             };
 
             const auto place_it = [&]( const tripoint & p ) {
-                monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+                monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
                 if( placed ) {
                     placed->on_load();
                 }

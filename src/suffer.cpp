@@ -511,7 +511,7 @@ void Character::suffer_from_schizophrenia()
     }
     // Follower turns hostile
     if( one_turn_in( 4_hours ) ) {
-        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
         std::string who_gets_angry = name;
         if( !followers.empty() ) {
@@ -571,13 +571,13 @@ void Character::suffer_from_schizophrenia()
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
-        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
 
         std::string i_talk_w;
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( std::weak_ptr<monster> &n : mons ) {
+            for( weak_ptr_fast<monster> &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }

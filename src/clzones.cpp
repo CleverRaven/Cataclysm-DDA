@@ -135,17 +135,17 @@ void zone_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description", desc_, "" );
 }
 
-std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
+shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return std::make_shared<plot_options>();
+        return make_shared_fast<plot_options>();
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
-        return std::make_shared<blueprint_options>();
+        return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
-        return std::make_shared<loot_options>();
+        return make_shared_fast<loot_options>();
     }
 
-    return std::make_shared<zone_options>();
+    return make_shared_fast<zone_options>();
 }
 
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
@@ -909,7 +909,7 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, std::shared_ptr<zone_options> options )
+                        const tripoint &end, shared_ptr_fast<zone_options> options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space

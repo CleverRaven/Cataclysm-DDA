@@ -1011,7 +1011,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
+                shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
@@ -1667,7 +1667,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
-        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
     }

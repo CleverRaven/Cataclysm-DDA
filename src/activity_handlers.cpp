@@ -2977,7 +2977,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         if( p->can_mount( *mon ) ) {
             act->set_to_null();
             guy.revert_after_activity();
-            guy.chosen_mount = std::weak_ptr<monster>();
+            guy.chosen_mount = weak_ptr_fast<monster>();
             p->mount_creature( *mon );
         } else {
             act->set_to_null();
@@ -2985,7 +2985,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             return;
         }
     } else {
-        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock().get()->pos() );
+        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock()->pos() );
         if( route.empty() ) {
             act->set_to_null();
             guy.revert_after_activity();
@@ -4076,7 +4076,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    const std::shared_ptr<monster> z = act->monsters[0].lock();
+    const shared_ptr_fast<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
         p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
@@ -4096,7 +4096,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         return;
     }
 
-    std::shared_ptr<monster> z = act->monsters[0].lock();
+    shared_ptr_fast<monster> z = act->monsters[0].lock();
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {

@@ -416,7 +416,7 @@ void npc::assess_danger()
         def_radius = std::max( 6, max_range );
     }
     // find our Character friends and enemies
-    std::vector<std::weak_ptr<Creature>> hostile_guys;
+    std::vector<weak_ptr_fast<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
             continue;
@@ -471,14 +471,14 @@ void npc::assess_danger()
         // don't ignore monsters that are too close or too close to an ally
         bool is_too_close = dist <= def_radius;
         const auto test_too_close = [critter, def_radius,
-                 &is_too_close]( const std::weak_ptr<Creature> &guy ) {
+                 &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
             // Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
             // friendly NPC when the NPC is riding a creature - I dont know why.
             // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
             // so either one would count as a friendly for this purpose.
             if( guy.lock() ) {
-                is_too_close |= too_close( critter.pos(), guy.lock().get()->pos(), def_radius );
+                is_too_close |= too_close( critter.pos(), guy.lock()->pos(), def_radius );
             }
             return is_too_close;
         };
@@ -518,8 +518,8 @@ void npc::assess_danger()
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
-        for( const std::weak_ptr<Creature> guy : ai_cache.friends ) {
-            is_too_close |= too_close( foe.pos(), guy.lock().get()->pos(), def_radius );
+        for( const weak_ptr_fast<Creature> guy : ai_cache.friends ) {
+            is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
             }
@@ -540,14 +540,14 @@ void npc::assess_danger()
         return foe_threat;
     };
 
-    for( const std::weak_ptr<Creature> &guy : hostile_guys ) {
+    for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
             assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
         }
     }
 
-    for( const std::weak_ptr<Creature> &guy : ai_cache.friends ) {
+    for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
         player *ally = dynamic_cast<player *>( guy.lock().get() );
         if( !( ally && ally->is_npc() ) ) {
             continue;
@@ -640,8 +640,8 @@ void npc::regen_ai_cache()
     }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
-    ai_cache.target = std::shared_ptr<Creature>();
-    ai_cache.ally = std::shared_ptr<Creature>();
+    ai_cache.target = shared_ptr_fast<Creature>();
+    ai_cache.ally = shared_ptr_fast<Creature>();
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
@@ -2049,7 +2049,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     int safe_angle = 30;
 
     for( const auto &fr : ai_cache.friends ) {
-        const std::shared_ptr<Creature> ally_p = fr.lock();
+        const shared_ptr_fast<Creature> ally_p = fr.lock();
         if( !ally_p ) {
             continue;
         }
@@ -2423,7 +2423,7 @@ void npc::avoid_friendly_fire()
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
-        if( std::shared_ptr<Creature> fr_p = fr.lock() ) {
+        if( shared_ptr_fast<Creature> fr_p = fr.lock() ) {
             center += fr_p->pos();
         }
     }
@@ -2669,7 +2669,7 @@ void npc::find_item()
         }
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
-            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
             }

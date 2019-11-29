@@ -910,7 +910,7 @@ int talk_function::combat_score( const std::vector< monster * > &group )
 
 npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 {
-    npc_ptr temp = std::make_shared<npc>();
+    npc_ptr temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
     return temp;

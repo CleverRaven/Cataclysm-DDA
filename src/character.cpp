@@ -546,7 +546,7 @@ player_activity Character::get_destination_activity() const
 void Character::mount_creature( monster &z )
 {
     tripoint pnt = z.pos();
-    std::shared_ptr<monster> mons = g->shared_from( z );
+    shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;

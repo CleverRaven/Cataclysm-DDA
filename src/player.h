@@ -39,6 +39,7 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
+#include "memory_fast.h"
 
 class basecamp;
 class effect;
@@ -1157,7 +1158,7 @@ class player : public Character
         start_location_id start_location;
 
         double recoil = MAX_RECOIL;
-        std::weak_ptr<Creature> last_target;
+        weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
@@ -1343,7 +1344,7 @@ class player : public Character
 
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        std::shared_ptr<targeting_data> tdata;
+        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 

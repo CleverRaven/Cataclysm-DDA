@@ -41,6 +41,7 @@
 #include "weighted_list.h"
 #include "point.h"
 #include "magic_enchantment.h"
+#include "memory_fast.h"
 
 struct pathfinding_settings;
 class item_location;
@@ -1260,7 +1261,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns the intensity of the specified addiction */
         int  addiction_level( add_type type ) const;
 
-        std::shared_ptr<monster> mounted_creature;
+        shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts
         int mounted_creature_id;
         // for vehicle work
