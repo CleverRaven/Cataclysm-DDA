@@ -5,7 +5,6 @@
     "type": "AMMO",
     "name": "rock",
     "count": 1,
-    "ammo_type": "h_projectile",
     "damage": 15,
     "dispersion": 45,
     "effects": [ "RECOVER_10", "BEANBAG" ]

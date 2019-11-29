@@ -1,13 +1,39 @@
 #include "field_type.h"
 
-#include <set>
-
 #include "bodypart.h"
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "int_id.h"
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<game_message_type>( game_message_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case game_message_type::m_good: return "good";
+        case game_message_type::m_bad: return "bad";
+        case game_message_type::m_mixed: return "mixed";
+        case game_message_type::m_warning: return "warning";
+        case game_message_type::m_info: return "info";
+        case game_message_type::m_neutral: return "neutral";
+        case game_message_type::m_debug: return "debug";
+        case game_message_type::m_headshot: return "headshot";
+        case game_message_type::m_critical: return "critical";
+        case game_message_type::m_grazing: return "grazing";
+            // *INDENT-ON*
+        case game_message_type::num_game_message_type:
+            break;
+    }
+    debugmsg( "Invalid game_message_type" );
+    abort();
+}
+
+} // namespace io
 
 namespace
 {
@@ -124,18 +150,33 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
-        optional( jao, was_loaded, "effect_id", intensity_level.field_effect.id,
-                  fallback_intensity_level.field_effect.id );
-        optional( jao, was_loaded, "effect_min_duration", intensity_level.field_effect.min_duration,
-                  fallback_intensity_level.field_effect.min_duration );
-        optional( jao, was_loaded, "effect_max_duration", intensity_level.field_effect.max_duration,
-                  fallback_intensity_level.field_effect.max_duration );
-        optional( jao, was_loaded, "effect_intensity", intensity_level.field_effect.intensity,
-                  fallback_intensity_level.field_effect.intensity );
-        optional( jao, was_loaded, "effect_body_part", intensity_level.field_effect.bp,
-                  fallback_intensity_level.field_effect.bp );
-        optional( jao, was_loaded, "inside_immune", intensity_level.field_effect.inside_immune,
-                  fallback_intensity_level.field_effect.inside_immune );
+        if( jao.has_array( "effects" ) ) {
+            JsonArray jae = jao.get_array( "effects" );
+            for( size_t j = 0; j < jae.size(); ++j ) {
+                JsonObject joe = jae.next_object();
+                field_effect fe;
+                mandatory( joe, was_loaded, "effect_id", fe.id );
+                optional( joe, was_loaded, "min_duration", fe.min_duration );
+                optional( joe, was_loaded, "max_duration", fe.max_duration );
+                optional( joe, was_loaded, "intensity", fe.intensity );
+                optional( joe, was_loaded, "body_part", fe.bp );
+                optional( joe, was_loaded, "is_environmental", fe.is_environmental );
+                optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
+                optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
+                optional( joe, was_loaded, "immune_outside_vehicle", fe.immune_outside_vehicle );
+                optional( joe, was_loaded, "chance_in_vehicle", fe.chance_in_vehicle );
+                optional( joe, was_loaded, "chance_inside_vehicle", fe.chance_inside_vehicle );
+                optional( joe, was_loaded, "chance_outside_vehicle", fe.chance_outside_vehicle );
+                optional( joe, was_loaded, "message", fe.message );
+                optional( joe, was_loaded, "message_npc", fe.message_npc );
+                const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
+                optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
+                intensity_level.field_effects.emplace_back( fe );
+            }
+        } else {
+            // Use effects from previous intensity level
+            intensity_level.field_effects = fallback_intensity_level.field_effects;
+        }
         optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
                   fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );

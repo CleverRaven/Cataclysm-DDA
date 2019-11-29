@@ -77,6 +77,7 @@
 #include "morale_types.h"
 #include "pimpl.h"
 #include "recipe.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
@@ -112,7 +113,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -128,7 +129,7 @@ static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -419,7 +420,7 @@ void Character::load( JsonObject &data )
     data.read( "dex_bonus", dex_bonus );
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
-
+    data.read( "omt_path", omt_path );
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -433,7 +434,7 @@ void Character::load( JsonObject &data )
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
-        bool temp_keep_hands_free;
+        bool temp_keep_hands_free = false;
         data.read( "keep_hands_free", temp_keep_hands_free );
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
@@ -477,6 +478,19 @@ void Character::load( JsonObject &data )
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
+
+    // status
+    temp_cur.fill( 5000 );
+    data.read( "temp_cur", temp_cur );
+
+    temp_conv.fill( 5000 );
+    data.read( "temp_conv", temp_conv );
+
+    frostbite_timer.fill( 0 );
+    data.read( "frostbite_timer", frostbite_timer );
+
+    body_wetness.fill( 0 );
+    data.read( "body_wetness", body_wetness );
 
     //energy
     data.read( "stim", stim );
@@ -655,11 +669,16 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
     json.member( "healed_24h", healed_total );
+
+    // status
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
+    json.member( "body_wetness", body_wetness );
 
     // needs
     json.member( "thirst", thirst );
@@ -671,11 +690,13 @@ void Character::store( JsonOut &json ) const
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
+    json.member( "omt_path", omt_path );
 
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
     json.member( "backlog", backlog );
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
@@ -754,7 +775,6 @@ void player::store( JsonOut &json ) const
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
-    json.member( "body_wetness", body_wetness );
 
     // gender
     json.member( "male", male );
@@ -892,10 +912,6 @@ void player::load( JsonObject &data )
         remove_mutation( trait_MYOPIC );
     }
 
-    if( has_bionic( bionic_id( "bio_solar" ) ) ) {
-        remove_bionic( bionic_id( "bio_solar" ) );
-    }
-
     if( data.has_array( "faction_warnings" ) ) {
         JsonArray warning_arr = data.get_array( "faction_warnings" );
         while( warning_arr.has_more() ) {
@@ -975,11 +991,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "dex_upgrade", abs( dex_upgrade ) );
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
-
-    // "The cold wakes you up."
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
@@ -1081,17 +1092,6 @@ void avatar::load( JsonObject &data )
         }
         g->scen = generic_scenario;
     }
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
-    body_wetness.fill( 0 );
-    data.read( "body_wetness", body_wetness );
 
     data.read( "learned_recipes", *learned_recipes );
     valid_autolearn_skills->clear(); // Invalidates the cache
@@ -2068,7 +2068,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "note", note, 0 );
+    archive.io( "snippet_id", snippet_id, io::default_tag() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2131,6 +2131,9 @@ void item::io( Archive &archive )
                             max_damage() );
     }
 
+    int note = 0;
+    const bool note_read = archive.read( "note", note );
+
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
@@ -2141,6 +2144,10 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
+    }
+
+    if( note_read ) {
+        snippet_id = SNIPPET.migrate_hash_to_id( note );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -2805,8 +2812,9 @@ void mission::deserialize( JsonIn &jsin )
 
     // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
     // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
-    // When loading player 2, there will be a player_id member in master.gsav, but the bool member legacy_no_player_id
-    // will have been saved as true (unless the mission belongs to a player that's been loaded into 0.D)
+    // When loading player 2, there will be a player_id member in SAVE_MASTER (i.e. master.gsav),
+    // but the bool member legacy_no_player_id will have been saved as true
+    // (unless the mission belongs to a player that's been loaded into 0.D)
     // See player::deserialize and mission::set_player_id_legacy_0c
     legacy_no_player_id = !jo.read( "player_id", player_id ) ||
                           jo.get_bool( "legacy_no_player_id", false );

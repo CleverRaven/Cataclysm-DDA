@@ -713,6 +713,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
         d.add_topic( "TALK_STOLE_ITEM" );
     }
+    g->u.dialogue_by_radio = d.by_radio;
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
@@ -1504,7 +1505,8 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
+                 const itype_id &item_type )
 {
     phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
@@ -1957,7 +1959,7 @@ void talk_effect_fun_t::set_u_buy_item( const std::string &item_name, int cost, 
             return;
         }
         if( container_name.empty() ) {
-            item new_item = item( item_name, calendar::turn, 1 );
+            item new_item = item( item_name, calendar::turn );
             if( new_item.count_by_charges() ) {
                 new_item.mod_charges( count - 1 );
                 u.i_add( new_item );
@@ -1993,7 +1995,7 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn, 1 );
+        item old_item = item( item_name, calendar::turn );
         if( u.has_charges( item_name, count ) ) {
             u.use_charges( item_name, count );
         } else if( u.has_amount( item_name, count ) ) {
@@ -2156,6 +2158,7 @@ void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
         auto rule = combat_engagement_strs.find( setting );
         if( rule != combat_engagement_strs.end() ) {
             d.beta->rules.engagement = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }
@@ -2166,6 +2169,7 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
         auto rule = aim_rule_strs.find( setting );
         if( rule != aim_rule_strs.end() ) {
             d.beta->rules.aim = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }
@@ -3076,14 +3080,14 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
                 switch_done |= repeat.response.gen_repeat_response( d, item_id, switch_done );
             }
         }
-        for( const std::string &category_id : repeat.for_category ) {
+        for( const item_category_id &category_id : repeat.for_category ) {
             const bool include_containers = repeat.include_containers;
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().id() == category_id;
+                    return it.get_category().get_id() == category_id;
                 }
-                return it.type && it.type->category && it.type->category->id() == category_id;
+                return it.type && it.type->category_force == category_id;
             } );
             for( const auto &it : items_with ) {
                 switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );

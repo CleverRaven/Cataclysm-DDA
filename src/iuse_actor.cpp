@@ -783,7 +783,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
     if( place_randomly ) {
@@ -2944,7 +2944,6 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
         }
     }
 
-    std::vector<item_comp> comps;
     if( valid_entries.empty() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is not made of any of:" ),
@@ -2979,8 +2978,16 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     }
 
     // Go through all discovered repair items and see if we have any of them available
+    std::vector<item_comp> comps;
     for( const auto &entry : valid_entries ) {
-        const auto component_id = entry.obj().repaired_with();
+        const itype_id &component_id = entry.obj().repaired_with();
+        // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
+        // This checks avoids adding the same component twice, which is annoying to the user.
+        if( std::find_if( comps.begin(), comps.end(), [&]( const item_comp & ic ) {
+        return ic.type == component_id;
+    } ) != comps.end() ) {
+            continue;
+        }
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -4578,30 +4585,34 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
+            // @TODO Fix for UTF-8 strings
+            // @TODO find other places where this is used and make a global function for all
+            static const auto tolower = []( std::string t ) {
+                if( !t.empty() ) {
+                    t.front() = std::tolower( t.front() );
+                }
+                return t;
+            };
             // Mod not already present, check if modification is possible
             if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        obj.implement_prompt, thread_needed );
-                prompt[6] = std::tolower( prompt[6] );
+                                        tolower( obj.implement_prompt ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
-                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), obj.implement_prompt, items_needed,
-                                        item::nname( obj.item_string, items_needed ) );
-                prompt[6] = std::tolower( prompt[6] );
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ) );
             } else if( obj.restricted &&
                        std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
-                                        obj.implement_prompt, mod.tname( 1, false ) );
-                prompt[6] = std::tolower( prompt[6] );
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), obj.implement_prompt, items_needed,
-                                        item::nname( obj.item_string, items_needed ), thread_needed );
-                prompt[0] = std::toupper( prompt[0] );
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                                        items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 
         } else {

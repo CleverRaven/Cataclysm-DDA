@@ -7,9 +7,11 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <bitset>
 #include <utility>
 #include <vector>
+#include <set>
 #include <limits>
 #include <functional>
 #include <map>
@@ -125,12 +127,16 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
+        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
+                             bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
         void form_from_map( map &m, const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
+        void form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+                            bool assign_invlet = true );
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.

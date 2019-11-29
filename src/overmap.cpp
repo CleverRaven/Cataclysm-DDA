@@ -182,43 +182,6 @@ generic_factory<overmap_special> specials( "overmap special" );
 
 } // namespace
 
-static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN",     known_down     },
-    { "KNOWN_UP",       known_up       },
-    { "RIVER",          river_tile     },
-    { "SIDEWALK",       has_sidewalk   },
-    { "NO_ROTATE",      no_rotate      },
-    { "LINEAR",         line_drawing   },
-    { "SUBWAY",         subway_connection },
-    { "LAKE",           lake },
-    { "LAKE_SHORE",     lake_shore },
-    { "GENERIC_LOOT",   generic_loot },
-    { "RISK_HIGH",      risk_high },
-    { "RISK_LOW",       risk_low },
-    { "SOURCE_AMMO", source_ammo },
-    { "SOURCE_ANIMALS", source_animals },
-    { "SOURCE_BOOKS", source_books },
-    { "SOURCE_CHEMISTRY", source_chemistry },
-    { "SOURCE_CLOTHING", source_clothing },
-    { "SOURCE_CONSTRUCTION", source_construction },
-    { "SOURCE_COOKING", source_cooking },
-    { "SOURCE_DRINK", source_drink },
-    { "SOURCE_ELECTRONICS", source_electronics },
-    { "SOURCE_FABRICATION", source_fabrication },
-    { "SOURCE_FARMING", source_farming },
-    { "SOURCE_FOOD", source_food },
-    { "SOURCE_FORAGE", source_forage },
-    { "SOURCE_FUEL", source_fuel },
-    { "SOURCE_GUN", source_gun },
-    { "SOURCE_LUXURY", source_luxury },
-    { "SOURCE_MEDICINE", source_medicine },
-    { "SOURCE_PEOPLE", source_people },
-    { "SOURCE_SAFETY", source_safety },
-    { "SOURCE_TAILORING", source_tailoring },
-    { "SOURCE_VEHICLES", source_vehicles },
-    { "SOURCE_WEAPON", source_weapon }
-};
-
 template<>
 const overmap_land_use_code &overmap_land_use_code_id::obj() const
 {
@@ -1254,15 +1217,16 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( std::shared_ptr<npc> who )
+void overmap::insert_npc( shared_ptr_fast<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-std::shared_ptr<npc> overmap::erase_npc( const character_id id )
+shared_ptr_fast<npc> overmap::erase_npc( const character_id id )
 {
-    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) {
+    const auto iter = std::find_if( npcs.begin(),
+    npcs.end(), [id]( const shared_ptr_fast<npc> &n ) {
         return n->getID() == id;
     } );
     if( iter == npcs.end() ) {
@@ -1274,10 +1238,11 @@ std::shared_ptr<npc> overmap::erase_npc( const character_id id )
     return ptr;
 }
 
-std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )>
+std::vector<shared_ptr_fast<npc>> overmap::get_npcs( const
+                               std::function<bool( const npc & )>
                                &predicate ) const
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( const auto &g : npcs ) {
         if( predicate( *g ) ) {
             result.push_back( g );
@@ -4113,10 +4078,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         std::vector<point> nearest_candidates;
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
+        for( const point &candidate_addr : closest_points_first( 2,
+                custom_overmap_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
-                int current_distance = square_dist( pos(),
-                                                    candidate_addr );
+                int current_distance = square_dist( pos(), candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
                     nearest_candidates.push_back( candidate_addr );
                     previous_distance = current_distance;
@@ -4407,7 +4372,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-std::shared_ptr<npc> overmap::find_npc( const character_id id ) const
+shared_ptr_fast<npc> overmap::find_npc( const character_id id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

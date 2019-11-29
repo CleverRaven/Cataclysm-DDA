@@ -322,18 +322,18 @@ float player::hit_roll() const
     return melee::melee_hit_range( hit );
 }
 
-void player::add_miss_reason( const std::string &reason, const unsigned int weight )
+void Character::add_miss_reason( const std::string &reason, const unsigned int weight )
 {
     melee_miss_reasons.add( reason, weight );
 
 }
 
-void player::clear_miss_reasons()
+void Character::clear_miss_reasons()
 {
     melee_miss_reasons.clear();
 }
 
-std::string player::get_miss_reason()
+std::string Character::get_miss_reason()
 {
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times

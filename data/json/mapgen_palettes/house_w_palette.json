@@ -64,7 +64,6 @@
       "#": "t_glass_railing",
       "+": "t_door_c",
       "=": "t_dirt",
-      "p": "t_dirt",
       "2": "t_dirt",
       "5": "t_dirt",
       "6": "t_carpet_red",
@@ -83,8 +82,10 @@
       "A": "f_stool",
       "B": "f_rotary_clothesline",
       "D": "f_camp_chair",
+      "E": "f_rack_coat",
       "F": "f_bench",
       "G": "f_mailbox",
+      "H": "f_armchair",
       "I": "f_desk",
       "J": "f_counter",
       "K": "f_cupboard",
@@ -124,13 +125,14 @@
         "f_dandelion"
       ],
       "r": "f_wood_keg",
-      "v": [ "f_gun_safe_el", "f_safe_l", "f_cardboard_box" ],
+      "v": [ [ "f_safe_l", 25 ], [ "f_cardboard_box", 75 ] ],
       "w": "f_rack_wood",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "z": "f_metal_butcher_rack"
     },
     "terrain": {
-      ".": [ [ "t_grass", 10 ], [ "t_grass_long", 5 ], [ "t_dirt", 2 ], "t_shrub" ],
+      ".": [ [ "t_grass", 10 ], [ "t_dirt", 2 ], "t_shrub" ],
+      "-": "t_open_air",
       "G": "t_grass",
       "p": "t_grass",
       "X": "t_grass",
@@ -210,6 +212,12 @@
         { "item": "shower", "chance": 20 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "drugdealer", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 },
+        { "item": "college_sports", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },

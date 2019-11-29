@@ -2,6 +2,7 @@
   {
     "id": "colt_saa",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Uberti Cattleman",
     "name_plural": "Uberti Cattleman",

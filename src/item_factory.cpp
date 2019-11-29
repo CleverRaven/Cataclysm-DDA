@@ -57,7 +57,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
-static std::string calc_category( const itype &obj );
+static item_category_id calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -169,14 +169,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // If no category was forced via JSON automatically calculate one now
-    if( obj.category_force.empty() ) {
+    if( !obj.category_force.is_valid() || obj.category_force.is_empty() ) {
         obj.category_force = calc_category( obj );
-    }
-
-    // If category exists assign now otherwise throw error later in @see check_definitions()
-    auto cat = categories.find( obj.category_force );
-    if( cat != categories.end() ) {
-        obj.category = &cat->second;
     }
 
     // use pre-cataclysm price as default if post-cataclysm price unspecified
@@ -215,9 +209,9 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Set max volume for containers to prevent integer overflow
-    if( obj.container && obj.container->contains > 10000000_ml ) {
-        debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
-        obj.container->contains = 10000000_ml;
+    if( obj.container && obj.container->contains > 10000_liter ) {
+        debugmsg( obj.id + " storage volume is too large, reducing to 10000 liters" );
+        obj.container->contains = 10000_liter;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -849,8 +843,8 @@ void Item_factory::check_definitions() const
         std::ostringstream msg;
         const itype *type = &elem.second;
 
-        if( !type->category ) {
-            msg << "undefined category " << type->category_force << "\n";
+        if( !type->category_force.is_valid() ) {
+            msg << "undefined category " << type->category_force.c_str() << "\n";
         }
 
         if( type->weight < 0_gram ) {
@@ -2204,8 +2198,13 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.relic_data, jo, "relic_data", src );
 
     // optional gunmod slot may also specify mod data
-    load_slot_optional( def.gunmod, jo, "gunmod_data", src );
-    load_slot_optional( def.mod, jo, "gunmod_data", src );
+    if( jo.has_member( "gunmod_data" ) ) {
+        // use the same JsonObject for the two load_slot calls to avoid
+        // warnings about unvisited Json members
+        JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
+        load_slot( def.gunmod, jo_gunmod, src );
+        load_slot( def.mod, jo_gunmod, src );
+    }
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );
@@ -2231,29 +2230,26 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 }
 
-void Item_factory::load_item_category( JsonObject &jo )
-{
-    const std::string id = jo.get_string( "id" );
-    const auto iter = categories.find( id );
-    if( iter != categories.end() ) {
-        debugmsg( "Item category %s already exists", id );
-        return;
-    }
-    translation name;
-    jo.read( "name", name );
-    categories.emplace( id, item_category( id, name, jo.get_int( "sort_rank" ) ) );
-}
-
 void Item_factory::load_migration( JsonObject &jo )
 {
     migration m;
-    m.id = jo.get_string( "id" );
     assign( jo, "replace", m.replace );
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
 
-    migrations[ jo.get_string( "id" ) ] = m;
+    if( jo.has_string( "id" ) ) {
+        m.id = jo.get_string( "id" );
+        migrations[ m.id ] = m;
+    } else if( jo.has_array( "id" ) ) {
+        JsonArray ja = jo.get_array( "id" );
+        while( ja.has_more() ) {
+            m.id = jo.get_string( "id" );
+            migrations[ m.id ] = m;
+        }
+    } else {
+        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
+    }
 }
 
 itype_id Item_factory::migrate_id( const itype_id &id )
@@ -2268,7 +2264,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     if( iter != migrations.end() ) {
         std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags,
                    obj.item_tags.begin() ) );
-        obj.charges = iter->second.charges;
+        if( iter->second.charges > 0 ) {
+            obj.charges = iter->second.charges;
+        }
 
         for( const auto &c : iter->second.contents ) {
             if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {
@@ -2331,8 +2329,6 @@ void Item_factory::reset()
 void Item_factory::clear()
 {
     m_template_groups.clear();
-
-    categories.clear();
 
     iuse_function_list.clear();
 
@@ -2708,44 +2704,45 @@ std::string enum_to_string<phase_id>( phase_id data )
 }
 } // namespace io
 
-std::string calc_category( const itype &obj )
+item_category_id calc_category( const itype &obj )
 {
     if( obj.artifact ) {
-        return "artifacts";
+        return item_category_id( "artifacts" );
     }
     if( obj.gun && !obj.gunmod ) {
-        return "guns";
+        return item_category_id( "guns" );
     }
     if( obj.magazine ) {
-        return "magazines";
+        return item_category_id( "magazines" );
     }
     if( obj.ammo ) {
-        return "ammo";
+        return item_category_id( "ammo" );
     }
     if( obj.tool ) {
-        return "tools";
+        return item_category_id( "tools" );
     }
     if( obj.armor ) {
-        return "clothing";
+        return item_category_id( "clothing" );
     }
     if( obj.comestible ) {
-        return obj.comestible->comesttype == "MED" ? "drugs" : "food";
+        return obj.comestible->comesttype == "MED" ?
+               item_category_id( "drugs" ) : item_category_id( "food" );
     }
     if( obj.book ) {
-        return "books";
+        return item_category_id( "books" );
     }
     if( obj.gunmod ) {
-        return "mods";
+        return item_category_id( "mods" );
     }
     if( obj.bionic ) {
-        return "bionics";
+        return item_category_id( "bionics" );
     }
 
     bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
         return qty > MELEE_STAT;
     } );
 
-    return weap ? "weapons" : "other";
+    return weap ? item_category_id( "weapons" ) : item_category_id( "other" );
 }
 
 std::vector<Group_tag> Item_factory::get_all_group_names()

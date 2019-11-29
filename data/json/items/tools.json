@@ -1789,7 +1789,7 @@
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
     "weight": "226 g",
-    "volume": 0,
+    "volume": "250 ml",
     "price": 14000,
     "cutting": 12,
     "material": [ "steel", "plastic" ],
@@ -4516,7 +4516,7 @@
     "type": "TOOL",
     "name": "glass pipe",
     "description": "This is a hand-blown glass pipe.  It's of the type most commonly used to smoke recreational substances.",
-    "weight": "442 g",
+    "weight": "163 g",
     "volume": "250 ml",
     "price": 2000,
     "to_hit": -10,
@@ -5751,7 +5751,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -7111,48 +7111,7 @@
     "ammo": "tinder",
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": [
-      {
-        "target": "hobo_stove_on",
-        "msg": "The hobo stove is lit.",
-        "need_fire": 1,
-        "need_fire_msg": "You need a source of fire!",
-        "active": false,
-        "menu_text": "Light",
-        "type": "transform"
-      }
-    ]
-  },
-  {
-    "id": "hobo_stove_on",
-    "type": "TOOL",
-    "name": "hobo stove (lit)",
-    "name_plural": "hobo stoves (lit)",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": "500 g",
-    "volume": "250 ml",
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "max_charges": 100,
-    "charges_per_use": 25,
-    "turns_per_charge": 300,
-    "revert_to": "hobo_stove",
-    "use_action": [
-      "HOTPLATE",
-      {
-        "target": "hobo_stove",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
-    ],
-    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+    "use_action": "HOTPLATE"
   },
   {
     "id": "tinderbox",
