@@ -1161,7 +1161,7 @@ void iexamine::slot_machine( player &p, const tripoint & )
             add_msg( m_info, _( "You need $%d to play." ), price );
             break;
         }
-        if( !query_yn( _( played ? "Play again for $%d?" : "Insert $%d?" ), price ) ) {
+        if( !query_yn( played ? _( "Play again for $%d?" ) : _( "Insert $%d?" ), price ) ) {
             break;
         }
         p.cash -= cents( price );
