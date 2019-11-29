@@ -562,10 +562,12 @@ void iexamine::vending( player &p, const tripoint &examp )
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty!" ) );
         return;
-    } else if( !money ) {
-        popup( _( "You need a charged cash card to purchase things!" ) );
-        return;
     }
+
+    if( !money ) {
+        popup( _( "You need a charged cash card to purchase things!" ) );
+    }
+
 
     const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
     const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
