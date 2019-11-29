@@ -118,9 +118,6 @@ enum m_flag : int {
     MF_PAY_BOT,             // You can pay this bot to be your friend for a time
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
-    MF_REGENERATES_50,      // Monster regenerates very quickly over time
-    MF_REGENERATES_10,      // Monster regenerates quickly over time
-    MF_REGENERATES_1,       // Monster regenerates slowly over time
     MF_REGENERATES_IN_DARK, // Monster regenerates very quickly in poorly lit tiles
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
@@ -252,6 +249,9 @@ struct mtype {
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
+
+        // Number of hitpoints regenerated per turn.
+        int regenerates = 0;
 
         // mountable ratio for rider weight vs. mount weight, default 0.2
         float mountable_weight_ratio = 0.2;

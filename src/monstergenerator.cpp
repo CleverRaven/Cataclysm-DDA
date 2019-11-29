@@ -118,9 +118,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
-        case MF_REGENERATES_50: return "REGENERATES_50";
-        case MF_REGENERATES_10: return "REGENERATES_10";
-        case MF_REGENERATES_1: return "REGENERATES_1";
         case MF_REGENERATES_IN_DARK: return "REGENERATES_IN_DARK";
         case MF_FLAMMABLE: return "FLAMMABLE";
         case MF_REVIVES: return "REVIVES";
@@ -668,6 +665,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
+
+    optional( jo, was_loaded, "regenerates", regenerates, 0 );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );

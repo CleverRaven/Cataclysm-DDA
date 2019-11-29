@@ -1547,6 +1547,7 @@
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "regenerates": 10,
     "flags": [
       "ATTACKMON",
       "BLEED",
@@ -1555,7 +1556,6 @@
       "HEARS",
       "KEENNOSE",
       "PATH_AVOID_DANGER_1",
-      "REGENERATES_10",
       "REGEN_MORALE",
       "SMELLS",
       "WARM"

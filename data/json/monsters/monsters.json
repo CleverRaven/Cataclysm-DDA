@@ -19,7 +19,8 @@
     "vision_day": 1,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
     "id": "mon_albino_penguin",
@@ -563,6 +564,7 @@
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
     },
     "death_function": [ "NORMAL" ],
+    "regenerates": 1,
     "flags": [
       "SEES",
       "HEARS",
@@ -577,8 +579,7 @@
       "BILE_BLOOD",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "FILTHY",
-      "REGENERATES_1"
+      "FILTHY"
     ]
   },
   {
@@ -2610,6 +2611,7 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
+    "regenerates": 50,
     "flags": [
       "SEES",
       "SMELLS",
@@ -2619,7 +2621,6 @@
       "ACID_BLOOD",
       "ACIDPROOF",
       "NOHEAD",
-      "REGENERATES_50",
       "ABSORBS_SPLITS",
       "REGEN_MORALE",
       "NOGIB"
@@ -2759,19 +2760,8 @@
     "vision_night": 30,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [
-      "NOHEAD",
-      "SEES",
-      "POISON",
-      "HEARS",
-      "REGENERATES_50",
-      "SMELLS",
-      "SLUDGEPROOF",
-      "SLUDGETRAIL",
-      "SWIMS",
-      "FLAMMABLE",
-      "NOGIB"
-    ]
+    "regenerates": 50,
+    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {
     "id": "mon_slug_giant",
@@ -3765,7 +3755,8 @@
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "REGENERATES_50", "POISON", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_dog",
