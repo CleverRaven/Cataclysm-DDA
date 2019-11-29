@@ -329,8 +329,6 @@ class player : public Character
         bool deactivate_bionic( int b, bool eff_only = false ) override;
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
-        /** Randomly removes a bionic from my_bionics[] */
-        bool remove_random_bionic();
         /** Remove all bionics */
         void clear_bionics();
         /** Returns the size of my_bionics[] */

@@ -2228,22 +2228,6 @@ bionic &player::bionic_at_index( int i )
     return ( *my_bionics )[i];
 }
 
-// Returns true if a bionic was removed.
-bool player::remove_random_bionic()
-{
-    const int numb = num_bionics();
-    if( numb ) {
-        int rem = rng( 0, num_bionics() - 1 );
-        const auto bionic = ( *my_bionics )[rem];
-        //Todo: Currently, contained/containing bionics don't get explicitly deactivated when the removal of a linked bionic removes them too
-        deactivate_bionic( rem, true );
-        remove_bionic( bionic.id );
-        add_msg( m_bad, _( "Your %s fails, and is destroyed!" ), bionics[ bionic.id ].name );
-        recalc_sight_limits();
-    }
-    return numb;
-}
-
 void player::clear_bionics()
 {
     my_bionics->clear();
