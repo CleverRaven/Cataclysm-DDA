@@ -834,6 +834,29 @@ bool monster::can_drown() const
 bool monster::digging() const
 {
     return has_flag( MF_DIGS ) || ( has_flag( MF_CAN_DIG ) && underwater );
+bool monster::can_dig() const
+{
+    return has_flag( MF_CAN_DIG );
+}
+
+bool monster::digs() const
+{
+    return has_flag( MF_DIGS );
+}
+
+bool monster::flies() const
+{
+    return has_flag( MF_FLIES );
+}
+
+bool monster::climbs() const
+{
+    return has_flag( MF_CLIMBS );
+}
+
+bool monster::swims() const
+{
+    return has_flag( MF_SWIMS );
 }
 
 bool monster::can_act() const

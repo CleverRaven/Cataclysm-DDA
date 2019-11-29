@@ -143,6 +143,11 @@ class monster : public Creature
         bool digging() const override;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
+        bool can_dig() const;
+        bool digs() const;
+        bool flies() const;
+        bool climbs() const;
+        bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
