@@ -568,7 +568,6 @@ void iexamine::vending( player &p, const tripoint &examp )
         popup( _( "You need some money on a cash card to buy things." ) );
     }
 
-
     const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
     const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
     const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
