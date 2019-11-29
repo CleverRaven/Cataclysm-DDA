@@ -4062,6 +4062,18 @@
   },
   {
     "type": "profession",
+    "ident": "kit_survivor",
+    "name": "Kitted Survivor",
+    "description": "At the local mall, you saw a sign advertising a discount on survival kits.  You bought one, more for show than for actual use.  Now, it's all you have.",
+    "points": 1,
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "gunslinger",
     "name": "Wild West Gunslinger",
     "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship. But that world has ended, so you took your trusty 6-shooter and wandered into a world where it's always high noon.",
