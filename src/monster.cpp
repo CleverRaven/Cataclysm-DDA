@@ -2361,13 +2361,13 @@ void monster::process_effects()
     if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
-            healing_format_string = "The %s is visibly regenerating!";
+            healing_format_string = _( "The %s is visibly regenerating!" );
         } else if( healed_amount >= 10 ) {
-            healing_format_string = "The %s seems a little healthier.";
+            healing_format_string = _( "The %s seems a little healthier." );
         } else if( healed_amount >= 1 ) {
-            healing_format_string = "The %s is healing slowly.";
+            healing_format_string = _( "The %s is healing slowly." );
         }
-        add_msg( m_warning, _( healing_format_string ), name() );
+        add_msg( m_warning, healing_format_string, name() );
     }
 
     if( type->regenerates_in_dark ) {
