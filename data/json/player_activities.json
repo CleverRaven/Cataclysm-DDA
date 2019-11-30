@@ -100,7 +100,7 @@
     "based_on": "neither"
   },
   {
-    "id": "ACT_SOLITAIRE",
+    "id": "ACT_GENERIC_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "playing",

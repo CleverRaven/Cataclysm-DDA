@@ -606,7 +606,7 @@
   },
   {
     "type": "item_action",
-    "id": "SOLITAIRE",
+    "id": "PLAY_GAME",
     "name": "Play"
   },
   {

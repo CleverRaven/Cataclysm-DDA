@@ -27,7 +27,7 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "SOLITAIRE"
+    "use_action": "PLAY_GAME"
   },
   {
     "id": "coin_quarter",
