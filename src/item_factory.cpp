@@ -2244,7 +2244,7 @@ void Item_factory::load_migration( JsonObject &jo )
     } else if( jo.has_array( "id" ) ) {
         JsonArray ja = jo.get_array( "id" );
         while( ja.has_more() ) {
-            m.id = jo.get_string( "id" );
+            m.id = ja.next_string();
             migrations[ m.id ] = m;
         }
     } else {
