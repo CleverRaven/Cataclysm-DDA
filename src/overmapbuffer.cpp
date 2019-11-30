@@ -719,7 +719,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     pf::path route = pf::find_path( start, finish, 2 * OX,
                                     2 * OY, estimate );
     for( auto node : route.nodes ) {
-        tripoint convert_result = base + tripoint( node.pos, base.z );
+        tripoint convert_result = base + tripoint( node.pos, 0 );
+        convert_result.z = base.z;
         path.push_back( convert_result );
     }
     return path;
