@@ -130,6 +130,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_STASH" ), stash_do_turn },
     { activity_id( "ACT_PULP" ), pulp_do_turn },
     { activity_id( "ACT_GAME" ), game_do_turn },
+    { activity_id( "ACT_GENERIC_GAME" ), generic_game_do_turn },
     { activity_id( "ACT_START_FIRE" ), start_fire_do_turn },
     { activity_id( "ACT_VIBE" ), vibe_do_turn },
     { activity_id( "ACT_HAND_CRANK" ), hand_crank_do_turn },
@@ -1530,6 +1531,14 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
+}
+
+void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+{
+    ( void )act;
+    if( calendar::once_every( 1_minutes ) ) {
+        p->add_morale( MORALE_GAME, 4, 60 );
+    }
 }
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
