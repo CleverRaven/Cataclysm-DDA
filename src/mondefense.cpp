@@ -151,49 +151,45 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const player *const foe = dynamic_cast<player *>( source );
+    //Turret is able to roughly estimate direction and distance to the attacker
+    const tripoint fire_point = random_entry( g->m.points_in_radius( source->pos(), 2 ) );
 
-    if( foe != nullptr ) {
-        //Turret is able to roughly estimate direction and distance to the attacker
-        const tripoint fire_point = random_entry( g->m.points_in_radius( foe->pos(), 2 ) );
+    // Create a fake NPC which will actually fire
+    npc tmp;
+    tmp.set_fake( true );
+    tmp.setpos( m.pos() );
 
-        // Create a fake NPC which will actually fire
-        npc tmp;
-        tmp.set_fake( true );
-        tmp.setpos( m.pos() );
+    // No need to aim
+    tmp.recoil = 0;
 
-        // No need to aim
-        tmp.recoil = 0;
+    for( const std::pair<std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
+        if( attack.second->id == "gun" ) {
+            sounds::sound( m.pos(), 50, sounds::sound_t::alert,
+                           _( "Detected shots from unseen attacker, return fire mode engaged." ) );
+            tmp.moves -= 150;
 
-        for( const std::pair<std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
-            if( attack.second->id == "gun" ) {
-                sounds::sound( m.pos(), 50, sounds::sound_t::alert,
-                               _( "Detected shots from unseen attacker, return fire mode engaged." ) );
-                tmp.moves -= 150;
+            const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
 
-                const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
+            // Set fake NPC's dexterity...
+            tmp.dex_cur = gunactor->fake_dex;
 
-                // Set fake NPC's dexterity...
-                tmp.dex_cur = gunactor->fake_dex;
-
-                // ...skills...
-                for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-                    if( skill.first == "gun" ) {
-                        tmp.set_skill_level( skill_gun, skill.second );
-                    }
-                    if( skill.first == "rifle" ) {
-                        tmp.set_skill_level( skill_rifle, skill.second );
-                    }
+            // ...skills...
+            for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
+                if( skill.first == "gun" ) {
+                    tmp.set_skill_level( skill_gun, skill.second );
                 }
-
-                // ...and weapon, everything based on turret's properties
-                tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
-                             m.ammo[ gunactor->ammo_type ] );
-                const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
-
-                // Fire the weapon and consume ammo
-                m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
+                if( skill.first == "rifle" ) {
+                    tmp.set_skill_level( skill_rifle, skill.second );
+                }
             }
+
+            // ...and weapon, everything based on turret's properties
+            tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
+                         m.ammo[ gunactor->ammo_type ] );
+            const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
+
+            // Fire the weapon and consume ammo
+            m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
         }
     }
 }
