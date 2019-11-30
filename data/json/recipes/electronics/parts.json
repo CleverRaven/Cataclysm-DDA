@@ -22,24 +22,6 @@
     ]
   },
   {
-    "result": "flux_comp_gen",
-    "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "3h 20m",
-    "reversible": true,
-    "book_learn": [ [ "manual_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "//": "Fill pipe with RDX, wind copper tubes into coil around it, leaving empty space. Use plastic (representing fiberglass) to insulate wires and supporting the coil of wires",
-    "//1": "plastic matches fiberglass required roughly by volume (4804mL), not by weight",
-    "components": [ [ [ "cu_pipe", 12 ] ], [ [ "cu_tube_large", 1 ] ], [ [ "chem_rdx", 1703 ] ], [ [ "plastic_chunk", 20 ] ] ]
-  },
-  {
     "result": "battery_motorbike",
     "type": "recipe",
     "category": "CC_ELECTRONIC",

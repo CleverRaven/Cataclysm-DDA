@@ -3215,19 +3215,6 @@
   },
   {
     "type": "recipe",
-    "result": "cu_tube_large",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "6 h",
-    "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 150 ] ] ],
-    "components": [ [ [ "copper", 2220 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pilot_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
