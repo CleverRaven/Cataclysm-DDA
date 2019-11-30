@@ -240,11 +240,6 @@
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
-    "type": "recipe",
-    "result": "flamethrower_simple",
-    "obsolete": true
-  },
-  {
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",
