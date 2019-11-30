@@ -1249,7 +1249,6 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     soldering_iron.charges = veh.fuel_left( "battery", true );
                     soldering_iron.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
-                    found_welder = true;
                 }
             }
         }
