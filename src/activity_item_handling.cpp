@@ -2810,7 +2810,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             p.set_destination( route, player_activity( activity_to_restore ) );
             return;
         }
-        // we checked if the work spot was in darkness earlier.
+        // we checked if the work spot was in darkness earlier
         // but there is a niche case where the player is in darkness but the work spot is not
         // this can create infinite loops
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
