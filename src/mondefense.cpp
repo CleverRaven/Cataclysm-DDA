@@ -136,7 +136,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 }
 
-void mdefense::backfire( monster &m, Creature *source, const dealt_projectile_attack *proj )
+void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile_attack *proj )
 {
     // No backfire for untargeted projectiles, i.e. from explosions.
     if( source == nullptr ) {
