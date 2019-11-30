@@ -103,9 +103,11 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    int movecost;   /* movecost for moving through this terrain (overrides current terrain movecost)
+    /* movecost for moving through this terrain (overrides current terrain movecost)
                      * if movecost <= 0 ignore this parameter */
-    int penalty;    // penalty while not on this terrain (adds to movecost)
+    int movecost;
+    // penalty while not on this terrain (adds to movecost)
+    int penalty;
 };
 
 struct vpslot_wheel {
@@ -314,8 +316,9 @@ class vpart_info
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
 
-        std::set<std::string> flags;    // flags
-        std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+        std::set<std::string> flags;
+        // flags checked so often that things slow down due to string cmp
+        std::bitset<NUM_VPFLAGS> bitflags;
 
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> install_reqs;
@@ -324,8 +327,10 @@ class vpart_info
 
     public:
 
-        int z_order;        // z-ordering, inferred from location, cached here
-        int list_order;     // Display order in vehicle interact display
+        // z-ordering, inferred from location, cached here
+        int z_order;
+        // Display order in vehicle interact display
+        int list_order;
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;

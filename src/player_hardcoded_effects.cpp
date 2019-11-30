@@ -112,7 +112,8 @@ static void eff_fun_fungus( player &u, effect &it )
     const int intense = it.get_intensity();
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
-        case 1: // First hour symptoms
+        case 1:
+            // First hour symptoms
             if( one_in( 960 + bonus * 6 ) ) {
                 u.cough( true );
             }
@@ -127,7 +128,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 it.mod_intensity( 1 );
             }
             break;
-        case 2: // Five hours of worse symptoms
+        case 2:
+            // Five hours of worse symptoms
             if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.moves -= 100;
@@ -149,7 +151,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 it.mod_intensity( 1 );
             }
             break;
-        case 3: // Permanent symptoms
+        case 3:
+            // Permanent symptoms
             if( one_in( 6000 + bonus * 48 ) ) {
                 u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
                                          _( "<npcname> vomits thousands of live spores!" ) );

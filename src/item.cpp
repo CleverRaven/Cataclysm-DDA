@@ -5297,8 +5297,10 @@ nc_color item::damage_color() const
 {
     // TODO: unify with veh_interact::countDurability
     switch( damage_level( 4 ) ) {
-        default: // reinforced
-            if( damage() <= min_damage() ) { // fully reinforced
+        default:
+            // reinforced
+            if( damage() <= min_damage() ) {
+                // fully reinforced
                 return c_green;
             } else {
                 return c_light_green;
@@ -5323,7 +5325,8 @@ nc_color item::damage_color() const
 std::string item::damage_symbol() const
 {
     switch( damage_level( 4 ) ) {
-        default: // reinforced
+        default:
+            // reinforced
             return _( R"(++)" );
         case 0:
             return _( R"(||)" );

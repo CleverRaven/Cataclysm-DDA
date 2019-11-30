@@ -245,7 +245,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( redraw ) {
             // When we switch tabs, redraw the header
             redraw = false;
-            if( ! keepline ) {
+            if( !keepline ) {
                 line = 0;
             } else {
                 keepline = false;

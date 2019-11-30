@@ -47,7 +47,7 @@
     "capacity": 20,
     "reliability": 5,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
-    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE" ]
+    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "shot_speedloader6",

@@ -14,6 +14,7 @@
 #include "optional.h"
 #include "point.h"
 #include "translations.h"
+#include "memory_fast.h"
 
 class JsonIn;
 class JsonOut;
@@ -36,7 +37,7 @@ struct expansion_data {
 
 };
 
-using npc_ptr = std::shared_ptr<npc>;
+using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
 using itype_id = std::string;
