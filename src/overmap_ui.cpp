@@ -1089,10 +1089,15 @@ void create_note( const tripoint &curs )
 static bool search( tripoint &curs, const tripoint &orig, const bool show_explored,
                     const bool fast_scroll, std::string &action )
 {
+    const int radius = get_option<int>( "MAP_UI_SEARCH_RADIUS" );
+
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
                        // NOLINTNEXTLINE(cata-text-style): literal comma
-                       .description( _( "Multiple entries separated with , Excludes starting with -" ) )
+                       .description( string_format(
+                                         _( "Multiple entries separated with , Excludes starting with -\n"
+                                            "Current search radius is %d.  It can be changed in options." ),
+                                         radius ) )
                        .query_string();
     if( term.empty() ) {
         return false;
@@ -1101,7 +1106,6 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    const int radius = OMAPX / 2; // arbitrary
     for( const tripoint &p : points_in_radius( curs, radius ) ) {
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
