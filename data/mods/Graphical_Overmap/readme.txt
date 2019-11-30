@@ -1,12 +1,12 @@
-Last updated for build #9934
+Last updated for build #9934 30/11/19
 
 Installation:
   - Move 'map_font_LARWICK.png' into your /data/font folder.
   - Move 'fonts.json' into your /config folder and overwrite - unless you have previously made changes to the file, in which case you will need to modify it manually to save your changes. Make sure 'fonts.json' no longer remains in the graphical overmap mod folder.
-  - In graphics options change the overmap font width to "16" then restart.
+  - In graphics options make sure the overmap font width/height/size are all set to "16" then restart.
 	
 Optional:
-  - I would advise disabling the 5x5 location map in the sidebar, as it becomes unreadable by using this mod.
+  - I would advise disabling the 5x5 location map in the sidebar, as it becomes unreadable by using this mod. Press } to access sidebar options and choose either 'labels' (using the Location Alt panel instead of Location) or 'labels-narrow'.
   - For a more muted palette to increase readability move 'base_colors.json' into your /config folder and overwrite. The crossroads with manhole (road_nesw_manhole) actually uses the dark_gray (60,60,60) from this palette, so may look slightly off if you are using a different dark_gray.
 	
 Issues:
