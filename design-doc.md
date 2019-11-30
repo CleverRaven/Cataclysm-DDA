@@ -490,7 +490,7 @@ Most of this should remain strictly behind the scenes. Mi-go have an advanced sp
 
 Mi-go technology is inscrutable to humans.  The very principles of their devices are wholly alien and do not make any sense to us.  It is likely they feel similarly about our stuff, if they even had a mind to study it - which they largely don't, seeing our metal trinkets as disgusting garbage. 
 
-Mi-go are immune to the effects of the blob and mycus, but even collectively they do not operate on as high an order of power as these vast interdimensional entities.
+Mi-go do not seem to be susceptible to the effects of the blob, but this is more likely to be due to their ability to fine-tune their own biology than due to any inherent immunity.
 
 
 # Gameplay
