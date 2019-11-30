@@ -2033,7 +2033,9 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
     if( !best_qual ) {
         return false;
     }
-    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual->type->can_have_charges() ) {
+        p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    }
     for( auto &i : g->m.i_at( src_loc ) ) {
         if( i.typeId() == "log" ) {
             g->m.i_rem( src_loc, &i );
