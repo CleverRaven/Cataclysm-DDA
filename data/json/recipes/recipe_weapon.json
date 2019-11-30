@@ -1146,7 +1146,7 @@
     "time": "60 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "PRESSURIZATION", "level": 1 } ],
     "components": [ [ [ "cu_pipe", 1 ] ], [ [ "rag", 1 ] ], [ [ "nail", 1 ] ], [ [ "duct_tape", 100 ] ], [ [ "sm_extinguisher", 1 ] ] ]
   },
   {
