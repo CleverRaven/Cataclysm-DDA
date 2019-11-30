@@ -124,7 +124,7 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "charges": 33,
-    "vitamins": [ [ "vitA", 7 ], "calcium", 3 ],
+    "vitamins": [ [ "vitA", 7 ], [ "calcium", 3 ] ],
     "fun": -1
   },
   {
