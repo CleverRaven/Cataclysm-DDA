@@ -1137,6 +1137,20 @@
   },
   {
     "type": "recipe",
+    "result": "flamethrower_simple",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 6,
+    "time": "60 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILLING", "level": 1 } ],
+    "components": [ [ [ "cu_pipe", 1 ] ], [ [ "rag", 1 ] ], [ [ "nail", 1 ] ], [ [ "duct_tape", 100 ] ], [ [ "sm_extinguisher", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "launcher_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
