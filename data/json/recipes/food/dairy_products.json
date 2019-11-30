@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "butter",
+    "result": "raw_butter",
     "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DAIRY",
