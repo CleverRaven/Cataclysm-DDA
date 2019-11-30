@@ -6092,7 +6092,7 @@ void game::zones_manager()
     int zone_ui_height = 12;
     int zone_options_height = 7;
 
-    const int width = 50;
+    const int width = 48;
     const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
                         TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
     int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
@@ -6172,7 +6172,7 @@ void game::zones_manager()
                 int y = 1;
                 for( const auto &desc : descriptions ) {
                     mvwprintz( w_zones_options, point( 3, y ), c_white, desc.first );
-                    mvwprintz( w_zones_options, point( 20, y ), c_white, desc.second );
+                    mvwprintz( w_zones_options, point( 23, y ), c_white, desc.second );
                     y++;
                 }
             }
@@ -6433,19 +6433,19 @@ void game::zones_manager()
                                "%2d) %s", zone.get_priority(), zone.get_name() );
 
                     //Draw Type name
-                    mvwprintz( w_zones, point( 20, iNum - start_index ), colorLine,
+                    mvwprintz( w_zones, point( 23, iNum - start_index ), colorLine,
                                mgr.get_name_from_type( zone.get_type() ) );
 
                     tripoint center = zone.get_center_point();
 
                     //Draw direction + distance
-                    mvwprintz( w_zones, point( 32, iNum - start_index ), colorLine, "%*d %s",
+                    mvwprintz( w_zones, point( 35, iNum - start_index ), colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
                                direction_name_short( direction_from( player_absolute_pos,
                                                      center ) ) );
 
                     //Draw Vehicle Indicator
-                    mvwprintz( w_zones, point( 41, iNum - start_index ), colorLine,
+                    mvwprintz( w_zones, point( 44, iNum - start_index ), colorLine,
                                zone.get_is_vehicle() ? "*" : "" );
                 }
                 iNum++;
