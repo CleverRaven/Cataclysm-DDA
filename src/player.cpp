@@ -537,49 +537,25 @@ void player::process_turn()
     if( !is_npc() ) {
         // Set our scent towards the norm
         int norm_scent = 500;
-        if( has_trait( trait_WEAKSCENT ) ) {
-            norm_scent = 300;
+        int temp_norm_scent = INT_MIN;
+        bool found_intensity = false;
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            if( scent_intensity ) {
+                found_intensity = true;
+                temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
+            }
         }
-        if( has_trait( trait_SMELLY ) ) {
-            norm_scent = 800;
-        }
-        if( has_trait( trait_SMELLY2 ) ) {
-            norm_scent = 1200;
-        }
-        // Not so much that you don't have a scent
-        // but that you smell like a plant, rather than
-        // a human. When was the last time you saw a critter
-        // attack a bluebell or an apple tree?
-        if( has_trait( trait_FLOWERS ) && !has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent -= 200;
-        }
-        // You *are* a plant.  Unless someone hunts triffids by scent,
-        // you don't smell like prey.
-        if( has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent = 0;
+        if( found_intensity ) {
+            norm_scent = temp_norm_scent;
         }
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    int temp_norm_scent = INT_MIN;
-    bool found_intensity = false;
-    for( const trait_id &mut : get_mutations() ) {
-        const cata::optional<int> &scent_intensity = mut->scent_intensity;
-        if( scent_intensity ) {
-            found_intensity = true;
-            temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_mask = mut->scent_mask;
+            if( scent_mask ) {
+                norm_scent += *scent_mask;
+            }
         }
-    }
-    if( found_intensity ) {
-        norm_scent = temp_norm_scent;
-    }
-
-    for( const trait_id &mut : get_mutations() ) {
-        const cata::optional<int> &scent_mask = mut->scent_mask;
-        if( scent_mask ) {
-            norm_scent += *scent_mask;
-        }
-    }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
