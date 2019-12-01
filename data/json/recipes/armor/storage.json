@@ -904,7 +904,7 @@
     "time": "2 h 40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "leather", 42 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [ [ [ "leather", 60 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "backpack_hiking",

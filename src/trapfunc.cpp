@@ -698,9 +698,9 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     if( z != nullptr ) {
         if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-            sounds::sound( p, 4, sounds::sound_t::speech,
-                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech",
-                           "robot" ); //Dissector error sound.
+            //Dissector error sound.
+            sounds::sound( p, 4, sounds::sound_t::speech,  _( "BEEPBOOP!  Please remove non-organic object." ),
+                           false, "speech", "robot" );
             c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                       _( "The dissector lights up, and shuts down." ) );
             return false;
@@ -774,7 +774,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
+                // like the message says \-:
+                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n );
                 n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
             } else {
@@ -866,7 +867,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             add_msg( _( "The spears break!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 4; i++ ) { // 4 spears to a pit
+        // 4 spears to a pit
+        for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "pointy_stick" );
             }
@@ -952,7 +954,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             add_msg( _( "The shards shatter!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 20; i++ ) { // 20 shards in a pit.
+        // 20 shards in a pit.
+        for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "glass_shard" );
             }
@@ -1373,6 +1376,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
+            g->m.set_transparency_cache_dirty( p.z );
             return true;
         }
     }

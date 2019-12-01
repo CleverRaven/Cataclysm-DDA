@@ -60,7 +60,8 @@ bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 void plthrow( avatar &you, int pos = INT_MIN,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
-void use_item( avatar &you, item_location &loc ); // Use item; also tries E,R,W  'a'
+// Use item; also tries E,R,W  'a'
+void use_item( avatar &you, item_location &loc );
 void use_item( avatar &you );
 } // namespace avatar_action
 

@@ -145,7 +145,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
         { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
-        { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
+        { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::is_transparent / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.

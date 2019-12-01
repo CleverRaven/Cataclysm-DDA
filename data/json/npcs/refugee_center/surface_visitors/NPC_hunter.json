@@ -15,7 +15,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I thought I smelled a pig.  I jest... please don't arrest me.",
+      "yes": "I thought I smelled a pig.  I jest… please don't arrest me.",
       "no": "Huh, thought I smelled someone new.  Can I help you?"
     },
     "responses": [
@@ -56,7 +56,7 @@
   {
     "id": "TALK_EVAC_HUNTER_SALE",
     "type": "talk_topic",
-    "dynamic_line": "Sure, just bagged a fresh batch of meat.  You may want to grill it up before it gets too, uh... 'tender'.",
+    "dynamic_line": "Sure, just bagged a fresh batch of meat.  You may want to grill it up before it gets too, uh… 'tender'.",
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {

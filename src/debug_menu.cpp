@@ -1072,7 +1072,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_NPC: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
+            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
@@ -1168,12 +1168,13 @@ void debug()
                 }
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't cancel
+                    // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
+                    // TODO: Allow picking this when add_vehicle has 3d argument
+                    tripoint dest = u.pos();
+                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( u.pos(), &u );
+                        m.board_vehicle( dest, &u );
                     }
                 }
             }

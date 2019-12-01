@@ -102,7 +102,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 std::string get( nameFlags searchFlags )
 {
     auto matching_groups = get_matching_groups( searchFlags );
-    if( ! matching_groups.empty() ) {
+    if( !matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;
         for( const auto &i : matching_groups ) {

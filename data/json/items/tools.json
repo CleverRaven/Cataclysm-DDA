@@ -2076,9 +2076,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 4000,
-    "max_charges": 8000,
-    "charges_per_use": 500,
+    "initial_charges": 3500,
+    "max_charges": 7000,
+    "charges_per_use": 3500,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },

@@ -161,14 +161,17 @@ struct artifact_property_datum {
     std::array<art_effect_active, 4> active_bad;
 };
 
-struct artifact_dream_datum {     //Used only when generating - stored as individual members of each artifact
+//Used only when generating - stored as individual members of each artifact
+struct artifact_dream_datum {
     std::vector<std::string> msg_unmet;
     std::vector<std::string> msg_met;
     // Once per hour while sleeping, makes a list of each artifact that passes a (freq) in 100 check
     // One item is picked from artifacts that passed that chance, and the appropriate msg is shown
     // If multiple met/unmet messages are specified for the item, one is picked at random
-    int freq_unmet; // 100 if no reqs, since should never be unmet in that case
-    int freq_met;   //   0 if no reqs
+    // 100 if no reqs, since should never be unmet in that case
+    //   0 if no reqs
+    int freq_unmet;
+    int freq_met;
 };
 
 enum artifact_weapon_type {
@@ -204,7 +207,8 @@ enum artifact_tool_form {
 struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
-    units::mass weight; // Only applicable if this is an *extra* weapon
+    // Only applicable if this is an *extra* weapon
+    units::mass weight;
     int bash_min;
     int bash_max;
     int cut_min;
@@ -669,7 +673,8 @@ void it_artifact_armor::create_name( const std::string &type )
 
 std::string new_artifact()
 {
-    if( one_in( 2 ) ) { // Generate a "tool" artifact
+    if( one_in( 2 ) ) {
+        // Generate a "tool" artifact
 
         it_artifact_tool def;
 
@@ -727,10 +732,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || num_bad < 1 || one_in( num_good + 1 ) ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good
+            if( value < 1 && one_in( 2 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else if( !bad_effects.empty() ) { // Bad effect
+            } else if( !bad_effects.empty() ) {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -747,10 +754,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 3 ) ) { // Good
+            if( value < 1 && one_in( 3 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -767,11 +776,13 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( value > 3 || ( num_bad > 0 && num_good == 0 ) ||
                  !one_in( 3 - num_good ) || !one_in( 3 - num_bad ) ) ) {
-            if( !one_in( 3 ) && value <= 1 ) { // Good effect
+            if( !one_in( 3 ) && value <= 1 ) {
+                // Good effect
                 active_tmp = random_entry_removed( good_a_effects );
                 num_good++;
                 value += active_effect_cost[active_tmp];
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 active_tmp = random_entry_removed( bad_a_effects );
                 num_bad++;
                 value += active_effect_cost[active_tmp];
@@ -784,8 +795,9 @@ std::string new_artifact()
         if( def.tool->max_charges > 0 ) {
             def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         }
+        // 1 in 8 chance that it can't recharge!
         if( one_in( 8 ) && num_bad + num_good >= 4 ) {
-            def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+            def.artifact->charge_type = ARTC_NULL;
         }
         // Maybe pick an extra recharge requirement
         if( one_in( std::max( 1, 6 - num_good ) ) && def.artifact->charge_type != ARTC_NULL ) {
@@ -806,14 +818,15 @@ std::string new_artifact()
 
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
-    } else { // Generate an armor artifact
-
+    } else {
+        // Generate an armor artifact
         it_artifact_armor def;
 
         const artifact_armor_form_datum &info = random_entry_ref( artifact_armor_form_data );
 
         def.create_name( _( info.name ) );
-        def.sym = "["; // Armor is always [
+        // Armor is always [
+        def.sym = "[";
         def.color = info.color;
         def.materials.push_back( info.material );
         def.volume = info.volume;
@@ -900,10 +913,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || one_in( num_good * 2 ) || value > 1 ||
                  ( num_bad < 3 && !one_in( 3 - num_bad ) ) ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good effect
+            if( value < 1 && one_in( 2 ) ) {
+                // Good effect
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -961,7 +976,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
             break;
     }
 
-    int value_to_reach = 0; // This is slowly incremented, allowing for better arts
+    // This is slowly incremented, allowing for better arts
+    int value_to_reach = 0;
     int value = 0;
     art_effect_passive aep_good = AEP_NULL, aep_bad = AEP_NULL;
     art_effect_active  aea_good = AEA_NULL, aea_bad = AEA_NULL;
@@ -994,7 +1010,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
 
         value = passive_effect_cost[aep_good] + passive_effect_cost[aep_bad] +
                 active_effect_cost[aea_good] +  active_effect_cost[aea_bad];
-        value_to_reach++; // Yes, it is intentional that this is 1 the first check
+        // Yes, it is intentional that this is 1 the first check
+        value_to_reach++;
     } while( value > value_to_reach );
 
     if( aep_good != AEP_NULL ) {
