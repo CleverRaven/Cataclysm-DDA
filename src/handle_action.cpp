@@ -1004,10 +1004,7 @@ static void loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4,
-        PlantPlots = 8,
         FertilizePlots = 16,
-        HarvestPlots = 32,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
         Multichoptrees = 256,
@@ -1020,10 +1017,6 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
-    const bool has_seeds = u.has_item_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
@@ -1033,10 +1026,7 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
-        flags |= TillPlots;
-        flags |= PlantPlots;
         flags |= FertilizePlots;
-        flags |= HarvestPlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
@@ -1065,28 +1055,12 @@ static void loot()
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
 
-    if( flags & TillPlots ) {
-        menu.addentry_desc( TillPlots, has_hoe, 't',
-                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots… you need a tool to dig with" ),
-                            _( "Tills nearby Farm: Plot zones." ) );
-    }
-
-    if( flags & PlantPlots ) {
-        menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds… it is too cold for planting" ) :
-                            !has_seeds ? _( "Plant seeds… you don't have any" ) : _( "Plant seeds" ),
-                            _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-    }
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
                             !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
                             _( "Fertilize any nearby Farm: Plot zones." ) );
     }
 
-    if( flags & HarvestPlots ) {
-        menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
-                            _( "Harvest any full-grown plants from nearby Farm: Plot zones." ) );
-    }
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
                             _( "Work on any nearby Blueprint: construction zones." ) );
@@ -1126,27 +1100,8 @@ static void loot()
         case SortLoot:
             u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
             break;
-        case TillPlots:
-            if( has_hoe ) {
-                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
-            } else {
-                add_msg( _( "You need a tool to dig with." ) );
-            }
-            break;
-        case PlantPlots:
-            if( !warm_enough_to_plant( g->u.pos() ) ) {
-                add_msg( m_info, _( "It is too cold to plant anything now." ) );
-            } else if( !has_seeds ) {
-                add_msg( m_info, _( "You don't have any seeds." ) );
-            } else {
-                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-            }
-            break;
         case FertilizePlots:
             u.assign_activity( activity_id( "ACT_FERTILIZE_PLOT" ) );
-            break;
-        case HarvestPlots:
-            u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         case ConstructPlots:
             u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
@@ -1913,7 +1868,7 @@ bool game::handle_action()
             case ACTION_USE:
                 // Shell-users are presumed to be able to mess with their inventories, etc
                 // while in the shell.  Eating, gear-changing, and item use are OK.
-                use_item();
+                avatar_action::use_item( u );
                 break;
 
             case ACTION_USE_WIELDED:

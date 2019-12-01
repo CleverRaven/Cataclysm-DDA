@@ -1052,14 +1052,13 @@
     "time": "30 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 2 ], [ "fish", 2 ] ],
-      [ [ "veggy", 2 ], [ "veggy_wild", 2 ] ]
+      [ [ "meat", 1 ], [ "fish", 1 ] ],
+      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
     ]
   },
   {
@@ -1082,7 +1081,7 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "meat", 1 ], [ "fish", 1 ] ],
@@ -1100,7 +1099,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "result_mult": 6,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -1108,8 +1107,8 @@
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "meat", 12 ], [ "fish", 12 ] ],
-      [ [ "veggy", 12 ], [ "veggy_wild", 12 ] ]
+      [ [ "meat", 6 ], [ "fish", 6 ] ],
+      [ [ "veggy", 6 ], [ "veggy_wild", 6 ] ]
     ]
   },
   {
@@ -1444,7 +1443,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ], [ [ "nachos", 3 ] ] ]
+    "components": [ [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ], [ [ "nachos", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1458,7 +1457,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
       [ [ "nachos", 3 ] ]
     ]
@@ -1841,6 +1840,7 @@
   {
     "type": "recipe",
     "result": "can_coconut",
+    "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2325,37 +2325,18 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
+    "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [
-        [ "veggy_any", 1, "LIST" ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ]
-      ],
-      [
-        [ "seasoning_italian", 4 ],
-        [ "wild_herbs", 4 ],
-        [ "seasoning_salt", 1 ],
-        [ "soysauce", 2 ],
-        [ "pepper", 4 ],
-        [ "garlic_clove", 2 ],
-        [ "salt_water", 1 ],
-        [ "salt", 1 ]
-      ]
-    ]
+    "using": [ [ "broth_ingredients", 1 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
     "result": "broth_bone",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -2370,6 +2351,7 @@
   {
     "type": "recipe",
     "result": "broth_human",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -2383,22 +2365,88 @@
   },
   {
     "type": "recipe",
+    "result": "broth",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "24 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "using": [ [ "broth_ingredients", 2 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "broth_bone",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "24 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "bone", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "broth_human",
+    "id_suffix": "canned",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "24 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "book_learn": [ [ "cookbook_human", 4 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "components": [
+      [ [ "can_medium_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bone_human", 20 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "soup_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "charges": 2,
+    "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 1 ] ],
-      [ [ "mushroom", 6 ], [ "mushroom_cooked", 6 ], [ "dry_mushroom", 6 ], [ "morel_cooked", 6 ] ],
-      [ [ "flour", 5 ] ]
-    ]
+    "using": [ [ "mushroom_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2412,18 +2460,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ] ],
-      [ [ "flour", 20 ], [ "starch", 2 ] ],
-      [ [ "mushroom", 12 ], [ "mushroom_cooked", 12 ], [ "dry_mushroom", 12 ], [ "morel_cooked", 12 ] ]
-    ]
+    "using": [ [ "mushroom_soup_ingredients", 2 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -2444,17 +2487,33 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ] ],
-      [ [ "flour", 10 ], [ "starch", 1 ] ],
-      [ [ "mushroom", 6 ], [ "mushroom_cooked", 6 ], [ "dry_mushroom", 6 ], [ "morel_cooked", 6 ] ]
-    ]
+    "using": [ [ "mushroom_soup_ingredients", 2 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_mushroom",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water", 10 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "time": "40 m",
+    "charges": 12,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "using": [ [ "mushroom_soup_ingredients", 12 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
     "result": "soup_veggy",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -2464,36 +2523,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "veggy_green", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "tofu", 1 ],
-        [ "dry_tofu", 1 ],
-        [ "raw_edamame", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "veggy_any", 1, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2508,34 +2538,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ]
-    ]
+    "using": [ [ "meat_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2550,61 +2553,12 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "veggy_any", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "can_corn", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "con_milk", 1 ],
-        [ "flatbread", 1 ],
-        [ "tortilla_corn", 1 ],
-        [ "bread", 1 ],
-        [ "cornbread", 1 ],
-        [ "biscuit", 1 ],
-        [ "hardtack", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "flour", 2 ],
-        [ "cornmeal", 2 ],
-        [ "milk_powder", 1 ],
-        [ "crackers", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [
-        [ "fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "fish_pickled", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ]
-      ]
-    ]
+    "using": [ [ "fish_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
     "result": "soup_woods",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -2614,44 +2568,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
-      [
-        [ "meat_nofish", 1, "LIST" ],
-        [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
-      ],
-      [
-        [ "veggy_wild", 1 ],
-        [ "veggy", 1 ],
-        [ "rehydrated_veggy", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "dry_beans", 1 ],
-        [ "can_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2661,38 +2578,12 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "charges": 1,
+    "charges": 2,
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "cookbook_human", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "broth_human", 2 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ]
   },
   {
     "type": "recipe",
@@ -2890,7 +2781,7 @@
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
       [ [ "syrup", 1 ] ],
-      [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 6 ] ],
+      [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 2, "LIST" ] ],
       [
         [ "salt", 10 ],
@@ -3049,7 +2940,7 @@
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "fish", 1 ],
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
@@ -3132,7 +3023,7 @@
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "fish", 1 ],
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
@@ -3214,7 +3105,7 @@
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "fish", 1 ],
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
@@ -3650,7 +3541,7 @@
         [ "meat_salted", 1 ],
         [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "fish_pickled", 1 ],
         [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
@@ -3692,7 +3583,7 @@
         [ "meat_salted", 1 ],
         [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
-        [ "can_spam", 1 ],
+        [ "can_spam", 2 ],
         [ "fish_pickled", 1 ],
         [ "salted_fish", 1 ],
         [ "fish_canned", 1 ],
@@ -4092,6 +3983,7 @@
   {
     "type": "recipe",
     "result": "curry_meat",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -4126,6 +4018,7 @@
   {
     "type": "recipe",
     "result": "curry_veggy",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
@@ -4575,49 +4468,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
-      [
-        [ "meat_nofish", 2, "LIST" ],
-        [ "fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "dry_fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ],
-        [ "sausage", 4 ],
-        [ "sausage_cooked", 4 ],
-        [ "bratwurst_sausage", 4 ],
-        [ "powder_eggs", 4 ],
-        [ "eggs_bird", 4, "LIST" ],
-        [ "egg_reptile", 4 ]
-      ],
-      [
-        [ "veggy_wild", 2 ],
-        [ "veggy", 2 ],
-        [ "rehydrated_veggy", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "dry_beans", 2 ],
-        [ "can_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "mushroom", 2 ],
-        [ "dry_mushroom", 2 ],
-        [ "mushroom_cooked", 2 ],
-        [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4631,38 +4488,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
-      [
-        [ "irradiated_potato", 2 ],
-        [ "potato", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "veggy_green", 2, "LIST" ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "can_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "spaghetti_raw", 2 ],
-        [ "macaroni_raw", 2 ],
-        [ "noodles_fast", 2 ],
-        [ "dry_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 2 ] ]
-    ]
+    "using": [ [ "meat_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4676,41 +4508,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ] ],
-      [
-        [ "irradiated_potato", 2 ],
-        [ "potato", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "veggy_green", 2, "LIST" ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "can_beans", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "spaghetti_raw", 2 ],
-        [ "macaroni_raw", 2 ],
-        [ "noodles_fast", 2 ],
-        [ "dry_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "tofu", 2 ],
-        [ "dry_tofu", 2 ],
-        [ "raw_edamame", 2 ],
-        [ "dry_rice", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ],
-      [ [ "veggy_any", 2, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 2 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4724,64 +4528,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "veggy_any", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "can_corn", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "con_milk", 1 ],
-        [ "flatbread", 1 ],
-        [ "tortilla_corn", 1 ],
-        [ "bread", 1 ],
-        [ "cornbread", 1 ],
-        [ "biscuit", 1 ],
-        [ "hardtack", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "flour", 2 ],
-        [ "cornmeal", 2 ],
-        [ "milk_powder", 1 ],
-        [ "crackers", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [
-        [ "fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_smoked", 2 ],
-        [ "fish_pickled", 2 ],
-        [ "salted_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_salmon", 2 ],
-        [ "can_tuna", 2 ]
-      ]
-    ]
+    "using": [ [ "fish_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4795,38 +4548,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 2 ], [ "broth_human", 2 ], [ "broth_bone", 1 ] ],
-      [
-        [ "irradiated_potato", 2 ],
-        [ "potato", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "cabbage", 2 ],
-        [ "irradiated_cabbage", 2 ],
-        [ "sauerkraut", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "can_beans", 2 ],
-        [ "spaghetti_raw", 2 ],
-        [ "macaroni_raw", 2 ],
-        [ "noodles_fast", 2 ],
-        [ "dry_beans", 2 ],
-        [ "raw_beans", 2 ],
-        [ "dry_rice", 2 ],
-        [ "beans_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
-      ],
-      [ [ "dry_hflesh", 2 ], [ "rehydrated_hflesh", 2 ], [ "human_meat", 2, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -4840,35 +4568,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 12 ], [ "water_clean", 12 ] ],
-      [
-        [ "veggy_any", 2, "LIST" ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
-        [ "mushroom_cooked", 2 ],
-        [ "morel_cooked", 2 ],
-        [ "mushroom", 2 ],
-        [ "dry_mushroom", 2 ]
-      ],
-      [
-        [ "seasoning_italian", 6 ],
-        [ "wild_herbs", 6 ],
-        [ "seasoning_salt", 2 ],
-        [ "soysauce", 2 ],
-        [ "pepper", 2 ],
-        [ "garlic_clove", 1 ],
-        [ "salt_water", 1 ],
-        [ "salt", 2 ]
-      ]
-    ]
+    "using": [ [ "broth_ingredients", 2 ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -4882,7 +4588,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "1 h",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -4901,7 +4607,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "1 h",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -5046,6 +4752,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "2 m 45 s",
+    "batch_time_factors": [ 80, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
@@ -5832,6 +5539,7 @@
   {
     "type": "recipe",
     "result": "sloppyjoe",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -6426,7 +6134,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -6608,10 +6316,10 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "beans_cooked", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ]
+      [ [ "beans_cooked", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ]
     ]
   },
   {
@@ -6633,48 +6341,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "pine_tea", 1 ] ],
-      [
-        [ "meat_nofish", 1, "LIST" ],
-        [ "rehydrated_meat", 1 ],
-        [ "meat_canned", 1 ],
-        [ "can_chicken", 1 ],
-        [ "fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "sausage", 2 ],
-        [ "sausage_cooked", 2 ],
-        [ "bratwurst_sausage", 2 ],
-        [ "bacon", 2 ],
-        [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
-        [ "egg_reptile", 2 ]
-      ],
-      [
-        [ "veggy_wild", 1 ],
-        [ "veggy", 1 ],
-        [ "rehydrated_veggy", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "dry_beans", 1 ],
-        [ "can_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dry_rice", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6695,33 +6363,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "veggy_green", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "veggy_any", 1, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 2 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6742,33 +6385,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "veggy_green", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ]
-    ]
+    "using": [ [ "meat_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6789,34 +6407,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "//": "This recipe currently has issues with not being able to give it a result_mult or charges. As such, limited ingredients will make it function with the values for meat.",
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "broth_human", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "can_beans", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_rice", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [ [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_meat", 1, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6837,59 +6429,8 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "broth", 1 ], [ "broth_bone", 1 ] ],
-      [
-        [ "spaghetti_raw", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "noodles_fast", 1 ],
-        [ "veggy_any", 1, "LIST" ],
-        [ "sauerkraut", 1 ],
-        [ "can_corn", 1 ],
-        [ "dry_veggy", 1 ],
-        [ "con_milk", 1 ],
-        [ "flatbread", 1 ],
-        [ "tortilla_corn", 1 ],
-        [ "bread", 1 ],
-        [ "cornbread", 1 ],
-        [ "biscuit", 1 ],
-        [ "hardtack", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "flour", 1 ],
-        [ "cornmeal", 1 ],
-        [ "milk_powder", 1 ],
-        [ "crackers", 1 ],
-        [ "powder_eggs", 1 ],
-        [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
-        [ "dry_beans", 1 ],
-        [ "raw_beans", 1 ],
-        [ "dry_lentils", 1 ],
-        [ "raw_lentils", 1 ],
-        [ "dry_rice", 1 ],
-        [ "can_beans", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
-      ],
-      [
-        [ "fish", 1 ],
-        [ "dry_fish", 1 ],
-        [ "fish_smoked", 1 ],
-        [ "fish_pickled", 1 ],
-        [ "salted_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ]
-      ]
-    ]
+    "using": [ [ "fish_soup_ingredients", 1 ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7159,7 +6700,7 @@
     "type": "recipe",
     "result": "drink_martini",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
+    "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "5 m",
@@ -7348,6 +6889,7 @@
   {
     "type": "recipe",
     "result": "soup_cullenskink",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -8072,7 +7614,7 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "result_mult": 12,
+    "charges": 12,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
@@ -8094,7 +7636,7 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "result_mult": 12,
+    "charges": 12,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
@@ -8226,52 +7768,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_bone", 12 ], [ "pine_tea", 12 ] ],
-      [
-        [ "meat_nofish", 12, "LIST" ],
-        [ "rehydrated_meat", 12 ],
-        [ "meat_canned", 12 ],
-        [ "fish", 12 ],
-        [ "fish_smoked", 12 ],
-        [ "dry_fish", 12 ],
-        [ "rehydrated_fish", 12 ],
-        [ "fish_canned", 12 ],
-        [ "can_salmon", 12 ],
-        [ "can_tuna", 12 ],
-        [ "sausage", 24 ],
-        [ "sausage_cooked", 24 ],
-        [ "bratwurst_sausage", 24 ],
-        [ "bacon", 24 ],
-        [ "powder_eggs", 24 ],
-        [ "eggs_bird", 24, "LIST" ],
-        [ "egg_reptile", 24 ]
-      ],
-      [
-        [ "veggy_wild", 12 ],
-        [ "veggy", 12 ],
-        [ "rehydrated_veggy", 12 ],
-        [ "dry_veggy", 12 ],
-        [ "dry_beans", 12 ],
-        [ "can_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "dry_rice", 12 ],
-        [ "dandelion_cooked", 12 ],
-        [ "mushroom", 12 ],
-        [ "dry_mushroom", 12 ],
-        [ "mushroom_cooked", 12 ],
-        [ "morel_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ]
-    ]
+    "using": [ [ "woods_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -8285,38 +7788,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_bone", 12 ] ],
-      [
-        [ "irradiated_potato", 6 ],
-        [ "potato", 6 ],
-        [ "celery", 6 ],
-        [ "irradiated_celery", 6 ],
-        [ "veggy_green", 6, "LIST" ],
-        [ "sauerkraut", 6 ],
-        [ "powder_eggs", 6 ],
-        [ "eggs_bird", 6, "LIST" ],
-        [ "egg_reptile", 6 ],
-        [ "can_beans", 6 ],
-        [ "beans_cooked", 6 ],
-        [ "spaghetti_raw", 6 ],
-        [ "macaroni_raw", 6 ],
-        [ "noodles_fast", 6 ],
-        [ "dry_beans", 6 ],
-        [ "raw_beans", 6 ],
-        [ "dry_rice", 6 ],
-        [ "dandelion_cooked", 6 ],
-        [ "acorns_cooked", 6 ]
-      ],
-      [ [ "meat_red", 6, "LIST" ], [ "dry_meat", 6 ], [ "can_chicken", 12 ] ]
-    ]
+    "using": [ [ "meat_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -8330,38 +7808,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ] ],
-      [
-        [ "irradiated_potato", 12 ],
-        [ "potato", 12 ],
-        [ "celery", 12 ],
-        [ "irradiated_celery", 12 ],
-        [ "veggy_green", 12, "LIST" ],
-        [ "sauerkraut", 12 ],
-        [ "powder_eggs", 12 ],
-        [ "eggs_bird", 12, "LIST" ],
-        [ "egg_reptile", 12 ],
-        [ "can_beans", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "spaghetti_raw", 12 ],
-        [ "macaroni_raw", 12 ],
-        [ "noodles_fast", 12 ],
-        [ "dry_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "dry_rice", 12 ],
-        [ "dandelion_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ],
-      [ [ "veggy_any", 12, "LIST" ] ]
-    ]
+    "using": [ [ "veggy_soup_ingredients", 12 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -8375,64 +7828,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_bone", 12 ] ],
-      [
-        [ "spaghetti_raw", 6 ],
-        [ "macaroni_raw", 6 ],
-        [ "noodles_fast", 6 ],
-        [ "veggy_any", 6, "LIST" ],
-        [ "sauerkraut", 6 ],
-        [ "can_corn", 6 ],
-        [ "dry_veggy", 6 ],
-        [ "con_milk", 6 ],
-        [ "flatbread", 6 ],
-        [ "tortilla_corn", 6 ],
-        [ "bread", 6 ],
-        [ "cornbread", 6 ],
-        [ "biscuit", 6 ],
-        [ "hardtack", 6 ],
-        [ "wastebread", 6 ],
-        [ "sourdough_bread", 6 ],
-        [ "flour", 12 ],
-        [ "cornmeal", 12 ],
-        [ "milk_powder", 6 ],
-        [ "crackers", 6 ],
-        [ "powder_eggs", 6 ],
-        [ "eggs_bird", 6, "LIST" ],
-        [ "egg_reptile", 6 ],
-        [ "dry_beans", 6 ],
-        [ "raw_beans", 6 ],
-        [ "dry_lentils", 6 ],
-        [ "raw_lentils", 6 ],
-        [ "dry_rice", 6 ],
-        [ "can_beans", 6 ],
-        [ "beans_cooked", 6 ],
-        [ "dandelion_cooked", 6 ],
-        [ "mushroom", 6 ],
-        [ "dry_mushroom", 6 ],
-        [ "mushroom_cooked", 6 ],
-        [ "morel_cooked", 6 ],
-        [ "acorns_cooked", 6 ]
-      ],
-      [
-        [ "fish", 12 ],
-        [ "dry_fish", 12 ],
-        [ "fish_smoked", 12 ],
-        [ "fish_pickled", 12 ],
-        [ "salted_fish", 12 ],
-        [ "fish_canned", 12 ],
-        [ "can_salmon", 12 ],
-        [ "can_tuna", 12 ]
-      ]
-    ]
+    "using": [ [ "fish_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -8446,38 +7848,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "broth", 12 ], [ "broth_human", 12 ], [ "broth_bone", 6 ] ],
-      [
-        [ "irradiated_potato", 12 ],
-        [ "potato", 12 ],
-        [ "celery", 12 ],
-        [ "irradiated_celery", 12 ],
-        [ "cabbage", 12 ],
-        [ "irradiated_cabbage", 12 ],
-        [ "sauerkraut", 12 ],
-        [ "powder_eggs", 12 ],
-        [ "eggs_bird", 12, "LIST" ],
-        [ "egg_reptile", 12 ],
-        [ "can_beans", 12 ],
-        [ "spaghetti_raw", 12 ],
-        [ "macaroni_raw", 12 ],
-        [ "noodles_fast", 12 ],
-        [ "dry_beans", 12 ],
-        [ "raw_beans", 12 ],
-        [ "dry_rice", 12 ],
-        [ "beans_cooked", 12 ],
-        [ "acorns_cooked", 12 ]
-      ],
-      [ [ "dry_hflesh", 12 ], [ "rehydrated_hflesh", 12 ], [ "human_meat", 12, "LIST" ] ]
-    ]
+    "using": [ [ "human_soup_ingredients", 6 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -8491,35 +7868,13 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [
-        [ "veggy_any", 12, "LIST" ],
-        [ "powder_eggs", 12 ],
-        [ "eggs_bird", 12, "LIST" ],
-        [ "egg_reptile", 12 ],
-        [ "mushroom_cooked", 12 ],
-        [ "morel_cooked", 12 ],
-        [ "mushroom", 12 ],
-        [ "dry_mushroom", 12 ]
-      ],
-      [
-        [ "seasoning_italian", 60 ],
-        [ "wild_herbs", 60 ],
-        [ "seasoning_salt", 60 ],
-        [ "soysauce", 8 ],
-        [ "pepper", 80 ],
-        [ "garlic_clove", 24 ],
-        [ "salt_water", 4 ],
-        [ "salt", 60 ]
-      ]
-    ]
+    "using": [ [ "broth_ingredients", 12 ] ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ] ]
   },
   {
     "type": "recipe",
@@ -8533,12 +7888,12 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "1 h 10 m",
-    "result_mult": 12,
+    "charges": 12,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 24 ], [ "water_clean", 24 ] ], [ [ "bone", 120 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "bone", 120 ] ] ]
   },
   {
     "type": "recipe",
@@ -8552,12 +7907,12 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "time": "1 h 10 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 24 ], [ "water_clean", 24 ] ], [ [ "bone_human", 120 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "bone_human", 120 ] ] ]
   },
   {
     "type": "recipe",
@@ -8584,7 +7939,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "2 h",
-    "result_mult": 12,
+    "charges": 48,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8606,7 +7961,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
-    "result_mult": 2,
+    "charges": 8,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8637,10 +7992,10 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
   },
   {
@@ -8669,6 +8024,7 @@
   {
     "type": "recipe",
     "result": "con_milk",
+    "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -8704,7 +8060,7 @@
     "difficulty": 3,
     "autolearn": true,
     "time": "2 h",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8736,7 +8092,7 @@
     "difficulty": 3,
     "autolearn": true,
     "time": "45 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
@@ -8776,16 +8132,16 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "milk_standard_raw", 2, "LIST" ] ],
+      [ [ "milk_standard_raw", 4, "LIST" ] ],
       [
-        [ "sugar", 100 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ],
-        [ "molasses", 1 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "sugar", 200 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 2 ],
+        [ "molasses", 2 ],
+        [ "honey_bottled", 2 ],
+        [ "honey_glassed", 2 ]
       ]
     ]
   },

@@ -82,7 +82,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                              critter.disp_name(), poor_soul->disp_name() );
                 }
             }
-            poor_soul->apply_damage( nullptr, bp_torso, 9999 ); //Splatter real nice.
+            //Splatter real nice.
+            poor_soul->apply_damage( nullptr, bp_torso, 9999 );
             poor_soul->check_dead_state();
         }
     }
@@ -97,5 +98,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( c_is_u ) {
         g->update_map( *p );
     }
+    critter.remove_effect( efftype_id( "grabbed" ) );
     return true;
 }

@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -205,7 +206,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
     const units::volume &craft_volume = craft.volume();
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000000_ml );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
     return multiplier;
 }
@@ -986,15 +987,15 @@ static void destroy_random_component( item &craft, const player &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
-void item::handle_craft_failure( player &crafter )
+bool item::handle_craft_failure( player &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
-        return;
+        return false;
     }
 
     const double success_roll = crafter.crafting_success_roll( get_making() );
-
+    const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
     for( size_t i = 0; i < max_destroyed; i++ ) {
@@ -1007,6 +1008,10 @@ void item::handle_craft_failure( player &crafter )
             continue;
         }
         destroy_random_component( *this, crafter );
+    }
+    if( starting_components > 0 && this->components.empty() ) {
+        // The craft had components and all of them were destroyed.
+        return true;
     }
 
     // Minimum 25% progress lost, average 35%.  Falls off exponentially
@@ -1024,6 +1029,7 @@ void item::handle_craft_failure( player &crafter )
     if( !crafter.can_continue_craft( *this ) ) {
         crafter.cancel_activity();
     }
+    return false;
 }
 
 requirement_data item::get_continue_reqs() const
@@ -1145,6 +1151,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                }
+                // If this recipe is cooked, components are no longer raw.
+                if( should_heat ) {
+                    comp.set_flag_recursive( "COOKED" );
                 }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
@@ -1416,6 +1426,18 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             selected.use_from = use_from_both;
             selected.comp = mixed[0];
         }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            debugmsg( "Attempted a recipe with no available components!" );
+            selected.use_from = cancel;
+            return selected;
+        }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
         // Populate options with the names of the items
@@ -1624,6 +1646,17 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         } else {
             selected.use_from = use_from_map;
             selected.comp = map_has[0];
+        }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            selected.use_from = use_from_none;
+            return selected;
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1895,6 +1928,31 @@ bool player::disassemble( item_location target, bool interactive )
     }
 
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !obj.is_owned_by( g->u, true ) ) {
+        if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
+                       obj.tname() ) ) {
+            return false;
+        } else {
+            if( obj.get_owner() ) {
+                std::vector<npc *> witnesses;
+                for( npc &elem : g->all_npcs() ) {
+                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                        elem.say( "<witnessed_thievery>", 7 );
+                        npc *npc_to_add = &elem;
+                        witnesses.push_back( npc_to_add );
+                    }
+                }
+                if( !witnesses.empty() ) {
+                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                        for( npc *elem : witnesses ) {
+                            elem->make_angry();
+                        }
+                    }
+                }
+            }
+        }
+    }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
@@ -1902,7 +1960,6 @@ bool player::disassemble( item_location target, bool interactive )
         for( const auto &component : components ) {
             list << "- " << component.to_string() << std::endl;
         }
-
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),

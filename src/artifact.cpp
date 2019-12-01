@@ -161,14 +161,17 @@ struct artifact_property_datum {
     std::array<art_effect_active, 4> active_bad;
 };
 
-struct artifact_dream_datum {     //Used only when generating - stored as individual members of each artifact
+//Used only when generating - stored as individual members of each artifact
+struct artifact_dream_datum {
     std::vector<std::string> msg_unmet;
     std::vector<std::string> msg_met;
     // Once per hour while sleeping, makes a list of each artifact that passes a (freq) in 100 check
     // One item is picked from artifacts that passed that chance, and the appropriate msg is shown
     // If multiple met/unmet messages are specified for the item, one is picked at random
-    int freq_unmet; // 100 if no reqs, since should never be unmet in that case
-    int freq_met;   //   0 if no reqs
+    // 100 if no reqs, since should never be unmet in that case
+    //   0 if no reqs
+    int freq_unmet;
+    int freq_met;
 };
 
 enum artifact_weapon_type {
@@ -204,7 +207,8 @@ enum artifact_tool_form {
 struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
-    units::mass weight; // Only applicable if this is an *extra* weapon
+    // Only applicable if this is an *extra* weapon
+    units::mass weight;
     int bash_min;
     int bash_max;
     int cut_min;
@@ -261,16 +265,16 @@ enum artifact_armor_form {
 };
 
 static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
-        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1_liter, 1_gram, 1150_gram},
         {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
         {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
-        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
-        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
-        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1_liter, 225_ml, 1_gram, 350_gram},
+        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2_liter, 1_gram, 950_gram},
+        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1_liter, 1500_ml, 200_gram, 400_gram},
         {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
         {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
         {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
-        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2_liter, 200_gram, 450_gram},
         {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
         {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
         {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
@@ -413,22 +417,22 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
 };
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
         {
-            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5_liter, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
             {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3_liter, 450_gram, 1150_gram, ARTWEAP_CLUB,
             {{ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2_liter, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
             {{ARTWEAP_BULK, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
         {
-            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1_liter, 100_gram, 700_gram, ARTWEAP_KNIFE,
             {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
@@ -460,7 +464,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
             { bp_torso }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -470,7 +474,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1_liter, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             { { bp_eyes, bp_mouth } }, false,
             {{
                     ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -532,38 +536,38 @@ static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor
         {
             translate_marker( "very thin and light." ), def_c_white, material_id( "null" ),
             // Vol   Wgt Enc MaxEnc Cov Thk Env Wrm Sto
-            -1000_ml, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
+            -1_liter, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "extremely bulky." ), def_c_white, material_id( "null" ),
-            2000_ml, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
+            2_liter, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "covered in pockets." ), def_c_white, material_id( "null" ),
-            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, {},  false,
+            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4_liter, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "disgustingly furry." ), def_c_white, material_id( "wool" ),
             // Vol  Wgt Enc MaxEnc Dmg Cut Env Wrm Sto
-            1000_ml, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
+            1_liter, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "leather-padded." ), def_c_white, material_id( "leather" ),
-            1000_ml, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
+            1_liter, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "plated in iron." ), def_c_white, material_id( "iron" ),
-            1000_ml, 1400_gram,  3,  3,  2,  2,  0,  1, -1000_ml, 0, 0, 0, {}, false,
+            1_liter, 1400_gram,  3,  3,  2,  2,  0,  1, -1_liter, 0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
     }
@@ -669,7 +673,8 @@ void it_artifact_armor::create_name( const std::string &type )
 
 std::string new_artifact()
 {
-    if( one_in( 2 ) ) { // Generate a "tool" artifact
+    if( one_in( 2 ) ) {
+        // Generate a "tool" artifact
 
         it_artifact_tool def;
 
@@ -727,10 +732,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || num_bad < 1 || one_in( num_good + 1 ) ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good
+            if( value < 1 && one_in( 2 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else if( !bad_effects.empty() ) { // Bad effect
+            } else if( !bad_effects.empty() ) {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -747,10 +754,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 3 ) ) { // Good
+            if( value < 1 && one_in( 3 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -767,11 +776,13 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( value > 3 || ( num_bad > 0 && num_good == 0 ) ||
                  !one_in( 3 - num_good ) || !one_in( 3 - num_bad ) ) ) {
-            if( !one_in( 3 ) && value <= 1 ) { // Good effect
+            if( !one_in( 3 ) && value <= 1 ) {
+                // Good effect
                 active_tmp = random_entry_removed( good_a_effects );
                 num_good++;
                 value += active_effect_cost[active_tmp];
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 active_tmp = random_entry_removed( bad_a_effects );
                 num_bad++;
                 value += active_effect_cost[active_tmp];
@@ -784,8 +795,9 @@ std::string new_artifact()
         if( def.tool->max_charges > 0 ) {
             def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         }
+        // 1 in 8 chance that it can't recharge!
         if( one_in( 8 ) && num_bad + num_good >= 4 ) {
-            def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+            def.artifact->charge_type = ARTC_NULL;
         }
         // Maybe pick an extra recharge requirement
         if( one_in( std::max( 1, 6 - num_good ) ) && def.artifact->charge_type != ARTC_NULL ) {
@@ -806,14 +818,15 @@ std::string new_artifact()
 
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
-    } else { // Generate an armor artifact
-
+    } else {
+        // Generate an armor artifact
         it_artifact_armor def;
 
         const artifact_armor_form_datum &info = random_entry_ref( artifact_armor_form_data );
 
         def.create_name( _( info.name ) );
-        def.sym = "["; // Armor is always [
+        // Armor is always [
+        def.sym = "[";
         def.color = info.color;
         def.materials.push_back( info.material );
         def.volume = info.volume;
@@ -900,10 +913,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || one_in( num_good * 2 ) || value > 1 ||
                  ( num_bad < 3 && !one_in( 3 - num_bad ) ) ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good effect
+            if( value < 1 && one_in( 2 ) ) {
+                // Good effect
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -961,7 +976,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
             break;
     }
 
-    int value_to_reach = 0; // This is slowly incremented, allowing for better arts
+    // This is slowly incremented, allowing for better arts
+    int value_to_reach = 0;
     int value = 0;
     art_effect_passive aep_good = AEP_NULL, aep_bad = AEP_NULL;
     art_effect_active  aea_good = AEA_NULL, aea_bad = AEA_NULL;
@@ -994,7 +1010,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
 
         value = passive_effect_cost[aep_good] + passive_effect_cost[aep_bad] +
                 active_effect_cost[aea_good] +  active_effect_cost[aea_bad];
-        value_to_reach++; // Yes, it is intentional that this is 1 the first check
+        // Yes, it is intentional that this is 1 the first check
+        value_to_reach++;
     } while( value > value_to_reach );
 
     if( aep_good != AEP_NULL ) {

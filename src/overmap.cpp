@@ -1217,15 +1217,16 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( std::shared_ptr<npc> who )
+void overmap::insert_npc( shared_ptr_fast<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-std::shared_ptr<npc> overmap::erase_npc( const character_id id )
+shared_ptr_fast<npc> overmap::erase_npc( const character_id id )
 {
-    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) {
+    const auto iter = std::find_if( npcs.begin(),
+    npcs.end(), [id]( const shared_ptr_fast<npc> &n ) {
         return n->getID() == id;
     } );
     if( iter == npcs.end() ) {
@@ -1237,10 +1238,11 @@ std::shared_ptr<npc> overmap::erase_npc( const character_id id )
     return ptr;
 }
 
-std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )>
+std::vector<shared_ptr_fast<npc>> overmap::get_npcs( const
+                               std::function<bool( const npc & )>
                                &predicate ) const
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( const auto &g : npcs ) {
         if( predicate( *g ) ) {
             result.push_back( g );
@@ -4076,10 +4078,10 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         std::vector<point> nearest_candidates;
         // Since this starts at enabled_specials::origin, it will only place new overmaps
         // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
-        for( point candidate_addr : closest_points_first( 2, custom_overmap_specials.get_origin() ) ) {
+        for( const point &candidate_addr : closest_points_first( 2,
+                custom_overmap_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr ) ) {
-                int current_distance = square_dist( pos(),
-                                                    candidate_addr );
+                int current_distance = square_dist( pos(), candidate_addr );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
                     nearest_candidates.push_back( candidate_addr );
                     previous_distance = current_distance;
@@ -4370,7 +4372,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-std::shared_ptr<npc> overmap::find_npc( const character_id id ) const
+shared_ptr_fast<npc> overmap::find_npc( const character_id id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

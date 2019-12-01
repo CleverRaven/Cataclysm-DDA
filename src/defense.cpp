@@ -345,7 +345,8 @@ void defense_game::init_to_style( defense_style new_style )
         case NUM_DEFENSE_STYLES:
             DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
             break;
-        case DEFENSE_EASY: // fall through to custom
+        case DEFENSE_EASY:
+        // fall through to custom
         case DEFENSE_CUSTOM:
             location = DEFLOC_HOSPITAL;
             initial_difficulty = 15;
@@ -526,7 +527,8 @@ void defense_game::setup()
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
-                case 1: // Scenario selection
+                case 1:
+                    // Scenario selection
                     if( action == "RIGHT" ) {
                         if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
                             style = static_cast<defense_style>( 1 );
@@ -544,7 +546,8 @@ void defense_game::setup()
                     init_to_style( style );
                     break;
 
-                case 2: // Location selection
+                case 2:
+                    // Location selection
                     if( action == "RIGHT" ) {
                         if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
                             location = static_cast<defense_location>( 1 );
@@ -565,7 +568,8 @@ void defense_game::setup()
                     mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
                     break;
 
-                case 3: // Difficulty of the first wave
+                case 3:
+                    // Difficulty of the first wave
                     if( action == "LEFT" && initial_difficulty > 10 ) {
                         initial_difficulty -= 5;
                     }
@@ -577,7 +581,8 @@ void defense_game::setup()
                                initial_difficulty );
                     break;
 
-                case 4: // Wave Difficulty
+                case 4:
+                    // Wave Difficulty
                     if( action == "LEFT" && wave_difficulty > 10 ) {
                         wave_difficulty -= 5;
                     }
@@ -1124,7 +1129,7 @@ void defense_game::caravan()
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), tmp );
+                    g->m.add_item_or_charges( g->u.pos(), tmp );
                 }
             }
         }

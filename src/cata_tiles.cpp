@@ -264,8 +264,8 @@ void cata_tiles::reinit()
 static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
-    const std::string default_json = FILENAMES["defaulttilejson"];
-    const std::string default_tileset = FILENAMES["defaulttilepng"];
+    const std::string default_json = PATH_INFO::defaulttilejson();
+    const std::string default_tileset = PATH_INFO::defaulttilepng();
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -275,7 +275,8 @@ static void get_tile_information( const std::string &config_path, std::string &j
 
             if( sOption.empty() ) {
                 getline( fin, sOption );
-            } else if( sOption[0] == '#' ) { // Skip comment
+            } else if( sOption[0] == '#' ) {
+                // Skip comment
                 getline( fin, sOption );
             } else if( sOption.find( "JSON" ) != std::string::npos ) {
                 fin >> json_path;
@@ -516,13 +517,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
-        get_tile_information( tileset_root + '/' + FILENAMES["tileset-conf"],
+        get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
                               json_conf, tileset_path );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
-        json_conf = FILENAMES["defaulttilejson"];
-        tileset_path = FILENAMES["defaulttilepng"];
+        json_conf = PATH_INFO::defaulttilejson();
+        tileset_path = PATH_INFO::defaulttilepng();
     }
 
     std::string json_path = tileset_root + '/' + json_conf;
@@ -601,7 +602,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     // loop through all tile ids and eliminate empty/invalid things
     for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
-        auto &td = it->second;        // second is the tile_type describing that id
+        // second is the tile_type describing that id
+        auto &td = it->second;
         process_variations_after_loading( td.fg );
         process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
@@ -977,7 +979,8 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
 
 struct tile_render_info {
     const tripoint pos;
-    int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
+    // accumulator for 3d tallness of sprites rendered here so far;
+    int height_3d = 0;
     lit_level ll;
     bool invisible[5];
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
@@ -1101,14 +1104,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              NORTH ) );
         }
     }
-    static const point neighborhood[4] = {
-        point_south, point_east, point_west, point_north
-    };
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
-            int temp_x, temp_y;
+            int temp_x;
+            int temp_y;
             if( iso_mode ) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen center.
@@ -1126,7 +1127,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &y = pos.y;
 
             lit_level ll;
-            bool invisible[5]; // invisible to normal eyes
+            // invisible to normal eyes
+            bool invisible[5];
             invisible[0] = false;
 
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
@@ -1706,7 +1708,8 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 sym = LINE_XXXX_C;
                 break;
             default:
-                break; // sym goes unchanged
+                // sym goes unchanged
+                break;
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
@@ -1964,42 +1967,51 @@ bool cata_tiles::draw_sprite_at(
     if( rotate_sprite ) {
         switch( rota ) {
             default:
-            case 0: // unrotated (and 180, with just two sprites)
+            case 0:
+                // unrotated (and 180, with just two sprites)
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 break;
-            case 1: // 90 degrees (and 270, with just two sprites)
+            case 1:
+                // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) {
+                    // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 2: // 180 degrees, implemented with flips instead of rotation
-                if( ! tile_iso ) { // never flip isometric tiles vertically
+            case 2:
+                // 180 degrees, implemented with flips instead of rotation
+                if( !tile_iso ) {
+                    // never flip isometric tiles vertically
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                       static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 3: // 270 degrees
+            case 3:
+                // 270 degrees
 #if defined(_WIN32)
                 destination.x -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) {
+                    // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 4: // flip horizontally
+            case 4:
+                // flip horizontally
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
-    } else { // don't rotate, same as case 0 above
+    } else {
+        // don't rotate, same as case 0 above
         ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
     }
 
@@ -2138,16 +2150,12 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     const bool overridden = override != terrain_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( terrain_override.find( p + dir ) != terrain_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
     // first memorize the actual terrain
     const ter_id &t = g->m.ter( p );
@@ -2306,16 +2314,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     const bool overridden = override != furniture_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( furniture_override.find( p + dir ) != furniture_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
     // first memorize the actual furniture
     const furn_id &f = g->m.furn( p );
@@ -2383,16 +2387,12 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     const bool overridden = override != trap_override.end();
     bool neighborhood_overridden = overridden;
     if( !neighborhood_overridden ) {
-        // *INDENT-OFF*
-        for( const point &dir : {
-                 point_south, point_east, point_west, point_north
-             } ) {
+        for( const point &dir : neighborhood ) {
             if( trap_override.find( p + dir ) != trap_override.end() ) {
                 neighborhood_overridden = true;
                 break;
             }
         }
-        // *INDENT-ON*
     }
 
     // first memorize the actual trap
@@ -2756,7 +2756,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = pl->attitude_to( g-> u );
             }
         }
-    } else { // invisible
+    } else {
+        // invisible
         const Creature *critter = g->critter_at( p, true );
         if( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
@@ -3468,7 +3469,8 @@ void cata_tiles::do_tile_loading_report()
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
     if( !g->is_core_data_loaded() ) {
-        return; // There's nothing to do anymore without the core data.
+        // There's nothing to do anymore without the core data.
+        return;
     }
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );

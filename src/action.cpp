@@ -44,10 +44,10 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
     const auto parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
-    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["keymap"];
-    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
+    if( read_from_file_optional( PATH_INFO::keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::keymap();
+    } else if( read_from_file_optional( PATH_INFO::legacy_keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::legacy_keymap();
     }
 }
 
@@ -71,7 +71,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
                 debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
-                          "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                          "Fix \"%s\" at your next chance!", id, PATH_INFO::keymap() );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -82,7 +82,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                         if( kmap.find( ch ) != kmap.end() ) {
                             debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
                                       "%s is being ignored.\n"
-                                      "Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                                      "Fix \"%s\" at your next chance!", ch, id, PATH_INFO::keymap() );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -90,7 +90,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                 }
             }
         } else {
-            getline( keymap_txt, id ); // Clear the whole line
+            // Clear the whole line
+            getline( keymap_txt, id );
         }
     }
 }
@@ -774,10 +775,12 @@ action_id handle_action_menu()
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "…";        // help _is_a menu.
+                // help _is_a menu.
+                entry->txt += "…";
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
+                // register with global key
+                REGISTER_CATEGORY( _( "Debug" ) );
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -812,7 +815,8 @@ action_id handle_action_menu()
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "…"; // debug _is_a menu.
+                // debug _is_a menu.
+                entry->txt += "…";
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -992,7 +996,8 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    // why not?
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );

@@ -64,71 +64,30 @@
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
 const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cig( "cig" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_evil( "evil" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
-const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_thorazine( "took_thorazine" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_pet( "pet" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -258,7 +217,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.thirst ) {
             mod_thirst( mdata.cost );
-            if( get_thirst() >= 260 ) { // Well into Dehydrated
+            // Well into Dehydrated
+            if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mdata.name() );
@@ -267,7 +227,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
-            if( get_fatigue() >= EXHAUSTED ) { // Exhausted
+            // Exhausted
+            if( get_fatigue() >= EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -366,9 +327,11 @@ void Character::suffer_while_awake( const int current_stim )
     }
 
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
-        if( rng( 1, 20 ) > 9 ) { // 55% chance
+        if( rng( 1, 20 ) > 9 ) {
+            // 55% chance
             add_morale( MORALE_MOODSWING, -100, -500 );
-        } else {  // 45% chance
+        } else {
+            // 45% chance
             add_morale( MORALE_MOODSWING, 100, 500 );
         }
     }
@@ -469,22 +432,25 @@ void Character::suffer_from_schizophrenia()
     // Delusions
     if( one_turn_in( 8_hours ) ) {
         if( rng( 1, 20 ) > 5 ) {  // 75% chance
-            std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
-            add_msg_if_player( m_warning, snip );
+            const translation snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" ).value_or(
+                                         translation() );
+            add_msg_if_player( m_warning, "%s", snip );
             add_morale( MORALE_FEELING_BAD, -20, -100 );
         } else { // 25% chance
-            std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
-            add_msg_if_player( m_good, snip );
+            const translation snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" ).value_or(
+                                         translation() );
+            add_msg_if_player( m_good, "%s", snip );
             add_morale( MORALE_FEELING_GOOD, 20, 100 );
         }
         return;
     }
     // Formication
     if( one_turn_in( 6_hours ) ) {
-        std::string snip = SNIPPET.random_from_category( "schizo_formication" );
+        const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
+                                     translation() );
         body_part bp = random_body_part( true );
         add_effect( effect_formication, 45_minutes, bp );
-        add_msg_if_player( m_bad, snip );
+        add_msg_if_player( m_bad, "%s", snip );
         return;
     }
     // Numbness
@@ -512,23 +478,25 @@ void Character::suffer_from_schizophrenia()
     }
     // Shout
     if( one_turn_in( 4_hours ) ) {
-        shout( SNIPPET.random_from_category( "schizo_self_shout" ) );
+        shout( SNIPPET.random_from_category( "schizo_self_shout" ).value_or( translation() ).translated() );
         return;
     }
     // Drop weapon
     if( one_turn_in( 2_days ) && !weapon.is_null() ) {
-        std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
+        const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
+                                     translation() );
         std::string str = string_format( snip, i_name_w );
         str[0] = toupper( str[0] );
 
-        add_msg_if_player( m_bad, str );
+        add_msg_if_player( m_bad, "%s", str );
         drop( get_item_position( &weapon ), pos() );
         // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         return;
     }
     // Talk to self
     if( one_turn_in( 4_hours ) ) {
-        std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
+        const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
+                                     translation() );
         add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
         return;
     }
@@ -543,7 +511,7 @@ void Character::suffer_from_schizophrenia()
     }
     // Follower turns hostile
     if( one_turn_in( 4_hours ) ) {
-        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
         std::string who_gets_angry = name;
         if( !followers.empty() ) {
@@ -571,8 +539,8 @@ void Character::suffer_from_schizophrenia()
 
     // Limb Breaks
     if( one_turn_in( 4_hours ) ) {
-        std::string snip = SNIPPET.random_from_category( "broken_limb" );
-        add_msg( m_bad, snip );
+        const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
+        add_msg( m_bad, "%s", snip );
         return;
     }
 
@@ -580,7 +548,8 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         std::string i_name = Name::generate( one_in( 2 ) );
 
-        std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
+        std::string i_talk = SNIPPET.expand( SNIPPET.random_from_category( "<lets_talk>" ).value_or(
+                translation() ).translated() );
         parse_tags( i_talk, *this, *this );
 
         add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
@@ -602,31 +571,35 @@ void Character::suffer_from_schizophrenia()
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
-        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
 
         std::string i_talk_w;
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( std::weak_ptr<monster> &n : mons ) {
+            for( weak_ptr_fast<monster> &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }
             }
             if( !seen_mons.empty() ) {
-                std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
+                const translation talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" ).value_or(
+                                               translation() );
                 i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                 does_talk = true;
             }
         }
         if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
+            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
+                           translation() ).translated();
             does_talk = true;
         } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
+            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
+                           translation() ).translated();
             does_talk = true;
         } else if( one_turn_in( 4_hours ) ) {
-            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
+            i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" ).value_or(
+                           translation() ).translated();
             does_talk = true;
         }
         if( does_talk ) {
@@ -998,16 +971,18 @@ void Character::suffer_from_other_mutations()
         calendar::once_every( 2_hours ) ) {
         add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
-            std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
-            add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
+            const translation smokin_hot_fiyah =
+                SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
+            add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
         }
     }
     if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
         calendar::once_every( 2_hours ) ) {
         add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
-            add_msg_if_player( m_bad, _( snip ) );
+            const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
+                                         translation() );
+            add_msg_if_player( m_bad, "%s", snip );
         }
     }
 }
@@ -1461,9 +1436,7 @@ void Character::suffer()
     }
 
     for( size_t i = 0; i < my_bionics->size(); i++ ) {
-        if( ( *my_bionics )[i].powered ) {
-            process_bionic( i );
-        }
+        process_bionic( i );
     }
 
     for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
@@ -1890,7 +1863,8 @@ void Character::add_addiction( add_type type, int strength )
         if( i.sated < 0_turns ) {
             i.sated = timer;
         } else if( i.sated < 10_minutes ) {
-            i.sated += timer; // TODO: Make this variable?
+            // TODO: Make this variable?
+            i.sated += timer;
         } else {
             i.sated += timer / 2;
         }

@@ -13,18 +13,12 @@ static SpeechBubble nullSpeech = { no_translation( "INVALID SPEECH" ), 0 };
 
 void load_speech( JsonObject &jo )
 {
-    const std::string label = jo.get_string( "speaker" );
     translation sound;
     jo.read( "sound", sound );
     const int volume = jo.get_int( "volume" );
-
-    std::map<std::string, std::vector<SpeechBubble>>::iterator speech_type = speech.find( label );
-    // Construct a vector matching the label if needed.
-    if( speech_type == speech.end() ) {
-        speech_type = speech.emplace( label, std::vector<SpeechBubble>() ).first;
+    for( const std::string &label : jo.get_tags( "speaker" ) ) {
+        speech[label].emplace_back( SpeechBubble{ sound, volume } );
     }
-
-    speech_type->second.emplace_back( SpeechBubble{ sound, volume } );
 }
 
 void reset_speech()

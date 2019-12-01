@@ -209,9 +209,9 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Set max volume for containers to prevent integer overflow
-    if( obj.container && obj.container->contains > 10000000_ml ) {
-        debugmsg( obj.id + " storage volume is too large, reducing to 10000000" );
-        obj.container->contains = 10000000_ml;
+    if( obj.container && obj.container->contains > 10000_liter ) {
+        debugmsg( obj.id + " storage volume is too large, reducing to 10000 liters" );
+        obj.container->contains = 10000_liter;
     }
 
     // for ammo not specifying loudness (or an explicit zero) derive value from other properties
@@ -687,6 +687,7 @@ void Item_factory::init()
     add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
+    add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
     add_iuse( "MARLOSS", &iuse::marloss );
@@ -2244,7 +2245,7 @@ void Item_factory::load_migration( JsonObject &jo )
     } else if( jo.has_array( "id" ) ) {
         JsonArray ja = jo.get_array( "id" );
         while( ja.has_more() ) {
-            m.id = jo.get_string( "id" );
+            m.id = ja.next_string();
             migrations[ m.id ] = m;
         }
     } else {
@@ -2264,7 +2265,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     if( iter != migrations.end() ) {
         std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags,
                    obj.item_tags.begin() ) );
-        obj.charges = iter->second.charges;
+        if( iter->second.charges > 0 ) {
+            obj.charges = iter->second.charges;
+        }
 
         for( const auto &c : iter->second.contents ) {
             if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {

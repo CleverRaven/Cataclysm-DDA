@@ -115,9 +115,58 @@
     "type": "field_type",
     "legacy_enum_id": 8,
     "intensity_levels": [
-      { "name": "sap splatter", "sym": "5", "color": "yellow", "dangerous": true },
-      { "name": "glob of sap" },
-      { "name": "pool of sap", "color": "brown" }
+      {
+        "name": "sap splatter",
+        "sym": "5",
+        "color": "yellow",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "glob of sap",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "pool of sap",
+        "color": "brown",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "is_splattering": true,
     "priority": 2,
@@ -185,34 +234,48 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "2 seconds",
-        "inside_immune": true
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
       },
       {
         "name": "smoke",
         "color": "light_gray",
         "transparent": false,
         "translucency": 10,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 2,
-        "effect_min_duration": "7 seconds",
-        "effect_max_duration": "7 seconds",
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
         "scent_neutralization": 1
       },
       {
         "name": "thick smoke",
         "color": "dark_gray",
         "translucency": 0,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 4,
-        "effect_min_duration": "15 seconds",
-        "effect_max_duration": "15 seconds",
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
         "scent_neutralization": 5
       }
     ],
@@ -221,7 +284,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 12 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -234,9 +297,71 @@
     "type": "field_type",
     "legacy_enum_id": 13,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
-      { "name": "toxic gas", "color": "light_green", "transparent": false, "translucency": 10 },
-      { "name": "thick toxic gas", "color": "green", "translucency": 0 }
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the hazy cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "toxic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick toxic gas",
+        "color": "green",
+        "translucency": 0,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -719,9 +844,51 @@
     "type": "field_type",
     "legacy_enum_id": 39,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true, "translucency": 5 },
-      { "name": "sedative gas", "color": "pink" },
-      { "name": "relaxation gas", "color": "cyan" }
+      {
+        "name": "hazy cloud",
+        "sym": ".",
+        "dangerous": true,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_outside_vehicle": 3,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "sedative gas",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      },
+      {
+        "name": "relaxation gas",
+        "color": "cyan",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 6,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -934,6 +1101,78 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_field": true
+  },
+  {
+    "id": "fd_hot_air_sauna",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 65 },
+      { "color": "yellow", "convection_temperature_mod": 68 },
+      { "color": "red", "convection_temperature_mod": 71 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
+    "priority": -1,
+    "half_life": "50 minutes",
+    "phase": "gas",
+    "display_field": true
+  },
+  {
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "5 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "10 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
   },
   {
     "id": "fd_fungicidal_gas",

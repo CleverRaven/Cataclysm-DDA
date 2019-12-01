@@ -359,17 +359,83 @@ static void load_overmap_lake_settings( JsonObject &jo,
     }
 }
 
+static void load_region_terrain_and_furniture_settings( JsonObject &jo,
+        region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "region_terrain_and_furniture" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"region_terrain_and_furniture\": { … } required for default" );
+        }
+    } else {
+        JsonObject region_terrain_and_furniture_settings_jo =
+            jo.get_object( "region_terrain_and_furniture" );
+
+        if( !region_terrain_and_furniture_settings_jo.has_object( "terrain" ) ) {
+            if( !overlay ) {
+                region_terrain_and_furniture_settings_jo.throw_error( "terrain required" );
+            }
+        } else {
+            JsonObject template_terrain_jo = region_terrain_and_furniture_settings_jo.get_object( "terrain" );
+            std::set<std::string> template_terrain_ids = template_terrain_jo.get_member_names();
+            for( const auto &template_terrain_id : template_terrain_ids ) {
+                if( template_terrain_id == "//" ) {
+                    continue;
+                }
+                JsonObject terrain_jo = template_terrain_jo.get_object( template_terrain_id );
+                std::set<std::string> terrain_ids = terrain_jo.get_member_names();
+                for( const auto &terrain_id : terrain_ids ) {
+                    if( terrain_id == "//" ) {
+                        continue;
+                    }
+                    int weight = 0;
+                    if( terrain_jo.read( terrain_id, weight ) ) {
+                        region_terrain_and_furniture_settings.unfinalized_terrain[template_terrain_id][terrain_id] = weight;
+                    }
+                }
+            }
+        }
+
+        if( !region_terrain_and_furniture_settings_jo.has_object( "furniture" ) ) {
+            if( !overlay ) {
+                region_terrain_and_furniture_settings_jo.throw_error( "furniture required" );
+            }
+        } else {
+            JsonObject template_furniture_jo =
+                region_terrain_and_furniture_settings_jo.get_object( "furniture" );
+            std::set<std::string> template_furniture_ids = template_furniture_jo.get_member_names();
+            for( const auto &template_furniture_id : template_furniture_ids ) {
+                if( template_furniture_id == "//" ) {
+                    continue;
+                }
+                JsonObject furniture_jo = template_furniture_jo.get_object( template_furniture_id );
+                std::set<std::string> furniture_ids = furniture_jo.get_member_names();
+                for( const auto &furniture_id : furniture_ids ) {
+                    if( furniture_id == "//" ) {
+                        continue;
+                    }
+                    int weight = 0;
+                    if( furniture_jo.read( furniture_id, weight ) ) {
+                        region_terrain_and_furniture_settings.unfinalized_furniture[template_furniture_id][furniture_id] =
+                            weight;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
-    if( ! jo.read( "id", new_region.id ) ) {
+    if( !jo.read( "id", new_region.id ) ) {
         jo.throw_error( "No 'id' field." );
     }
     bool strict = new_region.id == "default";
-    if( ! jo.read( "default_oter", new_region.default_oter ) && strict ) {
+    if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
     }
-    if( ! jo.read( "river_scale", new_region.river_scale ) && strict ) {
+    if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
         jo.throw_error( "river_scale required for default" );
     }
     if( jo.has_array( "default_groundcover" ) ) {
@@ -386,18 +452,18 @@ void load_region_settings( JsonObject &jo )
         jo.throw_error( "Weighted list 'default_groundcover' required for 'default'" );
     }
 
-    if( ! jo.has_object( "field_coverage" ) ) {
+    if( !jo.has_object( "field_coverage" ) ) {
         if( strict ) {
             jo.throw_error( "\"field_coverage\": { … } required for default" );
         }
     } else {
         JsonObject pjo = jo.get_object( "field_coverage" );
         double tmpval = 0.0f;
-        if( ! pjo.read( "percent_coverage", tmpval ) ) {
+        if( !pjo.read( "percent_coverage", tmpval ) ) {
             pjo.throw_error( "field_coverage: percent_coverage required" );
         }
         new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-        if( ! pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
+        if( !pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
             pjo.throw_error( "field_coverage: default_ter required" );
         }
         tmpval = 0.0f;
@@ -415,11 +481,11 @@ void load_region_settings( JsonObject &jo )
         }
         if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
             new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-            if( ! pjo.read( "boosted_percent_coverage", tmpval ) ) {
+            if( !pjo.read( "boosted_percent_coverage", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
             }
             new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-            if( ! pjo.read( "boosted_other_percent", tmpval ) ) {
+            if( !pjo.read( "boosted_other_percent", tmpval ) ) {
                 pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
             }
             new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
@@ -444,7 +510,7 @@ void load_region_settings( JsonObject &jo )
 
     load_forest_trail_settings( jo, new_region.forest_trail, strict, false );
 
-    if( ! jo.has_object( "map_extras" ) ) {
+    if( !jo.has_object( "map_extras" ) ) {
         if( strict ) {
             jo.throw_error( "\"map_extras\": { … } required for default" );
         }
@@ -457,11 +523,11 @@ void load_region_settings( JsonObject &jo )
                 JsonObject zjo = pjo.get_object( zone );
                 map_extras extras( 0 );
 
-                if( ! zjo.read( "chance", extras.chance ) && strict ) {
+                if( !zjo.read( "chance", extras.chance ) && strict ) {
                     zjo.throw_error( "chance required for default" );
                 }
 
-                if( ! zjo.has_object( "extras" ) ) {
+                if( !zjo.has_object( "extras" ) ) {
                     if( strict ) {
                         zjo.throw_error( "\"extras\": { … } required for default" );
                     }
@@ -481,25 +547,25 @@ void load_region_settings( JsonObject &jo )
         }
     }
 
-    if( ! jo.has_object( "city" ) ) {
+    if( !jo.has_object( "city" ) ) {
         if( strict ) {
             jo.throw_error( "\"city\": { … } required for default" );
         }
     } else {
         JsonObject cjo = jo.get_object( "city" );
-        if( ! cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
+        if( !cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }
         if( !cjo.read( "shop_sigma", new_region.city_spec.shop_sigma ) && strict ) {
             jo.throw_error( "city: shop_sigma required for default" );
         }
-        if( ! cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
+        if( !cjo.read( "park_radius", new_region.city_spec.park_radius ) && strict ) {
             jo.throw_error( "city: park_radius required for default" );
         }
         if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
             jo.throw_error( "city: park_sigma required for default" );
         }
-        if( ! cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
+        if( !cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
             jo.throw_error( "city: house_basement_chance required for default" );
         }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
@@ -524,7 +590,7 @@ void load_region_settings( JsonObject &jo )
         load_building_types( "parks", new_region.city_spec.parks );
     }
 
-    if( ! jo.has_object( "weather" ) ) {
+    if( !jo.has_object( "weather" ) ) {
         if( strict ) {
             jo.throw_error( "\"weather\": { … } required for default" );
         }
@@ -538,6 +604,9 @@ void load_region_settings( JsonObject &jo )
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
+
+    load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
+            false );
 
     region_settings_map[new_region.id] = new_region;
 }
@@ -701,6 +770,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
+
+    load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
 
 void groundcover_extra::finalize()   // FIXME: return bool for failure
@@ -899,6 +970,67 @@ void overmap_lake_settings::finalize()
     }
 }
 
+void region_terrain_and_furniture_settings::finalize()
+{
+    for( auto const &template_pr : unfinalized_terrain ) {
+        const ter_str_id template_tid( template_pr.first );
+        if( !template_tid.is_valid() ) {
+            debugmsg( "Tried to add invalid regional template terrain %s to region_terrain_and_furniture terrain.",
+                      template_tid.c_str() );
+            continue;
+        }
+        for( auto const &actual_pr : template_pr.second ) {
+            const ter_str_id tid( actual_pr.first );
+            if( !tid.is_valid() ) {
+                debugmsg( "Tried to add invalid regional terrain %s to region_terrain_and_furniture terrain template %s.",
+                          tid.c_str(), template_tid.c_str() );
+                continue;
+            }
+            terrain[template_tid.id()].add( tid.id(), actual_pr.second );
+        }
+    }
+
+    for( auto const &template_pr : unfinalized_furniture ) {
+        const furn_str_id template_fid( template_pr.first );
+        if( !template_fid.is_valid() ) {
+            debugmsg( "Tried to add invalid regional template furniture %s to region_terrain_and_furniture furniture.",
+                      template_fid.c_str() );
+            continue;
+        }
+        for( auto const &actual_pr : template_pr.second ) {
+            const furn_str_id fid( actual_pr.first );
+            if( !fid.is_valid() ) {
+                debugmsg( "Tried to add invalid regional furniture %s to region_terrain_and_furniture furniture template %s.",
+                          fid.c_str(), template_fid.c_str() );
+                continue;
+            }
+            furniture[template_fid.id()].add( fid.id(), actual_pr.second );
+        }
+    }
+}
+
+ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
+{
+    ter_id result = tid;
+    auto region_list = terrain.find( result );
+    while( region_list != terrain.end() ) {
+        result = *region_list->second.pick();
+        region_list = terrain.find( result );
+    }
+    return result;
+}
+
+furn_id region_terrain_and_furniture_settings::resolve( const furn_id fid ) const
+{
+    furn_id result = fid;
+    auto region_list = furniture.find( result );
+    while( region_list != furniture.end() ) {
+        result = *region_list->second.pick();
+        region_list = furniture.find( result );
+    }
+    return result;
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -912,6 +1044,7 @@ void regional_settings::finalize()
         forest_composition.finalize();
         forest_trail.finalize();
         overmap_lake.finalize();
+        region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }

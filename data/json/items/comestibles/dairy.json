@@ -26,22 +26,23 @@
     "id": "milk_evap",
     "name": "evaporated milk",
     "name_plural": "evaporated milk",
-    "weight": "20 g",
+    "weight": "266 g",
     "color": "white",
     "spoils_in": "1 day",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 25,
     "healthy": 1,
-    "calories": 132,
+    "calories": 207,
     "description": "Milk that's had about 60% of its water removed prior to canning.",
     "price": 38,
     "material": [ "milk" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "charges": 2,
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
@@ -64,7 +65,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -84,7 +85,7 @@
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitB", 3 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -104,7 +105,7 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "charges": 32,
-    "vitamins": [ [ "vitA", 7 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ],
     "fun": -1
   },
   {
@@ -245,7 +246,7 @@
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5
   },
   {
@@ -256,7 +257,7 @@
     "weight": "32 g",
     "color": "white",
     "spoils_in": "1 day",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 12,
@@ -265,10 +266,10 @@
     "price": 70,
     "material": [ "milk", "junk" ],
     "primary_material": "milk",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "phase": "liquid",
-    "charges": 10,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "charges": 20,
+    "vitamins": [ [ "vitA", 2 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
   }
 ]

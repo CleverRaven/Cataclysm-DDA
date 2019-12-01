@@ -228,7 +228,7 @@ time_duration stomach_contents::time_since_ate() const
 void Character::initialize_stomach_contents()
 {
     stomach = stomach_contents( 2500_ml, true );
-    guts = stomach_contents( 24000_ml, false );
+    guts = stomach_contents( 24_liter, false );
     guts.mod_calories( 300 );
     stomach.mod_calories( 800 );
     stomach.mod_contents( 475_ml );

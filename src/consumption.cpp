@@ -72,7 +72,7 @@ const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3000_ml ) ;
+const units::volume furnace_max_volume( 3_liter ) ;
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
@@ -126,6 +126,12 @@ int player::kcal_for( const item &comest ) const
         kcal /= comest.recipe_charges;
     } else {
         kcal = comest.get_comestible()->get_calories();
+
+        // Many raw foods give less calories, as your body has expends more energy digesting them.
+        // We don't want RAW to stack for components and results, so we're doing it in this else block.
+        if( comest.has_flag( "RAW" ) && !comest.has_flag( "COOKED" ) ) {
+            kcal *= 0.75f;
+        }
     }
 
     if( has_trait( trait_GIZZARD ) ) {
@@ -1097,7 +1103,7 @@ bool player::consume_effects( item &food )
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
         ( get_healthy_kcal() < get_stored_kcal() + 4000 &&
-          get_thirst() - stomach.get_water() / 5_ml < 40 ) ) {
+          get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );

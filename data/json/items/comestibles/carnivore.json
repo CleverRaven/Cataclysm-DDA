@@ -8,7 +8,8 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [  ]
+    "vitamins": [  ],
+    "flags": [ "RAW" ]
   },
   {
     "id": "fish",
@@ -22,7 +23,7 @@
     "volume": "250 ml",
     "price": 500,
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
     "calories": 121
@@ -90,13 +91,11 @@
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
     "material": "hflesh",
-    "flags": [ "SMOKABLE" ],
     "smoking_result": "human_smoked"
   },
   {
     "id": "human_cooked",
     "copy-from": "human_flesh",
-    "calories": 402,
     "type": "COMESTIBLE",
     "name": "cooked creep",
     "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
@@ -117,12 +116,12 @@
     "volume": "250 ml",
     "price": 500,
     "spoils_in": "1 day",
-    "calories": 302,
+    "calories": 402,
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -148,7 +147,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE" ]
+    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
   },
   {
     "id": "mutant_meat_scrap",
@@ -161,7 +160,7 @@
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "mutant_toxin", 2 ] ],
-    "flags": [ "BAD_TASTE" ]
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "id": "mutant_human_flesh",
@@ -209,15 +208,16 @@
   },
   {
     "id": "meat_cooked",
-    "copy-from": "meat",
+    "copy-from": "flesh",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
     "type": "COMESTIBLE",
     "name": "cooked meat",
     "description": "This is a chunk of freshly cooked meat.  It's filling and nutritious, but unseasoned and a bit bland.",
-    "proportional": { "price": 1.5 },
+    "price": 750,
     "parasites": 0,
     "calories": 402,
-    "healthy": 0,
-    "fun": 0,
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
@@ -242,7 +242,6 @@
     "looks_like": "meat_cooked",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "calories": 200,
     "healthy": 0,
     "fun": -1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
@@ -266,7 +265,7 @@
     "type": "COMESTIBLE",
     "name": "raw offal",
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
-    "proportional": { "calories": 0.5, "parasites": 2.0 },
+    "proportional": { "parasites": 2.0 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
@@ -280,7 +279,6 @@
     "parasites": 0,
     "healthy": 1,
     "fun": -5,
-    "proportional": { "calories": 2 },
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -298,7 +296,7 @@
     "spoils_in": "1 day 12 hours",
     "quench": -1,
     "fun": -1,
-    "proportional": { "calories": 2 }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "offal_canned",
@@ -313,7 +311,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "proportional": { "calories": 2 }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "stomach",
@@ -340,7 +338,7 @@
   },
   {
     "id": "jerky",
-    "copy-from": "meat",
+    "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
@@ -353,13 +351,12 @@
     "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
-    "healthy": 0,
+    "price": 320,
     "quench": -5,
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "flags": "NO_CRAFT_INHERIT",
-    "proportional": { "price": 0.64 }
+    "flags": "NO_CRAFT_INHERIT"
   },
   {
     "id": "salted_fish",
@@ -377,7 +374,8 @@
     "quench": -5,
     "fun": 4,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 }
+    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "jerky_human",
@@ -398,7 +396,8 @@
     "calories": 348,
     "weight": "85 g",
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 8 ] ],
-    "proportional": { "price": 0.44 }
+    "proportional": { "price": 0.44 },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "meat_smoked",
@@ -466,7 +465,8 @@
     "name": "cooked piece of lung",
     "name_plural": "cooked pieces of lung",
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "liver",
@@ -488,7 +488,8 @@
     "description": "Chock full of B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "fun": -2,
-    "healthy": 0
+    "healthy": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "brain",
@@ -516,7 +517,8 @@
     "description": "Now you can emulate those zombies you love so much!  Preparing brain for eating is challenging, and this doesn't seem to be the best way to do it.",
     "parasites": 0,
     "healthy": -2,
-    "fun": -8
+    "fun": -8,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "kidney",
@@ -541,7 +543,8 @@
     "healthy": -2,
     "quench": -2,
     "fun": -3,
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "sweetbread",
@@ -564,7 +567,8 @@
     "name": "cooked sweetbread",
     "fun": -4,
     "description": "Normally a delicacy, it needs a little… something.",
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -720,7 +724,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "dry_meat_tainted"
   },
   {
@@ -769,7 +773,8 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
     "material": "flesh",
     "volume": "250 ml",
-    "fun": -10
+    "fun": -10,
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",

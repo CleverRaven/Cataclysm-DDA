@@ -135,17 +135,17 @@ void zone_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description", desc_, "" );
 }
 
-std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
+shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
-        return std::make_shared<plot_options>();
+        return make_shared_fast<plot_options>();
     } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
-        return std::make_shared<blueprint_options>();
+        return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
-        return std::make_shared<loot_options>();
+        return make_shared_fast<loot_options>();
     }
 
-    return std::make_shared<zone_options>();
+    return make_shared_fast<zone_options>();
 }
 
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
@@ -173,20 +173,18 @@ int blueprint_options::get_final_construction(
         return idx;
     }
 
-    if( string_ends_with( con.post_terrain, "_half" ) ||
-        string_ends_with( con.post_terrain, "_halfway" ) ) {
-        for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
-            if( i == idx || skip_index.find( i ) != skip_index.end() ) {
-                continue;
-            }
-            const construction &con_next =  list_constructions[i];
-            if( con.description == con_next.description &&
-                con.post_terrain == con_next.pre_terrain ) {
-                skip_index.insert( idx );
-                return get_final_construction( list_constructions, i, skip_index );
-            }
+    for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
+        if( i == idx || skip_index.find( i ) != skip_index.end() ) {
+            continue;
+        }
+        const construction &con_next = list_constructions[i];
+        if( con.description == con_next.description &&
+            con.post_terrain == con_next.pre_terrain ) {
+            skip_index.insert( idx );
+            return get_final_construction( list_constructions, i, skip_index );
         }
     }
+
     return idx;
 }
 
@@ -267,7 +265,8 @@ plot_options::query_seed_result plot_options::query_seed()
         } else {
             return successful;
         }
-    } else if( seed_index == 0 ) { // No seeds
+    } else if( seed_index == 0 ) {
+        // No seeds
         if( !seed.empty() || !mark.empty() ) {
             seed.clear();
             mark.clear();
@@ -670,17 +669,13 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 
 const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_type_id &type ) const
 {
-    for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data &zone : zones ) {
         if( zone.has_inside( where ) && zone.get_type() == type ) {
             return &zone;
         }
     }
     auto vzones = g->m.get_vehicle_zones( g->get_levz() );
-    for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto &zone = *it;
-
+    for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
         }
@@ -807,7 +802,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const bool preserves = it.is_food_container() && it.type->container->preserves;
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
-        if( it_food.is_food() ) { // skip food without comestible, like MREs
+        // skip food without comestible, like MREs
+        if( it_food.is_food() ) {
             if( it_food.get_comestible()->comesttype == "DRINK" ) {
                 if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
@@ -913,7 +909,7 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, std::shared_ptr<zone_options> options )
+                        const tripoint &end, shared_ptr_fast<zone_options> options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space
