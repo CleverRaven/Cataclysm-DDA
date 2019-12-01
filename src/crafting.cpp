@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -205,7 +206,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
     const units::volume &craft_volume = craft.volume();
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000000_ml );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
     return multiplier;
 }
@@ -563,7 +564,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
     return cached_crafting_inventory;
 }
 
-void player::invalidate_crafting_inventory()
+void Character::invalidate_crafting_inventory()
 {
     cached_time = calendar::before_time_starts;
 }
@@ -615,35 +616,6 @@ static void set_components( std::list<item> &components, const std::list<item> &
             non_charges_counter++;
         }
     }
-}
-
-/**
- * @brief Round the item's birthday forward to the nearest hour.
- * The purpose of this is so that items with close birthdays will stack more readily.
- *
- * @param newit
- */
-static void set_item_food( item &newit )
-{
-    // TODO: encapsulate this into some function
-    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
-}
-
-/**
- * @brief Calls set_item_food on the item if it's food, and set item's faction.
- *
- * @param newit The item for modification
- * @param maker_fac The faction the item should belong to
- */
-static void finalize_crafted_item( item &newit, faction *maker_fac )
-{
-    if( newit.is_food() ) {
-        set_item_food( newit );
-    }
-    // TODO for now this assumes player is doing the crafting
-    // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -1015,15 +987,15 @@ static void destroy_random_component( item &craft, const player &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed.tname() );
 }
 
-void item::handle_craft_failure( player &crafter )
+bool item::handle_craft_failure( player &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
-        return;
+        return false;
     }
 
     const double success_roll = crafter.crafting_success_roll( get_making() );
-
+    const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
     for( size_t i = 0; i < max_destroyed; i++ ) {
@@ -1036,6 +1008,10 @@ void item::handle_craft_failure( player &crafter )
             continue;
         }
         destroy_random_component( *this, crafter );
+    }
+    if( starting_components > 0 && this->components.empty() ) {
+        // The craft had components and all of them were destroyed.
+        return true;
     }
 
     // Minimum 25% progress lost, average 35%.  Falls off exponentially
@@ -1053,6 +1029,7 @@ void item::handle_craft_failure( player &crafter )
     if( !crafter.can_continue_craft( *this ) ) {
         crafter.cancel_activity();
     }
+    return false;
 }
 
 requirement_data item::get_continue_reqs() const
@@ -1062,6 +1039,40 @@ requirement_data item::get_continue_reqs() const
         return requirement_data();
     }
     return requirement_data::continue_requirements( comps_used, components );
+}
+
+void item::inherit_flags( const item &parent )
+{
+    //If item is crafted from poor-fit components, the result is poorly fitted too
+    if( parent.has_flag( "VARSIZE" ) ) {
+        unset_flag( "FIT" );
+    }
+    //If item is crafted from perfect-fit components, the result is perfectly fitted too
+    if( parent.has_flag( "FIT" ) ) {
+        item_tags.insert( "FIT" );
+    }
+    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
+        for( const std::string &f : parent.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+        for( const std::string &f : parent.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+    }
+    if( parent.has_flag( "HIDDEN_POISON" ) ) {
+        poison = parent.poison;
+    }
+}
+
+void item::inherit_flags( const std::list<item> &parents )
+{
+    for( const item &parent : parents ) {
+        inherit_flags( parent );
+    }
 }
 
 void player::complete_craft( item &craft, const tripoint &loc )
@@ -1117,38 +1128,13 @@ void player::complete_craft( item &craft, const tripoint &loc )
                              making.result_name() );
                 }
             }
-
-            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-            if( newit.has_flag( "VARSIZE" ) ) {
-                newit.item_tags.insert( "FIT" );
-            }
-
-            for( auto &component : used ) {
-                //If item is crafted from poor-fit components, the result is poorly fitted too
-                if( component.has_flag( "VARSIZE" ) ) {
-                    newit.unset_flag( "FIT" );
-                }
-                //If item is crafted from perfect-fit components, the result is perfectly fitted too
-                if( component.has_flag( "FIT" ) ) {
-                    newit.item_tags.insert( "FIT" );
-                }
-                if( !food_contained.has_flag( "NO_CRAFT_INHERIT" ) ) {
-                    for( const std::string &f : component.item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            food_contained.set_flag( f );
-                        }
-                    }
-                    for( const std::string &f : component.type->item_tags ) {
-                        if( json_flag::get( f ).craft_inherit() ) {
-                            food_contained.set_flag( f );
-                        }
-                    }
-                }
-                if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    food_contained.poison = component.poison;
-                }
-            }
         }
+
+        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+        if( newit.has_flag( "VARSIZE" ) ) {
+            newit.item_tags.insert( "FIT" );
+        }
+        food_contained.inherit_flags( used );
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
@@ -1166,6 +1152,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
+                // If this recipe is cooked, components are no longer raw.
+                if( should_heat ) {
+                    comp.set_flag_recursive( "COOKED" );
+                }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
@@ -1176,8 +1166,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             // store components for food recipes that do not have the override flag
             set_components( food_contained.components, used, batch_size, newit_counter );
-            // store the number of charges the recipe creates
-            food_contained.recipe_charges = food_contained.charges / batch_size;
+
+            // store the number of charges the recipe would create with batch size 1.
+            if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
+                // … the container holds exactly one completion of the recipe, no matter the batch size.
+                food_contained.recipe_charges = food_contained.charges;
+            } else { // Otherwise, the item is already stacked so we need to divide by batch size.
+                newit.recipe_charges = newit.charges / batch_size;
+            }
             newit_counter++;
         }
 
@@ -1201,10 +1197,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
         }
 
-        finalize_crafted_item( newit, get_faction() );
+        newit.set_owner( get_faction()->id );
         // If these aren't equal, newit is a container, so finalize its contents too.
         if( &newit != &food_contained ) {
-            finalize_crafted_item( food_contained, get_faction() );
+            food_contained.set_owner( get_faction()->id );
         }
 
         if( newit.made_of( LIQUID ) ) {
@@ -1230,7 +1226,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
-            finalize_crafted_item( bp, get_faction() );
+            bp.set_owner( get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
@@ -1429,6 +1425,18 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         } else {
             selected.use_from = use_from_both;
             selected.comp = mixed[0];
+        }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            debugmsg( "Attempted a recipe with no available components!" );
+            selected.use_from = cancel;
+            return selected;
         }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
@@ -1638,6 +1646,17 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         } else {
             selected.use_from = use_from_map;
             selected.comp = map_has[0];
+        }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            selected.use_from = use_from_none;
+            return selected;
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1909,6 +1928,31 @@ bool player::disassemble( item_location target, bool interactive )
     }
 
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !obj.is_owned_by( g->u, true ) ) {
+        if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
+                       obj.tname() ) ) {
+            return false;
+        } else {
+            if( obj.get_owner() ) {
+                std::vector<npc *> witnesses;
+                for( npc &elem : g->all_npcs() ) {
+                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                        elem.say( "<witnessed_thievery>", 7 );
+                        npc *npc_to_add = &elem;
+                        witnesses.push_back( npc_to_add );
+                    }
+                }
+                if( !witnesses.empty() ) {
+                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                        for( npc *elem : witnesses ) {
+                            elem->make_angry();
+                        }
+                    }
+                }
+            }
+        }
+    }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
@@ -1916,7 +1960,6 @@ bool player::disassemble( item_location target, bool interactive )
         for( const auto &component : components ) {
             list << "- " << component.to_string() << std::endl;
         }
-
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),

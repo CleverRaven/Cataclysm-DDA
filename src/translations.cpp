@@ -23,6 +23,7 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
 #include "text_style_check.h"
 #include "cursesdef.h"
 #include "cata_utility.h"
@@ -35,7 +36,7 @@ extern bool test_mode;
 static void reload_names()
 {
     Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+    Name::load_from_file( PATH_INFO::names() );
 }
 
 static bool sanity_checked_genders = false;
@@ -173,7 +174,8 @@ void set_language()
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
-    if( !lang_opt.empty() ) { // Not 'System Language'
+    if( !lang_opt.empty() ) {
+        // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
@@ -208,11 +210,11 @@ void set_language()
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
-    locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
+    locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !FILENAMES["base_path"].empty() ) {
-        locale_dir = FILENAMES["base_path"] + "share/locale";
+    if( !PATH_INFO::base_path().empty() ) {
+        locale_dir = PATH_INFO::base_path() + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }
@@ -335,7 +337,8 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
     std::vector<std::string> chosen_genders;
     for( const auto &subject_genders : genders ) {
-        std::string chosen_gender = language_genders[0]; // default if no match
+        // default if no match
+        std::string chosen_gender = language_genders[0];
         for( const std::string &gender : subject_genders.second ) {
             if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
                 language_genders.end() ) {
@@ -577,6 +580,16 @@ bool translation::operator==( const translation &that ) const
 bool translation::operator!=( const translation &that ) const
 {
     return !operator==( that );
+}
+
+cata::optional<int> translation::legacy_hash() const
+{
+    if( needs_translation && !ctxt && !raw_pl ) {
+        return djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) );
+    }
+    // Otherwise the translation must have been added after snippets were changed
+    // to use string ids only, so the translation doesn't have a legacy hash value.
+    return cata::nullopt;
 }
 
 translation to_translation( const std::string &raw )

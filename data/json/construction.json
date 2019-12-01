@@ -852,6 +852,38 @@
   },
   {
     "type": "construction",
+    "description": "Make Gravel Floor",
+    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "pebble", 100 ] ] ],
+    "post_terrain": "t_railroad_rubble"
+  },
+  {
+    "type": "construction",
+    "description": "Build Straight Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small"
+  },
+  {
+    "type": "construction",
+    "description": "Build Diagonal Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small_d"
+  },
+  {
+    "type": "construction",
     "description": "Build Wooden Floor",
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
@@ -2203,7 +2235,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_special": "done_dig_stair"
@@ -2219,7 +2251,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
@@ -2275,7 +2307,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ],
+      [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -3158,7 +3190,7 @@
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "frame", 1 ] ],
       [ [ "circuit", 4 ] ],
@@ -3169,5 +3201,16 @@
     ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "t_radio_controls"
+  },
+  {
+    "type": "construction",
+    "description": "Build Log Stool",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_logstool"
   }
 ]

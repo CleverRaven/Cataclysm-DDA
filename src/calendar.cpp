@@ -59,8 +59,8 @@ double default_daylight_level()
 
 moon_phase get_moon_phase( const time_point &p )
 {
-    //One full phase every 2 rl months = 2/3 season length
-    const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
+    //One full phase every 1 rl months = 1/3 season length
+    const time_duration moon_phase_duration = calendar::season_length() / 3.0;
     //Switch moon phase at noon so it stays the same all night
     const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
@@ -189,7 +189,8 @@ float sunlight( const time_point &p, const bool vision )
     const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
                           0;
 
-    if( now > sunset + twilight_duration || now < sunrise ) { // Night
+    if( now > sunset + twilight_duration || now < sunrise ) {
+        // Night
         return moonlight;
     } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
         const double percent = ( now - sunrise ) / twilight_duration;
@@ -340,13 +341,14 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
     time_duration divider = 0_turns;
     time_duration vicinity = 0_turns;
 
+    // Minutes and seconds can be estimated precisely.
     if( d > 1_days ) {
         divider = 1_days;
         vicinity = 2_hours;
     } else if( d > 1_hours ) {
         divider = 1_hours;
         vicinity = 5_minutes;
-    } // Minutes and seconds can be estimated precisely.
+    }
 
     if( divider != 0_turns ) {
         const time_duration remainder = d % divider;

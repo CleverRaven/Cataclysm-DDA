@@ -1,29 +1,19 @@
-#include <algorithm>
-#include <memory>
 #include <string>
-#include <cmath>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_utility.h"
 #include "json.h"
-#include "player.h"
 #include "stomach.h"
 #include "units.h"
-#include "compatibility.h"
 #include "game.h"
-#include "item.h"
 #include "itype.h"
-#include "optional.h"
-#include "rng.h"
-#include "character.h"
-#include "options.h"
 
 stomach_contents::stomach_contents() = default;
 
-stomach_contents::stomach_contents( units::volume max_vol )
+stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
 {
     max_volume = max_vol;
+    stomach = is_stomach;
     last_ate = calendar::before_time_starts;
 }
 
@@ -36,7 +26,6 @@ void stomach_contents::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "vitamins", vitamins );
-    json.member( "vitamins_absorbed", vitamins_absorbed );
     json.member( "calories", calories );
     json.member( "water", ml_to_string( water ) );
     json.member( "max_volume", ml_to_string( max_volume ) );
@@ -54,7 +43,6 @@ void stomach_contents::deserialize( JsonIn &json )
 {
     JsonObject jo = json.get_object();
     jo.read( "vitamins", vitamins );
-    jo.read( "vitamins_absorbed", vitamins_absorbed );
     jo.read( "calories", calories );
     std::string str;
     jo.read( "water", str );
@@ -66,27 +54,27 @@ void stomach_contents::deserialize( JsonIn &json )
     jo.read( "last_ate", last_ate );
 }
 
-units::volume stomach_contents::capacity() const
+units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
-    if( g->u.has_trait( trait_id( "GIZZARD" ) ) ) {
+    if( owner.has_trait( trait_id( "GIZZARD" ) ) ) {
         max_mod *= 0.9;
     }
-    if( g->u.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
+    if( owner.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
         max_mod *= 3;
     }
-    if( g->u.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( owner.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
         max_mod *= 2;
     }
-    if( g->u.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( owner.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;
 }
 
-units::volume stomach_contents::stomach_remaining() const
+units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
-    return capacity() - contents - water;
+    return capacity( owner ) - contents - water;
 }
 
 units::volume stomach_contents::contains() const
@@ -94,279 +82,90 @@ units::volume stomach_contents::contains() const
     return contents + water;
 }
 
-bool stomach_contents::store_absorbed( player &p )
+void stomach_contents::ingest( const nutrients &ingested )
 {
-    if( p.is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) {
-        return false;
+    contents += ingested.solids;
+    water += ingested.water;
+    calories += ingested.kcal;
+    for( const std::pair<const vitamin_id, int> &vit : ingested.vitamins ) {
+        vitamins[vit.first] += vit.second;
     }
-    bool absorbed = false;
-    if( calories_absorbed != 0 ) {
-        p.mod_stored_kcal( calories_absorbed );
-        absorbed = true;
-    }
-    p.vitamins_mod( vitamins_absorbed, false );
-    vitamins_absorbed.clear();
-    return absorbed;
-}
-
-void stomach_contents::bowel_movement( const stomach_pass_rates &rates )
-{
-    int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
-    cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
-                      calories - calories_absorbed );
-    if( cal_rate < 0 ) {
-        cal_rate = 0;
-    }
-    mod_calories( -cal_rate );
-    calories_absorbed = 0;
-    units::volume contents_rate = clamp( units::from_milliliter<int>( round(
-            units::to_milliliter<float>
-            ( contents ) * rates.percent_vol ) ), rates.min_vol, contents );
-    mod_contents( -contents_rate );
-    // water is a special case.
-    water = 0_ml;
-
-    for( auto &vit : vitamins ) {
-        const int vit_absorbed = vitamins_absorbed[vit.first];
-        // need to take absorbed vitamins into account for % moved
-        int percent = static_cast<int>( ( vit.second + vit_absorbed ) * rates.percent_vit );
-        // minimum vitamins that will move
-        int min = rates.min_vit;
-        int calc = std::max( percent, min );
-
-        if( vit_absorbed >= calc ) {
-            // vitamins are absorbed instead of moved
-            // assumed absorption is called from another function
-            calc = 0;
-        } else if( vit_absorbed != 0 ) {
-            calc -= vit_absorbed;
-        }
-
-        if( calc > vitamins[vit.first] ) {
-            calc = vitamins[vit.first];
-        }
-
-        vitamins[vit.first] -= calc;
-    }
-}
-
-void stomach_contents::bowel_movement()
-{
-    stomach_pass_rates rates;
-
-    /**
-     * The min numbers aren't technically needed since the percentage will
-     * take care of the entirety, but some values needed to be assigned
-     */
-    rates.percent_kcal = 1;
-    rates.min_kcal = 250;
-    rates.percent_vol = 1;
-    rates.min_vol = 25000_ml;
-    rates.percent_vit = 1;
-    rates.min_vit = 100;
-
-    bowel_movement( rates );
-}
-
-void stomach_contents::bowel_movement( const stomach_pass_rates &rates, stomach_contents &move_to )
-{
-    int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
-    cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
-                      calories - calories_absorbed );
-    move_to.mod_calories( cal_rate );
-    units::volume contents_rate = clamp( units::from_milliliter<int>( round(
-            units::to_milliliter<float>
-            ( contents ) * rates.percent_vol ) ), rates.min_vol, contents );
-    move_to.mod_contents( -contents_rate );
-    move_to.water += water;
-
-    for( auto &vit : vitamins ) {
-        const int vit_absorbed = vitamins_absorbed[vit.first];
-        // need to take absorbed vitamins into account for % moved
-        int percent = static_cast<int>( ( vit.second + vit_absorbed ) * rates.percent_vit );
-        // minimum vitamins that will move
-        int min = rates.min_vit;
-        int calc = std::max( percent, min );
-
-        if( vit_absorbed >= calc ) {
-            // vitamins are absorbed instead of moved
-            // assumed absorption is called from another function
-            calc = 0;
-        } else if( vit_absorbed != 0 ) {
-            calc -= vit_absorbed;
-        }
-
-        if( calc > vitamins[vit.first] ) {
-            calc = vitamins[vit.first];
-        }
-
-        move_to.vitamins[vit.first] += calc;
-    }
-    bowel_movement( rates );
-}
-
-void stomach_contents::ingest( player &p, item &food, int charges = 1 )
-{
-    item comest;
-    if( food.is_container() ) {
-        comest = food.get_contained();
-    } else {
-        comest = food;
-    }
-    if( charges == 0 ) {
-        // if charges is 0, it means the item is not count_by_charges
-        charges = 1;
-    }
-    // maybe move tapeworm to digestion
-    for( const auto &v : p.vitamins_from( comest ) ) {
-        vitamins[v.first] += p.has_effect( efftype_id( "tapeworm" ) ) ? v.second / 2 : v.second;
-    }
-    auto &comest_t = comest.type->comestible;
-    const units::volume add_water = std::max( 0_ml, comest_t->quench * 5_ml );
-    // if this number is negative, we decrease the quench/increase the thirst of the player
-    if( comest_t->quench < 0 ) {
-        p.mod_thirst( -comest_t->quench );
-    } else {
-        mod_quench( comest_t->quench );
-    }
-    // @TODO: Move quench values to mL and remove the magic number here
-    mod_contents( comest.base_volume() * charges - add_water );
-
     ate();
-
-    mod_calories( p.kcal_for( comest ) );
 }
 
-void stomach_contents::absorb_water( player &p, units::volume amount )
+nutrients stomach_contents::digest( const Character &owner, const needs_rates &metabolic_rates,
+                                    int five_mins, int half_hours )
 {
-    if( water < amount ) {
-        amount = water;
-        water = 0_ml;
-    } else {
-        water -= amount;
-    }
-    if( p.get_thirst() < -100 ) {
-        return;
-    } else if( p.get_thirst() - units::to_milliliter( amount / 5 ) < -100 ) {
-        p.set_thirst( -100 );
-    }
-    p.mod_thirst( -units::to_milliliter( amount ) / 5 );
-}
+    nutrients digested;
+    stomach_digest_rates rates = get_digest_rates( metabolic_rates, owner );
 
-void stomach_contents::absorb_kcal( int amount )
-{
-    if( amount <= 0 ) {
-        return;
-    }
-    calories_absorbed += amount;
-    calories -= amount;
-    if( calories < 0 ) { // just a little trickery to avoid overflow
-        calories_absorbed += calories;
-        calories = 0;
-    }
-}
+    // Digest water, but no more than in stomach.
+    digested.water = std::min( water, rates.water * five_mins );
+    water -= digested.water;
 
-bool stomach_contents::absorb_vitamin( const vitamin_id &vit, int amount )
-{
-    if( amount <= 0 ) {
-        return false;
-    }
-    vitamins_absorbed[vit] += amount;
-    vitamins[vit] -= amount;
-    if( vitamins[vit] < 0 ) {
-        vitamins_absorbed[vit] += vitamins[vit];
-        vitamins[vit] = amount;
-    }
-    return true;
-}
-
-bool stomach_contents::absorb_vitamin( const std::pair<vitamin_id, int> &vit )
-{
-    return absorb_vitamin( vit.first, vit.second );
-}
-
-bool stomach_contents::absorb_vitamins( const std::map<vitamin_id, int> &vitamins )
-{
-    bool absorbed = false;
-    for( const std::pair<vitamin_id, int> vit : vitamins ) {
-        if( absorb_vitamin( vit ) ) {
-            absorbed = true;
+    // If no half-hour intervals have passed, we only process water, so bail out early.
+    if( half_hours == 0 ) {
+        // We need to initialize these to zero first, though.
+        digested.kcal = 0;
+        digested.solids = 0_ml;
+        for( const std::pair<const vitamin_id, int> &vit : digested.vitamins ) {
+            digested.vitamins[vit.first] = 0;
         }
+        return digested;
     }
-    return absorbed;
+
+    // Digest solids, but no more than in stomach.
+    digested.solids = std::min( contents, rates.solids * half_hours );
+    contents -= digested.solids;
+
+    // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
+    // and no less than percentage_kcal of what's in stomach.
+    digested.kcal = half_hours * clamp( rates.min_kcal,
+                                        static_cast<int>( round( calories * rates.percent_kcal ) ), calories );
+    calories -= digested.kcal;
+
+    // Digest vitamins just like we did kCal, but we need to do one at a time.
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
+        digested.vitamins[vit.first] = half_hours * clamp( rates.min_vitamin,
+                                       static_cast<int>( round( vit.second * rates.percent_vitamin ) ), vit.second );
+        vitamins[vit.first] -= digested.vitamins[vit.first];
+    }
+
+    return digested;
 }
 
-stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
+void stomach_contents::empty()
 {
-    stomach_pass_rates rates;
-    // a human will digest food in about 53 hours
-    // most of the excrement is completely indigestible
-    // ie almost all of the calories ingested are absorbed.
-    // 3 hours will be accounted here as stomach
-    // the rest will be guts
+    calories = 0;
+    water = 0_ml;
+    contents = 0_ml;
+    vitamins.clear();
+}
+
+stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates,
+        const Character &owner )
+{
+    stomach_digest_rates rates;
     if( stomach ) {
-        rates.min_vol = capacity() / 6;
+        // The stomach is focused on passing material on to the guts.
         // 3 hours to empty in 30 minute increments
-        rates.percent_vol = 1.0f / 6.0f;
-        rates.min_vit = 1;
-        rates.percent_vit = 1.0f / 6.0f;
+        rates.solids = capacity( owner ) / 6;
+        rates.water = 250_ml; // Water is special, passes very quickly, in 5 minute intervals
+        rates.min_vitamin = 1;
+        rates.percent_vitamin = 1.0f / 6.0f;
         rates.min_kcal = 5;
         rates.percent_kcal = 1.0f / 6.0f;
     } else {
-        rates.min_vol = std::max( capacity() / 100, 1_ml );
-        // 50 hours to empty in 30 minute increments
-        rates.percent_vol = 0.01f;
-        rates.min_vit = 1;
-        rates.percent_vit = 0.01f;
-        rates.min_kcal = 5;
-        rates.percent_kcal = 0.01f;
-    }
-    return rates;
-}
-
-stomach_absorb_rates stomach_contents::get_absorb_rates( bool stomach,
-        const needs_rates &metabolic_rates )
-{
-    stomach_absorb_rates rates;
-    if( !stomach ) {
+        // The guts are focused on absorption into the body, we don't care about passing rates.
+        // Solids rate doesn't do anything impactful here so just make it big enough to avoid overflow.
+        rates.solids = 250_ml;
+        rates.water = 250_ml;
         rates.min_kcal = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
-        rates.min_vitamin_default = round( 100.0 / 24.0 * metabolic_rates.hunger );
-        rates.percent_vitamin_default = 0.05f * metabolic_rates.hunger;
-    } else {
-        rates.min_kcal = 0;
-        rates.percent_kcal = 0.0f;
-        rates.min_vitamin_default = 0;
-        rates.percent_vitamin_default = 0.0f;
+        rates.min_vitamin = round( 100.0 / 24.0 * metabolic_rates.hunger );
+        rates.percent_vitamin = 0.05f * metabolic_rates.hunger;
     }
     return rates;
-}
-
-void stomach_contents::calculate_absorbed( stomach_absorb_rates rates )
-{
-    for( const auto vit : vitamins ) {
-        int min_v;
-        float percent_v;
-        if( rates.min_vitamin.find( vit.first ) != rates.min_vitamin.end() ) {
-            min_v = rates.min_vitamin[vit.first];
-        } else {
-            min_v = rates.min_vitamin_default;
-        }
-        if( rates.percent_vitamin.find( vit.first ) != rates.percent_vitamin.end() ) {
-            percent_v = rates.percent_vitamin[vit.first];
-        } else {
-            percent_v = rates.percent_vitamin_default;
-        }
-        int vit_absorbed = std::max( min_v, static_cast<int>( percent_v * vit.second ) );
-        // make sure the vitamins don't overflow
-        vit_absorbed = std::min( vit_absorbed, vit.second );
-        vitamins_absorbed[vit.first] += vit_absorbed;
-        vitamins[vit.first] -= vit_absorbed;
-    }
-    int cal = clamp( static_cast<int>( round( calories * rates.percent_kcal ) ),
-                     std::min( rates.min_kcal, calories ), calories );
-    calories_absorbed += cal;
-    calories -= cal;
 }
 
 void stomach_contents::mod_calories( int cal )
@@ -376,11 +175,6 @@ void stomach_contents::mod_calories( int cal )
         return;
     }
     calories += cal;
-}
-
-void stomach_contents::set_calories( int cal )
-{
-    calories = cal;
 }
 
 void stomach_contents::mod_nutr( int nutr )
@@ -415,16 +209,6 @@ int stomach_contents::get_calories() const
     return calories;
 }
 
-int stomach_contents::get_calories_absorbed() const
-{
-    return calories_absorbed;
-}
-
-void stomach_contents::set_calories_absorbed( int cal )
-{
-    calories_absorbed = cal;
-}
-
 units::volume stomach_contents::get_water() const
 {
     return water;
@@ -443,9 +227,9 @@ time_duration stomach_contents::time_since_ate() const
 // sets default stomach contents when starting the game
 void Character::initialize_stomach_contents()
 {
-    stomach = stomach_contents( 2500_ml );
-    guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
+    stomach = stomach_contents( 2500_ml, true );
+    guts = stomach_contents( 24_liter, false );
+    guts.mod_calories( 300 );
+    stomach.mod_calories( 800 );
     stomach.mod_contents( 475_ml );
 }

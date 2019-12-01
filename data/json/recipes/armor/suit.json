@@ -75,7 +75,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 15 ] ] ]
+    "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -89,7 +89,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 15 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -326,6 +326,29 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "chainmail_suit_faraday",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "electronics", 3 ],
+    "time": "180 m",
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
+    "using": [ [ "chainmail_standard", 20 ] ],
+    "components": [
+      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
+      [ [ "link_sheet", 7 ], [ "chainmail_vest", 1 ] ],
+      [ [ "link_sheet", 3 ], [ "chainmail_arms", 1 ] ],
+      [ [ "link_sheet", 4 ], [ "chainmail_legs", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
+      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
+      [ [ "chain_link", 500 ] ],
+      [ [ "wire", 5 ] ],
+      [ [ "rag", 26 ] ]
+    ]
   },
   {
     "result": "cloak",

@@ -67,7 +67,7 @@
   {
     "id": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Glock 17 magazine - 17 rd",
+    "name": "Glock 17 17-round magazine",
     "description": "Made for the Glock 17, this magazine holds 17 rounds.",
     "weight": "105 g",
     "volume": "250 ml",
@@ -84,7 +84,7 @@
   {
     "id": "glock17_22",
     "type": "MAGAZINE",
-    "name": "Glock 17 magazine - 22 rd",
+    "name": "Glock 17 22-round magazine",
     "description": "Made for the Glock 17, this magazine holds 22 rounds.",
     "weight": "105 g",
     "volume": "500 ml",
@@ -100,7 +100,7 @@
   {
     "id": "glock_drum_50rd",
     "type": "MAGAZINE",
-    "name": "Glock Drum magazine - 50 rd",
+    "name": "Glock 50-round drum magazine",
     "description": "Made to fit most Glock pistols.  This drum magazine holds 50 rounds.",
     "weight": "100 g",
     "volume": "500 ml",
@@ -111,12 +111,12 @@
     "ammo_type": "9mm",
     "capacity": 50,
     "reliability": 8,
-    "flags": [ "BULKY" ]
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "glock_drum_100rd",
     "type": "MAGAZINE",
-    "name": "Glock Drum magazine - 100 rd",
+    "name": "Glock 100-round drum magazine",
     "description": "Made to fit most Glock pistols.  This drum magazine holds 100 rounds.",
     "weight": "100 g",
     "volume": "1 L",
@@ -127,7 +127,7 @@
     "ammo_type": "9mm",
     "capacity": 100,
     "reliability": 8,
-    "flags": [ "BULKY" ]
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "lw21mag",
@@ -312,7 +312,7 @@
   {
     "id": "p320mag_17rd_9x19mm",
     "type": "MAGAZINE",
-    "name": "P320 magazine 9x19mm",
+    "name": "P320 9x19mm magazine",
     "description": "A 17 round double stack box magazine for the SIG Sauer P320.",
     "weight": "105 g",
     "volume": "250 ml",
@@ -329,7 +329,7 @@
   {
     "id": "bhp9mag_13rd",
     "type": "MAGAZINE",
-    "name": "Hi-Power magazine 9x19mm",
+    "name": "Hi-Power 9x19mm 13-round magazine",
     "description": "A 13 round steel box magazine for the Browning Hi-Power 9x19mm.",
     "weight": "100 g",
     "volume": "191 ml",
@@ -345,7 +345,7 @@
   {
     "id": "bhp9mag_15rd",
     "type": "MAGAZINE",
-    "name": "Hi-Power magazine 9x19mm",
+    "name": "Hi-Power 9x19mm 15-round magazine",
     "description": "A 15 round steel box magazine for the Browning Hi-Power 9x19mm.",
     "weight": "100 g",
     "volume": "191 ml",
@@ -377,7 +377,7 @@
   {
     "id": "ppq9mag_10rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine 9x19mm",
+    "name": "PPQ 9x19mm 10-round magazine",
     "description": "A 10 round steel box magazine for the Walther PPQ 9mm.",
     "weight": "80 g",
     "volume": "207 ml",
@@ -393,7 +393,7 @@
   {
     "id": "ppq9mag_15rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine 9x19mm",
+    "name": "PPQ 9x19mm 15-round magazine",
     "description": "A 15 round steel box magazine for the Walther PPQ 9mm.",
     "weight": "80 g",
     "volume": "207 ml",
@@ -409,7 +409,7 @@
   {
     "id": "ppq9mag_17rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine 9x19mm",
+    "name": "PPQ 9x19mm 17-round magazine",
     "description": "A 17 round steel box magazine for the Walther PPQ 9mm.",
     "weight": "80 g",
     "volume": "207 ml",
@@ -425,7 +425,7 @@
   {
     "id": "hptc9mag_8rd",
     "type": "MAGAZINE",
-    "name": "C-9 magazine",
+    "name": "C-9 8-round magazine",
     "description": "An 8-round steel box magazine for use with the Hi-Point C-9.",
     "weight": "110 g",
     "volume": "284 ml",
@@ -441,7 +441,7 @@
   {
     "id": "hptc9mag_10rd",
     "type": "MAGAZINE",
-    "name": "C-9 magazine",
+    "name": "C-9 10-round magazine",
     "description": "A 10-round steel box magazine for use with the Hi-Point C-9.",
     "weight": "110 g",
     "volume": "284 ml",
@@ -457,7 +457,7 @@
   {
     "id": "hptc9mag_15rd",
     "type": "MAGAZINE",
-    "name": "C-9 magazine",
+    "name": "C-9 15-round magazine",
     "description": "A 15-round steel box magazine for use with the Hi-Point C-9.",
     "weight": "110 g",
     "volume": "284 ml",
@@ -473,7 +473,7 @@
   {
     "id": "cz75mag_12rd",
     "type": "MAGAZINE",
-    "name": "CZ 75 magazine",
+    "name": "CZ 75 12-round magazine",
     "description": "A 12-round steel box magazine for use with the CZ 75.",
     "weight": "100 g",
     "volume": "230 ml",
@@ -489,7 +489,7 @@
   {
     "id": "cz75mag_20rd",
     "type": "MAGAZINE",
-    "name": "CZ 75 magazine",
+    "name": "CZ 75 20-round magazine",
     "description": "A 20-round steel box magazine for use with the CZ 75.",
     "weight": "100 g",
     "volume": "230 ml",
@@ -505,7 +505,7 @@
   {
     "id": "cz75mag_26rd",
     "type": "MAGAZINE",
-    "name": "CZ 75 magazine",
+    "name": "CZ 75 26-round magazine",
     "description": "A 26-round steel box magazine for use with the CZ 75.",
     "weight": "100 g",
     "volume": "230 ml",

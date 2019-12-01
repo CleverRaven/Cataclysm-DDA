@@ -719,7 +719,7 @@
     "name": [ "Infected", "Badly Infected", "Pus Filled" ],
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
-    "remove_memorial_log": "Recovered from an infection... this time.",
+    "remove_memorial_log": "Recovered from an infection… this time.",
     "apply_message": "Your bite wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
@@ -734,15 +734,15 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000, 1200 ],
-      "sleep_min": [ 60, 30 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360, 180 ],
+      "fatigue_chance": [ -102 ]
     },
     "scaling_mods": {
       "pain_max_val": [ 30, 20 ],
       "str_mod": [ -1, -0.5 ],
       "dex_mod": [ -1, -0.5 ],
       "vomit_chance": [ -400 ],
-      "sleep_chance": [ 101 ]
+      "fatigue_chance": [ 101 ]
     }
   },
   {
@@ -760,10 +760,10 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
-      "sleep_min": [ 60 ],
-      "sleep_chance": [ -102 ]
+      "fatigue_min": [ 360 ],
+      "fatigue_chance": [ -102 ]
     },
-    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "sleep_chance": [ 101 ] }
+    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
   },
   {
     "type": "effect_type",
@@ -1271,8 +1271,8 @@
     "base_mods": {
       "vomit_chance": [ -43 ],
       "sleep_chance": [ -1003 ],
-      "sleep_min": [ 2500 ],
-      "sleep_max": [ 3500 ],
+      "sleep_min": [ 15000 ],
+      "sleep_max": [ 21000 ],
       "pkill_amount": [ 3 ],
       "pkill_max_val": [ 3 ],
       "pkill_min": [ 1 ],
@@ -1309,7 +1309,7 @@
     "desc": [
       "You suffer from a respiratory disorder that makes breathing difficult.\nAn asthma attack can occur from time to time, so have your inhaler nearby."
     ],
-    "apply_message": "You can't breathe... asthma attack!",
+    "apply_message": "You can't breathe… asthma attack!",
     "rating": "bad",
     "max_intensity": 6,
     "int_dur_factor": "200 s",
@@ -1794,7 +1794,7 @@
     "id": "supercharged",
     "//": "not given to players by default",
     "name": [ "Supercharged" ],
-    "desc": [ "You've been struck by lightning, and feel... different." ],
+    "desc": [ "You've been struck by lightning, and feel… different." ],
     "base_mods": { "speed_mod": [ 50 ] }
   },
   {
@@ -1819,11 +1819,44 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_atmosphere",
+    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
+    "desc": [
+      "The air in here smells like vinegar and mold.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly.",
+      "The air in here smells like vinegar and mold.  It is closing in and smothering you, making it impossible to think clearly."
+    ],
+    "apply_message": "The air in here smells like vinegar and mold, and hurts your lungs a bit.",
+    "max_intensity": 5,
+    "int_dur_factor": "5 seconds",
+    "rating": "bad",
+    "miss_messages": [ [ "You feel groggy in this sweltering, foul air.", 2 ] ],
+    "harmful_cough": false,
+    "base_mods": { "cough_chance": [ -1002 ] },
+    "scaling_mods": {
+      "str_mod": [ -0.25 ],
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.25 ],
+      "int_mod": [ -0.75 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 10 ],
+      "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "recently_coughed"
   },
   {
     "type": "effect_type",

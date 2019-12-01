@@ -264,7 +264,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_EVACUATION",
-    "dynamic_line": "Oh yeah, that was a hell of a shitstorm.  We were waiting back there for 'processing' for hours and hours, with the sick and wounded.  One guy died, we all thought he was sleeping until he got back up.  That started a panic, gunshots in a closed area, that kind of stuff.  In just a few minutes, a bunch more people were dead.  Then the assholes called it an 'outbreak' and tried to barricade us in... took us way too long to convince the panicking guards that we were alive and needed to get out.  I'll give the one guy credit, Sean: when he found out they'd locked living people in with zombies, he came in himself, as some of the newly dead were starting to get back up, and he held them off for us to escape.  That... that was probably the only actual good thing I've seen since before the end of the world: he owned his error and he put himself in harm's way to make up for it.  Massive respect to that guy.  So, of course, he's a zombie now.  Fuck, thanks for reminding me of all that sunny fun.",
+    "dynamic_line": "Oh yeah, that was a hell of a shitstorm.  We were waiting back there for 'processing' for hours and hours, with the sick and wounded.  One guy died, we all thought he was sleeping until he got back up.  That started a panic, gunshots in a closed area, that kind of stuff.  In just a few minutes, a bunch more people were dead.  Then the assholes called it an 'outbreak' and tried to barricade us in… took us way too long to convince the panicking guards that we were alive and needed to get out.  I'll give the one guy credit, Sean: when he found out they'd locked living people in with zombies, he came in himself, as some of the newly dead were starting to get back up, and he held them off for us to escape.  That… that was probably the only actual good thing I've seen since before the end of the world: he owned his error and he put himself in harm's way to make up for it.  Massive respect to that guy.  So, of course, he's a zombie now.  Fuck, thanks for reminding me of all that sunny fun.",
     "responses": [ { "text": "Sorry for bringing it up. What were you saying?", "topic": "TALK_NONE" } ]
   },
   {
@@ -342,7 +342,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_WHYSTAY2",
-    "dynamic_line": "Don't get me wrong, I hate this place and this situation, and especially the selfish racist fucks that landed me here... but these other losers that landed out here with me?  I like them.  We might be miserable, but we're miserable together.",
+    "dynamic_line": "Don't get me wrong, I hate this place and this situation, and especially the selfish racist fucks that landed me here… but these other losers that landed out here with me?  I like them.  We might be miserable, but we're miserable together.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
@@ -359,7 +359,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_INSULTED",
-    "dynamic_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now... no, you know what?  Screw it.  You're not worth my time.",
+    "dynamic_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now… no, you know what?  Screw it.  You're not worth my time.",
     "speaker_effect": [
       {
         "effect": [
@@ -584,14 +584,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT",
-    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibers are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
+    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp… but look at this, these fibers are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
     "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [ { "text": "Great!  I'll go see what I can do about that.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
-    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibers are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nSorry.  I could stare at this all day.  I owe you one, a big one.  Thanks for this.  Let me know if you ever need a favor from a chubby beggar woman.",
+    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp… but look at this, these fibers are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nSorry.  I could stare at this all day.  I owe you one, a big one.  Thanks for this.  Let me know if you ever need a favor from a chubby beggar woman.",
     "responses": [
       { "text": "Glad you like it.  If I think of something you can do in return, I'll let you know.", "topic": "TALK_DONE" }
     ]

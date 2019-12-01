@@ -77,6 +77,7 @@
 #include "morale_types.h"
 #include "pimpl.h"
 #include "recipe.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
@@ -112,7 +113,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -128,7 +129,7 @@ static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -433,7 +434,7 @@ void Character::load( JsonObject &data )
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
-        bool temp_keep_hands_free;
+        bool temp_keep_hands_free = false;
         data.read( "keep_hands_free", temp_keep_hands_free );
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
@@ -909,10 +910,6 @@ void player::load( JsonObject &data )
 
     if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
         remove_mutation( trait_MYOPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_solar" ) ) ) {
-        remove_bionic( bionic_id( "bio_solar" ) );
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -2071,7 +2068,7 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "note", note, 0 );
+    archive.io( "snippet_id", snippet_id, io::default_tag() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
@@ -2134,6 +2131,9 @@ void item::io( Archive &archive )
                             max_damage() );
     }
 
+    int note = 0;
+    const bool note_read = archive.read( "note", note );
+
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
@@ -2144,6 +2144,10 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
+    }
+
+    if( note_read ) {
+        snippet_id = SNIPPET.migrate_hash_to_id( note );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -2808,8 +2812,9 @@ void mission::deserialize( JsonIn &jsin )
 
     // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
     // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
-    // When loading player 2, there will be a player_id member in master.gsav, but the bool member legacy_no_player_id
-    // will have been saved as true (unless the mission belongs to a player that's been loaded into 0.D)
+    // When loading player 2, there will be a player_id member in SAVE_MASTER (i.e. master.gsav),
+    // but the bool member legacy_no_player_id will have been saved as true
+    // (unless the mission belongs to a player that's been loaded into 0.D)
     // See player::deserialize and mission::set_player_id_legacy_0c
     legacy_no_player_id = !jo.read( "player_id", player_id ) ||
                           jo.get_bool( "legacy_no_player_id", false );

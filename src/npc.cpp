@@ -1189,7 +1189,26 @@ bool npc::wield( item &it )
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
+    invalidate_range_cache();
     return true;
+}
+
+void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                bool stash )
+{
+    Character::drop( what, target, stash );
+    // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
+    // so is this necessary?
+    activity.do_turn( *this );
+}
+
+void npc::invalidate_range_cache()
+{
+    if( weapon.is_gun() ) {
+        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+    } else {
+        confident_range_cache = weapon.reach_range( *this );
+    }
 }
 
 void npc::form_opinion( const player &u )
@@ -1455,7 +1474,15 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            int ups_charges = charges_of( "UPS_off", ups_drain ) +
+                              charges_of( "UPS_off", ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        } else {
+            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        }
+        needrank[need_ammo] *= 5;
     }
     if( !base_location ) {
         needrank[need_safety] = 1;
@@ -1773,6 +1800,16 @@ void healing_options::clear_all()
     bleed = false;
     bite = false;
     infect = false;
+}
+
+bool healing_options::all_false()
+{
+    return !any_true();
+}
+
+bool healing_options::any_true()
+{
+    return bandage || bleed || bite || infect;
 }
 
 void healing_options::set_all()
@@ -2526,7 +2563,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_NULL:
             return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking and butchering" );
+            return _( "Cooking and butchering - Currently only butchering is enabled" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2534,19 +2571,19 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_CONSTRUCTING:
             return _( "Building" );
         case NPCJOB_CRAFTING:
-            return _( "Crafting" );
+            return _( "Crafting - Currently only a placeholder" );
         case NPCJOB_SECURITY:
-            return _( "Guarding and patrolling" );
+            return _( "Guarding and patrolling - Currently only a placeholder" );
         case NPCJOB_FARMING:
-            return _( "Working the fields" );
+            return _( "Farming the fields" );
         case NPCJOB_LUMBERJACK:
             return _( "Chopping wood" );
         case NPCJOB_HUSBANDRY:
-            return _( "Caring for the livestock" );
+            return _( "Caring for the livestock - Currently only a placeholder" );
         case NPCJOB_HUNTING:
-            return _( "Hunting and fishing" );
+            return _( "Hunting and fishing - Currently only fishing is enabled" );
         case NPCJOB_FORAGING:
-            return _( "Gathering edibles" );
+            return _( "Gathering edibles - Currently only a placeholder" );
         default:
             break;
     }
@@ -2654,7 +2691,7 @@ void npc::on_load()
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
-        process_active_items();
+        process_items();
         // give NPCs that are doing activities a pile of moves
         if( has_destination() || activity ) {
             mod_moves( to_moves<int>( dt ) );
@@ -2830,6 +2867,28 @@ void npc::process_turn()
 
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
+}
+
+bool npc::invoke_item( item *used, const tripoint &pt )
+{
+    const auto &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return Character::invoke_item( used, use_methods.begin()->first, pt );
+    }
+    return false;
+}
+
+bool npc::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+bool npc::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
 }
 
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {

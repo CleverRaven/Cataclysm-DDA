@@ -125,13 +125,13 @@ automatically_convertible = {
     "ENGINE",
     "epilogue",
     "faction",
-    "fault",
     "furniture",
     "GENERIC",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
     "keybinding",
+    "LOOT_ZONE",
     "MAGAZINE",
     "map_extra",
     "MOD_INFO",
@@ -144,7 +144,6 @@ automatically_convertible = {
     "PET_ARMOR",
     "score",
     "skill",
-    "snippet",
     "speech",
     "SPELL",
     "start_location",
@@ -748,6 +747,29 @@ def extract_skill_display_type(item):
     outfile = get_outfile("skill_display_type")
     writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
 
+def extract_fault(item):
+    outfile = get_outfile("fault")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["description"], comment="description for fault '{}'".format(item["name"]))
+    for method in item["mending_methods"]:
+        if "name" in method:
+            writestr(outfile, method["name"], comment="name of mending method for fault '{}'".format(item["name"]))
+        if "description" in method:
+            writestr(outfile, method["description"], comment="description for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+        if "success_msg" in method:
+            writestr(outfile, method["success_msg"], format_strings=True, comment="success message for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+
+def extract_snippets(item):
+    outfile = get_outfile("snippet")
+    text = item["text"];
+    if type(text) is not list:
+        text = [text];
+    for snip in text:
+        if type(snip) is str:
+            writestr(outfile, snip)
+        else:
+            writestr(outfile, snip["text"])
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -755,6 +777,7 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
+    "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
@@ -769,14 +792,14 @@ extract_specials = {
     "recipe": extract_recipes,
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
+    "snippet": extract_snippets,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
     "ter_furn_transform": extract_ter_furn_transform_messages,
-    "skill_display_type": extract_skill_display_type
-
+    "skill_display_type": extract_skill_display_type,
 }
 
 ##
@@ -937,7 +960,7 @@ def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
     if not "type" in item:
-        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
+        return
     object_type = item["type"]
     found_types.add(object_type)
     outfile = get_outfile(object_type)

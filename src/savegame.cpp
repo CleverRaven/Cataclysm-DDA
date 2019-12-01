@@ -149,20 +149,7 @@ static void chkversion( std::istream &fin )
  */
 void game::unserialize( std::istream &fin )
 {
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-    std::string linebuf;
-
+    chkversion( fin );
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
@@ -198,7 +185,7 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
-        linebuf.clear();
+        std::string linebuf;
         if( data.read( "grscent", linebuf ) ) {
             scent.deserialize( linebuf );
         } else {
@@ -263,53 +250,10 @@ void scent_map::deserialize( const std::string &data )
     }
 }
 
-///// weather
-void game::load_weather( std::istream &fin )
-{
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-
-    //Check for "lightning:" marker - if absent, ignore
-    if( fin.peek() == 'l' ) {
-        std::string line;
-        getline( fin, line );
-        weather.lightning_active = line == "lightning: 1";
-    } else {
-        weather.lightning_active = false;
-    }
-    if( fin.peek() == 's' ) {
-        std::string line;
-        std::string label;
-        getline( fin, line );
-        std::stringstream liness( line );
-        liness >> label >> seed;
-    }
-}
-
-void game::save_weather( std::ostream &fout )
-{
-    fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
-    fout << "seed: " << seed;
-}
-
 #if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {
-    std::string linebuf;
-    std::stringstream linein;
-
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -1067,7 +1011,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
+                shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
@@ -1585,7 +1529,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
 ///// mapbuffer
 
 ///////////////////////////////////////////////////////////////////////////////////////
-///// master.gsav
+///// SAVE_MASTER (i.e. master.gsav)
 
 void mission::unserialize_all( JsonIn &jsin )
 {
@@ -1620,13 +1564,18 @@ void game::unserialize_master( std::istream &fin )
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
+            } else if( name == "seed" ) {
+                jsin.read( seed );
+            } else if( name == "weather" ) {
+                JsonObject w = jsin.get_object();
+                w.read( "lightning", weather.lightning_active );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
             }
         }
     } catch( const JsonError &e ) {
-        debugmsg( "error loading master.gsav: %s", e.c_str() );
+        debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
@@ -1653,10 +1602,16 @@ void game::serialize_master( std::ostream &fout )
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
+        json.member( "seed", seed );
+
+        json.member( "weather" );
+        json.start_object();
+        json.member( "lightning", weather.lightning_active );
+        json.end_object();
 
         json.end_object();
     } catch( const JsonError &e ) {
-        debugmsg( "error saving to master.gsav: %s", e.c_str() );
+        debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
@@ -1712,7 +1667,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
-        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
     }

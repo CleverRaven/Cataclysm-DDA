@@ -126,7 +126,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name() );
+        add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
         c->moves -= 100;
         return true;
     }
@@ -150,7 +150,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
                                   _( "A bear trap closes on <npcname>'s foot!" ) );
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
-            g->u.add_effect( effect_beartrap, 1_turns, hit, true );
         }
         // Actual effects
         c->add_effect( effect_beartrap, 1_turns, hit, true );
@@ -547,7 +546,6 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     // Messages
     if( c->has_effect( effect_ridden ) ) {
         add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
-        g->u.add_effect( effect_lightsnare, 1_turns, hit, true );
     }
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
                               _( "A snare closes on <npcname>s leg." ) );
@@ -572,8 +570,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     // Determine what got hit
     const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
     if( c->has_effect( effect_ridden ) ) {
-        add_msg( m_bad, _( "A snare closes on your %s's leg" ), c->get_name() );
-        g->u.add_effect( effect_heavysnare, 1_turns, hit, true );
+        add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
     }
     //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
@@ -701,9 +698,9 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     if( z != nullptr ) {
         if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-            sounds::sound( p, 4, sounds::sound_t::speech,
-                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech",
-                           "robot" ); //Dissector error sound.
+            //Dissector error sound.
+            sounds::sound( p, 4, sounds::sound_t::speech,  _( "BEEPBOOP!  Please remove non-organic object." ),
+                           false, "speech", "robot" );
             c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                       _( "The dissector lights up, and shuts down." ) );
             return false;
@@ -777,7 +774,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
+                // like the message says \-:
+                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n );
                 n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
             } else {
@@ -869,7 +867,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             add_msg( _( "The spears break!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 4; i++ ) { // 4 spears to a pit
+        // 4 spears to a pit
+        for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "pointy_stick" );
             }
@@ -955,7 +954,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             add_msg( _( "The shards shatter!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 20; i++ ) { // 20 shards in a pit.
+        // 20 shards in a pit.
+        for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "glass_shard" );
             }
@@ -1198,7 +1198,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( pl->is_player() ) {
-        add_msg( m_warning, _( "You fall down a level!" ) );
+        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                 height );
         g->vertical_move( -height, true );
     } else {
         pl->setpos( where );
@@ -1211,7 +1212,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {
-        pl->impact( height * 10, where );
+        pl->impact( height * 30, where );
     }
     return true;
 }
@@ -1375,6 +1376,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
+            g->m.set_transparency_cache_dirty( p.z );
             return true;
         }
     }

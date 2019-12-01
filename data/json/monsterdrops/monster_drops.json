@@ -5,21 +5,99 @@
     "//": "contains cloth for an average zombie",
     "id": "default_zombie_clothes",
     "entries": [
-      { "group": "pants", "damage": [ 1, 4 ] },
-      { "group": "shirts", "damage": [ 1, 4 ] },
-      { "group": "shoes", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "jackets", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "suits", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
       {
         "distribution": [
-          { "item": "wristwatch", "prob": 15 },
-          { "item": "pocketwatch", "prob": 5 },
-          { "item": "gold_watch", "prob": 5, "damage": [ 1, 4 ] },
-          { "item": "diving_watch", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "sf_watch", "prob": 5, "damage": [ 1, 4 ] }
-        ],
-        "prob": 20
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "thawb", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 70
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 20
+                  },
+                  {
+                    "collection": [
+                      { "item": "dress_wedding", "damage": [ 1, 4 ] },
+                      { "item": "veil_wedding", "damage": [ 1, 4 ] },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 10
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "distribution": [
@@ -27,12 +105,7 @@
           { "group": "clothing_biker", "damage": [ 1, 4 ], "prob": 50 }
         ],
         "prob": 10
-      },
-      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "hatstore_accessories", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "clothing_glasses", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "jewelry_accessories", "prob": 15 }
+      }
     ]
   },
   {
@@ -413,6 +486,88 @@
       { "item": "stick", "count": [ 5, 8 ] },
       { "item": "cable", "charges-min": 20, "charges-max": 50 },
       { "item": "amplifier", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average zombie child",
+    "id": "default_zombie_children_clothes",
+    "entries": [
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 80
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [ { "item": "dress", "prob": 70, "damage": [ 1, 4 ] }, { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] } ]
+                      },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                      }
+                    ],
+                    "prob": 20
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
 ]

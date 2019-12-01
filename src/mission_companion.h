@@ -2,6 +2,7 @@
 #ifndef MISSION_COMPANION_H
 #define MISSION_COMPANION_H
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -10,6 +11,7 @@
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class npc;
 class item;
@@ -20,7 +22,7 @@ template<typename T>
 class string_id;
 class monster;
 
-using npc_ptr = std::shared_ptr<npc>;
+using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 
 struct mission_entry {
@@ -88,11 +90,11 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::string &skill_tested = "", int skill_level = 0 );
+                            const std::map<skill_id, int> &required_skills = {} );
 npc_ptr individual_mission( const tripoint &omt_pos, const std::string &role_id,
                             const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::string &skill_tested = "", int skill_level = 0 );
+                            const std::map<skill_id, int> &required_skills = {} );
 
 ///All of these missions are associated with the ranch camp and need to me updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const std::string &id );
@@ -134,9 +136,10 @@ npc_ptr temp_npc( const string_id<npc_template> &type );
 comp_list companion_list( const npc &p, const std::string &mission_id, bool contains = false );
 comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
                           const std::string &mission_id, bool contains = false );
-comp_list companion_sort( comp_list available, const std::string &skill_tested = "" );
+comp_list companion_sort( comp_list available,
+                          const std::map<skill_id, int> &required_skills = {} );
 std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = true );
-npc_ptr companion_choose( const std::string &skill_tested = "", int skill_level = 0 );
+npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {} );
 npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
                                  const time_point &deadline );
 npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,

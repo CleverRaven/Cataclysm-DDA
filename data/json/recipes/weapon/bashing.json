@@ -1,5 +1,18 @@
 [
   {
+    "result": "hollow_cane",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "40 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
+  },
+  {
     "result": "battletorch",
     "type": "recipe",
     "category": "CC_WEAPON",

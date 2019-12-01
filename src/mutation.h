@@ -139,6 +139,9 @@ struct mutation_branch {
         float scent_modifier = 1.0f;
         int bleed_resist = 0;
 
+        /**Map of glowing bodypart and there intensity*/
+        std::map<body_part, int> lumination;
+
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
         /**How fast does healthy tends toward healthy_mod*/
@@ -360,7 +363,7 @@ struct mutation_branch {
          * Get the trait group object specified by the given ID, or null if no
          * such group exists.
          */
-        static std::shared_ptr<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+        static shared_ptr_fast<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
 
         /**
          * Return the idents of all trait groups that are known.

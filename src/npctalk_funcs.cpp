@@ -332,14 +332,20 @@ void talk_function::goto_location( npc &p )
         auto selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
     }
+    p.goal = destination;
+    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
+    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
+        p.omt_path.empty() ) {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+        add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
+        return;
+    }
     p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
     p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
-    return;
 }
 
 void talk_function::assign_guard( npc &p )
@@ -450,11 +456,12 @@ void talk_function::bionic_install( npc &p )
     const itype &it = *tmp->type;
 
     signed int price = tmp->price( true ) * 2;
+    if( !npc_trading::pay_npc( p, price ) ) {
+        return;
+    }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_install_bionics( it, p, false, 20 ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         bionic.remove_item();
         g->u.install_bionics( it, p, false, 20 );
     }
@@ -499,15 +506,12 @@ void talk_function::bionic_remove( npc &p )
     } else {
         price = 50000;
     }
-    if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure…" ) );
+    if( !npc_trading::pay_npc( p, price ) ) {
         return;
     }
 
     //Makes the doctor awesome at installing but not perfect
     if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
-        g->u.cash -= price;
-        p.cash += price;
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
         g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
     }
@@ -791,7 +795,14 @@ void talk_function::leave( npc &p )
 
 void talk_function::stop_following( npc &p )
 {
-    add_msg( _( "%s leaves." ), p.name );
+    // this is to tell non-allied NPCs to stop following.
+    // ( usually after a mission where they were temporarily tagging along )
+    // so dont tell already allied NPCs to stop following.
+    // they use the guard command for that.
+    if( p.is_player_ally() ) {
+        return;
+    }
+    add_msg( _( "%s stops following." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -978,7 +989,7 @@ void talk_function::set_npc_pickup( npc &p )
 void talk_function::npc_die( npc &p )
 {
     p.die( nullptr );
-    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
     if( guy && !guy->is_dead() ) {
         guy->marked_for_death = true;
     }

@@ -92,6 +92,7 @@ class vehicle;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -435,7 +436,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -453,6 +454,7 @@ void character_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
+    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -818,6 +820,11 @@ void character_edit_menu()
                 np->set_attitude( attitudes[attitudes_ui.ret] );
             }
         }
+        break;
+        case D_FLU: {
+            p.add_effect( effect_flu, 1000_minutes );
+            break;
+        }
     }
 }
 
@@ -1063,7 +1070,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_NPC: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
+            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
@@ -1108,11 +1115,11 @@ void debug()
             std::string stom =
                 _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
-                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.capacity( u ) ), u.stomach.get_calories(),
                      units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
             stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
-                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.capacity( u ) ), u.guts.get_calories(),
                      units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
@@ -1139,24 +1146,28 @@ void debug()
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
-                std::vector<vproto_id> veh_strings;
+                // Vector of name, id so that we can sort by name
+                std::vector<std::pair<std::string, vproto_id>> veh_strings;
+                for( auto &elem : vehicle_prototype::get_all() ) {
+                    if( elem == vproto_id( "custom" ) ) {
+                        continue;
+                    }
+                    veh_strings.emplace_back( elem->name, elem );
+                }
+                std::sort( veh_strings.begin(), veh_strings.end() );
                 uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
                 int menu_ind = 0;
-                for( auto &elem : vehicle_prototype::get_all() ) {
-                    if( elem != vproto_id( "custom" ) ) {
-                        const vehicle_prototype &proto = elem.obj();
-                        veh_strings.push_back( elem );
-                        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ), _( proto.name ),
-                                           elem.c_str() );
-                        ++menu_ind;
-                    }
+                for( auto &elem : veh_strings ) {
+                    //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+                    veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
+                                       _( elem.first ), elem.second.c_str() );
+                    ++menu_ind;
                 }
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     //Didn't cancel
-                    const vproto_id &selected_opt = veh_strings[veh_menu.ret];
+                    const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
                     if( veh != nullptr ) {

@@ -423,11 +423,6 @@
   },
   {
     "type": "recipe",
-    "result": "bio_solar",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_water_extractor",
     "obsolete": true
   },
@@ -1919,6 +1914,16 @@
   {
     "type": "recipe",
     "result": "pressure_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "abzats",
     "obsolete": true
   }
 ]

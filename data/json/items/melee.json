@@ -70,22 +70,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "rock",
-    "symbol": "*",
-    "color": "light_gray",
-    "name": "rock",
-    "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
-    "category": "spare_parts",
-    "material": "stone",
-    "flags": "TRADER_AVOID",
-    "weight": "657 g",
-    "volume": "250 ml",
-    "bashing": 7,
-    "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ] ]
-  },
-  {
-    "type": "GENERIC",
     "id": "sharp_rock",
     "symbol": "*",
     "color": "light_gray",

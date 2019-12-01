@@ -67,7 +67,7 @@ class ter_furn_transform
     public:
 
         ter_furn_transform_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         void add_all_messages( const Creature &critter, const tripoint &location ) const;
         void add_all_messages( const map &m, const Creature &critter, const tripoint &location ) const;

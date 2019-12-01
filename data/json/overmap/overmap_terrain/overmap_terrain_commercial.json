@@ -1509,6 +1509,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_4",
+    "copy-from": "generic_city_building",
+    "name": "hotel parking",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_4",
+    "copy-from": "generic_city_building",
+    "name": "hotel parking",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_4",
+    "copy-from": "generic_city_building",
+    "name": "hotel parking",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_4",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hotel_tower_1_5",
     "copy-from": "generic_city_building",
     "name": "hotel entrance",
@@ -1517,7 +1549,79 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_5",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_5",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_5",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_5",
+    "copy-from": "generic_city_building",
+    "name": "hotel entrance",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_1_5B",
+    "copy-from": "generic_city_building",
+    "name": "hotel entrance",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_5B",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_1_5C",
+    "copy-from": "generic_city_building",
+    "name": "hotel entrance",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_5C",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hotel_tower_1_6",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_6",
     "copy-from": "generic_city_building",
     "name": "hotel parking",
     "sym": "h",
@@ -1525,7 +1629,63 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_6",
+    "copy-from": "generic_city_building",
+    "name": "hotel parking",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_6",
+    "copy-from": "generic_city_building",
+    "name": "hotel parking",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_6",
+    "copy-from": "generic_city_building",
+    "name": "hotel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hotel_tower_1_7",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_7",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_7",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_7",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_7",
     "copy-from": "generic_city_building",
     "name": "hotel tower",
     "sym": "H",
@@ -1541,7 +1701,71 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_8",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_8",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_8",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_8",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hotel_tower_1_9",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr2_1_9",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr3_1_9",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_flr4_1_9",
+    "copy-from": "generic_city_building",
+    "name": "hotel tower",
+    "sym": "H",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hotel_tower_roof_1_9",
     "copy-from": "generic_city_building",
     "name": "hotel tower",
     "sym": "H",
@@ -2811,15 +3035,6 @@
     "name": "tire shop roof",
     "sym": "O",
     "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "headshop",
-    "copy-from": "generic_city_building",
-    "name": "Head Shop",
-    "sym": "0",
-    "color": "i_white",
-    "flags": [ "SOURCE_LUXURY" ]
   },
   {
     "type": "overmap_terrain",

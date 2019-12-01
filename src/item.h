@@ -1055,7 +1055,7 @@ class item : public visitable<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( player *p, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1195,7 +1195,7 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &snippet_id );
+        void set_snippet( const std::string &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
@@ -1347,6 +1347,9 @@ class item : public visitable<item>
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const std::string &flag );
+
+        /** Idempotent filter recursively setting an item specific flag on this item and its components. */
+        item &set_flag_recursive( const std::string &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -1992,8 +1995,9 @@ class item : public visitable<item>
          * Handle failure during crafting.
          * Destroy components, lose progress, and set a new failure point.
          * @param crafter the crafting player.
+         * @return whether the craft being worked on should be entirely destroyed
          */
-        void handle_craft_failure( player &crafter );
+        bool handle_craft_failure( player &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -2001,6 +2005,20 @@ class item : public visitable<item>
          * @return what is needed to continue craft, may be empty requirement data
          */
         requirement_data get_continue_reqs() const;
+
+        /**
+         * @brief Inherit applicable flags from the given parent item.
+         *
+         * @param parent Item to inherit from
+         */
+        void inherit_flags( const item &parent );
+
+        /**
+         * @brief Inherit applicable flags from the given list of parent items.
+         *
+         * @param parents Items to inherit from
+         */
+        void inherit_flags( const std::list<item> &parents );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2101,7 +2119,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        int note = 0;              // Associated dynamic text snippet.
+        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.

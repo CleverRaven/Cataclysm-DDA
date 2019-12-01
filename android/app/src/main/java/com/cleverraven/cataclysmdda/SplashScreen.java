@@ -28,8 +28,8 @@ public class SplashScreen extends Activity {
     private static final int INSTALL_DIALOG_ID = 0;
     private ProgressDialog installDialog;
 
-    public CharSequence[] mSettingsNames = { "Software rendering" };
-    public boolean[] mSettingsValues = { true };
+    public CharSequence[] mSettingsNames = { "Software rendering", "Force fullscreen" };
+    public boolean[] mSettingsValues = { false, false};
 
     private String getVersionName() {
         try {

@@ -105,7 +105,7 @@ void mod_manager::load_replacement_mods( const std::string &path )
 
 mod_manager::mod_manager()
 {
-    load_replacement_mods( FILENAMES["mods-replacements"] );
+    load_replacement_mods( PATH_INFO::mods_replacements() );
     refresh_mod_list();
     set_usable_mods();
 }
@@ -139,14 +139,14 @@ void mod_manager::refresh_mod_list()
     clear();
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
-    load_mods_from( FILENAMES["moddir"] );
-    load_mods_from( FILENAMES["user_moddir"] );
+    load_mods_from( PATH_INFO::moddir() );
+    load_mods_from( PATH_INFO::user_moddir() );
 
-    if( file_exist( FILENAMES["mods-dev-default"] ) ) {
-        load_mod_info( FILENAMES["mods-dev-default"] );
+    if( file_exist( PATH_INFO::mods_dev_default() ) ) {
+        load_mod_info( PATH_INFO::mods_dev_default() );
     }
-    if( file_exist( FILENAMES["mods-user-default"] ) ) {
-        load_mod_info( FILENAMES["mods-user-default"] );
+    if( file_exist( PATH_INFO::mods_user_default() ) ) {
+        load_mod_info( PATH_INFO::mods_user_default() );
     }
 
     if( set_default_mods( mod_id( "user:default" ) ) ) {
@@ -270,7 +270,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 bool mod_manager::set_default_mods( const t_mod_list &mods )
 {
     default_mods = mods;
-    return write_to_file( FILENAMES["mods-user-default"], [&]( std::ostream & fout ) {
+    return write_to_file( PATH_INFO::mods_user_default(), [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member( "type", "MOD_INFO" );

@@ -167,10 +167,10 @@ int main( int argc, char *argv[] )
 #endif
 
 #if defined(__ANDROID__)
-    PATH_INFO::init_user_dir( external_storage_path.c_str() );
+    PATH_INFO::init_user_dir( external_storage_path );
 #else
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
-    PATH_INFO::init_user_dir();
+    PATH_INFO::init_user_dir( "" );
 #   else
     PATH_INFO::init_user_dir( "./" );
 #   endif
@@ -376,8 +376,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "datadir", params[0] );
-                        PATH_INFO::update_datadir();
+                        PATH_INFO::set_datadir( params[0] );
                         return 1;
                     }
                 },
@@ -390,7 +389,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "savedir", params[0] );
+                        PATH_INFO::set_savedir( params[0] );
                         return 1;
                     }
                 },
@@ -403,8 +402,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "config_dir", params[0] );
-                        PATH_INFO::update_config_dir();
+                        PATH_INFO::set_config_dir( params[0] );
                         return 1;
                     }
                 },
@@ -417,7 +415,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "memorialdir", params[0] );
+                        PATH_INFO::set_memorialdir( params[0] );
                         return 1;
                     }
                 },
@@ -430,7 +428,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "options", params[0] );
+                        PATH_INFO::set_options( params[0] );
                         return 1;
                     }
                 },
@@ -443,7 +441,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "keymap", params[0] );
+                        PATH_INFO::set_keymap( params[0] );
                         return 1;
                     }
                 },
@@ -456,7 +454,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "autopickup", params[0] );
+                        PATH_INFO::set_autopickup( params[0] );
                         return 1;
                     }
                 },
@@ -469,7 +467,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        PATH_INFO::update_pathname( "motd", params[0] );
+                        PATH_INFO::set_motd( params[0] );
                         return 1;
                     }
                 },
@@ -539,15 +537,15 @@ int main( int argc, char *argv[] )
         }
     }
 
-    if( !dir_exist( FILENAMES["datadir"] ) ) {
+    if( !dir_exist( PATH_INFO::datadir() ) ) {
         printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                FILENAMES["datadir"].c_str() );
+                PATH_INFO::datadir().c_str() );
         exit( 1 );
     }
 
-    if( !assure_dir_exist( FILENAMES["user_dir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_dir() ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
-                FILENAMES["user_dir"].c_str() );
+                PATH_INFO::user_dir().c_str() );
         exit( 1 );
     }
 
