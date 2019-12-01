@@ -1,7 +1,6 @@
-Last updated for build #9934 30/11/19
+Last updated for build #9934 2019-12-01
 
 Installation:
-  - Move 'map_font_LARWICK.png' into your /data/font folder.
   - Move 'fonts.json' into your /config folder and overwrite - unless you have previously made changes to the file, in which case you will need to modify it manually to save your changes. Make sure 'fonts.json' no longer remains in the graphical overmap mod folder.
   - In graphics options make sure the overmap font width/height/size are all set to "16" then restart.
 	
