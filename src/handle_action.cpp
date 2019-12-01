@@ -2135,11 +2135,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_SAVE:
-                if( query_yn( _( "Save and quit?" ) ) ) {
-                    if( save() ) {
-                        u.moves = 0;
-                        uquit = QUIT_SAVED;
-                    }
+                if( save() ) {
+                    u.moves = 0;
+                    uquit = QUIT_SAVED;
                 }
                 refresh_all();
                 break;
