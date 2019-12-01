@@ -1853,6 +1853,7 @@
       [ "pickaxe", 1 ],
       [ "makeshift_machete", 4 ],
       [ "flamethrower_crude", 6 ],
+      [ "flamethrower_simple", 2 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
       [ "antifungal", 1 ],
