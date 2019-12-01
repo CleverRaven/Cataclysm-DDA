@@ -1920,5 +1920,10 @@
     "type": "recipe",
     "result": "xacto",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "abzats",
+    "obsolete": true
   }
 ]

@@ -1336,7 +1336,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() == 0 ) {
+                if( part_elem->is_broken() || part_elem->damage() == 0 ||
+                    part_elem->info().repair_requirements().is_empty() ) {
                     continue;
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
@@ -2033,7 +2034,9 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
     if( !best_qual ) {
         return false;
     }
-    p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    if( best_qual->type->can_have_charges() ) {
+        p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
+    }
     for( auto &i : g->m.i_at( src_loc ) ) {
         if( i.typeId() == "log" ) {
             g->m.i_rem( src_loc, &i );

@@ -36,7 +36,6 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -76,7 +75,6 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
-#include "player.h"
 #include "tileray.h"
 #include "weighted_list.h"
 #include "enums.h"
@@ -2320,16 +2318,6 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
-void map::make_rubble( const tripoint &p )
-{
-    make_rubble( p, f_rubble, false, t_dirt, false );
-}
-
-void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items )
-{
-    make_rubble( p, rubble_type, items, t_dirt, false );
-}
-
 void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
                        const ter_id &floor_type, bool overwrite )
 {
@@ -3558,7 +3546,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             spawn_item( p, "glass_shard", rng( 8, 16 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
-    } else if( impassable( p ) && !trans( p ) ) {
+    } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     }
@@ -5567,12 +5555,6 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 }
 
-void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                  const bool invert, const bool show_items ) const
-{
-    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
-}
-
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
                   const bool show_items_arg, const tripoint &view_center,
                   const bool low_light, const bool bright_light, const bool inorder ) const
@@ -5917,7 +5899,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
             }
-            if( !this->trans( tripoint( new_point, T.z ) ) ) {
+            if( !this->is_transparent( tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
             }
@@ -5937,16 +5919,16 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
 
         // TODO: Allow transparent floors (and cache them!)
         if( new_point.z == last_point.z ) {
-            if( !this->trans( new_point ) ) {
+            if( !this->is_transparent( new_point ) ) {
                 visible = false;
                 return false;
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
             if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
-                  !trans( {new_point.xy(), last_point.z} ) ) &&
+                  !is_transparent( {new_point.xy(), last_point.z} ) ) &&
                 ( has_floor_or_support( {last_point.xy(), max_z} ) ||
-                  !trans( {last_point.xy(), new_point.z} ) ) ) {
+                  !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
             }
@@ -6517,30 +6499,6 @@ void map::saven( const tripoint &grid )
                   << "  gridn: " << gridn;
     submap_to_save->last_touched = calendar::turn;
     MAPBUFFER.add_submap( abs, submap_to_save );
-}
-
-// worldx & worldy specify where in the world this is;
-// gridx & gridy specify which nonant:
-// 0,0  1,0  2,0
-// 0,1  1,1  2,1
-// 0,2  1,2  2,2 etc
-// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
-// in grid[0].
-void map::loadn( const point &grid, const bool update_vehicles )
-{
-    if( zlevels ) {
-        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( tripoint( grid, gridz ), update_vehicles );
-        }
-
-        // Note: we want it in a separate loop! It is a post-load cleanup
-        // Since we're adding roofs, we want it to go up (from lowest to highest)
-        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            add_roofs( tripoint( grid, gridz ) );
-        }
-    } else {
-        loadn( tripoint( grid, abs_sub.z ), update_vehicles );
-    }
 }
 
 // Optimized mapgen function that only works properly for very simple overmap types

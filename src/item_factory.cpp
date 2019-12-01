@@ -687,6 +687,7 @@ void Item_factory::init()
     add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
+    add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
     add_iuse( "MARLOSS", &iuse::marloss );
@@ -2244,7 +2245,7 @@ void Item_factory::load_migration( JsonObject &jo )
     } else if( jo.has_array( "id" ) ) {
         JsonArray ja = jo.get_array( "id" );
         while( ja.has_more() ) {
-            m.id = jo.get_string( "id" );
+            m.id = ja.next_string();
             migrations[ m.id ] = m;
         }
     } else {

@@ -1183,7 +1183,7 @@ void options_manager::add_options_general()
 
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
-         false
+         true
        );
 
     add( "AUTOSAVE_TURNS", "general", translate_marker( "Game turns between autosaves" ),
@@ -1238,6 +1238,11 @@ void options_manager::add_options_general()
          translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
     { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
     "ask"
+       );
+
+    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
+         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
+         10, 4000, 100
        );
 
     mOptionsSort["general"]++;

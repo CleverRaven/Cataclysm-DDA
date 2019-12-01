@@ -51,7 +51,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
-#include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "calendar.h"
@@ -6333,17 +6332,6 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 }
 
-void map::place_gas_pump( const point &p, int charges )
-{
-    std::string fuel_type;
-    if( one_in( 4 ) ) {
-        fuel_type = "diesel";
-    } else {
-        fuel_type = "gasoline";
-    }
-    place_gas_pump( p, charges, fuel_type );
-}
-
 void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
     item fuel( fuel_type, 0 );
@@ -6476,7 +6464,7 @@ std::vector<item *> map::put_items_from_loc( const items_location &loc, const tr
 }
 
 void map::add_spawn( const mtype_id &type, int count, const point &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name )
+                     int faction_id, int mission_id, const std::string &name ) const
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -6497,25 +6485,22 @@ void map::add_spawn( const mtype_id &type, int count, const point &p, bool frien
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, const int dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
-{
-    return add_vehicle( type, tripoint( p, abs_sub.z ),
-                        dir, veh_fuel, veh_status, merge_wrecks );
-}
-
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const int dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
-{
-    return add_vehicle( type.obj().pick(), tripoint( p, abs_sub.z ),
-                        dir, veh_fuel, veh_status, merge_wrecks );
-}
-
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
-    return add_vehicle( type.obj().pick(), p,
-                        dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+}
+
+vehicle *map::add_vehicle( const vgroup_id &type, const point &p, int dir,
+                           int veh_fuel, int veh_status, bool merge_wrecks )
+{
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+}
+
+vehicle *map::add_vehicle( const vproto_id &type, const point &p, int dir,
+                           int veh_fuel, int veh_status, bool merge_wrecks )
+{
+    return add_vehicle( type, tripoint( p, abs_sub.z ), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int dir,

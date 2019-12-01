@@ -5658,7 +5658,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos().xy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
@@ -9715,6 +9715,16 @@ int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname() );
     p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
+    return 0;
+}
+
+int iuse::play_game( player *p, item *it, bool, const tripoint & )
+{
+    if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
+        p->add_msg_if_player( _( "You start playing." ) );
+        p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                            p->get_item_position( it ), "gaming" );
+    }
     return 0;
 }
 

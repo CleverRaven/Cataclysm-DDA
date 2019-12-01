@@ -1166,12 +1166,13 @@ void debug()
                 }
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't cancel
+                    // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
+                    // TODO: Allow picking this when add_vehicle has 3d argument
+                    tripoint dest = u.pos();
+                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( u.pos(), &u );
+                        m.board_vehicle( dest, &u );
                     }
                 }
             }
