@@ -6707,12 +6707,15 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    // If a mod sets a magazine type, we're not integral.
-    for( const item *m : is_gun() ? gunmods() : toolmods() ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            return false;
-        }
-    }
+  if( is_gun() && type->gun->clip > 0 ) {
+       return true;
+   }
+   for( const item *m : is_gun() ? gunmods() : toolmods() ) {
+       if( !m->type->mod->magazine_adaptor.empty() ) {
+           return false;
+       }
+   }
+   return type->magazines.empty();
 
     // We have an integral magazine if we're a gun with an ammo capacity (clip) or we have no magazines.
     return ( is_gun() && type->gun->clip > 0 ) || type->magazines.empty();
