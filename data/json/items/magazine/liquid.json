@@ -63,5 +63,21 @@
     "capacity": 4000,
     "reliability": 10,
     "reload_time": 3
+  },
+  {
+    "id": "pressurized_sm_extinguisher",
+    "type": "MAGAZINE",
+    "name": "pressurized small extinguisher",
+    "description": "A pressurized 1.5L extingusher modified for usage as a small auxiliary flamethrower.",
+    "weight": "1900 g",
+    "volume": "1500 ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "red",
+    "ammo_type": "flammable",
+    "capacity": 1500,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]
