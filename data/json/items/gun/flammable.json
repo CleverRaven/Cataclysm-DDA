@@ -43,7 +43,7 @@
     "range": 5,
     "dispersion": 500,
     "durability": 6,
-    "flags": [ "NO_RELOAD" ]
+    "magazine": [ [ "flammable", [ "pressurized_sm_extinguisher" ] ] ]
   },
   {
     "id": "rm451_flamethrower",
