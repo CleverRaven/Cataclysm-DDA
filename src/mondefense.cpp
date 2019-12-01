@@ -138,15 +138,15 @@ void mdefense::acidsplash( monster &m, Creature *const source,
 
 void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile_attack *proj )
 {
-    // No backfire for untargeted projectiles, i.e. from explosions.
+    // No return fire for untargeted projectiles, i.e. from explosions.
     if( source == nullptr ) {
         return;
     }
-    // No backfire for melee attacks.
+    // No return fire for melee attacks.
     if( proj == nullptr ) {
         return;
     }
-    // No backfire from dead monsters.
+    // No return fire from dead monsters.
     if( m.is_dead_state() ) {
         return;
     }
