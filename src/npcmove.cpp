@@ -682,6 +682,9 @@ void npc::move()
     } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
         set_attitude( NPCATT_NULL );
     }
+    if( activity.id() == "ACT_MULTIPLE_CHOP_TREES" ) {
+        return;
+    }
     regen_ai_cache();
     adjust_power_cbms();
 
