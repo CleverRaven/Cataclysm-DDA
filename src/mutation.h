@@ -205,7 +205,7 @@ struct mutation_branch {
         float mana_multiplier;
         float mana_regen_multiplier;
         // spells learned and their associated level when gaining the mutation
-        std::map<spell_id, float> spells_learned;
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -363,7 +363,7 @@ struct mutation_branch {
          * Get the trait group object specified by the given ID, or null if no
          * such group exists.
          */
-        static std::shared_ptr<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+        static shared_ptr_fast<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
 
         /**
          * Return the idents of all trait groups that are known.

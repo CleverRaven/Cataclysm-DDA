@@ -497,7 +497,7 @@
       [ "diveknife", 1 ],
       [ "diving_watch", 1 ],
       [ "dog_whistle", 3 ],
-      { "item": "dogfood", "prob": 3, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 3, "container-item": "can_medium" },
       [ "doublespeargun", 1 ],
       [ "drink_boozeberry", 1 ],
       [ "drink_rumcola", 1 ],

@@ -53,7 +53,7 @@
     "type": "item_group",
     "items": [
       [ "birdfood", 10 ],
-      { "item": "dogfood", "prob": 45, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 45, "container-item": "can_medium" },
       { "item": "catfood", "prob": 45, "container-item": "can_food" }
     ]
   },
@@ -198,6 +198,35 @@
       [ "popcorn3", 35 ],
       [ "cracklins", 25 ],
       [ "fried_seeds", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "MRE",
+    "items": [
+      [ "mre_chilibeans_box", 45 ],
+      [ "mre_bbqbeef_box", 45 ],
+      [ "mre_chickennoodle_box", 45 ],
+      [ "mre_spaghetti_box", 45 ],
+      [ "mre_chicken_box", 45 ],
+      [ "mre_beeftaco_box", 45 ],
+      [ "mre_beef_box", 45 ],
+      [ "mre_meatball_box", 45 ],
+      [ "mre_beefstew_box", 45 ],
+      [ "mre_chilimac_box", 45 ],
+      [ "mre_veggy_box", 45 ],
+      [ "mre_macaronimarinara_box", 45 ],
+      [ "mre_cheesetort_box", 45 ],
+      [ "mre_mushroomfettuccine_box", 45 ],
+      [ "mre_mexicanchickenstew_box", 45 ],
+      [ "mre_maplesausage_box", 45 ],
+      [ "mre_ravioli_box", 45 ],
+      [ "mre_hashbrownbacon_box", 45 ],
+      [ "mre_lemontuna_box", 45 ],
+      [ "mre_asianbeef_box", 45 ],
+      [ "mre_chickenpesto_box", 45 ],
+      [ "mre_southwestbeef_box", 45 ],
+      [ "mre_hotdog_box", 45 ]
     ]
   }
 ]

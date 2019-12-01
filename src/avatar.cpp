@@ -334,7 +334,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                 time_taken = proj_time;
             }
         }
-    } //end for all candidates
+    }
+    //end for all candidates
     return reader;
 }
 
@@ -359,7 +360,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
-        retval /= 10; //skimming
+        //skimming
+        retval /= 10;
     }
     return retval;
 }
@@ -425,7 +427,8 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     // Find NPCs to join the study session:
     std::map<npc *, std::string> learners;
-    std::map<npc *, std::string> fun_learners; //reading only for fun
+    //reading only for fun
+    std::map<npc *, std::string> fun_learners;
     std::map<npc *, std::string> nonlearners;
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
@@ -733,7 +736,8 @@ void avatar::do_read( item &book )
         return;
     }
 
-    std::vector<std::pair<player *, double>> learners; //learners and their penalties
+    //learners and their penalties
+    std::vector<std::pair<player *, double>> learners;
     for( size_t i = 0; i < activity.values.size(); i++ ) {
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
@@ -743,8 +747,10 @@ void avatar::do_read( item &book )
         // Otherwise they must have died/teleported or something
     }
     learners.push_back( { this, 1.0 } );
-    bool continuous = false; //whether to continue reading or not
-    std::set<std::string> little_learned; // NPCs who learned a little about the skill
+    //whether to continue reading or not
+    bool continuous = false;
+    // NPCs who learned a little about the skill
+    std::set<std::string> little_learned;
     std::set<std::string> cant_learn;
     std::list<std::string> out_of_chapters;
 
@@ -829,7 +835,8 @@ void avatar::do_read( item &book )
                 cant_learn.insert( learner->disp_name() );
             }
         }
-    } //end for all learners
+    }
+    //end for all learners
 
     if( little_learned.size() == 1 ) {
         add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
@@ -940,9 +947,11 @@ void avatar::vomit()
         // Remove all joy from previously eaten food and apply the penalty
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
-        rem_morale( MORALE_HONEY ); // bears must suffer too
+        // bears must suffer too
+        rem_morale( MORALE_HONEY );
+        // 1.5 times longer
         add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
-                    45_minutes, false ); // 1.5 times longer
+                    45_minutes, false );
 
     } else {
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );

@@ -63,7 +63,6 @@ class window;
 } // namespace catacurses
 namespace vehicles
 {
-extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
@@ -107,12 +106,15 @@ enum veh_coll_type : int {
 
 struct veh_collision {
     //int veh?
-    int           part        = 0;
-    veh_coll_type type        = veh_coll_nothing;
-    int           imp         = 0; // impulse
-    void         *target      = nullptr;  //vehicle
-    int           target_part = 0; //vehicle partnum
-    std::string   target_name;
+    int part  = 0;
+    veh_coll_type type = veh_coll_nothing;
+    // impulse
+    int  imp = 0;
+    //vehicle
+    void *target  = nullptr;
+    //vehicle partnum
+    int target_part = 0;
+    std::string target_name;
 
     veh_collision() = default;
 };

@@ -42,7 +42,8 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
+    // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours;
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }
@@ -252,7 +253,8 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        default: // TODO: add more actions here
+        default:
+            // TODO: add more actions here
             break;
 
     }

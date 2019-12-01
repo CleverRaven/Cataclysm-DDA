@@ -522,7 +522,7 @@ point get_delta_from_movement_direction( action_id act );
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu(); // Show the action menu.
+action_id handle_action_menu();
 
 /**
  * Show in-game main menu

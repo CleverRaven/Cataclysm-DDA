@@ -16,7 +16,8 @@
 #include "translations.h"
 #include "generic_factory.h"
 
-using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitGroupMap =
+    std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
 using trait_reader = auto_flags_reader<trait_id>;
 
@@ -564,7 +565,7 @@ void mutation_branch::reset_all()
     trait_blacklist.clear();
     trait_groups.clear();
     trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
-                          std::make_shared<Trait_group_collection>( 100 ) );
+                          make_shared_fast<Trait_group_collection>( 100 ) );
 }
 
 std::vector<std::string> dream::messages() const
@@ -640,8 +641,8 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
-                   ? trait_groups.emplace( gid, std::make_shared<Trait_group_collection>( 100 ) )
-                   : trait_groups.emplace( gid, std::make_shared<Trait_group_distribution>( 100 ) ) ).first;
+                   ? trait_groups.emplace( gid, make_shared_fast<Trait_group_collection>( 100 ) )
+                   : trait_groups.emplace( gid, make_shared_fast<Trait_group_distribution>( 100 ) ) ).first;
     // Evidently, making the collection/distribution separation better has made the code for this check worse.
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
@@ -774,7 +775,8 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     tg.add_entry( std::move( ptr ) );
 }
 
-std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )
+shared_ptr_fast<Trait_group> mutation_branch::get_group( const
+        trait_group::Trait_group_tag &gid )
 {
     auto found = trait_groups.find( gid );
     return found != trait_groups.end() ? found->second : nullptr;

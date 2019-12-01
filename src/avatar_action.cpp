@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "creature.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -96,18 +98,21 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
-                you.defer_move( dest_loc ); // don't move into the tile until done mining
+                // don't move into the tile until done mining
+                you.defer_move( dest_loc );
                 return true;
             }
         }
         if( you.has_trait( trait_BURROW ) ) {
             item burrowing_item( itype_id( "fake_burrowing" ) );
             you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            you.defer_move( dest_loc ); // don't move into the tile until done mining
+            // don't move into the tile until done mining
+            you.defer_move( dest_loc );
             return true;
         }
     }
@@ -125,7 +130,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     int new_dx = dest_loc.x - you.posx();
     int new_dy = dest_loc.y - you.posy();
 
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
             if( you.is_mounted() ) {
@@ -326,7 +331,8 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
 
-    if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
+    // Dive into water!
+    if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
         if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
@@ -673,7 +679,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                            ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
                              you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                         messages.push_back( string_format(
-                                                _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire the %s!" ),
+                                                _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
                                                 mode_map.second->tname(), ups_drain, adv_ups_drain ) );
                         fireable = false;
                     }
@@ -797,7 +803,8 @@ bool avatar_action::fire( avatar &you, map &m )
         g->reenter_fullscreen();
         return false;
     }
-    g->draw_ter(); // Recenter our view
+    // Recenter our view
+    g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
 
@@ -953,4 +960,80 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+static void make_active( item_location loc )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
+static void update_lum( item_location loc, bool add )
+{
+    switch( loc.where() ) {
+        case item_location::type::map:
+            g->m.update_lum( loc, add );
+            break;
+        default:
+            break;
+    }
+}
+
+void avatar_action::use_item( avatar &you )
+{
+    item_location loc;
+    avatar_action::use_item( you, loc );
+}
+
+void avatar_action::use_item( avatar &you, item_location &loc )
+{
+    // Some items may be used without being picked up first
+    bool use_in_place = false;
+
+    if( !loc ) {
+        loc = game_menus::inv::use( you );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        if( loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+            use_in_place = true;
+        } else {
+            const int obtain_cost = loc.obtain_cost( you );
+            item &target = you.i_at( loc.obtain( you ) );
+            if( target.is_null() ) {
+                debugmsg( "Failed to obtain target item" );
+                return;
+            }
+            loc = item_location( you, &target );
+
+            // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
+            // This method only handles items in the inventory, so refund the obtain cost.
+            you.mod_moves( obtain_cost );
+        }
+    }
+
+    g->refresh_all();
+
+    if( use_in_place ) {
+        update_lum( loc, false );
+        you.use( loc );
+        update_lum( loc, true );
+
+        make_active( loc );
+    } else {
+        you.use( loc );
+    }
+
+    you.invalidate_crafting_inventory();
 }

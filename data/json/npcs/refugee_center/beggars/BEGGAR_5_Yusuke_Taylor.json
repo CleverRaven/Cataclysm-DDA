@@ -85,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_TALK2",
-    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though...  I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse to kick me out eventually.",
+    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though…  I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse to kick me out eventually.",
     "responses": [
       { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
       {
@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN",
-    "dynamic_line": "Same reason as I'm stuck here... it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
+    "dynamic_line": "Same reason as I'm stuck here… it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
     "responses": [
       { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -200,7 +200,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL2",
-    "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat... sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
+    "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat… sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
     "speaker_effect": [ { "effect": { "u_add_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [ { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" } ]
   }

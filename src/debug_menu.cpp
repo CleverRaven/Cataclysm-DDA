@@ -1070,7 +1070,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_NPC: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
+            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );

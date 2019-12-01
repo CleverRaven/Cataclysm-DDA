@@ -3047,15 +3047,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "headshop",
-    "copy-from": "generic_city_building",
-    "name": "Head Shop",
-    "sym": "0",
-    "color": "i_white",
-    "flags": [ "SOURCE_LUXURY" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "headshop_roof",
     "copy-from": "generic_city_building",
     "name": "head shop roof",

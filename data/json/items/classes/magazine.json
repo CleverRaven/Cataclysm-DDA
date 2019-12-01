@@ -12,6 +12,6 @@
     "rigid": false,
     "reliability": 6,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5 },
-    "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE" ]
+    "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]
