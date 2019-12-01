@@ -30,6 +30,7 @@
   {
     "id": "flamethrower_simple",
     "copy-from": "flamethrower_base",
+    "looks_like": "m79",
     "type": "GUN",
     "name": "simple flamethrower",
     "description": "A simple, home-made flamethrower.  While its capacity is not superb, it is more than capable of igniting terrain and monsters alike.",
@@ -39,8 +40,8 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
-    "range": 6,
-    "dispersion": 700,
+    "range": 5,
+    "dispersion": 500,
     "durability": 6,
     "relative": { "reload": 2 },
     "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
