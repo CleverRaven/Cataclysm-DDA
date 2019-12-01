@@ -92,6 +92,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_riding( "riding" );
@@ -755,7 +756,8 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     }
 
     // Needs
-    if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
+    if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
+        has_effect( effect_npc_suspend ) ) {
         if( has_effect( effect_narcosis ) ) {
             d.add_topic( "TALK_SEDATED" );
         } else {

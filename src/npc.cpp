@@ -99,7 +99,7 @@ const efftype_id effect_high( "high" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
@@ -2412,7 +2412,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_lying_down, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
 }
 
 void npc::die( Creature *nkiller )

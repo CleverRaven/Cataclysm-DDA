@@ -18,6 +18,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_suspend",
+    "name": [ "npc_suspend" ],
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+  },
+  {
+    "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
     "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
