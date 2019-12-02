@@ -4592,7 +4592,7 @@ int item::get_comestible_fun() const
     for( const std::string &flag : type->item_tags ) {
         fun += json_flag::get( flag ).taste_mod();
     }
-    
+
     if( has_flag( "MUSHY" ) ) {
         return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
     }
