@@ -1144,8 +1144,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "coverage", coverage );
-    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
-              DEFAULT_MAX_VOLUME_IN_SQUARE );
+    assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
@@ -1254,8 +1253,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
-    optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
-              DEFAULT_MAX_VOLUME_IN_SQUARE );
+    assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
