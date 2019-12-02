@@ -4580,6 +4580,26 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
+int item::get_comestible_fun() const
+{
+    if( !is_comestible() ) {
+        return 0;
+    }
+    int fun = get_comestible()->fun;
+    for( std::string flag : item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+    for( std::string flag : type->item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+    
+    if( has_flag( "MUSHY" ) ) {
+        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+    }
+
+    return fun;
+}
+
 bool item::goes_bad() const
 {
     if( item_internal::goes_bad_cache_is_set() ) {
