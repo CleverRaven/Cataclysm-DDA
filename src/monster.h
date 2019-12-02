@@ -107,6 +107,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
+        units::mass weight_capacity() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;

@@ -348,9 +348,11 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     const int aoe_radius = sp.aoe();
     targets = aoe_func( sp, caster.pos(), target, aoe_radius, ignore_walls );
 
-    for( const tripoint &p : targets ) {
-        if( !sp.is_valid_target( caster, p ) ) {
-            targets.erase( p );
+    for( std::set<tripoint>::iterator it = targets.begin(); it != targets.end(); ) {
+        if( !sp.is_valid_target( caster, *it ) ) {
+            it = targets.erase( it );
+        } else {
+            ++it;
         }
     }
 

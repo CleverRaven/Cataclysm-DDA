@@ -18,6 +18,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_suspend",
+    "name": [ "npc_suspend" ],
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+  },
+  {
+    "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
     "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
@@ -719,7 +725,7 @@
     "name": [ "Infected", "Badly Infected", "Pus Filled" ],
     "desc": [ "You have an infected wound." ],
     "apply_memorial_log": "Contracted an infection.",
-    "remove_memorial_log": "Recovered from an infection... this time.",
+    "remove_memorial_log": "Recovered from an infection… this time.",
     "apply_message": "Your bite wound feels infected.",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
@@ -1309,7 +1315,7 @@
     "desc": [
       "You suffer from a respiratory disorder that makes breathing difficult.\nAn asthma attack can occur from time to time, so have your inhaler nearby."
     ],
-    "apply_message": "You can't breathe... asthma attack!",
+    "apply_message": "You can't breathe… asthma attack!",
     "rating": "bad",
     "max_intensity": 6,
     "int_dur_factor": "200 s",
@@ -1794,7 +1800,7 @@
     "id": "supercharged",
     "//": "not given to players by default",
     "name": [ "Supercharged" ],
-    "desc": [ "You've been struck by lightning, and feel... different." ],
+    "desc": [ "You've been struck by lightning, and feel… different." ],
     "base_mods": { "speed_mod": [ 50 ] }
   },
   {

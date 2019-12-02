@@ -38,6 +38,7 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
+    + [Scent Types](#scent_type)
     + [Scores](#scores)
       - [`event_transformation`](#-event-transformation-)
       - [`event_statistic`](#-event-statistic-)
@@ -206,6 +207,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | regional_map_settings.json  | settings for the entire map generation
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
+| scent_types.json            | type of scent available
 | scores.json                 | statistics, scores, and achievements
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
@@ -829,6 +831,21 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
+### Scent_types
+
+| Identifier               | Description
+|---                       |---
+| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
+| receptive_species        | Species able to track this scent. Must use valid ids defined in `species.json`
+
+```json
+  {
+    "type": "scent_type",
+    "id": "sc_flower",
+    "receptive_species": [ "MAMMAL", "INSECT", "MOLLUSK", "BIRD" ]
+  }
+```
+
 ### Scores
 
 Scores are defined in two or three steps based on *events*.  To see what events
@@ -979,6 +996,9 @@ Note that even though most statistics yield an integer, you should still use
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 "scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
+"scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
+"scent_mask": -200,// int added to your target scent value. (default: 0)
+"scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
 "bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
 "fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
@@ -1423,6 +1443,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
+"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 9mL per inch is a decent approximation.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json

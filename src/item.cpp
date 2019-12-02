@@ -5297,8 +5297,10 @@ nc_color item::damage_color() const
 {
     // TODO: unify with veh_interact::countDurability
     switch( damage_level( 4 ) ) {
-        default: // reinforced
-            if( damage() <= min_damage() ) { // fully reinforced
+        default:
+            // reinforced
+            if( damage() <= min_damage() ) {
+                // fully reinforced
                 return c_green;
             } else {
                 return c_light_green;
@@ -5323,7 +5325,8 @@ nc_color item::damage_color() const
 std::string item::damage_symbol() const
 {
     switch( damage_level( 4 ) ) {
-        default: // reinforced
+        default:
+            // reinforced
             return _( R"(++)" );
         case 0:
             return _( R"(||)" );
@@ -6704,7 +6707,9 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    // If a mod sets a magazine type, we're not integral.
+    if( is_gun() && type->gun->clip > 0 ) {
+        return true;
+    }
     for( const item *m : is_gun() ? gunmods() : toolmods() ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
             return false;

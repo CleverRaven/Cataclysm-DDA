@@ -178,13 +178,13 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_GROWOP",
     "type": "talk_topic",
-    "dynamic_line": "That's a story in itself, my friend.  I had one of the largest grow-ops on the Eastern seaboard.  Hah, the stories I could tell you... but I won't.  That's all way behind me.",
+    "dynamic_line": "That's a story in itself, my friend.  I had one of the largest grow-ops on the Eastern seaboard.  Hah, the stories I could tell you… but I won't.  That's all way behind me.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON",
     "type": "talk_topic",
-    "dynamic_line": "It's a bit of a ... it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
+    "dynamic_line": "It's a bit of a … it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -202,7 +202,7 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_ORGANS",
     "type": "talk_topic",
-    "dynamic_line": "I got a little bit into black market organ trading.  It sounds worse than it was... but it was pretty bad.",
+    "dynamic_line": "I got a little bit into black market organ trading.  It sounds worse than it was… but it was pretty bad.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -236,7 +236,7 @@
   {
     "id": "BGSS_PRISONER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes... I believed him.",
+    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes… I believed him.",
     "responses": [
       { "text": "What did you do from there?", "topic": "BGSS_PRISONER_1_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

@@ -92,6 +92,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_riding( "riding" );
@@ -755,6 +756,9 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     }
 
     // Needs
+    if( has_effect( effect_npc_suspend ) ) {
+        d.add_topic( "TALK_REBOOT" );
+    }
     if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
         if( has_effect( effect_narcosis ) ) {
             d.add_topic( "TALK_SEDATED" );
@@ -2158,6 +2162,7 @@ void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
         auto rule = combat_engagement_strs.find( setting );
         if( rule != combat_engagement_strs.end() ) {
             d.beta->rules.engagement = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }
@@ -2168,6 +2173,7 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
         auto rule = aim_rule_strs.find( setting );
         if( rule != aim_rule_strs.end() ) {
             d.beta->rules.aim = rule->second;
+            d.beta->invalidate_range_cache();
         }
     };
 }

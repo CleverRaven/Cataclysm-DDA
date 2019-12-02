@@ -64,71 +64,30 @@
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
 const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cig( "cig" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_evil( "evil" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
-const efftype_id effect_meth( "meth" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_thorazine( "took_thorazine" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_pet( "pet" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -258,7 +217,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.thirst ) {
             mod_thirst( mdata.cost );
-            if( get_thirst() >= 260 ) { // Well into Dehydrated
+            // Well into Dehydrated
+            if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mdata.name() );
@@ -267,7 +227,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
-            if( get_fatigue() >= EXHAUSTED ) { // Exhausted
+            // Exhausted
+            if( get_fatigue() >= EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -366,9 +327,11 @@ void Character::suffer_while_awake( const int current_stim )
     }
 
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
-        if( rng( 1, 20 ) > 9 ) { // 55% chance
+        if( rng( 1, 20 ) > 9 ) {
+            // 55% chance
             add_morale( MORALE_MOODSWING, -100, -500 );
-        } else {  // 45% chance
+        } else {
+            // 45% chance
             add_morale( MORALE_MOODSWING, 100, 500 );
         }
     }
@@ -548,7 +511,7 @@ void Character::suffer_from_schizophrenia()
     }
     // Follower turns hostile
     if( one_turn_in( 4_hours ) ) {
-        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
         std::string who_gets_angry = name;
         if( !followers.empty() ) {
@@ -608,13 +571,13 @@ void Character::suffer_from_schizophrenia()
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
-        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
 
         std::string i_talk_w;
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( std::weak_ptr<monster> &n : mons ) {
+            for( weak_ptr_fast<monster> &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }
@@ -1900,7 +1863,8 @@ void Character::add_addiction( add_type type, int strength )
         if( i.sated < 0_turns ) {
             i.sated = timer;
         } else if( i.sated < 10_minutes ) {
-            i.sated += timer; // TODO: Make this variable?
+            // TODO: Make this variable?
+            i.sated += timer;
         } else {
             i.sated += timer / 2;
         }

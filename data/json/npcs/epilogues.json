@@ -1,7 +1,7 @@
 [
   {
     "type": "epilogue",
-    "//": "Class currently is male/female but will expand to dog/robot/mutant... whatever needs its own ending",
+    "//": "Class currently is male/female but will expand to dog/robot/mutant… whatever needs its own ending",
     "group": "male",
     "id": "npc_male_1",
     "text": "     Died several years later at the hands of a Hell's Raiders band.  Till the end, he held out hope that his daughter was still alive in the wasteland."
@@ -16,7 +16,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_3",
-    "text": "     Survived for a number of years and made a name for himself amongst other survivors.  Eventually he began augmenting himself with bionics... when a failed surgery left him permanently blind he committed suicide without leaving a note."
+    "text": "     Survived for a number of years and made a name for himself amongst other survivors.  Eventually he began augmenting himself with bionics… when a failed surgery left him permanently blind he committed suicide without leaving a note."
   },
   {
     "type": "epilogue",
@@ -58,7 +58,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_11",
-    "text": "     Died of an infected bite a few weeks later.  Before he passed he told those present, 'Now I've lost everything in this world... but you haven't.  Keep searching, the world is big enough that there has to be a place out there that hasn't been overrun.'"
+    "text": "     Died of an infected bite a few weeks later.  Before he passed he told those present, 'Now I've lost everything in this world… but you haven't.  Keep searching, the world is big enough that there has to be a place out there that hasn't been overrun.'"
   },
   {
     "type": "epilogue",
@@ -70,7 +70,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_13",
-    "text": "     Became a self-taught chemist and medic.  His work eventually led him to a life of alcohol abuse and morphine addiction.  Overdosed one night when left unattended.  The community he helped said, 'He was probably the best thing to happen to us in years... there just isn't any turning back when you lose all hope.'"
+    "text": "     Became a self-taught chemist and medic.  His work eventually led him to a life of alcohol abuse and morphine addiction.  Overdosed one night when left unattended.  The community he helped said, 'He was probably the best thing to happen to us in years… there just isn't any turning back when you lose all hope.'"
   },
   {
     "type": "epilogue",
@@ -88,7 +88,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_16",
-    "text": "     Lost his way long before he met you.  The cataclysm offered him the chance to denounce the former vices that had led to his incarceration... an offer that went unanswered.  After you were killed, he returned to hunting those he saw as weak.  The number of people he murdered is unknown but prior to his execution he claimed that, 'butchering the dead was never as fun as the living.'"
+    "text": "     Lost his way long before he met you.  The cataclysm offered him the chance to denounce the former vices that had led to his incarceration… an offer that went unanswered.  After you were killed, he returned to hunting those he saw as weak.  The number of people he murdered is unknown but prior to his execution he claimed that, 'butchering the dead was never as fun as the living.'"
   },
   {
     "type": "epilogue",
@@ -340,7 +340,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_3",
-    "text": "     Survived for a number of years and made a name for herself amongst other survivors.  Eventually she began experimenting with mutagen... when a mutation left her permanently disfigured and in pain she committed suicide without leaving a note."
+    "text": "     Survived for a number of years and made a name for herself amongst other survivors.  Eventually she began experimenting with mutagen… when a mutation left her permanently disfigured and in pain she committed suicide without leaving a note."
   },
   {
     "type": "epilogue",
@@ -412,7 +412,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_15",
-    "text": "     Lost her way long before she met you.  The cataclysm offered her the chance to denounce the former vices that had led to her incarceration... an offer that went unanswered.  After you were killed, she returned to preying upon those she saw as weak.  It is rumored that she robbed dozens of survivors for everything they had before leaving them to die amongst the horrors that roamed the land.  Her eventual fate is unknown."
+    "text": "     Lost her way long before she met you.  The cataclysm offered her the chance to denounce the former vices that had led to her incarceration… an offer that went unanswered.  After you were killed, she returned to preying upon those she saw as weak.  It is rumored that she robbed dozens of survivors for everything they had before leaving them to die amongst the horrors that roamed the land.  Her eventual fate is unknown."
   },
   {
     "type": "epilogue",
@@ -424,7 +424,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_17",
-    "text": "     Spent her entire life secretly addicted to one substance or another.  After your death she briefly worked in a survivor camp before finding a place in the lucrative drug trade.  She died, predictably, from an overdose.  Drugs allowed her to relive the memories of friends, family, and loved ones... she died happier than could have ever been expected."
+    "text": "     Spent her entire life secretly addicted to one substance or another.  After your death she briefly worked in a survivor camp before finding a place in the lucrative drug trade.  She died, predictably, from an overdose.  Drugs allowed her to relive the memories of friends, family, and loved ones… she died happier than could have ever been expected."
   },
   {
     "type": "epilogue",
@@ -442,7 +442,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_20",
-    "text": "     Was stabbed in the arm by an ill tempered survivor a few weeks after you passed.  The cut quickly became infected and she died from sepsis a short time later.  Her murderer was the first person to discover her corpse... and all the gear she had been saving."
+    "text": "     Was stabbed in the arm by an ill tempered survivor a few weeks after you passed.  The cut quickly became infected and she died from sepsis a short time later.  Her murderer was the first person to discover her corpse… and all the gear she had been saving."
   },
   {
     "type": "epilogue",
@@ -472,7 +472,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_25",
-    "text": "     Renounced the adventurous lifestyle after your death and chose to start a family with a fellow survivor in an abandoned hunting cabin.  Survival was grim but the family grew through the years until she had three sons and a daughter.  Her end came when the horrors finally located her homestead... she and her husband were able to distract the monster as her children escaped."
+    "text": "     Renounced the adventurous lifestyle after your death and chose to start a family with a fellow survivor in an abandoned hunting cabin.  Survival was grim but the family grew through the years until she had three sons and a daughter.  Her end came when the horrors finally located her homestead… she and her husband were able to distract the monster as her children escaped."
   },
   {
     "type": "epilogue",

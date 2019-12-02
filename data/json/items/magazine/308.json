@@ -3,7 +3,7 @@
     "id": "belt308",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "ammo belt 7.62x51mm",
+    "name": "7.62x51mm ammo belt",
     "ammo_type": "308",
     "capacity": 500,
     "count": 100,

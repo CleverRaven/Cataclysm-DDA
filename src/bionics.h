@@ -168,10 +168,16 @@ struct bionic {
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 
+        void set_auto_start_thresh( float val );
+        float get_auto_start_thresh() const;
+        bool is_auto_start_on() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
-        cata::flat_set<std::string> bionic_tags; // generic bionic specific flags
+        // generic bionic specific flags
+        cata::flat_set<std::string> bionic_tags;
+        float auto_start_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not
@@ -186,7 +192,8 @@ std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 void check_bionics();
 void finalize_bionics();
 void reset_bionics();
-void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
+// load a bionic from JSON
+void load_bionic( JsonObject &jsobj );
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

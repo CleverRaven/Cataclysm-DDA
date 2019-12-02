@@ -308,7 +308,8 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
     const std::vector<tripoint> &funnel_locs = g->m.trap_locations( tr.loadid );
     for( const tripoint &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
-        if( one_in( turns_per_charge ) ) { // FIXME:
+        if( one_in( turns_per_charge ) ) {
+            // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -361,8 +362,12 @@ static void wet_player( int amount )
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
-
-    if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
+    // Coarse correction to get us back to previously intended soaking rate.
+    if( !calendar::once_every( 6_seconds ) ) {
+        return;
+    }
+    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
@@ -390,7 +395,7 @@ double precip_mm_per_hour( precip_class const p )
 
 void do_rain( weather_type const w )
 {
-    if( ! weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
@@ -695,13 +700,15 @@ int get_local_windchill( double temperature, double humidity, double windpower )
         windchill = 35.74 + 0.6215 * tmptemp - 35.75 * pow( tmpwind,
                     0.16 ) + 0.4275 * tmptemp * pow( tmpwind, 0.16 ) - tmptemp;
         if( tmpwind < 4 ) {
-            windchill = 0;    // This model fails when there is 0 wind.
+            // This model fails when there is 0 wind.
+            windchill = 0;
         }
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        // Convert to meters per second.
+        tmpwind = tmpwind * 0.44704;
         tmptemp = temp_to_celsius( tmptemp );
 
         windchill = 0.33 * ( humidity / 100.00 * 6.105 * exp( 17.27 * tmptemp /
@@ -1004,7 +1011,8 @@ int weather_manager::get_temperature( const tripoint &location )
         return cached->second;
     }
 
-    int temp_mod = 0; // local modifier
+    // local modifier
+    int temp_mod = 0;
 
     if( !g->new_game ) {
         temp_mod += get_heat_radiation( location, false );

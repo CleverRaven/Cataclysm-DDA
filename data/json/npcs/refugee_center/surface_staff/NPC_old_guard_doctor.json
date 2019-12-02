@@ -51,7 +51,7 @@
   {
     "id": "TALK_SCIENCE_REP_WORLD",
     "type": "talk_topic",
-    "dynamic_line": "This is no classic zombie outbreak.  The dead seem to be getting stronger as the days go on.  Some survivors too, come in here with... adaptations.  Maybe they're related.",
+    "dynamic_line": "This is no classic zombie outbreak.  The dead seem to be getting stronger as the days go on.  Some survivors too, come in here with… adaptations.  Maybe they're related.",
     "responses": [ { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
