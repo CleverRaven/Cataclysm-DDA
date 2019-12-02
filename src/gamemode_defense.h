@@ -6,6 +6,8 @@
 
 #include "gamemode.h"
 #include "calendar.h"
+#include "point.h"
+#include "omdata.h"
 #include "type_id.h"
 
 enum action_id : int;
@@ -116,6 +118,11 @@ struct defense_game : public special_game {
         // Do caravans offer the option of hiring a mercenary?
         bool mercenaries;
 
+        // Start defence location position on overmap
+        tripoint defloc_pos;
+
+        // Defense location special
+        overmap_special_id defloc_special;
 };
 
 #endif // GAMEMODE_DEFENSE_H

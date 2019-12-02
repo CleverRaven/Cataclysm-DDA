@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "color.h"
 #include "construction.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -114,6 +115,7 @@ bool defense_game::init()
     g->u.cash = initial_cash;
     popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
     // TODO: support multiple defense games? clean up old defense game
+    defloc_pos = tripoint( 50, 50, 0 );
     init_map();
     caravan();
     return true;
@@ -224,73 +226,32 @@ void defense_game::init_map()
     switch( location ) {
         case DEFLOC_NULL:
         case NUM_DEFENSE_LOCATIONS:
+            defloc_special = overmap_special_id( "house_two_story_basement" );
             DebugLog( D_ERROR, D_GAME ) << "defense location is invalid: " << location;
             break;
 
         case DEFLOC_HOSPITAL:
-            starting_om.ter_set( { 51, 49, 0 }, oter_id( "road_end_north" ) );
-            starting_om.ter_set( { 50, 50, 0 }, oter_id( "hospital_3_north" ) );
-            starting_om.ter_set( { 51, 50, 0 }, oter_id( "hospital_2_north" ) );
-            starting_om.ter_set( { 52, 50, 0 }, oter_id( "hospital_1_north" ) );
-            starting_om.ter_set( { 50, 51, 0 }, oter_id( "hospital_6_north" ) );
-            starting_om.ter_set( { 51, 51, 0 }, oter_id( "hospital_5_north" ) );
-            starting_om.ter_set( { 52, 51, 0 }, oter_id( "hospital_4_north" ) );
-            starting_om.ter_set( { 50, 52, 0 }, oter_id( "hospital_9_north" ) );
-            starting_om.ter_set( { 51, 52, 0 }, oter_id( "hospital_8_north" ) );
-            starting_om.ter_set( { 52, 52, 0 }, oter_id( "hospital_7_north" ) );
+            defloc_special = overmap_special_id( "hospital" );
             break;
 
         case DEFLOC_WORKS:
-            starting_om.ter_set( { 50, 52, 0 }, oter_id( "road_end_north" ) );
-            starting_om.ter_set( { 50, 50, 0 }, oter_id( "public_works_NW_north" ) );
-            starting_om.ter_set( { 51, 50, 0 }, oter_id( "public_works_NE_north" ) );
-            starting_om.ter_set( { 50, 51, 0 }, oter_id( "public_works_SW_north" ) );
-            starting_om.ter_set( { 51, 51, 0 }, oter_id( "public_works_SE_north" ) );
+            defloc_special = overmap_special_id( "public_works" );
             break;
 
         case DEFLOC_MALL:
-            for( int x = 49; x <= 51; x++ ) {
-                for( int y = 49; y <= 51; y++ ) {
-                    starting_om.ter_set( { x, y, 0 }, oter_id( "megastore" ) );
-                }
-            }
-            starting_om.ter_set( { 50, 49, 0 }, oter_id( "megastore_entrance" ) );
+            defloc_special = overmap_special_id( "megastore" );
             break;
 
         case DEFLOC_BAR:
-            starting_om.ter_set( { 50, 50, 0 }, oter_id( "bar_north" ) );
+            defloc_special = overmap_special_id( "bar" );
             break;
 
         case DEFLOC_MANSION:
-            starting_om.ter_set( { 49, 49, 0 }, oter_id( "mansion_c3_north" ) );
-            starting_om.ter_set( { 50, 49, 0 }, oter_id( "mansion_e1_north" ) );
-            starting_om.ter_set( { 51, 49, 0 }, oter_id( "mansion_c1_east" ) );
-            starting_om.ter_set( { 49, 50, 0 }, oter_id( "mansion_t4_east" ) );
-            starting_om.ter_set( { 50, 50, 0 }, oter_id( "mansion_+4_north" ) );
-            starting_om.ter_set( { 51, 50, 0 }, oter_id( "mansion_t2_west" ) );
-            starting_om.ter_set( { 49, 51, 0 }, oter_id( "mansion_c2_west" ) );
-            starting_om.ter_set( { 50, 51, 0 }, oter_id( "mansion_t2_north" ) );
-            starting_om.ter_set( { 51, 51, 0 }, oter_id( "mansion_c4_south" ) );
-            starting_om.ter_set( { 49, 49, 1 }, oter_id( "mansion_c3u_north" ) );
-            starting_om.ter_set( { 50, 49, 1 }, oter_id( "mansion_e1u_north" ) );
-            starting_om.ter_set( { 51, 49, 1 }, oter_id( "mansion_c1u_east" ) );
-            starting_om.ter_set( { 49, 50, 1 }, oter_id( "mansion_t4u_east" ) );
-            starting_om.ter_set( { 50, 50, 1 }, oter_id( "mansion_+4u_north" ) );
-            starting_om.ter_set( { 51, 50, 1 }, oter_id( "mansion_t2u_west" ) );
-            starting_om.ter_set( { 49, 51, 1 }, oter_id( "mansion_c2u_west" ) );
-            starting_om.ter_set( { 50, 51, 1 }, oter_id( "mansion_t2u_north" ) );
-            starting_om.ter_set( { 51, 51, 1 }, oter_id( "mansion_c4u_south" ) );
-            starting_om.ter_set( { 49, 49, -1 }, oter_id( "mansion_c3d_north" ) );
-            starting_om.ter_set( { 50, 49, -1 }, oter_id( "mansion_e1d_north" ) );
-            starting_om.ter_set( { 51, 49, -1 }, oter_id( "mansion_c1d_east" ) );
-            starting_om.ter_set( { 49, 50, -1 }, oter_id( "mansion_t4d_east" ) );
-            starting_om.ter_set( { 50, 50, -1 }, oter_id( "mansion_+4d_north" ) );
-            starting_om.ter_set( { 51, 50, -1 }, oter_id( "mansion_t2d_west" ) );
-            starting_om.ter_set( { 49, 51, -1 }, oter_id( "mansion_c2d_west" ) );
-            starting_om.ter_set( { 50, 51, -1 }, oter_id( "mansion_t2d_north" ) );
-            starting_om.ter_set( { 51, 51, -1 }, oter_id( "mansion_c4d_south" ) );
+            defloc_special = overmap_special_id( "Mansion_Wild" );
             break;
     }
+    starting_om.place_special_forced( defloc_special, defloc_pos, om_direction::type::north );
+
     starting_om.save();
 
     // Init the map
@@ -316,7 +277,7 @@ void defense_game::init_map()
         }
     }
 
-    g->load_map( tripoint( 100, 100, 0 ) );
+    g->load_map( omt_to_sm_copy( defloc_pos ) );
     g->u.setx( SEEX );
     g->u.sety( SEEY );
 
