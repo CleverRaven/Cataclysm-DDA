@@ -8275,7 +8275,7 @@
         [ "cooking_oil2", 1 ],
         [ "any_butter", 1, "LIST"  ],
         [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -8300,7 +8300,7 @@
         [ "cooking_oil2", 1 ],
         [ "any_butter", 1, "LIST"  ],
         [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ],
+        [ "edible_tallow_lard", 1, "LIST" ]
       ]
     ]
   }
