@@ -2845,7 +2845,6 @@
     "symbol": ",",
     "color": "blue",
     "name": "broken riot control turret",
-    "category": "other",
     "description": "A broken riot control turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
     "copy-from": "broken_turret"
   },
