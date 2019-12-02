@@ -192,6 +192,14 @@
         ]
       },
       {
+        "item": "sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
+      },
+      {
+        "item": "fancy_sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
+      },
+      {
         "item": "hardtack",
         "sub": [ [ [ "ANTIWHEAT" ], [ "MEATARIAN" ], "cornbread" ], [ [ "ANTIWHEAT", "MEATARIAN" ], "meat_cooked", 0.72 ] ]
       },
