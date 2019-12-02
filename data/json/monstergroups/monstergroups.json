@@ -4261,7 +4261,6 @@
       { "monster": "mon_zombie_technician", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
-      { "monster": "mon_chickenbot", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
     ]
