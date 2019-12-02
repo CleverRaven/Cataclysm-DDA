@@ -1,4 +1,4 @@
-#include "gamemode.h" // IWYU pragma: associated
+#include "gamemode_defense.h" // IWYU pragma: associated
 
 #include <set>
 
