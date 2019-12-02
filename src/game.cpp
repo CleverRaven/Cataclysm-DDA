@@ -205,6 +205,7 @@ const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paid( "paid" );
@@ -4242,7 +4243,9 @@ void game::monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         m.creature_in_field( guy );
-        guy.process_turn();
+        if( !guy.has_effect( effect_npc_suspend ) ) {
+            guy.process_turn();
+        }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
@@ -4263,10 +4266,10 @@ void game::monmove()
         }
 
         // If we spun too long trying to decide what to do (without spending moves),
-        // Invoke cranial detonation to prevent an infinite loop.
+        // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's brain explodes!" ), guy.name );
-            guy.die( nullptr );
+            add_msg( _( "%s faints!" ), guy.name );
+            guy.reboot();
         }
 
         if( !guy.is_dead() ) {

@@ -966,6 +966,7 @@ class npc : public player
         }
         void say( const std::string &line, int priority = 0 ) const;
         void decide_needs();
+        void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
         // How well we smash terrain (not corpses!)
