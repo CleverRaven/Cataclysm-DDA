@@ -242,7 +242,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        get_power_level() > units::from_kilojoule( abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -811,7 +811,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
+        mod_power_level( units::from_kilojoule( -abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -861,7 +861,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad,
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
     }
-    if( food.type->comestible->fun > 0 ) {
+    if( food.get_comestible_fun() > 0 ) {
         if( has_effect( effect_common_cold ) ) {
             add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
         }

@@ -3689,7 +3689,7 @@ bool basecamp::distribute_food()
                 g->m.add_item_or_charges( litter_spread, i, false );
                 i = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible()->fun < -6 ) ) {
+            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
                 keep_me.push_back( i );
             } else if( i.is_food() ) {
                 double rot_multip;

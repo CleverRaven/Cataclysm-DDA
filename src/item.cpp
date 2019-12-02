@@ -1304,7 +1304,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
 
-    if( med_com->fun != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
+    if( med_item->get_comestible_fun() != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
         info.push_back( iteminfo( "MED", _( "Enjoyability: " ),
                                   g->u.fun_for( *med_item ).first ) );
     }
