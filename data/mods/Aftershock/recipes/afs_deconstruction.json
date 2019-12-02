@@ -11,11 +11,10 @@
       [ [ "living_brain_jar", 1 ] ],
       [ [ "brains", 4 ] ],
       [ [ "mutant_meat", 12 ] ],
-      [ [ "laser_cannon", 1 ] ],
+      [ [ "vibrating_blaster", 1 ] ],
       [ [ "humming_heart", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
+      [ [ "sensory_cluster", 1 ] ],
+      [ [ "bioweapon_chassis", 1 ] ]
     ]
   }
 ]
