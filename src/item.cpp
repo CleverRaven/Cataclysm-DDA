@@ -4586,10 +4586,10 @@ int item::get_comestible_fun() const
         return 0;
     }
     int fun = get_comestible()->fun;
-    for( std::string flag : item_tags ) {
+    for( const std::string &flag : item_tags ) {
         fun += json_flag::get( flag ).taste_mod();
     }
-    for( std::string flag : type->item_tags ) {
+    for( const std::string &flag : type->item_tags ) {
         fun += json_flag::get( flag ).taste_mod();
     }
     
