@@ -4267,7 +4267,7 @@ void game::monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.name );
             guy.reboot();
         }
 
