@@ -101,7 +101,7 @@
     "id": "shot_speedloader8",
     "type": "MAGAZINE",
     "name": "shotgun 8-round speedloader",
-    "description": "A plastic tube with a sliding handle that can be used to quickly load 6 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
+    "description": "A plastic tube with a sliding handle that can be used to quickly load 8 rounds into a shotgun's tube in a much shorter period of time than by hand.  It needs to interface with a chute to be used with any speed.",
     "weight": "510 g",
     "volume": "2 L",
     "price": 3250,
