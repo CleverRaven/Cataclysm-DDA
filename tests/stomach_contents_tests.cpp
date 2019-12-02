@@ -93,7 +93,8 @@ TEST_CASE( "starve_test" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    unsigned int day = 0;
+    constexpr int expected_day = 30;
+    int day = 0;
     do {
         if( print_tests ) {
             printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
@@ -103,12 +104,11 @@ TEST_CASE( "starve_test" )
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
         day++;
-    } while( dummy.get_stored_kcal() > 0 );
+    } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
     if( print_tests ) {
         printf( "\n\n" );
-
-        CHECK( day == 46 );
     }
+    CHECK( day == expected_day );
 }
 
 // how long does it take to starve to death with extreme metabolism
