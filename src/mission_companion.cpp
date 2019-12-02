@@ -6,6 +6,7 @@
 #include <vector>
 #include <array>
 #include <list>
+#include <map>
 #include <unordered_map>
 #include <utility>
 #include <set>
@@ -47,6 +48,7 @@
 #include "output.h"
 #include "pimpl.h"
 #include "pldata.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
@@ -456,7 +458,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
             std::vector<std::vector<std::string>> folded_names;
             for( const auto &cur_key_entry : cur_key_list ) {
-                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, part_x + 5, ' ' );
+                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
+                                                  ' ' );
                 folded_names_lines += f_name.size();
                 folded_names.emplace_back( f_name );
             }
@@ -680,18 +683,18 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
 npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const std::string &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::string &skill_tested, int skill_level )
+        const std::map<skill_id, int> &required_skills )
 {
     const tripoint omt_pos = p.global_omt_location();
     return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
-                               equipment, skill_tested, skill_level );
+                               equipment, required_skills );
 }
 npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         const std::string &role_id, const std::string &desc,
         const std::string &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::string &skill_tested, int skill_level )
+        const std::map<skill_id, int> &required_skills )
 {
-    npc_ptr comp = companion_choose( skill_tested, skill_level );
+    npc_ptr comp = companion_choose( required_skills );
     if( comp == nullptr ) {
         return comp;
     }
@@ -907,7 +910,7 @@ int talk_function::combat_score( const std::vector< monster * > &group )
 
 npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 {
-    npc_ptr temp = std::make_shared<npc>();
+    npc_ptr temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
     return temp;
@@ -1839,26 +1842,34 @@ static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second 
     return companion_combat_rank( *first ) > companion_combat_rank( *second );
 }
 
-comp_list talk_function::companion_sort( comp_list available, const std::string &skill_tested )
+comp_list talk_function::companion_sort( comp_list available,
+        const std::map<skill_id, int> &required_skills )
 {
-    if( skill_tested.empty() ) {
+    if( required_skills.empty() ) {
         std::sort( available.begin(), available.end(), companion_sort_compare );
         return available;
     }
+    skill_id hardest_skill;
+    int hardest_diff = -1;
+    for( const std::pair<skill_id, int> &req_skill : required_skills ) {
+        if( req_skill.second > hardest_diff ) {
+            hardest_diff = req_skill.second;
+            hardest_skill = req_skill.first;
+        }
+    }
 
     struct companion_sort_skill {
-        companion_sort_skill( const std::string &skill_tested ) {
-            this->skill_tested = skill_tested;
+        companion_sort_skill( const skill_id  &skill_tested ) {
+            req_skill = skill_tested;
         }
 
         bool operator()( const npc_ptr &first, const npc_ptr &second ) {
-            return first->get_skill_level( skill_id( skill_tested ) ) > second->get_skill_level(
-                       skill_id( skill_tested ) );
+            return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
         }
 
-        std::string skill_tested;
+        skill_id req_skill;
     };
-    std::sort( available.begin(), available.end(), companion_sort_skill( skill_tested ) );
+    std::sort( available.begin(), available.end(), companion_sort_skill( hardest_skill ) );
 
     return available;
 }
@@ -1902,7 +1913,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     return adjusted;
 }
 
-npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
+npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills )
 {
     std::vector<npc_ptr> available;
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().xy() );
@@ -1947,44 +1958,64 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
         popup( _( "You don't have any companions to send out…" ) );
         return nullptr;
     }
-    std::vector<std::string> npcs;
-    available = companion_sort( available, skill_tested );
+    std::vector<uilist_entry> npc_menu;
+    available = companion_sort( available, required_skills );
     std::vector<comp_rank> rankings = companion_rank( available );
 
     int x = 0;
-    for( auto &e : available ) {
-        std::string after_npc = e->mission == NPC_MISSION_GUARD_ALLY ? " (Guarding) " : "  ";
-        std::string npc_entry = e->name + after_npc;
-        if( !skill_tested.empty() ) {
-            std::string req_skill = ( skill_level == 0 ) ? "" : "/" + to_string( skill_level );
-            std::string skill_test = "[" + skill_id( skill_tested ).str() + " " +
-                                     to_string( e->get_skill_level( skill_id( skill_tested ) ) ) +
-                                     req_skill + "] ";
-            while( skill_test.length() + npc_entry.length() < 51 ) {
-                npc_entry += " ";
-            }
-            npc_entry += skill_test;
-        }
-        while( npc_entry.length() < 51 ) {
-            npc_entry += " ";
-        }
-        npc_entry = string_format( "%s [ %4d : %4d : %4d ]", npc_entry, rankings[x].combat,
-                                   rankings[x].survival, rankings[x].industry );
-        x++;
-        npcs.push_back( npc_entry );
+    std::string menu_header = left_justify( _( "Who do you want to send?" ), 51 );
+    if( required_skills.empty() ) {
+        menu_header += _( "[ COMBAT : SURVIVAL : INDUSTRY ]" );
     }
-    const size_t npc_choice = uilist( _( "Who do you want to send?                    "
-                                         "[ COMBAT : SURVIVAL : INDUSTRY ]" ), npcs );
+    for( const npc_ptr &e : available ) {
+        std::string npc_desc;
+        bool can_do = true;
+        if( e->mission == NPC_MISSION_GUARD_ALLY ) {
+            //~ %1$s: npc name
+            npc_desc = string_format( pgettext( "companion", "%1$s (Guarding)" ), e->name );
+        } else {
+            npc_desc = e->name;
+        }
+        if( required_skills.empty() ) {
+            npc_desc = string_format( pgettext( "companion ranking", "%s [ %4d : %4d : %4d ]" ),
+                                      left_justify( npc_desc, 51 ), rankings[x].combat,
+                                      rankings[x].survival, rankings[x].industry );
+        } else {
+            npc_desc = left_justify( npc_desc, 51 );
+            bool first = true;
+            for( const std::pair<skill_id, int> &skill_tested : required_skills ) {
+                if( first ) {
+                    first = false;
+                } else {
+                    npc_desc += ", ";
+                }
+                skill_id skill_tested_id = skill_tested.first;
+                int skill_level = skill_tested.second;
+                if( skill_level == 0 ) {
+                    //~ %1$s: skill name, %2$d: companion skill level
+                    npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d" ),
+                                               skill_tested_id.obj().name(),
+                                               e->get_skill_level( skill_tested_id ) );
+                } else {
+                    //~ %1$s: skill name, %2$d: companion skill level, %3$d: skill requirement
+                    npc_desc += string_format( pgettext( "companion skill", "%1$s %2$d/%3$d" ),
+                                               skill_tested_id.obj().name(),
+                                               e->get_skill_level( skill_tested_id ),
+                                               skill_level );
+                    can_do &= e->get_skill_level( skill_tested_id ) >= skill_level;
+                }
+            }
+        }
+        uilist_entry npc_entry = uilist_entry( x, can_do, x, npc_desc );
+        npc_menu.push_back( npc_entry );
+        x++;
+    }
+    const size_t npc_choice = uilist( menu_header, npc_menu );
     if( npc_choice >= available.size() ) {
-        popup( _( "You choose to send no one…" ) );
+        popup( _( "You choose to send no one…" ), npc_choice );
         return nullptr;
     }
 
-    if( !skill_tested.empty() &&
-        available[npc_choice]->get_skill_level( skill_id( skill_tested ) ) < skill_level ) {
-        popup( _( "The companion you selected doesn't have the skills!" ) );
-        return nullptr;
-    }
     return available[npc_choice];
 }
 

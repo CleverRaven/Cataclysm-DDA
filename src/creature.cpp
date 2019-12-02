@@ -45,6 +45,7 @@ const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
@@ -127,6 +128,7 @@ void Creature::reset_bonuses()
     hit_bonus = 0;
     bash_bonus = 0;
     cut_bonus = 0;
+    size_bonus = 0;
 
     bash_mult = 1.0f;
     cut_mult = 1.0f;
@@ -244,7 +246,7 @@ bool Creature::sees( const Creature &critter ) const
             return false;
         }
     }
-    return sees( critter.pos(), ch != nullptr ) && visible( ch );
+    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
 bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
@@ -1300,7 +1302,8 @@ void Creature::set_moves( int nmoves )
 
 bool Creature::in_sleep_state() const
 {
-    return has_effect( effect_sleep ) || has_effect( effect_lying_down );
+    return has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
+           has_effect( effect_npc_suspend );
 }
 
 /*
@@ -1485,6 +1488,7 @@ void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;
@@ -1524,6 +1528,10 @@ void Creature::mod_bash_bonus( int nbash )
 void Creature::mod_cut_bonus( int ncut )
 {
     cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 void Creature::set_bash_mult( float nbashmult )

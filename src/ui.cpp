@@ -184,7 +184,7 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.empty() );
+    bool notfiltering = ( !filtering || filter.empty() );
     int num_entries = entries.size();
     bool nocase = filtering_nocase; // TODO: && is_all_lc( filter )
     std::string fstr;
@@ -337,7 +337,7 @@ void uilist::setup()
     if( w_auto ) {
         w_width = 4;
         if( !title.empty() ) {
-            w_width = title.size() + 5;
+            w_width = utf8_width( title ) + 5;
         }
     }
     const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
@@ -583,8 +583,6 @@ void uilist::show()
         wprintz( window, border_color, " >" );
     }
 
-    const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
-    std::string padspaces = std::string( pad_size, ' ' );
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
@@ -601,6 +599,9 @@ void uilist::show()
     }
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
+
+    const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
+    const std::string padspaces = std::string( pad_size, ' ' );
 
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
@@ -620,8 +621,8 @@ void uilist::show()
                 mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
                            "%c", entries[ ei ].hotkey );
             }
-            if( padspaces.size() > 3 ) {
-                // padspaces's length indicates the maximal width of the entry, it is used above to
+            if( pad_size > 3 ) {
+                // pad_size indicates the maximal width of the entry, it is used above to
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
@@ -767,7 +768,7 @@ bool uilist::scrollby( const int scrollby )
     bool backwards = ( scrollby < 0 );
 
     fselected += scrollby;
-    if( ! looparound ) {
+    if( !looparound ) {
         if( backwards && fselected < 0 ) {
             fselected = 0;
         } else if( fselected >= static_cast<int>( fentries.size() ) ) {
@@ -870,13 +871,15 @@ void uilist::query( bool loop, int timeout )
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
+                // disabled
+                ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
-        } else { // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
+        } else {
+            // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;

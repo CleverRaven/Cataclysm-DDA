@@ -128,8 +128,10 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
 void vehicle::control_doors()
 {
     const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
-    std::vector< int > doors_with_motors; // Indices of doors
-    std::vector< tripoint > locations; // Locations used to display the doors
+    // Indices of doors
+    std::vector< int > doors_with_motors;
+    // Locations used to display the doors
+    std::vector< tripoint > locations;
     // it is possible to have one door to open and one to close for single motor
     if( empty( door_motors ) ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
@@ -168,7 +170,8 @@ void vehicle::control_doors()
 
     pointmenu_cb callback( locations );
     pmenu.callback = &callback;
-    pmenu.w_y = 0; // Move the menu so that we can see our vehicle
+    // Move the menu so that we can see our vehicle
+    pmenu.w_y = 0;
     pmenu.query();
 
     if( pmenu.ret >= 0 ) {
@@ -184,7 +187,7 @@ void vehicle::control_doors()
                 if( open ) {
                     int part = next_part_to_open( motor );
                     if( part != -1 ) {
-                        if( ! part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
+                        if( !part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -429,9 +432,12 @@ bool vehicle::interact_vehicle_locked()
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
-                g->u.activity.values.push_back( abs_veh_pos.x + q.x ); //[0]
-                g->u.activity.values.push_back( abs_veh_pos.y + q.y ); //[1]
-                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
+                //[0]
+                g->u.activity.values.push_back( abs_veh_pos.x + q.x );
+                //[1]
+                g->u.activity.values.push_back( abs_veh_pos.y + q.y );
+                //[2]
+                g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) );
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
                     is_alarm_on = true;
@@ -814,7 +820,7 @@ bool vehicle::fold_up()
     }
 
     if( can_be_folded ) {
-        bicycle.set_var( "weight", to_gram( total_mass() ) );
+        bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
@@ -1061,7 +1067,7 @@ void vehicle::enable_patrol()
 
 void vehicle::honk_horn()
 {
-    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
 
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
@@ -1070,7 +1076,7 @@ void vehicle::honk_horn()
         if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
-        if( ! honked ) {
+        if( !honked ) {
             add_msg( _( "You honk the horn!" ) );
             honked = true;
         }
@@ -1092,7 +1098,7 @@ void vehicle::honk_horn()
         }
     }
 
-    if( ! honked ) {
+    if( !honked ) {
         add_msg( _( "You honk the horn, but nothing happens." ) );
     }
 }
@@ -1199,7 +1205,8 @@ void vehicle::crash_terrain_around()
                 }
             }
         }
-        if( g->m.inbounds_z( crush_target.z ) ) { //target chosen
+        //target chosen
+        if( g->m.inbounds_z( crush_target.z ) ) {
             velocity = 0;
             cruise_velocity = 0;
             g->m.destroy( crush_target );
@@ -1526,7 +1533,9 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
+    // Get all the items the player has that can be used as detergent
+    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1547,8 +1556,8 @@ void vehicle::use_washing_machine( int p )
     } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
-    } else if( !detergent_is_enough ) {
-        add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
+    } else if( detergents.empty() ) {
+        add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
@@ -1556,6 +1565,34 @@ void vehicle::use_washing_machine( int p )
         add_msg( m_bad,
                  _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
+        uilist detergent_selector;
+        detergent_selector.text = _( "Use what detergent?" );
+
+        std::vector<itype_id> det_types;
+        for( const item *it : detergents ) {
+            itype_id det_type = it->typeId();
+            // If the vector does not contain the detergent type, add it
+            if( std::find( det_types.begin(), det_types.end(), det_type ) == det_types.end() ) {
+                det_types.emplace_back( det_type );
+            }
+
+        }
+        int chosen_detergent = 0;
+        // If there's a choice to be made on what detergent to use, ask the player
+        if( det_types.size() > 1 ) {
+            for( size_t i = 0; i < det_types.size(); ++i ) {
+                detergent_selector.addentry( i, true, 0, item::nname( det_types[i] ) );
+            }
+            detergent_selector.addentry( UILIST_CANCEL, true, 0, _( "Cancel" ) );
+            detergent_selector.query();
+            chosen_detergent = detergent_selector.ret;
+        }
+
+        // If the player exits the menu, don't do anything else
+        if( chosen_detergent == UILIST_CANCEL ) {
+            return;
+        }
+
         parts[p].enabled = true;
         for( auto &n : items ) {
             n.set_age( 0_turns );
@@ -1568,7 +1605,7 @@ void vehicle::use_washing_machine( int p )
         }
 
         std::vector<item_comp> detergent;
-        detergent.push_back( item_comp( "detergent", 5 ) );
+        detergent.push_back( item_comp( det_types[chosen_detergent], 5 ) );
         g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
@@ -1747,7 +1784,7 @@ void vehicle::use_bike_rack( int part )
                 cur_vehicle.clear();
                 continue;
             }
-            for( const point &mount_dir : vehicles::cardinal_d ) {
+            for( const point &mount_dir : five_cardinal_directions ) {
                 point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {

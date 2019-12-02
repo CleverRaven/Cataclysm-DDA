@@ -36,7 +36,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY1",
-    "dynamic_line": "I... um... hid.  I was in the kitchen, preparing another masterpiece when I heard glass shattering followed by screaming.  I ran over to the serving window to see what happened, assuming a guest had fallen and broke something.  What I witnessed was the most awful thing I've ever seen.  I'm not even sure I could go over it again.",
+    "dynamic_line": "I… um… hid.  I was in the kitchen, preparing another masterpiece when I heard glass shattering followed by screaming.  I ran over to the serving window to see what happened, assuming a guest had fallen and broke something.  What I witnessed was the most awful thing I've ever seen.  I'm not even sure I could go over it again.",
     "responses": [
       { "text": "What happened next?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY2" },
       { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
@@ -49,7 +49,7 @@
     "id": "TALK_NC_SURVIVOR_CHEF_STORY2",
     "dynamic_line": "Some lunatic covered in a film of goo, black as oil, had fallen through one of the large glass windows.  There were glass shards stuck in its head and neck.  I thought the poor guy, girl-thing-whatever was dead.  People began to crowd around it, some were taking pictures.",
     "responses": [
-      { "text": "Horrible. Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
+      { "text": "Horrible.  Did you get any pictures yourself?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY3" },
       { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
@@ -58,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY3",
-    "dynamic_line": "No!  I figured the thing dead until it started writhing and spazzing out for a moment.  Everyone jumped back, a few screamed, and one curious stranger stepped in closer, kneeling a little... it attacked him!",
+    "dynamic_line": "No!  I figured the thing dead until it started writhing and spazzing out for a moment.  Everyone jumped back, a few screamed, and one curious stranger stepped in closer, kneeling a little… it attacked him!",
     "responses": [
       { "text": "What'd you do?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY4" },
       { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },

@@ -157,7 +157,10 @@ class PngRefs(object):
         if bg_id:
             tile_entry["bg"] = self.convert_pngname_to_pngnum(bg_id)
         else:
-            del tile_entry["bg"]
+            try:
+                del tile_entry["bg"]
+            except:
+                print("Cannot find bg for tile with id {}".format(tile_id))
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])
         for add_tile_entry in add_tile_entrys:
@@ -278,7 +281,9 @@ class TilesheetData(object):
                             print("error loading {}".format(filepath))
                             raise
 
-                        self.tile_entries.append(tile_entry)
+                        if not isinstance(tile_entry, list):
+                            tile_entry = [tile_entry]
+                        self.tile_entries += tile_entry
         if self.row_pngs:
             merged = self.merge_row(refs)
             tmp_merged_pngs += merged

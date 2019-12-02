@@ -2,6 +2,7 @@
   {
     "id": "acr",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Remington ACR",
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
@@ -18,7 +19,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 11,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
@@ -28,7 +29,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "AR-15",
-    "//": "This is assumed to be the standard model matching the (currently not in-game) M16.",
+    "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi automatic civilian version.",
     "weight": "2815 g",
     "volume": "2 L",
@@ -47,6 +48,7 @@
   {
     "id": "h&k416a5",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "HK416 A5",
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
@@ -64,12 +66,13 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "hk_g36",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "H&K G36",
     "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
@@ -85,12 +88,13 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "l_bak_223",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
@@ -119,6 +123,7 @@
   {
     "id": "l_base_223",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "L523 platform",
     "//": "Current milspec, so Expensive.",
@@ -147,7 +152,7 @@
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes a red-dot sight and an integral laser sight.  Additionally it comes with underslung shotgun for close range encounters.  Like the rest of the family, doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "relative": { "weight": 400 },
     "built_in_mods": [ "lead_red_dot_sight", "lead_barrel_small", "lead_laser_sight", "lead_u_shotgun", "lead_stabilizer" ],
     "valid_mod_locations": [
@@ -231,6 +236,7 @@
   {
     "id": "m249",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M249",
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
@@ -247,7 +253,7 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "auto", 12 ] ],
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -271,13 +277,14 @@
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3495 g",
-    "burst": 13,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
     "id": "m4a1",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M4A1",
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
@@ -294,12 +301,13 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "burst": 14,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "m16a4",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "M16A4",
     "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
@@ -321,6 +329,7 @@
   {
     "id": "rifle_223",
     "copy-from": "gun_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .223",
     "name_plural": "pipe rifles: .223",
@@ -359,6 +368,7 @@
   {
     "id": "ruger_mini",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Ruger Mini-14",
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
@@ -390,11 +400,12 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30" ] ] ]
+    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "FN SCAR-L",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
@@ -411,12 +422,13 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "sig552",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "SIG 552",
     "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
@@ -430,13 +442,14 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "steyr_aug",
     "copy-from": "rifle_auto",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Steyr AUG",
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
@@ -452,7 +465,7 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "burst": 12,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -473,6 +486,7 @@
   {
     "id": "surv_carbine_223",
     "copy-from": "rifle_semi",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",

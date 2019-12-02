@@ -92,6 +92,7 @@ class vehicle;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 const efftype_id effect_riding( "riding" );
+const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -135,12 +136,15 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_PRINT_FACTION_INFO,
+    DEBUG_PRINT_NPC_MAGIC,
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
+    DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
     DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VEHICLE_AI,
     DEBUG_DISPLAY_VISIBILITY,
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
@@ -199,7 +203,9 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
@@ -210,6 +216,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
+            { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -431,7 +438,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -449,6 +456,7 @@ void character_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
+    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -564,10 +572,10 @@ void character_edit_menu()
         break;
         case D_STAMINA:
             int value;
-            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.stamina,
+            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.get_stamina(),
                            p.get_stamina_max() ) ) {
                 if( value >= 0 && value <= p.get_stamina_max() ) {
-                    p.stamina = value;
+                    p.set_stamina( value );
                 } else {
                     add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
                 }
@@ -814,6 +822,11 @@ void character_edit_menu()
                 np->set_attitude( attitudes[attitudes_ui.ret] );
             }
         }
+        break;
+        case D_FLU: {
+            p.add_effect( effect_flu, 1000_minutes );
+            break;
+        }
     }
 }
 
@@ -1059,7 +1072,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_NPC: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
+            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
@@ -1104,11 +1117,11 @@ void debug()
             std::string stom =
                 _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
-                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.capacity( u ) ), u.stomach.get_calories(),
                      units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
             stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
             add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
-                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.capacity( u ) ), u.guts.get_calories(),
                      units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
@@ -1135,28 +1148,33 @@ void debug()
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
-                std::vector<vproto_id> veh_strings;
+                // Vector of name, id so that we can sort by name
+                std::vector<std::pair<std::string, vproto_id>> veh_strings;
+                for( auto &elem : vehicle_prototype::get_all() ) {
+                    if( elem == vproto_id( "custom" ) ) {
+                        continue;
+                    }
+                    veh_strings.emplace_back( elem->name, elem );
+                }
+                std::sort( veh_strings.begin(), veh_strings.end() );
                 uilist veh_menu;
                 veh_menu.text = _( "Choose vehicle to spawn" );
                 int menu_ind = 0;
-                for( auto &elem : vehicle_prototype::get_all() ) {
-                    if( elem != vproto_id( "custom" ) ) {
-                        const vehicle_prototype &proto = elem.obj();
-                        veh_strings.push_back( elem );
-                        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ), _( proto.name ),
-                                           elem.c_str() );
-                        ++menu_ind;
-                    }
+                for( auto &elem : veh_strings ) {
+                    //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+                    veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ),
+                                       _( elem.first ), elem.second.c_str() );
+                    ++menu_ind;
                 }
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't cancel
-                    const vproto_id &selected_opt = veh_strings[veh_menu.ret];
-                    tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
+                    // Didn't cancel
+                    const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
+                    // TODO: Allow picking this when add_vehicle has 3d argument
+                    tripoint dest = u.pos();
+                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( u.pos(), &u );
+                        m.board_vehicle( dest, &u );
                     }
                 }
             }
@@ -1172,7 +1190,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    u.add_martialart( style );
+                    u.martial_arts_data.add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1360,8 +1378,14 @@ void debug()
         case DEBUG_DISPLAY_SCENTS_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
             break;
+        case DEBUG_DISPLAY_SCENTS_TYPE_LOCAL:
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
+            break;
         case DEBUG_DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
+            break;
+        case DEBUG_DISPLAY_VEHICLE_AI:
+            g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
             break;
         case DEBUG_DISPLAY_VISIBILITY:
             g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
@@ -1523,6 +1547,27 @@ void debug()
             std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
             break;
         }
+        case DEBUG_PRINT_NPC_MAGIC: {
+            for( npc &guy : g->all_npcs() ) {
+                const std::vector<spell_id> spells = guy.magic.spells();
+                if( spells.empty() ) {
+                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+                    continue;
+                }
+                std::cout << guy.disp_name() << "knows : ";
+                int counter = 1;
+                for( const spell_id sp : spells ) {
+                    std::cout << sp->name.translated() << " ";
+                    if( counter < static_cast<int>( spells.size() ) ) {
+                        std::cout << "and ";
+                    } else {
+                        std::cout << "." << std::endl;
+                    }
+                    counter++;
+                }
+            }
+            break;
+        }
         case DEBUG_QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
@@ -1531,8 +1576,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            weather_generator weathergen;
-            weathergen.test_weather();
+            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 
@@ -1602,7 +1646,11 @@ void debug()
             std::vector<uilist_entry> uiles;
             {
                 uilist_entry uile( _( "Spell" ) );
-                uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
+                uile.ctxt = string_format( "%s %s",
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "LVL" ), 4 ),
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
                 uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
@@ -1610,7 +1658,7 @@ void debug()
             int retval = 0;
             for( spell *sp : spells ) {
                 uilist_entry uile( sp->name() );
-                uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
+                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
                 uile.retval = retval++;
                 uile.enabled = !sp->is_max_level();
                 uiles.emplace_back( uile );

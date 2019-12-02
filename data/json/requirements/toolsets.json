@@ -36,6 +36,13 @@
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "blacksmithing_standard",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
     "id": "mutagen_production_standard",
     "type": "requirement",
     "//": "Production of mutagens.",

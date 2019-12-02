@@ -243,6 +243,7 @@
   },
   {
     "id": "hand_crossbow",
+    "looks_like": "crossbow",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -275,6 +276,7 @@
   },
   {
     "id": "crossbow",
+    "//": "Tileset whitelist for crossbows",
     "type": "GUN",
     "reload_noise_volume": 5,
     "symbol": "(",
@@ -311,6 +313,7 @@
   },
   {
     "id": "compositecrossbow",
+    "looks_like": "crossbow",
     "type": "GUN",
     "symbol": "(",
     "color": "green",
@@ -347,6 +350,7 @@
   },
   {
     "id": "compcrossbow",
+    "looks_like": "crossbow",
     "type": "GUN",
     "symbol": "(",
     "color": "green",
@@ -383,6 +387,7 @@
   },
   {
     "id": "huge_crossbow",
+    "looks_like": "crossbow",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -420,6 +425,7 @@
   },
   {
     "id": "rep_crossbow",
+    "looks_like": "crossbow",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",

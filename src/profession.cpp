@@ -131,8 +131,7 @@ class item_reader : public generic_typed_reader<item_reader>
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto s = jarr.get_string( 1 );
-            const auto snippet = _( s );
+            const auto snippet = jarr.get_string( 1 );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -256,17 +255,16 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.c_str(), itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          id.c_str(), itd.type_id.c_str() );
+                          id.str(), itd.type_id );
             } else {
-                const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
-                if( SNIPPET.get( hash ).empty() ) {
+                if( !SNIPPET.get_snippet_by_id( itd.snippet_id ).has_value() ) {
                     debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              id.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                              id.str(), itd.snippet_id, itd.type_id, type->snippet_category );
                 }
             }
         }

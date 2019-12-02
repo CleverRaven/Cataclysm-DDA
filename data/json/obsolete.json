@@ -43,7 +43,7 @@
     "name": "Internal Furnace",
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "occupied_bodyparts": [ [ "TORSO", 40 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_storage",
@@ -404,7 +404,17 @@
     "id": "fault_gun_clogged",
     "type": "fault",
     "name": "Dusty",
-    "description": "It's dusty. Has no effect - obsolete fault.",
-    "time": "1 s"
+    "description": "It's dusty.  Has no effect - obsolete fault.",
+    "mending_methods": [
+      {
+        "id": "mend_fault_gun_clogged",
+        "name": "Wipe clean",
+        "success_msg": "You clean you %s.",
+        "time": "1 s",
+        "skills": [  ],
+        "requirements": {  }
+      }
+    ],
+    "flags": [ "SILENT" ]
   }
 ]

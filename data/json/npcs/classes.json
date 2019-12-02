@@ -141,7 +141,7 @@
     "type": "npc_class",
     "id": "NC_SCIENTIST",
     "name": "Scientist",
-    "job_description": "I'm looking for clues concerning these monsters' origins...",
+    "job_description": "I'm looking for clues concerning these monsters' origins…",
     "traits": [ { "group": "BG_survival_story_LAB" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ -1, -3 ] },
     "bonus_dex": { "rng": [ -1, 0 ] },
@@ -334,7 +334,7 @@
     "type": "npc_class",
     "id": "NC_HALLU",
     "name": "Real Person",
-    "job_description": "I'm just wandering, like a totally real and normal NP... Person!",
+    "job_description": "I'm just wandering, like a totally real and normal NP… Person!",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
     "common": false,
     "skills": [
@@ -362,7 +362,7 @@
     "type": "npc_class",
     "id": "NC_TRUE_FOODPERSON",
     "name": "Foodperson",
-    "job_description": "I AM FOODPERSON. AND I BRING SUSTENANCE!",
+    "job_description": "I AM FOODPERSON.  AND I BRING SUSTENANCE!",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, [ "PROF_FOODP", 100 ] ],
     "common": false,
     "worn_override": "NC_TRUE_FOODPERSON_worn",
@@ -379,7 +379,7 @@
     "type": "npc_class",
     "id": "NC_CYBORG",
     "name": "Cyborg",
-    "job_description": "Zzzzzt... I...I'm a Cy...BEEEEEP...borg.",
+    "job_description": "Zzzzzt…  I… I'm a Cy… BEEEEEP… borg.",
     "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }

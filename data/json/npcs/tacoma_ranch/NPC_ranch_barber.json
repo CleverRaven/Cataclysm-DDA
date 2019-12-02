@@ -29,13 +29,13 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
       },
-      { "text": "Maybe another time...", "topic": "TALK_DONE" }
+      { "text": "Maybe another time…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_JOB",
-    "dynamic_line": "What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a shave out here.",
+    "dynamic_line": "What?  I'm a barber… I cut hair.  There's demand for cheap cuts and a shave out here.",
     "responses": [ { "text": "Sorry.", "topic": "TALK_RANCH_BARBER" } ]
   },
   {
@@ -48,6 +48,6 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_CUT",
     "dynamic_line": "Stand still while I get my clippers...",
-    "responses": [ { "text": "Thanks...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Thanks…", "topic": "TALK_DONE" } ]
   }
 ]

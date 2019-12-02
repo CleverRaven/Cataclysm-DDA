@@ -83,6 +83,7 @@ class vitamin
         int max_;
         time_duration rate_;
         std::vector<std::pair<int, int>> disease_;
+        std::vector<std::pair<int, int>> disease_excess_;
 };
 
 #endif

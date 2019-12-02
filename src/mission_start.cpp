@@ -53,7 +53,7 @@ void mission_start::place_dog( mission *miss )
     const tripoint house = mission_util::random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "dog_whistle", 0 ) );
@@ -188,7 +188,7 @@ void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "usb_drive", 0 ) );

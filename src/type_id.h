@@ -20,6 +20,9 @@ using clothing_mod_id = string_id<clothing_mod>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
+class scent_type;
+using scenttype_id = string_id<scent_type>;
+
 class emit;
 using emit_id = string_id<emit>;
 
@@ -42,6 +45,9 @@ using gun_mode_id = string_id<gun_mode>;
 
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
+
+class item_category;
+using item_category_id = string_id<item_category>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;

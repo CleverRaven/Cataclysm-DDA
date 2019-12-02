@@ -38,6 +38,7 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
+    + [Scent Types](#scent_type)
     + [Scores](#scores)
       - [`event_transformation`](#-event-transformation-)
       - [`event_statistic`](#-event-statistic-)
@@ -206,6 +207,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | regional_map_settings.json  | settings for the entire map generation
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
+| scent_types.json            | type of scent available
 | scores.json                 | statistics, scores, and achievements
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
@@ -353,34 +355,35 @@ This section describes each json file and their contents. Each json has their ow
 
 ### Bionics
 
-| Identifier               | Description
-|---                       |---
-| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
-| name                     | In-game name displayed.
-| active                   | Whether the bionic is active or passive. (default: `passive`)
-| power_source             | Whether the bionic provides power. (default: `false`)
-| faulty                   | Whether it is a faulty type. (default: `false`)
-| act_cost                 | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost               | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost               | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| description              | In-game description.
-| encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
-| weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
-| canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
-| included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
-| included                 | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
-| env_protec               | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| occupied_bodyparts       | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                 | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
-| fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
-| fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
-| passive_fuel_efficiency  | (_optional_) Fraction of fuel energy passively converted into power. Only useful for muscle powered CBM (default: `0`)
-| exothermic_power_gen     | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
-| power_gen_emission       | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
-| stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| Identifier                  | Description
+|---                          |---
+| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
+| name                        | In-game name displayed.
+| active                      | Whether the bionic is active or passive. (default: `passive`)
+| power_source                | Whether the bionic provides power. (default: `false`)
+| faulty                      | Whether it is a faulty type. (default: `false`)
+| act_cost                    | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost                  | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost                  | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| time                        | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| description                 | In-game description.
+| encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
+| weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
+| weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
+| canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+| included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
+| env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
+| fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
+| exothermic_power_gen        | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
+| coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
+| power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
+| stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 
 ```C++
 {
@@ -514,21 +517,25 @@ The syntax listed here is still valid.
 
 #### Group definition
 
-| Identifier | Description
-|---         |---
-| `name`     | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`  | Default monster, automatically fills in any remaining spawn chances.
-| `monsters` | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
+| Identifier  | Description
+|---          |---
+| `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
+| `default`   | Default monster, automatically fills in any remaining spawn chances.
+| `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
+| `is_safe`   | (bool) Check to not trigger safe-mode warning.
+| `is_animal` | (bool) Check if that group has only normal animals. 
 
 #### Monster definition
 
-| Identifier   | Description
-|---           |---
-| `monster`    | The monster's id.
-| `freq`       | Chance of occurrence, out of a thousand.
-| `multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
-| `pack_size`  | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
-| `conditions` | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
+| Identifier        | Description
+|---                |---
+| `monster`         | The monster's id.
+| `freq`            | Chance of occurrence, x/1000.
+| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
+| `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
+| `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
+| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
+| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
 
 ```C++
 {
@@ -824,6 +831,21 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
+### Scent_types
+
+| Identifier               | Description
+|---                       |---
+| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
+| receptive_species        | Species able to track this scent. Must use valid ids defined in `species.json`
+
+```json
+  {
+    "type": "scent_type",
+    "id": "sc_flower",
+    "receptive_species": [ "MAMMAL", "INSECT", "MOLLUSK", "BIRD" ]
+  }
+```
+
 ### Scores
 
 Scores are defined in two or three steps based on *events*.  To see what events
@@ -974,6 +996,9 @@ Note that even though most statistics yield an integer, you should still use
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 "scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
+"scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
+"scent_mask": -200,// int added to your target scent value. (default: 0)
+"scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
 "bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
 "fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
@@ -984,6 +1009,7 @@ Note that even though most statistics yield an integer, you should still use
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
+"lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 ```
 
 ### Vehicle Groups
@@ -1217,6 +1243,7 @@ Armor can be defined like this:
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
+"valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
 ```C++
@@ -1416,6 +1443,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
+"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 9mL per inch is a decent approximation.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
@@ -2381,6 +2409,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "item": "leather",        // item to consume.
 "implement_prompt": "Pad with leather",      // prompt to show when implement mod.
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
+"restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
 "mod_value": [            // List of mod effect.
     {
         "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.

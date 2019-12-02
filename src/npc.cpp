@@ -99,6 +99,7 @@ const efftype_id effect_high( "high" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
@@ -433,6 +434,14 @@ void npc::randomize( const npc_class_id &type )
         int chance = bl.second;
         if( rng( 0, 100 ) <= chance ) {
             add_bionic( bl.first );
+        }
+    }
+    // Add spells for magiclysm mod
+    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+        this->magic.learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic.get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
         }
     }
 }
@@ -1181,7 +1190,26 @@ bool npc::wield( item &it )
     if( g->u.sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
+    invalidate_range_cache();
     return true;
+}
+
+void npc::drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+                bool stash )
+{
+    Character::drop( what, target, stash );
+    // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
+    // so is this necessary?
+    activity.do_turn( *this );
+}
+
+void npc::invalidate_range_cache()
+{
+    if( weapon.is_gun() ) {
+        confident_range_cache = confident_shoot_range( weapon, get_most_accurate_sight( weapon ) );
+    } else {
+        confident_range_cache = weapon.reach_range( *this );
+    }
 }
 
 void npc::form_opinion( const player &u )
@@ -1235,7 +1263,7 @@ void npc::form_opinion( const player &u )
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.stim > 20 ) {
+    if( u.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
@@ -1263,7 +1291,7 @@ void npc::form_opinion( const player &u )
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.stim > 20 || u.stim < -20 ) {
+    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
     if( u.get_painkiller() > 30 ) {
@@ -1437,13 +1465,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<matype_id> ret;
-    for( auto &i : ma_styles ) {
-        if( !p.has_martialart( i ) ) {
-            ret.push_back( i );
-        }
-    }
-    return ret;
+    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
 void npc::decide_needs()
@@ -1453,7 +1475,18 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            int ups_charges = charges_of( "UPS_off", ups_drain ) +
+                              charges_of( "UPS_off", ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        } else {
+            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+        }
+        needrank[need_ammo] *= 5;
+    }
+    if( !base_location ) {
+        needrank[need_safety] = 1;
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1768,6 +1801,16 @@ void healing_options::clear_all()
     bleed = false;
     bite = false;
     infect = false;
+}
+
+bool healing_options::all_false()
+{
+    return !any_true();
+}
+
+bool healing_options::any_true()
+{
+    return bandage || bleed || bite || infect;
 }
 
 void healing_options::set_all()
@@ -2166,7 +2209,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
-    const unsigned int iWidth = getmaxx( w ) - 2;
+    const int iWidth = getmaxx( w ) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -2181,28 +2224,19 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
 
-    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
+    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,
     nc_color color ) {
-        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-        size_t split;
-        do {
-            split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<int>( iWidth ) );
-            if( split == std::string::npos ) {
-                mvwprintz( w, point( column, line ), color, str_in );
-            } else {
-                mvwprintz( w, point( column, line ), color, str_in.substr( 0, split ) );
-            }
-            str_in = str_in.substr( split + 1 );
-            line++;
-        } while( split != std::string::npos && line <= last_line );
+        const std::vector<std::string> folded = foldstring( str_in, iWidth );
+        for( auto it = folded.begin(); it < folded.end() && line < last_line; ++it, ++line ) {
+            trim_and_print( w, point( column, line ), iWidth, color, *it );
+        }
     };
 
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
-        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
+        const std::string wearing = _( "Wearing: " ) + worn_str;
         enumerate_print( wearing, c_light_blue );
     }
 
@@ -2223,7 +2257,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
-        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
+        const std::string mutations = _( "Traits: " ) + trait_str;
         enumerate_print( mutations, c_green );
     }
 
@@ -2340,6 +2374,45 @@ void npc::shift( int sx, int sy )
 bool npc::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+void npc::reboot()
+{
+    //The NPC got into an infinite loop, in game.cpp  -monmove() - a debugmsg just popped up
+    // informing player of this.
+    // put them to sleep and reboot their brain.
+    // they can be woken up by the player, and if their brain is fixed, great,
+    // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
+    cancel_activity();
+    path.clear();
+    last_player_seen_pos = cata::nullopt;
+    last_seen_player_turn = 999;
+    wanted_item_pos = no_goal_point;
+    guard_pos = no_goal_point;
+    goal = no_goal_point;
+    fetching_item = false;
+    has_new_items = true;
+    worst_item_value = 0;
+    mission = NPC_MISSION_NULL;
+    patience = 0;
+    ai_cache.danger = 0;
+    ai_cache.total_danger = 0;
+    ai_cache.danger_assessment = 0;
+    ai_cache.target.reset();
+    ai_cache.ally.reset();
+    ai_cache.can_heal.clear_all();
+    ai_cache.sound_alerts.clear();
+    ai_cache.s_abs_pos = tripoint_zero;
+    ai_cache.stuck = 0;
+    ai_cache.guard_pos = cata::nullopt;
+    ai_cache.my_weapon_value = 0;
+    ai_cache.friends.clear();
+    ai_cache.dangerous_explosives.clear();
+    ai_cache.threat_map.clear();
+    ai_cache.searched_tiles.clear();
+    activity = player_activity();
+    clear_destination();
+    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2530,7 +2603,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_NULL:
             return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking and butchering" );
+            return _( "Cooking and butchering - Currently only butchering is enabled" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2538,19 +2611,19 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_CONSTRUCTING:
             return _( "Building" );
         case NPCJOB_CRAFTING:
-            return _( "Crafting" );
+            return _( "Crafting - Currently only a placeholder" );
         case NPCJOB_SECURITY:
-            return _( "Guarding and patrolling" );
+            return _( "Guarding and patrolling - Currently only a placeholder" );
         case NPCJOB_FARMING:
-            return _( "Working the fields" );
+            return _( "Farming the fields" );
         case NPCJOB_LUMBERJACK:
             return _( "Chopping wood" );
         case NPCJOB_HUSBANDRY:
-            return _( "Caring for the livestock" );
+            return _( "Caring for the livestock - Currently only a placeholder" );
         case NPCJOB_HUNTING:
-            return _( "Hunting and fishing" );
+            return _( "Hunting and fishing - Currently only fishing is enabled" );
         case NPCJOB_FORAGING:
-            return _( "Gathering edibles" );
+            return _( "Gathering edibles - Currently only a placeholder" );
         default:
             break;
     }
@@ -2658,7 +2731,7 @@ void npc::on_load()
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
-        process_active_items();
+        process_items();
         // give NPCs that are doing activities a pile of moves
         if( has_destination() || activity ) {
             mod_moves( to_moves<int>( dt ) );
@@ -2836,14 +2909,37 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
+bool npc::invoke_item( item *used, const tripoint &pt )
+{
+    const auto &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return Character::invoke_item( used, use_methods.begin()->first, pt );
+    }
+    return false;
+}
+
+bool npc::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+bool npc::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {
     {
         { "need_none", overmap_location_str_id( "source_of_anything" ) },
-        { "need_ammo", overmap_location_str_id( "source_of_ammo" )},
-        { "need_weapon", overmap_location_str_id( "source_of_weapon" )},
-        { "need_gun", overmap_location_str_id( "source_of_gun" ) },
+        { "need_ammo", overmap_location_str_id( "source_of_ammo" ) },
+        { "need_weapon", overmap_location_str_id( "source_of_weapons" )},
+        { "need_gun", overmap_location_str_id( "source_of_guns" ) },
         { "need_food", overmap_location_str_id( "source_of_food" )},
-        { "need_drink", overmap_location_str_id( "source_of_drink" ) }
+        { "need_drink", overmap_location_str_id( "source_of_drink" ) },
+        { "need_safety", overmap_location_str_id( "source_of_safety" ) }
     }
 };
 

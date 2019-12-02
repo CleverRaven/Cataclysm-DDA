@@ -17,6 +17,7 @@
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class JsonIn;
 class JsonOut;
@@ -36,10 +37,24 @@ class zone_type
         std::string name_;
         std::string desc_;
     public:
+
+        zone_type_id id;
+        bool was_loaded;
+
+        zone_type() = default;
         explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
             desc_( desc ) {}
+
         std::string name() const;
         std::string desc() const;
+
+        static void load_zones( JsonObject &jo, const std::string &src );
+        void load( JsonObject &jo, const std::string & );
+        /**
+         * All spells in the game.
+         */
+        static const std::vector<zone_type> &get_all();
+        bool is_valid() const;
 };
 
 class zone_options
@@ -48,7 +63,7 @@ class zone_options
         virtual ~zone_options() = default;
 
         /* create valid instance for zone type */
-        static std::shared_ptr<zone_options> create( const zone_type_id &type );
+        static shared_ptr_fast<zone_options> create( const zone_type_id &type );
 
         /* checks if options is correct base / derived class for zone type */
         static bool is_valid( const zone_type_id &type, const zone_options &options );
@@ -133,7 +148,8 @@ class plot_options : public zone_options, public mark_option
 class blueprint_options : public zone_options, public mark_option
 {
     private:
-        std::string mark; // furn/ter id as string.
+        // furn/ter id as string.
+        std::string mark;
         std::string con;
         int index;
 
@@ -179,7 +195,8 @@ class blueprint_options : public zone_options, public mark_option
 class loot_options : public zone_options, public mark_option
 {
     private:
-        std::string mark; // basic item filter.
+        // basic item filter.
+        std::string mark;
 
         enum query_loot_result {
             canceled,
@@ -223,7 +240,7 @@ class zone_data
         bool is_vehicle;
         tripoint start;
         tripoint end;
-        std::shared_ptr<zone_options> options;
+        shared_ptr_fast<zone_options> options;
 
     public:
         zone_data() {
@@ -239,7 +256,7 @@ class zone_data
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   std::shared_ptr<zone_options> _options = nullptr ) {
+                   shared_ptr_fast<zone_options> _options = nullptr ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -257,8 +274,10 @@ class zone_data
             }
         }
 
-        bool set_name(); // returns true if name is changed
-        bool set_type(); // returns true if type is changed
+        // returns true if name is changed
+        bool set_name();
+        // returns true if type is changed
+        bool set_type();
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true );
         void set_enabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
@@ -363,7 +382,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  std::shared_ptr<zone_options> options = nullptr );
+                  shared_ptr_fast<zone_options> options = nullptr );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );

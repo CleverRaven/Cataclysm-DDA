@@ -306,13 +306,15 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
                 return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
-            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::music:
+            // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
             case sounds::sound_t::combat:
                 return false;
-            case sounds::sound_t::speech: // radios also produce speech sound
+            case sounds::sound_t::speech:
+            // radios also produce speech sound
             case sounds::sound_t::alarm:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
@@ -416,7 +418,7 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
+        const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );
@@ -1177,39 +1179,39 @@ void sfx::do_fatigue()
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
-    if( g->u.stamina >= g->u.get_stamina_max() * .75 ) {
+    if( g->u.get_stamina() >= g->u.get_stamina_max() * .75 ) {
         fade_audio_group( group::fatigue, 2000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                !g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                !g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                !g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );

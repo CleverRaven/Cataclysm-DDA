@@ -99,4 +99,7 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
+
+void resolve_regional_terrain_and_furniture( const mapgendata &dat );
+
 #endif
