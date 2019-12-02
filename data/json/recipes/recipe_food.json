@@ -8302,7 +8302,6 @@
         [ "any_butter", 1, "LIST"  ],
         [ "edible_fat", 1, "LIST" ],
         [ "edible_tallow_lard", 1, "LIST" ],
-
       ]
     ]
   }
