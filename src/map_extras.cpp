@@ -526,7 +526,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     const auto spawn_turret = [&]( int x, int y ) {
-        if( one_in( 2 ) ) {
+        if( one_in( 3 ) ) {
             m.add_spawn( mon_turret_bmg, 1, point( x, y ) );
         } else if( one_in( 2 ) ) {
             m.add_spawn( mon_turret_rifle, 1, point( x, y ) );
