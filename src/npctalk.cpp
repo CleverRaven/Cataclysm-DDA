@@ -756,8 +756,10 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     }
 
     // Needs
-    if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
-        has_effect( effect_npc_suspend ) ) {
+    if( has_effect( effect_npc_suspend ) ) {
+        d.add_topic( "TALK_REBOOT" );
+    }
+    if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
         if( has_effect( effect_narcosis ) ) {
             d.add_topic( "TALK_SEDATED" );
         } else {

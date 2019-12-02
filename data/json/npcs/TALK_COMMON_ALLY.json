@@ -28,6 +28,15 @@
     ]
   },
   {
+    "id": "TALK_REBOOT",
+    "type": "talk_topic",
+    "dynamic_line": "This character was previously put into a suspension state due to an AI bug. If you have reason to believe the problem was fixed, you can wake them up. Do you want to do that now?",
+    "responses": [
+      { "text": "yes, wake up!", "topic": "TALK_NONE", "effect": "wake_up" },
+      { "text": "no, go back to sleep.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
     "type": "talk_topic",
     "dynamic_line": {
