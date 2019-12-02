@@ -46,7 +46,7 @@
     "id": "any_butter",
     "type": "requirement",
     "//": "Butter of all types and other future butter substitutes",
-    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ] ] ]
+    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ], [ "ghee", 1 ] ] ]
   },
   {
     "id": "milk_standard_raw",
