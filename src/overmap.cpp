@@ -911,6 +911,19 @@ void overmap_special::finalize()
         }
     }
 
+    // Calculate dimensions
+    tripoint dimension_min;
+    tripoint dimension_max;
+    for( auto &t : terrains ) {
+        dimension_min = tripoint( std::min( dimension_min.x, t.p.x ),
+                                  std::min( dimension_min.y, t.p.y ),
+                                  std::min( dimension_min.z, t.p.z ) );
+        dimension_max = tripoint( std::max( dimension_max.x, t.p.x ),
+                                  std::max( dimension_max.y, t.p.y ),
+                                  std::max( dimension_max.z, t.p.z ) );
+    }
+    dimensions = box( dimension_min, dimension_max );
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
