@@ -178,11 +178,11 @@
       "place_item": [ { "item": "visions_solitude", "x": 16, "y": 108, "amount": 1 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 15, 20 ], "y": [ 39, 42 ], "density": 0.1 },
+        { "monster": "GROUP_TURRET_RIOT", "x": [ 15, 20 ], "y": [ 39, 42 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 44, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 32, 39 ], "y": [ 39, 42 ], "density": 0.1 },
+        { "monster": "GROUP_TURRET_RIOT", "x": [ 32, 39 ], "y": [ 39, 42 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 51, 56 ], "y": [ 39, 42 ], "density": 0.1 },
+        { "monster": "GROUP_TURRET_RIOT", "x": [ 51, 56 ], "y": [ 39, 42 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 44, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_ROBOT_EYEBOT", "x": [ 24, 47 ], "y": [ 0, 13 ], "density": 0.1 },
         { "monster": "GROUP_ROBOT_EYEBOT", "x": [ 27, 44 ], "y": [ 52, 60 ], "density": 0.1 },
@@ -454,7 +454,7 @@
         ",": [ { "monster": "mon_zombie_cop", "chance": 1 }, { "monster": "mon_zombie_prisoner", "chance": 2 } ],
         "^": { "monster": "mon_zombie_brute", "chance": 1 },
         " ": { "monster": "mon_dog_zombie_cop", "chance": 1 },
-        ".": { "monster": "mon_secubot", "chance": 1 },
+        ".": { "monster": "mon_turret_riot", "chance": 1 },
         "U": { "monster": "mon_dog_gshepherd", "chance": 10 },
         ":": { "monster": "mon_dog_gshepherd", "chance": 1 }
       },

@@ -4353,27 +4353,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT",
-    "default": "mon_manhack",
-    "monsters": [
-      { "monster": "mon_skitterbot", "freq": 220, "cost_multiplier": 0 },
-      { "monster": "mon_secubot", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_talon_m202a1", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_copbot", "freq": 0, "cost_multiplier": 0 },
-      { "monster": "mon_molebot", "freq": 40, "cost_multiplier": 0 },
-      { "monster": "mon_tripod", "freq": 110, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 60, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_TURRET",
-    "default": "mon_turret_rifle",
-    "monsters": [ { "monster": "mon_turret_bmg", "freq": 50, "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_POLICE",
     "//": "+30% cops",
     "default": "mon_zombie",
@@ -5082,18 +5061,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_EYEBOT",
-    "default": "mon_eyebot",
-    "monsters": [ { "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_ROBOT_SECUBOT",
-    "default": "mon_secubot",
-    "monsters": [ { "monster": "mon_secubot", "freq": 100, "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_PARK_ANIMAL",
     "default": "mon_null",
     "is_animal": true,
@@ -5314,12 +5281,6 @@
     "type": "monstergroup",
     "default": "mon_dark_wyrm",
     "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_HAZMATBOT",
-    "type": "monstergroup",
-    "default": "mon_hazmatbot",
-    "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_STRAY_DOGS",
