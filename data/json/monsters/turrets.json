@@ -245,7 +245,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_riot",
-    "starting_ammo": { "40mm_beanbag": 200 },
+    "starting_ammo": { "40mm_sponge": 100 },
     "special_attacks": [
       {
         "//": "For later: needs the ability to preferentially target legs and arms",
@@ -253,7 +253,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "mark19",
-        "ammo_type": "40mm_beanbag",
+        "ammo_type": "40mm_sponge",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
