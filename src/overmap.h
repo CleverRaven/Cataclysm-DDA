@@ -295,6 +295,9 @@ class overmap
         }
 
         void clear_mon_groups();
+        void clear_overmap_special_placements();
+        void clear_cities();
+        void clear_connections_out();
     private:
         std::multimap<tripoint, mongroup> zg;
     public:

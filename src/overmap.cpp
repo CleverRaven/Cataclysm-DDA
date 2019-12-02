@@ -1795,6 +1795,19 @@ void overmap::clear_mon_groups()
     zg.clear();
 }
 
+void overmap::clear_overmap_special_placements()
+{
+    overmap_special_placements.clear();
+}
+void overmap::clear_cities()
+{
+    cities.clear();
+}
+void overmap::clear_connections_out()
+{
+    connections_out.clear();
+}
+
 void mongroup::wander( const overmap &om )
 {
     const city *target_city = nullptr;
