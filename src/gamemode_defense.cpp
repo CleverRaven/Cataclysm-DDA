@@ -110,6 +110,7 @@ bool defense_game::init()
     robots = false;
     subspace = false;
     mercenaries = false;
+    allow_save = false;
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
@@ -148,7 +149,7 @@ void defense_game::pre_action( action_id &act )
         add_msg( m_info, _( "You don't need to sleep!" ) );
         act = ACTION_NULL;
     }
-    if( act == ACTION_SAVE || act == ACTION_QUICKSAVE ) {
+    if( !allow_save && ( act == ACTION_SAVE || act == ACTION_QUICKSAVE ) ) {
         add_msg( m_info, _( "You cannot save in defense mode!" ) );
         act = ACTION_NULL;
     }
