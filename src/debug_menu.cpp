@@ -1308,7 +1308,9 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                critter.die( nullptr );
+                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                    critter.die( nullptr );
+                }
             }
             g->cleanup_dead();
         }
