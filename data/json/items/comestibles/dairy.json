@@ -57,7 +57,7 @@
     "symbol": "~",
     "quench": 20,
     "healthy": 2,
-    "calories": 1,
+    "calories": 161,
     "description": "This is cultured milk defatted either due to churning or curdling.  Spoils quickly.",
     "price": 1,
     "material": [ "milk" ],
