@@ -284,7 +284,6 @@ static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -380,8 +379,6 @@ static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
-static const trait_id trait_SMELLY( "SMELLY" );
-static const trait_id trait_SMELLY2( "SMELLY2" );
 static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -403,7 +400,6 @@ static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -541,26 +537,24 @@ void player::process_turn()
     if( !is_npc() ) {
         // Set our scent towards the norm
         int norm_scent = 500;
-        if( has_trait( trait_WEAKSCENT ) ) {
-            norm_scent = 300;
+        int temp_norm_scent = INT_MIN;
+        bool found_intensity = false;
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            if( scent_intensity ) {
+                found_intensity = true;
+                temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
+            }
         }
-        if( has_trait( trait_SMELLY ) ) {
-            norm_scent = 800;
+        if( found_intensity ) {
+            norm_scent = temp_norm_scent;
         }
-        if( has_trait( trait_SMELLY2 ) ) {
-            norm_scent = 1200;
-        }
-        // Not so much that you don't have a scent
-        // but that you smell like a plant, rather than
-        // a human. When was the last time you saw a critter
-        // attack a bluebell or an apple tree?
-        if( has_trait( trait_FLOWERS ) && !has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent -= 200;
-        }
-        // You *are* a plant.  Unless someone hunts triffids by scent,
-        // you don't smell like prey.
-        if( has_trait( trait_CHLOROMORPH ) ) {
-            norm_scent = 0;
+
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_mask = mut->scent_mask;
+            if( scent_mask ) {
+                norm_scent += *scent_mask;
+            }
         }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
@@ -7235,12 +7229,14 @@ void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
     magic.on_mutation_gain( mid, *this );
+    update_type_of_scent( mid );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
+    update_type_of_scent( mid, false );
 }
 
 void player::on_stat_change( const std::string &stat, int value )

@@ -90,6 +90,7 @@ void game::serialize( std::ostream &fout )
     json.member( "om_y", pos_om.y );
 
     json.member( "grscent", scent.serialize() );
+    json.member( "typescent", scent.serialize( true ) );
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
@@ -105,26 +106,31 @@ void game::serialize( std::ostream &fout )
     json.end_object();
 }
 
-std::string scent_map::serialize() const
+std::string scent_map::serialize( bool is_type ) const
 {
     std::stringstream rle_out;
-    int rle_lastval = -1;
-    int rle_count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( val == rle_lastval ) {
-                rle_count++;
-            } else {
-                if( rle_count ) {
-                    rle_out << rle_count << " ";
+    if( is_type ) {
+        rle_out << typescent.str();
+    } else {
+        int rle_lastval = -1;
+        int rle_count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( val == rle_lastval ) {
+                    rle_count++;
+                } else {
+                    if( rle_count ) {
+                        rle_out << rle_count << " ";
+                    }
+                    rle_out << val << " ";
+                    rle_lastval = val;
+                    rle_count = 1;
                 }
-                rle_out << val << " ";
-                rle_lastval = val;
-                rle_count = 1;
             }
         }
+        rle_out << rle_count;
     }
-    rle_out << rle_count;
+
     return rle_out.str();
 }
 
@@ -185,13 +191,14 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
+        std::string linebuff;
         std::string linebuf;
-        if( data.read( "grscent", linebuf ) ) {
+        if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
             scent.deserialize( linebuf );
+            scent.deserialize( linebuff, true );
         } else {
             scent.reset();
         }
-
         data.read( "active_monsters", *critter_tracker );
 
         JsonArray vdata = data.get_array( "stair_monsters" );
@@ -234,18 +241,24 @@ void game::unserialize( std::istream &fin )
     }
 }
 
-void scent_map::deserialize( const std::string &data )
+void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
-    int stmp = 0;
-    int count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( count == 0 ) {
-                buffer >> stmp >> count;
+    if( is_type ) {
+        std::string str;
+        buffer >> str;
+        typescent = scenttype_id( str );
+    } else {
+        int stmp = 0;
+        int count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( count == 0 ) {
+                    buffer >> stmp >> count;
+                }
+                count--;
+                val = stmp;
             }
-            count--;
-            val = stmp;
         }
     }
 }

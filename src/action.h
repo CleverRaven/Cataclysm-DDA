@@ -273,6 +273,8 @@ enum action_id : int {
     ACTION_DEBUG,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
+    /** Toggle scent type map */
+    ACTION_DISPLAY_SCENT_TYPE,
     /** Toggle debug mode */
     ACTION_TOGGLE_DEBUG_MODE,
     /** Zoom view in */

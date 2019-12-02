@@ -358,6 +358,9 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
+    optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
+    optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
     optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
@@ -512,6 +515,7 @@ void mutation_branch::check_consistency()
 {
     for( const auto &mdata : get_all() ) {
         const auto &mid = mdata.id;
+        const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -521,6 +525,9 @@ void mutation_branch::check_consistency()
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
+        }
+        if( s_id && !s_id.value().is_valid() ) {
+            debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
