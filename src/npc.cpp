@@ -2380,7 +2380,7 @@ void npc::reboot()
 {
     //The NPC got into an infinite loop, in game.cpp  -monmove() - a debugmsg just popped up
     // informing player of this.
-    // instead of destroying NPC, put them to sleep and reboot their brain.
+    // put them to sleep and reboot their brain.
     // they can be woken up by the player, and if their brain is fixed, great,
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
