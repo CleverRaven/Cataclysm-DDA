@@ -1136,6 +1136,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
         food_contained.inherit_flags( used );
 
+        for( const std::string &flag : making.flags_to_delete ) {
+            food_contained.unset_flag( flag );
+        }
+
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
         if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
