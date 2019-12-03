@@ -7044,9 +7044,8 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
 std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        float dist_to_creature;
         // Fixes circular distance range for ranged attacks
-        dist_to_creature = round( rl_dist_exact( pos(), critter.pos() ) );
+        float dist_to_creature = round( rl_dist_exact( pos(), critter.pos() ) );
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
         && sees( critter );
