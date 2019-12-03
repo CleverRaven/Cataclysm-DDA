@@ -964,7 +964,7 @@ class JsonArray
         std::vector<int> positions;
         int start;
         int index;
-        int end;
+        int end_;
         bool final_separator;
         JsonIn *jsin;
         void verify_index( int i );
@@ -972,7 +972,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }

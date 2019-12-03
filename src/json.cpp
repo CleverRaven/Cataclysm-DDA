@@ -411,7 +411,7 @@ JsonArray::JsonArray( JsonIn &j )
         positions.push_back( jsin->tell() );
         jsin->skip_value();
     }
-    end = jsin->tell();
+    end_ = jsin->tell();
     final_separator = jsin->get_ate_separator();
 }
 
@@ -421,7 +421,7 @@ JsonArray::JsonArray( const JsonArray &ja )
     start = ja.start;
     index = 0;
     positions = ja.positions;
-    end = ja.end;
+    end_ = ja.end_;
     final_separator = ja.final_separator;
 }
 
@@ -431,7 +431,7 @@ JsonArray &JsonArray::operator=( const JsonArray &ja )
     start = ja.start;
     index = 0;
     positions = ja.positions;
-    end = ja.end;
+    end_ = ja.end_;
     final_separator = ja.final_separator;
 
     return *this;
@@ -440,7 +440,7 @@ JsonArray &JsonArray::operator=( const JsonArray &ja )
 void JsonArray::finish()
 {
     if( jsin && jsin->good() ) {
-        jsin->seek( end );
+        jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
     }
 }
@@ -461,7 +461,7 @@ bool JsonArray::empty()
 std::string JsonArray::str()
 {
     if( jsin ) {
-        return jsin->substr( start, end - start );
+        return jsin->substr( start, end_ - start );
     } else {
         return "[]";
     }
