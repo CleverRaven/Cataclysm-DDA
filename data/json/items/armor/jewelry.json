@@ -18,8 +18,7 @@
   {
     "id": "bead_ear",
     "type": "ARMOR",
-    "name": "pair of beaded earrings",
-    "name_plural": "pairs of beaded earrings",
+    "name": { "str": "beaded earrings", "str_pl": "pairs of beaded earrings" },
     "description": "A simple pair of earrings made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
     "weight": "7 g",
     "volume": 0,
@@ -162,8 +161,7 @@
   {
     "id": "copper_ear",
     "type": "ARMOR",
-    "name": "pair of copper earrings",
-    "name_plural": "pairs of copper earrings",
+    "name": { "str": "copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  It's pretty heavy.  You can wear it if you like, but it won't provide any effects.",
     "weight": "50 g",
     "volume": 0,
@@ -304,8 +302,7 @@
   {
     "id": "gold_ear",
     "type": "ARMOR",
-    "name": "pair of gold earrings",
-    "name_plural": "pairs of gold earrings",
+    "name": { "str": "gold earrings", "str_pl": "pairs of gold earrings" },
     "description": "A pair of shiny gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "10 g",
     "volume": 0,
@@ -451,8 +448,7 @@
   {
     "id": "silver_ear",
     "type": "ARMOR",
-    "name": "pair of silver earrings",
-    "name_plural": "pairs of silver earrings",
+    "name": { "str": "silver earrings", "str_pl": "pairs of silver earrings" },
     "description": "A pair of beautiful silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "9 g",
     "volume": 0,
@@ -594,8 +590,7 @@
   {
     "id": "platinum_ear",
     "type": "ARMOR",
-    "name": "pair of platinum earrings",
-    "name_plural": "pairs of platinum earrings",
+    "name": { "str": "platinum earrings", "str_pl": "pairs of platinum earrings" },
     "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.  You can wear it if you like, but it won't provide any effects.",
     "weight": "15 g",
     "volume": 0,
@@ -914,8 +909,7 @@
   {
     "id": "fur_cat_ears",
     "type": "ARMOR",
-    "name": "pair of fuzzy cat ears",
-    "name_plural": "pairs of fuzzy cat ears",
+    "name": { "str": "fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
     "description": "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "20 g",
     "volume": "250 ml",
@@ -930,8 +924,7 @@
     "id": "faux_fur_cat_ears",
     "type": "ARMOR",
     "copy-from": "fur_cat_ears",
-    "name": "pair of faux fur cat ears",
-    "name_plural": "pairs of faux fur cat ears",
+    "name": { "str": "faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
     "color": "pink"
@@ -986,8 +979,7 @@
   {
     "id": "leather_cat_ears",
     "type": "ARMOR",
-    "name": "pair of leather cat ears",
-    "name_plural": "pairs of leather cat ears",
+    "name": { "str": "leather cat ears", "str_pl": "pairs of leather cat ears" },
     "description": "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "20 g",
     "volume": "250 ml",
