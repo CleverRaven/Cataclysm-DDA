@@ -79,7 +79,6 @@ class ter_furn_transform
         void load( JsonObject &jo, const std::string & );
 
         static const std::vector<ter_furn_transform> &get_all();
-        static void check_consistency();
         static void reset_all();
         bool is_valid() const;
 };
