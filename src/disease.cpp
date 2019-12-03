@@ -35,10 +35,11 @@ void disease_type::load( JsonObject &jo, const std::string & )
     assign( jo, "min_intensity", min_intensity );
     assign( jo, "max_intensity", max_intensity );
     assign( jo, "health_threshold", health_threshold );
+    assign( jo, "symptoms", symptoms );
 
-    JsonArray jsr = jo.get_array( "symptoms" );
+    JsonArray jsr = jo.get_array( "affected_bodyparts" );
     while( jsr.has_more() ) {
-        new_disease.symptoms.emplace( jsr.next_string() );
+        new_disease.affected_bodyparts.emplace( get_body_part_token( jsr.next_string() ) );
     }
 
 }
@@ -51,11 +52,9 @@ const std::vector<disease_type> &disease_type::get_all()
 void disease_type::check_disease_consistency()
 {
     for( const disease_type &dis : get_all() ) {
-        const std::set<efftype_id> &symps = dis.symptoms;
-        for( const efftype_id symp : symps ) {
-            if( !symp.is_valid() ) {
-                debugmsg( "disease_type %s has invalid efftype_id %s in symptoms", dis.id.c_str(),  symp.c_str() );
-            }
+        const efftype_id &symp = dis.symptoms;
+        if( !symp.is_valid() ) {
+            debugmsg( "disease_type %s has invalid efftype_id %s in symptoms", dis.id.c_str(),  symp.c_str() );
         }
     }
 }
