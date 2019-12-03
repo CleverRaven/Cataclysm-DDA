@@ -447,7 +447,7 @@ void JsonArray::finish()
 
 bool JsonArray::has_more() const
 {
-    return ( index >= 0 && size_t( index ) < positions.size() );
+    return index < positions.size();
 }
 size_t JsonArray::size() const
 {
@@ -467,11 +467,11 @@ std::string JsonArray::str()
     }
 }
 
-void JsonArray::verify_index( int i ) const
+void JsonArray::verify_index( const size_t i ) const
 {
     if( !jsin ) {
         throw JsonError( "tried to access empty array." );
-    } else if( i < 0 || size_t( i ) >= positions.size() ) {
+    } else if( i >= positions.size() ) {
         jsin->seek( start );
         std::stringstream err;
         err << "bad index value: " << i;
@@ -531,42 +531,42 @@ void JsonArray::skip_value()
 
 /* static access */
 
-bool JsonArray::get_bool( int i ) const
+bool JsonArray::get_bool( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_bool();
 }
 
-int JsonArray::get_int( int i ) const
+int JsonArray::get_int( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_int();
 }
 
-double JsonArray::get_float( int i ) const
+double JsonArray::get_float( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_float();
 }
 
-std::string JsonArray::get_string( int i ) const
+std::string JsonArray::get_string( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_string();
 }
 
-JsonArray JsonArray::get_array( int i ) const
+JsonArray JsonArray::get_array( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->get_array();
 }
 
-JsonObject JsonArray::get_object( int i ) const
+JsonObject JsonArray::get_object( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
@@ -640,42 +640,42 @@ bool JsonArray::test_object() const
 
 /* random-access type checking */
 
-bool JsonArray::has_null( int i ) const
+bool JsonArray::has_null( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_null();
 }
 
-bool JsonArray::has_bool( int i ) const
+bool JsonArray::has_bool( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_bool();
 }
 
-bool JsonArray::has_number( int i ) const
+bool JsonArray::has_number( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_number();
 }
 
-bool JsonArray::has_string( int i ) const
+bool JsonArray::has_string( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_string();
 }
 
-bool JsonArray::has_array( int i ) const
+bool JsonArray::has_array( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_array();
 }
 
-bool JsonArray::has_object( int i ) const
+bool JsonArray::has_object( const size_t i ) const
 {
     verify_index( i );
     jsin->seek( positions[i] );

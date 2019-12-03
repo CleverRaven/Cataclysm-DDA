@@ -961,13 +961,13 @@ class JsonObject
 class JsonArray
 {
     private:
-        std::vector<int> positions;
+        std::vector<size_t> positions;
         int start;
-        int index;
+        size_t index;
         int end_;
         bool final_separator;
         JsonIn *jsin;
-        void verify_index( int i ) const;
+        void verify_index( size_t i ) const;
 
     public:
         JsonArray( JsonIn &jsin );
@@ -997,16 +997,16 @@ class JsonArray
         void skip_value(); // ignore whatever is next
 
         // static access
-        bool get_bool( int index ) const;
-        int get_int( int index ) const;
-        double get_float( int index ) const;
-        std::string get_string( int index ) const;
-        JsonArray get_array( int index ) const;
-        JsonObject get_object( int index ) const;
+        bool get_bool( size_t index ) const;
+        int get_int( size_t index ) const;
+        double get_float( size_t index ) const;
+        std::string get_string( size_t index ) const;
+        JsonArray get_array( size_t index ) const;
+        JsonObject get_object( size_t index ) const;
 
         // get_tags returns empty set if none found
         template <typename T = std::string>
-        std::set<T> get_tags( int index ) const;
+        std::set<T> get_tags( size_t index ) const;
 
         // iterative type checking
         bool test_null() const;
@@ -1024,18 +1024,18 @@ class JsonArray
         bool test_object() const;
 
         // random-access type checking
-        bool has_null( int index ) const;
-        bool has_bool( int index ) const;
-        bool has_number( int index ) const;
-        bool has_int( int index ) const {
+        bool has_null( size_t index ) const;
+        bool has_bool( size_t index ) const;
+        bool has_number( size_t index ) const;
+        bool has_int( size_t index ) const {
             return has_number( index );
         }
-        bool has_float( int index ) const {
+        bool has_float( size_t index ) const {
             return has_number( index );
         }
-        bool has_string( int index ) const;
-        bool has_array( int index ) const;
-        bool has_object( int index ) const;
+        bool has_string( size_t index ) const;
+        bool has_array( size_t index ) const;
+        bool has_object( size_t index ) const;
 
         // iteratively read values by reference
         template <typename T> bool read_next( T &t ) {
@@ -1044,7 +1044,7 @@ class JsonArray
             return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read( int i, T &t ) const {
+        template <typename T> bool read( size_t i, T &t ) const {
             verify_index( i );
             jsin->seek( positions[i] );
             return jsin->read( t );
@@ -1052,7 +1052,7 @@ class JsonArray
 };
 
 template <typename T>
-std::set<T> JsonArray::get_tags( int index ) const
+std::set<T> JsonArray::get_tags( const size_t index ) const
 {
     std::set<T> res;
 
