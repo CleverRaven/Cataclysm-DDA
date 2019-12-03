@@ -16,7 +16,7 @@
       [ [ "salt", 12 ] ],
       [ [ "sugar", 24 ] ],
       [ [ "chocolate", 3 ] ],
-      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ], [ "butter", 2 ] ],
+      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ], [ "any_butter", 2, "LIST" ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ]
@@ -5665,7 +5665,7 @@
     "book_learn": [ [ "mag_glam", 1 ] ],
     "components": [
       [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "wastebread", 1 ], [ "sourdough_bread", 1 ] ],
-      [ [ "butter", 4 ], [ "ghee", 4 ] ],
+      [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ],
       [ [ "sprinkles", 3 ] ]
     ]
   },
@@ -8273,10 +8273,9 @@
       [
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
-        [ "butter", 1 ],
+        [ "any_butter", 1, "LIST" ],
         [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ],
-        [ "ghee", 1 ]
+        [ "edible_tallow_lard", 1, "LIST" ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -8299,10 +8298,9 @@
       [
         [ "cooking_oil", 1 ],
         [ "cooking_oil2", 1 ],
-        [ "butter", 1 ],
+        [ "any_butter", 1, "LIST" ],
         [ "edible_fat", 1, "LIST" ],
-        [ "edible_tallow_lard", 1, "LIST" ],
-        [ "ghee", 1 ]
+        [ "edible_tallow_lard", 1, "LIST" ]
       ]
     ]
   }
