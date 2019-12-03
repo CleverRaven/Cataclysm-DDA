@@ -150,8 +150,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     if( m.is_dead_state() ) {
         return;
     }
+
+    const player *const foe = dynamic_cast<player *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
-    if( dynamic_cast<player *>( source )->weapon.gun_noise().volume < 6 ) {
+    if( foe != nullptr && foe->weapon.gun_noise().volume < 6 ) {
         return;
     }
 
