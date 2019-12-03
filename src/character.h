@@ -21,6 +21,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "creature.h"
+#include "disease.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "pimpl.h"
@@ -442,6 +443,9 @@ class Character : public Creature, public visitable<Character>
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
+
+        /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
+        void expose_to_disease( const diseasetype_id dis_type );
         /**
          * Handles end-of-turn processing.
          */
