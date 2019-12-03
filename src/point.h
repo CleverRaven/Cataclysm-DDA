@@ -318,7 +318,7 @@ namespace std
 {
 template <>
 struct hash<point> {
-    std::size_t operator()( const point &k ) const {
+    std::size_t operator()( const point &k ) const noexcept {
         constexpr uint64_t a = 2862933555777941757;
         size_t result = k.y;
         result *= a;
@@ -334,7 +334,7 @@ namespace std
 {
 template <>
 struct hash<tripoint> {
-    std::size_t operator()( const tripoint &k ) const {
+    std::size_t operator()( const tripoint &k ) const noexcept {
         constexpr uint64_t a = 2862933555777941757;
         size_t result = k.z;
         result *= a;
