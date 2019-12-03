@@ -953,7 +953,7 @@ bool player::eat( item &food, bool force )
     if( !will_vomit && !has_bionic( bio_digestion ) ) {
         const int contamination = food.get_comestible()->contamination;
         if( rng( 1, 100 ) <= contamination ) {
-            add_effect( effect_foodpoison, 1_days * contamination / 100.0 );
+            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     }
 
