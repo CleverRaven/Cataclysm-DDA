@@ -337,7 +337,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
 static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
-        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, const int, const bool )>
+        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
         aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
