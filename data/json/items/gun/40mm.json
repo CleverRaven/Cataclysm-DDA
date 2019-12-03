@@ -201,7 +201,7 @@
     "durability": 10,
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
-    "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
+    "clip_size": 16,
     "flags": [ "MOUNTED_GUN" ]
   }
 ]
