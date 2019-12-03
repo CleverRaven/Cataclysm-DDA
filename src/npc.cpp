@@ -231,9 +231,8 @@ void npc_template::load( JsonObject &jsobj )
     if( jsobj.has_string( "mission_offered" ) ) {
         guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
     } else if( jsobj.has_array( "mission_offered" ) ) {
-        JsonArray ja = jsobj.get_array( "mission_offered" );
-        while( ja.has_more() ) {
-            guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
+        for( const std::string &line : jsobj.get_array( "mission_offered" ) ) {
+            guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );

@@ -71,12 +71,10 @@ void quality::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
-    JsonArray arr = jo.get_array( "usages" );
-    while( arr.has_more() ) {
-        auto lvl = arr.next_array();
-        auto funcs = lvl.get_array( 1 );
-        while( funcs.has_more() ) {
-            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+    for( JsonArray levels : jo.get_array( "usages" ) ) {
+        const int level = levels.get_int( 0 );
+        for( const std::string &line : levels.get_array( 1 ) ) {
+            usages.emplace_back( level, line );
         }
     }
 }

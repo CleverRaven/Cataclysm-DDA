@@ -686,9 +686,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_array( "scents_tracked" ) ) {
-        JsonArray jar = jo.get_array( "scents_tracked" );
-        while( jar.has_more() ) {
-            scents_tracked.emplace( jar.next_string() );
+        for( const std::string &line : jo.get_array( "scents_tracked" ) ) {
+            scents_tracked.emplace( line );
         }
     }
 
@@ -783,9 +782,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "baby_flags" ) ) {
         // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
         baby_flags.clear();
-        JsonArray baby_tags = jo.get_array( "baby_flags" );
-        while( baby_tags.has_more() ) {
-            baby_flags.push_back( baby_tags.next_string() );
+        for( const std::string &line : jo.get_array( "baby_flags" ) ) {
+            baby_flags.push_back( line );
         }
     }
 

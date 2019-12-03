@@ -888,6 +888,8 @@ class JsonObject
         std::string line_number(); // for occasional use only
 };
 
+class JsonArrayValueRef;
+
 /* JsonArray
  * =========
  *
@@ -961,6 +963,8 @@ class JsonObject
 class JsonArray
 {
     private:
+        friend JsonArrayValueRef;
+
         std::vector<size_t> positions;
         int start;
         size_t index;
@@ -1008,6 +1012,11 @@ class JsonArray
         template <typename T = std::string>
         std::set<T> get_tags( size_t index ) const;
 
+        class const_iterator;
+
+        const_iterator begin() const;
+        const_iterator end() const;
+
         // iterative type checking
         bool test_null() const;
         bool test_bool() const;
@@ -1051,6 +1060,79 @@ class JsonArray
         }
 };
 
+class JsonArrayValueRef
+{
+    private:
+        friend JsonArray::const_iterator;
+
+        JsonIn &jsin_;
+        int pos_;
+
+        JsonArrayValueRef( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
+        JsonIn &seek() const;
+
+    public:
+        operator std::string() const {
+            return seek().get_string();
+        }
+        operator int() const {
+            return seek().get_int();
+        }
+        operator bool() const {
+            return seek().get_bool();
+        }
+        operator double() const {
+            return seek().get_float();
+        }
+        operator JsonObject() const {
+            return seek().get_object();
+        }
+        operator JsonArray() const {
+            return seek().get_array();
+        }
+        template<typename T>
+        bool read( T &t ) const {
+            return seek().read( t );
+        }
+};
+
+class JsonArray::const_iterator
+{
+    private:
+        JsonArray array_;
+        size_t index_;
+
+    public:
+        const_iterator( const JsonArray &array, size_t index ) : array_( array ), index_( index ) { }
+
+        const_iterator &operator++() {
+            index_++;
+            return *this;
+        }
+        JsonArrayValueRef operator*() const {
+            array_.verify_index( index_ );
+            return JsonArrayValueRef( *array_.jsin, array_.positions[index_] );
+        }
+
+        friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
+            return lhs.index_ == rhs.index_;
+        }
+        friend bool operator!=( const const_iterator &lhs, const const_iterator &rhs ) {
+            return !operator==( lhs, rhs );
+        }
+};
+
+inline JsonArray::const_iterator JsonArray::begin() const
+{
+    return const_iterator( *this, 0 );
+}
+
+inline JsonArray::const_iterator JsonArray::end() const
+{
+    return const_iterator( *this, size() );
+}
+
 template <typename T>
 std::set<T> JsonArray::get_tags( const size_t index ) const
 {
@@ -1065,9 +1147,8 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
         return res;
     }
 
-    JsonArray jsarr = jsin->get_array();
-    while( jsarr.has_more() ) {
-        res.insert( T( jsarr.next_string() ) );
+    for( const std::string &line : jsin->get_array() ) {
+        res.insert( T( line ) );
     }
 
     return res;
@@ -1091,9 +1172,8 @@ std::set<T> JsonObject::get_tags( const std::string &name )
     }
 
     // otherwise assume it's an array and error if it isn't.
-    JsonArray jsarr = jsin->get_array();
-    while( jsarr.has_more() ) {
-        res.insert( T( jsarr.next_string() ) );
+    for( const std::string &line : jsin->get_array() ) {
+        res.insert( T( line ) );
     }
 
     return res;
