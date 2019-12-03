@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "desolatebarn_palette",
     "terrain": {
-      ".": [ [ "t_region_groundcover", 50 ], [ "t_region_shrub", 5 ], [ "t_region_tree", 4 ] ],
+      ".": [ [ "t_region_groundcover", 50 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
       "#": "t_region_shrub",
       "&": "t_wall_wood_broken",
       "+": [ [ "t_door_c", 2 ], [ "t_door_o", 2 ], "t_door_boarded", "t_door_boarded_damaged" ],
