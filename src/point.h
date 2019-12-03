@@ -71,7 +71,8 @@ struct point {
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
-     * by @param dim. By default rotates around the origin (0, 0).
+     * by @param dim
+     * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
         assert( turns >= 0 );

@@ -403,8 +403,8 @@ class monster : public Creature
         /**
          * Makes monster react to heard sound
          *
-         * @param from Location of the sound source
-         * @param source_volume Volume at the center of the sound source
+         * @param source Location of the sound source
+         * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
         void hear_sound( const tripoint &source, int vol, int distance );
