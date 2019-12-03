@@ -482,7 +482,6 @@ void Character::suffer_from_schizophrenia()
 
         add_msg_if_player( m_bad, "%s", str );
         drop( get_item_position( &weapon ), pos() );
-        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         return;
     }
     // Talk to self
