@@ -1001,7 +1001,9 @@
         [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
+          "light_disposable_cell",
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
@@ -1446,7 +1448,12 @@
     "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
     "magazine_well": 2
   },
   {
@@ -1988,7 +1995,9 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
     ],
@@ -6819,8 +6828,10 @@
         [
           "light_battery_cell",
           "light_plus_battery_cell",
-          "light_minus_battery_cell",
+          "light_disposable_cell",
           "light_atomic_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
       ]
