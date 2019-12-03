@@ -11,6 +11,7 @@
     "ident": "speech",
     "name": "speaking",
     "description": "Your skill in speaking to other people.  Covers ability in boasting, flattery, threats, persuasion, lies, and other facets of interpersonal communication.  Works best in conjunction with a high level of intelligence.",
+    "companion_survival_rank_factor": 1,
     "display_category": "display_social"
   },
   {
@@ -25,6 +26,8 @@
     "ident": "firstaid",
     "name": "first aid",
     "description": "Your skill in effecting emergency medical treatment.  Higher levels allow better use of medicines and items like bandages and first aid kits, and reduce the failure and complication rates of medical procedures.",
+    "companion_survival_rank_factor": 1,
+    "companion_industry_rank_factor": 1,
     "display_category": "display_interaction"
   },
   {
@@ -32,6 +35,7 @@
     "ident": "mechanics",
     "name": "mechanics",
     "description": "Your skill in engineering, maintaining and repairing vehicles and other mechanical systems.  This skill covers the craft of items with complex parts, and plays a role in the installation of bionic equipment.",
+    "companion_industry_rank_factor": 1,
     "display_category": "display_interaction"
   },
   {
@@ -39,6 +43,7 @@
     "ident": "traps",
     "name": "trapping",
     "description": "Your skill in creating, setting, finding and disarming traps safely and effectively.  This skill does not affect the evasion of traps that are triggered.",
+    "companion_survival_rank_factor": 1,
     "display_category": "display_interaction"
   },
   {
@@ -60,6 +65,7 @@
     "ident": "fabrication",
     "name": "fabrication",
     "description": "Your skill in working with raw materials and shaping them into useful objects.  This skill plays an important role in the crafting of many objects.",
+    "companion_industry_rank_factor": 1,
     "display_category": "display_crafting"
   },
   {
@@ -67,6 +73,7 @@
     "ident": "cooking",
     "name": "cooking",
     "description": "Your skill in combining food ingredients to make other, tastier food items.  It may also be used in certain chemical mixtures and other, more esoteric tasks.",
+    "companion_industry_rank_factor": 1,
     "display_category": "display_crafting"
   },
   {
@@ -74,6 +81,7 @@
     "ident": "tailor",
     "name": "tailoring",
     "description": "Your skill in the craft and repair of clothing, bags, blankets and other textiles.  Affects knitting, sewing, stitching, weaving, and nearly anything else involving a needle and thread.",
+    "companion_industry_rank_factor": 1,
     "display_category": "display_crafting"
   },
   {
@@ -81,6 +89,7 @@
     "ident": "survival",
     "name": "survival",
     "description": "Your skill in surviving the wilderness, and in crafting various basic survival items.  This also covers your ability to skin and butcher animals for meat and hides.",
+    "companion_survival_rank_factor": 1,
     "display_category": "display_crafting"
   },
   {
@@ -88,6 +97,7 @@
     "ident": "electronics",
     "name": "electronics",
     "description": "Your skill in dealing with electrical systems, used in the craft and repair of objects with electrical components.  This skill is an important part of installing and managing bionic implants.",
+    "companion_industry_rank_factor": 1,
     "display_category": "display_crafting"
   },
   {
@@ -96,6 +106,8 @@
     "name": "archery",
     "description": "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
+    "companion_survival_rank_factor": 1,
     "display_category": "display_ranged"
   },
   {
@@ -160,6 +172,7 @@
     "name": "melee",
     "description": "Your skill and finesse in personal combat, both with and without a weapon.  Higher levels can significantly increase the accuracy and effectiveness of your physical attacks.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
     "display_category": "display_melee"
   },
   {
@@ -168,6 +181,7 @@
     "name": "bashing weapons",
     "description": "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles.  Skill increases damage, and higher levels will improve the accuracy of an attack.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
     "display_category": "display_melee"
   },
   {
@@ -176,6 +190,7 @@
     "name": "cutting weapons",
     "description": "Your skill in fighting with weaponry designed to cut, hack and slash an opponent.  Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
     "display_category": "display_melee"
   },
   {
@@ -191,6 +206,7 @@
     "name": "piercing weapons",
     "description": "Your skill in fighting with knives, spears and other such stabbing implements.  Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
     "display_category": "display_melee"
   },
   {
@@ -199,6 +215,8 @@
     "name": "unarmed combat",
     "description": "Your skill in hand-to-hand fighting.  For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
     "tags": [ "combat_skill" ],
+    "companion_combat_rank_factor": 1,
+    "companion_survival_rank_factor": 1,
     "display_category": "display_melee"
   },
   {

@@ -30,6 +30,9 @@ class Skill
         skill_displayType_id _display_type;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
+        int _companion_combat_rank_factor;
+        int _companion_survival_rank_factor;
+        int _companion_industry_rank_factor;
     public:
         static std::vector<Skill> skills;
         static void load_skill( JsonObject &jsobj );
@@ -58,6 +61,15 @@ class Skill
         }
         skill_displayType_id display_category() const {
             return _display_type;
+        }
+        int companion_combat_rank_factor() const {
+            return _companion_combat_rank_factor;
+        }
+        int companion_survival_rank_factor() const {
+            return _companion_survival_rank_factor;
+        }
+        int companion_industry_rank_factor() const {
+            return _companion_industry_rank_factor;
         }
 
         bool operator==( const Skill &b ) const {
