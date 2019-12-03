@@ -16,8 +16,10 @@
 #include "translations.h"
 #include "generic_factory.h"
 
-using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitGroupMap =
+    std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
+using trait_reader = auto_flags_reader<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
@@ -356,6 +358,9 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
+    optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
+    optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
     optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
@@ -380,14 +385,14 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    optional( jo, was_loaded, "prereqs", prereqs );
-    optional( jo, was_loaded, "prereqs2", prereqs2 );
-    optional( jo, was_loaded, "threshreq", threshreq );
-    optional( jo, was_loaded, "cancels", cancels );
-    optional( jo, was_loaded, "changes_to", replacements );
-    optional( jo, was_loaded, "leads_to", additions );
-    optional( jo, was_loaded, "flags", flags );
-    optional( jo, was_loaded, "types", types );
+    optional( jo, was_loaded, "prereqs", prereqs, trait_reader{} );
+    optional( jo, was_loaded, "prereqs2", prereqs2, trait_reader{} );
+    optional( jo, was_loaded, "threshreq", threshreq, trait_reader{} );
+    optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
+    optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
+    optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
+    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "types", types, string_reader{} );
 
     JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
     while( jsar.has_more() ) {
@@ -510,6 +515,7 @@ void mutation_branch::check_consistency()
 {
     for( const auto &mdata : get_all() ) {
         const auto &mid = mdata.id;
+        const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -519,6 +525,9 @@ void mutation_branch::check_consistency()
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
             }
+        }
+        if( s_id && !s_id.value().is_valid() ) {
+            debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
@@ -563,7 +572,7 @@ void mutation_branch::reset_all()
     trait_blacklist.clear();
     trait_groups.clear();
     trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
-                          std::make_shared<Trait_group_collection>( 100 ) );
+                          make_shared_fast<Trait_group_collection>( 100 ) );
 }
 
 std::vector<std::string> dream::messages() const
@@ -639,8 +648,8 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
-                   ? trait_groups.emplace( gid, std::make_shared<Trait_group_collection>( 100 ) )
-                   : trait_groups.emplace( gid, std::make_shared<Trait_group_distribution>( 100 ) ) ).first;
+                   ? trait_groups.emplace( gid, make_shared_fast<Trait_group_collection>( 100 ) )
+                   : trait_groups.emplace( gid, make_shared_fast<Trait_group_distribution>( 100 ) ) ).first;
     // Evidently, making the collection/distribution separation better has made the code for this check worse.
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
@@ -773,7 +782,8 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     tg.add_entry( std::move( ptr ) );
 }
 
-std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )
+shared_ptr_fast<Trait_group> mutation_branch::get_group( const
+        trait_group::Trait_group_tag &gid )
 {
     auto found = trait_groups.find( gid );
     return found != trait_groups.end() ? found->second : nullptr;

@@ -230,24 +230,13 @@ void init_crash_handlers()
 
 extern "C" {
 
-    static const char *get_crash_log_file_name()
-    {
-        auto crash_it = FILENAMES.find( "crash" );
-        if( crash_it != FILENAMES.end() ) {
-            return crash_it->second.c_str();
-        }
-        // If we failed to get the FILENAMES entry then just write to cwd,
-        // since we don't know whether any other directory would exist.
-        return "crash.log";
-    }
-
     static void log_crash( const char *type, const char *msg )
     {
         // This implementation is not technically async-signal-safe for many
         // reasons, including the memory allocations and the SDL message box.
         // But it should usually work in practice, unless for example the
         // program segfaults inside malloc.
-        const char *crash_log_file = get_crash_log_file_name();
+        const std::string crash_log_file = PATH_INFO::crash();
         std::ostringstream log_text;
         log_text << "The program has crashed."
                  << "\nSee the log file for a stack trace."
@@ -264,7 +253,7 @@ extern "C" {
         log_text << "\nSTACK TRACE:\n";
         debug_write_backtrace( log_text );
         std::cerr << log_text.str();
-        FILE *file = fopen( crash_log_file, "w" );
+        FILE *file = fopen( crash_log_file.c_str(), "w" );
         if( file ) {
             fwrite( log_text.str().data(), 1, log_text.str().size(), file );
             fclose( file );

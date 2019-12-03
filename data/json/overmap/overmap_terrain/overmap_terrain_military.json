@@ -220,7 +220,7 @@
     "id": "bunker",
     "name": "military bunker",
     "sym": "B",
-    "color": "dark_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
@@ -229,7 +229,7 @@
     "id": "bunker_basement",
     "name": "military bunker",
     "sym": "B",
-    "color": "dark_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
@@ -238,7 +238,7 @@
     "id": "outpost",
     "name": "military outpost",
     "sym": "M",
-    "color": "dark_gray",
+    "color": "red",
     "see_cost": 2,
     "extras": "build",
     "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
@@ -248,7 +248,7 @@
     "id": "silo",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -257,7 +257,7 @@
     "id": "silo_1",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -266,7 +266,7 @@
     "id": "silo_2",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -275,7 +275,7 @@
     "id": "silo_3",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -284,7 +284,7 @@
     "id": "silo_4",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -293,7 +293,7 @@
     "id": "silo_finale",
     "name": "missile silo",
     "sym": "0",
-    "color": "light_gray",
+    "color": "red",
     "see_cost": 2,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },

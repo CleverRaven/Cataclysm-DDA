@@ -247,7 +247,7 @@
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -255,7 +255,8 @@
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
     "material": "bean",
-    "volume": "250 ml",
+    "volume": "500 ml",
+    "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
   },
@@ -379,7 +380,7 @@
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -396,7 +397,7 @@
     "price": 150,
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -455,7 +456,7 @@
     "price": 900,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "calories": 23,
     "charges": 20,
     "fun": -5
@@ -511,7 +512,8 @@
     "material": "tomato",
     "volume": "250 ml",
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -587,8 +589,8 @@
     "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
     "weight": "554 g",
     "spoils_in": "1 day",
-    "container": "can_food",
-    "volume": "250 ml",
+    "container": "can_medium",
+    "volume": "500 ml",
     "price": 300,
     "to_hit": -5,
     "material": "flesh",

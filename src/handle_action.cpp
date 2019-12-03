@@ -1868,7 +1868,7 @@ bool game::handle_action()
             case ACTION_USE:
                 // Shell-users are presumed to be able to mess with their inventories, etc
                 // while in the shell.  Eating, gear-changing, and item use are OK.
-                use_item();
+                avatar_action::use_item( u );
                 break;
 
             case ACTION_USE_WIELDED:
@@ -2323,6 +2323,13 @@ bool game::handle_action()
                 break;
 
             case ACTION_DISPLAY_SCENT:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_scent();
+                break;
+
+            case ACTION_DISPLAY_SCENT_TYPE:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }

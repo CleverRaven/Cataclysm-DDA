@@ -86,8 +86,6 @@ const efftype_id effect_winded( "winded" );
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
 //
-// Point dxs for the adjacent cardinal tiles.
-point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
@@ -204,7 +202,7 @@ units::volume vehicle_stack::max_volume() const
 {
     if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, 10000000_ml );
+        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -1681,8 +1679,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
         discovered.pop_front();
         auto current = current_part.mount;
 
-        for( int i = 0; i < 4; i++ ) {
-            point next = current + vehicles::cardinal_d[i];
+        for( const point &offset : four_adjacent_offsets ) {
+            point next = current + offset;
 
             if( next == target ) {
                 //Success!
@@ -1812,8 +1810,9 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
         partial_matches.assign( 4, veh_partial_match );
         for( auto rack_part : this_bike_rack ) {
             tripoint rack_pos = global_part_pos3( rack_part );
-            for( int i = 0; i < 4; i++ ) {
-                tripoint search_pos( rack_pos + vehicles::cardinal_d[ i ] );
+            int i = 0;
+            for( const point &offset : four_cardinal_directions ) {
+                tripoint search_pos( rack_pos + offset );
                 test_veh = veh_pointer_or_null( g->m.veh_at( search_pos ) );
                 if( test_veh == nullptr || test_veh == this ) {
                     continue;
@@ -1825,6 +1824,7 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
                 if( partial_matches[ i ] == test_veh->get_points() ) {
                     return merge_rackable_vehicle( test_veh, this_bike_rack );
                 }
+                ++i;
             }
         }
     }
@@ -1897,18 +1897,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             // There's no mathematical transform from global pos3 to vehicle mount, so search for the
             // carry part in global pos3 after translating
             point carry_mount;
-            for( j = 0; j < 4; j++ ) {
-                carry_mount = parts[ rack_part ].mount + vehicles::cardinal_d[ j ];
+            for( const point &offset : four_cardinal_directions ) {
+                carry_mount = parts[ rack_part ].mount + offset;
                 tripoint possible_pos = mount_to_tripoint( carry_mount );
                 if( possible_pos == carry_pos ) {
                     break;
                 }
+                ++j;
             }
 
             // We checked the adjacent points from the mounting rack and managed
             // to find the current structure part were looking for nearby. If the part was not
             // near this particular rack, we would look at each in the list of rack_parts
-            const bool carry_part_next_to_this_rack = j < 4;
+            const bool carry_part_next_to_this_rack = j < four_adjacent_offsets.size();
             if( carry_part_next_to_this_rack ) {
                 mapping carry_map;
                 point old_mount = carry_veh->parts[ carry_part ].mount;
@@ -2289,8 +2290,8 @@ bool vehicle::find_and_split_vehicles( int exclude )
                 veh_parts.push_back( p );
             }
             checked_parts.insert( test_part );
-            for( size_t i = 0; i < 4; i++ ) {
-                const point dp = parts[test_part].mount + vehicles::cardinal_d[ i ];
+            for( const point &offset : four_adjacent_offsets ) {
+                const point dp = parts[test_part].mount + offset;
                 std::vector<int> all_neighbor_parts = parts_at_relative( dp, true );
                 int neighbor_struct_part = -1;
                 for( int p : all_neighbor_parts ) {
@@ -5645,11 +5646,14 @@ void vehicle::refresh_insides()
             continue;
         }
 
-        parts[p].inside = true; // inside if not otherwise
-        for( int i = 0; i < 4; i++ ) { // let's check four neighbor parts
-            point near_mount = parts[ p ].mount + vehicles::cardinal_d[ i ];
+        // inside if not otherwise
+        parts[p].inside = true;
+        // let's check four neighbor parts
+        for( const point &offset : four_adjacent_offsets ) {
+            point near_mount = parts[ p ].mount + offset;
             std::vector<int> parts_n3ar = parts_at_relative( near_mount, true );
-            bool cover = false; // if we aren't covered from sides, the roof at p won't save us
+            // if we aren't covered from sides, the roof at p won't save us
+            bool cover = false;
             for( auto &j : parts_n3ar ) {
                 // another roof -- cover
                 if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
@@ -5658,7 +5662,8 @@ void vehicle::refresh_insides()
                 } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
                     if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
-                        continue; // door and it's open -- can't cover
+                        // door and it's open -- can't cover
+                        continue;
                     }
                     cover = true;
                     break;
@@ -6325,11 +6330,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
-        }
-
-        if( vp.part().has_flag( vehicle_part::animal_flag ) ) {
-            std::int64_t animal_mass = vp.part().base.get_var( "weight", 0 );
-            m_part += units::from_gram( animal_mass );
         }
 
         if( use_precalc ) {

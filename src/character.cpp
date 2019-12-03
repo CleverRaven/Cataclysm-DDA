@@ -42,6 +42,7 @@
 #include "overlay_ordering.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "scent_map.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -242,6 +243,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
     healthy_calories = 55000;
@@ -546,7 +548,7 @@ player_activity Character::get_destination_activity() const
 void Character::mount_creature( monster &z )
 {
     tripoint pnt = z.pos();
-    std::shared_ptr<monster> mons = g->shared_from( z );
+    shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
@@ -1027,8 +1029,6 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
-
-    check_item_encumbrance_flag();
 }
 
 void Character::recalc_hp()
@@ -2040,13 +2040,13 @@ units::volume Character::volume_capacity_reduced_by(
         }
     }
     if( has_bionic( bionic_id( "bio_storage" ) ) ) {
-        ret += 2000_ml;
+        ret += 2_liter;
     }
     if( has_trait( trait_SHELL ) ) {
-        ret += 4000_ml;
+        ret += 4_liter;
     }
     if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
-        ret += 6000_ml;
+        ret += 6_liter;
     }
     if( has_trait( trait_PACKMULE ) ) {
         ret = ret * 1.4;
@@ -4376,7 +4376,7 @@ int Character::throw_range( const item &it ) const
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
-    ret -= tmp.volume() / 1000_ml;
+    ret -= tmp.volume() / 1_liter;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
@@ -5193,7 +5193,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -5205,6 +5205,21 @@ void Character::burn_move_stamina( int moves )
             mod_pain( 1 );
         }
     }
+}
+
+float Character::stamina_move_cost_modifier() const
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+    if( move_mode == CMM_RUN && get_stamina() > 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        stamina_modifier *= 2.0;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        stamina_modifier *= 0.5;
+    }
+    return stamina_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -5249,7 +5264,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns / stamina_move_cost_modifier() ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
@@ -5440,7 +5455,6 @@ void Character::cough( bool harmful, int loudness )
 
     add_effect( effect_recently_coughed, 5_minutes );
 }
-
 
 void Character::wake_up()
 {
@@ -6093,8 +6107,10 @@ void Character::heal( body_part healed, int dam )
 {
     hp_part healpart;
     switch( healed ) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
+        case bp_eyes:
+        // Fall through to head damage
+        case bp_mouth:
+        // Fall through to head damage
         case bp_head:
             healpart = hp_head;
             break;
@@ -6220,6 +6236,44 @@ bool Character::crossed_threshold() const
         }
     }
     return false;
+}
+
+void Character::update_type_of_scent( bool init )
+{
+    scenttype_id new_scent = scenttype_id( "sc_human" );
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut.obj().scent_typeid ) {
+            new_scent = mut.obj().scent_typeid.value();
+        }
+    }
+
+    if( !init && new_scent != get_type_of_scent() ) {
+        g->scent.reset();
+    }
+    set_type_of_scent( new_scent );
+}
+
+void Character::update_type_of_scent( trait_id mut, bool gain )
+{
+    const cata::optional<scenttype_id> &mut_scent = mut->scent_typeid;
+    if( mut_scent ) {
+        if( gain && mut_scent.value() != get_type_of_scent() ) {
+            set_type_of_scent( mut_scent.value() );
+            g->scent.reset();
+        } else {
+            update_type_of_scent();
+        }
+    }
+}
+
+void Character::set_type_of_scent( scenttype_id id )
+{
+    type_of_scent = id;
+}
+
+scenttype_id Character::get_type_of_scent() const
+{
+    return type_of_scent;
 }
 
 void Character::spores()
@@ -6595,7 +6649,6 @@ void Character::check_and_recover_morale()
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
     }
 }
-
 
 void Character::start_hauling()
 {

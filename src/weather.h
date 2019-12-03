@@ -86,10 +86,14 @@ weather_animation_t get_weather_animation( weather_type type );
  * @see game::get_player_input
  */
 struct weather_printable {
-    weather_type wtype; //!< Weather type in use.
-    std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
-    nc_color colGlyph; //!< Color to draw glyph this animation frame.
-    char cGlyph; //!< Glyph to draw this animation frame.
+    //!< Weather type in use.
+    weather_type wtype;
+    //!< Coordinates targeted for droplets.
+    std::vector<std::pair<int, int> > vdrops;
+    //!< Color to draw glyph this animation frame.
+    nc_color colGlyph;
+    //!< Glyph to draw this animation frame.
+    char cGlyph;
 };
 
 /**
@@ -104,13 +108,15 @@ enum sun_intensity : int {
     high
 };
 
-void none();        //!< Fallback weather.
+//!< Fallback weather.
+void none();
 void glare( sun_intensity );
 void thunder();
 void lightning();
 void light_acid();
 void acid();
-void flurry();      //!< Currently flurries have no additional effects.
+//!< Currently flurries have no additional effects.
+void flurry();
 void snow();
 void sunny();
 void snowstorm();

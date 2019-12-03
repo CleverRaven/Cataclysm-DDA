@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
+#include "effect.h"
 #include "enums.h"
 #include "type_id.h"
 #include "string_id.h"
@@ -23,13 +24,34 @@ class JsonObject;
 enum phase_id : int;
 enum body_part : int;
 
-struct field_effect_data {
+struct field_effect {
     efftype_id id;
-    time_duration min_duration;
-    time_duration max_duration;
-    int intensity;
-    body_part bp;
-    bool inside_immune;
+    time_duration min_duration = 0_seconds;
+    time_duration max_duration = 0_seconds;
+    int intensity = 0;
+    body_part bp = num_bp;
+    bool is_environmental = true;
+    bool immune_in_vehicle  = false;
+    bool immune_inside_vehicle  = false;
+    bool immune_outside_vehicle = false;
+    int chance_in_vehicle = 0;
+    int chance_inside_vehicle = 0;
+    int chance_outside_vehicle = 0;
+    game_message_type env_message_type = m_neutral;
+    translation message;
+    translation message_npc;
+    time_duration get_duration() const {
+        return rng( min_duration, max_duration );
+    }
+    std::string get_message() const {
+        return message.translated();
+    }
+    std::string get_message_npc() const {
+        return message_npc.translated();
+    }
+    effect get_effect( const time_point &start_time = calendar::turn ) const {
+        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
+    }
 };
 
 struct field_intensity_level {
@@ -54,7 +76,7 @@ struct field_intensity_level {
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
-    field_effect_data field_effect;
+    std::vector<field_effect> field_effects;
 };
 
 struct field_type {

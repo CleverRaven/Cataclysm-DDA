@@ -42,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = false;
+static const holiday current_holiday = holiday::thanksgiving;
 
 void main_menu::on_move() const
 {
@@ -142,28 +142,57 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
-    if( halloween_theme ) {
-        fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
-        fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
-                             25, 0, c_white, halloween_graves() );
+    switch( current_holiday ) {
+        case holiday::new_year:
+            break;
+        case holiday::easter:
+            break;
+        case holiday::halloween:
+            fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+            fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
+                                 25, 0, c_white, halloween_graves() );
+            break;
+        case holiday::thanksgiving:
+            break;
+        case holiday::christmas:
+            break;
+        case holiday::none:
+        case holiday::num_holiday:
+        default:
+            break;
     }
 
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            if( halloween_theme ) {
-                static const std::string marker = "█";
-                const utf8_wrapper text( mmenu_title[i] );
-                for( size_t j = 0; j < text.size(); j++ ) {
-                    std::string temp = text.substr_display( j, 1 ).str();
-                    if( temp != " " ) {
-                        mvwprintz( w_open, point( iOffsetX + j, iLine ),
-                                   ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
-                                   "%s", ( temp == marker ) ? "▓" : temp );
+            switch( current_holiday ) {
+                case holiday::halloween: {
+                    static const std::string marker = "█";
+                    const utf8_wrapper text( mmenu_title[i] );
+                    for( size_t j = 0; j < text.size(); j++ ) {
+                        std::string temp = text.substr_display( j, 1 ).str();
+                        if( temp != " " ) {
+                            mvwprintz( w_open, point( iOffsetX + j, iLine ),
+                                       ( temp != marker ) ? c_red : ( i < 9 ? cColor1 : cColor2 ),
+                                       "%s", ( temp == marker ) ? "▓" : temp );
+                        }
                     }
+                    iLine++;
                 }
-                iLine++;
-            } else {
-                mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
+                break;
+                case holiday::thanksgiving:
+                case holiday::new_year:
+                case holiday::easter:
+                case holiday::christmas: {
+                    nc_color cur_color = c_white;
+                    nc_color base_color = c_white;
+                    print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
+                }
+                break;
+                case holiday::none:
+                case holiday::num_holiday:
+                default:
+                    mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
+                    break;
             }
         }
     } else {
@@ -258,13 +287,9 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir",
-                             halloween_theme ? ".halloween" : ".title",
-                             halloween_theme ? "halloween" : "title" ),
-                             _( "Cataclysm: Dark Days Ahead" ) );
+    mmenu_title = load_file( PATH_INFO::title( current_holiday ), _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    auto motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
-                           _( "No message today." ) );
+    auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 
     std::ostringstream buffer;
     mmenu_motd.clear();
@@ -277,8 +302,7 @@ void main_menu::init_strings()
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
-    "credits" ), [&buffer]( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::credits(), [&buffer]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
@@ -377,7 +401,7 @@ void main_menu::load_char_templates()
 {
     templates.clear();
 
-    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+    for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
             true ) ) {
         path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
@@ -400,27 +424,27 @@ bool main_menu::opening_screen()
     init_strings();
     print_menu( w_open, 0, menu_offset );
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         popup( _( "Unable to make save directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         popup( _( "Unable to make templates directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
         popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;
     }
 
-    if( !assure_dir_exist( FILENAMES["user_gfx"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
         popup( _( "Unable to make graphics directory.  Check permissions." ) );
         return false;
     }
@@ -824,7 +848,7 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    const auto path = FILENAMES["templatedir"] + utf8_to_native( templates[sel3] ) + ".template";
+                    const auto path = PATH_INFO::templatedir() + utf8_to_native( templates[sel3] ) + ".template";
                     if( std::remove( path.c_str() ) != 0 ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
