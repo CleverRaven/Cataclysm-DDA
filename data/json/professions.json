@@ -808,7 +808,10 @@
         "items": [ "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "container-item": "survivor_vest" }
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "container-item": "survivor_vest" },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 }
         ]
       },
       "male": [ "boxer_shorts" ],
