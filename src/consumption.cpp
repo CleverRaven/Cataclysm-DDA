@@ -1380,7 +1380,6 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
                                             units::to_kilojoule( get_max_power_level() - get_power_level() ) );
             return to_charge;
-            break;
     }
 
     return 0;
