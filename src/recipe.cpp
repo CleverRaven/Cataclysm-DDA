@@ -190,12 +190,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "delete_flags" ) ) {
-        flags_to_delete.clear();
-        JsonArray flag_array = jo.get_array( "delete_flags" );
-
-        while( flag_array.has_more() ) {
-            flags_to_delete.push_back( flag_array.next_string() );
-        }
+        flags_to_delete = jo.get_tags( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
