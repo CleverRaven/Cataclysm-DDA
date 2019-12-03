@@ -16,7 +16,14 @@ class disease_type
         bool was_loaded;
 
         diseasetype_id id;
-        efftype_id symptoms;
+        time_duration min_duration;
+        time_duration max_duration;
+        int min_intensity;
+        int max_intensity;
+        /**If not empty this sets the health threshold above which you're immune to the disease*/
+        cata::optional<int> health_threshold;
+        /**effects applied by this disease*/
+        std::set<efftype_id> symptoms;
 
 };
 #endif
