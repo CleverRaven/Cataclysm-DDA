@@ -104,8 +104,6 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 
-static const matype_id style_kicks( "style_kicks" );
-
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"
