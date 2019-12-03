@@ -157,7 +157,6 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
-    "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -180,7 +179,6 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
-    "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -228,7 +226,6 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
-    "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
