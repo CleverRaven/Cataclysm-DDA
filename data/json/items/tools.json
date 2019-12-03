@@ -746,7 +746,6 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "revert_to": "camera",
     "use_action": "CAMERA",
     "magazines": [
       [
@@ -778,7 +777,6 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "revert_to": "camera_pro",
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
     "magazines": [
@@ -827,7 +825,6 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "can_food_unsealed",
     "use_action": {
       "target": "candle_lit",
       "msg": "You light the candle.",
@@ -1925,7 +1922,6 @@
     "color": "white",
     "max_charges": 3000,
     "turns_per_charge": 1,
-    "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS",
     "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
@@ -1982,7 +1978,6 @@
     "color": "blue",
     "ammo": "battery",
     "charges_per_use": 1,
-    "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
     "magazines": [
@@ -2335,7 +2330,6 @@
     "color": "green",
     "ammo": "fish_bait",
     "max_charges": 5,
-    "revert_to": "fish_trap",
     "use_action": "FISH_TRAP"
   },
   {
@@ -4057,7 +4051,6 @@
     "color": "red",
     "ammo": "battery",
     "power_draw": 1500000,
-    "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
     "magazines": [
@@ -5584,7 +5577,6 @@
     "use_action": "AUTOCLAVE",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
-    "revert_to": "autoclave",
     "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
