@@ -26,6 +26,18 @@
   {
     "type": "speech",
     "speaker": "afs_mon_migoturret",
+    "sound": "\"Come closer little one.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"The better to eat you! I don't actually think I eat anymore.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
     "sound": "\"Quem é Você?\"",
     "volume": 40
   },
