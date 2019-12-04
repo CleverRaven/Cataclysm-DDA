@@ -141,6 +141,7 @@
     "result": "dry_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
+    "delete_flags": [ "BAD_TASTE" ],
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "18 m",

@@ -702,11 +702,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NO_CRAFT_INHERIT",
-    "type": "json_flag",
-    "//": "Crafted items with this flag won't inherit flags with craft_inherit from their components."
-  },
-  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
