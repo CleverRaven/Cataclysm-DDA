@@ -964,7 +964,7 @@
   },
   {
     "id": "40mm_flare",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40mm flare",
     "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
@@ -981,7 +981,7 @@
   },
   {
     "id": "40mm_incendiary",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40mm incendiary",
     "name_plural": "40mm incendiaries",
@@ -990,7 +990,7 @@
   },
   {
     "id": "40mm_smoke",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40mm smoke cover",
     "description": "A 40mm grenade designed to provide smoke cover.",
@@ -999,7 +999,7 @@
   },
   {
     "id": "40mm_slug",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40mm slug",
     "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",

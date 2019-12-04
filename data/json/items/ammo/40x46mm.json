@@ -42,7 +42,7 @@
   },
   {
     "id": "40x46mm_m576",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40x46mm M576",
     "description": "A 40x46mm buckshot load, designed for use in thick vegetation or room clearing.",
@@ -55,10 +55,11 @@
   },
   {
     "id": "40x46mm_m651",
-    "copy-from": "40mm_grenade",
+    "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40x46mm M651",
     "description": "A low velocity 40mm tear gas canister.  It is effective for riot control and driving infantry from entrenched positions",
+    "damage": 15,
     "drop": "gasbomb_act",
     "extend": { "effects": [ "NO_EMBED" ] }
   }
