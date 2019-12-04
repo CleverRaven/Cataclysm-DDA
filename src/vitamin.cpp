@@ -61,6 +61,11 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
 
+    if( !jo.has_string( "vit_type" ) ) {
+        jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
+    }
+    vit.type_ = jo.get_enum_value<vitamin_type>( "vit_type" );
+
     if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
@@ -102,3 +107,25 @@ void vitamin::reset()
 {
     vitamins_all.clear();
 }
+
+namespace io
+{
+template<>
+std::string enum_to_string<vitamin_type>( vitamin_type data )
+{
+    switch( data ) {
+        case vitamin_type::VITAMIN:
+            return "vitamin";
+        case vitamin_type::TOXIN:
+            return "toxin";
+        case vitamin_type::DRUG:
+            return "drug";
+        case vitamin_type::COUNTER:
+            return "counter";
+        case vitamin_type::num_vitamin_types:
+            break;
+    }
+    debugmsg( "Invalid vitamin_type" );
+    abort();
+}
+} // namespace io
