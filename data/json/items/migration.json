@@ -62,12 +62,12 @@
   {
     "id": "40mm_acidbomb",
     "type": "MIGRATION",
-    "replace": "40mm_teargas"
+    "replace": "40x46mm_m651"
   },
   {
     "id": "40mm_toxicgas",
     "type": "MIGRATION",
-    "replace": "40mm_teargas"
+    "replace": "40x46mm_m651"
   },
   {
     "id": "8mm_bootleg_jsp",
