@@ -1037,7 +1037,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
-            } else if( !book_a.skill || !book_a.skill ) {
+            } else if( !book_a.skill || !book_b.skill ) {
                 return static_cast<bool>( book_a.skill );
             }
 
