@@ -949,6 +949,14 @@ bool player::eat( item &food, bool force )
         }
     }
 
+    // chance to get food poisoning from bacterial contamination
+    if( !will_vomit && !has_bionic( bio_digestion ) ) {
+        const int contamination = food.get_comestible()->contamination;
+        if( rng( 1, 100 ) <= contamination ) {
+            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
+        }
+    }
+
     if( will_vomit ) {
         vomit();
     }
