@@ -30,28 +30,27 @@
       {
         "distribution": [
           {
-            "collection": [ { "item": "emer_blanket", "count": 2, "prob": 80 }, { "item": "jacket_evac", "count": 2, "prob": 80 } ],
+            "collection": [ { "item": "emer_blanket", "count": 5, "prob": 80 }, { "item": "jacket_evac", "count": 5, "prob": 80 } ],
             "prob": 30
           },
           { "item": "water_clean", "count": 12, "prob": 20 },
           { "item": "protein_bar_evac", "count": 24, "prob": 60 },
           {
             "collection": [
-              { "item": "extinguisher", "prob": 90 },
+              { "item": "extinguisher", "prob": 70 },
               { "item": "1st_aid", "count": [ 1, 3 ], "prob": 85 },
-              { "item": "two_way_radio", "prob": 75 },
+              { "item": "two_way_radio", "prob": 65 },
               { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
-              { "item": "electric_lantern", "prob": 65 }
+              { "item": "electric_lantern", "prob": 35 }
             ],
             "prob": 10
           },
           {
             "collection": [
               { "item": "detergent", "count": [ 1, 2 ] },
-              { "item": "brush" },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "prob": 75 },
-              { "item": "ammonia", "prob": 65 }
+              { "item": "bleach", "prob": 65 },
+              { "item": "ammonia", "prob": 35 }
             ],
             "prob": 15
           },
@@ -78,8 +77,8 @@
     "items": [
       { "item": "soap", "count": [ 1, 2 ] },
       [ "brush", 90 ],
-      [ "bleach", 75 ],
-      [ "ammonia", 65 ],
+      [ "bleach", 45 ],
+      [ "ammonia", 25 ],
       [ "1st_aid", 60 ],
       { "item": "paper", "count": [ 1, 3 ] },
       [ "evac_pamphlet", 10 ]

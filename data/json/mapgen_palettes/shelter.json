@@ -27,7 +27,7 @@
     "items": {
       "l": { "item": "SUS_evac_shelter_locker", "chance": 90 },
       "c": { "item": "SUS_evac_shelter_cabinet", "chance": 70 },
-      "S": { "item": "SUS_evac_shelter_sink", "chance": 80 }
+      "S": { "item": "SUS_evac_shelter_sink", "chance": 70 }
     }
   }
 ]
