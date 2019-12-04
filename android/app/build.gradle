@@ -162,6 +162,16 @@ android {
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        experimental {
+            dimension "version"
+            applicationIdSuffix ".experimental"
+        }
+    }
+
     signingConfigs {
         if (keystoreProperties.getProperty('storeFile') != null) {
             if (file(keystoreProperties.getProperty('storeFile')).exists()) {
@@ -221,7 +231,7 @@ android {
             variant.outputs.each { output ->
                 def outputFile = output.outputFile
                 if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "com.cleverraven.cataclysmdda.aar";
+                    def fileName = "$applicationId.aar";
                     output.outputFile = new File(outputFile.parent, fileName);
                 }
             }
