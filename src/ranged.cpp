@@ -2262,7 +2262,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == "40mm" ) {
+    if( ammo_current() == "40x46mm" || ammo_current() == "40x53mm" ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
