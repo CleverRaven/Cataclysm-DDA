@@ -328,6 +328,7 @@
     "weight": 10,
     "om_terrain": [ "shelter_under" ],
     "object": {
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "########################",
         "########################",

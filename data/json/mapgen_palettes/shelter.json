@@ -25,9 +25,9 @@
     "furniture": { "b": "f_bench", "c": "f_counter", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
     "toilets": { "T": {  } },
     "items": {
-      "l": { "item": "SUS_evac_shelter_locker" },
-      "c": { "item": "SUS_evac_shelter_cabinet" },
-      "S": { "item": "SUS_evac_shelter_sink" }
+      "l": { "item": "SUS_evac_shelter_locker", "chance": 95 },
+      "c": { "item": "SUS_evac_shelter_cabinet", "chance": 70 },
+      "S": { "item": "SUS_evac_shelter_sink", "chance": 80 }
     }
   }
 ]

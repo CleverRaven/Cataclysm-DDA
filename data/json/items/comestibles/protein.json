@@ -86,7 +86,7 @@
     "healthy": -1,
     "fun": -5,
     "quench": -9,
-    "material": "solid",
+    "material": [ "fruit", "veggy" ],
     "symbol": "%",
     "color": "green",
     "container": "wrapper",
