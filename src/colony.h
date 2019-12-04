@@ -43,8 +43,8 @@
 
 /* whole GCC 6 family */
 #if __GNUC__ == 6
-    /* GCC 6.5 at least complains about type punning, but nothing else does. */
-    #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+/* GCC 6.5 at least complains about type punning, but nothing else does. */
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
 
 // TODO: get rid of these defines
