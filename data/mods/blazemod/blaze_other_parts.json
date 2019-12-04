@@ -4,7 +4,6 @@
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_large",
-    "difficulty": 4,
     "durability": 200,
     "epower": 0,
     "power": 242450,
@@ -14,14 +13,18 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "id": "engine_steam_giant",
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_giant",
-    "difficulty": 4,
     "durability": 200,
     "epower": 0,
     "power": 447600,
@@ -31,7 +34,12 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "abstract": "steam_turbine",
@@ -49,7 +57,6 @@
     "copy-from": "steam_turbine",
     "type": "vehicle_part",
     "item": "steam_turbine_small",
-    "difficulty": 5,
     "durability": 200,
     "epower": 0,
     "power": 93250,
@@ -59,14 +66,18 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "id": "engine_steam_turbine_medium",
     "copy-from": "steam_turbine",
     "type": "vehicle_part",
     "item": "steam_turbine_medium",
-    "difficulty": 5,
     "durability": 200,
     "epower": 0,
     "power": 149200,
@@ -76,14 +87,18 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "id": "engine_steam_turbine_large",
     "copy-from": "steam_turbine",
     "type": "vehicle_part",
     "item": "steam_turbine_large",
-    "difficulty": 5,
     "durability": 200,
     "epower": 0,
     "power": 242450,
@@ -93,14 +108,18 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "id": "engine_steam_turbine_giant",
     "copy-from": "steam_turbine",
     "type": "vehicle_part",
     "item": "steam_turbine_giant",
-    "difficulty": 5,
     "durability": 200,
     "epower": 0,
     "power": 447600,
@@ -110,7 +129,12 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
   },
   {
     "abstract": "rack_blaze",
@@ -121,9 +145,13 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "blue",
-    "difficulty": 1,
     "description": "This part is obsolete.  It should not be installed in a vehicle, and if it is installed, you can safely uninstall it.",
     "durability": 150,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_modifier": 80
   },
   {
@@ -136,7 +164,6 @@
     "broken_symbol": "x",
     "color": "yellow",
     "broken_color": "yellow",
-    "difficulty": 6,
     "durability": 250,
     "epower": 600,
     "damage_modifier": 10,
@@ -147,6 +174,11 @@
       { "item": "scrap", "count": [ 8, 16 ] },
       { "item": "solar_cell", "count": [ 10, 40 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
   {
@@ -159,7 +191,6 @@
     "broken_symbol": "x",
     "color": "yellow",
     "broken_color": "yellow",
-    "difficulty": 6,
     "durability": 250,
     "epower": 1200,
     "damage_modifier": 10,
@@ -170,6 +201,11 @@
       { "item": "scrap", "count": [ 8, 16 ] },
       { "item": "solar_cell", "count": [ 20, 60 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
   {
@@ -182,7 +218,6 @@
     "broken_symbol": "x",
     "color": "light_blue",
     "broken_color": "light_gray",
-    "difficulty": 8,
     "durability": 500,
     "epower": 1080,
     "damage_modifier": 10,
@@ -193,6 +228,11 @@
       { "item": "scrap", "count": [ 16, 31 ] },
       { "item": "solar_cell", "count": [ 20, 60 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
   },
   {
@@ -205,7 +245,6 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "light_gray",
-    "difficulty": 6,
     "durability": 2000,
     "damage_modifier": 50,
     "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
@@ -219,6 +258,11 @@
     "rolling_resistance": 6,
     "wheel_type": "treads",
     "contact_area": 900,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
@@ -231,7 +275,6 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "light_gray",
-    "difficulty": 7,
     "durability": 3500,
     "damage_modifier": 50,
     "description": "A section of continuous track, the kind mounted on construction vehicles and military fighting vehicles.  It acts as a wheel, and the broad surface provides plenty of traction to move heavy vehicles off-road, but at the cost of speed due to the heavy weight.",
@@ -244,6 +287,11 @@
     "rolling_resistance": 5,
     "wheel_type": "treads",
     "contact_area": 2500,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
@@ -269,6 +317,11 @@
     "rolling_resistance": 5,
     "wheel_type": "treads",
     "contact_area": 3600,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
@@ -281,7 +334,6 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 3,
     "durability": 400,
     "damage_modifier": 80,
     "folded_volume": 25,
@@ -291,6 +343,11 @@
       { "item": "steel_chunk", "count": [ 4, 10 ] },
       { "item": "spring", "count": [ 2, 8 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "TURRET_MOUNT" ]
   },
   {
@@ -303,11 +360,15 @@
     "broken_symbol": "#",
     "color": "white",
     "broken_color": "white",
-    "difficulty": 1,
     "durability": 10,
     "description": "A length of heavy duty copper wire, useful for routing power from one part of a vehicle to another part.",
     "folded_volume": 1,
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
-    "flags": [ "FOLDABLE", "AISLE", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 s" },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 s" }
+    },
+    "flags": [ "FOLDABLE", "AISLE" ]
   }
 ]

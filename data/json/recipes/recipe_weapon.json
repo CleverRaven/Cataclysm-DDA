@@ -127,7 +127,7 @@
     "time": "40 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rope_6", 3 ], [ "rope_makeshift_6", 3 ] ], [ [ "rock", 3 ] ] ]
+    "components": [ [ [ "rope_natural_short", 3, "LIST" ] ], [ [ "rock", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -141,7 +141,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "string_36", 32 ] ], [ [ "rock", 8 ] ] ]
+    "components": [ [ [ "cordage", 32, "LIST" ] ], [ [ "rock", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -212,7 +212,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 20 ] ], [ [ "rope_6", 2 ] ] ]
+    "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -285,7 +285,7 @@
       [ [ "stick_long", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ], [ "duct_tape", 75 ] ]
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ]
     ]
   },
   {
@@ -434,7 +434,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -449,7 +449,7 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage_superior", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -462,7 +462,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -478,7 +478,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -491,11 +491,7 @@
     "time": "25 m",
     "book_learn": [ [ "recipe_bows", 6 ], [ "manual_archery", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -509,11 +505,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -531,7 +523,7 @@
       [ [ "steel_tiny", 1, "LIST" ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "cordage", 2, "LIST" ], [ "filament", 600, "LIST" ] ]
+      [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
   {
@@ -558,7 +550,7 @@
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ]
+      [ [ "cordage_superior", 6, "LIST" ] ]
     ]
   },
   {
@@ -585,7 +577,7 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "sheet_metal_small", 8 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
-      [ [ "cordage", 18, "LIST" ], [ "filament", 5400, "LIST" ] ]
+      [ [ "cordage_superior", 18, "LIST" ] ]
     ]
   },
   {
@@ -858,7 +850,13 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 3 ] ], [ [ "string_6", 1 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 4 ] ], [ [ "nail", 10 ] ] ]
+    "components": [
+      [ [ "2x4", 2 ], [ "stick", 3 ] ],
+      [ [ "cordage_superior_short", 1, "LIST" ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "nail", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -878,7 +876,7 @@
       [ "textbook_armschina", 5 ]
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "string_36", 3 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -892,11 +890,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "stick", 5 ], [ "2x4", 3 ] ],
-      [ [ "bone", 3 ], [ "bone_human", 3 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -922,7 +916,7 @@
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "plastic_chunk", 15 ] ],
       [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage", 6, "LIST" ], [ "filament", 3600, "LIST" ] ]
+      [ [ "cordage_superior", 6, "LIST" ] ]
     ]
   },
   {
@@ -937,7 +931,7 @@
     "decomp_learn": 2,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 3 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "string_36", 3 ] ], [ [ "leather", 1 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "scrap", 1 ] ], [ [ "cordage_superior", 3, "LIST" ] ], [ [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1275,7 +1269,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rope_6", 1 ], [ "rag", 3 ], [ "string_36", 6 ] ] ]
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ], [ "rag", 3 ], [ "cordage", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1708,7 +1702,7 @@
     ],
     "components": [
       [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "string_6", 1 ] ],
+      [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "nail", 10 ] ],
@@ -1867,7 +1861,7 @@
     "difficulty": 7,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 25 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -1878,8 +1872,13 @@
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 1 ] ],
+      [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
-      [ [ "duct_tape", 100 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "spring", 6 ] ],
       [ [ "scrap", 2 ] ]
     ]
   },
@@ -2840,7 +2839,7 @@
     ],
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
-      [ [ "rope_6", 2 ] ],
+      [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
@@ -2859,7 +2858,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "string_36", 1 ] ], [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "spring", 1 ] ], [ [ "cordage_superior", 1, "LIST" ] ], [ [ "nail", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -3095,35 +3094,6 @@
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "battery_ups", 1 ] ],
       [ [ "small_storage_battery", 2 ], [ "UPS_off", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "abzats",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 6 ], [ "gun", 4 ] ],
-    "difficulty": 6,
-    "time": "3 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [
-      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ],
-      [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ]
-    ],
-    "components": [
-      [ [ "m2browning", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]
   },
   {

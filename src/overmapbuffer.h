@@ -18,6 +18,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "string_id.h"
+#include "memory_fast.h"
 
 class character_id;
 struct mongroup;
@@ -221,44 +222,44 @@ class overmapbuffer
          * specific submap.
          */
 
-        std::vector<std::shared_ptr<npc>> get_npcs_near( const tripoint &p, int radius );
+        std::vector<shared_ptr_fast<npc>> get_npcs_near( const tripoint &p, int radius );
         /**
          * Get all (currently loaded!) npcs that have a companion
          * mission set.
          */
-        std::vector<std::shared_ptr<npc>> get_companion_mission_npcs();
+        std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs();
         /**
          * Uses overmap terrain coordinates, this also means radius is
          * in overmap terrain.
          * A radius of 0 returns all npcs that are on that specific
          * overmap terrain tile.
          */
-        std::vector<std::shared_ptr<npc>> get_npcs_near_omt( const tripoint &p, int radius );
+        std::vector<shared_ptr_fast<npc>> get_npcs_near_omt( const tripoint &p, int radius );
         /**
          * Same as @ref get_npcs_near(int,int,int,int) but uses
          * player position as center.
          */
-        std::vector<std::shared_ptr<npc>> get_npcs_near_player( int radius );
+        std::vector<shared_ptr_fast<npc>> get_npcs_near_player( int radius );
         /**
          * Find the npc with the given ID.
          * Returns NULL if the npc could not be found.
          * Searches all loaded overmaps.
          */
-        std::shared_ptr<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc( character_id id );
         /**
          * Get all NPCs active on the overmap
          */
-        std::vector<std::shared_ptr<npc>> get_overmap_npcs();
+        std::vector<shared_ptr_fast<npc>> get_overmap_npcs();
         /**
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
          */
-        std::shared_ptr<npc> remove_npc( const character_id &id );
+        shared_ptr_fast<npc> remove_npc( const character_id &id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.
          */
-        void insert_npc( const std::shared_ptr<npc> &who );
+        void insert_npc( const shared_ptr_fast<npc> &who );
 
         /**
          * Find all places with the specific overmap terrain type.

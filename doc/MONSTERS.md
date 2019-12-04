@@ -44,6 +44,11 @@ In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WO
 
 Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
 
+## "scent_tracked"
+(array of strings, optional)
+
+List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
+
 ## "symbol", "color"
 (string)
 

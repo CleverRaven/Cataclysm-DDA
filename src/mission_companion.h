@@ -11,6 +11,7 @@
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class npc;
 class item;
@@ -21,7 +22,7 @@ template<typename T>
 class string_id;
 class monster;
 
-using npc_ptr = std::shared_ptr<npc>;
+using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 
 struct mission_entry {

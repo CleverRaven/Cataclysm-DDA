@@ -30,6 +30,7 @@
 #include "monster.h"
 #include "weather.h"
 #include "point.h"
+#include "memory_fast.h"
 
 class item;
 
@@ -275,7 +276,7 @@ class game
         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
         */
         template<typename T = Creature>
-        std::shared_ptr<T> shared_from( const T &critter );
+        shared_ptr_fast<T> shared_from( const T &critter );
 
         /**
          * Adds critters to the reality bubble, creating them if necessary.
@@ -302,11 +303,13 @@ class game
          */
         /** @{ */
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
-        monster *place_critter_at( std::shared_ptr<monster> mon, const tripoint &p );
+        monster *place_critter_at( shared_ptr_fast<monster> mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( std::shared_ptr<monster> mon, const tripoint &center, int radius );
+        monster *place_critter_around( shared_ptr_fast<monster> mon, const tripoint &center,
+                                       int radius );
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
-        monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
+        monster *place_critter_within( shared_ptr_fast<monster> mon,
+                                       const tripoint_range &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -332,19 +335,19 @@ class game
         class non_dead_range
         {
             public:
-                std::vector<std::weak_ptr<T>> items;
+                std::vector<weak_ptr_fast<T>> items;
 
                 class iterator
                 {
                     private:
                         bool valid();
                     public:
-                        std::vector<std::weak_ptr<T>> &items;
-                        typename std::vector<std::weak_ptr<T>>::iterator iter;
-                        std::shared_ptr<T> current;
+                        std::vector<weak_ptr_fast<T>> &items;
+                        typename std::vector<weak_ptr_fast<T>>::iterator iter;
+                        shared_ptr_fast<T> current;
 
-                        iterator( std::vector<std::weak_ptr<T>> &i,
-                                  const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                        iterator( std::vector<weak_ptr_fast<T>> &i,
+                                  const typename std::vector<weak_ptr_fast<T>>::iterator t ) : items( i ), iter( t ) {
                             while( iter != items.end() && !valid() ) {
                                 ++iter;
                             }
@@ -391,7 +394,7 @@ class game
         class Creature_range : public non_dead_range<Creature>
         {
             private:
-                std::shared_ptr<player> u;
+                shared_ptr_fast<player> u;
 
             public:
                 Creature_range( game &g );
@@ -903,6 +906,7 @@ class game
         // overlays flags (on / off)
         std::map<action_id, bool> displaying_overlays{
             { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_SCENT_TYPE, false },
             { ACTION_DISPLAY_TEMPERATURE, false },
             { ACTION_DISPLAY_VEHICLE_AI, false },
             { ACTION_DISPLAY_VISIBILITY, false },
@@ -1004,7 +1008,7 @@ class game
 
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
-        std::shared_ptr<player> u_shared_ptr;
+        shared_ptr_fast<player> u_shared_ptr;
 
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
@@ -1013,11 +1017,11 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        std::vector<std::shared_ptr<monster>> new_seen_mon;
+        std::vector<shared_ptr_fast<monster>> new_seen_mon;
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;
-        std::list<std::shared_ptr<npc>> active_npc;
+        std::list<shared_ptr_fast<npc>> active_npc;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;

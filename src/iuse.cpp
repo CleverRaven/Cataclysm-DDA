@@ -4372,7 +4372,8 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
-            default: //Cancel
+            default:
+                //Cancel
                 return 0;
         }
 
@@ -5425,10 +5426,12 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
-            case AEA_SPLIT: // TODO: Add something
+            case AEA_SPLIT:
+                // TODO: Add something
                 break;
 
-            case AEA_NULL: // BUG
+            case AEA_NULL:
+            // BUG
             case NUM_AEAS:
             default:
                 debugmsg( "iuse::artifact(): wrong artifact type (%d)", used );
@@ -5655,7 +5658,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos().xy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
@@ -6128,7 +6131,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< std::shared_ptr< monster> > mons; // TODO: change into vector<Creature*>
+            std::vector< shared_ptr_fast< monster> > mons; // TODO: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
@@ -6157,7 +6160,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
                 return it->type->charges_to_use();
             }
             const size_t mondex = pick_robot.ret;
-            std::shared_ptr< monster > z = mons[mondex];
+            shared_ptr_fast< monster > z = mons[mondex];
             p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name() );
 
             /** @EFFECT_INT speeds up hacking preperation */
@@ -9213,7 +9216,7 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
 
 bool item::release_monster( const tripoint &target, const int radius )
 {
-    std::shared_ptr<monster> new_monster = std::make_shared<monster>();
+    shared_ptr_fast<monster> new_monster = make_shared_fast<monster>();
     try {
         ::deserialize( *new_monster, get_var( "contained_json", "" ) );
     } catch( const std::exception &e ) {
@@ -9712,6 +9715,16 @@ int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_info, _( "You flip a %s." ), it->tname() );
     p->add_msg_if_player( m_info, one_in( 2 ) ? _( "Heads!" ) : _( "Tails!" ) );
+    return 0;
+}
+
+int iuse::play_game( player *p, item *it, bool, const tripoint & )
+{
+    if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
+        p->add_msg_if_player( _( "You start playing." ) );
+        p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                            p->get_item_position( it ), "gaming" );
+    }
     return 0;
 }
 

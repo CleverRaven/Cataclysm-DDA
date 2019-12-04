@@ -4,6 +4,8 @@
 
 #include <string>
 
+enum class holiday : int;
+
 namespace PATH_INFO
 {
 void init_base_path( std::string path );
@@ -66,7 +68,7 @@ std::string soundpack_conf();
 
 std::string credits();
 std::string motd();
-std::string title( bool halloween_theme );
+std::string title( holiday current_holiday );
 std::string names();
 
 void set_datadir( const std::string &datadir );

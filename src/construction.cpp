@@ -823,7 +823,7 @@ void place_construction( const std::string &desc )
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
     // Basically just dont add the unfinished construction trap.
-    // TODO : handle this cleaner, instead of adding a special case to pit iexamine.
+    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
     if( g->m.tr_at( pnt ).loadid == tr_null ) {
         g->m.trap_set( pnt, tr_unfinished_construction );
     }

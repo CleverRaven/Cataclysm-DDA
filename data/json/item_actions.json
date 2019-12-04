@@ -606,6 +606,11 @@
   },
   {
     "type": "item_action",
+    "id": "PLAY_GAME",
+    "name": "Play"
+  },
+  {
+    "type": "item_action",
     "id": "MARLOSS",
     "name": "Consume"
   },

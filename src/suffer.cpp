@@ -217,7 +217,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.thirst ) {
             mod_thirst( mdata.cost );
-            if( get_thirst() >= 260 ) { // Well into Dehydrated
+            // Well into Dehydrated
+            if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
                                    mdata.name() );
@@ -226,7 +227,8 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         }
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
-            if( get_fatigue() >= EXHAUSTED ) { // Exhausted
+            // Exhausted
+            if( get_fatigue() >= EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -325,9 +327,11 @@ void Character::suffer_while_awake( const int current_stim )
     }
 
     if( has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
-        if( rng( 1, 20 ) > 9 ) { // 55% chance
+        if( rng( 1, 20 ) > 9 ) {
+            // 55% chance
             add_morale( MORALE_MOODSWING, -100, -500 );
-        } else {  // 45% chance
+        } else {
+            // 45% chance
             add_morale( MORALE_MOODSWING, 100, 500 );
         }
     }
@@ -507,7 +511,7 @@ void Character::suffer_from_schizophrenia()
     }
     // Follower turns hostile
     if( one_turn_in( 4_hours ) ) {
-        std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
+        std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
         std::string who_gets_angry = name;
         if( !followers.empty() ) {
@@ -567,13 +571,13 @@ void Character::suffer_from_schizophrenia()
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
-        std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+        std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
 
         std::string i_talk_w;
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( std::weak_ptr<monster> &n : mons ) {
+            for( weak_ptr_fast<monster> &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }
@@ -1859,7 +1863,8 @@ void Character::add_addiction( add_type type, int strength )
         if( i.sated < 0_turns ) {
             i.sated = timer;
         } else if( i.sated < 10_minutes ) {
-            i.sated += timer; // TODO: Make this variable?
+            // TODO: Make this variable?
+            i.sated += timer;
         } else {
             i.sated += timer / 2;
         }

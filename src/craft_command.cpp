@@ -30,7 +30,8 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
+        case use_from_player:
+        // Is the same as the default return;
         case use_from_none:
         case cancel:
         case num_usages:

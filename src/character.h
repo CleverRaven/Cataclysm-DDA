@@ -41,6 +41,7 @@
 #include "weighted_list.h"
 #include "point.h"
 #include "magic_enchantment.h"
+#include "memory_fast.h"
 
 struct pathfinding_settings;
 class item_location;
@@ -884,7 +885,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::list<item> remove_worn_items_with( std::function<bool( item & )> filter );
 
-        item &i_at( int position ); // Returns the item with a given inventory position.
+        // Returns the item with a given inventory position.
+        item &i_at( int position );
         const item &i_at( int position ) const;
         /**
          * Returns the item position (suitable for @ref i_at or similar) of a
@@ -1259,7 +1261,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns the intensity of the specified addiction */
         int  addiction_level( add_type type ) const;
 
-        std::shared_ptr<monster> mounted_creature;
+        shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts
         int mounted_creature_id;
         // for vehicle work
@@ -1382,6 +1384,10 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        void update_type_of_scent( bool init = false );
+        void update_type_of_scent( trait_id mut, bool gain = true );
+        void set_type_of_scent( scenttype_id id );
+        scenttype_id get_type_of_scent() const;
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1471,14 +1477,20 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
-
+        bool get_check_encumbrance() {
+            return check_encumbrance;
+        }
+        void set_check_encumbrance( bool new_check ) {
+            check_encumbrance = new_check;
+        }
         /** Ticks down morale counters and removes them */
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
         /** Used to apply morale modifications from food and medication **/
         void modify_morale( item &food, int nutr = 0 );
-        int get_morale_level() const; // Modified by traits, &c
+        // Modified by traits, &c
+        int get_morale_level() const;
         void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
@@ -1594,8 +1606,10 @@ class Character : public Creature, public visitable<Character>
         // faction API versions
         // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
         // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
-        int faction_api_version = 2;  // faction API versioning
-        faction_id fac_id; // A temp variable used to inform the game which faction to link
+        // faction API versioning
+        int faction_api_version = 2;
+        // A temp variable used to inform the game which faction to link
+        faction_id fac_id;
         faction *my_fac = nullptr;
 
         character_movemode move_mode;
@@ -1648,6 +1662,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 

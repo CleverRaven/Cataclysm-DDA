@@ -7,6 +7,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
+    "coverage": 60,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -355,6 +356,7 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
+    "coverage": 60,
     "flags": [
       "TRANSPARENT",
       "NOITEM",

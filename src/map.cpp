@@ -36,7 +36,6 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -76,7 +75,6 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
-#include "player.h"
 #include "tileray.h"
 #include "weighted_list.h"
 #include "enums.h"
@@ -2320,16 +2318,6 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
-void map::make_rubble( const tripoint &p )
-{
-    make_rubble( p, f_rubble, false, t_dirt, false );
-}
-
-void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items )
-{
-    make_rubble( p, rubble_type, items, t_dirt, false );
-}
-
 void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
                        const ter_id &floor_type, bool overwrite )
 {
@@ -3558,7 +3546,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             spawn_item( p, "glass_shard", rng( 8, 16 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
-    } else if( impassable( p ) && !trans( p ) ) {
+    } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     }
@@ -5214,7 +5202,7 @@ bool map::add_field( const tripoint &p, const field_type_id type, int intensity,
 
     if( current_submap->fld[l.x][l.y].add_field( type, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
-        if( ! current_submap->field_count++ ) {
+        if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }
@@ -5251,7 +5239,7 @@ void map::remove_field( const tripoint &p, const field_type_id field_to_remove )
 
     if( current_submap->fld[l.x][l.y].remove_field( field_to_remove ) ) {
         // Only adjust the count if the field actually existed.
-        if( ! --current_submap->field_count ) {
+        if( !--current_submap->field_count ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }
@@ -5401,21 +5389,27 @@ const visibility_variables &map::get_visibility_variables_cache() const
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
-        case LL_DARK: // can't see this square at all
+        case LL_DARK:
+            // can't see this square at all
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER_DARK;
             } else {
                 return VIS_DARK;
             }
-        case LL_BRIGHT_ONLY: // can only tell that this square is bright
+        case LL_BRIGHT_ONLY:
+            // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER;
             } else {
                 return VIS_LIT;
             }
-        case LL_LOW: // low light, square visible in monochrome
-        case LL_LIT: // normal light
-        case LL_BRIGHT: // bright light
+
+        case LL_LOW:
+        // low light, square visible in monochrome
+        case LL_LIT:
+        // normal light
+        case LL_BRIGHT:
+            // bright light
             return VIS_CLEAR;
         case LL_BLANK:
         case LL_MEMORIZED:
@@ -5433,7 +5427,8 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
-        case VIS_LIT: // can only tell that this square is bright
+        case VIS_LIT:
+            // can only tell that this square is bright
             symbol = '#';
             color = c_light_gray;
             break;
@@ -5445,7 +5440,8 @@ bool map::apply_vision_effects( const catacurses::window &w, const visibility_ty
             symbol = '#';
             color = c_magenta;
             break;
-        case VIS_DARK: // can't see this square at all
+        case VIS_DARK:
+        // can't see this square at all
         case VIS_HIDDEN:
             symbol = ' ';
             color = c_black;
@@ -5557,12 +5553,6 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             x++;
         }
     }
-}
-
-void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                  const bool invert, const bool show_items ) const
-{
-    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
 }
 
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
@@ -5909,7 +5899,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
             }
-            if( !this->trans( tripoint( new_point, T.z ) ) ) {
+            if( !this->is_transparent( tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
             }
@@ -5929,16 +5919,16 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
 
         // TODO: Allow transparent floors (and cache them!)
         if( new_point.z == last_point.z ) {
-            if( !this->trans( new_point ) ) {
+            if( !this->is_transparent( new_point ) ) {
                 visible = false;
                 return false;
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
             if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
-                  !trans( {new_point.xy(), last_point.z} ) ) &&
+                  !is_transparent( {new_point.xy(), last_point.z} ) ) &&
                 ( has_floor_or_support( {last_point.xy(), max_z} ) ||
-                  !trans( {last_point.xy(), new_point.z} ) ) ) {
+                  !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
             }
@@ -6509,30 +6499,6 @@ void map::saven( const tripoint &grid )
                   << "  gridn: " << gridn;
     submap_to_save->last_touched = calendar::turn;
     MAPBUFFER.add_submap( abs, submap_to_save );
-}
-
-// worldx & worldy specify where in the world this is;
-// gridx & gridy specify which nonant:
-// 0,0  1,0  2,0
-// 0,1  1,1  2,1
-// 0,2  1,2  2,2 etc
-// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
-// in grid[0].
-void map::loadn( const point &grid, const bool update_vehicles )
-{
-    if( zlevels ) {
-        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( tripoint( grid, gridz ), update_vehicles );
-        }
-
-        // Note: we want it in a separate loop! It is a post-load cleanup
-        // Since we're adding roofs, we want it to go up (from lowest to highest)
-        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            add_roofs( tripoint( grid, gridz ) );
-        }
-    } else {
-        loadn( tripoint( grid, abs_sub.z ), update_vehicles );
-    }
 }
 
 // Optimized mapgen function that only works properly for very simple overmap types
@@ -7234,7 +7200,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+            monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
             if( placed ) {
                 placed->on_load();
             }
@@ -7278,7 +7244,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             };
 
             const auto place_it = [&]( const tripoint & p ) {
-                monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+                monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
                 if( placed ) {
                     placed->on_load();
                 }

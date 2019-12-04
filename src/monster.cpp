@@ -1205,7 +1205,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return true;
         case DT_TRUE:
             return false;
-        case DT_BIOLOGICAL: // NOTE: Unused
+        case DT_BIOLOGICAL:
+            // NOTE: Unused
             return false;
         case DT_BASH:
             return false;
@@ -1216,8 +1217,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            return made_of( material_id( "steel" ) ) ||
-                   made_of( material_id( "stone" ) ); // Ugly hardcode - remove later
+            // Ugly hardcode - remove later
+            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -1481,10 +1482,13 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
             break;
         case DT_ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
-                return; // immunity
+                // immunity
+                return;
             }
-        case DT_TRUE: // typeless damage, should always go through
-        case DT_BIOLOGICAL: // internal damage, like from smoke or poison
+        case DT_TRUE:
+        // typeless damage, should always go through
+        case DT_BIOLOGICAL:
+        // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
         case DT_HEAT:
@@ -2464,7 +2468,8 @@ bool monster::make_fungus()
         case 1:
             poly( mon_ant_fungus );
             break;
-        case 2: // zombies, non-boomer
+        case 2:
+            // zombies, non-boomer
             poly( mon_zombie_fungus );
             break;
         case 3:
@@ -2545,6 +2550,11 @@ m_size monster::get_size() const
 units::mass monster::get_weight() const
 {
     return units::operator*( type->weight, get_size() / type->size );
+}
+
+units::mass monster::weight_capacity() const
+{
+    return type->weight * type->mountable_weight_ratio;
 }
 
 units::volume monster::get_volume() const

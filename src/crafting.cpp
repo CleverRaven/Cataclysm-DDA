@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -1050,16 +1051,14 @@ void item::inherit_flags( const item &parent )
     if( parent.has_flag( "FIT" ) ) {
         item_tags.insert( "FIT" );
     }
-    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
-        for( const std::string &f : parent.item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    for( const std::string &f : parent.item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
-        for( const std::string &f : parent.type->item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    }
+    for( const std::string &f : parent.type->item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
     }
     if( parent.has_flag( "HIDDEN_POISON" ) ) {
@@ -1134,6 +1133,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit.item_tags.insert( "FIT" );
         }
         food_contained.inherit_flags( used );
+
+        for( const std::string &flag : making.flags_to_delete ) {
+            food_contained.unset_flag( flag );
+        }
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
@@ -1927,6 +1930,31 @@ bool player::disassemble( item_location target, bool interactive )
     }
 
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !obj.is_owned_by( g->u, true ) ) {
+        if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
+                       obj.tname() ) ) {
+            return false;
+        } else {
+            if( obj.get_owner() ) {
+                std::vector<npc *> witnesses;
+                for( npc &elem : g->all_npcs() ) {
+                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                        elem.say( "<witnessed_thievery>", 7 );
+                        npc *npc_to_add = &elem;
+                        witnesses.push_back( npc_to_add );
+                    }
+                }
+                if( !witnesses.empty() ) {
+                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                        for( npc *elem : witnesses ) {
+                            elem->make_angry();
+                        }
+                    }
+                }
+            }
+        }
+    }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
@@ -1934,7 +1962,6 @@ bool player::disassemble( item_location target, bool interactive )
         for( const auto &component : components ) {
             list << "- " << component.to_string() << std::endl;
         }
-
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
