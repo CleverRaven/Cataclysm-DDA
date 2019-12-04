@@ -11,7 +11,7 @@
     "components": [
       [ [ "jar_glass", 1 ], [ "bottle_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
       [ [ "acid", 2 ] ],
-      [ [ "string_6", 1 ] ]
+      [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -51,7 +51,7 @@
     "using": [ [ "soldering_standard", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "scrap", 3 ],
         [ "can_food_unsealed", 1 ],
@@ -86,7 +86,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -121,7 +121,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
@@ -201,7 +201,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
       [
@@ -253,7 +253,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 40 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -282,7 +282,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 50 ], [ "scrap", 4 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
