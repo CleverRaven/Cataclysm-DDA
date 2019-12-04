@@ -1,0 +1,65 @@
+[
+  {
+    "abstract": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm grenade",
+    "weight": "230 g",
+    "volume": "125 ml",
+    "price": 10000,
+    "price_postapoc": 40000,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 10,
+    "stack_size": 1,
+    "ammo_type": "40x46mm",
+    "casing": "40x46mm_casing",
+    "range": 40,
+    "damage": 80,
+    "dispersion": 30,
+    "recoil": 225,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "40x46mm_m1006",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm M1006",
+    "description": "A low velocity non lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
+    "weight": "68 g",
+    "damage": 20,
+    "extend": { "effects": [ "LARGE_BEANBAG" ] }
+  },
+  {
+    "id": "40x46mm_m433",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm M433",
+    "description": "A low velocity 40x46mm HEDP grenade.  It can penetrate 2 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
+    "damage": 200,
+    "pierce": 30,
+    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+  },
+  {
+    "id": "40x46mm_m576",
+    "copy-from": "40mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm M576",
+    "description": "A 40x46mm buckshot load, designed for use in thick vegetation or room clearing.",
+    "weight": "120 g",
+    "range": 12,
+    "damage": 120,
+    "pierce": 4,
+    "recoil": 1000,
+    "extend": { "effects": [ "SHOT" ] }
+  },
+  {
+    "id": "40x46mm_m651",
+    "copy-from": "40mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm M651",
+    "description": "A low velocity 40mm tear gas canister.  It is effective for riot control and driving infantry from entrenched positions",
+    "drop": "gasbomb_act",
+    "extend": { "effects": [ "NO_EMBED" ] }
+  }
+]

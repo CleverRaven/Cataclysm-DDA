@@ -130,11 +130,23 @@
     "volume": "5ml"
   },
   {
-    "id": "40mm_casing",
+    "id": "40x46mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "40mm canister",
-    "description": "A large canister from a spent 40mm grenade.",
+    "name": "40x46mm casing",
+    "description": "A large canister from a spent 40x46mm grenade.",
+    "weight": "50 g",
+    "volume": "25ml",
+    "material": "steel",
+    "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "40x53mm_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "40x46mm casing",
+    "description": "A large canister from a spent 40x53mm grenade.",
     "weight": "50 g",
     "volume": "25ml",
     "material": "steel",

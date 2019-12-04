@@ -1,0 +1,45 @@
+[
+  {
+    "abstract": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm grenade",
+    "weight": "230 g",
+    "volume": "125 ml",
+    "price": 10000,
+    "price_postapoc": 40000,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 10,
+    "stack_size": 1,
+    "ammo_type": "40x53mm",
+    "casing": "40x53mm_casing",
+    "range": 40,
+    "damage": 80,
+    "dispersion": 30,
+    "recoil": 225,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "40x53mm_m1001",
+    "copy-from": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm M1001",
+    "description": "40x53mm canister shot loaded with 17 grain flechettes.",
+    "range": 12,
+    "damage": 150,
+    "pierce": 10,
+    "recoil": 1000,
+    "extend": { "effects": [ "SHOT" ] }
+  },
+  {
+    "id": "40x53mm_m430a1",
+    "copy-from": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm M430a1",
+    "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
+    "damage": 250,
+    "pierce": 45,
+    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+  }
+]
