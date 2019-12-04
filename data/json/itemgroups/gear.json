@@ -58,10 +58,8 @@
     "subtype": "distribution",
     "items": [
       { "group": "cop_gear", "prob": 100 },
-      [ "40mm_concussive", 5 ],
-      [ "40mm_flashbang", 15 ],
-      [ "40mm_smoke", 5 ],
-      [ "40mm_teargas", 10 ],
+      [ "40x46mm_m433", 5 ],
+      [ "40x46mm_m651", 10 ],
       [ "ammo_satchel", 5 ],
       [ "bootstrap", 5 ],
       [ "chestpouch", 5 ],

@@ -354,12 +354,12 @@
   {
     "id": "reloaded_40mm_fletchette",
     "type": "MIGRATION",
-    "replace": "40mm_flechette"
+    "replace": "40x53mm_m1001"
   },
   {
     "id": "reloaded_40mm_shot",
     "type": "MIGRATION",
-    "replace": "40mm_shot"
+    "replace": "40x46mm_m576"
   },
   {
     "id": "reloaded_signal_flare",

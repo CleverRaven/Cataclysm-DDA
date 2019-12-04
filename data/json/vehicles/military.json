@@ -28,7 +28,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40x53mm_m430" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]
@@ -283,7 +283,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40x46mm_m433" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]
@@ -456,7 +456,7 @@
         "parts": [
           "turret_mount",
           {
-            "ammo_types": [ "40mm_frag", "40mm_concussive" ],
+            "ammo_types": [ "40x53mm_m430" ],
             "part": "mounted_mk19",
             "ammo": 60,
             "ammo_qty": [ 1, 25 ]
