@@ -192,7 +192,7 @@
     "weight": "5 g",
     "volume": "15 ml",
     "material": [ "paper" ],
-    "looks_like": "newspaper",
+    "looks_like": "newest_newspaper",
     "color": "white",
     "symbol": "?",
     "flags": "TRADER_AVOID"
