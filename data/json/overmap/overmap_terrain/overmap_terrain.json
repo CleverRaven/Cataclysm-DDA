@@ -46,7 +46,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -63,7 +63,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -80,7 +80,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -878,7 +878,7 @@
     "name": "desolate barn",
     "sym": "B",
     "color": "brown",
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] }
   },
   {
     "type": "overmap_terrain",

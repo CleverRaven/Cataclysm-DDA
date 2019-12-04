@@ -455,7 +455,7 @@
     "name": "empty residential lot",
     "sym": "O",
     "color": "i_green",
-    "flags": [ "GENERIC_LOOT" ]
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "id": "derelict_property",
