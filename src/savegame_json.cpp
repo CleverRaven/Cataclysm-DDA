@@ -113,7 +113,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -129,7 +129,7 @@ static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -431,6 +431,8 @@ void Character::load( JsonObject &data )
     data.read( "oxygen", oxygen );
     data.read( "pkill", pkill );
 
+    data.read( "type_of_scent", type_of_scent );
+
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
@@ -707,6 +709,7 @@ void Character::store( JsonOut &json ) const
     }
 
     json.member( "stim", stim );
+    json.member( "type_of_scent", type_of_scent );
 
     // breathing
     json.member( "underwater", underwater );

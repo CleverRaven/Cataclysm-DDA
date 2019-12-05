@@ -174,7 +174,8 @@ void set_language()
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
-    if( !lang_opt.empty() ) { // Not 'System Language'
+    if( !lang_opt.empty() ) {
+        // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
@@ -336,7 +337,8 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
     std::vector<std::string> chosen_genders;
     for( const auto &subject_genders : genders ) {
-        std::string chosen_gender = language_genders[0]; // default if no match
+        // default if no match
+        std::string chosen_gender = language_genders[0];
         for( const std::string &gender : subject_genders.second ) {
             if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
                 language_genders.end() ) {

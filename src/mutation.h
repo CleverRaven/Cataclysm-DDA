@@ -137,7 +137,12 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        cata::optional<int> scent_intensity;
+        cata::optional<int> scent_mask;
         int bleed_resist = 0;
+
+        /**What do you smell like*/
+        cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing bodypart and there intensity*/
         std::map<body_part, int> lumination;
@@ -363,7 +368,7 @@ struct mutation_branch {
          * Get the trait group object specified by the given ID, or null if no
          * such group exists.
          */
-        static std::shared_ptr<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+        static shared_ptr_fast<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
 
         /**
          * Return the idents of all trait groups that are known.

@@ -542,7 +542,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
         }
     }
 
-    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos().xy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
@@ -783,7 +783,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );
     if( place_randomly ) {

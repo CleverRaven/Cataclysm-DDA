@@ -715,6 +715,21 @@
     "replace": "can_bomb"
   },
   {
+    "id": "surv_levershotgun",
+    "type": "MIGRATION",
+    "replace": "winchester_1887"
+  },
+  {
+    "id": "l_def_12",
+    "type": "MIGRATION",
+    "replace": "tavor_12"
+  },
+  {
+    "id": "abzats",
+    "type": "MIGRATION",
+    "replace": "bigun"
+  },
+  {
     "id": "taurus_38",
     "type": "MIGRATION",
     "replace": "taurus_spectrum"

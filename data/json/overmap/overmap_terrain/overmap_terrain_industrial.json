@@ -210,7 +210,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -219,7 +219,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -228,7 +228,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -237,7 +237,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -278,7 +278,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -287,7 +287,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -296,7 +296,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -305,7 +305,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -356,7 +356,7 @@
     "copy-from": "generic_city_building",
     "sym": "x",
     "color": "i_light_gray",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",

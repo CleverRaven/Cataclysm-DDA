@@ -380,7 +380,7 @@
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -397,7 +397,7 @@
     "price": 150,
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +456,7 @@
     "price": 900,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "calories": 23,
     "charges": 20,
     "fun": -5
@@ -469,7 +469,7 @@
     "name_plural": "Kentucky coffee grounds",
     "container": "bag_plastic",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "NO_CRAFT_INHERIT" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 5,
     "stack_size": 20
   },
@@ -512,7 +512,8 @@
     "material": "tomato",
     "volume": "250 ml",
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",

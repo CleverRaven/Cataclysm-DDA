@@ -105,7 +105,7 @@ class main_menu
         void init_windows();
         std::string handle_input_timeout( input_context &ctxt );
 
-        std::string halloween_spider();
+        static std::string halloween_spider();
         std::string halloween_graves();
 };
 

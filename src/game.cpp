@@ -205,6 +205,7 @@ const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paid( "paid" );
@@ -869,11 +870,11 @@ void game::load_npcs()
 {
     const int radius = HALF_MAPSIZE - 1;
     // uses submap coordinates
-    std::vector<std::shared_ptr<npc>> just_added;
+    std::vector<shared_ptr_fast<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
         const character_id &id = temp->getID();
         const auto found = std::find_if( active_npc.begin(), active_npc.end(),
-        [id]( const std::shared_ptr<npc> &n ) {
+        [id]( const shared_ptr_fast<npc> &n ) {
             return n->getID() == id;
         } );
         if( found != active_npc.end() ) {
@@ -953,7 +954,7 @@ void game::create_starting_npcs()
         return; //There is already an NPC in this starting location
     }
 
-    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point_south_east );
@@ -1504,7 +1505,7 @@ bool game::do_turn()
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
         !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
-        scent.set( u.pos(), u.scent );
+        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -1557,7 +1558,6 @@ bool game::do_turn()
         draw();
         refresh_display();
     }
-    u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
         do_rain( weather.weather );
@@ -2096,7 +2096,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.wear( oThisItem );
                     break;
                 case 'w':
-                    wield( pos );
+                    wield( locThisItem );
                     break;
                 case 't':
                     avatar_action::plthrow( u, pos );
@@ -2114,10 +2114,10 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     unload( pos );
                     break;
                 case 'r':
-                    reload( pos );
+                    reload( locThisItem );
                     break;
                 case 'p':
-                    reload( pos, true );
+                    reload( locThisItem, true );
                     break;
                 case 'm':
                     mend( pos );
@@ -2381,6 +2381,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -2815,7 +2816,7 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
-        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
         if( !npc_to_get )  {
             continue;
         }
@@ -3026,7 +3027,7 @@ void game::disp_NPC_epilogues()
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
-        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
         if( !npc_to_get ) {
             continue;
         }
@@ -3144,7 +3145,8 @@ struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
     // Operator overload required to leverage sort API.
-    bool operator()( const std::shared_ptr<npc> &a, const std::shared_ptr<npc> &b ) const {
+    bool operator()( const shared_ptr_fast<npc> &a,
+                     const shared_ptr_fast<npc> &b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
         return square_dist( ppos.xy(), apos.xy() ) <
@@ -3165,7 +3167,7 @@ void game::disp_NPCs()
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
                lpos.z );
-    std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
     size_t i;
     for( i = 0; i < 20 && i < npcs.size(); i++ ) {
@@ -4241,7 +4243,9 @@ void game::monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         m.creature_in_field( guy );
-        guy.process_turn();
+        if( !guy.has_effect( effect_npc_suspend ) ) {
+            guy.process_turn();
+        }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
@@ -4262,14 +4266,13 @@ void game::monmove()
         }
 
         // If we spun too long trying to decide what to do (without spending moves),
-        // Invoke cranial detonation to prevent an infinite loop.
+        // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's brain explodes!" ), guy.name );
-            guy.die( nullptr );
+            add_msg( _( "%s faints!" ), guy.name );
+            guy.reboot();
         }
 
         if( !guy.is_dead() ) {
-            guy.process_active_items();
             guy.npc_update_body();
         }
     }
@@ -4584,7 +4587,7 @@ void game::use_computer( const tripoint &p )
 template<typename T>
 T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
-    if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( p ) ) {
+    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( p ) ) {
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
@@ -4628,9 +4631,9 @@ template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
 template<typename T>
-std::shared_ptr<T> game::shared_from( const T &critter )
+shared_ptr_fast<T> game::shared_from( const T &critter )
 {
-    if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
         return std::dynamic_pointer_cast<T>( mon_ptr );
     }
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
@@ -4645,12 +4648,12 @@ std::shared_ptr<T> game::shared_from( const T &critter )
     return nullptr;
 }
 
-template std::shared_ptr<Creature> game::shared_from<Creature>( const Creature & );
-template std::shared_ptr<Character> game::shared_from<Character>( const Character & );
-template std::shared_ptr<player> game::shared_from<player>( const player & );
-template std::shared_ptr<avatar> game::shared_from<avatar>( const avatar & );
-template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
-template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
+template shared_ptr_fast<Creature> game::shared_from<Creature>( const Creature & );
+template shared_ptr_fast<Character> game::shared_from<Character>( const Character & );
+template shared_ptr_fast<player> game::shared_from<player>( const player & );
+template shared_ptr_fast<avatar> game::shared_from<avatar>( const avatar & );
+template shared_ptr_fast<monster> game::shared_from<monster>( const monster & );
+template shared_ptr_fast<npc> game::shared_from<npc>( const npc & );
 
 template<typename T>
 T *game::critter_by_id( const character_id id )
@@ -4697,7 +4700,7 @@ monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
     return place_critter_around( id, p, 0 );
 }
 
-monster *game::place_critter_at( const std::shared_ptr<monster> mon, const tripoint &p )
+monster *game::place_critter_at( const shared_ptr_fast<monster> mon, const tripoint &p )
 {
     return place_critter_around( mon, p, 0 );
 }
@@ -4708,10 +4711,11 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
     if( id.is_null() ) {
         return nullptr;
     }
-    return place_critter_around( std::make_shared<monster>( id ), center, radius );
+    return place_critter_around( make_shared_fast<monster>( id ), center, radius );
 }
 
-monster *game::place_critter_around( const std::shared_ptr<monster> mon, const tripoint &center,
+monster *game::place_critter_around( const shared_ptr_fast<monster> mon,
+                                     const tripoint &center,
                                      const int radius )
 {
     cata::optional<tripoint> where;
@@ -4738,10 +4742,10 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
     if( id.is_null() ) {
         return nullptr;
     }
-    return place_critter_within( std::make_shared<monster>( id ), range );
+    return place_critter_within( make_shared_fast<monster>( id ), range );
 }
 
-monster *game::place_critter_within( const std::shared_ptr<monster> mon,
+monster *game::place_critter_within( const shared_ptr_fast<monster> mon,
                                      const tripoint_range &range )
 {
     const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
@@ -4781,7 +4785,7 @@ void game::clear_zombies()
 bool game::spawn_hallucination( const tripoint &p )
 {
     if( one_in( 100 ) ) {
-        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->randomize( NC_HALLU );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
@@ -4795,7 +4799,7 @@ bool game::spawn_hallucination( const tripoint &p )
     }
 
     const mtype_id &mt = MonsterGenerator::generator().get_valid_hallucination();
-    const std::shared_ptr<monster> phantasm = std::make_shared<monster>( mt );
+    const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
 
@@ -4904,7 +4908,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
         debugmsg( "Tried to revive a non-corpse." );
         return false;
     }
-    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( it.get_mtype()->id );
+    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
+                                          ( it.get_mtype()->id );
     monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
@@ -4972,7 +4977,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         m.i_rem( couch_pos, cyborg );
 
         const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
-        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->load_npc_template( npc_cyborg );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
@@ -5134,7 +5139,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 it = items.erase( it );
                 continue;
             }
-            m.add_item_or_charges( point( kbx, kby ), *it );
+            m.add_item_or_charges( kbp, *it );
             it = items.erase( it );
         }
     }
@@ -6627,6 +6632,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -6766,7 +6772,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 add_msg( m_info, _( "You can't travel there." ) );
                 continue;
             }
-        } else if( action == "debug_scent" ) {
+        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
             }
@@ -8454,12 +8460,6 @@ void game::change_side( int pos )
     u.change_side( pos );
 }
 
-void game::reload( int pos, bool prompt )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    reload( loc, prompt );
-}
-
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
@@ -8681,12 +8681,6 @@ bool game::unload( item &it )
     return u.unload( it );
 }
 
-void game::wield( int pos )
-{
-    item_location loc( u, &u.i_at( pos ) );
-    wield( loc );
-}
-
 void game::wield( item_location &loc )
 {
     if( u.is_armed() ) {
@@ -8867,7 +8861,7 @@ bool game::disable_robot( const tripoint &p )
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
         u.moves -= 100;
-        m.add_item_or_charges( p.xy(), critter.to_item() );
+        m.add_item_or_charges( p, critter.to_item() );
         if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
             for( auto &ammodef : critter.ammo ) {
                 if( ammodef.second > 0 ) {
@@ -10301,12 +10295,12 @@ void game::vertical_move( int movez, bool force )
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
-    std::shared_ptr<monster> stored_mount;
+    shared_ptr_fast<monster> stored_mount;
     if( u.is_mounted() && !m.has_zlevels() ) {
         // Store a *copy* of the mount, so we can remove the original monster instance
         // from the tracker before the map shifts.
         // Map shifting would otherwise just despawn the mount and would later respawn it.
-        stored_mount = std::make_shared<monster>( *u.mounted_creature );
+        stored_mount = make_shared_fast<monster>( *u.mounted_creature );
         critter_tracker->remove( *u.mounted_creature );
     }
     if( !m.has_zlevels() ) {
@@ -10335,11 +10329,11 @@ void game::vertical_move( int movez, bool force )
         shift_monsters( tripoint( 0, 0, movez ) );
     }
 
-    std::vector<std::shared_ptr<npc>> npcs_to_bring;
+    std::vector<shared_ptr_fast<npc>> npcs_to_bring;
     std::vector<monster *> monsters_following;
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
-        [this]( const std::shared_ptr<npc> &np ) {
+        [this]( const shared_ptr_fast<npc> &np ) {
             return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
                    rl_dist( np->pos(), u.pos() ) < 2;
         } );
@@ -10809,7 +10803,7 @@ void game::replace_stair_monsters()
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
         const tripoint pnt( elem.pos().xy(), get_levz() );
-        place_critter_around( std::make_shared<monster>( elem ), pnt, 10 );
+        place_critter_around( make_shared_fast<monster>( elem ), pnt, 10 );
     }
 
     coming_to_stairs.clear();
@@ -10916,7 +10910,7 @@ void game::update_stair_monsters()
         if( is_empty( dest ) ) {
             critter.spawn( dest );
             critter.staircount = 0;
-            place_critter_at( std::make_shared<monster>( critter ), dest );
+            place_critter_at( make_shared_fast<monster>( critter ), dest );
             if( u.sees( dest ) ) {
                 if( !from_below ) {
                     add_msg( m_warning, _( "The %1$s comes down the %2$s!" ),
@@ -11107,7 +11101,7 @@ void game::perhaps_add_random_npc()
         }
         counter += 1;
     }
-    std::shared_ptr<npc> tmp = std::make_shared<npc>();
+    shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize();
     std::string new_fac_id = "solo_";
@@ -11459,7 +11453,8 @@ void game::process_artifact( item &it, player &p )
                 p.mod_per_bonus( +2 );
                 p.mod_int_bonus( +2 );
                 break;
-            case AEP_SPEED_UP: // Handled in player::current_speed()
+            case AEP_SPEED_UP:
+                // Handled in player::current_speed()
                 break;
 
             case AEP_PBLUE:

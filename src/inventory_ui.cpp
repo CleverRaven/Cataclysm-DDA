@@ -1899,7 +1899,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO : implement favoriting in multi selection menus while maintaining selection
+            // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
         }
@@ -2136,7 +2136,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
-            // TODO : implement favoriting in multi selection menus while maintaining selection
+            // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
             count = 0;

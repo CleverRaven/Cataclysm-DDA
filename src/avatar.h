@@ -170,10 +170,14 @@ class avatar : public player
 
         void set_movement_mode( character_movemode mode ) override;
 
-        void cycle_move_mode();    // Cycles to the next move mode.
-        void reset_move_mode();    // Resets to walking.
-        void toggle_run_mode();    // Toggles running on/off.
-        void toggle_crouch_mode(); // Toggles crouching on/off.
+        // Cycles to the next move mode.
+        void cycle_move_mode();
+        // Resets to walking.
+        void reset_move_mode();
+        // Toggles running on/off.
+        void toggle_run_mode();
+        // Toggles crouching on/off.
+        void toggle_crouch_mode();
 
         bool wield( item &target ) override;
 

@@ -275,7 +275,8 @@ static void get_tile_information( const std::string &config_path, std::string &j
 
             if( sOption.empty() ) {
                 getline( fin, sOption );
-            } else if( sOption[0] == '#' ) { // Skip comment
+            } else if( sOption[0] == '#' ) {
+                // Skip comment
                 getline( fin, sOption );
             } else if( sOption.find( "JSON" ) != std::string::npos ) {
                 fin >> json_path;
@@ -601,7 +602,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     // loop through all tile ids and eliminate empty/invalid things
     for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
-        auto &td = it->second;        // second is the tile_type describing that id
+        // second is the tile_type describing that id
+        auto &td = it->second;
         process_variations_after_loading( td.fg );
         process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
@@ -977,7 +979,8 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
 
 struct tile_render_info {
     const tripoint pos;
-    int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
+    // accumulator for 3d tallness of sprites rendered here so far;
+    int height_3d = 0;
     lit_level ll;
     bool invisible[5];
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
@@ -1124,7 +1127,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &y = pos.y;
 
             lit_level ll;
-            bool invisible[5]; // invisible to normal eyes
+            // invisible to normal eyes
+            bool invisible[5];
             invisible[0] = false;
 
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
@@ -1148,6 +1152,16 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
+                                                     NORTH ) );
+                }
+            }
+
+            // Add scent type to the overlay_strings list for every visible tile when displaying scent
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
+                const scenttype_id scent_type = g->scent.get_type( pos );
+                if( !scent_type.is_empty() ) {
+                    overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
+                                             formatted_text( scent_type.c_str(), 8 + catacurses::yellow,
                                                      NORTH ) );
                 }
             }
@@ -1704,7 +1718,8 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 sym = LINE_XXXX_C;
                 break;
             default:
-                break; // sym goes unchanged
+                // sym goes unchanged
+                break;
         }
         if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
@@ -1962,42 +1977,51 @@ bool cata_tiles::draw_sprite_at(
     if( rotate_sprite ) {
         switch( rota ) {
             default:
-            case 0: // unrotated (and 180, with just two sprites)
+            case 0:
+                // unrotated (and 180, with just two sprites)
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 break;
-            case 1: // 90 degrees (and 270, with just two sprites)
+            case 1:
+                // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32)
                 destination.y -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) {
+                    // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 2: // 180 degrees, implemented with flips instead of rotation
-                if( ! tile_iso ) { // never flip isometric tiles vertically
+            case 2:
+                // 180 degrees, implemented with flips instead of rotation
+                if( !tile_iso ) {
+                    // never flip isometric tiles vertically
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                       static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 3: // 270 degrees
+            case 3:
+                // 270 degrees
 #if defined(_WIN32)
                 destination.x -= 1;
 #endif
-                if( ! tile_iso ) { // never rotate isometric tiles
+                if( !tile_iso ) {
+                    // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr, SDL_FLIP_NONE );
                 } else {
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
                 }
                 break;
-            case 4: // flip horizontally
+            case 4:
+                // flip horizontally
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
-    } else { // don't rotate, same as case 0 above
+    } else {
+        // don't rotate, same as case 0 above
         ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr, SDL_FLIP_NONE );
     }
 
@@ -2742,7 +2766,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = pl->attitude_to( g-> u );
             }
         }
-    } else { // invisible
+    } else {
+        // invisible
         const Creature *critter = g->critter_at( p, true );
         if( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden
@@ -3454,7 +3479,8 @@ void cata_tiles::do_tile_loading_report()
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
     if( !g->is_core_data_loaded() ) {
-        return; // There's nothing to do anymore without the core data.
+        // There's nothing to do anymore without the core data.
+        return;
     }
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );

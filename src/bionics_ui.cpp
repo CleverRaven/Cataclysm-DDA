@@ -33,7 +33,8 @@ enum bionic_menu_mode {
 
 bionic *player::bionic_by_invlet( const int ch )
 {
-    if( ch == ' ' ) {  // space is a special case for unassigned
+    // space is a special case for unassigned
+    if( ch == ' ' ) {
         return nullptr;
     }
 
@@ -63,10 +64,13 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     bool found_fuel = false;
     fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
-        for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
+        for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel ) ;
             if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+                if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                    continue;
+                }
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
@@ -145,8 +149,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( !bio.has_flag( "SAFE_FUEL_OFF" ) && !bio.info().fuel_opts.empty() ) {
         properties.push_back( _( "(fuel saving ON)" ) );
     }
-    if( bio.has_flag( "AUTO_START_ON" ) && !bio.info().fuel_opts.empty() ) {
-        properties.push_back( _( "(auto start ON)" ) );
+    if( bio.is_auto_start_on() && !bio.info().fuel_opts.empty() ) {
+        const std::string label = string_format( _( "(auto start < %d %%)" ),
+                                  static_cast<int>( bio.get_auto_start_thresh() * 100 ) );
+        properties.push_back( label );
     }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
@@ -179,11 +185,15 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     int width = getmaxx( win );
     int height = getmaxy( win );
     for( int i = 0; i < height - 1; ++i ) {
-        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+        // |
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO );
+        // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
     }
-    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
+    // |-
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO );
+    // -|
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
     wrefresh( win );
 }
@@ -274,19 +284,33 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // define and draw a proper intersection character
-    int bionic_chr = LINE_OXOX; // '-'                // 001
-    if( move_up && !move_down && !move_same ) {        // 100
-        bionic_chr = LINE_XOOX;  // '_|'
-    } else if( move_up && move_down && !move_same ) {  // 110
-        bionic_chr = LINE_XOXX;  // '-|'
-    } else if( move_up && move_down && move_same ) {   // 111
-        bionic_chr = LINE_XXXX;  // '-|-'
-    } else if( move_up && !move_down && move_same ) {  // 101
-        bionic_chr = LINE_XXOX;  // '_|_'
-    } else if( !move_up && move_down && !move_same ) { // 010
-        bionic_chr = LINE_OOXX;  // '^|'
-    } else if( !move_up && move_down && move_same ) {  // 011
-        bionic_chr = LINE_OXXX;  // '^|^'
+    // 001
+    // '-'
+    int bionic_chr = LINE_OXOX;
+    if( move_up && !move_down && !move_same ) {
+        // 100
+        // '_|'
+        bionic_chr = LINE_XOOX;
+    } else if( move_up && move_down && !move_same ) {
+        // 110
+        // '-|'
+        bionic_chr = LINE_XOXX;
+    } else if( move_up && move_down && move_same ) {
+        // 111
+        // '-|-'
+        bionic_chr = LINE_XXXX;
+    } else if( move_up && !move_down && move_same ) {
+        // 101
+        // '_|_'
+        bionic_chr = LINE_XXOX;
+    } else if( !move_up && move_down && !move_same ) {
+        // 010
+        // '^|'
+        bionic_chr = LINE_OOXX;
+    } else if( !move_up && move_down && move_same ) {
+        // 011
+        // '^|^'
+        bionic_chr = LINE_OXXX;
     }
     mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
 }
@@ -625,7 +649,8 @@ void player::power_bionics()
             }
         } else if( action == "REASSIGN" ) {
             menu_mode = REASSIGNING;
-        } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
+        } else if( action == "TOGGLE_EXAMINE" ) {
+            // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
             redraw = true;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
@@ -730,7 +755,8 @@ void player::power_bionics()
                            bio_data.name, tmp->invlet );
                     redraw = true;
                 }
-            } else if( menu_mode == EXAMINING ) { // Describing bionics, allow user to jump to description key
+            } else if( menu_mode == EXAMINING ) {
+                // Describing bionics, allow user to jump to description key
                 redraw = true;
                 if( action != "CONFIRM" ) {
                     for( size_t i = 0; i < active.size(); i++ ) {
