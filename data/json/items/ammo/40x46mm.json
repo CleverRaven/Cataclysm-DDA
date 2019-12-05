@@ -13,7 +13,6 @@
     "count": 10,
     "stack_size": 1,
     "ammo_type": "40x46mm",
-    "casing": "40x46mm_casing",
     "range": 40,
     "damage": 80,
     "dispersion": 30,
@@ -28,6 +27,7 @@
     "description": "A low velocity non lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
     "weight": "68 g",
     "damage": 20,
+    "casing": "40x46mm_m212_casing",
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
@@ -38,6 +38,7 @@
     "description": "A low velocity 40x46mm HEDP grenade.  It can penetrate 2 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "damage": 200,
     "pierce": 30,
+    "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
   },
   {
@@ -51,6 +52,7 @@
     "damage": 120,
     "pierce": 4,
     "recoil": 1000,
+    "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
   },
   {
@@ -61,6 +63,7 @@
     "description": "A low velocity 40mm tear gas canister.  It is effective for riot control and driving infantry from entrenched positions",
     "damage": 15,
     "drop": "gasbomb_act",
+    "casing": "40x46mm_m195_casing",
     "extend": { "effects": [ "NO_EMBED" ] }
   }
 ]

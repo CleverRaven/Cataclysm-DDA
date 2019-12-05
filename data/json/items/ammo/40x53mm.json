@@ -13,7 +13,6 @@
     "count": 10,
     "stack_size": 1,
     "ammo_type": "40x53mm",
-    "casing": "40x53mm_casing",
     "range": 40,
     "damage": 80,
     "dispersion": 30,
@@ -30,6 +29,7 @@
     "damage": 150,
     "pierce": 10,
     "recoil": 1000,
+    "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
   },
   {
@@ -40,6 +40,7 @@
     "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "damage": 250,
     "pierce": 45,
+    "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
   }
 ]
