@@ -25,7 +25,10 @@
       { "id": "general_graffiti_16", "text": "Mr. <last_name> is a vampire!" },
       { "id": "general_graffiti_17", "text": "Their hiding the truth" },
       { "id": "general_graffiti_18", "text": "FOLLOW THE CHEMTRAILS" },
-      { "id": "general_graffiti_19", "text": "This is a curious drawing of a roll of toilet paper dissolving into a rainbow." },
+      {
+        "id": "general_graffiti_19",
+        "text": "This is a curious drawing of a roll of toilet paper dissolving into a rainbow."
+      },
       { "id": "general_graffiti_20", "text": "All we wanna do is eat yer brains" },
       { "id": "general_graffiti_21", "text": "<given_name>" },
       { "id": "general_graffiti_22", "text": "don't drink the water" },
@@ -50,14 +53,18 @@
         "text": "This is a spraypainting of an anatomically unlikely woman wearing very little."
       }
     ]
+  },
   {
     "type": "snippet",
     "category": "shelter_graffiti_snippets",
     "text": [
-      { "id": "shelter_graffiti_1, "text": "BIGGEST WASTE OF TAX MONEY FUCK YOU GOVERMINT" },
+      { "id": "shelter_graffiti_1", "text": "BIGGEST WASTE OF TAX MONEY FUCK YOU GOVERMINT" },
       { "id": "shelter_graffiti_2", "text": "Dont eat the proten bars" },
       { "id": "shelter_graffiti_3", "text": "FEMA: FUCKIN EAT MY ASSHOLE" },
-      { "id": "shelter_graffiti_4", "text": "This is a simple drawing of a skinny figure wearing an emergency evac jacket and a gas mask.  Scrawled beneath, it says \"thanks for the outfit\"." },
+      {
+        "id": "shelter_graffiti_4",
+        "text": "This is a simple drawing of a skinny figure wearing an emergency evac jacket and a gas mask.  Scrawled beneath, it says \"thanks for the outfit\"."
+      },
       { "id": "shelter_graffiti_5", "text": "Abandon hope, all ye who enter here." },
       { "id": "shelter_graffiti_6", "text": "NO ONE IS COMING FOR US" },
       { "id": "shelter_graffiti_7", "text": "THERE'S NO RESCUE BUS" },
