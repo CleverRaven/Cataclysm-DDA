@@ -24,7 +24,7 @@
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": "40x46mm M1006",
-    "description": "A low velocity non lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
+    "description": "A low velocity less-lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
     "weight": "68 g",
     "damage": 20,
     "casing": "40x46mm_m212_casing",
