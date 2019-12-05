@@ -5635,6 +5635,10 @@ int player::book_fun_for( const item &book, const player &p ) const
         }
     }
 
+    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
+        fun_bonus /= 2;
+    }
+
     return fun_bonus;
 }
 

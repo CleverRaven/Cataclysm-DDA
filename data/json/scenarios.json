@@ -275,16 +275,7 @@
     "start_name": "Outside Town",
     "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [
-      "sheltered_survivor",
-      "sheltered_militia",
-      "winter_survivor",
-      "winter_scavenger",
-      "winter_army",
-      "road_warrior",
-      "player_bandit",
-      "waste_ranger"
-    ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
   {
     "type": "scenario",
@@ -308,16 +299,7 @@
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [
-      "sheltered_survivor",
-      "sheltered_militia",
-      "winter_survivor",
-      "winter_scavenger",
-      "winter_army",
-      "road_warrior",
-      "player_bandit",
-      "waste_ranger"
-    ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
   {
     "type": "scenario",
