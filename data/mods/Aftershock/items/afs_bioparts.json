@@ -42,7 +42,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 1,
-    "material": "resin",
+    "material": "alien_resin",
     "symbol": ")",
     "color": "pink",
     "looks_like": "kidney"
