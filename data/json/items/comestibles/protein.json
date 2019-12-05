@@ -92,7 +92,7 @@
     "color": "green",
     "container": "wrapper",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 4 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",
