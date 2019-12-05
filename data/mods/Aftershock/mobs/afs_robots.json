@@ -28,7 +28,6 @@
         "gun_type": "laser_cannon",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
         "ranges": [ [ 0, 20, "DEFAULT" ] ],
-        "require_sunlight": false
       }
     ],
     "death_drops": {  },
