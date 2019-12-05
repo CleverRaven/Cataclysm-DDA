@@ -277,7 +277,7 @@
         "b": [ { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ],
         ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
       },
-      "nested": { "|": { "chunks": [ [ "shelter_graffiti", 25 ], [ "null", 75 ] ] } }
+      "nested": { "|": { "chunks": [ [ "shelter_graffiti", 15 ], [ "general_graffiti", 10 ], [ "null", 75 ] ] } }
     }
   },
   {
@@ -285,5 +285,11 @@
     "method": "json",
     "nested_mapgen_id": "shelter_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "shelter_graffiti_snippets" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "general_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "general_graffiti_snippets" } ] }
   }
 ]
