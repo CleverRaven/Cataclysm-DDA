@@ -3,7 +3,7 @@
     "id": "afs_mon_migoturret",
     "type": "MONSTER",
     "name": "brain blaster",
-    "description": "The Mi-Go have set up some defences here.  This horrifying techo-organic amalgamation appears to use brains in jars as their operating system. On the plus side it looks like it can be headshot.",
+    "description": "The mi-go have set up some defenses here.  This horrifying techo-organic amalgamation appears to use brains in jars as their operating system.  On the plus side it looks like it can be headshot.",
     "default_faction": "mi-go",
     "species": [ "ROBOT" ],
     "diff": 20,
