@@ -1233,17 +1233,17 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( cata::optional<SlotType> &slotptr, const JsonObject &jo,
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo,
                               const std::string &src )
 {
     if( !slotptr ) {
-        slotptr.emplace();
+        slotptr = std::make_unique<SlotType>();
     }
     load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( cata::optional<SlotType> &slotptr, const JsonObject &jo,
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo,
                                        const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {

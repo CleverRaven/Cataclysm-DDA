@@ -266,7 +266,7 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( cata::optional<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
+        void load_slot( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
 
         /**
          * Load item the item slot if present in json.
@@ -274,7 +274,7 @@ class Item_factory
          * slot from that object. If the member does not exists, nothing is done.
          */
         template<typename SlotType>
-        void load_slot_optional( cata::optional<SlotType> &slotptr, const JsonObject &jo,
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo,
                                  const std::string &member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );

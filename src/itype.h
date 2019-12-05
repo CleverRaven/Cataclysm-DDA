@@ -799,26 +799,26 @@ struct itype {
          * this before using it.
          */
         /*@{*/
-        cata::optional<islot_container> container;
-        cata::optional<islot_tool> tool;
-        cata::optional<islot_comestible> comestible;
-        cata::optional<islot_brewable> brewable;
-        cata::optional<islot_armor> armor;
-        cata::optional<islot_pet_armor> pet_armor;
-        cata::optional<islot_book> book;
-        cata::optional<islot_mod> mod;
-        cata::optional<islot_engine> engine;
-        cata::optional<islot_wheel> wheel;
-        cata::optional<islot_fuel> fuel;
-        cata::optional<islot_gun> gun;
-        cata::optional<islot_gunmod> gunmod;
-        cata::optional<islot_magazine> magazine;
-        cata::optional<islot_battery> battery;
-        cata::optional<islot_bionic> bionic;
-        cata::optional<islot_ammo> ammo;
-        cata::optional<islot_seed> seed;
-        cata::optional<islot_artifact> artifact;
-        cata::optional<relic> relic_data;
+        std::unique_ptr<islot_container> container;
+        std::unique_ptr<islot_tool> tool;
+        std::unique_ptr<islot_comestible> comestible;
+        std::unique_ptr<islot_brewable> brewable;
+        std::unique_ptr<islot_armor> armor;
+        std::unique_ptr<islot_pet_armor> pet_armor;
+        std::unique_ptr<islot_book> book;
+        std::unique_ptr<islot_mod> mod;
+        std::unique_ptr<islot_engine> engine;
+        std::unique_ptr<islot_wheel> wheel;
+        std::unique_ptr<islot_fuel> fuel;
+        std::unique_ptr<islot_gun> gun;
+        std::unique_ptr<islot_gunmod> gunmod;
+        std::unique_ptr<islot_magazine> magazine;
+        std::unique_ptr<islot_battery> battery;
+        std::unique_ptr<islot_bionic> bionic;
+        std::unique_ptr<islot_ammo> ammo;
+        std::unique_ptr<islot_seed> seed;
+        std::unique_ptr<islot_artifact> artifact;
+        std::unique_ptr<relic> relic_data;
         /*@}*/
 
     private:
@@ -832,6 +832,8 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
+        // Helper for copy constructor and copy assignment operator
+        void copy( const itype &other );
     protected:
         std::string id = "null"; /** unique string identifier for this type */
 
@@ -843,6 +845,8 @@ struct itype {
         itype() {
             melee.fill( 0 );
         }
+        itype( const itype &other );
+        itype &operator=( itype other );
 
         int damage_min() const {
             return count_by_charges() ? 0 : damage_min_;
@@ -1012,7 +1016,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo.has_value() || comestible.has_value();
+            return stackable_ || ammo || comestible;
         }
 
         int charges_default() const {
