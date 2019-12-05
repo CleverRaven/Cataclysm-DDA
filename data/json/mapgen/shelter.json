@@ -3,7 +3,7 @@
     "id": "shelter_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "//": "now used for shelters that have been looted by kids, this is not for general shelter supplies",
+    "//": "now used for shelters that have been looted by kids, see SUS groups for general shelter supplies",
     "items": [
       [ "jacket_evac", 10 ],
       [ "emer_blanket", 40 ],
@@ -48,20 +48,10 @@
         "    |..............|    ",
         "    |..............|    ",
         "    |||............|    ",
-        "    |*=...........x|    ",
+        "    |*=...........6|    ",
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter" ],
-      "computers": {
-        "6": {
-          "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
-        }
-      },
       "place_nested": [ { "chunks": [ [ "shelter_nest_base", 70 ], [ "shelter_nest_vandalized", 30 ] ], "x": 0, "y": 0 } ]
     }
   },
@@ -82,7 +72,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "     llll      c        ",
+        "     llll      c  6     ",
         "      b b b    c        ",
         "      b b b    c        ",
         "      b b b    c        ",
@@ -95,11 +85,21 @@
         "      b b b    c        ",
         "      b b b    c        ",
         "        b b    c        ",
-        "               c        ",
+        "               c  6     ",
         "                        "
       ],
       "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 75 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
     }
   },
@@ -133,14 +133,14 @@
         "    |.b.b.b....c...|    ",
         "    |.b.b.b....c...|    ",
         "    |||.b.b....c...|    ",
-        "    | =........c.. |    ",
+        "    | =........c..6|    ",
         "    |||||:||+|:|||||    "
       ],
       "terrain": {
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-        "6": [ "t_console", "t_console_broken" ]
+        "6": "t_console_broken"
       },
       "furniture": { "b": "f_bench", "c": "f_counter", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
       "items": {
@@ -233,17 +233,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 1 ], [ "shelter_1_nest_vandalized", 99 ] ], "x": 0, "y": 0 } ],
-      "computers": {
-        "6": {
-          "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
-        }
-      }
+      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 1 ], [ "shelter_1_nest_vandalized", 99 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -265,7 +255,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "      bbbbb     c       ",
+        "      bbbbb     c 6     ",
         "                c       ",
         "      bbbbb     c       ",
         "                cc      ",
@@ -281,7 +271,17 @@
       ],
       "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
-      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
+      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
     }
   },
   {
@@ -321,7 +321,7 @@
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-        "6": [ "t_console", "t_console_broken" ]
+        "6": "t_console_broken"
       },
       "furniture": { "b": "f_bench", "c": "f_counter", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
       "items": {
