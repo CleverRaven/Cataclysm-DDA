@@ -4,7 +4,7 @@
     "type": "TOOL",
     "name": "inactive brain blaster",
     "description": "This is a horrifying monstrosity.  Using this item is cannibalism in all but taste and involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.",
-    "weight": "1450 g",
+    "weight": "40750 g",
     "volume": "3 L",
     "price": 600000,
     "to_hit": -3,
