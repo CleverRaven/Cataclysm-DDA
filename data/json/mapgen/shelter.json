@@ -3,8 +3,20 @@
     "id": "shelter_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "//": "obsolete item group, use SUS instead",
-    "items": [ [ "jacket_evac", 100 ], [ "emer_blanket", 100 ], [ "mask_gas", 12 ] ]
+    "//": "now used for shelters that have been looted by kids, this is not for general shelter supplies",
+    "items": [
+      [ "jacket_evac", 10 ],
+      [ "emer_blanket", 40 ],
+      [ "wrapper", 90 ],
+      [ "glass_shard", 80 ],
+      [ "bottle_plastic", 30 ],
+      [ "plastic_knife", 20 ],
+      [ "plastic_spoon", 20 ],
+      [ "plastic_fork", 20 ],
+      [ "bowl_plastic", 10 ],
+      [ "evac_pamphlet", 80 ],
+      { "item": "protein_bar_evac", "count": [ 0, 3 ] }
+    ]
   },
   {
     "type": "mapgen",
@@ -23,20 +35,20 @@
         "    `!!!!`!!!!`!!!!`    ",
         "    &&&&&&&&&&&&&&&&    ",
         "    |----:-++-:----|    ",
-        "    |llll......c..6|    ",
-        "    |.b.b.b....c...|    ",
-        "    |.b.b.b....c...|    ",
-        "    |.b.b.b....c...|    ",
-        "    :.b.b.b........:    ",
+        "    |.............6|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :..............:    ",
         "    |..............|    ",
         "    |......>>......|    ",
         "    |......>>......|    ",
         "    |..............|    ",
-        "    :.b.b.b........:    ",
-        "    |.b.b.b....c...|    ",
-        "    |.b.b.b....c...|    ",
-        "    |||.b.b....c...|    ",
-        "    |*=........c..x|    ",
+        "    :..............:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |||............|    ",
+        "    |*=...........x|    ",
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter" ],
@@ -49,7 +61,95 @@
             { "name": "Contact Us", "action": "emerg_ref_center" }
           ]
         }
-      }
+      },
+      "place_nested": [ { "chunks": [ [ "shelter_nest_base", 1 ], [ "shelter_nest_vandalized", 99 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_nest_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "fill_ter": "t_null",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     llll      c        ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "      b b b             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      b b b             ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "        b b    c        ",
+        "               c        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 90 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 70 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_nest_vandalized",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "fill_ter": "t_null",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||:|++|:|||||    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    | =........c.. |    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        ":": [ "t_window_frame", "t_window" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "6": [ "t_console", "t_console_broken" ]
+      },
+      "furniture": { "b": "f_bench", "c": "f_counter", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 40 },
+        "c": [ { "item": "trash", "chance": 1 }, { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 10 } ],
+        "b": [ { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ],
+        ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "shelter_graffiti", 35 ], [ "null", 65 ] ] } }
     }
   },
   {
@@ -211,19 +311,19 @@
         "   |*|cccc6........l|   ",
         "   |.=.............l|   ",
         "  |--|.............--|  ",
-        "  |b......bbbb......b|  ",
-        "  :b................b:  ",
-        "  |b......llll......b|  ",
-        "  |c......|--|......c|  ",
-        "  |c.......>>.......c|  ",
-        "  |b.......>>.......b|  ",
-        "  :b......|--|......b:  ",
-        "  |b......llll......b|  ",
-        "  |--..............--   ",
-        "   |c.....bbbb.....c|   ",
-        "   |cccx........cccc|4  ",
-        "   |---|l......l|---|   ",
-        "       |-:--+-:-|       "
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...|--|...b..b|  ",
+        "  |b..b....>>....b..b|  ",
+        "  |b..b....>>....b..b|  ",
+        "  :b..b...|--|...b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |--.....bbbb.....--|  ",
+        "   |l..............x|4  ",
+        "   |-------|.......c|   ",
+        "           |-:--+-:-|   "
       ],
       "palettes": [ "shelter" ],
       "computers": {
@@ -265,11 +365,11 @@
         "  |..................3  ",
         "  |..................3  ",
         "  |.....&............3  ",
+        "  |..................3  ",
         "  ||................33  ",
-        "   |................3   ",
         "   |................5   ",
-        "   |---|........|---3   ",
-        "       |--------|       "
+        "   |-------|........3   ",
+        "           |--------3   "
       ],
       "terrain": {
         ".": "t_flat_roof",
@@ -297,29 +397,29 @@
         "########################",
         "########################",
         "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
         "####;;;;;;;;;;;;;;;;####",
         "####;bbbbbbbbbbbbbb;####",
         "####;b____________b;####",
         "####;----_________b;####",
-        "####;T|T||lllll___b;####",
+        "####;T|T||bbbbb___b;####",
         "####;____|----|___b;####",
         "####;S%S_+____|___b;####",
         "####;----|_<<_+___b;####",
         "####;S%S_|_<<_+___b;####",
         "####;____+____|___b;####",
         "####;T|T||----|___b;####",
-        "####;---|llllll___b;####",
+        "####;---|%bbbbb___b;####",
         "####;b____________b;####",
         "####;b____________b;####",
         "####;bbbbbbbbbbbbbb;####",
-        "####;;;;;;;;;;;;;;;;####",
-        "########################",
-        "########################",
-        "########################",
-        "########################"
+        "####;;;;;;;;;;;;;;;;####"
       ],
       "palettes": [ "shelter" ],
-      "items": { "_": { "item": "shelter", "chance": 1 } }
+      "items": { "_": { "item": "shelter_supplies", "chance": 1 } }
     }
   },
   {
@@ -334,30 +434,90 @@
         "########################",
         "########################",
         "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
         "####;;;;;;;;;;;;;;;;####",
         "####;bbbbbbbbbbbbbb;####",
         "####;b____________b;####",
         "####;----_________b;####",
-        "####;T|T||lllll___b;####",
+        "####;T|T||bbbbb___b;####",
         "####;____|----|___b;####",
         "####;S%S_+____|___b;####",
         "####;----|_<<_+___b;####",
         "####;S%S_|_<<_+___b;####",
         "####;____+____|___b;####",
         "####;T|T||----|___b;####",
-        "####;---|llllll___b;####",
+        "####;---|%bbbbb___b;####",
         "####;b____________b;####",
         "####;b____________b;####",
         "####;bbbbbbbbbbbbbb;####",
-        "####;;;;;;;;;;;;;;;;####",
-        "########################",
-        "########################",
-        "########################",
-        "########################"
+        "####;;;;;;;;;;;;;;;;####"
       ],
       "palettes": [ "shelter" ],
-      "items": { "_": { "item": "shelter", "chance": 10 } },
+      "items": {
+        "_": [ { "item": "trash", "chance": 1 }, { "item": "shelter_supplies", "chance": 7 } ],
+        "b": { "item": "shelter", "chance": 4 }
+      },
       "monsters": { "_": { "monster": "GROUP_ZOMBIE", "chance": 40 }, "b": { "monster": "GROUP_ZOMBIE", "chance": 10 } }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "shelter_graffiti_snippets" } ] }
+  },
+  {
+    "type": "snippet",
+    "category": "shelter_graffiti_snippets",
+    "text": [
+      { "id": "shelter_graffiti_1", "text": "<full_name> is the biggest slut in <city>, and I'm damn proud of it!" },
+      { "id": "shelter_graffiti_2", "text": "There is a beautifully drawn graffiti tag on the wall here." },
+      { "id": "shelter_graffiti_3", "text": "<given_name> is a heteronormative bully!" },
+      { "id": "shelter_graffiti_4", "text": "<given_name> + <given_name>" },
+      { "id": "shelter_graffiti_5", "text": "Hell in <city>" },
+      { "id": "shelter_graffiti_6", "text": "were all gonna die" },
+      { "id": "shelter_graffiti_7", "text": "MOM" },
+      { "id": "shelter_graffiti_8", "text": "FUCK YOU" },
+      { "id": "shelter_graffiti_9", "text": "This is a cartoon rendition of a zombie." },
+      { "id": "shelter_graffiti_10", "text": "This is a crudely spraypainted tag adorned with skulls." },
+      {
+        "id": "shelter_graffiti_11",
+        "text": "I have a secure and loving relationship with your mom and you're going to need to come to terms with that.\n\nDo you want to talk about it?  You know where to find me.  Love you sweety."
+      },
+      { "id": "shelter_graffiti_12", "text": "<given_name> you fuckin gave me ADES you SHIT." },
+      { "id": "shelter_graffiti_13", "text": "I <3 <full_name>." },
+      { "id": "shelter_graffiti_14", "text": "<given_name> fucked <full_name>." },
+      { "id": "shelter_graffiti_15", "text": "This is a spraypainted drawing of an angel with wings made of vines." },
+      { "id": "shelter_graffiti_16", "text": "BIGGEST WASTE OF TAX MONEY FUCK YOU GOVERMINT" },
+      { "id": "shelter_graffiti_17", "text": "Their hiding the truth" },
+      { "id": "shelter_graffiti_18", "text": "FOLLOW THE CHEMTRAILS" },
+      { "id": "shelter_graffiti_19", "text": "Dont eat the proten bars" },
+      { "id": "shelter_graffiti_20", "text": "All we wanna do is eat yer brains" },
+      { "id": "shelter_graffiti_21", "text": "<given_name>" },
+      { "id": "shelter_graffiti_22", "text": "don't drink the water" },
+      {
+        "id": "shelter_graffiti_23",
+        "text": "And they walked upon His Earth, and there was a RECKONING, and only the worthy survived"
+      },
+      { "id": "shelter_graffiti_24", "text": "FEMA: FUCKIN EAT MY ASSHOLE" },
+      { "id": "shelter_graffiti_25", "text": "This is a surprisingly artistic drawing of a penis." },
+      { "id": "shelter_graffiti_26", "text": "This is a simple spraypainted graphic of a forest made of bones." },
+      {
+        "id": "shelter_graffiti_27",
+        "text": "This is a spraypainted mural of a giant mushroom with people praying at its base."
+      },
+      { "id": "shelter_graffiti_28", "text": "we can never go back" },
+      { "id": "shelter_graffiti_29", "text": "dont by meth from <given_name>" },
+      { "id": "shelter_graffiti_30", "text": "<full_name> you owe me fifty bucks" },
+      { "id": "shelter_graffiti_31", "text": "Im gonna kill u <given_name>" },
+      { "id": "shelter_graffiti_32", "text": "its in the water" },
+      {
+        "id": "shelter_graffiti_33",
+        "text": "This is a spraypainting of an anatomically unlikely woman wearing very little."
+      }
+    ]
   }
 ]

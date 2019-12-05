@@ -9,13 +9,19 @@
       [ "evac_pamphlet", 99 ],
       [ "jacket_evac", 75 ],
       [ "emer_blanket", 75 ],
-      [ "mask_gas", 5 ],
+      [ "mask_gas", 2 ],
       [ "flashlight", 50 ],
+      [ "light_disposable_cell", 10 ],
       [ "lighter", 20 ],
-      { "item": "water_clean", "count": 2, "prob": 80 },
-      { "item": "protein_bar_evac", "count": 3 },
+      { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "protein_bar_evac", "count": [ 2, 3 ] },
       {
-        "collection": [ { "item": "plastic_spoon" }, { "item": "plastic_knife" }, { "item": "plastic_fork" }, { "item": "bowl_plastic" } ],
+        "collection": [
+          { "item": "plastic_spoon", "prob": 90 },
+          { "item": "plastic_knife", "prob": 90 },
+          { "item": "plastic_fork", "prob": 90 },
+          { "item": "bowl_plastic", "prob": 90 }
+        ],
         "prob": 90
       }
     ]
@@ -30,15 +36,18 @@
       {
         "distribution": [
           {
-            "collection": [ { "item": "emer_blanket", "count": 5, "prob": 80 }, { "item": "jacket_evac", "count": 5, "prob": 80 } ],
+            "collection": [
+              { "item": "emer_blanket", "count": [ 5, 10 ], "prob": 80 },
+              { "item": "jacket_evac", "count": [ 5, 10 ], "prob": 80 }
+            ],
             "prob": 30
           },
-          { "item": "water_clean", "count": 12, "prob": 20 },
-          { "item": "protein_bar_evac", "count": 24, "prob": 60 },
+          { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
+          { "item": "protein_bar_evac", "count": [ 20, 24 ], "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70 },
-              { "item": "1st_aid", "count": [ 1, 3 ], "prob": 85 },
+              { "item": "1st_aid", "count": [ 1, 3 ], "prob": 65 },
               { "item": "two_way_radio", "prob": 65 },
               { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
               { "item": "electric_lantern", "prob": 35 }
@@ -47,18 +56,18 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 1, 2 ] },
+              { "item": "detergent", "count": [ 0, 2 ] },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "prob": 65 },
-              { "item": "ammonia", "prob": 35 }
+              { "item": "bleach", "prob": 45 },
+              { "item": "ammonia", "prob": 15 }
             ],
             "prob": 15
           },
           {
             "collection": [
-              { "item": "can_beans", "count": 12, "prob": 50 },
-              { "item": "can_tomato", "count": 12, "prob": 40 },
-              { "item": "soup_chicken", "count": 12, "prob": 20 },
+              { "item": "can_beans", "count": [ 8, 12 ], "prob": 50 },
+              { "item": "can_tomato", "count": [ 8, 12 ], "prob": 40 },
+              { "item": "soup_chicken", "count": [ 8, 12 ], "prob": 20 },
               { "item": "can_opener", "prob": 90 }
             ],
             "prob": 5
