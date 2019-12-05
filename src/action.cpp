@@ -90,7 +90,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                 }
             }
         } else {
-            getline( keymap_txt, id ); // Clear the whole line
+            // Clear the whole line
+            getline( keymap_txt, id );
         }
     }
 }
@@ -308,6 +309,8 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_SCENT_TYPE:
+            return "debug_scent_type";
         case ACTION_DISPLAY_TEMPERATURE:
             return "debug_temp";
         case ACTION_DISPLAY_VEHICLE_AI:
@@ -422,6 +425,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_SCENT_TYPE:
         case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_DISPLAY_VEHICLE_AI:
         case ACTION_DISPLAY_VISIBILITY:
@@ -774,10 +778,12 @@ action_id handle_action_menu()
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "…";        // help _is_a menu.
+                // help _is_a menu.
+                entry->txt += "…";
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
+                // register with global key
+                REGISTER_CATEGORY( _( "Debug" ) );
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -812,7 +818,8 @@ action_id handle_action_menu()
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "…"; // debug _is_a menu.
+                // debug _is_a menu.
+                entry->txt += "…";
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -823,6 +830,7 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_SCENT_TYPE );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
@@ -992,7 +1000,8 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    // why not?
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );

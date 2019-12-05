@@ -39,7 +39,8 @@ char vehicle::part_sym( const int p, const bool exact ) const
     const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
-        return '\''; // open door
+        // open door
+        return '\'';
     } else {
         return parts[ displayed_part ].is_broken() ?
                part_info( displayed_part ).sym_broken : part_info( displayed_part ).sym;
@@ -59,9 +60,11 @@ vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
     const vpart_id idinfo = parts[displayed_part].id;
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
-        part_mod = 1; // open
+        // open
+        part_mod = 1;
     } else if( parts[ displayed_part ].is_broken() ) {
-        part_mod = 2; // broken
+        // broken
+        part_mod = 2;
     }
 
     return idinfo;

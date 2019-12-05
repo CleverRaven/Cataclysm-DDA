@@ -310,25 +310,26 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( std::shared_ptr<npc> who );
+        void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        std::shared_ptr<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( character_id id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        std::shared_ptr<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( character_id id ) const;
 
-        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
+        const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }
-        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate )
+        std::vector<shared_ptr_fast<npc>> get_npcs( const std::function<bool( const npc & )>
+                                       &predicate )
                                        const;
 
     private:
         friend class overmapbuffer;
 
-        std::vector<std::shared_ptr<npc>> npcs;
+        std::vector<shared_ptr_fast<npc>> npcs;
 
         bool nullbool = false;
         point loc = point_zero;

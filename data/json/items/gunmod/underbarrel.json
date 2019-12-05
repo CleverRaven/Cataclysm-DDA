@@ -141,10 +141,60 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 3,
-      "dispersion": 345,
-      "durability": 10,
+      "ranged_damage": 1,
+      "dispersion": 425,
+      "durability": 7,
       "clip_size": 7,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "GUNMOD",
+    "name": "TS12 second magazine",
+    "description": "The integrated second shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "GUNMOD",
+    "name": "TS12 third magazine",
+    "description": "The integrated third shotgun magazine of the Tavor TS12 which holds 5 shots.  It's irremovable.",
+    "weight": "100 g",
+    "volume": "1750 ml",
+    "integral_volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 1,
+      "dispersion": 320,
+      "durability": 6,
+      "clip_size": 5,
       "reload": 120
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
@@ -255,8 +305,6 @@
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "qualities": [ [ "COOK", 1 ] ],
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {

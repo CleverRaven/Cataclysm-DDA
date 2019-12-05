@@ -95,8 +95,8 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
     if(
         np.will_exchange_items_freely() &&
-        ! np.weapon.is_null() &&
-        ! np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.is_null() &&
+        !np.weapon.has_flag( "NO_UNWIELD" )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -279,7 +279,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                    convert_weight( weight_left ), weight_units() );
 
         std::string cost_str = _( "Exchange" );
-        if( ! np.will_exchange_items_freely() ) {
+        if( !np.will_exchange_items_freely() ) {
             cost_str = string_format( your_balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
                                       format_money( std::abs( your_balance ) ) );
         }
@@ -459,7 +459,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 ch = ' ';
                 break;
             case '\n':
-                if( ! npc_will_accept_trade( np ) ) {
+                if( !npc_will_accept_trade( np ) ) {
 
                     if( np.max_credit_extended() == 0 ) {
                         popup( _( "You'll need to offer me more than that." ) );
@@ -484,18 +484,19 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                                               format_money( np.max_willing_to_owe() )
                                           );
 
-                    if( ! trade_ok ) {
+                    if( !trade_ok ) {
                         update = true;
                         ch = ' ';
                     }
                 } else {
-                    if( ! query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
+                    if( !query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
                         update = true;
                         ch = ' ';
                     }
                 }
                 break;
-            default: // Letters & such
+            default:
+                // Letters & such
                 if( ch >= 'a' && ch <= 'z' ) {
                     ch -= 'a';
                 } else if( ch >= 'A' && ch <= 'Z' ) {
@@ -614,7 +615,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         }
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
-        if( ! np.will_exchange_items_freely() ) {
+        if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
             g->u.practice( skill_barter, practice / 10000 );
         }

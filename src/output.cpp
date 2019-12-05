@@ -732,10 +732,10 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
+                              _( "Search [c]ategory, [m]aterial, [q]uality, [n]otes or [d]isassembled components:" ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
+                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
     wrefresh( win );
 }
 
@@ -1110,14 +1110,14 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    if( ! bDisabled ) {
+    if( !bDisabled ) {
         mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_light_gray : c_light_gray, sText );
     } else {
         mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
-        if( ! bDisabled ) {
+        if( !bDisabled ) {
             mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_light_gray, '<' );
             mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_light_gray, '>' );
         } else {
@@ -1447,7 +1447,7 @@ std::string rewrite_vsnprintf( const char *msg )
 
         // First find next position where argument might be used
         ptr = strchr( msg, '%' );
-        if( ! ptr ) {
+        if( !ptr ) {
             rewritten_msg += msg;
             rewritten_msg_optimised += msg;
             break;
@@ -1490,7 +1490,7 @@ std::string rewrite_vsnprintf( const char *msg )
 
         // Now find where it ends
         const char *end = strpbrk( ptr, formats );
-        if( ! end ) {
+        if( !end ) {
             // Format string error. Just bail.
             return orig_msg;
         }

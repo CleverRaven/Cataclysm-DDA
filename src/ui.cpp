@@ -184,7 +184,7 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( ! filtering || filter.empty() );
+    bool notfiltering = ( !filtering || filter.empty() );
     int num_entries = entries.size();
     bool nocase = filtering_nocase; // TODO: && is_all_lc( filter )
     std::string fstr;
@@ -768,7 +768,7 @@ bool uilist::scrollby( const int scrollby )
     bool backwards = ( scrollby < 0 );
 
     fselected += scrollby;
-    if( ! looparound ) {
+    if( !looparound ) {
         if( backwards && fselected < 0 ) {
             fselected = 0;
         } else if( fselected >= static_cast<int>( fentries.size() ) ) {
@@ -871,13 +871,15 @@ void uilist::query( bool loop, int timeout )
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
+                // disabled
+                ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
-        } else { // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
+        } else {
+            // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;

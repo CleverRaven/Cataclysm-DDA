@@ -284,7 +284,6 @@ static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FASTREADER( "FASTREADER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -380,8 +379,6 @@ static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWHEALER( "SLOWHEALER" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_SLOWREADER( "SLOWREADER" );
-static const trait_id trait_SMELLY( "SMELLY" );
-static const trait_id trait_SMELLY2( "SMELLY2" );
 static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -403,7 +400,6 @@ static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -521,11 +517,11 @@ void player::process_turn()
     if( activity.targets.empty() ) {
         drop_invalid_inventory();
     }
-
+    process_items();
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
+    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
     }
 
@@ -536,45 +532,46 @@ void player::process_turn()
     } );
 
     suffer();
+    // NPCs curently dont make any use of their scent, pointless to calculate it
+    // TODO: make use of NPC scent.
+    if( !is_npc() ) {
+        // Set our scent towards the norm
+        int norm_scent = 500;
+        int temp_norm_scent = INT_MIN;
+        bool found_intensity = false;
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            if( scent_intensity ) {
+                found_intensity = true;
+                temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
+            }
+        }
+        if( found_intensity ) {
+            norm_scent = temp_norm_scent;
+        }
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    if( has_trait( trait_WEAKSCENT ) ) {
-        norm_scent = 300;
-    }
-    if( has_trait( trait_SMELLY ) ) {
-        norm_scent = 800;
-    }
-    if( has_trait( trait_SMELLY2 ) ) {
-        norm_scent = 1200;
-    }
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if( ( has_trait( trait_FLOWERS ) ) && ( !( has_trait( trait_CHLOROMORPH ) ) ) ) {
-        norm_scent -= 200;
-    }
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait( trait_CHLOROMORPH ) ) {
-        norm_scent = 0;
-    }
+        for( const trait_id &mut : get_mutations() ) {
+            const cata::optional<int> &scent_mask = mut->scent_mask;
+            if( scent_mask ) {
+                norm_scent += *scent_mask;
+            }
+        }
 
-    // Scent increases fast at first, and slows down as it approaches normal levels.
-    // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
-    // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if( scent < rng( 0, norm_scent ) ) {
-        scent++;
-    }
+        // Scent increases fast at first, and slows down as it approaches normal levels.
+        // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
+        // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+        if( scent < rng( 0, norm_scent ) ) {
+            scent++;
+        }
 
-    // Unusually high scent decreases steadily until it reaches normal levels.
-    if( scent > norm_scent ) {
-        scent--;
-    }
+        // Unusually high scent decreases steadily until it reaches normal levels.
+        if( scent > norm_scent ) {
+            scent--;
+        }
 
-    for( const trait_id &mut : get_mutations() ) {
-        scent *= mut.obj().scent_modifier;
+        for( const trait_id &mut : get_mutations() ) {
+            scent *= mut.obj().scent_modifier;
+        }
     }
 
     // We can dodge again! Assuming we can actually move...
@@ -600,7 +597,8 @@ void player::process_turn()
     }
 
     // Update time spent conscious in this overmap tile for the Nomad traits.
-    if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
+    if( !is_npc() && ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ||
+                       has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         const tripoint ompos = global_omt_location();
         const point pos = ompos.xy();
@@ -611,7 +609,7 @@ void player::process_turn()
         }
     }
     // Decay time spent in other overmap tiles.
-    if( calendar::once_every( 1_hours ) ) {
+    if( !is_npc() && calendar::once_every( 1_hours ) ) {
         const tripoint ompos = global_omt_location();
         const time_point now = calendar::turn;
         time_duration decay_time = 0_days;
@@ -868,7 +866,7 @@ int player::swim_speed() const
     if( is_mounted() ) {
         monster *mon = mounted_creature.get();
         // no difference in swim speed by monster type yet.
-        // TODO : difference in swim speed by monster type.
+        // TODO: difference in swim speed by monster type.
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->has_flag( MF_SWIMS ) ) {
             ret = 25;
@@ -1833,20 +1831,25 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             break;
         case bp_torso:
             break;
-        case bp_hand_l: // Fall through to arms
+        case bp_hand_l:
+        // Fall through to arms
         case bp_arm_l:
         // Hit to arms/hands are really bad to our aim
-        case bp_hand_r: // Fall through to arms
+        case bp_hand_r:
+        // Fall through to arms
         case bp_arm_r:
             recoil_mul = 200;
             break;
-        case bp_foot_l: // Fall through to legs
+        case bp_foot_l:
+        // Fall through to legs
         case bp_leg_l:
             break;
-        case bp_foot_r: // Fall through to legs
+        case bp_foot_r:
+        // Fall through to legs
         case bp_leg_r:
             break;
-        case bp_mouth: // Fall through to head damage
+        case bp_mouth:
+        // Fall through to head damage
         case bp_head:
             // TODO: Some daze maybe? Move drain?
             break;
@@ -2319,7 +2322,9 @@ void player::update_body()
 
 void player::update_body( const time_point &from, const time_point &to )
 {
-    update_stamina( to_turns<int>( to - from ) );
+    if( !is_npc() ) {
+        update_stamina( to_turns<int>( to - from ) );
+    }
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
@@ -3373,7 +3378,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
     morale->on_worn_item_transform( old_it, new_it );
 }
 
-void player::process_active_items()
+void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = item();
@@ -3397,23 +3402,6 @@ void player::process_active_items()
     std::vector<item *> active_worn_items;
     bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
                          weapon.charges < weapon.type->maximum_charges();
-    // Manual iteration because we only care about *worn* active items.
-    for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
-        }
-        if( !w.active ) {
-            continue;
-        }
-        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-            cloak = &w;
-        }
-        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && w.is_power_armor() ) {
-            power_armor = &w;
-        }
-    }
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -3428,14 +3416,33 @@ void player::process_active_items()
             active_held_items.push_back( index );
         }
     }
-    // Necessary for UPS in Aftershock - check worn items for charge
-    for( const item &it : worn ) {
-        itype_id identifier = it.type->get_id();
-        if( identifier == "UPS_off" ) {
-            ch_UPS += it.ammo_remaining();
-        } else if( identifier == "adv_UPS_off" ) {
-            ch_UPS += it.ammo_remaining() / 0.6;
+    bool update_required = get_check_encumbrance();
+    for( item &w : worn ) {
+        if( w.has_flag( "USE_UPS" ) &&
+            w.charges < w.type->maximum_charges() ) {
+            active_worn_items.push_back( &w );
         }
+        if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
+            cloak = &w;
+        }
+        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+        if( power_armor == nullptr && w.is_power_armor() ) {
+            power_armor = &w;
+        }
+        // Necessary for UPS in Aftershock - check worn items for charge
+        const itype_id &identifier = w.typeId();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += w.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += w.ammo_remaining() / 0.6;
+        }
+        if( !update_required && w.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
+            update_required = true;
+        }
+        w.unset_flag( "ENCUMBRANCE_UPDATE" );
+    }
+    if( update_required ) {
+        reset_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
@@ -4091,26 +4098,28 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
     bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
-        if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
-            add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
-                               base.tname() );
+        if( !is_npc() ) {
+            if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
+                add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
+                                   base.tname() );
 
-        } else if( ammo_match_found ) {
-            add_msg_if_player( m_info, _( "Nothing to reload!" ) );
-        } else {
-            std::string name;
-            if( base.ammo_data() ) {
-                name = base.ammo_data()->nname( 1 );
-            } else if( base.is_watertight_container() ) {
-                name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+            } else if( ammo_match_found ) {
+                add_msg_if_player( m_info, _( "Nothing to reload!" ) );
             } else {
-                name = enumerate_as_string( base.ammo_types().begin(),
-                base.ammo_types().end(), []( const ammotype & at ) {
-                    return at->name();
-                }, enumeration_conjunction::none );
+                std::string name;
+                if( base.ammo_data() ) {
+                    name = base.ammo_data()->nname( 1 );
+                } else if( base.is_watertight_container() ) {
+                    name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
+                } else {
+                    name = enumerate_as_string( base.ammo_types().begin(),
+                    base.ammo_types().end(), []( const ammotype & at ) {
+                        return at->name();
+                    }, enumeration_conjunction::none );
+                }
+                add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
+                                   name, base.tname() );
             }
-            add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
-                               name, base.tname() );
         }
         return item::reload_option();
     }
@@ -5626,6 +5635,10 @@ int player::book_fun_for( const item &book, const player &p ) const
         }
     }
 
+    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
+        fun_bonus /= 2;
+    }
+
     return fun_bonus;
 }
 
@@ -6780,7 +6793,8 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
                 return A_NEUTRAL;
             // player does not want to harm those.
             case MATT_FRIEND:
-            case MATT_ZLAVE: // Don't want to harm your zlave!
+            case MATT_ZLAVE:
+                // Don't want to harm your zlave!
                 return A_FRIENDLY;
             case MATT_ATTACK:
                 return A_HOSTILE;
@@ -7219,12 +7233,14 @@ void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
     magic.on_mutation_gain( mid, *this );
+    update_type_of_scent( mid );
 }
 
 void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
+    update_type_of_scent( mid, false );
 }
 
 void player::on_stat_change( const std::string &stat, int value )

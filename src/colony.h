@@ -41,6 +41,12 @@
 #define COLONY_FORCE_INLINE
 #endif
 
+/* whole GCC 6 family */
+#if __GNUC__ == 6
+/* GCC 6.5 at least complains about type punning, but nothing else does. */
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
 // TODO: get rid of these defines
 #define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, ...)      std::allocator_traits<the_allocator>::construct(allocator_instance, location, __VA_ARGS__)
 #define COLONY_DESTROY(the_allocator, allocator_instance, location)             std::allocator_traits<the_allocator>::destroy(allocator_instance, location)

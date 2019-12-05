@@ -249,7 +249,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
-    standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 8 );
+    standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 7 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
 
@@ -259,7 +259,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate shotgun" ) {
-        arm_shooter( shooter, "shotgun_d" );
+        arm_shooter( shooter, "winchester_1897" );
         test_shooting_scenario( shooter, 4, 6, 17 );
         test_fast_shooting( shooter, 50, 0.3 );
     }
@@ -290,7 +290,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate shotgun" ) {
         arm_shooter( shooter, "ksg", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 9, 15, 33 );
-        test_fast_shooting( shooter, 50, 0.5 );
+        test_fast_shooting( shooter, 50, 0.45 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "tele_sight" } );
@@ -316,8 +316,8 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_shooting_scenario( shooter, 18, 20, 140 );
         test_fast_shooting( shooter, 20, 0.6 );
     }
-    SECTION( "an expert shooter with an auto shotgun" ) {
-        arm_shooter( shooter, "abzats", { "holo_sight" } );
+    SECTION( "an expert shooter with an excellent shotgun" ) {
+        arm_shooter( shooter, "m1014", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
         test_fast_shooting( shooter, 60, 0.5 );
     }

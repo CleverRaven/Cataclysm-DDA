@@ -17,6 +17,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "memory_fast.h"
 
 class JsonObject;
 
@@ -235,7 +236,7 @@ struct regional_settings {
     oter_str_id default_oter; // 'field'
     double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
-    std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
+    shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;

@@ -196,7 +196,7 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ] ]
+    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ] ]
   },
   {
     "result": "goggles_swim",
@@ -363,7 +363,7 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 12 ] ] ]
   },
   {
     "result": "helmet_conical",
@@ -390,7 +390,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 5 ] ], [ [ "acidchitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 12 ] ] ]
   },
   {
     "result": "helmet_galea",

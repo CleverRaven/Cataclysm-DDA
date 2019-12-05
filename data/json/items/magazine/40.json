@@ -83,7 +83,7 @@
   {
     "id": "bhp40mag",
     "type": "MAGAZINE",
-    "name": "Hi-Power magazine .40 S&W",
+    "name": "Hi-Power .40 S&W magazine",
     "description": "A 10 round steel box magazine for the Browning Hi-Power .40 S&W.",
     "weight": "120 g",
     "volume": "185 ml",
@@ -99,7 +99,7 @@
   {
     "id": "ppq40mag_10rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine .40 S&W",
+    "name": "PPQ .40 S&W 10-round magazine",
     "description": "A 10 round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",
@@ -115,7 +115,7 @@
   {
     "id": "ppq40mag_12rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine .40 S&W",
+    "name": "PPQ .40 S&W 12-round magazine",
     "description": "A 12 round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",
@@ -131,7 +131,7 @@
   {
     "id": "ppq40mag_14rd",
     "type": "MAGAZINE",
-    "name": "PPQ magazine .40 S&W",
+    "name": "PPQ .40 S&W 14-round magazine",
     "description": "A 14 round steel box magazine for the Walther PPQ .40 S&W.",
     "weight": "80 g",
     "volume": "200 ml",

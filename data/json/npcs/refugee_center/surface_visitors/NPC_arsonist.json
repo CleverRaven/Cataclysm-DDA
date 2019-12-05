@@ -39,7 +39,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_DOING_REBAR",
-    "dynamic_line": "Well, there's a guy downstairs who got a working pneumatic cannon.  It shoots metal like... like a cannon without the bang.  Cost-efficient as hell.  And there's no shortage of improvised weapons you can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of those monsters seem to be able to break through a fence or wall constructed with the stuff.",
+    "dynamic_line": "Well, there's a guy downstairs who got a working pneumatic cannon.  It shoots metal like… like a cannon without the bang.  Cost-efficient as hell.  And there's no shortage of improvised weapons you can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of those monsters seem to be able to break through a fence or wall constructed with the stuff.",
     "responses": [ { "text": "Well, then…", "topic": "TALK_ARSONIST" } ]
   },
   {
@@ -60,7 +60,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_JOIN",
-    "dynamic_line": "I don't know.  I mean, if you can make yourself useful.  But that's become a real hazy thing nowadays.  It depends who you ask.  The merchant definitely doesn't want me here when I'm not selling, but... some people get away with it.",
+    "dynamic_line": "I don't know.  I mean, if you can make yourself useful.  But that's become a real hazy thing nowadays.  It depends who you ask.  The merchant definitely doesn't want me here when I'm not selling, but… some people get away with it.",
     "responses": [ { "text": "…", "topic": "TALK_ARSONIST" } ]
   },
   {
@@ -69,7 +69,7 @@
     "dynamic_line": {
       "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
       "yes": "Same way you got yours, I bet.  Keep quiet about it, some people here look down on people like us.",
-      "no": "Ssh.  Some people in here hate... mutations.  This was an accident."
+      "no": "Ssh.  Some people in here hate… mutations.  This was an accident."
     },
     "responses": [
       { "text": "Sorry to ask", "topic": "TALK_ARSONIST" },
