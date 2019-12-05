@@ -57,5 +57,15 @@
     "max": 1800,
     "rate": "15 m",
     "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
+  },
+  {
+    "id": "bad_food",
+    "type": "vitamin",
+    "name": "Disgusting Diet",
+    "excess": "bad_food_ennui",
+    "min": 0,
+    "max": 40,
+    "rate": "4 h",
+    "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
   }
 ]
