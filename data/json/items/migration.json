@@ -945,11 +945,6 @@
     "replace": "40x53mm_m1001"
   },
   {
-    "id": "40mm_concussive",
-    "type": "MIGRATION",
-    "replace": "40x46mm_m433"
-  },
-  {
     "id": "40mm_frag",
     "type": "MIGRATION",
     "replace": "40x46mm_m433"
