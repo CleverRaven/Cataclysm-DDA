@@ -69,7 +69,22 @@
       { "id": "shelter_graffiti_6", "text": "NO ONE IS COMING FOR US" },
       { "id": "shelter_graffiti_7", "text": "THERE'S NO RESCUE BUS" },
       { "id": "shelter_graffiti_8", "text": "THEY LET US DOWN" },
-      { "id": "shelter_graffiti_9", "text": "Don't dead open inside" }
+      { "id": "shelter_graffiti_9", "text": "Don't dead open inside" },
+      { "id": "shelter_graffiti_10", "text": "SANCTUARY" },
+      { "id": "shelter_graffiti_11", "text": "<given_name>'s cosplay supply all welcome" },
+      { "id": "shelter_graffiti_12", "text": "Cataclysm Bus Stop" },
+      { "id": "shelter_graffiti_13", "text": "They aren't coming to help, they're coming to clean up" },
+      { "id": "shelter_graffiti_14", "text": "This is a far-too-detailed drawing of an enormous mind-bending monster, the sort that attacked during the Cataclysm." },
+      { "id": "shelter_graffiti_15", "text": "This is a quick rendition in permanent marker of a swirling gateway, with zombies spilling out of it.  Underneath, it reads \"What did they do?\"" },
+      { "id": "shelter_graffiti_16", "text": "RIP humanity" },
+      { "id": "shelter_graffiti_17", "text": "Everyone's dead Dave" },
+      { "id": "shelter_graffiti_18", "text": "WE'RE ALL FUCKIN' FINE HERE" },
+      { "id": "shelter_graffiti_19", "text": "<given_name> I couldn't wait any longer, went to camp 36.  Meet me there.  Love <given_name>." },,
+      { "id": "shelter_graffiti_20", "text": "<given_name> I am still looking for you." },
+      { "id": "shelter_graffiti_21", "text": "<full_name> was here and still alive" },
+      { "id": "shelter_graffiti_22", "text": "Blue 52" },
+      { "id": "shelter_graffiti_23", "text": "<given_name> I no I said Id wait for u but I gotta run, find me" },
+      { "id": "shelter_graffiti_24", "text": "In memoriam:\n<full_name>\n<full_name>\n<full_name>\n<full_name>\n<full_name>\nI would not be alive without all of you.  I will not forget." }
     ]
   }
 ]
