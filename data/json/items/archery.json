@@ -363,7 +363,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 30,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [
+      [ "dampening", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "accesories mount", 1 ],
+      [ "stabilizer mount", 1 ]
+    ]
   },
   {
     "id": "compbow",
@@ -391,7 +397,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 110,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -466,7 +472,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 35,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [
+      [ "dampening", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "accesories mount", 1 ],
+      [ "stabilizer mount", 1 ]
+    ]
   },
   {
     "id": "recurbow",
@@ -494,7 +506,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 90,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "reflexbow",
@@ -522,7 +534,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 40,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [
+      [ "dampening", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "accesories mount", 1 ],
+      [ "stabilizer mount", 1 ]
+    ]
   },
   {
     "id": "hybridbow",
@@ -550,7 +568,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "longbow",
@@ -578,7 +596,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 70,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [
+      [ "dampening", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "accesories mount", 1 ],
+      [ "stabilizer mount", 1 ]
+    ]
   },
   {
     "id": "woodgreatbow",
@@ -623,7 +647,7 @@
     "range": 22,
     "dispersion": 100,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "reflexrecurvebow",
@@ -651,7 +675,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 40,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
     "type": "GENERIC",
