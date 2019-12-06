@@ -33,6 +33,16 @@ enum class description_affix : int {
     DESCRIPTION_AFFIX_NUM
 };
 
+namespace std
+{
+template <>
+struct hash<description_affix> {
+    std::size_t operator()( const description_affix &k ) const {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
+
 static const std::unordered_map<description_affix, std::string> description_affixes = {
     { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
     { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
