@@ -1329,9 +1329,11 @@ static body_part body_part_hit_by_plant()
 bool mattack::growplants( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
-        // TODO: Make this sensible - it can destroy EVERYTHING
-        if( !g->m.has_flag( "DIGGABLE", p ) && one_in( 4 ) ) {
-            g->m.ter_set( p, t_dirt );
+
+        // Only affect natural, dirtlike terrain or trees.
+        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+               g->m.has_flag_ter( "TREE", p ) ||
+               g->m.ter( p ) == t_tree_young ) ) {
             continue;
         }
 
