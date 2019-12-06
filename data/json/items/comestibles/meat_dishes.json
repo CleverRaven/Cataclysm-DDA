@@ -784,7 +784,7 @@
     "color": "light_red",
 	"weight": "300 g",
     "calories": 641,
-    "description": "A supreme pizza with ALL the toppings. It's delicious, nutritious, and filling.",
+    "description": "A supreme pizza with ALL the toppings.",
     "price": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 20,
