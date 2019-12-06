@@ -50,7 +50,7 @@
     "burst": 6,
     "ups_charges": 1,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -131,6 +131,7 @@
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
+      [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -210,6 +211,7 @@
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
+      [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -360,6 +362,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
+      [ "brass catcher", 1 ],
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
@@ -421,6 +424,7 @@
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
       [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -504,7 +508,8 @@
     "clip_size": 12,
     "reload": 220,
     "barrel_length": "36 ml",
-    "default_mods": [ "wire_stock", "grip" ],
+    "default_mods": [ "grip" ],
+    "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3-round", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -538,7 +543,7 @@
     "durability": 6,
     "clip_size": 9,
     "ranged_damage": 1,
-    "default_mods": [ "wire_stock" ],
+    "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "bore", 1 ],
@@ -610,6 +615,7 @@
       [ "sling", 1 ],
       [ "muzzle", 1 ],
       [ "grip", 1 ],
+      [ "brass catcher", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -643,6 +649,7 @@
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "grip mount", 1 ],
+      [ "brass catcher", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -672,6 +679,8 @@
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
