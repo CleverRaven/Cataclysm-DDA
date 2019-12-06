@@ -5,7 +5,6 @@
     "nested_mapgen_id": "shelter_nest_base",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -53,7 +52,6 @@
     "nested_mapgen_id": "shelter_nest_used",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -111,7 +109,6 @@
     "nested_mapgen_id": "shelter_nest_vandalized",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -160,7 +157,6 @@
     "nested_mapgen_id": "shelter_1_nest_base",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -208,7 +204,6 @@
     "nested_mapgen_id": "shelter_1_nest_used",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -262,7 +257,6 @@
     "nested_mapgen_id": "shelter_1_nest_vandalized",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -311,7 +305,6 @@
     "nested_mapgen_id": "shelter_2_nest_base",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -349,7 +342,6 @@
     "nested_mapgen_id": "shelter_2_nest_used",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
@@ -407,7 +399,6 @@
     "nested_mapgen_id": "shelter_2_nest_vandalized",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "fill_ter": "t_null",
       "rows": [
         "                        ",
         "                        ",
