@@ -4155,7 +4155,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-	  [ [
+	  [
         [ "meat_red", 2, "LIST" ],
         [ "can_chicken", 2 ],
         [ "meat_salted", 2 ],
