@@ -97,6 +97,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "RADIO_OFF",
     "magazines": [
       [
@@ -140,6 +141,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
+    "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO" ],
     "magazines": [
       [

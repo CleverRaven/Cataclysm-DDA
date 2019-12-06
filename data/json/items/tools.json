@@ -931,6 +931,7 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "CARVER_OFF",
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "magazines": [
@@ -1098,6 +1099,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
+    "charges_per_use": 5,
     "max_charges": 450,
     "techniques": "SWEEP",
     "use_action": "CHAINSAW_OFF",
@@ -2072,6 +2074,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
+    "charges_per_use": 5,
     "techniques": "SWEEP",
     "use_action": "ELEC_CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ],
@@ -5309,6 +5312,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
@@ -6494,6 +6498,7 @@
     "color": "green",
     "ammo": "gasoline",
     "max_charges": 600,
+    "charges_per_use": 5,
     "use_action": "TRIMMER_OFF",
     "flags": [ "NONCONDUCTIVE" ]
   },
