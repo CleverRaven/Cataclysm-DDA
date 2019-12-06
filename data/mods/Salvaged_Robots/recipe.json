@@ -44,7 +44,6 @@
     "copy-from": "bot_autoarmor_base",
     "components": [
       [ [ "power_armor_light", 1 ] ],
-      [ [ "power_armor_frame", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -59,7 +58,6 @@
     "copy-from": "bot_autoarmor_base",
     "components": [
       [ [ "power_armor_basic", 1 ] ],
-      [ [ "power_armor_frame", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -74,7 +72,6 @@
     "copy-from": "bot_autoarmor_base",
     "components": [
       [ [ "power_armor_heavy", 1 ] ],
-      [ [ "power_armor_frame", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
