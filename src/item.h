@@ -760,6 +760,8 @@ class item : public visitable<item>
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
 
+        int get_comestible_fun() const;
+
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
