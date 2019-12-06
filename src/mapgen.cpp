@@ -1831,6 +1831,7 @@ void load_place_mapings( JsonObject &pjo, const std::string &key,
     } else {
         for( JsonObject jo : pjo.get_array( key ) ) {
             load_place_mapings<PieceType>( jo, vect );
+            jo.allow_omitted_members();
         }
     }
 }
