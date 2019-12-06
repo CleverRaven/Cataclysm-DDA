@@ -767,12 +767,6 @@
   },
   {
     "type": "mutation",
-    "id": "RAP_TALONS",
-    "copy-from": "RAP_TALONS",
-    "extend": { "category": [ "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ], "changes_to": [ "DRAGON_LEGS" ] }
-  },
-  {
-    "type": "mutation",
     "id": "DRAGON_LEGS",
     "name": "Dragon Legs",
     "points": -4,
