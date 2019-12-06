@@ -94,11 +94,17 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "special_attacks": [ { "type": "spell", "spell_id": "spell_shaman_base", "cooldown": 5 }, [ "scratch", 5 ] ],
-    "death_drops": [
-      { "group": "demon_spider_lair_treasure", "prob": 30 },
-      { "item": "robe", "prob": 40 },
-      { "item": "leather_belt", "prob": 20 }
-    ]
+    "death_drops": {
+      "type": "item_group",
+      "subtype": "distribution",
+      "items": [
+        { "group": "enchanted_small_items", "prob": 40 },
+        { "group": "enchanted_melee_weapons_plus1", "prob": 20 },
+        { "group": "enchanted_wands_lesser", "prob": 10 },
+        { "item": "robe", "prob": 40 },
+        { "item": "leather_belt", "prob": 20 }
+      ]
+    }
   },
   {
     "id": "mon_lizardfolk_chieftan",
