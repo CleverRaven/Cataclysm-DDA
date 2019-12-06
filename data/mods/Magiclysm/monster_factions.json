@@ -13,8 +13,8 @@
     "name": "ooze",
     "friendly": [ "dragon_black", "lizardfolk", "ooze" ]
   },
-  { 
-	"type": "MONSTER_FACTION",
+  {
+    "type": "MONSTER_FACTION",
     "name": "lizardfolk",
     "friendly": [ "dragon_black", "ooze", "lizardfolk" ]
   }

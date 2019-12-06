@@ -1,6 +1,6 @@
 [
-  { 
-	"type": "SPELL",
+  {
+    "type": "SPELL",
     "id": "spell_summon_crocodile",
     "name": "Summon Crocodile",
     "description": "Summons a permanent crocodile.",
@@ -11,12 +11,12 @@
     "max_damage": 1,
     "min_aoe": 2,
     "max_aoe": 2,
-	"message": "The shaman summons an crocodile!",
+    "message": "The shaman summons an crocodile!",
     "effect": "summon",
     "effect_str": "mon_crocodile"
   },
-  { 
-	"type": "SPELL",
+  {
+    "type": "SPELL",
     "id": "spell_veggrasp",
     "name": "Vegetative Grasp",
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
@@ -59,10 +59,10 @@
     "range_increment": 0.75,
     "effect": "target_attack",
     "effect_str": "effect_shaman_healed",
-	"message": "The shaman casts a healing spell!"
+    "message": "The shaman casts a healing spell!"
   },
-  { 
-	"type": "SPELL",
+  {
+    "type": "SPELL",
     "id": "spell_shaman_base",
     "name": "an ancient reptilian spell",
     "description": "Causes one of the shaman spells to be cast.",
@@ -72,16 +72,16 @@
     "flags": [ "WONDER" ],
     "min_damage": 1,
     "max_damage": 1,
-	"message": "",
+    "message": "",
     "extra_effects": [
-	  { "id": "spell_veggrasp" }, 
-	  { "id": "spell_veggrasp" }, 
-	  { "id": "spell_veggrasp" }, 
-	  { "id": "spell_veggrasp" }, 
-	  { "id": "shaman_healing" }, 
-	  { "id": "shaman_healing" }, 
-	  { "id": "shaman_healing" }, 
-	  { "id": "spell_summon_crocodile" }
-	]
-  }  
+      { "id": "spell_veggrasp" },
+      { "id": "spell_veggrasp" },
+      { "id": "spell_veggrasp" },
+      { "id": "spell_veggrasp" },
+      { "id": "shaman_healing" },
+      { "id": "shaman_healing" },
+      { "id": "shaman_healing" },
+      { "id": "spell_summon_crocodile" }
+    ]
+  }
 ]
