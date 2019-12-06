@@ -403,24 +403,24 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         lumination.emplace( bp, ja.next_float() );
     }
 
-    for( JsonObject jo : jo.get_array( "wet_protection" ) ) {
-        std::string part_id = jo.get_string( "part" );
-        int ignored = jo.get_int( "ignored", 0 );
-        int neutral = jo.get_int( "neutral", 0 );
-        int good = jo.get_int( "good", 0 );
+    for( JsonObject wp : jo.get_array( "wet_protection" ) ) {
+        std::string part_id = wp.get_string( "part" );
+        int ignored = wp.get_int( "ignored", 0 );
+        int neutral = wp.get_int( "neutral", 0 );
+        int good = wp.get_int( "good", 0 );
         tripoint protect = tripoint( ignored, neutral, good );
         protection[get_body_part_token( part_id )] = protect;
     }
 
-    for( JsonArray jo : jo.get_array( "encumbrance_always" ) ) {
-        std::string part_id = jo.next_string();
-        int enc = jo.next_int();
+    for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
+        std::string part_id = ea.next_string();
+        int enc = ea.next_int();
         encumbrance_always[get_body_part_token( part_id )] = enc;
     }
 
-    for( JsonArray jo : jo.get_array( "encumbrance_covered" ) ) {
-        std::string part_id = jo.next_string();
-        int enc = jo.next_int();
+    for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
+        std::string part_id = ec.next_string();
+        int enc = ec.next_int();
         encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
@@ -428,8 +428,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         restricts_gear.insert( get_body_part_token( line ) );
     }
 
-    for( JsonObject jo : jo.get_array( "armor" ) ) {
-        auto parts = jo.get_tags( "parts" );
+    for( JsonObject ao : jo.get_array( "armor" ) ) {
+        auto parts = ao.get_tags( "parts" );
         std::set<body_part> bps;
         for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
@@ -440,7 +440,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
             }
         }
 
-        resistances res = load_resistances_instance( jo );
+        resistances res = load_resistances_instance( ao );
 
         for( body_part bp : bps ) {
             armor[ bp ] = res;
@@ -448,8 +448,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "attacks" ) ) {
-        for( JsonObject jo : jo.get_array( "attacks" ) ) {
-            attacks_granted.emplace_back( load_mutation_attack( jo ) );
+        for( JsonObject ao : jo.get_array( "attacks" ) ) {
+            attacks_granted.emplace_back( load_mutation_attack( ao ) );
         }
     } else if( jo.has_object( "attacks" ) ) {
         JsonObject attack = jo.get_object( "attacks" );
