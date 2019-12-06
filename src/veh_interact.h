@@ -68,7 +68,8 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
-        char sel_cmd = ' '; //Command currently being run by the player
+        //Command currently being run by the player
+        char sel_cmd = ' ';
 
         const vehicle_part *sel_vehicle_part = nullptr;
 
@@ -92,8 +93,10 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        int max_lift; // maximum level of available lifting equipment (if any)
-        int max_jack; // maximum level of available jacking equipment (if any)
+        // maximum level of available lifting equipment (if any)
+        int max_lift;
+        // maximum level of available jacking equipment (if any)
+        int max_jack;
 
         player_activity serialize_activity();
 

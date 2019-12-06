@@ -12,7 +12,7 @@
     "noise_factor": 15,
     "damaged_power_factor": 0.25,
     "m2c": 50,
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL", "E_HEATER" ],
+    "flags": [ "ENGINE", "E_COMBUSTION", "E_ALTERNATOR", "E_HIGHER_SKILL", "E_HEATER" ],
     "description": "A combustion engine.  Burns fuel from a tank in the vehicle."
   },
   {
@@ -50,7 +50,6 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i6_diesel",
-    "difficulty": 4,
     "durability": 400,
     "epower": -350,
     "power": 223800,
@@ -60,6 +59,11 @@
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 100 }
   },
   {
@@ -67,7 +71,6 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v6_diesel",
-    "difficulty": 4,
     "durability": 400,
     "epower": -250,
     "power": 149200,
@@ -77,6 +80,11 @@
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 100 }
   },
   {
@@ -84,7 +92,6 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v8_diesel",
-    "difficulty": 4,
     "durability": 400,
     "epower": -350,
     "power": 242450,
@@ -94,6 +101,11 @@
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 100 }
   },
   {
@@ -102,7 +114,6 @@
     "type": "vehicle_part",
     "item": "1cyl_combustion",
     "//": "10 HP scooter engine",
-    "difficulty": 2,
     "durability": 150,
     "epower": 0,
     "power": 7370,
@@ -113,6 +124,11 @@
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
@@ -122,7 +138,6 @@
     "type": "vehicle_part",
     "item": "1cyl_combustion_large",
     "//": "55 HP high-performance water-cooled single-cylinder engine",
-    "difficulty": 3,
     "durability": 150,
     "epower": 0,
     "power": 41000,
@@ -133,6 +148,11 @@
       { "item": "steel_chunk", "count": [ 6, 12 ] },
       { "item": "scrap", "count": [ 6, 12 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
@@ -143,7 +163,6 @@
     "item": "1cyl_combustion_small",
     "//": "5 HP lawnmower engine - a big pusher or small walk-behind",
     "fuel_type": "gasoline",
-    "difficulty": 2,
     "durability": 120,
     "epower": 0,
     "power": 3728,
@@ -154,6 +173,11 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
@@ -162,7 +186,6 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "i4_combustion",
-    "difficulty": 2,
     "durability": 300,
     "epower": -150,
     "power": 93250,
@@ -172,6 +195,11 @@
       { "item": "steel_chunk", "count": [ 20, 30 ] },
       { "item": "scrap", "count": [ 20, 30 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 50 }
   },
   {
@@ -179,7 +207,6 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v12_combustion",
-    "difficulty": 6,
     "durability": 600,
     "epower": -350,
     "power": 447600,
@@ -189,6 +216,11 @@
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 110 }
   },
   {
@@ -196,7 +228,6 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "v12_diesel",
-    "difficulty": 7,
     "durability": 600,
     "epower": -400,
     "power": 447600,
@@ -206,6 +237,11 @@
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 110 }
   },
   {
@@ -213,7 +249,6 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v6_combustion",
-    "difficulty": 3,
     "durability": 400,
     "epower": -200,
     "power": 149200,
@@ -223,6 +258,11 @@
       { "item": "steel_chunk", "count": [ 30, 40 ] },
       { "item": "scrap", "count": [ 30, 40 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 100 }
   },
   {
@@ -230,7 +270,6 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v8_combustion",
-    "difficulty": 3,
     "durability": 400,
     "epower": -250,
     "power": 242450,
@@ -240,6 +279,11 @@
       { "item": "steel_chunk", "count": [ 40, 50 ] },
       { "item": "scrap", "count": [ 40, 50 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 100 }
   },
   {
@@ -247,7 +291,6 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v2_combustion",
-    "difficulty": 2,
     "durability": 200,
     "epower": -50,
     "power": 37300,
@@ -258,6 +301,11 @@
       { "item": "steel_chunk", "count": [ 10, 20 ] },
       { "item": "scrap", "count": [ 10, 20 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
   },
@@ -282,7 +330,6 @@
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_watts_small",
-    "difficulty": 4,
     "durability": 200,
     "epower": 0,
     "power": 55950,
@@ -293,6 +340,11 @@
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -300,7 +352,6 @@
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_small",
-    "difficulty": 4,
     "durability": 200,
     "epower": 0,
     "power": 93250,
@@ -310,14 +361,19 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
-    ]
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 45 }
   },
   {
     "id": "engine_steam_medium",
     "copy-from": "steam_engine",
     "type": "vehicle_part",
     "item": "steam_triple_medium",
-    "difficulty": 4,
     "durability": 200,
     "epower": -20,
     "power": 149200,
@@ -328,6 +384,11 @@
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 50 }
   },
   {
@@ -335,7 +396,6 @@
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "small_turbine_engine",
-    "difficulty": 7,
     "durability": 400,
     "epower": -10,
     "power": 1006695,
@@ -346,6 +406,11 @@
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 60 }
   },
   {
@@ -353,7 +418,6 @@
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "medium_turbine_engine",
-    "difficulty": 8,
     "durability": 400,
     "epower": -10,
     "power": 1416830,
@@ -364,6 +428,11 @@
       { "item": "steel_chunk", "count": [ 50, 65 ] },
       { "item": "scrap", "count": [ 50, 65 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 65 }
   },
   {
@@ -371,7 +440,6 @@
     "copy-from": "gas_turbine_engine",
     "type": "vehicle_part",
     "item": "large_turbine_engine",
-    "difficulty": 9,
     "durability": 400,
     "epower": -10,
     "power": 4474199,
@@ -382,6 +450,11 @@
       { "item": "steel_chunk", "count": [ 100, 120 ] },
       { "item": "scrap", "count": [ 100, 120 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 10 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "damage_reduction": { "all": 70 }
   }
 ]

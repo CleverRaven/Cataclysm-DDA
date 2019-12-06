@@ -39,6 +39,7 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
+#include "memory_fast.h"
 
 class basecamp;
 class effect;
@@ -329,8 +330,6 @@ class player : public Character
         bool deactivate_bionic( int b, bool eff_only = false ) override;
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
-        /** Randomly removes a bionic from my_bionics[] */
-        bool remove_random_bionic();
         /** Remove all bionics */
         void clear_bionics();
         /** Returns the size of my_bionics[] */
@@ -934,7 +933,7 @@ class player : public Character
         float power_rating() const override;
         float speed_rating() const override;
 
-        void process_active_items();
+        void process_items();
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
@@ -1159,7 +1158,7 @@ class player : public Character
         start_location_id start_location;
 
         double recoil = MAX_RECOIL;
-        std::weak_ptr<Creature> last_target;
+        weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
@@ -1345,7 +1344,7 @@ class player : public Character
 
     private:
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        std::shared_ptr<targeting_data> tdata;
+        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 

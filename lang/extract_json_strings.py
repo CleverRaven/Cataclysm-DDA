@@ -92,6 +92,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "scent_type",
     "skill_boost",
     "SPECIES",
     "trait_group",
@@ -960,7 +961,7 @@ def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
     if not "type" in item:
-        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
+        return
     object_type = item["type"]
     found_types.add(object_type)
     outfile = get_outfile(object_type)

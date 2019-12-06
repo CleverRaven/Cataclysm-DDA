@@ -91,12 +91,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "shotgun_d_roadwarrior",
-    "entries": [ { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "contents-item": [ "barrel_small" ] } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -149,30 +143,6 @@
     "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
   },
   {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "quiver_winter_surivor",
-    "entries": [ { "item": "bolt_wood", "charges": 29 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "bandolier_roadwarrior",
-    "entries": [ { "item": "reloaded_shot_00", "charges": 18 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "bandolier_waste_ranger",
-    "entries": [ { "item": "reloaded_shot_00", "charges": 19 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "quiver_waste_ranger",
-    "entries": [ { "item": "bolt_steel", "charges": 12 } ]
-  },
-  {
     "type": "profession_item_substitutions",
     "substitutions": [
       {
@@ -190,6 +160,14 @@
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
+      },
+      {
+        "item": "sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
+      },
+      {
+        "item": "fancy_sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
       },
       {
         "item": "hardtack",
@@ -776,6 +754,43 @@
   },
   {
     "type": "profession",
+    "ident": "captive",
+    "name": { "male": "Captive", "female": "Captive" },
+    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place… Are you even on earth anymore?",
+    "points": -2,
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "rescuer",
+    "name": { "male": "Rescuer", "female": "Rescuer" },
+    "description": "You were ready.  You went in determined to find and rescue your friends.  But now as you walk through those strange corridors, the atmosphere grows heavy and you're not so sure anymore. You might be the one in need of a rescue now.",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 5, "name": "melee" },
+      { "level": 4, "name": "tailor" },
+      { "level": 3, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "container-item": "back_holster" },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "ident": "medic",
     "name": "Medical Resident",
     "description": "Fresh out of med school, you've got little in the way of practical experience.  You just hope it will be enough if the old adage of 'Doctor, heal thyself' ends up being required.",
@@ -902,7 +917,7 @@
     "type": "profession",
     "ident": "survivalist",
     "name": "Survivalist",
-    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need...  except your canteen's run out!",
+    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need…  except your canteen's run out!",
     "points": 3,
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1030,7 +1045,7 @@
     "type": "profession",
     "ident": "crazy_cat_lady",
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
-    "description": "Everyone is dead?  Well, it doesn't matter... your cats are all the friends you need!",
+    "description": "Everyone is dead?  Well, it doesn't matter… your cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
     "pets": [ { "name": "mon_cat", "amount": 30 } ],
@@ -1334,7 +1349,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
+          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1492,7 +1507,7 @@
     "type": "profession",
     "ident": "svictim",
     "name": "Shower Victim",
-    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
     "points": -1,
     "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
@@ -2894,34 +2909,6 @@
   },
   {
     "type": "profession",
-    "ident": "winter_survivor",
-    "name": "Hardened Survivor",
-    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "survival" },
-      { "level": 5, "name": "fabrication" },
-      { "level": 5, "name": "melee" },
-      { "level": 4, "name": "tailor" },
-      { "level": 3, "name": "rifle" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "survivor_vest", "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
-        "entries": [
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
-          { "item": "kukri", "container-item": "sheath" },
-          { "item": "crossbow", "ammo-item": "bolt_wood", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "quiver_large", "contents-group": "quiver_winter_surivor" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "panties" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
     "ident": "winter_scavenger",
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
@@ -3001,149 +2988,6 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "ident": "road_warrior",
-    "name": "Road Warrior",
-    "description": "You lived by your wheels during the first few months of the apocalypse, but now your car is lost to this maelstrom of decay, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "driving" },
-      { "level": 3, "name": "mechanics" },
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "shotgun" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "firstaid" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "tank_top",
-          "pants_leather",
-          "jacket_leather_mod",
-          "boots_steel",
-          "gloves_fingerless_mod",
-          "hat_cotton",
-          "survivor_goggles",
-          "long_patchwork_scarf",
-          "survivor_belt",
-          "legrig",
-          "canteen",
-          "whistle",
-          "binoculars",
-          "duct_tape",
-          "ref_lighter",
-          "wristwatch"
-        ],
-        "entries": [
-          { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "gasoline_cooker", "ammo-item": "gasoline", "charges": 500 },
-          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" },
-          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "ident": "waste_ranger",
-    "name": "Wasteland Ranger",
-    "description": "If the human race is to survive, the threats facing its existence must be eliminated, no matter the cost.  If it's hostile, you kill it.",
-    "points": 6,
-    "skills": [
-      { "level": 3, "name": "survival" },
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "stabbing" }
-    ],
-    "items": {
-      "both": {
-        "ammo": 100,
-        "items": [
-          "lsurvivor_suit",
-          "boots_lsurvivor",
-          "gloves_lsurvivor",
-          "mask_lsurvivor",
-          "hood_lsurvivor",
-          "canteen",
-          "wearable_light",
-          "throwing_knife",
-          "wristwatch",
-          "ref_lighter"
-        ],
-        "entries": [
-          { "item": "knife_trench", "container-item": "sheath" },
-          { "item": "ashot", "ammo-item": "reloaded_shot_00", "container-item": "holster" },
-          { "item": "bandolier_shotgun", "contents-group": "bandolier_waste_ranger" },
-          { "item": "helsing", "ammo-item": "bolt_steel", "contents-item": "shoulder_strap" },
-          { "item": "quiver", "contents-group": "quiver_waste_ranger" },
-          { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "ident": "player_bandit",
-    "name": "Veteran Bandit",
-    "description": "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Only those mobile enough to scavenge or brutal enough to pillage would survive.  You are one of the latter.",
-    "points": 6,
-    "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "cutting" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 2, "name": "dodge" },
-      { "level": 1, "name": "bashing" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "gold_ear",
-          "pants_survivor",
-          "motorbike_boots",
-          "gauntlets_larmor",
-          "survivor_goggles",
-          "combatnail",
-          "waterskin2",
-          "survivor_scope",
-          "heavy_flashlight",
-          "knuckle_steel",
-          "ref_lighter",
-          "wristwatch"
-        ],
-        "entries": [
-          {
-            "item": "nailrifle",
-            "ammo-item": "combatnail",
-            "charges": 50,
-            "contents-item": [ "shoulder_strap", "folding_stock" ]
-          },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
-          { "item": "makeshift_machete", "container-item": "scabbard" },
-          { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
-        ]
-      },
-      "male": [ "football_armor", "elbow_pads", "bandana" ],
-      "female": [ "leather_collar", "halter_top", "corset", "vambrace_larmor", "long_knit_scarf_loose" ]
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -4024,6 +3868,18 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "kit_survivor",
+    "name": "Kitted Survivor",
+    "description": "At the local mall, you saw a sign advertising a discount on survival kits.  You bought one, more for show than for actual use.  Now, it's all you have.",
+    "points": 1,
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
     }
   },
   {

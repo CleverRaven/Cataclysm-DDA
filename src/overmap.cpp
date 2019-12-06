@@ -1217,15 +1217,16 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( std::shared_ptr<npc> who )
+void overmap::insert_npc( shared_ptr_fast<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-std::shared_ptr<npc> overmap::erase_npc( const character_id id )
+shared_ptr_fast<npc> overmap::erase_npc( const character_id id )
 {
-    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) {
+    const auto iter = std::find_if( npcs.begin(),
+    npcs.end(), [id]( const shared_ptr_fast<npc> &n ) {
         return n->getID() == id;
     } );
     if( iter == npcs.end() ) {
@@ -1237,10 +1238,11 @@ std::shared_ptr<npc> overmap::erase_npc( const character_id id )
     return ptr;
 }
 
-std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )>
+std::vector<shared_ptr_fast<npc>> overmap::get_npcs( const
+                               std::function<bool( const npc & )>
                                &predicate ) const
 {
-    std::vector<std::shared_ptr<npc>> result;
+    std::vector<shared_ptr_fast<npc>> result;
     for( const auto &g : npcs ) {
         if( predicate( *g ) ) {
             result.push_back( g );
@@ -4370,7 +4372,7 @@ void overmap::for_each_npc( const std::function<void( const npc & )> &callback )
     }
 }
 
-std::shared_ptr<npc> overmap::find_npc( const character_id id ) const
+shared_ptr_fast<npc> overmap::find_npc( const character_id id ) const
 {
     for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {

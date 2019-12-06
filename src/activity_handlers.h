@@ -56,9 +56,12 @@ enum do_activity_reason : int {
 };
 
 struct activity_reason_info {
-    do_activity_reason reason;          //reason for success or fail
-    bool can_do;                        //is it possible to do this
-    cata::optional<size_t> con_idx;     //construction index
+    //reason for success or fail
+    do_activity_reason reason;
+    //is it possible to do this
+    bool can_do;
+    //construction index
+    cata::optional<size_t> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
                           cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
@@ -109,6 +112,20 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
+enum hack_result {
+    HACK_UNABLE,
+    HACK_FAIL,
+    HACK_NOTHING,
+    HACK_SUCCESS
+};
+
+enum hack_type {
+    HACK_SAFE,
+    HACK_DOOR,
+    HACK_GAS,
+    HACK_NULL
+};
+
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
@@ -119,6 +136,7 @@ void drop_do_turn( player_activity *act, player *p );
 void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
+void generic_game_do_turn( player_activity *act, player *p );
 void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
@@ -230,8 +248,7 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
-void hack_door_finish( player_activity *act, player *p );
-void hack_safe_finish( player_activity *act, player *p );
+void hacking_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 

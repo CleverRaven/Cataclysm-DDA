@@ -85,7 +85,7 @@ static std::vector<std::string> get_files_from_path( std::string extension, std:
 static void load_object( JsonObject &jo )
 {
     std::string type = jo.get_string( "type" );
-    if( ! jo.has_string( "type" ) ) {
+    if( !jo.has_string( "type" ) ) {
         jo.throw_error( "JSON object has no type" );
     }
 }

@@ -9,11 +9,15 @@
     "broken_symbol": "*",
     "color": "dark_gray",
     "broken_color": "light_gray",
-    "difficulty": 2,
     "durability": 150,
     "folded_volume": 4,
     "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "ARMOR", "FOLDABLE" ],
     "damage_reduction": { "all": 10, "cut": 45, "stab": 45 }
   },
@@ -27,10 +31,14 @@
     "broken_symbol": "*",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 4,
     "durability": 340,
     "description": "A system of springs and pads, intended to cushion the effects of collisions on the interior of your vehicle.",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 5 ] }, { "item": "spring", "count": [ 0, 4 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "ARMOR" ],
     "damage_reduction": { "all": 15, "bash": 100 }
   }

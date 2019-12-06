@@ -1304,7 +1304,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
 
-    if( med_com->fun != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
+    if( med_item->get_comestible_fun() != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
         info.push_back( iteminfo( "MED", _( "Enjoyability: " ),
                                   g->u.fun_for( *med_item ).first ) );
     }
@@ -4459,6 +4459,15 @@ item &item::unset_flag( const std::string &flag )
     return *this;
 }
 
+item &item::set_flag_recursive( const std::string &flag )
+{
+    set_flag( flag );
+    for( item &comp : components ) {
+        comp.set_flag_recursive( flag );
+    }
+    return *this;
+}
+
 bool item::has_property( const std::string &prop ) const
 {
     return type->properties.find( prop ) != type->properties.end();
@@ -4569,6 +4578,26 @@ std::set<matec_id> item::get_techniques() const
     std::set<matec_id> result = type->techniques;
     result.insert( techniques.begin(), techniques.end() );
     return result;
+}
+
+int item::get_comestible_fun() const
+{
+    if( !is_comestible() ) {
+        return 0;
+    }
+    int fun = get_comestible()->fun;
+    for( const std::string &flag : item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+    for( const std::string &flag : type->item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+
+    if( has_flag( "MUSHY" ) ) {
+        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+    }
+
+    return fun;
 }
 
 bool item::goes_bad() const
@@ -5288,8 +5317,10 @@ nc_color item::damage_color() const
 {
     // TODO: unify with veh_interact::countDurability
     switch( damage_level( 4 ) ) {
-        default: // reinforced
-            if( damage() <= min_damage() ) { // fully reinforced
+        default:
+            // reinforced
+            if( damage() <= min_damage() ) {
+                // fully reinforced
                 return c_green;
             } else {
                 return c_light_green;
@@ -5314,7 +5345,8 @@ nc_color item::damage_color() const
 std::string item::damage_symbol() const
 {
     switch( damage_level( 4 ) ) {
-        default: // reinforced
+        default:
+            // reinforced
             return _( R"(++)" );
         case 0:
             return _( R"(||)" );
@@ -6695,7 +6727,9 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    // If a mod sets a magazine type, we're not integral.
+    if( is_gun() && type->gun->clip > 0 ) {
+        return true;
+    }
     for( const item *m : is_gun() ? gunmods() : toolmods() ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
             return false;

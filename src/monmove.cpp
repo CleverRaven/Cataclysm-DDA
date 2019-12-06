@@ -251,7 +251,7 @@ void monster::wander_to( const tripoint &p, int f )
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
-    const int d = rl_dist( pos(), c.pos() );
+    const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
         return INT_MAX;
     }
@@ -266,7 +266,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( !smart ) {
-        return d;
+        return int( d );
     }
 
     float power = c.power_rating();
@@ -277,7 +277,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return d / power;
+        return int( d ) / power;
     }
 
     return INT_MAX;
@@ -410,8 +410,8 @@ void monster::plan()
                 continue;
             }
 
-            for( const std::weak_ptr<monster> &weak : fac.second ) {
-                const std::shared_ptr<monster> shared = weak.lock();
+            for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
                 if( !shared ) {
                     continue;
                 }
@@ -442,8 +442,8 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const std::weak_ptr<monster> &weak : myfaction_iter->second ) {
-            const std::shared_ptr<monster> shared = weak.lock();
+        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
+            const shared_ptr_fast<monster> shared = weak.lock();
             if( !shared ) {
                 continue;
             }
@@ -796,7 +796,7 @@ void monster::move()
     int new_dy = destination.y - pos().y;
 
     // toggle facing direction for sdl flip
-    if( ! tile_iso ) {
+    if( !tile_iso ) {
         if( new_dx < 0 ) {
             facing = FD_LEFT;
         } else if( new_dx > 0 ) {
@@ -1070,6 +1070,8 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
+    const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
+
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1092,7 +1094,26 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+        const scenttype_id &type_scent = g->scent.get_type( dest );
+
+        bool right_scent = false;
+        // is the monster tracking this scent
+        if( !tracked_scents.empty() ) {
+            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+        }
+        //is this scent recognised by the monster species
+        if( !type_scent.is_empty() ) {
+            const std::set<species_id> &receptive_species = type_scent->receptive_species;
+            const std::set<species_id> &monster_species = type->species;
+            std::vector<species_id> v_intersection;
+            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                                   monster_species.end(), std::back_inserter( v_intersection ) );
+            if( !v_intersection.empty() ) {
+                right_scent = true;
+            }
+        }
+
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&

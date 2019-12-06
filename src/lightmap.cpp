@@ -73,7 +73,7 @@ void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
     }
 }
 
-// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as is_transparent() is called
 bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -497,7 +497,7 @@ float map::ambient_light_at( const tripoint &p ) const
     return get_cache_ref( p.z ).lm[p.x][p.y].max();
 }
 
-bool map::trans( const tripoint &p ) const
+bool map::is_transparent( const tripoint &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }

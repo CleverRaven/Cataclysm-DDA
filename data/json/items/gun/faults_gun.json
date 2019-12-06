@@ -44,7 +44,7 @@
       {
         "id": "mend_fault_gun_dirt_clean",
         "name": "Clean gun",
-        "success_msg": "You clean you %s.",
+        "success_msg": "You clean your %s.",
         "time": "50 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "requirements": {

@@ -96,7 +96,11 @@ void Skill::load_skill( JsonObject &jsobj )
     jsobj.read( "name", name );
     jsobj.read( "description", desc );
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
-    const Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+
+    sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
+    sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
+    sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
