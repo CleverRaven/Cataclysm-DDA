@@ -2712,7 +2712,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES" ]
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ]
   },
   {
     "id": "fanny",
@@ -3020,7 +3020,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER" ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER", "FRAGILE" ]
   },
   {
     "id": "flag_shirt",
@@ -3293,7 +3293,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ]
   },
   {
     "id": "glasses_eye",
@@ -3313,7 +3313,7 @@
     "coverage": 75,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ]
   },
   {
     "id": "glasses_monocle",
@@ -3333,7 +3333,7 @@
     "coverage": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT" ]
+    "flags": [ "SUPER_FANCY", "FIX_NEARSIGHT", "FRAGILE" ]
   },
   {
     "id": "glasses_reading",
@@ -3354,7 +3354,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ]
   },
   {
     "id": "glasses_safety",
@@ -8621,7 +8621,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ]
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ]
   },
   {
     "id": "survivor_belt_notools",
