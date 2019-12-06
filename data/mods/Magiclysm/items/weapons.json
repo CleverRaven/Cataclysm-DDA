@@ -6,13 +6,13 @@
     "category": "weapons",
     "copy-from": "shillelagh",
     "//": "A heavier version of the standard shillelagh (from melee.json) with a different description to match the lizardfolk lore.  Not craftable, but wieldable if discovered.",
-    "description": "A stout knotty club with a large knob at the top.  While it's very heavy and cumbersome to wield, it's a very effective weapon in the hands of a strong opponent.",
-    "weight": "6000 g",
-    "volume": "8000 ml",
+    "description": "A stout knotty club with a large knob at the top.  While it's very heavy, it's a very effective weapon in the hands of a strong opponent.",
+    "weight": "10 kg",
+    "volume": "8 L",
     "price": 5000,
     "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "NO_PICKUP", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
     "bashing": 22,
-    "to_hit": 2
+    "to_hit": 1
   },
   {
     "id": "lizardfolk_trident",
@@ -23,7 +23,7 @@
     "weight": "1650 g",
     "to_hit": 2,
     "techniques": [ "WBLOCK_2", "DEF_DISARM", "IMPALE" ],
-    "volume": "3000 ml",
+    "volume": "3 L",
     "cutting": 29,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "price": 15000
