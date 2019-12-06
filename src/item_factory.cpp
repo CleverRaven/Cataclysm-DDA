@@ -308,13 +308,14 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
+        std::map<vitamin_id, int> &vitamins = obj.comestible->default_nutrition.vitamins;
         if( get_option<bool>( "NO_VITAMINS" ) ) {
-            for( auto &vit : obj.comestible->vitamins ) {
+            for( auto &vit : vitamins ) {
                 if( vit.first->type() == vitamin_type::VITAMIN ) {
                     vit.second = 0;
                 }
             }
-        } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+        } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
@@ -326,10 +327,10 @@ void Item_factory::finalize_pre( itype &obj )
 
             // For comestibles composed of multiple edible materials we calculate the average.
             for( const auto &v : vitamin::all() ) {
-                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
-                        obj.comestible->vitamins[ v.first ] += std::ceil( m.obj().vitamin( v.first ) * healthy /
-                                                               mat.size() );
+                        double amount = m->vitamin( v.first ) * healthy / mat.size();
+                        vitamins[v.first] += std::ceil( amount );
                     }
                 }
             }
@@ -1719,19 +1720,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {
-        slot.kcal = jo.get_int( "calories" );
+        slot.default_nutrition.kcal = jo.get_int( "calories" );
         got_calories = true;
 
     } else if( relative.has_int( "calories" ) ) {
-        slot.kcal += relative.get_int( "calories" );
+        slot.default_nutrition.kcal += relative.get_int( "calories" );
         got_calories = true;
 
     } else if( proportional.has_float( "calories" ) ) {
-        slot.kcal *= proportional.get_float( "calories" );
+        slot.default_nutrition.kcal *= proportional.get_float( "calories" );
         got_calories = true;
 
     } else if( jo.has_int( "nutrition" ) ) {
-        slot.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
+        slot.default_nutrition.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -1741,28 +1742,24 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
         auto vits = jo.get_array( "vitamins" );
-        if( vits.empty() ) {
-            for( auto &v : vitamin::all() ) {
-                slot.vitamins[ v.first ] = 0;
-            }
-        } else {
-            while( vits.has_more() ) {
-                auto pair = vits.next_array();
-                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
-            }
+        while( vits.has_more() ) {
+            auto pair = vits.next_array();
+            vitamin_id vit( pair.get_string( 0 ) );
+            slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
         }
 
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
             for( auto &v : vitamin::all() ) {
-                slot.vitamins[ v.first ] += relative.get_int( "vitamins" );
+                slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
             auto vits = relative.get_array( "vitamins" );
             while( vits.has_more() ) {
                 auto pair = vits.next_array();
-                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] += pair.get_int( 1 );
+                vitamin_id vit( pair.get_string( 0 ) );
+                slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
             }
         }
     }
