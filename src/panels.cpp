@@ -1474,6 +1474,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
         mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
