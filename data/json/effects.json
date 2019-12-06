@@ -1602,6 +1602,19 @@
   },
   {
     "type": "effect_type",
+    "id": "bad_food_ennui",
+    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "desc": [
+      "The food you eat is disgusting.",
+      "Eating nothing but disgusting rations is starting to get you down.",
+      "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
+    ],
+    "max_intensity": 3,
+    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
