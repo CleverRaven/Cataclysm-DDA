@@ -877,6 +877,7 @@ void sfx::do_ambient()
         switch( g->weather.weather ) {
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
+            case WEATHER_LIGHT_DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
