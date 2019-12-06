@@ -52,7 +52,7 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_nest_base", 70 ], [ "shelter_nest_vandalized", 30 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_nest_base", 25 ], [ "shelter_nest_used", 45 ], [ "shelter_nest_vandalized", 30 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -136,7 +136,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 1 ], [ "shelter_1_nest_vandalized", 99 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 25 ], [ "shelter_1_nest_used", 45 ], [ "shelter_1_nest_vandalized", 30 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -220,7 +220,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 1 ], [ "shelter_2_nest_vandalized", 99 ] ], "x": 0, "y": 0 } ],
+      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 25 ], [ "shelter_nest_used", 45 ], [ "shelter_2_nest_vandalized", 30 ] ], "x": 0, "y": 0 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
