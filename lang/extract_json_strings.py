@@ -92,6 +92,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "scent_type",
     "skill_boost",
     "SPECIES",
     "trait_group",
