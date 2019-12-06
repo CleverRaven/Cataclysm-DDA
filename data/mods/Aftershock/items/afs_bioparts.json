@@ -69,7 +69,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_migoturret",
+    "id": "broken_afs_mon_migoturret",
     "symbol": ",",
     "color": "green",
     "name": "broken mi-go turret",
