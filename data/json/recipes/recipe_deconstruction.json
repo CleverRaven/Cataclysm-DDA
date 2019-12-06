@@ -828,9 +828,11 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "m203", 16 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "power_supply", 1 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "antenna", 1 ] ],
       [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ]
     ]
   },
   {
