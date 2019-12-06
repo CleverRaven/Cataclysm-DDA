@@ -93,8 +93,8 @@
         }
       },
       "items": { 
-        "l": { "item": "SUS_evac_shelter_locker_used" }, 
-        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 30 },
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 75 }, 
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
         "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
         ".": [ { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
       },
@@ -244,8 +244,8 @@
         }
       },
       "items": { 
-        "l": { "item": "SUS_evac_shelter_locker_used" }, 
-        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 30 },
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 70 }, 
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
         "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
         ".": [ { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ]
       },
@@ -385,8 +385,8 @@
         }
       },
       "items": { 
-        "l": { "item": "SUS_evac_shelter_locker_used" }, 
-        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 30 },
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 70 }, 
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
         "%": [ { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] }, { "item": "trash", "chance": 25, "repeat": [ 1, 3 ] } ],
         "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
         ".": [ { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ]
