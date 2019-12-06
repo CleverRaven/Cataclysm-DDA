@@ -234,14 +234,5 @@
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -60 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_shaman_healed",
-    "name": [ "Reptilian Healing" ],
-    "desc": [ "A minor healing spell." ],
-    "max_intensity": 4,
-    "int_add_val": 1,
-    "apply_message": "The shaman casts a healing spell!"
   }
 ]
