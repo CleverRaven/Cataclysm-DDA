@@ -648,6 +648,7 @@
     "volume": "9 L",
     "to_hit": -3,
     "max_charges": 5000,
+    "charges_per_use": 5,
     "ammo": "plutonium",
     "use_action": "RM13ARMOR_OFF",
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
