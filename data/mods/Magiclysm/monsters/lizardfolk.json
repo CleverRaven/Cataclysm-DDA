@@ -57,7 +57,7 @@
     "id": "mon_lizardfolk_hunter",
     "type": "MONSTER",
     "name": "lizardfolk hunter",
-    "description": "Lizardfolk are very intelligent and cunning, but magical ability is a rare quality.  Shamans are chosen from the tribe in childhood, when magical abilities mark the fate of the young tribesman.  Not much is known about the initiation ritual they must undergo, but few survive the experience.  Shamans are druidic spellcasters that can use the forces of nature to battle enemies as well as summoning assistance when needed.",
+    "description": "The hunter is a smaller lizardfolk than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "special_attacks": [
@@ -86,7 +86,7 @@
     "id": "mon_lizardfolk_shaman",
     "type": "MONSTER",
     "name": "lizardfolk shaman",
-    "description": "Lizardfolk are very intelligent and cunning, but magical ability is a rare quality.  Shamans are chosen from the tribe in childhood, when magical abilities mark the fate of the young tribesman.  Not much is known about the initiation ritual they must undergo, but few survive the experience.  Shamans are druidic spellcasters that can use the forces of nature to battle enemies as well as summoning assistance when needed.",
+    "description": "Lizardfolk are very intelligent and cunning, but magical ability is a rare quality.  Shamans are chosen from the tribe during childhood, when magical abilities mark the fate of the young tribesman.  Not much is known about the initiation ritual they must undergo, but few survive the experience.  Shamans are druidic spellcasters that can use the forces of nature to battle enemies, as well as summoning assistance when needed.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
     "hp": 80,
