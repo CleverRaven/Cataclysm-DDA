@@ -176,23 +176,15 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
     static const std::string flag_FROZEN( "FROZEN" );
-    static const std::string flag_MUSHY( "MUSHY" );
     static const std::string flag_MELTS( "MELTS" );
     static const std::string flag_LUPINE( "LUPINE" );
     static const std::string flag_FELINE( "FELINE" );
-    static const std::string flag_BAD_TASTE( "BAD_TASTE" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
 
     // As float to avoid rounding too many times
-    float fun = comest.get_comestible()->fun;
-    if( comest.has_flag( flag_BAD_TASTE ) ) {
-        fun -= 5; // BAD_TASTE is just a morale debuff that persists through crafting
-    }
-    if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
-        fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
-    }
+    float fun = comest.get_comestible_fun();
     if( ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) && fun > 0 ) {
         fun /= 3; // food doesn't taste as good when you're sick
     }
@@ -250,7 +242,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        get_power_level() > units::from_kilojoule( abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -819,7 +811,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
+        mod_power_level( units::from_kilojoule( -abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -869,7 +861,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad,
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
     }
-    if( food.type->comestible->fun > 0 ) {
+    if( food.get_comestible_fun() > 0 ) {
         if( has_effect( effect_common_cold ) ) {
             add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
         }

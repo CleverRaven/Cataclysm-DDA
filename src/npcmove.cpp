@@ -3621,9 +3621,9 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     float weight = std::max( 1.0, 10.0 * relative_rot );
-    if( food->fun < 0 ) {
+    if( it.get_comestible_fun() < 0 ) {
         // This helps to avoid eating stuff like flour
-        weight /= ( -food->fun ) + 1;
+        weight /= ( -it.get_comestible_fun() ) + 1;
     }
 
     if( food->healthy < 0 ) {

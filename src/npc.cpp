@@ -2973,9 +2973,9 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( const auto &comest = it.is_container() ? it.get_contained().get_comestible() :
-                             it.get_comestible() ) {
-        if( comest->fun < 0 || it.poison > 0 ) {
+    const auto &comest = it.is_container() ? it.get_contained() : it;
+    if( comest.is_comestible() ) {
+        if( it.get_comestible_fun() < 0 || it.poison > 0 ) {
             return false;
         }
     }

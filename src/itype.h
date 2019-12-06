@@ -107,77 +107,80 @@ struct islot_tool {
 };
 
 struct islot_comestible {
-    /** subtype, e.g. FOOD, DRINK, MED */
-    std::string comesttype;
+        friend Item_factory;
+        friend item;
+        /** subtype, e.g. FOOD, DRINK, MED */
+        std::string comesttype;
 
-    /** tool needed to consume (e.g. lighter for cigarettes) */
-    std::string tool = "null";
+        /** tool needed to consume (e.g. lighter for cigarettes) */
+        std::string tool = "null";
 
-    /** Defaults # of charges (drugs, loaf of bread? etc) */
-    int def_charges = 1;
+        /** Defaults # of charges (drugs, loaf of bread? etc) */
+        int def_charges = 1;
 
-    /** effect on character thirst (may be negative) */
-    int quench = 0;
+        /** effect on character thirst (may be negative) */
+        int quench = 0;
 
-    /** amount of kcal this food has */
-    unsigned int kcal = 0;
+        /** amount of kcal this food has */
+        unsigned int kcal = 0;
 
-    /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0_turns;
+        /** Time until becomes rotten at standard temperature, or zero if never spoils */
+        time_duration spoils = 0_turns;
 
-    /** addiction potential */
-    int addict = 0;
+        /** addiction potential */
+        int addict = 0;
 
-    /** effects of addiction */
-    add_type add = ADD_NULL;
+        /** effects of addiction */
+        add_type add = ADD_NULL;
 
-    /** effect on morale when consuming */
-    int fun = 0;
+        /** stimulant effect */
+        int stim = 0;
 
-    /** stimulant effect */
-    int stim = 0;
+        /** Reference to other item that replaces this one as a component in recipe results */
+        itype_id cooks_like;
 
-    /** Reference to other item that replaces this one as a component in recipe results */
-    itype_id cooks_like;
+        /** Reference to item that will be received after smoking current item */
+        itype_id smoking_result;
 
-    /** Reference to item that will be received after smoking current item */
-    itype_id smoking_result;
+        /** TODO: add documentation */
+        int healthy = 0;
 
-    /** TODO: add documentation */
-    int healthy = 0;
+        /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
+        int parasites = 0;
 
-    /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
-    int parasites = 0;
+        /** probability [0, 100] to get food poisoning from this comestible */
+        int contamination = 0;
 
-    /** probability [0, 100] to get food poisoning from this comestible */
-    int contamination = 0;
+        /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
+        int freeze_point = temperatures::freezing;
 
-    /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-    int freeze_point = temperatures::freezing;
+        //** specific heats in J/(g K) and latent heat in J/g */
+        float specific_heat_liquid = 4.186;
+        float specific_heat_solid = 2.108;
+        float latent_heat = 333;
 
-    //** specific heats in J/(g K) and latent heat in J/g */
-    float specific_heat_liquid = 4.186;
-    float specific_heat_solid = 2.108;
-    float latent_heat = 333;
+        /** vitamins potentially provided by this comestible (if any) */
+        std::map<vitamin_id, int> vitamins;
 
-    /** vitamins potentially provided by this comestible (if any) */
-    std::map<vitamin_id, int> vitamins;
+        /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
+        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-    /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-    static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        int get_calories() const {
+            return kcal;
+        }
 
-    int get_calories() const {
-        return kcal;
-    }
+        int get_nutr() const {
+            return kcal / kcal_per_nutr;
+        }
+        /** The monster group that is drawn from when the item rots away */
+        mongroup_id rot_spawn = mongroup_id::NULL_ID();
 
-    int get_nutr() const {
-        return kcal / kcal_per_nutr;
-    }
-    /** The monster group that is drawn from when the item rots away */
-    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+        /** Chance the above monster group spawns*/
+        int rot_spawn_chance = 10;
 
-    /** Chance the above monster group spawns*/
-    int rot_spawn_chance = 10;
+    private:
+        /** effect on morale when consuming */
+        int fun = 0;
 };
 
 struct islot_brewable {
