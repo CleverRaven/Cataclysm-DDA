@@ -299,7 +299,7 @@ bool mattack::eat_food( monster *z )
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible()->fun < -20 ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 ) {
                 continue;
             }
             //Don't eat own eggs

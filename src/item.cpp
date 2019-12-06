@@ -1304,7 +1304,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
 
-    if( med_com->fun != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
+    if( med_item->get_comestible_fun() != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
         info.push_back( iteminfo( "MED", _( "Enjoyability: " ),
                                   g->u.fun_for( *med_item ).first ) );
     }
@@ -4580,6 +4580,26 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
+int item::get_comestible_fun() const
+{
+    if( !is_comestible() ) {
+        return 0;
+    }
+    int fun = get_comestible()->fun;
+    for( const std::string &flag : item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+    for( const std::string &flag : type->item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+
+    if( has_flag( "MUSHY" ) ) {
+        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+    }
+
+    return fun;
+}
+
 bool item::goes_bad() const
 {
     if( item_internal::goes_bad_cache_is_set() ) {
@@ -6707,7 +6727,9 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    // If a mod sets a magazine type, we're not integral.
+    if( is_gun() && type->gun->clip > 0 ) {
+        return true;
+    }
     for( const item *m : is_gun() ? gunmods() : toolmods() ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
             return false;

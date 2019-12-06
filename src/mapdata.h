@@ -245,7 +245,8 @@ struct map_data_common_t {
         int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
-        units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
+        // Maximal volume of items that can be stored in/on this furniture
+        units::volume max_volume = 1000_liter;
 
         translation description;
 

@@ -189,6 +189,10 @@ void recipe::load( JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_member( "delete_flags" ) ) {
+        flags_to_delete = jo.get_tags( "delete_flags" );
+    }
+
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
     if( jo.has_string( "using" ) ) {
         reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };

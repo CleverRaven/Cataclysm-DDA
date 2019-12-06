@@ -906,6 +906,7 @@ class game
         // overlays flags (on / off)
         std::map<action_id, bool> displaying_overlays{
             { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_SCENT_TYPE, false },
             { ACTION_DISPLAY_TEMPERATURE, false },
             { ACTION_DISPLAY_VEHICLE_AI, false },
             { ACTION_DISPLAY_VISIBILITY, false },

@@ -257,7 +257,7 @@
     "calories": 25,
     "fun": 0,
     "healthy": 0,
-    "flags": [ "NUTRIENT_OVERRIDE", "NO_CRAFT_INHERIT" ]
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "offal",
@@ -355,8 +355,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "flags": "NO_CRAFT_INHERIT"
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ]
   },
   {
     "id": "salted_fish",

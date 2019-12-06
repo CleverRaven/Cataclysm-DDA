@@ -2461,7 +2461,7 @@
       [ "survnote", 5 ],
       [ "eclipse_glasses", 1 ],
       [ "plastic_sheet", 5 ],
-      [ "box_medium", 5 ],
+      [ "box_medium", 15 ],
       [ "thermos", 30 ],
       { "group": "tinware", "prob": 15 }
     ]
@@ -6411,8 +6411,8 @@
       { "group": "tinware", "prob": 3 },
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 1 ],
-      [ "box_small", 2 ],
-      [ "box_medium", 1 ],
+      [ "box_small", 5 ],
+      [ "box_medium", 3 ],
       [ "box_large", 1 ],
       [ "plastic_sheet", 1 ],
       [ "jug_plastic", 1 ],

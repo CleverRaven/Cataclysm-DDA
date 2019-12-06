@@ -83,7 +83,7 @@
   },
   {
     "id": "auto_abzats",
-    "copy-from": "mounted_abzats",
+    "copy-from": "mounted_bigun",
     "type": "vehicle_part",
     "name": "auto-shotgun turret",
     "broken_symbol": "#",

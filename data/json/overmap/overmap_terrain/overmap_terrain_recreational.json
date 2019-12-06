@@ -1353,7 +1353,7 @@
     "copy-from": "generic_city_building",
     "sym": "M",
     "color": "white",
-    "flags": [ "SOURCE_LUXURY" ]
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",

@@ -1384,6 +1384,10 @@ class Character : public Creature, public visitable<Character>
 
         std::map<std::string, int> mutation_category_level;
 
+        void update_type_of_scent( bool init = false );
+        void update_type_of_scent( trait_id mut, bool gain = true );
+        void set_type_of_scent( scenttype_id id );
+        scenttype_id get_type_of_scent() const;
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1658,6 +1662,8 @@ class Character : public Creature, public visitable<Character>
 
         int stim;
         int pkill;
+
+        scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 

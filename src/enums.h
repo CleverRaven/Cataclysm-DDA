@@ -10,6 +10,22 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
+enum class holiday : int {
+    none = 0,
+    new_year,
+    easter,
+    independence_day,
+    halloween,
+    thanksgiving,
+    christmas,
+    num_holiday
+};
+
+template<>
+struct enum_traits<holiday> {
+    static constexpr holiday last = holiday::num_holiday;
+};
+
 enum temperature_flag : int {
     TEMP_NORMAL = 0,
     TEMP_HEATER,

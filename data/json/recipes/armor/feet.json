@@ -288,7 +288,7 @@
     "time": "40 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "footrags",

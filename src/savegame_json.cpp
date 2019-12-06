@@ -431,6 +431,8 @@ void Character::load( JsonObject &data )
     data.read( "oxygen", oxygen );
     data.read( "pkill", pkill );
 
+    data.read( "type_of_scent", type_of_scent );
+
     if( data.has_array( "ma_styles" ) ) {
         std::vector<matype_id> temp_styles;
         data.read( "ma_styles", temp_styles );
@@ -707,6 +709,7 @@ void Character::store( JsonOut &json ) const
     }
 
     json.member( "stim", stim );
+    json.member( "type_of_scent", type_of_scent );
 
     // breathing
     json.member( "underwater", underwater );

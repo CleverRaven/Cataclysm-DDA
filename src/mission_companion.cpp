@@ -1813,27 +1813,27 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
 static int companion_combat_rank( const npc &p )
 {
     int combat = 2 * p.get_dex() + 3 * p.get_str() + 2 * p.get_per() + p.get_int();
-    combat += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_bashing ) +
-              p.get_skill_level( skill_cutting ) + p.get_skill_level( skill_melee ) +
-              p.get_skill_level( skill_stabbing ) + p.get_skill_level( skill_unarmed );
+    for( const Skill &sk : Skill::skills ) {
+        combat += p.get_skill_level( sk.ident() ) * sk.companion_combat_rank_factor();
+    }
     return combat * std::min( p.get_dex(), 32 ) * std::min( p.get_str(), 32 ) / 64;
 }
 
 static int companion_survival_rank( const npc &p )
 {
     int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
-    survival += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_firstaid ) +
-                p.get_skill_level( skill_speech ) + p.get_skill_level( skill_survival ) +
-                p.get_skill_level( skill_traps ) + p.get_skill_level( skill_unarmed );
+    for( const Skill &sk : Skill::skills ) {
+        survival += p.get_skill_level( sk.ident() ) * sk.companion_survival_rank_factor();
+    }
     return survival * std::min( p.get_dex(), 32 ) * std::min( p.get_per(), 32 ) / 64;
 }
 
 static int companion_industry_rank( const npc &p )
 {
     int industry = p.get_dex() + p.get_str() + p.get_per() + 3 * p.get_int();
-    industry += p.get_skill_level( skill_cooking ) + p.get_skill_level( skill_electronics ) +
-                p.get_skill_level( skill_fabrication ) + p.get_skill_level( skill_mechanics ) +
-                p.get_skill_level( skill_tailor );
+    for( const Skill &sk : Skill::skills ) {
+        industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
+    }
     return industry * std::min( p.get_int(), 32 ) / 8 ;
 }
 

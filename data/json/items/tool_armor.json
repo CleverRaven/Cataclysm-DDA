@@ -176,7 +176,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -2878,19 +2878,7 @@
     "magazines": [
       [
         "battery",
-        [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_atomic_battery_cell",
-          "medium_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
     "magazine_well": 2,
@@ -2902,7 +2890,7 @@
     "name": "Foodperson mask (on)",
     "name_plural": "Foodperson masks (on)",
     "copy-from": "foodperson_mask",
-    "turns_per_charge": 15,
+    "turns_per_charge": 60,
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
