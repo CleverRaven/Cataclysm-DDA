@@ -217,9 +217,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
-    JsonArray jsarr = jo.get_array( "autolearn" );
-    while( jsarr.has_more() ) {
-        JsonArray skillArray = jsarr.next_array();
+    for( JsonArray skillArray : jo.get_array( "autolearn" ) ) {
         std::string skill_name = skillArray.get_string( 0 );
         int skill_level = 0;
         std::string skill_level_string = skillArray.get_string( 1 );

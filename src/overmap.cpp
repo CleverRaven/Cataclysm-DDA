@@ -539,14 +539,8 @@ static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_
         }
     }
     if( jo.has_array( jsonkey ) ) {
-        JsonArray ja = jo.get_array( jsonkey );
-        int c = 0;
-        while( ja.has_more() ) {
-            if( ja.has_object( c ) ) {
-                JsonObject jio = ja.next_object();
-                load_mapgen_function( jio, fmapkey, default_idx );
-            }
-            c++;
+        for( JsonObject jio : jo.get_array( jsonkey ) ) {
+            load_mapgen_function( jio, fmapkey, default_idx );
         }
     }
 }

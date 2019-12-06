@@ -252,9 +252,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "spells" ) ) {
-        JsonArray array = jo.get_array( "spells" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "spells" ) ) {
             const int level = subobj.get_int( "level" );
             const spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -286,9 +284,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "skills" ) ) {
-        JsonArray jarr = jo.get_array( "skills" );
-        while( jarr.has_more() ) {
-            JsonObject skill_obj = jarr.next_object();
+        for( JsonObject skill_obj : jo.get_array( "skills" ) ) {
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
                 const distribution dis = load_distribution( skill_obj, "level" );
@@ -305,9 +301,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "bionics" ) ) {
-        JsonArray jarr = jo.get_array( "bionics" );
-        while( jarr.has_more() ) {
-            JsonObject bionic_obj = jarr.next_object();
+        for( JsonObject bionic_obj : jo.get_array( "bionics" ) ) {
             auto bionic_ids = bionic_obj.get_tags( "id" );
             int chance = bionic_obj.get_int( "chance" );
             for( const auto &bid : bionic_ids ) {

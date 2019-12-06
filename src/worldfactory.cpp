@@ -1412,8 +1412,8 @@ void load_world_option( JsonObject &jo )
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    while( arr.has_more() ) {
-        get_options().get_option( arr.next_string() ).setValue( "true" );
+    for( const std::string &line : arr ) {
+        get_options().get_option( line ).setValue( "true" );
     }
 }
 
