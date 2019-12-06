@@ -213,7 +213,6 @@
       { "item": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 30 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 20 },
-      { "item": "m6_asw", "prob": 15, "charges-min": 0, "charges-max": 1 },
       { "item": "mosin44_ebr", "prob": 10, "charges-min": 0, "charges-max": 5 },
       { "item": "mosin91_30_ebr", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_700", "prob": 20, "charges-min": 0, "charges-max": 4 },
@@ -563,7 +562,6 @@
     "items": [
       { "group": "guns_improvised", "prob": 200 },
       { "item": "ar15", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "m6_asw", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "mossberg_500", "prob": 5, "charges-min": 0, "charges-max": 8 },
       { "item": "remington_870", "prob": 5, "charges-min": 0, "charges-max": 6 },
       { "item": "ruger_1022", "prob": 15, "charges-min": 0, "charges-max": 10 },
