@@ -162,6 +162,9 @@ struct islot_comestible {
         float specific_heat_solid = 2.108;
         float latent_heat = 333;
 
+        /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
+        int monotony_penalty = 2;
+
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 

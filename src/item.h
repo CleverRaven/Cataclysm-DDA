@@ -1203,6 +1203,9 @@ class item : public visitable<item>
          * no components */
         std::string components_to_string() const;
 
+        /** Creates a hash from the itype_ids of this item's @ref components. */
+        uint64_t make_component_hash() const;
+
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 

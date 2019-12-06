@@ -255,6 +255,21 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
+    // Food is less enjoyable when eaten too often.
+    if( fun > 0 || comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+        for( const consumption_event &event : consumption_history ) {
+            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                event.component_hash == comest.make_component_hash() ) {
+                fun -= comest.get_comestible()->monotony_penalty;
+                // This effect can't drop fun below 0, unless the food has the right flag.
+                if( fun <= 0 && !comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+                    fun = 0;
+                    break; // 0 is the lowest we'll go, no need to keep looping.
+                }
+            }
+        }
+    }
+
     float fun_max = fun < 0 ? fun * 6 : fun * 3;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
@@ -924,6 +939,13 @@ bool player::eat( item &food, bool force )
     if( will_vomit ) {
         vomit();
     }
+
+    consumption_history.emplace_back( food );
+    // Clean out consumption_history so it doesn't get bigger than needed.
+    while( consumption_history.front().time < calendar::turn - 2_days ) {
+        consumption_history.pop_front();
+    }
+
     return true;
 }
 

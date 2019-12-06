@@ -178,6 +178,19 @@ struct social_modifiers {
         return *this;
     }
 };
+
+struct consumption_event {
+    time_point time;
+    itype_id type_id;
+    uint64_t component_hash = 0;
+
+    consumption_event( const item &food ) {
+        time = calendar::turn;
+        type_id = food.typeId();
+        component_hash = food.make_component_hash();
+    }
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -1242,6 +1255,7 @@ class Character : public Creature, public visitable<Character>
 
         stomach_contents stomach;
         stomach_contents guts;
+        std::list<consumption_event> consumption_history;
 
         int oxygen;
         int radiation;

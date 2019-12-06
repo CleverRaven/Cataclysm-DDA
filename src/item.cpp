@@ -8067,6 +8067,23 @@ std::string item::components_to_string() const
     }, enumeration_conjunction::none );
 }
 
+uint64_t item::make_component_hash() const
+{
+    // First we need to ensure all the IDs are unique, to ensure we don't XOR identical hashes later.
+    std::set<std::string> id_set;
+    for( const item &it : components ) {
+        id_set.insert( it.typeId() );
+    }
+
+    uint64_t component_hash = 0;
+    std::hash<std::string> hasher;
+    for( std::string id : id_set ) {
+        component_hash ^= hasher( id );
+    }
+
+    return component_hash;
+}
+
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
