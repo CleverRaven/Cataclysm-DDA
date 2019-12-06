@@ -92,15 +92,22 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
+    std::unordered_map<std::string, int> companion_skill_practice;
     translation name, desc;
     jsobj.read( "name", name );
     jsobj.read( "description", desc );
+    JsonArray ja = jsobj.get_array( "companion_skill_practice" );
+    while( ja.has_more() ) {
+        JsonObject jo = ja.next_object();
+        companion_skill_practice.emplace( jo.get_string( "skill" ), jo.get_int( "weight" ) );
+    }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
+    sk._companion_skill_practice = companion_skill_practice;
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;

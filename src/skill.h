@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "string_id.h"
@@ -28,6 +29,7 @@ class Skill
         translation _description;
         std::set<std::string> _tags;
         skill_displayType_id _display_type;
+        std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
         int _companion_combat_rank_factor;
@@ -58,6 +60,10 @@ class Skill
         }
         std::string description() const {
             return _description.translated();
+        }
+        int get_companion_skill_practice( const std::string &companion_skill ) const {
+            return _companion_skill_practice.find( companion_skill ) == _companion_skill_practice.end() ? 0 :
+                   _companion_skill_practice.at( companion_skill );
         }
         skill_displayType_id display_category() const {
             return _display_type;
