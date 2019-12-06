@@ -11,7 +11,7 @@
     "max_damage": 1,
     "min_aoe": 2,
     "max_aoe": 2,
-    "message": "The shaman summons an crocodile!",
+    "message": "The shaman summons a crocodile!",
     "effect": "summon",
     "effect_str": "mon_crocodile"
   },
