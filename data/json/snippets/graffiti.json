@@ -99,10 +99,10 @@
       },
       {
         "id": "shelter_graffiti_25",
-        "text": "This is a drawing of a cartoon character smashing a zombie corpse with a sledghammer.  Beneath it is a scrawled message: \"Gotta pulp em all\""
+        "text": "This is a drawing of a cartoon character smashing a zombie corpse with a sledgehammer.  Beneath it is a scrawled message: \"Gotta pulp em all\""
       },
       { "id": "shelter_graffiti_26", "text": "They get back up.  Headshots don't work." },
-      { "id": "shelter_graffiti_27", "text": "stay out of  <city>" },
+      { "id": "shelter_graffiti_27", "text": "stay out of <city>" },
       { "id": "shelter_graffiti_28", "text": "<city> has fallen" },
       { "id": "shelter_graffiti_29", "text": "NO ONE LEFT HERE MOVE ON" },
       { "id": "shelter_graffiti_30", "text": "deth trap" },
