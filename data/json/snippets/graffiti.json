@@ -78,13 +78,24 @@
       { "id": "shelter_graffiti_15", "text": "This is a quick rendition in permanent marker of a swirling gateway, with zombies spilling out of it.  Underneath, it reads \"What did they do?\"" },
       { "id": "shelter_graffiti_16", "text": "RIP humanity" },
       { "id": "shelter_graffiti_17", "text": "Everyone's dead Dave" },
-      { "id": "shelter_graffiti_18", "text": "WE'RE ALL FUCKIN' FINE HERE" },
+      { "id": "shelter_graffiti_18", "text": "WE'RE ALL FINE HERE HOW R U" },
       { "id": "shelter_graffiti_19", "text": "<given_name> I couldn't wait any longer, went to camp 36.  Meet me there.  Love <given_name>." },,
       { "id": "shelter_graffiti_20", "text": "<given_name> I am still looking for you." },
       { "id": "shelter_graffiti_21", "text": "<full_name> was here and still alive" },
       { "id": "shelter_graffiti_22", "text": "Blue 52" },
       { "id": "shelter_graffiti_23", "text": "<given_name> I no I said Id wait for u but I gotta run, find me" },
-      { "id": "shelter_graffiti_24", "text": "In memoriam:\n<full_name>\n<full_name>\n<full_name>\n<full_name>\n<full_name>\nI would not be alive without all of you.  I will not forget." }
+      { "id": "shelter_graffiti_24", "text": "In memoriam:\n<full_name>\n<full_name>\n<full_name>\n<full_name>\n<full_name>\nI would not be alive without all of you.  I will not forget." },
+      { "id": "shelter_graffiti_25", "text": "This is a drawing of a cartoon character smashing a zombie corpse with a sledghammer.  Beneath it is a scrawled message: \"Gotta pulp em all\"" },
+      { "id": "shelter_graffiti_26", "text": "They get back up.  Headshots don't work." },
+      { "id": "shelter_graffiti_27", "text": "stay out of  <city>" },
+      { "id": "shelter_graffiti_28", "text": "<city> has fallen" },
+      { "id": "shelter_graffiti_29", "text": "NO ONE LEFT HERE MOVE ON" },
+      { "id": "shelter_graffiti_30", "text": "deth trap" },
+      { "id": "shelter_graffiti_31", "text": "no ones coming" },
+      { "id": "shelter_graffiti_32", "text": "GOVERMENT DID THIS TO US" },
+      { "id": "shelter_graffiti_33", "text": "FUCK CHINA" },
+      { "id": "shelter_graffiti_34", "text": "FUCK THE COMMUNISTS" },
+      { "id": "shelter_graffiti_35", "text": "Remember <given_name>" }
     ]
   }
 ]
