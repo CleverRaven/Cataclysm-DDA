@@ -41,7 +41,7 @@
     "name_plural": "sensory clusters",
     "description": "This lump of flesh has various lobes protruding from it that at intervals will emit toned sounds.  Perhaps it works via echolocation. Like all mi-go bioparts the openings on this piece closed up after it was cut free and it seems to have gone into a form of hibernation with the pulses occurring slower and slower as it conserves energy.",
     "weight": "40 g",
-    "volume": "250 mL",
+    "volume": "250 ml",
     "price": 100,
     "to_hit": -1,
     "bashing": 1,
