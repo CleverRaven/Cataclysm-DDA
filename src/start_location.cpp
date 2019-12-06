@@ -79,12 +79,12 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load_location( JsonObject &jo, const std::string &src )
+void start_location::load_location( const JsonObject &jo, const std::string &src )
 {
     all_starting_locations.load( jo, src );
 }
 
-void start_location::load( JsonObject &jo, const std::string & )
+void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );

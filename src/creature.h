@@ -779,7 +779,7 @@ class Creature
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
-        static void load_hit_range( JsonObject & );
+        static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
@@ -818,7 +818,7 @@ class Creature
         // Store data of *this* class in the stream
         void store( JsonOut &jsout ) const;
         // Load creature data from the given json object.
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
         int pain;

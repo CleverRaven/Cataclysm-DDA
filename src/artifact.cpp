@@ -631,7 +631,7 @@ it_artifact_tool::it_artifact_tool()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo )
+it_artifact_tool::it_artifact_tool( const JsonObject &jo )
 {
     tool.emplace();
     artifact.emplace();
@@ -647,7 +647,7 @@ it_artifact_armor::it_artifact_armor()
     price = 0_cent;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo )
+it_artifact_armor::it_artifact_armor( const JsonObject &jo )
 {
     armor.emplace();
     artifact.emplace();
@@ -1144,7 +1144,7 @@ void load_artifacts( const std::string &path )
     } );
 }
 
-void it_artifact_tool::deserialize( JsonObject &jo )
+void it_artifact_tool::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );
@@ -1259,7 +1259,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
 }
 
-void it_artifact_armor::deserialize( JsonObject &jo )
+void it_artifact_armor::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );

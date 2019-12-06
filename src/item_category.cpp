@@ -19,12 +19,12 @@ bool string_id<item_category>::is_valid() const
     return item_category_factory.is_valid( *this );
 }
 
-void item_category::load_item_cat( JsonObject &jo, const std::string &src )
+void item_category::load_item_cat( const JsonObject &jo, const std::string &src )
 {
     item_category_factory.load( jo, src );
 }
 
-void item_category::load( JsonObject &jo, const std::string & )
+void item_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );

@@ -1654,7 +1654,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( JsonObject &jo )
+computer_option computer_option::from_json( const JsonObject &jo )
 {
     std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
@@ -1662,7 +1662,7 @@ computer_option computer_option::from_json( JsonObject &jo )
     return computer_option( name, action, sec );
 }
 
-computer_failure computer_failure::from_json( JsonObject &jo )
+computer_failure computer_failure::from_json( const JsonObject &jo )
 {
     computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
     return computer_failure( type );

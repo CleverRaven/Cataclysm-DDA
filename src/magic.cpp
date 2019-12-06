@@ -133,7 +133,7 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void spell_type::load_spell( JsonObject &jo, const std::string &src )
+void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
 }
@@ -193,7 +193,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string & )
 {
     static const
     std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
@@ -1880,7 +1880,7 @@ void spellbook_callback::select( int entnum, uilist *menu )
     draw_spellbook_info( spells[entnum], menu );
 }
 
-void fake_spell::load( JsonObject &jo )
+void fake_spell::load( const JsonObject &jo )
 {
     std::string temp_id;
     mandatory( jo, false, "id", temp_id );

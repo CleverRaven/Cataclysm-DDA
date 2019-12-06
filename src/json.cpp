@@ -684,7 +684,7 @@ bool JsonArray::has_object( const size_t i ) const
     return jsin->test_object();
 }
 
-void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
     JsonArray jarr = json.get_array( name );
     while( jarr.has_more() ) {

@@ -37,7 +37,7 @@ class Skill
         int _companion_industry_rank_factor;
     public:
         static std::vector<Skill> skills;
-        static void load_skill( JsonObject &jsobj );
+        static void load_skill( const JsonObject &jsobj );
         // For loading old saves that still have integer-based ids.
         static skill_id from_legacy_int( int legacy_id );
         static skill_id random_skill();
@@ -219,7 +219,7 @@ class SkillDisplayType
         translation _display_string;
     public:
         static std::vector<SkillDisplayType> skillTypes;
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
 
         static const SkillDisplayType &get_skill_type( skill_displayType_id );
 

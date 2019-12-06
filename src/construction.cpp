@@ -1319,7 +1319,7 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
     }
 }
 
-void load_construction( JsonObject &jo )
+void load_construction( const JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();

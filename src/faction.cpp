@@ -56,7 +56,7 @@ faction::faction( const faction_template &templ )
     static_cast<faction_template &>( *this ) = templ;
 }
 
-void faction_template::load( JsonObject &jsobj )
+void faction_template::load( const JsonObject &jsobj )
 {
     faction_template fac( jsobj );
     npc_factions::all_templates.emplace_back( fac );
@@ -67,7 +67,7 @@ void faction_template::reset()
     npc_factions::all_templates.clear();
 }
 
-void faction_template::load_relations( JsonObject &jsobj )
+void faction_template::load_relations( const JsonObject &jsobj )
 {
     JsonObject jo = jsobj.get_object( "relations" );
     for( const std::string &fac_id : jo.get_member_names() ) {
@@ -80,7 +80,7 @@ void faction_template::load_relations( JsonObject &jsobj )
     }
 }
 
-faction_template::faction_template( JsonObject &jsobj )
+faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )

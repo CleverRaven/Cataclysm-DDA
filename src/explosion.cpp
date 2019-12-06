@@ -73,7 +73,7 @@ constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
 constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
 
-explosion_data load_explosion_data( JsonObject &jo )
+explosion_data load_explosion_data( const JsonObject &jo )
 {
     explosion_data ret;
     // Power is mandatory
@@ -93,7 +93,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     return ret;
 }
 
-shrapnel_data load_shrapnel_data( JsonObject &jo )
+shrapnel_data load_shrapnel_data( const JsonObject &jo )
 {
     shrapnel_data ret;
     // Casing mass is mandatory

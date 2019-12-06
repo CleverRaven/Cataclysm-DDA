@@ -64,7 +64,7 @@ class weather_generator
 
         double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
-        static weather_generator load( JsonObject &jo );
+        static weather_generator load( const JsonObject &jo );
 };
 
 #endif

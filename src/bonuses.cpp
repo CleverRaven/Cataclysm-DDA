@@ -105,7 +105,7 @@ void effect_scaling::load( JsonArray &jarr )
     scale = jarr.next_float();
 }
 
-void bonus_container::load( JsonObject &jo )
+void bonus_container::load( const JsonObject &jo )
 {
     if( jo.has_array( "flat_bonuses" ) ) {
         JsonArray jarr = jo.get_array( "flat_bonuses" );
