@@ -15,7 +15,6 @@
       "O": "f_rack",
       "B": "f_rack",
       "I": "f_rack",
-      "S": "f_sink",
       "d": "f_desk",
       "$": "f_filing_cabinet",
       "L": "f_locker",
@@ -25,19 +24,6 @@
       "&": "f_mannequin",
       "(": "f_mannequin"
     },
-    "terrain": {
-      ".": [ [ "t_grass", 10 ], [ "t_dirt", 2 ], "t_shrub" ],
-      " ": "t_floor",
-      "+": "t_door_c",
-      "*": "t_door_glass_c",
-      "4": "t_gutter_downspout",
-      "|": "t_wall",
-      "#": "t_brick_wall",
-      ":": "t_wall_glass",
-      "-": "t_sidewalk",
-      "o": "t_window"
-    },
-    "toilets": { "t": {  } },
     "items": {
       "M": [
         { "item": "pants_unisex", "chance": 50, "repeat": 3 },
