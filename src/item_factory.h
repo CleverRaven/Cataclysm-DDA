@@ -95,7 +95,7 @@ class Item_factory
          * This is intended for inline definitions of item groups, e.g. in monster death drops:
          * the item group there is embedded into the monster type definition.
          * @param jsobj The json object to load from.
-         * @param ident The ident of the item that is to be loaded.
+         * @param group_id The ident of the item that is to be loaded.
          * @param subtype The type of the item group, either "collection", "distribution" or "old"
          * ("old" is a distribution, too).
          * @throw std::string if the json object contains invalid data.
@@ -133,7 +133,7 @@ class Item_factory
          * Sets the chance of the specified item in the group.
          * @param group_id Group to add item to
          * @param item_id Id of item to add to group
-         * @param weight The relative weight of the item. A value of 0 removes the item from the
+         * @param chance The relative weight of the item. A value of 0 removes the item from the
          * group.
          * @return false if the group doesn't exist.
          */

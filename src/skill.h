@@ -199,9 +199,9 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
          * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
          */
         std::map<skill_id, int> compare_skill_requirements(
-            const std::map<skill_id, int> &req ) const;
-        std::map<skill_id, int> compare_skill_requirements(
             const std::map<skill_id, int> &req, const item &context ) const;
+        std::map<skill_id, int> compare_skill_requirements(
+            const std::map<skill_id, int> &req ) const;
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
 };

@@ -211,7 +211,6 @@ bool Pickup::query_thief()
     } else {
         // error
         debugmsg( "Not a valid option [ %s ]", answer );
-        return false;
     }
     return false;
 }

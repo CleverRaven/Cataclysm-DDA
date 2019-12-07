@@ -145,8 +145,8 @@ class DynamicDataLoader
          * game should *not* proceed in that case.
          */
         /*@{*/
-        void finalize_loaded_data();
         void finalize_loaded_data( loading_ui &ui );
+        void finalize_loaded_data();
         /*@}*/
 
         /**

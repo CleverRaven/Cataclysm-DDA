@@ -1165,8 +1165,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
  * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
  * @param iNumLines Total number of lines
- * @param iOffsetY Y drawing offset
- * @param iOffsetX X drawing offset
+ * @param offset Point indicating drawing offset
  * @param bar_color Default line color
  * @param bDoNotScrollToEnd True if the last (iContentHeight-1) lines cannot be a start position or be selected
  *   If false, iCurrentLine can be from 0 to iNumLines - 1.
