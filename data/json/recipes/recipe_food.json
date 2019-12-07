@@ -4165,9 +4165,9 @@
         [ "can_tuna", 2 ],
         [ "salted_fish", 2 ],
         [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ]
+        [ "dry_fish", 2 ],
         [ "tofu", 2 ],
-        [ "dry_tofu", 2 ],
+        [ "dry_tofu", 2 ]
       ],
       [
         [ "veggy_any", 2, "LIST" ],
