@@ -7,7 +7,6 @@
     "default_faction": "lizardfolk",
     "bodytype": "human",
     "species": [ "LIZARDFOLK" ],
-    "size": "MEDIUM",
     "volume": "80 L",
     "weight": "100 kg",
     "hp": 70,
@@ -95,7 +94,6 @@
     "melee_dice_sides": 6,
     "special_attacks": [ { "type": "spell", "spell_id": "spell_shaman_base", "cooldown": 5 }, [ "scratch", 5 ] ],
     "death_drops": {
-      "type": "item_group",
       "subtype": "distribution",
       "items": [
         { "group": "enchanted_small_items", "prob": 40 },
