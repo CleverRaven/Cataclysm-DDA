@@ -31,8 +31,7 @@
     "skills_required": [ "spellcraft", 3 ],
     "time": "70 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 250 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 150 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
@@ -46,8 +45,7 @@
     "skills_required": [ "spellcraft", 5 ],
     "time": "340 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 250 ], [ "welding_standard", 50 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
@@ -61,8 +59,7 @@
     "skills_required": [ "spellcraft", 3 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 15 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
@@ -76,8 +73,7 @@
     "skills_required": [ "spellcraft", 5 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
@@ -91,8 +87,7 @@
     "skills_required": [ "spellcraft", 3 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 3 ] ], [ [ "dragon_black_scale", 8 ] ], [ [ "dragon_essence", 2 ] ] ]
   },
@@ -106,8 +101,7 @@
     "skills_required": [ "spellcraft", 5 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_black_scale", 90 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
@@ -121,8 +115,7 @@
     "skills_required": [ "spellcraft", 3 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 3 ] ], [ [ "dragon_black_scale", 10 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
@@ -136,8 +129,7 @@
     "skills_required": [ "spellcraft", 5 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 100 ], [ "welding_standard", 10 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 50 ] ], [ [ "dragon_essence", 5 ] ] ]
   },
@@ -151,8 +143,7 @@
     "skills_required": [ "spellcraft", 4 ],
     "time": "70 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 250 ] ], [ [ "dragon_essence", 20 ] ] ]
   },
@@ -166,8 +157,7 @@
     "skills_required": [ "spellcraft", 6 ],
     "time": "340 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 350 ], [ "welding_standard", 100 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
   },
@@ -181,8 +171,7 @@
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 20 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
@@ -196,8 +185,7 @@
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 8 ] ], [ [ "dragon_black_scale", 125 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
@@ -211,8 +199,7 @@
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 12 ] ], [ [ "dragon_essence", 3 ] ] ]
   },
@@ -226,8 +213,7 @@
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_black_scale", 140 ] ], [ [ "dragon_essence", 6 ] ] ]
   },
@@ -241,8 +227,7 @@
     "skills_required": [ "spellcraft", 4 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 5 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 4 ] ], [ [ "dragon_black_scale", 15 ] ], [ [ "dragon_essence", 4 ] ] ]
   },
@@ -256,8 +241,7 @@
     "skills_required": [ "spellcraft", 6 ],
     "time": "30 h",
     "book_learn": [ [ "black_dragons", 6 ] ],
-    "qualities": [ { "id": "MANA_INFUSE", "level": 2 } ],
-    "tools": [ [ [ "chisel", -1 ] ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 7 ] ] ]
   }
