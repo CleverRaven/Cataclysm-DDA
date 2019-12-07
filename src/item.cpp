@@ -1359,14 +1359,33 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                           nutr.vitamins.end(),
     []( const std::pair<vitamin_id, int> &v ) {
         // only display vitamins that we actually require
-        return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 ) ?
+        return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 &&
+                 v.first->type() == vitamin_type::VITAMIN && !v.first->has_flag( "NO_DISPLAY" ) ) ?
                string_format( "%s (%i%%)", v.first.obj().name(),
                               static_cast<int>( v.second * g->u.vitamin_rate( v.first ) /
                                                 1_days * 100 ) ) :
                std::string();
     } );
+
+    const std::string effect_vits = enumerate_as_string(
+                                        nutr.vitamins.begin(),
+                                        nutr.vitamins.end(),
+    []( const std::pair<vitamin_id, int> &v ) {
+        // only display vitamins that we actually require
+        return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 &&
+                 v.first->type() != vitamin_type::VITAMIN && !v.first->has_flag( "NO_DISPLAY" ) ) ?
+               string_format( "%s (%i%%)", v.first.obj().name(),
+                              static_cast<int>( v.second * g->u.vitamin_rate( v.first ) /
+                                                1_days * 100 ) ) :
+               std::string();
+    } );
+
     if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {
         info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits );
+    }
+
+    if( !effect_vits.empty() && parts->test( iteminfo_parts::FOOD_VIT_EFFECTS ) ) {
+        info.emplace_back( "FOOD", _( "Other contents: " ), effect_vits );
     }
 
     if( g->u.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
