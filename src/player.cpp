@@ -5285,8 +5285,8 @@ void player::use( item_location loc )
 
     } else if( used.is_book() ) {
         // TODO: Remove this nasty cast once this and related functions are migrated to avatar
-        if( avatar *u = dynamic_cast<avatar *>( this ) ) {
-            u->read( inventory_position );
+        if( avatar *u = as_avatar() ) {
+            u->read( used );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
