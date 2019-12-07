@@ -3040,14 +3040,12 @@ void json_talk_topic::load( const JsonObject &jo )
     }
     for( JsonObject response : jo.get_array( "responses" ) ) {
         responses.emplace_back( response );
-        response.allow_omitted_members();
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
     } else if( jo.has_array( "repeat_responses" ) ) {
         for( JsonObject elem : jo.get_array( "repeat_responses" ) ) {
             repeat_responses.emplace_back( elem );
-            elem.allow_omitted_members();
         }
     }
     if( responses.empty() ) {
