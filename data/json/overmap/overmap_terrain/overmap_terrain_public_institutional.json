@@ -124,7 +124,7 @@
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ]
+    "extend": { "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -139,7 +139,7 @@
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ]
+    "extend": { "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -154,7 +154,7 @@
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ]
+    "extend": { "flags": [ "SOURCE_BOOKS", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -169,7 +169,7 @@
     "name": "police station",
     "copy-from": "generic_city_building",
     "color": "h_yellow",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ]
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -184,7 +184,7 @@
     "name": "police station",
     "copy-from": "generic_city_building",
     "color": "h_yellow",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ]
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -206,7 +206,7 @@
     "name": "police station",
     "copy-from": "generic_city_building",
     "color": "h_yellow",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ]
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -229,7 +229,7 @@
     "name": "hospital",
     "sym": "H",
     "color": "red",
-    "flags": [ "RISK_HIGH", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ]
+    "extend": { "flags": [ "RISK_HIGH", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ] }
   },
   {
     "type": "overmap_terrain",

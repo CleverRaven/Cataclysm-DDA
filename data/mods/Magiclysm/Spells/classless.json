@@ -11,8 +11,10 @@
     "min_range": 1,
     "max_range": 1,
     "base_casting_time": 100,
-    "base_energy_cost": 400,
+    "base_energy_cost": 500,
     "energy_source": "MANA",
+    "difficulty": 6,
+    "max_level": 20,
     "min_duration": 100000,
     "max_duration": 1000000,
     "duration_increment": 2000

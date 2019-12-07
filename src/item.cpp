@@ -1304,7 +1304,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
 
-    if( med_com->fun != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
+    if( med_item->get_comestible_fun() != 0 && parts->test( iteminfo_parts::MED_JOY ) ) {
         info.push_back( iteminfo( "MED", _( "Enjoyability: " ),
                                   g->u.fun_for( *med_item ).first ) );
     }
@@ -4578,6 +4578,26 @@ std::set<matec_id> item::get_techniques() const
     std::set<matec_id> result = type->techniques;
     result.insert( techniques.begin(), techniques.end() );
     return result;
+}
+
+int item::get_comestible_fun() const
+{
+    if( !is_comestible() ) {
+        return 0;
+    }
+    int fun = get_comestible()->fun;
+    for( const std::string &flag : item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+    for( const std::string &flag : type->item_tags ) {
+        fun += json_flag::get( flag ).taste_mod();
+    }
+
+    if( has_flag( "MUSHY" ) ) {
+        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+    }
+
+    return fun;
 }
 
 bool item::goes_bad() const

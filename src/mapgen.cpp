@@ -411,10 +411,8 @@ void load_mapgen( JsonObject &jo )
         JsonArray ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
             point offset;
-            while( ja.has_more() ) {
-                JsonArray row_items = ja.next_array();
-                while( row_items.has_more() ) {
-                    const std::string mapgenid = row_items.next_string();
+            for( JsonArray row_items : ja ) {
+                for( const std::string &mapgenid : row_items ) {
                     const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
                     if( mgfunc ) {
                         oter_mapgen[ mapgenid ].push_back( mgfunc );
@@ -426,8 +424,8 @@ void load_mapgen( JsonObject &jo )
             }
         } else {
             std::vector<std::string> mapgenid_list;
-            while( ja.has_more() ) {
-                mapgenid_list.push_back( ja.next_string() );
+            for( const std::string &line : ja ) {
+                mapgenid_list.push_back( line );
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
@@ -771,9 +769,7 @@ class jmapgen_npc : public jmapgen_piece
                 std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back( new_trait );
             } else if( jsi.has_array( "add_trait" ) ) {
-                JsonArray ja = jsi.get_array( "add_trait" );
-                while( ja.has_more() ) {
-                    std::string new_trait = ja.next_string();
+                for( const std::string &new_trait : jsi.get_array( "add_trait" ) ) {
                     traits.emplace_back( new_trait );
                 }
             }
@@ -1448,16 +1444,12 @@ class jmapgen_computer : public jmapgen_piece
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
-                JsonArray opts = jsi.get_array( "options" );
-                while( opts.has_more() ) {
-                    JsonObject jo = opts.next_object();
+                for( JsonObject jo : jsi.get_array( "options" ) ) {
                     options.emplace_back( computer_option::from_json( jo ) );
                 }
             }
             if( jsi.has_array( "failures" ) ) {
-                JsonArray opts = jsi.get_array( "failures" );
-                while( opts.has_more() ) {
-                    JsonObject jo = opts.next_object();
+                for( JsonObject jo : jsi.get_array( "failures" ) ) {
                     failures.emplace_back( computer_failure::from_json( jo ) );
                 }
             }
@@ -1766,9 +1758,7 @@ void jmapgen_objects::add( const jmapgen_place &place,
 template<typename PieceType>
 void jmapgen_objects::load_objects( JsonArray parray )
 {
-    while( parray.has_more() ) {
-        auto jsi = parray.next_object();
-
+    for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
 
@@ -1783,8 +1773,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
 template<>
 void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
 {
-    while( parray.has_more() ) {
-        auto jsi = parray.next_object();
+    for( JsonObject jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
 
@@ -1840,9 +1829,9 @@ void load_place_mapings( JsonObject &pjo, const std::string &key,
     if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
     } else {
-        JsonArray jarr = pjo.get_array( key );
-        while( jarr.has_more() ) {
-            load_place_mapings<PieceType>( jarr.next_object(), vect );
+        for( JsonObject jo : pjo.get_array( key ) ) {
+            load_place_mapings<PieceType>( jo, vect );
+            jo.allow_omitted_members();
         }
     }
 }

@@ -885,10 +885,8 @@ void player::load( JsonObject &data )
 
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    JsonArray traps = data.get_array( "known_traps" );
     known_traps.clear();
-    while( traps.has_more() ) {
-        JsonObject pmap = traps.next_object();
+    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
@@ -916,9 +914,7 @@ void player::load( JsonObject &data )
     }
 
     if( data.has_array( "faction_warnings" ) ) {
-        JsonArray warning_arr = data.get_array( "faction_warnings" );
-        while( warning_arr.has_more() ) {
-            JsonObject warning_data = warning_arr.next_object();
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
             std::string fac_id = warning_data.get_string( "fac_warning_id" );
             int warning_num = warning_data.get_int( "fac_warning_num" );
             time_point warning_time = calendar::before_time_starts;
@@ -946,10 +942,8 @@ void player::load( JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
-    JsonArray basecamps = data.get_array( "camps" );
     camps.clear();
-    while( basecamps.has_more() ) {
-        JsonObject bcdata = basecamps.next_object();
+    for( JsonObject bcdata : data.get_array( "camps" ) ) {
         tripoint bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
@@ -1169,9 +1163,7 @@ void avatar::load( JsonObject &data )
     }
     data.read( "show_map_memory", show_map_memory );
 
-    JsonArray parray = data.get_array( "assigned_invlet" );
-    while( parray.has_more() ) {
-        JsonArray pair = parray.next_array();
+    for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );
     }
 
@@ -1740,15 +1732,12 @@ void inventory::json_load_invcache( JsonIn &jsin )
 {
     try {
         std::unordered_map<itype_id, std::string> map;
-        JsonArray ja = jsin.get_array();
-        while( ja.has_more() ) {
-            JsonObject jo = ja.next_object();
+        for( JsonObject jo : jsin.get_array() ) {
             std::set<std::string> members = jo.get_member_names();
             for( const auto &member : members ) {
                 std::string invlets;
-                JsonArray pvect = jo.get_array( member );
-                while( pvect.has_more() ) {
-                    invlets.push_back( pvect.next_int() );
+                for( const int i : jo.get_array( member ) ) {
+                    invlets.push_back( i );
                 }
                 map[member] = invlets;
             }
@@ -2650,9 +2639,7 @@ void vehicle::deserialize( JsonIn &jsin )
 
     point p;
     zone_data zd;
-    JsonArray ja = data.get_array( "zones" );
-    while( ja.has_more() ) {
-        JsonObject sdata = ja.next_object();
+    for( JsonObject sdata : data.get_array( "zones" ) ) {
         sdata.read( "point", p );
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
@@ -3145,19 +3132,15 @@ void map_memory::load( JsonIn &jsin )
 // Deserializer for legacy object-based memory map.
 void map_memory::load( JsonObject &jsin )
 {
-    JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
     tile_cache.clear();
-    while( map_memory_tiles.has_more() ) {
-        JsonObject pmap = map_memory_tiles.next_object();
+    for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
                        pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
     }
 
-    JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
     symbol_cache.clear();
-    while( map_memory_curses.has_more() ) {
-        JsonObject pmap = map_memory_curses.next_object();
+    for( JsonObject pmap : jsin.get_array( "map_memory_curses" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
     }
@@ -3345,9 +3328,7 @@ void basecamp::deserialize( JsonIn &jsin )
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
-    JsonArray ja = data.get_array( "expansions" );
-    while( ja.has_more() ) {
-        JsonObject edata = ja.next_object();
+    for( JsonObject edata : data.get_array( "expansions" ) ) {
         expansion_data e;
         point dir;
         if( edata.has_string( "dir" ) ) {
@@ -3363,9 +3344,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
         if( edata.has_array( "provides" ) ) {
             e.cur_level = -1;
-            JsonArray provides_arr = edata.get_array( "provides" );
-            while( provides_arr.has_more() ) {
-                JsonObject provide_data = provides_arr.next_object();
+            for( JsonObject provide_data : edata.get_array( "provides" ) ) {
                 std::string id = provide_data.get_string( "id" );
                 int amount = provide_data.get_int( "amount" );
                 e.provides[ id ] = amount;
@@ -3376,9 +3355,7 @@ void basecamp::deserialize( JsonIn &jsin )
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
         }
-        JsonArray in_progress_arr = edata.get_array( "in_progress" );
-        while( in_progress_arr.has_more() ) {
-            JsonObject in_progress_data = in_progress_arr.next_object();
+        for( JsonObject in_progress_data : edata.get_array( "in_progress" ) ) {
             std::string id = in_progress_data.get_string( "id" );
             int amount = in_progress_data.get_int( "amount" );
             e.in_progress[ id ] = amount;
@@ -3389,9 +3366,7 @@ void basecamp::deserialize( JsonIn &jsin )
             directions.push_back( dir );
         }
     }
-    JsonArray jo = data.get_array( "fortifications" );
-    while( jo.has_more() ) {
-        JsonObject edata = jo.next_object();
+    for( JsonObject edata : data.get_array( "fortifications" ) ) {
         tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
@@ -3426,10 +3401,7 @@ void kill_tracker::deserialize( JsonIn &jsin )
         kills[mtype_id( member )] = kills_obj.get_int( member );
     }
 
-    JsonArray npc_kills_array = data.get_array( "npc_kills" );
-    while( npc_kills_array.has_more() ) {
-        std::string npc_name;
-        npc_kills_array.read_next( npc_name );
+    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }

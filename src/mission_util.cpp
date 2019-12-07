@@ -486,9 +486,7 @@ bool mission_util::load_funcs( JsonObject &jo,
             return false;
         }
     } else if( jo.has_array( "update_mapgen" ) ) {
-        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
-        while( mapgen_array.has_more() ) {
-            JsonObject update_mapgen = mapgen_array.next_object();
+        for( JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
             if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }

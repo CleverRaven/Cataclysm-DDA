@@ -239,9 +239,7 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
-        JsonArray jarr = obj.get_array( "body_parts" );
-        while( jarr.has_more() ) {
-            JsonArray sub = jarr.next_array();
+        for( JsonArray sub : obj.get_array( "body_parts" ) ) {
             const body_part bp = get_body_part_token( sub.get_string( 0 ) );
             const float prob = sub.get_float( 1 );
             body_parts.add_or_replace( bp, prob );
@@ -249,9 +247,7 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
     }
 
     if( obj.has_array( "effects" ) ) {
-        JsonArray jarr = obj.get_array( "effects" );
-        while( jarr.has_more() ) {
-            JsonObject eff = jarr.next_object();
+        for( JsonObject eff : obj.get_array( "effects" ) ) {
             effects.push_back( load_mon_effect_data( eff ) );
         }
     }
@@ -390,9 +386,7 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.read( "ammo_type", ammo_type );
 
     if( obj.has_array( "fake_skills" ) ) {
-        JsonArray jarr = obj.get_array( "fake_skills" );
-        while( jarr.has_more() ) {
-            JsonArray cur = jarr.next_array();
+        for( JsonArray cur : obj.get_array( "fake_skills" ) ) {
             fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
         }
     }
@@ -402,9 +396,7 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    auto arr = obj.get_array( "ranges" );
-    while( arr.has_more() ) {
-        auto mode = arr.next_array();
+    for( JsonArray mode : obj.get_array( "ranges" ) ) {
         if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
             obj.throw_error( "incomplete or invalid range specified", "ranges" );
         }

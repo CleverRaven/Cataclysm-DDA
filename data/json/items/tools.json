@@ -746,7 +746,6 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "revert_to": "camera",
     "use_action": "CAMERA",
     "magazines": [
       [
@@ -778,7 +777,6 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "revert_to": "camera_pro",
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
     "magazines": [
@@ -827,7 +825,6 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "can_food_unsealed",
     "use_action": {
       "target": "candle_lit",
       "msg": "You light the candle.",
@@ -934,6 +931,7 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "CARVER_OFF",
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "magazines": [
@@ -1004,7 +1002,9 @@
         [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
+          "light_disposable_cell",
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
@@ -1099,6 +1099,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
+    "charges_per_use": 5,
     "max_charges": 450,
     "techniques": "SWEEP",
     "use_action": "CHAINSAW_OFF",
@@ -1449,7 +1450,12 @@
     "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
     "magazine_well": 2
   },
   {
@@ -1925,7 +1931,6 @@
     "color": "white",
     "max_charges": 3000,
     "turns_per_charge": 1,
-    "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS",
     "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
@@ -1969,6 +1974,60 @@
     }
   },
   {
+    "id": "milk_cream_rising",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "rising cream jar",
+    "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
+    "weight": "3461 g",
+    "volume": "3000 ml",
+    "price": 10,
+    "bashing": 8,
+    "material": "glass",
+    "symbol": "%",
+    "looks_like": "jar_sauerkraut_pickled",
+    "color": "white",
+    "use_action": {
+      "target": "milk_cream_jar",
+      "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 21600,
+      "not_ready_msg": "The cream has not risen yet."
+    }
+  },
+  {
+    "id": "milk_cream_jar",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "milk cream jar",
+    "looks_like": "jar_sauerkraut_pickled",
+    "description": "This jar contains raw milk separated into cream.  It is sealed until you are ready to use it.",
+    "weight": "3461 g",
+    "volume": "3000 ml",
+    "price": 10,
+    "bashing": 8,
+    "material": "glass",
+    "symbol": "%",
+    "color": "white"
+  },
+  {
+    "id": "butter_churn",
+    "type": "TOOL",
+    "name": "pseudo butter churn",
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "6464 g",
+    "volume": "9 L",
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": "wood",
+    "qualities": [ [ "CHURN", 1 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "eink_tablet_pc",
     "type": "TOOL",
     "name": "e-ink tablet PC",
@@ -1982,7 +2041,6 @@
     "color": "blue",
     "ammo": "battery",
     "charges_per_use": 1,
-    "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
     "magazines": [
@@ -1993,7 +2051,9 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
     ],
@@ -2014,6 +2074,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
+    "charges_per_use": 5,
     "techniques": "SWEEP",
     "use_action": "ELEC_CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ],
@@ -2335,7 +2396,6 @@
     "color": "green",
     "ammo": "fish_bait",
     "max_charges": 5,
-    "revert_to": "fish_trap",
     "use_action": "FISH_TRAP"
   },
   {
@@ -4057,7 +4117,6 @@
     "color": "red",
     "ammo": "battery",
     "power_draw": 1500000,
-    "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
     "magazines": [
@@ -5253,6 +5312,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
@@ -5584,7 +5644,6 @@
     "use_action": "AUTOCLAVE",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "power_draw": 1500000,
-    "revert_to": "autoclave",
     "looks_like": "microwave",
     "ammo": "battery",
     "magazines": [
@@ -6439,6 +6498,7 @@
     "color": "green",
     "ammo": "gasoline",
     "max_charges": 600,
+    "charges_per_use": 5,
     "use_action": "TRIMMER_OFF",
     "flags": [ "NONCONDUCTIVE" ]
   },
@@ -6827,8 +6887,10 @@
         [
           "light_battery_cell",
           "light_plus_battery_cell",
-          "light_minus_battery_cell",
+          "light_disposable_cell",
           "light_atomic_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
       ]

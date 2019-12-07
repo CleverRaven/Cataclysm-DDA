@@ -70,7 +70,8 @@
     "ranged_damage": 1,
     "dispersion": 425,
     "durability": 6,
-    "clip_size": 5
+    "clip_size": 5,
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "ksg",
@@ -211,7 +212,8 @@
       [ "loading port", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "pipe_double_shotgun",
@@ -363,7 +365,8 @@
       [ "loading port", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "revolver_shotgun",
