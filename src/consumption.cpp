@@ -145,57 +145,27 @@ static int compute_default_effective_kcal( const item &comest, const player &p )
     return static_cast<int>( kcal );
 }
 
-// list of traits the player has that modifies vitamin absorption
-static std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
+// Compute default effective vitamins for an item, taking into account player
+// traits, but not components of the item.
+static std::map<vitamin_id, int> compute_default_effective_vitamins(
+    const item &it, const player &p )
 {
-    std::list<trait_id> traits;
-    for( auto &m : p.get_mutations() ) {
-        const auto &mut = m.obj();
-        if( !mut.vitamin_absorb_multi.empty() ) {
-            traits.push_back( m );
-        }
-    }
-    return traits;
-}
-
-// is the material associated with this item?
-static bool material_exists( const material_id &material, const item &item )
-{
-    for( const material_id &mat : item.type->materials ) {
-        if( mat == material ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-static std::map<vitamin_id, int> compute_default_effective_vitamins( const item &it,
-        const player &p )
-{
-    std::map<vitamin_id, int> res;
-
     assert( it.get_comestible() );
 
-    // if we're here, whatever is returned is going to be based on the item's defined stats
-    res = it.get_comestible()->default_nutrition.vitamins;
-    std::list<trait_id> traits = mut_vitamin_absorb_modify( p );
-    // traits modify the absorption of vitamins here
-    if( !traits.empty() ) {
-        // make sure to iterate over every trait that has an effect on vitamin absorption
-        for( const trait_id &trait : traits ) {
-            const auto &mut = trait.obj();
-            // make sure to iterate over every material defined for vitamin absorption
-            // TODO: put this loop into a function and utilize it again for bionics
-            for( const auto &mat : mut.vitamin_absorb_multi ) {
-                // this is where we are able to check if the food actually is changed by the trait
-                if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
-                    std::map<vitamin_id, double> mat_vit_map = mat.second;
-                    // finally iterate over every vitamin in each material
-                    for( const auto &vit : res ) {
-                        // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
-                        mat_vit_map.emplace( vit.first, 1 );
-                        // finally edit the vitamin value that will be returned
-                        res[ vit.first ] *= mat_vit_map[ vit.first ];
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
+
+    for( const trait_id &trait : p.get_mutations() ) {
+        const auto &mut = trait.obj();
+        // make sure to iterate over every material defined for vitamin absorption
+        // TODO: put this loop into a function and utilize it again for bionics
+        for( const auto &mat : mut.vitamin_absorb_multi ) {
+            // this is where we are able to check if the food actually is changed by the trait
+            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
+                const std::map<vitamin_id, double> &mat_vit_map = mat.second;
+                for( const auto &vit : res ) {
+                    auto vit_factor = mat_vit_map.find( vit.first );
+                    if( vit_factor != mat_vit_map.end() ) {
+                        res[ vit.first ] *= vit_factor->second;
                     }
                 }
             }
