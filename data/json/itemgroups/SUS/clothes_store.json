@@ -1,0 +1,24 @@
+[
+  {
+    "id": "SUS_mannequin_outdoor",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying outdoor gear.",
+    "subtype": "collection",
+    "entries": [ { "group": "clothing_outdoor_set" } ]
+  },
+  {
+    "id": "SUS_mannequin_general",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying average clothes.",
+    "subtype": "distribution",
+    "entries": [
+      { "collection": [ { "group": "shirts_unisex" }, { "group": "pants_unisex" }, { "group": "shoes_unisex" } ], "prob": 95 },
+      {
+        "collection": [ { "group": "shirts_womens" }, { "group": "pants_womens" }, { "group": "shoes_womens" } ],
+        "prob": 5
+      }
+    ]
+  }
+]

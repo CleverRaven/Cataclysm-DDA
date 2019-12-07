@@ -1,0 +1,66 @@
+[
+  {
+    "type": "palette",
+    "id": "clothes_store_palette",
+    "furniture": {
+      "c": "f_counter",
+      "C": "f_armchair",
+      "s": "f_stool",
+      "M": "f_rack",
+      "K": "f_rack",
+      "J": "f_rack",
+      "W": "f_rack",
+      "U": "f_rack",
+      "T": "f_rack",
+      "O": "f_rack",
+      "B": "f_rack",
+      "I": "f_rack",
+      "S": "f_sink",
+      "d": "f_desk",
+      "$": "f_filing_cabinet",
+      "L": "f_locker",
+      "b": "f_bigmirror",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "D": "f_trashcan",
+      "&": "f_mannequin",
+      "(": "f_mannequin"
+    },
+    "terrain": {
+      ".": [ [ "t_grass", 10 ], [ "t_dirt", 2 ], "t_shrub" ],
+      " ": "t_floor",
+      "+": "t_door_c",
+      "*": "t_door_glass_c",
+      "4": "t_gutter_downspout",
+      "|": "t_wall",
+      "#": "t_brick_wall",
+      ":": "t_wall_glass",
+      "-": "t_sidewalk",
+      "o": "t_window"
+    },
+    "toilets": { "t": {  } },
+    "items": {
+      "M": [
+        { "item": "pants_unisex", "chance": 50, "repeat": 3 },
+        { "item": "pants_womens", "chance": 5, "repeat": 3 },
+        { "item": "pants_mens", "chance": 5, "repeat": 3 }
+      ],
+      "K": { "item": "coats_unisex", "chance": 30, "repeat": 3 },
+      "J": [ { "item": "shoes_unisex", "chance": 60, "repeat": 3 }, { "item": "shoes_womens", "chance": 20, "repeat": 3 } ],
+      "W": [ { "item": "shirts_unisex", "chance": 50, "repeat": 3 }, { "item": "shirts_womens", "chance": 10, "repeat": 3 } ],
+      "U": { "item": "underwear_mens", "chance": 40, "repeat": 3 },
+      "I": { "item": "underwear_womens", "chance": 40, "repeat": 3 },
+      "T": [ { "item": "gloves_unisex", "chance": 45, "repeat": 3 }, { "item": "scarfs_unisex", "chance": 30, "repeat": 3 } ],
+      "O": [
+        { "item": "clothing_outdoor_torso", "chance": 50, "repeat": 3 },
+        { "item": "clothing_outdoor_pants", "chance": 50, "repeat": 3 }
+      ],
+      "B": { "item": "bags", "chance": 50, "repeat": 3 },
+      "$": { "item": "SUS_office_filing_cabinet", "chance": 100 },
+      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
+      "&": { "item": "SUS_mannequin_general", "chance": 70 },
+      "d": { "item": "SUS_office_desk", "chance": 100 },
+      "L": { "item": "SUS_kitchen_sink", "chance": 100 }
+    }
+  }
+]
