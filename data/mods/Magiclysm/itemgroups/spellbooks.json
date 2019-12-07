@@ -101,6 +101,7 @@
       [ "spell_scroll_magus_mana_blast", 50 ],
       [ "lightning_storm_scroll", 50 ],
       [ "spell_scroll_invisibility", 10 ],
+      [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ]
     ]
   },
