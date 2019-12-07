@@ -848,7 +848,8 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
                 *data.ptr_selected = iLines - height;
             }
 
-            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray, buffer );
+            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray,
+                                 buffer );
 
             draw_scrollbar( win, *data.ptr_selected, height, iLines,
                             point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
@@ -868,15 +869,15 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
         result = inp_mngr.get_input_event();
         const int ch = static_cast<int>( result.get_first_input() );
         if( data.handle_scrolling && ch == KEY_PPAGE ) {
-            (*data.ptr_selected)--;
+            ( *data.ptr_selected )--;
             werase( win );
         } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
-            (*data.ptr_selected)++;
+            ( *data.ptr_selected )++;
             werase( win );
-        } else if( (*data.ptr_selected) > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+        } else if( *data.ptr_selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
             result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
-        } else if( (*data.ptr_selected) == KEY_LEFT ) {
+        } else if( *data.ptr_selected == KEY_LEFT ) {
             result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
