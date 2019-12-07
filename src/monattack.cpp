@@ -94,6 +94,11 @@ static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
 static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
+static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
+static const mtype_id mon_leech_pod_cluster( "mon_leech_pod_cluster" );
+static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
+static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
 static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
@@ -111,6 +116,7 @@ static const skill_id skill_launcher( "launcher" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 static const species_id BLOB( "BLOB" );
+static const species_id LEECH_PLANT( "LEECH_PLANT" );
 
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
@@ -4719,6 +4725,142 @@ bool mattack::riotbot( monster *z )
 
     return true;
 }
+
+bool mattack::evolve_kill_strike( monster *z )
+{
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !is_adjacent( z, target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    z->moves -= 100;
+    bool uncanny = target->uncanny_dodge();
+    if( uncanny || dodge_check( z, target ) ) {
+        auto msg_type = target == &g->u ? m_warning : m_info;
+        target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
+                                       _( "The %s lunges at <npcname>, but they dodge!" ),
+                                       z->name() );
+        if( !uncanny ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+            target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
+                                           _( "The %s lunges at <npcname>, but they dodge!" ),
+                                           z->name() );
+        }
+        return true;
+    }
+    const std::string old_name = z->name();
+    const bool could_see_z = g->u.sees( *z );
+    tripoint const target_pos = target->pos();
+    const std::string target_name = target->disp_name();
+    damage_instance damage( z->type->melee_damage );
+    damage.mult_damage( 1.33f );
+    int damage_dealt = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng( 10, 20 ),
+                                            rng( 5, 15 ) ) ).total_damage();
+    if( damage_dealt > 0 ) {
+        auto msg_type = target == &g->u ? m_bad : m_warning;
+        target->add_msg_player_or_npc( msg_type,
+                                       _( "The %1$s impales yor chest for %2$d damage!" ),
+                                       _( "The %1$s impales <npcname>'s chest for %2$d damage!" ),
+                                       z->name(), damage_dealt );
+    } else {
+        target->add_msg_player_or_npc(
+            _( "The %1$s attempts to burrow itself into you, but is stopped by your armor!" ),
+            _( "The %1$s slashes at <npcname>'s %2$s, but is stopped by its glances off armor!" ),
+            z->name() );
+        return true;
+    }
+    if( target->is_dead_state() && g->is_empty( target_pos ) &&
+        target->made_of_any( Creature::cmat_flesh ) ) {
+        z->allow_upgrade();
+        z->try_upgrade( false );
+        z->setpos( target_pos );
+        const std::string upgrade_name = z->name();
+        const bool can_see_z_upgrade = g->u.sees( *z );
+        if( could_see_z && can_see_z_upgrade ) {
+            add_msg( m_warning, _( "The %1$s burrows within %2$s corpse and a %3$s emerges from the remains!" ),
+                     old_name,
+                     target_name, upgrade_name );
+        } else if( could_see_z ) {
+            add_msg( m_warning, _( "The %1$s burrows within %2$s corpse!" ), old_name, target_name );
+        } else if( can_see_z_upgrade ) {
+            add_msg( m_warning, _( "A %1$s emerges from %2$s corpse!" ), target->disp_name(), target_name );
+        }
+    }
+    return true;
+}
+
+bool mattack::leech_spawner( monster *z )
+{
+    const bool u_see = g->u.sees( *z );
+    std::list<monster *> allies;
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( LEECH_PLANT ) && !candidate.type->has_flag( MF_IMMOBILE ) ) {
+            allies.push_back( &candidate );
+        }
+    }
+    if( allies.size() > 35 ) {
+        return true;
+    }
+    int monsters_spawned = rng( 1, 4 );
+    const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
+    for( int i = 0; i < monsters_spawned; i++ ) {
+        if( monster *const new_mon = g->place_critter_around( monster_type, z->pos(), 1 ) ) {
+            if( u_see ) {
+                add_msg( m_warning,
+                         _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
+            }
+        }
+    }
+    if( one_in( 25 ) ) {
+        z->poly( mon_leech_stalk );
+        if( u_see ) {
+            add_msg( m_warning,
+                     _( "Resplendent fronds emerge from the still intact pods! " ) );
+        }
+    }
+    return true;
+}
+
+bool mattack::mon_leech_evolution( monster *z )
+{
+    const bool u_see = g->u.sees( *z );
+    const bool is_queen = z->type->has_flag( MF_QUEEN );
+    std::list<monster *> queens;
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( LEECH_PLANT ) && candidate.type->has_flag( MF_QUEEN ) &&
+            rl_dist( z->pos(), candidate.pos() ) ) {
+            queens.push_back( &candidate );
+        }
+    }
+    if( !is_queen ) {
+        if( queens.empty() ) {
+            z->poly( mon_leech_blossom );
+            z->set_hp( z->get_hp_max() );
+            if( u_see ) {
+                add_msg( m_warning,
+                         _( "The %s blooms into flowers!" ), z->name() );
+            }
+        }
+
+    } else {
+        if( !queens.empty() ) {
+            if( u_see ) {
+                add_msg( m_warning,
+                         _( "The %s flowers whiter and fall!" ), z->name() );
+            }
+            z->poly( mon_leech_stalk );
+            g->m.spawn_item( z->pos(), "leech_flower", 5, 0, calendar::turn );
+
+        }
+    }
+    return true;
+}
+
 
 bool mattack::tindalos_teleport( monster *z )
 {

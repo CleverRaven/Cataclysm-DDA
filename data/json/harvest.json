@@ -705,6 +705,23 @@
     ]
   },
   {
+    "id": "flesh_plant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
+    ]
+  },
+  {
+    "id": "flesh_plant_bloom",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "leech_flower", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
+    ]
+  },
+  {
     "id": "biollante",
     "type": "harvest",
     "//": "todo: add biollante item",

@@ -317,6 +317,12 @@ int monster::get_upgrade_time() const
     return upgrade_time;
 }
 
+// Sets time to upgrade to 0.
+void monster:: allow_upgrade()
+{
+    upgrade_time = 0;
+}
+
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time()

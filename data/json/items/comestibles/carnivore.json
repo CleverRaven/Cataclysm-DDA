@@ -932,5 +932,51 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": -30
+  },
+  {
+    "id": "meat_frond",
+    "copy-from": "meat_tainted",
+    "type": "COMESTIBLE",
+    "name": "alien fronds",
+    "use_action": "POISON",
+    "description": "The fleshy fronds harvested from an alien plant. The tiny membranous leaves attached and rigid and gut-like stem are certainly poisonous, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
+    "fun": 15,
+    "stim": 3,
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "id": "leech_flower",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "leech flower",
+    "color": "blue",
+    "weight": "10 g",
+    "volume": "250 ml",
+    "symbol": "%",
+    "spoils_in": "30 days",
+    "description": "The alien beauty of this indigo flower is betrayed by its disgustingly fleshy composition.  What from afar appear to be petals are but layered membranes of transparent veiny flesh, given color by a covering of blue iridescent ichor.  Even if it is certainly poisonous, it has a pleasant medicinal smell to it.",
+    "stim": 30,
+    "healthy": -10,
+    "fun": 15,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Even a close smell of this alien flower feels deeply intoxicating.",
+      "effects": [
+        { "id": "pkill3", "duration": 360 },
+        { "id": "pkill2", "duration": 810 },
+        { "id": "foodpoison", "duration": 810 },
+        { "id": "badpoison", "duration": 3600 },
+        { "id": "shakes", "duration": 810 }
+      ]
+    }
+  },
+  {
+    "id": "meat_bark",
+    "copy-from": "meat_frond",
+    "type": "COMESTIBLE",
+    "name": "leech bark",
+    "name_plural": "scraps of leech bark",
+    "description": "Dry and though bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
   }
 ]
