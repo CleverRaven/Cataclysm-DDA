@@ -187,6 +187,25 @@ TEST_CASE( "all_nutrition_starve_test" )
     CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -100 );
 }
 
+TEST_CASE( "tape_worm_halves_nutrients" )
+{
+    const efftype_id effect_tapeworm( "tapeworm" );
+    const bool print_tests = false;
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    eat_all_nutrients( dummy );
+    print_stomach_contents( dummy, print_tests );
+    int regular_kcal = dummy.stomach.get_calories();
+    clear_stomach( dummy );
+    dummy.add_effect( effect_tapeworm, 1_days );
+    eat_all_nutrients( dummy );
+    print_stomach_contents( dummy, print_tests );
+    int tapeworm_kcal = dummy.stomach.get_calories();
+
+    CHECK( tapeworm_kcal == regular_kcal / 2 );
+}
+
 // reasonable length of time to pass before hunger sets in
 TEST_CASE( "hunger" )
 {
