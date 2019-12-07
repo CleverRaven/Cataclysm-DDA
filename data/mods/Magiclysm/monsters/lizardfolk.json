@@ -65,13 +65,13 @@
         "type": "gun",
         "cooldown": 5,
         "move_cost": 150,
-        "gun_type": "lizardfolk_barbed_dart",
+        "gun_type": "lizardfolk_javelin_gun",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 8,
         "fake_per": 8,
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
-        "description": "The hunter hurls a barbed dart at you!"
+        "description": "The hunter hurls a barbed javelin at you!"
       },
       { "type": "bite", "cooldown": 5 }
     ],
