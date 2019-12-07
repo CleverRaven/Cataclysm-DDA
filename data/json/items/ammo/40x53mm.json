@@ -44,5 +44,47 @@
     "pierce": 45,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+  },
+  {
+    "id": "40x53mm_buckshot_m169",
+    "copy-from": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm buckshot",
+    "description": "An improvised 40x53mm buckshot load somewhat resembling M576.",
+    "weight": "340 g",
+    "range": 10,
+    "damage": 100,
+    "pierce": 4,
+    "recoil": 1200,
+    "casing": "40x53mm_m169_casing",
+    "extend": { "effects": [ "SHOT" ] }
+  },
+  {
+    "id": "40x53mm_slug_m169",
+    "copy-from": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm slug",
+    "description": "An improvised 40x53mm load resembling an oversized shotgun slug.",
+    "weight": "340 g",
+    "range": 10,
+    "damage": 130,
+    "pierce": 6,
+    "recoil": 1200,
+    "casing": "40x53mm_m169_casing",
+    "extend": { "effects": [ "SHOT" ] }
+  },
+  {
+    "id": "40x53mm_flechette_m169",
+    "copy-from": "40x53mm_grenade",
+    "type": "AMMO",
+    "name": "40x53mm flechette",
+    "description": "An improvised 40x53mm flechette load containing 100 steel darts.",
+    "weight": "340 g",
+    "range": 10,
+    "damage": 85,
+    "pierce": 6,
+    "recoil": 1200,
+    "casing": "40x53mm_m169_casing",
+    "extend": { "effects": [ "SHOT" ] }
   }
 ]
