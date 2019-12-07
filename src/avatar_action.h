@@ -11,7 +11,6 @@ class avatar;
 class item;
 class item_location;
 class map;
-class player;
 struct targeting_data;
 
 namespace avatar_action
