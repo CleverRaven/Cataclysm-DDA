@@ -4155,7 +4155,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-	  [
+      [
         [ "meat_red", 2, "LIST" ],
         [ "can_chicken", 2 ],
         [ "meat_salted", 2 ],
@@ -4177,7 +4177,7 @@
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ]
       ],
-	  [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
+      [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
