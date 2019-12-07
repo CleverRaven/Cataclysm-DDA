@@ -345,6 +345,22 @@
     "use_action": "WATER_PURIFIER"
   },
   {
+    "id": "obfuscating_aura",
+    "type": "ARMOR",
+    "name": "obfuscating aura",
+    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Makes it easier to dodge attacks.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "multiply": 1 } ] } ]
+    }
+  },
+  {
     "id": "acid_res_aura",
     "type": "ARMOR",
     "name": "acid resistance aura",
