@@ -374,7 +374,7 @@ void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool cappe
 
 int Character::vitamin_get( const vitamin_id &vit ) const
 {
-    if( get_option<bool>( "NO_VITAMINS" ) ) {
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
         return 0;
     }
 
