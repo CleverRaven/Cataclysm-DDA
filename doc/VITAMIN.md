@@ -44,23 +44,23 @@ What the vitamin shows up as where vitamins are displayed, such as the vitamins 
 The id of an effect that is triggered by a deficiency of this vitamin.
 
 ### `excess`
-The id of an effect that is triggered by a deficiency of this vitamin.
+The id of an effect that is triggered by a excess of this vitamin.
 
 ### `min`
-The smallest amount of this vitamin that the avatar can have.
+The smallest amount of this vitamin that the player can have.
 
 ### `max`
 The highest amount of this vitamin that the avatar can have.
 
 ### `rate`
-How long it takes to lose one unit of this vitamin
+How long it takes to lose one unit of this vitamin.
 
 ### `disease`
 What the thresholds of deficiency of this vitamin are.
 Each pair in the list determines the start and end points of that tier of deficiency.
-Each tier of deficiency corresponds to the intensity level of the effect defined in `deficiency`
+Each tier of deficiency corresponds to the intensity level of the effect defined in `deficiency`.
 
 ### `disease_excess`
 What the thresholds of excess of this vitamin are.
 Each pair in the list determines the start and end points of that tier of excess.
-Each tier of excess corresponds to the intensity level of the effect defined in `excess`
+Each tier of excess corresponds to the intensity level of the effect defined in `excess`.
