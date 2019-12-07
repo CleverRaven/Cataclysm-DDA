@@ -17,8 +17,8 @@
     "//2": "often spawns a box to hold everything, sometimes a plastic sheet to cover it, and then some stuff in the box.",
     "subtype": "collection",
     "items": [
-      { "distribution": [ { "item": "box_medium", "prob": 75 }, { "item": "box_large", "prob": 25 } ], "prob": 60 },
-      [ "plastic_sheet", 25 ],
+      { "distribution": [ { "item": "box_medium", "prob": 75 }, { "item": "box_large", "prob": 25 } ], "prob": 25 },
+      [ "plastic_sheet", 10 ],
       {
         "distribution": [
           { "group": "tools_general", "prob": 90 },
