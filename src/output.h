@@ -477,21 +477,23 @@ struct item_info_data {
         std::vector<iteminfo> vItemDisplay;
         std::vector<iteminfo> vItemCompare;
         int selected = 0;
+
     public:
 
         item_info_data() = default;
+
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare)
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
               vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( 0 ), ptr_selected( &selected ){}
+              selected( 0 ), ptr_selected( &selected ) {}
 
-        item_info_data(const std::string &sItemName, const std::string &sTypeName,
-            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-            int &ptr_selected)
-            : sItemName(sItemName), sTypeName(sTypeName),
-            vItemDisplay(vItemDisplay), vItemCompare(vItemCompare),
-            ptr_selected(&ptr_selected) {}
+        item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+                        int &ptr_selected )
+            : sItemName( sItemName ), sTypeName( sTypeName ),
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+              ptr_selected( &ptr_selected ) {}
 
         const std::string &get_item_name() const {
             return sItemName;
