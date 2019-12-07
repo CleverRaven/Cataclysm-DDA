@@ -912,7 +912,7 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_tile_spritelists( JsonObject &entry,
+void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
         const std::string &objname )
 {
