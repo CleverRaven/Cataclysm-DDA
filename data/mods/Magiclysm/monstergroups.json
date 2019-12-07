@@ -90,7 +90,7 @@
     "type": "monstergroup",
     "name": "GROUP_LIZARDFOLK",
     "default": "mon_lizardfolk_warrior",
-    "//": "A lizard humanoid race, the are allies and servants of the black dragons.",
+    "//": "A lizard humanoid race, they are allies and servants of the black dragons.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_lizardfolk_warrior", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
