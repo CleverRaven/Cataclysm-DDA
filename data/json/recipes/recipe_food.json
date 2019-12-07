@@ -4166,14 +4166,14 @@
         [ "salted_fish", 2 ],
         [ "rehydrated_fish", 2 ],
         [ "dry_fish", 2 ]
+        [ "tofu", 2 ],
+        [ "dry_tofu", 2 ],
       ],
       [
         [ "veggy_any", 2, "LIST" ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "morel_cooked", 2 ],
-        [ "tofu", 2 ],
-        [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ]
       ],

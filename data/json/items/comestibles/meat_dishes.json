@@ -786,7 +786,7 @@
     "description": "A supreme pizza with ALL the toppings.",
     "price": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
-    "fun": 20,
+    "fun": 11,
     "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
   },
   {
