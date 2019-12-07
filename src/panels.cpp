@@ -2211,20 +2211,12 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
-    JsonArray jaLayouts = joLayouts.get_array( "layouts" );
-
-    while( jaLayouts.has_more() ) {
-        JsonObject joLayout = jaLayouts.next_object();
-
+    for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
         auto &layout = layouts.find( layout_id )->second;
         auto it = layout.begin();
 
-        JsonArray jaPanels = joLayout.get_array( "panels" );
-
-        while( jaPanels.has_more() ) {
-            JsonObject joPanel = jaPanels.next_object();
-
+        for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {
             std::string name = joPanel.get_string( "name" );
             bool toggle = joPanel.get_bool( "toggle" );
 

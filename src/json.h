@@ -888,6 +888,8 @@ class JsonObject
         std::string line_number(); // for occasional use only
 };
 
+class JsonArrayValueRef;
+
 /* JsonArray
  * =========
  *
@@ -961,18 +963,20 @@ class JsonObject
 class JsonArray
 {
     private:
-        std::vector<int> positions;
+        friend JsonArrayValueRef;
+
+        std::vector<size_t> positions;
         int start;
-        int index;
-        int end;
+        size_t index;
+        int end_;
         bool final_separator;
         JsonIn *jsin;
-        void verify_index( int i );
+        void verify_index( size_t i ) const;
 
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
@@ -980,7 +984,7 @@ class JsonArray
 
         void finish(); // move the stream position to the end of the array
 
-        bool has_more(); // true iff more elements may be retrieved with next_*
+        bool has_more() const; // true iff more elements may be retrieved with next_*
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
@@ -997,45 +1001,50 @@ class JsonArray
         void skip_value(); // ignore whatever is next
 
         // static access
-        bool get_bool( int index );
-        int get_int( int index );
-        double get_float( int index );
-        std::string get_string( int index );
-        JsonArray get_array( int index );
-        JsonObject get_object( int index );
+        bool get_bool( size_t index ) const;
+        int get_int( size_t index ) const;
+        double get_float( size_t index ) const;
+        std::string get_string( size_t index ) const;
+        JsonArray get_array( size_t index ) const;
+        JsonObject get_object( size_t index ) const;
 
         // get_tags returns empty set if none found
         template <typename T = std::string>
-        std::set<T> get_tags( int index );
+        std::set<T> get_tags( size_t index ) const;
+
+        class const_iterator;
+
+        const_iterator begin() const;
+        const_iterator end() const;
 
         // iterative type checking
-        bool test_null();
-        bool test_bool();
-        bool test_number();
-        bool test_int() {
+        bool test_null() const;
+        bool test_bool() const;
+        bool test_number() const;
+        bool test_int() const {
             return test_number();
         }
-        bool test_float() {
+        bool test_float() const {
             return test_number();
         }
-        bool test_string();
-        bool test_bitset();
-        bool test_array();
-        bool test_object();
+        bool test_string() const;
+        bool test_bitset() const;
+        bool test_array() const;
+        bool test_object() const;
 
         // random-access type checking
-        bool has_null( int index );
-        bool has_bool( int index );
-        bool has_number( int index );
-        bool has_int( int index ) {
+        bool has_null( size_t index ) const;
+        bool has_bool( size_t index ) const;
+        bool has_number( size_t index ) const;
+        bool has_int( size_t index ) const {
             return has_number( index );
         }
-        bool has_float( int index ) {
+        bool has_float( size_t index ) const {
             return has_number( index );
         }
-        bool has_string( int index );
-        bool has_array( int index );
-        bool has_object( int index );
+        bool has_string( size_t index ) const;
+        bool has_array( size_t index ) const;
+        bool has_object( size_t index ) const;
 
         // iteratively read values by reference
         template <typename T> bool read_next( T &t ) {
@@ -1044,15 +1053,88 @@ class JsonArray
             return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read( int i, T &t ) {
+        template <typename T> bool read( size_t i, T &t ) const {
             verify_index( i );
             jsin->seek( positions[i] );
             return jsin->read( t );
         }
 };
 
+class JsonArrayValueRef
+{
+    private:
+        friend JsonArray::const_iterator;
+
+        JsonIn &jsin_;
+        int pos_;
+
+        JsonArrayValueRef( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
+        JsonIn &seek() const;
+
+    public:
+        operator std::string() const {
+            return seek().get_string();
+        }
+        operator int() const {
+            return seek().get_int();
+        }
+        operator bool() const {
+            return seek().get_bool();
+        }
+        operator double() const {
+            return seek().get_float();
+        }
+        operator JsonObject() const {
+            return seek().get_object();
+        }
+        operator JsonArray() const {
+            return seek().get_array();
+        }
+        template<typename T>
+        bool read( T &t ) const {
+            return seek().read( t );
+        }
+};
+
+class JsonArray::const_iterator
+{
+    private:
+        JsonArray array_;
+        size_t index_;
+
+    public:
+        const_iterator( const JsonArray &array, size_t index ) : array_( array ), index_( index ) { }
+
+        const_iterator &operator++() {
+            index_++;
+            return *this;
+        }
+        JsonArrayValueRef operator*() const {
+            array_.verify_index( index_ );
+            return JsonArrayValueRef( *array_.jsin, array_.positions[index_] );
+        }
+
+        friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
+            return lhs.index_ == rhs.index_;
+        }
+        friend bool operator!=( const const_iterator &lhs, const const_iterator &rhs ) {
+            return !operator==( lhs, rhs );
+        }
+};
+
+inline JsonArray::const_iterator JsonArray::begin() const
+{
+    return const_iterator( *this, 0 );
+}
+
+inline JsonArray::const_iterator JsonArray::end() const
+{
+    return const_iterator( *this, size() );
+}
+
 template <typename T>
-std::set<T> JsonArray::get_tags( int index )
+std::set<T> JsonArray::get_tags( const size_t index ) const
 {
     std::set<T> res;
 
@@ -1065,9 +1147,8 @@ std::set<T> JsonArray::get_tags( int index )
         return res;
     }
 
-    JsonArray jsarr = jsin->get_array();
-    while( jsarr.has_more() ) {
-        res.insert( T( jsarr.next_string() ) );
+    for( const std::string &line : jsin->get_array() ) {
+        res.insert( T( line ) );
     }
 
     return res;
@@ -1091,9 +1172,8 @@ std::set<T> JsonObject::get_tags( const std::string &name )
     }
 
     // otherwise assume it's an array and error if it isn't.
-    JsonArray jsarr = jsin->get_array();
-    while( jsarr.has_more() ) {
-        res.insert( T( jsarr.next_string() ) );
+    for( const std::string &line : jsin->get_array() ) {
+        res.insert( T( line ) );
     }
 
     return res;

@@ -184,8 +184,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
 
 static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
 {
-    while( ja.has_more() ) {
-        centers.emplace_back( ja.next_string() );
+    for( const std::string &line : ja ) {
+        centers.emplace_back( line );
     }
 }
 
@@ -1108,9 +1108,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
-        JsonArray jsarr = jo.get_array( "harvest_by_season" );
-        while( jsarr.has_more() ) {
-            JsonObject harvest_jo = jsarr.next_object();
+        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
             auto season_strings = harvest_jo.get_tags( "seasons" );
             std::set<season_type> seasons;
             std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,

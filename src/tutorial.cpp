@@ -274,10 +274,9 @@ void load_tutorial_messages( JsonObject &jo )
 {
     // loading them all at once, as they have to be in exact order
     tut_text.clear();
-    JsonArray messages = jo.get_array( "messages" );
-    while( messages.has_more() ) {
+    for( auto messages : jo.get_array( "messages" ) ) {
         translation next;
-        messages.read_next( next );
+        messages.read( next );
         tut_text.emplace_back( next );
     }
 }

@@ -22,11 +22,11 @@
       "=": "t_door_locked_interior",
       "4": "t_gutter_downspout"
     },
-    "furniture": { "b": "f_bench", "c": "f_counter", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+    "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
     "toilets": { "T": {  } },
     "items": {
-      "l": { "item": "SUS_evac_shelter_locker", "chance": 90 },
-      "c": { "item": "SUS_evac_shelter_cabinet", "chance": 70 },
+      "l": { "item": "SUS_evac_shelter_locker", "chance": 80 },
+      "c": { "item": "SUS_evac_shelter_cabinet", "chance": 60 },
       "S": { "item": "SUS_evac_shelter_sink", "chance": 70 }
     }
   }

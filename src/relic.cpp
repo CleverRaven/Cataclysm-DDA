@@ -27,19 +27,15 @@ void relic::add_passive_effect( const enchantment &nench )
 void relic::load( JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
-        JsonArray jarray = jo.get_array( "active_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject jobj : jo.get_array( "active_effects" ) ) {
             fake_spell sp;
-            JsonObject jobj = jarray.next_object();
             sp.load( jobj );
             add_active_effect( sp );
         }
     }
     if( jo.has_array( "passive_effects" ) ) {
-        JsonArray jarray = jo.get_array( "passive_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
             enchantment ench;
-            JsonObject jobj = jarray.next_object();
             ench.load( jobj );
             add_passive_effect( ench );
         }

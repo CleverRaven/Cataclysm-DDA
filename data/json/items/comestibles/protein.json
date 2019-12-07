@@ -77,7 +77,7 @@
     "id": "protein_bar_evac",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "emergency protein ration", "str_pl": "emergency protein rations" },
+    "name": { "str": "protein ration" },
     "//": "Inspired by, but not based on, a true story",
     "description": "SoyPelusa ran a highly successful crowdfunding campaign for this protein bar.  A person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.  Now, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
     "weight": "150 g",
@@ -92,7 +92,7 @@
     "color": "green",
     "container": "wrapper",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",

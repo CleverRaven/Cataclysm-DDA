@@ -25,7 +25,7 @@
       {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "laser_cannon",
+        "gun_type": "vibrating_blaster",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
         "ranges": [ [ 0, 20, "DEFAULT" ] ]
       }

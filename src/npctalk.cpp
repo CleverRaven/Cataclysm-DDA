@@ -1796,9 +1796,7 @@ talk_trial::talk_trial( JsonObject &jo )
     read_condition<dialogue>( jo, "condition", condition, false );
 
     if( jo.has_array( "mod" ) ) {
-        JsonArray ja = jo.get_array( "mod" );
-        while( ja.has_more() ) {
-            JsonArray jmod = ja.next_array();
+        for( JsonArray jmod : jo.get_array( "mod" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
             this_modifier.second = jmod.next_int();
@@ -2206,9 +2204,8 @@ void talk_effect_fun_t::set_mapgen_update( JsonObject &jo, const std::string &me
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( jo.get_string( member ) );
     } else if( jo.has_array( member ) ) {
-        JsonArray ja = jo.get_array( member );
-        while( ja.has_more() ) {
-            update_ids.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( member ) ) {
+            update_ids.emplace_back( line );
         }
     }
 
@@ -2512,9 +2509,7 @@ void talk_effect_t::parse_sub_effect( JsonObject &jo )
         subeffect_fun.set_change_faction_rep( faction_rep );
     } else if( jo.has_array( "add_debt" ) ) {
         std::vector<trial_mod> debt_modifiers;
-        JsonArray ja = jo.get_array( "add_debt" );
-        while( ja.has_more() ) {
-            JsonArray jmod = ja.next_array();
+        for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
             this_modifier.second = jmod.next_int();
@@ -2770,16 +2765,14 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     if( jo.has_string( "for_item" ) ) {
         for_item.emplace_back( jo.get_string( "for_item" ) );
     } else if( jo.has_array( "for_item" ) ) {
-        JsonArray ja = jo.get_array( "for_item" );
-        while( ja.has_more() ) {
-            for_item.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "for_item" ) ) {
+            for_item.emplace_back( line );
         }
     } else if( jo.has_string( "for_category" ) ) {
         for_category.emplace_back( jo.get_string( "for_category" ) );
     } else if( jo.has_array( "for_category" ) ) {
-        JsonArray ja = jo.get_array( "for_category" );
-        while( ja.has_more() ) {
-            for_category.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "for_category" ) ) {
+            for_category.emplace_back( line );
         }
     } else {
         jo.throw_error( "Repeat response with no repeat information!" );
@@ -2921,12 +2914,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
-        JsonArray ja = jo.get_array( "relevant_genders" );
         std::vector<std::string> relevant_genders;
-        while( ja.has_more() ) {
-            relevant_genders.push_back( ja.next_string() );
-        }
-        for( const std::string &gender : relevant_genders ) {
+        for( const std::string &gender : jo.get_array( "relevant_genders" ) ) {
+            relevant_genders.push_back( gender );
             if( gender != "npc" && gender != "u" ) {
                 jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
             }
@@ -3037,25 +3027,21 @@ void json_talk_topic::load( JsonObject &jo )
             JsonObject speaker_effect = jo.get_object( "speaker_effect" );
             speaker_effects.emplace_back( speaker_effect, id );
         } else if( jo.has_array( "speaker_effect" ) ) {
-            JsonArray ja = jo.get_array( "speaker_effect" );
-            while( ja.has_more() ) {
-                JsonObject speaker_effect = ja.next_object();
+            for( JsonObject speaker_effect : jo.get_array( "speaker_effect" ) ) {
                 speaker_effects.emplace_back( speaker_effect, id );
             }
         }
     }
-    JsonArray ja = jo.get_array( "responses" );
-    responses.reserve( responses.size() + ja.size() );
-    while( ja.has_more() ) {
-        JsonObject response = ja.next_object();
+    for( JsonObject response : jo.get_array( "responses" ) ) {
         responses.emplace_back( response );
+        response.allow_omitted_members();
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
     } else if( jo.has_array( "repeat_responses" ) ) {
-        ja = jo.get_array( "repeat_responses" );
-        while( ja.has_more() ) {
-            repeat_responses.emplace_back( ja.next_object() );
+        for( JsonObject elem : jo.get_array( "repeat_responses" ) ) {
+            repeat_responses.emplace_back( elem );
+            elem.allow_omitted_members();
         }
     }
     if( responses.empty() ) {

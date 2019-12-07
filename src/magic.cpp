@@ -251,10 +251,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     if( jo.has_array( "extra_effects" ) ) {
-        JsonArray jarray = jo.get_array( "extra_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
             fake_spell temp;
-            JsonObject fake_spell_obj = jarray.next_object();
             temp.load( fake_spell_obj );
             additional_spells.emplace_back( temp );
         }
@@ -1178,9 +1176,7 @@ void known_magic::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     data.read( "mana", mana );
 
-    JsonArray parray = data.get_array( "spellbook" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
+    for( JsonObject jo : data.get_array( "spellbook" ) ) {
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
