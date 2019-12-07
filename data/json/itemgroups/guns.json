@@ -83,7 +83,7 @@
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
-      { "item": "af2011a1_38super", "prob": 100, "charges-min": 0, "charges-max": 16 },
+      { "item": "af2011a1_38super", "prob": 1, "charges-min": 0, "charges-max": 16 },
       { "item": "bfr", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "cop_38", "prob": 100, "charges-min": 0, "charges-max": 4 },
       { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
@@ -91,7 +91,7 @@
       { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
-      { "item": "raging_judge", "prob": 100, "charges-min": 0, "charges-max": 5 },
+      { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
       { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },

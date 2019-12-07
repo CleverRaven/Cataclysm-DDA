@@ -53,7 +53,7 @@
     "durability": 7,
     "clip_size": 10,
     "blackpowder_tolerance": 56,
-    "reload_noise": "chuk chuk.",
+    "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ]
   },
   {
