@@ -20,5 +20,42 @@
         "prob": 5
       }
     ]
+  },
+  {
+    "id": "SUS_mannequin_formal_mens",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying formal clothes.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "formal_set_mens", "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_tailoring_bookcase",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a set of tailoring manuals and references.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "manual_tailor", "prob": 80 },
+      { "item": "tailor_portfolio", "prob": 80 },
+      { "item": "tailor_japanese", "prob": 80 },
+      { "item": "textbook_tailor", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_tailoring_tool_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a set of tailoring tools.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "awl_steel", "prob": 70 },
+      { "item": "needle_curved", "prob": 60 },
+      { "item": "scissors", "prob": 80 },
+      { "item": "sewing_kit", "prob": 70 },
+      { "item": "tailors_kit", "prob": 90 }
+    ]
   }
 ]

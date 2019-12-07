@@ -48,5 +48,31 @@
       "d": { "item": "SUS_office_desk", "chance": 100 },
       "L": { "item": "SUS_kitchen_sink", "chance": 100 }
     }
+  },
+  {
+    "type": "palette",
+    "id": "tailor_palette",
+    "terrain": {
+      "%": "t_console_broken",
+      ";": "t_door_locked",
+      "0": "t_window_alarm"
+    },
+    "furniture": {
+      "c": "f_counter",
+      "C": "f_armchair",
+      "s": "f_stool",
+      "d": "f_desk",
+      "b": "f_bigmirror",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "&": "f_mannequin",
+      "h": "f_chair",
+      "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+      "]": "f_bookcase"
+    },
+    "items": {
+      "]": { "item": "SUS_tailoring_bookcase", "chance": 100 },
+      "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
+      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 20 }
+    }
   }
 ]

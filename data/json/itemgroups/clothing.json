@@ -2537,6 +2537,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "formal_set_mens",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "collection": [ { "item": "undershirt", "prob": 30 }, { "item": "dress_shirt" }, { "item": "waistcoat", "prob": 20 } ]
+              },
+              { "item": "breeches" }
+            ]
+          },
+          { "distribution": [ { "item": "suit", "prob": 50 }, { "item": "tux", "prob": 50 } ] }
+        ]
+      },
+      { "item": "dress_shoes" },
+      { "collection": [ { "item": "tophat", "prob": 50 }, { "item": "collarpin", "prob": 50 } ] }
+    ]
+  },
+  {
     "id": "suits_unisex",
     "type": "item_group",
     "//": "suits, full body coverage",
