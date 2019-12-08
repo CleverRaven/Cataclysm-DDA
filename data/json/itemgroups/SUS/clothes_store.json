@@ -49,11 +49,22 @@
     "//2": "This group is for a set of tailoring tools.",
     "subtype": "collection",
     "entries": [
-      { "item": "awl_steel", "prob": 70 },
-      { "item": "needle_curved", "prob": 60 },
-      { "item": "scissors", "prob": 80 },
-      { "item": "sewing_kit", "prob": 70 },
-      { "item": "tailors_kit", "prob": 90 }
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "awl_steel", "prob": 70 },
+              { "item": "needle_curved", "prob": 75 },
+              { "item": "scissors", "prob": 90 },
+              { "item": "knitting_needles", "prob": 70 },
+              { "item": "sewing_kit", "prob": 85 }
+            ],
+            "prob": 25
+          },
+          { "item": "tailors_kit", "prob": 75 }
+        ]
+      },
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 }
     ]
   }
 ]
