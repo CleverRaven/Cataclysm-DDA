@@ -435,7 +435,7 @@
       {
         "id": "buff_medievalpole_static",
         "name": "Stand Your Ground",
-        "description": "You stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
+        "description": "You are stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
         "melee_allowed": true,
         "min_melee": 0,
         "bonus_blocks": 2,
