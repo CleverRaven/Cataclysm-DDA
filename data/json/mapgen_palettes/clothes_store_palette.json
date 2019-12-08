@@ -55,7 +55,6 @@
     "terrain": { "%": "t_console_broken", ";": "t_door_locked", "0": "t_window_alarm" },
     "furniture": {
       "c": "f_counter",
-      "C": "f_armchair",
       "s": "f_stool",
       "d": "f_desk",
       "b": "f_bigmirror",
