@@ -88,19 +88,24 @@ lit -v build/tools/clang-tidy-plugin/test
 
 To build llvm on Windows, you'll first need to get some tools installed.
 - Cmake
-- Python 3 (python 2 may not work for building llvm, but it's still required to run
+- Python 3 (Python 2 may not work for building llvm, but it's still required to run
 the lit test, which will be discussed in the next section.)
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
 building llvm on Windows correctly.)
 - A shell environment
 
-After the tools are installed, a patch still needs to be applied, since `clang-tidy`
-as distributed by LLVM doesn't support plugins.
+After the tools are installed, a patch still needs to be applied before building
+llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
-However, on windows, instead of applying the patch mentioned in the previous section, you
+First, clone the llvm repo from for example [the official github repo](https://github.com/llvm/llvm-project.git).
+Checkout the `release/8.x` branch, since that's where our patch was based on.
+
+On windows, instead of applying the patch mentioned in the previous section, you
 shoud apply `plugin-support.patch` from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/1)
 instead, if it's not merged yet. This is because the `-rdynamic` option is not
 supported on Windows, so clang-tidy needs to be built as a static library instead.
+(If you cloned the repo from the official github repo, replace `tools/extra` with
+`clang-tools-extra` in the patch before applying it.)
 
 After the patch is applied, you can then build the llvm code. Unfortunately, it
 seems that clang itself cannot correctly compile the llvm code on Windows (gives
@@ -108,21 +113,23 @@ some sort of relocation error). Luckily, MinGW-w64 can be used instead to compil
 the code.
 
 The first step to build the code is to run CMake to generate the makefile. On
-the root dir of llvm, run the following script. Make sure CMake, python, and
-MinGW-w64 are on the path.
+the root dir of llvm, run the following script (substitute values inside `<>`
+with the actual paths). Make sure CMake, python, and MinGW-w64 are on the path.
 
 ```sh
 mkdir -p build
 cd build
 cmake \
+    -DCMAKE_MAKE_PROGRAM="<mingw-w64-root>/bin/mingw32-make" \
     -G "MSYS Makefiles" \
     -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra' \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DLLVM_TARGETS_TO_BUILD='X86' \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     ../llvm
 ```
 
-The next step is to call `make` to actually build the clang-tidy as a library.
+The next step is to call `make` to actually build clang-tidy as a library.
 When using MinGW-w64 to build, you should call `mingw32-make` instead.
 Also, because `FileCheck` is not shipped with Windows, you'll also need to build
 it youself using llvm sources by adding the `FileCheck` target to the make command.
@@ -130,8 +137,11 @@ it youself using llvm sources by adding the `FileCheck` target to the make comma
 ```sh
 mkdir -p build
 cd build
-mingw32-make -j4 clangTidyMain FileCheck
+mingw32-make -j4 clang-tidy clangTidyMain FileCheck
 ```
+
+Here `clang-tidy` is only added to trigger the building of several targets that
+are needed to build our custom clang-tidy executable later.
 
 ##### Build clang-tidy with custom checks
 
@@ -207,7 +217,7 @@ index 4ab6e913a7..d1a4418ba6 100644
 ```
 
 The next step is to run CMake to generate the compilation database. The compilation
-database contains compiler flags that clang-tidy needs to check the source files.
+database contains compiler flags that clang-tidy uses to check the source files.
 
 Make sure Python 2, Python 3, CMake, MinGW-w64, and FileCheck are on the path.
 Note that two `bin` directories of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`,
@@ -216,10 +226,10 @@ if you built it with the instructions in the previous section. Python 2 should
 precede Python 3 in the path, otherwise scripts that are intended to run with
 Python 2 might not work.
 
-Then add the following CMake options with the correct paths to generate the
-compilation database, and build the CDDA source and the custom clang-tidy
-executable with `mingw32-make`. In this tutorial we run CMake and `mingw32-make`
-in the `build` subdirectory.
+Then add the following CMake options to generate the compilation database
+(substitute values inside `<>` with the actual paths), and build the CDDA source
+and the custom clang-tidy executable with `mingw32-make`. In this tutorial we
+run CMake and `mingw32-make` in the `build` subdirectory.
 
 ```sh
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
