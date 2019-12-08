@@ -91,7 +91,7 @@
     "name": "plank",
     "description": "A narrow, thick plank of wood, like a 2 by 4 or similar piece of dimensional lumber.  Makes a decent melee weapon, and can be used for all kinds construction.",
     "category": "spare_parts",
-    "weight": "1400 g",
+    "weight": "2200 g",
     "to_hit": 1,
     "color": "brown",
     "symbol": "/",
