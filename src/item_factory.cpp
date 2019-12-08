@@ -309,7 +309,11 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.comestible ) {
         if( get_option<bool>( "NO_VITAMINS" ) ) {
-            obj.comestible->vitamins.clear();
+            for( auto &vit : obj.comestible->vitamins ) {
+                if( vit.first->type() == vitamin_type::VITAMIN ) {
+                    vit.second = 0;
+                }
+            }
         } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;

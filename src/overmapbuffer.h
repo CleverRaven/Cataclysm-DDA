@@ -212,10 +212,10 @@ class overmapbuffer
 
         cata::optional<basecamp *> find_camp( const point &p );
         /**
-         * Get all npcs in a area with given radius around (x, y).
+         * Get all npcs in a area with given radius around given central point.
          * Only npcs on the given z-level are considered.
          * Uses square_dist for distance calculation.
-         * @param x,y,z are submap coordinates.
+         * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
          * is at most this far away from (x,y) it will be returned.
          * A radius of 0 returns only those npcs that are on the
@@ -433,7 +433,7 @@ class overmapbuffer
          * Intended to be used when you have a special in hand, the desired location and rotation are known
          * and the special should be directly placed rather than using the overmap's placement algorithm.
          * @param special The overmap special to place.
-         * @param location The location to place the overmap special. Absolute overmap terrain coordinates.
+         * @param p The location to place the overmap special. Absolute overmap terrain coordinates.
          * @param dir The direction to rotate the overmap special before placement.
          * @param must_be_unexplored If true, will require that all of the terrains where the special would be
          * placed are unexplored.

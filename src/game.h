@@ -437,8 +437,8 @@ class game
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
          * new monster there (see @ref critter_at).
-         * @param location The place where to put the revived monster.
-         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @param p The place where to put the revived monster.
+         * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.

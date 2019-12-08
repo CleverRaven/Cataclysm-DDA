@@ -793,8 +793,6 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.damage( parm2, dmg2_part, DT_BASH );
     }
 
-    epicenter1.x /= coll_parts_cnt;
-    epicenter1.y /= coll_parts_cnt;
     epicenter2.x /= coll_parts_cnt;
     epicenter2.y /= coll_parts_cnt;
 

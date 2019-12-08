@@ -49,15 +49,15 @@ class mission_data
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false and makes it impossible to select
         */
-        void add( const std::string &id, const std::string &name_display = "",
-                  const std::string &text = "" );
-        void add_start( const std::string &id, const std::string &name_display,
-                        cata::optional<point> dir, const std::string &text, bool possible = true );
-        void add_return( const std::string &id, const std::string &name_display,
-                         cata::optional<point> dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display,
                   cata::optional<point> dir, const std::string &text,
                   bool priority = false, bool possible = true );
+        void add_return( const std::string &id, const std::string &name_display,
+                         cata::optional<point> dir, const std::string &text, bool possible = true );
+        void add_start( const std::string &id, const std::string &name_display,
+                        cata::optional<point> dir, const std::string &text, bool possible = true );
+        void add( const std::string &id, const std::string &name_display = "",
+                  const std::string &text = "" );
 };
 
 namespace talk_function

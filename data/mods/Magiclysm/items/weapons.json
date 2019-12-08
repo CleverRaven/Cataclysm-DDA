@@ -51,7 +51,6 @@
     "durability": 10,
     "range": 10,
     "dispersion": 10,
-    "body_parts": [ [ "TORSO", 1 ] ],
     "ranged_damage": [ { "damage_type": "stab", "amount": 5 } ]
   }
 ]
