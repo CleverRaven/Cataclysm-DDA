@@ -195,17 +195,26 @@ std::string JsonObject::str() const
 
 void JsonObject::throw_error( std::string err, const std::string &name ) const
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->seek( verify_position( name, false ) );
     jsin->error( err );
 }
 
 void JsonArray::throw_error( std::string err )
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->error( err );
 }
 
 void JsonArray::throw_error( std::string err, int idx )
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     if( idx >= 0 && size_t( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
@@ -214,6 +223,9 @@ void JsonArray::throw_error( std::string err, int idx )
 
 void JsonObject::throw_error( std::string err ) const
 {
+    if( !jsin ) {
+        throw JsonError( err );
+    }
     jsin->error( err );
 }
 
