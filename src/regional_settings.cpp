@@ -746,7 +746,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         JsonObject typejo = cityjo.get_object( type );
         std::set<std::string> type_keys = typejo.get_member_names();
         for( const auto &key : type_keys ) {
-            if( key != "//" && typejo.has_int( key ) ) {
+            if( key != "//" ) {
                 dest.add( overmap_special_id( key ), typejo.get_int( key ) );
             }
         }
