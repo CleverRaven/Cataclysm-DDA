@@ -94,7 +94,7 @@ JsonObject::JsonObject( JsonIn &j )
         positions[n] = p;
         jsin->skip_value();
     }
-    end = jsin->tell();
+    end_ = jsin->tell();
     final_separator = jsin->get_ate_separator();
 }
 
@@ -115,7 +115,7 @@ void JsonObject::finish()
     }
 #endif
     if( jsin && jsin->good() ) {
-        jsin->seek( end );
+        jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
     }
 }
@@ -186,8 +186,8 @@ std::string JsonObject::str() const
     // complain about unvisited members.
     allow_omitted_members();
 
-    if( jsin && end >= start ) {
-        return jsin->substr( start, end - start );
+    if( jsin && end_ >= start ) {
+        return jsin->substr( start, end_ - start );
     } else {
         return "{}";
     }

@@ -781,7 +781,7 @@ class JsonObject
         std::map<std::string, int> positions;
         mutable std::set<std::string> visited_members;
         int start;
-        int end;
+        int end_;
         bool final_separator;
         mutable bool report_unvisited_members = true;
 #ifndef CATA_IN_TOOL
@@ -793,7 +793,7 @@ class JsonObject
 
     public:
         JsonObject( JsonIn &jsin );
-        JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonObject() : start( 0 ), end_( 0 ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
         JsonObject( JsonObject && ) = default;
         JsonObject &operator=( const JsonObject & ) = default;
