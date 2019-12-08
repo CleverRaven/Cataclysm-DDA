@@ -274,7 +274,6 @@ void game::load_shortcuts( std::istream &fin )
             for( std::set<std::string>::iterator it = qsl_members.begin();
                  it != qsl_members.end(); ++it ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
                 for( const int i : qs.get_array( *it ) ) {
                     qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
