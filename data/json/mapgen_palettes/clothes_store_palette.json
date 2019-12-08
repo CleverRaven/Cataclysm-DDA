@@ -52,7 +52,7 @@
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 100 },
-      "L": { "item": "SUS_kitchen_sink", "chance": 100 }
+      "L": { "item": "SUS_janitors_closet", "chance": 100 }
     }
   },
   {
@@ -86,7 +86,7 @@
       "@": { "item": "SUS_mannequin_dresses", "chance": 50 },
       "d": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
       "f": { "item": "SUS_tailoring_materials", "chance": 85 },
-      "L": { "item": "SUS_kitchen_sink", "chance": 85 }
+      "L": { "item": "SUS_janitors_closet", "chance": 85 }
     }
   },
   {
@@ -117,7 +117,7 @@
       "d": { "item": "SUS_office_desk", "chance": 60 },
       "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
       "L": { "item": "SUS_fur_tailoring_materials", "chance": 50 },
-      "J": { "item": "SUS_kitchen_sink", "chance": 60 }
+      "J": { "item": "SUS_janitors_closet", "chance": 60 }
     }
   }
 ]
