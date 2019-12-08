@@ -186,6 +186,7 @@
   {
     "id": "mischw",
     "type": "item_group",
+    "subtype": "collection",
     "items": [ [ "afs_power_cutter", 5 ] ]
   },
   {
