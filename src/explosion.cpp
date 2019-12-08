@@ -61,6 +61,7 @@
 #include "type_id.h"
 
 static const itype_id null_itype( "null" );
+static const species_id ROBOT( "ROBOT" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -550,6 +551,9 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
+        if( critter.type->in_species( ROBOT ) ) {
+            continue;
+        }
         // TODO: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {

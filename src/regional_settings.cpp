@@ -267,9 +267,8 @@ static void load_overmap_feature_flag_settings( JsonObject &jo,
                 overmap_feature_flag_settings_jo.throw_error( "blacklist required" );
             }
         } else {
-            JsonArray blacklist_ja = overmap_feature_flag_settings_jo.get_array( "blacklist" );
-            while( blacklist_ja.has_more() ) {
-                overmap_feature_flag_settings.blacklist.emplace( blacklist_ja.next_string() );
+            for( const std::string &line : overmap_feature_flag_settings_jo.get_array( "blacklist" ) ) {
+                overmap_feature_flag_settings.blacklist.emplace( line );
             }
         }
 
@@ -278,9 +277,8 @@ static void load_overmap_feature_flag_settings( JsonObject &jo,
                 overmap_feature_flag_settings_jo.throw_error( "whitelist required" );
             }
         } else {
-            JsonArray whitelist_ja = overmap_feature_flag_settings_jo.get_array( "whitelist" );
-            while( whitelist_ja.has_more() ) {
-                overmap_feature_flag_settings.whitelist.emplace( whitelist_ja.next_string() );
+            for( const std::string &line : overmap_feature_flag_settings_jo.get_array( "whitelist" ) ) {
+                overmap_feature_flag_settings.whitelist.emplace( line );
             }
         }
     }
@@ -343,12 +341,10 @@ static void load_overmap_lake_settings( JsonObject &jo,
                 overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
             }
         } else {
-            JsonArray aliases_jarr =
-                overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" );
             oter_str_id alias;
-            while( aliases_jarr.has_more() ) {
+            for( JsonObject jo :
+                 overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
                 shore_extendable_overmap_terrain_alias alias;
-                JsonObject jo = aliases_jarr.next_object();
                 jo.read( "om_terrain", alias.overmap_terrain );
                 jo.read( "alias", alias.alias );
                 alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
@@ -439,10 +435,8 @@ void load_region_settings( JsonObject &jo )
         jo.throw_error( "river_scale required for default" );
     }
     if( jo.has_array( "default_groundcover" ) ) {
-        JsonArray jia = jo.get_array( "default_groundcover" );
         new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
-        while( jia.has_more() ) {
-            JsonArray inner = jia.next_array();
+        for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
             if( new_region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ),
                     inner.get_int( 1 ) ) == nullptr ) {
                 jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
@@ -624,10 +618,7 @@ void load_region_overlay( JsonObject &jo )
 {
     if( jo.has_array( "regions" ) ) {
         JsonArray regions = jo.get_array( "regions" );
-
-        while( regions.has_more() ) {
-            std::string regionid = regions.next_string();
-
+        for( const std::string &regionid : regions ) {
             if( regionid == "all" ) {
                 if( regions.size() != 1 ) {
                     jo.throw_error( "regions: More than one region is not allowed when \"all\" is used" );
@@ -655,10 +646,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     jo.read( "default_oter", region.default_oter );
     jo.read( "river_scale", region.river_scale );
     if( jo.has_array( "default_groundcover" ) ) {
-        JsonArray jia = jo.get_array( "default_groundcover" );
         region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
-        while( jia.has_more() ) {
-            JsonArray inner = jia.next_array();
+        for( JsonArray inner : jo.get_array( "default_groundcover" ) ) {
             if( region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ),
                     inner.get_int( 1 ) ) == nullptr ) {
                 jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );

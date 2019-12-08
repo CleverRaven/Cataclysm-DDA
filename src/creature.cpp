@@ -45,6 +45,7 @@ const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
@@ -1301,7 +1302,8 @@ void Creature::set_moves( int nmoves )
 
 bool Creature::in_sleep_state() const
 {
-    return has_effect( effect_sleep ) || has_effect( effect_lying_down );
+    return has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
+           has_effect( effect_npc_suspend );
 }
 
 /*

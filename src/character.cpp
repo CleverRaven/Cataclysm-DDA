@@ -42,6 +42,7 @@
 #include "overlay_ordering.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "scent_map.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -242,6 +243,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
     healthy_calories = 55000;
@@ -6234,6 +6236,44 @@ bool Character::crossed_threshold() const
         }
     }
     return false;
+}
+
+void Character::update_type_of_scent( bool init )
+{
+    scenttype_id new_scent = scenttype_id( "sc_human" );
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut.obj().scent_typeid ) {
+            new_scent = mut.obj().scent_typeid.value();
+        }
+    }
+
+    if( !init && new_scent != get_type_of_scent() ) {
+        g->scent.reset();
+    }
+    set_type_of_scent( new_scent );
+}
+
+void Character::update_type_of_scent( trait_id mut, bool gain )
+{
+    const cata::optional<scenttype_id> &mut_scent = mut->scent_typeid;
+    if( mut_scent ) {
+        if( gain && mut_scent.value() != get_type_of_scent() ) {
+            set_type_of_scent( mut_scent.value() );
+            g->scent.reset();
+        } else {
+            update_type_of_scent();
+        }
+    }
+}
+
+void Character::set_type_of_scent( scenttype_id id )
+{
+    type_of_scent = id;
+}
+
+scenttype_id Character::get_type_of_scent() const
+{
+    return type_of_scent;
 }
 
 void Character::spores()

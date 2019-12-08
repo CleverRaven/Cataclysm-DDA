@@ -90,6 +90,7 @@ void game::serialize( std::ostream &fout )
     json.member( "om_y", pos_om.y );
 
     json.member( "grscent", scent.serialize() );
+    json.member( "typescent", scent.serialize( true ) );
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
@@ -105,26 +106,31 @@ void game::serialize( std::ostream &fout )
     json.end_object();
 }
 
-std::string scent_map::serialize() const
+std::string scent_map::serialize( bool is_type ) const
 {
     std::stringstream rle_out;
-    int rle_lastval = -1;
-    int rle_count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( val == rle_lastval ) {
-                rle_count++;
-            } else {
-                if( rle_count ) {
-                    rle_out << rle_count << " ";
+    if( is_type ) {
+        rle_out << typescent.str();
+    } else {
+        int rle_lastval = -1;
+        int rle_count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( val == rle_lastval ) {
+                    rle_count++;
+                } else {
+                    if( rle_count ) {
+                        rle_out << rle_count << " ";
+                    }
+                    rle_out << val << " ";
+                    rle_lastval = val;
+                    rle_count = 1;
                 }
-                rle_out << val << " ";
-                rle_lastval = val;
-                rle_count = 1;
             }
         }
+        rle_out << rle_count;
     }
-    rle_out << rle_count;
+
     return rle_out.str();
 }
 
@@ -185,20 +191,20 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
+        std::string linebuff;
         std::string linebuf;
-        if( data.read( "grscent", linebuf ) ) {
+        if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
             scent.deserialize( linebuf );
+            scent.deserialize( linebuff, true );
         } else {
             scent.reset();
         }
-
         data.read( "active_monsters", *critter_tracker );
 
-        JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
-        while( vdata.has_more() ) {
+        for( auto elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
-            vdata.read_next( stairtmp );
+            elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -214,10 +220,7 @@ void game::unserialize( std::istream &fin )
                 kills[mtype_id( member )] = odata.get_int( member );
             }
 
-            vdata = data.get_array( "npc_kills" );
-            while( vdata.has_more() ) {
-                std::string npc_name;
-                vdata.read_next( npc_name );
+            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -234,18 +237,24 @@ void game::unserialize( std::istream &fin )
     }
 }
 
-void scent_map::deserialize( const std::string &data )
+void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
-    int stmp = 0;
-    int count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( count == 0 ) {
-                buffer >> stmp >> count;
+    if( is_type ) {
+        std::string str;
+        buffer >> str;
+        typescent = scenttype_id( str );
+    } else {
+        int stmp = 0;
+        int count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( count == 0 ) {
+                    buffer >> stmp >> count;
+                }
+                count--;
+                val = stmp;
             }
-            count--;
-            val = stmp;
         }
     }
 }
@@ -264,11 +273,10 @@ void game::load_shortcuts( std::istream &fin )
             quick_shortcuts_map.clear();
             for( std::set<std::string>::iterator it = qsl_members.begin();
                  it != qsl_members.end(); ++it ) {
-                JsonArray ja = qs.get_array( *it );
                 std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
                 qslist.clear();
-                while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
+                for( const int i : qs.get_array( *it ) ) {
+                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -305,9 +313,8 @@ std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( JsonObject &jo )
 {
-    JsonArray ja = jo.get_array( "terrains" );
-    while( ja.has_more() ) {
-        obsolete_terrains.emplace( ja.next_string() );
+    for( const std::string &line : jo.get_array( "terrains" ) ) {
+        obsolete_terrains.emplace( line );
     }
 }
 

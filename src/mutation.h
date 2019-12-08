@@ -137,7 +137,12 @@ struct mutation_branch {
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        cata::optional<int> scent_intensity;
+        cata::optional<int> scent_mask;
         int bleed_resist = 0;
+
+        /**What do you smell like*/
+        cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing bodypart and there intensity*/
         std::map<body_part, int> lumination;

@@ -309,7 +309,11 @@ void Item_factory::finalize_pre( itype &obj )
 
     if( obj.comestible ) {
         if( get_option<bool>( "NO_VITAMINS" ) ) {
-            obj.comestible->vitamins.clear();
+            for( auto &vit : obj.comestible->vitamins ) {
+                if( vit.first->type() == vitamin_type::VITAMIN ) {
+                    vit.second = 0;
+                }
+            }
         } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
@@ -1678,6 +1682,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "stim", slot.stim, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
+    assign( jo, "contamination", slot.contamination, strict, 0, 100 );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );

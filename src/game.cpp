@@ -205,6 +205,7 @@ const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paid( "paid" );
@@ -1504,7 +1505,7 @@ bool game::do_turn()
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
         !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
-        scent.set( u.pos(), u.scent );
+        scent.set( u.pos(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
     scent.update( u.pos(), m );
@@ -2380,6 +2381,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -4241,7 +4243,9 @@ void game::monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         m.creature_in_field( guy );
-        guy.process_turn();
+        if( !guy.has_effect( effect_npc_suspend ) ) {
+            guy.process_turn();
+        }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
                guy.moves > 0 && turns < 10 ) {
             int moves = guy.moves;
@@ -4262,10 +4266,10 @@ void game::monmove()
         }
 
         // If we spun too long trying to decide what to do (without spending moves),
-        // Invoke cranial detonation to prevent an infinite loop.
+        // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's brain explodes!" ), guy.name );
-            guy.die( nullptr );
+            add_msg( _( "%s faints!" ), guy.name );
+            guy.reboot();
         }
 
         if( !guy.is_dead() ) {
@@ -6015,20 +6019,17 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
                             _( "<+-> Move up/down" ) ) + 2;
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<M>ap" ) );
 
     wrefresh( w_info );
 }
@@ -6628,6 +6629,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
@@ -6767,7 +6769,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 add_msg( m_info, _( "You can't travel there." ) );
                 continue;
             }
-        } else if( action == "debug_scent" ) {
+        } else if( action == "debug_scent" || action == "debug_scent_type" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
             }

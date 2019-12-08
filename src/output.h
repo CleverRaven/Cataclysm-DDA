@@ -250,7 +250,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
@@ -280,7 +280,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
@@ -306,7 +306,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param begin The coordinates of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );

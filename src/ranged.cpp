@@ -807,7 +807,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( is_mouse_enabled() ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
+        mvwprintz( w_target, point( 1, text_y ), c_white,
                    _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
     }
     return lines_used;
@@ -1168,7 +1168,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
             if( local_last_tgt_pos ) {
                 dst = *local_last_tgt_pos;
             }
-            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
+            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
                 pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
                 //We lost our target. Stop auto aiming.
                 pc.cancel_activity();
@@ -1464,14 +1464,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_turret_aim( pc, w_target, line_number, dst );
+                draw_turret_aim( pc, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
+                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
             }
 
             wrefresh( g->w_terrain );

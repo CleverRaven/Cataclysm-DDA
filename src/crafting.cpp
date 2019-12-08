@@ -1051,16 +1051,14 @@ void item::inherit_flags( const item &parent )
     if( parent.has_flag( "FIT" ) ) {
         item_tags.insert( "FIT" );
     }
-    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
-        for( const std::string &f : parent.item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    for( const std::string &f : parent.item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
-        for( const std::string &f : parent.type->item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    }
+    for( const std::string &f : parent.type->item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
     }
     if( parent.has_flag( "HIDDEN_POISON" ) ) {
@@ -1135,6 +1133,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit.item_tags.insert( "FIT" );
         }
         food_contained.inherit_flags( used );
+
+        for( const std::string &flag : making.flags_to_delete ) {
+            food_contained.unset_flag( flag );
+        }
 
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.

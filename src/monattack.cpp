@@ -299,7 +299,7 @@ bool mattack::eat_food( monster *z )
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.get_comestible()->fun < -20 ) {
+            if( !item.is_food() || item.get_comestible_fun() < -20 ) {
                 continue;
             }
             //Don't eat own eggs
@@ -4696,7 +4696,7 @@ bool mattack::riotbot( monster *z )
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );
         for( auto &elem : traj ) {
-            if( !g->m.trans( elem ) ) {
+            if( !g->m.is_transparent( elem ) ) {
                 break;
             }
             g->m.add_field( elem, fd_dazzling, 1 );

@@ -75,11 +75,6 @@ const skill_id skill_tailor( "tailor" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_pistol( "pistol" );
-const skill_id skill_shotgun( "shotgun" );
-const skill_id skill_smg( "smg" );
-const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
@@ -1698,72 +1693,21 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
     int checks = 1 + to_minutes<int>( time_worked ) / 10;
 
     weighted_int_list<skill_id> skill_practice;
-    if( skill_tested.empty() || skill_tested == "gathering" ) {
-        skill_practice.add( skill_survival, 80 );
-        skill_practice.add( skill_traps, 15 );
-        skill_practice.add( skill_fabrication, 10 );
-        skill_practice.add( skill_archery, 5 );
-        skill_practice.add( skill_melee, 5 );
-        skill_practice.add( skill_swimming, 5 );
-    } else if( skill_tested == "trapping" ) {
-        skill_practice.add( skill_traps, 80 );
-        skill_practice.add( skill_survival, 15 );
-        skill_practice.add( skill_fabrication, 10 );
-        skill_practice.add( skill_archery, 5 );
-        skill_practice.add( skill_melee, 5 );
-        skill_practice.add( skill_swimming, 5 );
-    } else if( skill_tested == "hunting" ) {
-        skill_practice.add( skill_gun, 60 );
-        skill_practice.add( skill_archery, 45 );
-        skill_practice.add( skill_rifle, 45 );
-        skill_practice.add( skill_pistol, 25 );
-        skill_practice.add( skill_shotgun, 25 );
-        // who shoots Bambi with an Uzi?
-        skill_practice.add( skill_smg, 25 );
-        skill_practice.add( skill_dodge, 15 );
-        skill_practice.add( skill_survival, 15 );
-        skill_practice.add( skill_melee, 10 );
-        skill_practice.add( skill_firstaid, 10 );
-        skill_practice.add( skill_bashing, 10 );
-        skill_practice.add( skill_stabbing, 10 );
-        skill_practice.add( skill_cutting, 10 );
-        skill_practice.add( skill_unarmed, 10 );
-    } else if( skill_tested == "menial" ) {
-        skill_practice.add( skill_fabrication, 60 );
-        skill_practice.add( skill_tailor, 15 );
-        skill_practice.add( skill_speech, 15 );
-        skill_practice.add( skill_cooking, 15 );
-        skill_practice.add( skill_survival, 10 );
-        skill_practice.add( skill_mechanics, 10 );
-    } else if( skill_tested == "construction" ) {
-        skill_practice.add( skill_fabrication, 70 );
-        skill_practice.add( skill_mechanics, 20 );
-        skill_practice.add( skill_survival, 10 );
-    } else if( skill_tested == "recruiting" ) {
-        skill_practice.add( skill_speech, 70 );
-        skill_practice.add( skill_survival, 25 );
-        skill_practice.add( skill_melee, 5 );
-    } else if( skill_tested == "combat" ) {
+    if( skill_tested == "combat" ) {
         const skill_id best_skill = comp.best_skill();
         if( best_skill ) {
             skill_practice.add( best_skill, 30 );
         }
-        skill_practice.add( skill_melee, 20 );
-        skill_practice.add( skill_dodge, 20 );
-        skill_practice.add( skill_archery, 15 );
-        skill_practice.add( skill_survival, 10 );
-        skill_practice.add( skill_firstaid, 10 );
-        skill_practice.add( skill_bashing, 10 );
-        skill_practice.add( skill_stabbing, 10 );
-        skill_practice.add( skill_cutting, 10 );
-        skill_practice.add( skill_unarmed, 10 );
-        skill_practice.add( skill_gun, 5 );
-    } else {
-        comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
-        return;
     }
-    for( int i = 0; i < checks; i++ ) {
-        comp.practice( *skill_practice.pick(), difficulty );
+    for( Skill &sk : Skill::skills ) {
+        skill_practice.add( sk.ident(), sk.get_companion_skill_practice( skill_tested ) );
+    }
+    if( skill_practice.empty() ) {
+        comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
+    } else {
+        for( int i = 0; i < checks; i++ ) {
+            comp.practice( *skill_practice.pick(), difficulty );
+        }
     }
 }
 
@@ -1813,27 +1757,27 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
 static int companion_combat_rank( const npc &p )
 {
     int combat = 2 * p.get_dex() + 3 * p.get_str() + 2 * p.get_per() + p.get_int();
-    combat += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_bashing ) +
-              p.get_skill_level( skill_cutting ) + p.get_skill_level( skill_melee ) +
-              p.get_skill_level( skill_stabbing ) + p.get_skill_level( skill_unarmed );
+    for( const Skill &sk : Skill::skills ) {
+        combat += p.get_skill_level( sk.ident() ) * sk.companion_combat_rank_factor();
+    }
     return combat * std::min( p.get_dex(), 32 ) * std::min( p.get_str(), 32 ) / 64;
 }
 
 static int companion_survival_rank( const npc &p )
 {
     int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
-    survival += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_firstaid ) +
-                p.get_skill_level( skill_speech ) + p.get_skill_level( skill_survival ) +
-                p.get_skill_level( skill_traps ) + p.get_skill_level( skill_unarmed );
+    for( const Skill &sk : Skill::skills ) {
+        survival += p.get_skill_level( sk.ident() ) * sk.companion_survival_rank_factor();
+    }
     return survival * std::min( p.get_dex(), 32 ) * std::min( p.get_per(), 32 ) / 64;
 }
 
 static int companion_industry_rank( const npc &p )
 {
     int industry = p.get_dex() + p.get_str() + p.get_per() + 3 * p.get_int();
-    industry += p.get_skill_level( skill_cooking ) + p.get_skill_level( skill_electronics ) +
-                p.get_skill_level( skill_fabrication ) + p.get_skill_level( skill_mechanics ) +
-                p.get_skill_level( skill_tailor );
+    for( const Skill &sk : Skill::skills ) {
+        industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
+    }
     return industry * std::min( p.get_int(), 32 ) / 8 ;
 }
 

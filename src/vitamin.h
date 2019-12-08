@@ -14,6 +14,19 @@
 
 class JsonObject;
 
+enum vitamin_type {
+    VITAMIN,
+    TOXIN,
+    DRUG,
+    COUNTER,
+    num_vitamin_types
+};
+
+template<>
+struct enum_traits<vitamin_type> {
+    static constexpr auto last = vitamin_type::num_vitamin_types;
+};
+
 class vitamin
 {
     public:
@@ -21,6 +34,10 @@ class vitamin
 
         const vitamin_id &id() const {
             return id_;
+        }
+
+        const vitamin_type &type() const {
+            return type_;
         }
 
         bool is_null() const {
@@ -76,6 +93,7 @@ class vitamin
 
     private:
         vitamin_id id_;
+        vitamin_type type_;
         translation name_;
         efftype_id deficiency_;
         efftype_id excess_;

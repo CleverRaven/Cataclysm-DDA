@@ -2552,6 +2552,11 @@ units::mass monster::get_weight() const
     return units::operator*( type->weight, get_size() / type->size );
 }
 
+units::mass monster::weight_capacity() const
+{
+    return type->weight * type->mountable_weight_ratio;
+}
+
 units::volume monster::get_volume() const
 {
     return units::operator*( type->volume, get_size() / type->size );

@@ -42,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = false;
+static const holiday current_holiday = holiday::christmas;
 
 void main_menu::on_move() const
 {
@@ -142,28 +142,57 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const nc_color cColor2 = c_light_blue;
     const nc_color cColor3 = c_light_blue;
 
-    if( halloween_theme ) {
-        fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
-        fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
-                             25, 0, c_white, halloween_graves() );
+    switch( current_holiday ) {
+        case holiday::new_year:
+            break;
+        case holiday::easter:
+            break;
+        case holiday::halloween:
+            fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+            fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
+                                 25, 0, c_white, halloween_graves() );
+            break;
+        case holiday::thanksgiving:
+            break;
+        case holiday::christmas:
+            break;
+        case holiday::none:
+        case holiday::num_holiday:
+        default:
+            break;
     }
 
     if( mmenu_title.size() > 1 ) {
         for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            if( halloween_theme ) {
-                static const std::string marker = "█";
-                const utf8_wrapper text( mmenu_title[i] );
-                for( size_t j = 0; j < text.size(); j++ ) {
-                    std::string temp = text.substr_display( j, 1 ).str();
-                    if( temp != " " ) {
-                        mvwprintz( w_open, point( iOffsetX + j, iLine ),
-                                   ( temp != marker ) ? c_red : ( i < 9  ? cColor1 : cColor2 ),
-                                   "%s", ( temp == marker ) ? "▓" : temp );
+            switch( current_holiday ) {
+                case holiday::halloween: {
+                    static const std::string marker = "█";
+                    const utf8_wrapper text( mmenu_title[i] );
+                    for( size_t j = 0; j < text.size(); j++ ) {
+                        std::string temp = text.substr_display( j, 1 ).str();
+                        if( temp != " " ) {
+                            mvwprintz( w_open, point( iOffsetX + j, iLine ),
+                                       ( temp != marker ) ? c_red : ( i < 9 ? cColor1 : cColor2 ),
+                                       "%s", ( temp == marker ) ? "▓" : temp );
+                        }
                     }
+                    iLine++;
                 }
-                iLine++;
-            } else {
-                mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
+                break;
+                case holiday::thanksgiving:
+                case holiday::new_year:
+                case holiday::easter:
+                case holiday::christmas: {
+                    nc_color cur_color = c_white;
+                    nc_color base_color = c_white;
+                    print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
+                }
+                break;
+                case holiday::none:
+                case holiday::num_holiday:
+                default:
+                    mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
+                    break;
             }
         }
     } else {
@@ -258,7 +287,7 @@ void main_menu::init_windows()
 void main_menu::init_strings()
 {
     // ASCII Art
-    mmenu_title = load_file( PATH_INFO::title( halloween_theme ), _( "Cataclysm: Dark Days Ahead" ) );
+    mmenu_title = load_file( PATH_INFO::title( current_holiday ), _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
     auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 

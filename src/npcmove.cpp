@@ -677,6 +677,9 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
+    // dont just return from this function without doing something
+    // that will eventually subtract moves, or change the NPC to a different type of action.
+    // because this will result in an infinite loop
     if( attitude == NPCATT_FLEE ) {
         set_attitude( NPCATT_FLEE_TEMP );  // Only run for so many hours
     } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
@@ -3618,9 +3621,9 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     float weight = std::max( 1.0, 10.0 * relative_rot );
-    if( food->fun < 0 ) {
+    if( it.get_comestible_fun() < 0 ) {
         // This helps to avoid eating stuff like flour
-        weight /= ( -food->fun ) + 1;
+        weight /= ( -it.get_comestible_fun() ) + 1;
     }
 
     if( food->healthy < 0 ) {

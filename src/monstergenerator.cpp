@@ -685,6 +685,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
         melee_damage = load_damage_instance( jo );
     }
 
+    if( jo.has_array( "scents_tracked" ) ) {
+        for( const std::string &line : jo.get_array( "scents_tracked" ) ) {
+            scents_tracked.emplace( line );
+        }
+    }
+
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
@@ -776,9 +782,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "baby_flags" ) ) {
         // Because this determines mating season and some monsters have a mating season but not in-game offspring, declare this separately
         baby_flags.clear();
-        JsonArray baby_tags = jo.get_array( "baby_flags" );
-        while( baby_tags.has_more() ) {
-            baby_flags.push_back( baby_tags.next_string() );
+        for( const std::string &line : jo.get_array( "baby_flags" ) ) {
+            baby_flags.push_back( line );
         }
     }
 
@@ -1073,6 +1078,11 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        for( const scenttype_id &s_id : mon.scents_tracked ) {
+            if( !s_id.is_empty() && !s_id.is_valid() ) {
+                debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
+            }
         }
         for( auto &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {

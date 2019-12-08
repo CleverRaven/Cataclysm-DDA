@@ -702,11 +702,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NO_CRAFT_INHERIT",
-    "type": "json_flag",
-    "//": "Crafted items with this flag won't inherit flags with craft_inherit from their components."
-  },
-  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -725,6 +720,7 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "craft_inherit": true,
+    "taste_mod": -5,
     "//": "Has a bad taste or texture that can't be covered up through cooking.",
     "info": "This food is <bad>unappetizing</bad> in a way that <bad>can't be covered up by most cooking</bad>."
   },

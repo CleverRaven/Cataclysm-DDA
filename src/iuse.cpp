@@ -994,7 +994,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->get_comestible()->fun * multiplier, 60, 1_hours, 30_minutes,
+        p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -5658,7 +5658,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos().xy(), 0, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
@@ -9456,7 +9456,8 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &p : items ) {
-            total_volume += p.first->volume() * p.second;
+            total_volume += p.first->volume() * p.second /
+                            ( p.first->count_by_charges() ? p.first->charges : 1 );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9494,7 +9495,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        total_volume += i.volume() * pair.second;
+        total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );

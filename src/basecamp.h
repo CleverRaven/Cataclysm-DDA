@@ -309,7 +309,7 @@ class basecamp
         /**
         * Perform any mix of the three farm tasks.
         * @param task
-        * @param omt_trg the overmap pos3 of the farm_ops
+        * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const std::string &task, const tripoint &omt_tgt, farm_ops op );

@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "string_id.h"
@@ -28,8 +29,12 @@ class Skill
         translation _description;
         std::set<std::string> _tags;
         skill_displayType_id _display_type;
+        std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
+        int _companion_combat_rank_factor;
+        int _companion_survival_rank_factor;
+        int _companion_industry_rank_factor;
     public:
         static std::vector<Skill> skills;
         static void load_skill( JsonObject &jsobj );
@@ -56,8 +61,21 @@ class Skill
         std::string description() const {
             return _description.translated();
         }
+        int get_companion_skill_practice( const std::string &companion_skill ) const {
+            return _companion_skill_practice.find( companion_skill ) == _companion_skill_practice.end() ? 0 :
+                   _companion_skill_practice.at( companion_skill );
+        }
         skill_displayType_id display_category() const {
             return _display_type;
+        }
+        int companion_combat_rank_factor() const {
+            return _companion_combat_rank_factor;
+        }
+        int companion_survival_rank_factor() const {
+            return _companion_survival_rank_factor;
+        }
+        int companion_industry_rank_factor() const {
+            return _companion_industry_rank_factor;
         }
 
         bool operator==( const Skill &b ) const {
@@ -187,9 +205,9 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
          * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
          */
         std::map<skill_id, int> compare_skill_requirements(
-            const std::map<skill_id, int> &req ) const;
-        std::map<skill_id, int> compare_skill_requirements(
             const std::map<skill_id, int> &req, const item &context ) const;
+        std::map<skill_id, int> compare_skill_requirements(
+            const std::map<skill_id, int> &req ) const;
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
 };

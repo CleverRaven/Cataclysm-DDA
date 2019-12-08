@@ -18,6 +18,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_suspend",
+    "name": [ "npc_suspend" ],
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+  },
+  {
+    "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
     "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
@@ -1593,6 +1599,19 @@
     "base_mods": { "h_mod_min": [ -1 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 5 ], "h_mod_tick": [ 1800 ] },
     "max_intensity": 3,
     "scaling_mods": { "h_mod_min": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bad_food_ennui",
+    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "desc": [
+      "The food you eat is disgusting.",
+      "Eating nothing but disgusting rations is starting to get you down.",
+      "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
+    ],
+    "max_intensity": 3,
+    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",

@@ -1070,6 +1070,8 @@ tripoint monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
+    const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
+
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1092,7 +1094,26 @@ tripoint monster::scent_move()
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = g->scent.get( dest );
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+        const scenttype_id &type_scent = g->scent.get_type( dest );
+
+        bool right_scent = false;
+        // is the monster tracking this scent
+        if( !tracked_scents.empty() ) {
+            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+        }
+        //is this scent recognised by the monster species
+        if( !type_scent.is_empty() ) {
+            const std::set<species_id> &receptive_species = type_scent->receptive_species;
+            const std::set<species_id> &monster_species = type->species;
+            std::vector<species_id> v_intersection;
+            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                                   monster_species.end(), std::back_inserter( v_intersection ) );
+            if( !v_intersection.empty() ) {
+                right_scent = true;
+            }
+        }
+
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&

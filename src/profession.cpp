@@ -170,9 +170,7 @@ void profession::load( JsonObject &jo, const std::string & )
         _description_female = to_translation( "prof_desc_female", desc );
     }
     if( jo.has_array( "pets" ) ) {
-        JsonArray array = jo.get_array( "pets" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "pets" ) ) {
             int count = subobj.get_int( "amount" );
             mtype_id mon = mtype_id( subobj.get_string( "name" ) );
             for( int start = 0; start < count; ++start ) {
@@ -182,9 +180,7 @@ void profession::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "spells" ) ) {
-        JsonArray array = jo.get_array( "spells" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "spells" ) ) {
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -513,9 +509,7 @@ void json_item_substitution::load( JsonObject &jo )
     if( !jo.has_array( "substitutions" ) ) {
         jo.throw_error( "No `substitutions` array found." );
     }
-    JsonArray outer_arr = jo.get_array( "substitutions" );
-    while( outer_arr.has_more() ) {
-        JsonObject subobj = outer_arr.next_object();
+    for( JsonObject subobj : jo.get_array( "substitutions" ) ) {
         do_load( subobj );
     }
 }
@@ -546,9 +540,7 @@ void json_item_substitution::do_load( JsonObject &jo )
         jo.throw_error( "Missing sub array" );
     }
 
-    JsonArray sub = jo.get_array( "sub" );
-    while( sub.has_more() ) {
-        JsonArray line = sub.next_array();
+    for( JsonArray line : jo.get_array( "sub" ) ) {
         substitution s;
         const itype_id old_it = item_mode ? title : line.next_string();
         if( item_mode ) {
