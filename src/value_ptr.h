@@ -19,7 +19,7 @@ class value_ptr : public std::unique_ptr<T>
         value_ptr( const value_ptr<T> &other ) :
             std::unique_ptr<T>( other ? new T( *other ) : nullptr ) {}
         value_ptr &operator=( value_ptr<T> other ) {
-            std::unique_ptr<T>::reset( other ? new T( *other ) : nullptr );
+            std::unique_ptr<T>::operator=( std::move( other ) );
             return *this;
         }
 };
