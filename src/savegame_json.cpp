@@ -596,9 +596,8 @@ void Character::load( const JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    JsonObject pmap = data.get_object( "skills" );
-    for( const std::string &member : pmap.get_member_names() ) {
-        pmap.read( member, ( *_skills )[skill_id( member )] );
+    for( const JsonMember &member : data.get_object( "skills" ) ) {
+        member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
     visit_items( [&]( item * it ) {
@@ -1624,12 +1623,11 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    JsonObject jo = data.get_object( "complaints" );
-    for( const std::string &key : jo.get_member_names() ) {
+    for( const JsonMember &member : data.get_object( "complaints" ) ) {
         // @TODO: time_point does not have a default constructor, need to read in the map manually
         time_point p = 0;
-        jo.read( key, p );
-        complaints.emplace( key, p );
+        member.read( p );
+        complaints.emplace( member.name(), p );
     }
 }
 
@@ -1733,10 +1731,9 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            std::set<std::string> members = jo.get_member_names();
-            for( const auto &member : members ) {
+            for( const JsonMember &member : jo ) {
                 std::string invlets;
-                for( const int i : jo.get_array( member ) ) {
+                for( const int i : member.get_array() ) {
                     invlets.push_back( i );
                 }
                 map[member] = invlets;
@@ -1831,10 +1828,9 @@ void monster::load( const JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        JsonObject pobject = data.get_object( "special_attacks" );
-        for( const std::string &aname : pobject.get_member_names() ) {
-            JsonObject saobject = pobject.get_object( aname );
-            auto &entry = special_attacks[aname];
+        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+            JsonObject saobject = member.get_object();
+            auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
             entry.enabled = saobject.get_bool( "enabled" );
         }
@@ -3396,10 +3392,8 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    JsonObject kills_obj = data.get_object( "kills" );
-    std::set<std::string> members = kills_obj.get_member_names();
-    for( const auto &member : members ) {
-        kills[mtype_id( member )] = kills_obj.get_int( member );
+    for( const JsonMember &member : data.get_object( "kills" ) ) {
+        kills[mtype_id( member.name() )] = member.get_int();
     }
 
     for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {

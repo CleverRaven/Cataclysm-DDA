@@ -255,11 +255,9 @@ class uistatedata
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );
 
-            auto inhist = jo.get_object( "input_history" );
-            std::set<std::string> inhist_members = inhist.get_member_names();
-            for( const auto &inhist_member : inhist_members ) {
-                JsonArray ja = inhist.get_array( inhist_member );
-                std::vector<std::string> &v = gethistory( inhist_member );
+            for( const JsonMember &member : jo.get_object( "input_history" ) ) {
+                JsonArray ja = member.get_array();
+                std::vector<std::string> &v = gethistory( member.name() );
                 v.clear();
                 while( ja.has_more() ) {
                     v.push_back( ja.next_string() );
