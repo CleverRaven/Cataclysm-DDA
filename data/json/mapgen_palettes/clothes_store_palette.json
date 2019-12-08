@@ -62,12 +62,14 @@
       "&": "f_mannequin",
       "h": "f_chair",
       "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
-      "]": "f_bookcase"
+      "]": "f_bookcase",
+      "f": "f_cupboard"
     },
     "items": {
       "]": { "item": "SUS_tailoring_bookcase", "chance": 100 },
       "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
-      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 20 }
+      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 20 },
+      "f": { "item": "SUS_tailoring_materials", "chance": 85 }
     }
   },
   {
