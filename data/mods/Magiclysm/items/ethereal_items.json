@@ -357,7 +357,7 @@
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "multiply": 1 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
     }
   },
   {
