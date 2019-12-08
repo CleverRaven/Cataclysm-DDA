@@ -32,6 +32,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "bodypart.h"
@@ -1233,17 +1234,17 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo,
+void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                               const std::string &src )
 {
     if( !slotptr ) {
-        slotptr = std::make_unique<SlotType>();
+        slotptr = cata::make_value<SlotType>();
     }
     load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, const JsonObject &jo,
+void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                        const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {

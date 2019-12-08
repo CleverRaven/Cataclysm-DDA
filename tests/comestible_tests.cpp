@@ -14,6 +14,7 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
+#include "value_ptr.h"
 
 struct all_stats {
     statistics<int> calories;
@@ -24,7 +25,7 @@ static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
     for( item_comp it : components ) {
-        const std::unique_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
+        const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
         if( temp && temp->cooks_like.empty() ) {
             calories += temp->get_calories() * it.count;
         } else if( temp ) {

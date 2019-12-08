@@ -63,6 +63,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -1302,7 +1303,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 void item::med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int batch, bool ) const
 {
-    const std::unique_ptr<islot_comestible> &med_com = med_item->get_comestible();
+    const cata::value_ptr<islot_comestible> &med_com = med_item->get_comestible();
     if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
@@ -3312,7 +3313,7 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
     }
     int result = loc->second;
     for( const item &elem : contents ) {
-        const std::unique_ptr<islot_gunmod> &mod = elem.type->gunmod;
+        const cata::value_ptr<islot_gunmod> &mod = elem.type->gunmod;
         if( mod && mod->location == location ) {
             result--;
         }
@@ -9399,7 +9400,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
     return cached_tool_selections;
 }
 
-const std::unique_ptr<islot_comestible> &item::get_comestible() const
+const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() ) {
         return find_type( making->result() )->comestible;

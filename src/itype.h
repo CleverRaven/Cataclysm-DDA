@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // see item.h
 class item_category;
@@ -799,26 +800,26 @@ struct itype {
          * this before using it.
          */
         /*@{*/
-        std::unique_ptr<islot_container> container;
-        std::unique_ptr<islot_tool> tool;
-        std::unique_ptr<islot_comestible> comestible;
-        std::unique_ptr<islot_brewable> brewable;
-        std::unique_ptr<islot_armor> armor;
-        std::unique_ptr<islot_pet_armor> pet_armor;
-        std::unique_ptr<islot_book> book;
-        std::unique_ptr<islot_mod> mod;
-        std::unique_ptr<islot_engine> engine;
-        std::unique_ptr<islot_wheel> wheel;
-        std::unique_ptr<islot_fuel> fuel;
-        std::unique_ptr<islot_gun> gun;
-        std::unique_ptr<islot_gunmod> gunmod;
-        std::unique_ptr<islot_magazine> magazine;
-        std::unique_ptr<islot_battery> battery;
-        std::unique_ptr<islot_bionic> bionic;
-        std::unique_ptr<islot_ammo> ammo;
-        std::unique_ptr<islot_seed> seed;
-        std::unique_ptr<islot_artifact> artifact;
-        std::unique_ptr<relic> relic_data;
+        cata::value_ptr<islot_container> container;
+        cata::value_ptr<islot_tool> tool;
+        cata::value_ptr<islot_comestible> comestible;
+        cata::value_ptr<islot_brewable> brewable;
+        cata::value_ptr<islot_armor> armor;
+        cata::value_ptr<islot_pet_armor> pet_armor;
+        cata::value_ptr<islot_book> book;
+        cata::value_ptr<islot_mod> mod;
+        cata::value_ptr<islot_engine> engine;
+        cata::value_ptr<islot_wheel> wheel;
+        cata::value_ptr<islot_fuel> fuel;
+        cata::value_ptr<islot_gun> gun;
+        cata::value_ptr<islot_gunmod> gunmod;
+        cata::value_ptr<islot_magazine> magazine;
+        cata::value_ptr<islot_battery> battery;
+        cata::value_ptr<islot_bionic> bionic;
+        cata::value_ptr<islot_ammo> ammo;
+        cata::value_ptr<islot_seed> seed;
+        cata::value_ptr<islot_artifact> artifact;
+        cata::value_ptr<relic> relic_data;
         /*@}*/
 
     private:
@@ -832,8 +833,6 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
-        // Helper for copy constructor and copy assignment operator
-        void copy( const itype &other );
     protected:
         std::string id = "null"; /** unique string identifier for this type */
 
@@ -845,8 +844,6 @@ struct itype {
         itype() {
             melee.fill( 0 );
         }
-        itype( const itype &other );
-        itype &operator=( itype other );
 
         int damage_min() const {
             return count_by_charges() ? 0 : damage_min_;
