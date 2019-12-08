@@ -162,10 +162,10 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
             // this is where we are able to check if the food actually is changed by the trait
             if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
-                for( const auto &vit : res ) {
+                for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );
                     if( vit_factor != mat_vit_map.end() ) {
-                        res[ vit.first ] *= vit_factor->second;
+                        vit.second *= vit_factor->second;
                     }
                 }
             }
