@@ -22,6 +22,20 @@
     ]
   },
   {
+    "id": "SUS_mannequin_fur",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying fur clothes.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "fur_coats_unisex" },
+      { "distribution": [ { "group": "pants_unisex", "prob": 80 }, { "group": "fur_pants_womens", "prob": 20 } ] },
+      { "group": "fur_shoes_unisex" },
+      { "group": "fur_gloves_unisex" },
+      { "group": "fur_hats_unisex" }
+    ]
+  },
+  {
     "id": "SUS_mannequin_formal_mens",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
