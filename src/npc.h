@@ -144,6 +144,7 @@ static std::map<npc_job, std::vector<activity_id>> job_duties = {
     { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
     { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
     { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
+    { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ) } },
     { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
 };
 

@@ -1110,6 +1110,9 @@ void construct::done_deconstruct( const tripoint &p )
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
         g->m.delete_signage( p );
+        // more hack alert.
+        // crafting bills are the same, they are attached to submap.
+        g->m.crafting_bill_remove( p );
     } else {
         const ter_t &t = g->m.ter( p ).obj();
         if( !t.deconstruct.can_do ) {

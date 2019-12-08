@@ -1008,6 +1008,7 @@ static void loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
+        MultiCrafting = 14,
         FertilizePlots = 16,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
@@ -1042,11 +1043,18 @@ static void loot()
                                  u.pos() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
+    flags |= g->m.crafting_bill_nearby( u.pos() ) ? MultiCrafting : 0;
     if( flags == 0 ) {
+        std::set<std::string> zone_strings = {mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "VEHICLE_DECONSTRUCT" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "VEHICLE_REPAIR" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "CHOP_TREES" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "LOOT_WOOD" ) ),
+                                              mgr.get_name_from_type( zone_type_id( "LOOT_CORPSE" ) )
+                                             };
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
-        add_msg( m_info, _( "Compatible zones are %s and %s" ),
-                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
-                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
+        add_msg( m_info, _( "Compatible zones are %s." ), enumerate_as_string( zone_strings ) );
         return;
     }
 
@@ -1093,6 +1101,10 @@ static void loot()
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
                             _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
     }
+    if( flags & MultiCrafting ) {
+        menu.addentry_desc( MultiCrafting, true, 'b', _( "Craft from workbench bills" ),
+                            _( "Auto-craft from workbench bills nearby - auto-fetch components." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1127,6 +1139,9 @@ static void loot()
             break;
         case MultiButchery:
             u.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+            break;
+        case MultiCrafting:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CRAFT" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );

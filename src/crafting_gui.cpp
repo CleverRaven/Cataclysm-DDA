@@ -19,6 +19,8 @@
 #include "input.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
+#include "messages.h"
 #include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -148,7 +150,126 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
     return ypos - oldy;
 }
 
-const recipe *select_crafting_recipe( int &batch_size )
+void crafting_bills_display( const tripoint &loc )
+{
+    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+    catacurses::window w_bills = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                 point( term_y, term_x ) );
+    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    size_t selection = 0;
+    input_context ctxt( "CRAFTING_BILLS" );
+    ctxt.register_cardinal();
+    ctxt.register_updown();
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEW_BILL" );
+    ctxt.register_action( "REMOVE_BILL" );
+    while( true ) {
+        werase( w_bills );
+        // create a list of bills
+        crafting_bill *bill_here = g->m.crafting_bill_at( loc );
+        std::map<recipe_id, int> all_bills;
+        std::vector<recipe_id> bills_vec;
+        if( bill_here ) {
+            all_bills = bill_here->bills;
+            for( auto &elem : all_bills ) {
+                bills_vec.push_back( elem.first );
+            }
+        }
+        recipe_id cur_recipe;
+        // entries_per_page * page number
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
+        if( !bills_vec.empty() ) {
+            cur_recipe = bills_vec[selection];
+        }
+
+        for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+            mvwputch( w_bills, point( 45, i ), BORDER_COLOR, LINE_XOXO );
+        }
+        draw_border( w_bills );
+        const nc_color col = c_white;
+        const std::string no_bills = _( "There are no bills here." );
+        if( !bills_vec.empty() ) {
+            draw_scrollbar( w_bills, selection, entries_per_page, bills_vec.size(),
+                            point( 0, 3 ) );
+            for( size_t i = top_of_page; i < bills_vec.size(); i++ ) {
+                const int y = i - top_of_page + 3;
+                trim_and_print( w_bills, point( 1, y ), 43, selection == i ? hilite( col ) : col,
+                                bills_vec[i].obj().result_name() );
+            }
+            if( selection < bills_vec.size() ) {
+                mvwprintz( w_bills, point( 46, 3 ), c_light_gray, _( "Quantity:           %d" ),
+                           all_bills[cur_recipe] );
+            } else {
+                mvwprintz( w_bills, point( 46, 4 ), c_light_red, no_bills );
+            }
+        } else {
+            mvwprintz( w_bills, point( 46, 4 ), c_light_red, no_bills );
+        }
+        mvwprintz( w_bills, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
+                   _( "Press %s to edit bill, %s to create new bill, %s to remove a bill." ),
+                   ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEW_BILL" ), ctxt.get_desc( "REMOVE_BILL" ) );
+        wrefresh( w_bills );
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            selection++;
+            if( selection >= bills_vec.size() ) {
+                selection = 0;
+            }
+        } else if( action == "UP" ) {
+            if( selection == 0 ) {
+                selection = bills_vec.empty() ? 0 : bills_vec.size() - 1;
+            } else {
+                selection--;
+            }
+        } else if( action == "CONFIRM" ) {
+            if( !bills_vec.empty() ) {
+                const int max_amount = 500;
+                const std::string popupmsg = string_format( _( "Change how many %s to craft ( max 500 )." ),
+                                             bills_vec[selection].obj().result_name() );
+                int amount = string_input_popup()
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( to_string( bill_here->bills[bills_vec[selection]] ) )
+                             .only_digits( true )
+                             .query_int();
+                if( amount > 0 && amount <= max_amount ) {
+                    bill_here->bills[cur_recipe] = amount;
+                }
+            }
+        } else if( action == "NEW_BILL" ) {
+            int batch_size = 0;
+            const recipe *new_rec = select_crafting_recipe( batch_size, true );
+            g->refresh_all();
+            if( new_rec ) {
+                if( bills_vec.empty() ) {
+                    //create new crafting_bill
+                    crafting_bill new_bill;
+                    new_bill.bills[ new_rec->ident() ] = batch_size;
+                    g->m.crafting_bill_set( loc, new_bill );
+                } else {
+                    bill_here->bills[new_rec->ident()] = batch_size;
+                }
+            }
+        } else if( action == "REMOVE_BILL" ) {
+            if( !bills_vec.empty() ) {
+                bill_here->bills.erase( cur_recipe );
+                if( bill_here->bills.empty() ) {
+                    g->m.crafting_bill_remove( loc );
+                }
+            }
+        } else if( action == "QUIT" ) {
+            break;
+        }
+    }
+
+    g->refresh_all();
+}
+
+const recipe *select_crafting_recipe( int &batch_size, const bool checking_for_bills )
 {
     // always re-translate the category names in case the language has changed
     translate_all();
@@ -422,6 +543,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         if( isWide ) {
             mvwprintz( w_data, point( 5, dataLines + 1 ), c_white,
+                       checking_for_bills ? _( "Press <ENTER> to add a crafting bill to the workbench." ) :
                        _( "Press <ENTER> to attempt to craft object." ) );
             wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
@@ -442,6 +564,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                            _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
             }
             mvwprintz( w_data, point( 5, dataLines + 2 ), c_white,
+                       checking_for_bills ? _( "Press <ENTER> to add a crafting bill to the workbench." ) :
                        _( "Press <ENTER> to attempt to craft object." ) );
         }
         // Draw borders
@@ -509,7 +632,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             const auto &req = current[ line ]->requirements();
 
-            draw_can_craft_indicator( w_head, 0, *current[line] );
+            if( !checking_for_bills ) {
+                draw_can_craft_indicator( w_head, 0, *current[line] );
+            }
             wrefresh( w_head );
 
             ypos = 0;
@@ -699,7 +824,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!" ) );
-            } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
+            } else if( !checking_for_bills && !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {

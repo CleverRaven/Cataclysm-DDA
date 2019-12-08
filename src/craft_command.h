@@ -51,6 +51,13 @@ struct comp_selection {
 };
 
 /**
+*  Struct that represents a spot where crafting bills are stored.
+*/
+struct crafting_bill {
+    std::map<recipe_id, int> bills;
+};
+
+/**
 *   Class that describes a crafting job.
 *
 *   The class has functions to execute the crafting job.
@@ -65,7 +72,7 @@ class craft_command
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
-        void execute( const tripoint &new_loc = tripoint_zero );
+        void execute( const tripoint &new_loc = tripoint_zero, bool force_loc = false );
 
         /**
          * Consumes the selected components and returns the resulting in progress craft item.

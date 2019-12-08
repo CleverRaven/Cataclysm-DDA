@@ -3110,6 +3110,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
         delete_signage( p );
+        // Another Hack - crafting workbench bills need to be deleted from the submap too.
+        crafting_bill_remove( p );
     } else if( !smash_ter ) {
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
@@ -4918,6 +4920,52 @@ const trap &map::tr_at( const tripoint &p ) const
     }
 
     return current_submap->get_trap( l ).obj();
+}
+
+bool map::crafting_bill_nearby( const tripoint &p, int range )
+{
+    for( const tripoint &elem : points_in_radius( p, range ) ) {
+        if( crafting_bill_at( elem ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+crafting_bill *map::crafting_bill_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    auto it = current_submap->crafting_bills.find( tripoint( l, p.z ) );
+    if( it != current_submap->crafting_bills.end() ) {
+        return &it->second;
+    }
+    return nullptr;
+}
+
+void map::crafting_bill_remove( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    current_submap->crafting_bills.erase( tripoint( l, p.z ) );
+}
+
+void map::crafting_bill_set( const tripoint &p, const crafting_bill &bill )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( !current_submap->crafting_bills.emplace( tripoint( l, p.z ), bill ).second ) {
+        debugmsg( "set crafting bill on top of terrain which already has a crafting bill" );
+    }
 }
 
 partial_con *map::partial_con_at( const tripoint &p )

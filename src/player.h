@@ -1034,6 +1034,7 @@ class player : public Character
          */
         bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
+        requirement_data adjusted_requirements( const recipe &rec, int batch_size );
 
         /**
          * Start various types of crafts
@@ -1042,10 +1043,11 @@ class player : public Character
         void craft( const tripoint &loc = tripoint_zero );
         void recraft( const tripoint &loc = tripoint_zero );
         void long_craft( const tripoint &loc = tripoint_zero );
-        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero,
+                         bool force_loc = false );
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const tripoint &loc );
+        void start_craft( craft_command &command, const tripoint &loc, bool force_loc = false );
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
@@ -1062,7 +1064,7 @@ class player : public Character
          * @param craft the currently in progress craft
          * @return if the craft can be continued
          */
-        bool can_continue_craft( item &craft );
+        bool can_continue_craft( item &craft, bool check_only = false );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -1165,7 +1167,7 @@ class player : public Character
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
-                                      const tripoint &loc = tripoint_zero );
+                                      const tripoint &loc = tripoint_zero, bool force_loc = false );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;

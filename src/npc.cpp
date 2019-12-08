@@ -2604,7 +2604,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_CONSTRUCTING:
             return _( "Building" );
         case NPCJOB_CRAFTING:
-            return _( "Crafting - Currently only a placeholder" );
+            return _( "Crafting" );
         case NPCJOB_SECURITY:
             return _( "Guarding and patrolling - Currently only a placeholder" );
         case NPCJOB_FARMING:

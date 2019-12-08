@@ -140,6 +140,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_MULTIPLE_FISH" ), multiple_fish_do_turn },
     { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
+    { activity_id( "ACT_MULTIPLE_CRAFT" ), multiple_craft_do_turn },
     { activity_id( "ACT_MULTIPLE_BUTCHER" ), multiple_butcher_do_turn },
     { activity_id( "ACT_MULTIPLE_FARM" ), multiple_farm_do_turn },
     { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
@@ -209,6 +210,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_PICKAXE" ), pickaxe_finish },
     { activity_id( "ACT_RELOAD" ), reload_finish },
     { activity_id( "ACT_START_FIRE" ), start_fire_finish },
+    { activity_id( "ACT_CRAFT" ), craft_finish },
     { activity_id( "ACT_TRAIN" ), train_finish },
     { activity_id( "ACT_CHURN" ), churn_finish },
     { activity_id( "ACT_VEHICLE" ), vehicle_finish },
@@ -3391,6 +3393,11 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::multiple_craft_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
 void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
@@ -3543,6 +3550,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
             p->cancel_activity();
         }
     }
+}
+
+void activity_handlers::craft_finish( player_activity *, player *p )
+{
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::disassemble_finish( player_activity *, player *p )

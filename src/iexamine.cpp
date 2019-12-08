@@ -22,6 +22,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -1030,6 +1031,7 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
     const auto furn_item = g->m.furn( pos ).obj().deployed_item;
     g->m.add_item_or_charges( pos, item( furn_item, calendar::turn ) );
     g->m.furn_set( pos, f_null );
+    g->m.crafting_bill_remove( pos );
 }
 
 static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const furn_str_id &id )
@@ -5614,6 +5616,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         repeat_craft,
         start_long_craft,
         work_on_craft,
+        add_edit_bills,
         get_items,
         undeploy
     };
@@ -5623,6 +5626,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
     amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
+    amenu.addentry( add_edit_bills,   !part,           '5', _( "Add/edit crafting bills" ) );
     if( !part ) {
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
@@ -5691,6 +5695,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
+            break;
+        }
+        case add_edit_bills: {
+            crafting_bills_display( examp );
             break;
         }
         case get_items: {

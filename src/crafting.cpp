@@ -573,9 +573,10 @@ void Character::invalidate_crafting_inventory()
     cached_time = calendar::before_time_starts;
 }
 
-void player::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
+void player::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc,
+                         bool force_loc )
 {
-    make_craft_with_command( id_to_make, batch_size, false, loc );
+    make_craft_with_command( id_to_make, batch_size, false, loc, force_loc );
 }
 
 void player::make_all_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
@@ -584,7 +585,7 @@ void player::make_all_craft( const recipe_id &id_to_make, int batch_size, const 
 }
 
 void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
-                                      const tripoint &loc )
+                                      const tripoint &loc, bool force_loc )
 {
     const auto &recipe_to_make = *id_to_make;
 
@@ -593,7 +594,7 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
     }
 
     *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
-    last_craft->execute();
+    last_craft->execute( tripoint_zero, force_loc );
 }
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
@@ -718,7 +719,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     }
 }
 
-void player::start_craft( craft_command &command, const tripoint &loc )
+void player::start_craft( craft_command &command, const tripoint &loc, bool force_loc )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -741,21 +742,23 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     // Check if we are standing next to a workbench. If so, just use that.
     float best_bench_multi = 0.0;
     tripoint target = loc;
-    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-        if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench_multi ) {
-                best_bench_multi = wb->multiplier;
-                target = adj;
-            }
-        } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                       adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench_multi ) {
-                    best_bench_multi = wb_info->multiplier;
+    if( !force_loc ) {
+        for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
+            if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+                if( wb->multiplier > best_bench_multi ) {
+                    best_bench_multi = wb->multiplier;
                     target = adj;
                 }
-            } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                           adj ).part_with_feature( "WORKBENCH", true ) ) {
+                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                    if( wb_info->multiplier > best_bench_multi ) {
+                        best_bench_multi = wb_info->multiplier;
+                        target = adj;
+                    }
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                }
             }
         }
     }
@@ -1026,7 +1029,9 @@ bool item::handle_craft_failure( player &crafter )
 
     // Check if we can consume a new component and continue
     if( !crafter.can_continue_craft( *this ) ) {
-        crafter.cancel_activity();
+        if( !activity_handlers::resume_for_multi_activities( crafter ) ) {
+            crafter.cancel_activity();
+        }
     }
     return false;
 }
@@ -1103,9 +1108,11 @@ void player::complete_craft( item &craft, const tripoint &loc )
             first = false;
             // TODO: reconsider recipe memorization
             if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), making.result_name() );
+                add_msg_player_or_npc( _( "You craft %s from memory." ), _( "<npcname> crafts %s from memory." ),
+                                       making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
+                add_msg_player_or_npc( _( "You craft %s using a book as a reference." ),
+                                       _( "<npcname> crafts %s using a book as a reference." ),  making.result_name() );
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1121,8 +1128,8 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 const double time_to_learn = 1000 * 8 * pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
                     learn_recipe( &making );
-                    add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             making.result_name() );
+                    add_msg_if_player( m_good, _( "You memorized the recipe for %s!" ),
+                                       making.result_name() );
                 }
             }
         }
@@ -1197,7 +1204,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 food_contained.reset_temp_check();
             }
         }
-
+        if( !backlog.empty() && backlog.front().id() == activity_id( "ACT_MULTIPLE_CRAFT" ) ) {
+            newit.set_var( "activity_var", name );
+        }
         newit.set_owner( get_faction()->id );
         // If these aren't equal, newit is a container, so finalize its contents too.
         if( &newit != &food_contained ) {
@@ -1227,6 +1236,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.reset_temp_check();
                 }
             }
+            if( !backlog.empty() && backlog.front().id() == activity_id( "ACT_MULTIPLE_CRAFT" ) ) {
+                bp.set_var( "activity_var", name );
+            }
             bp.set_owner( get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
@@ -1241,7 +1253,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
     inv.restack( *this );
 }
 
-bool player::can_continue_craft( item &craft )
+bool player::can_continue_craft( item &craft, const bool check_only )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1265,15 +1277,19 @@ bool player::can_continue_craft( item &craft )
             std::string buffer = _( "You don't have the required components to continue crafting!" );
             buffer += "\n";
             buffer += continue_reqs.list_missing();
-            popup( buffer, PF_NONE );
+            if( !check_only && !is_npc() ) {
+                popup( buffer, PF_NONE );
+            }
             return false;
         }
 
         std::string buffer = _( "Consume the missing components and continue crafting?" );
         buffer += "\n";
         buffer += continue_reqs.list_all();
-        if( !query_yn( buffer ) ) {
-            return false;
+        if( !is_npc() && !check_only ) {
+            if( !query_yn( buffer ) ) {
+                return false;
+            }
         }
 
         if( continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter,
@@ -1294,7 +1310,7 @@ bool player::can_continue_craft( item &craft )
             comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
             if( is.use_from == cancel ) {
                 cancel_activity();
-                add_msg( _( "You stop crafting." ) );
+                add_msg_if_player( _( "You stop crafting." ) );
                 return false;
             }
             item_selections.push_back( is );
@@ -1332,7 +1348,9 @@ bool player::can_continue_craft( item &craft )
             std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
             buffer += "\n";
             buffer += tool_continue_reqs.list_missing();
-            popup( buffer, PF_NONE );
+            if( !check_only && !is_npc() ) {
+                popup( buffer, PF_NONE );
+            }
             return false;
         }
 

@@ -94,7 +94,7 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const tripoint &new_loc, bool force_loc )
 {
     if( empty() ) {
         return;
@@ -169,7 +169,7 @@ void craft_command::execute( const tripoint &new_loc )
         }
     }
 
-    crafter->start_craft( *this, loc );
+    crafter->start_craft( *this, loc, force_loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 

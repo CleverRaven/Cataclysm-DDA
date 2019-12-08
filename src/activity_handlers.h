@@ -31,6 +31,9 @@ enum butcher_type : int {
 
 enum do_activity_reason : int {
     CAN_DO_CONSTRUCTION,    // Can do construction.
+    CAN_DO_CRAFT,           // Can do craft there.
+    CAN_DO_BILL,            // Can work on bill there.
+    CAN_DO_ONE_BILL,        // Can't fulfill the entire batch but can do at least one.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     CAN_DO_PREREQ,          // for constructions - cant build the main construction, but can build the pre-req
     CAN_DO_PREREQ_2,        // Can do the second pre-req deep below the desired one.
@@ -52,7 +55,8 @@ enum do_activity_reason : int {
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
-    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+    NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
+    NEEDS_CRAFT            // This is an unfinished craft item that can be worked on with the right components.
 };
 
 struct activity_reason_info {
@@ -62,25 +66,27 @@ struct activity_reason_info {
     bool can_do;
     //construction index
     cata::optional<size_t> con_idx;
+    std::string id_str;  // when the requirement ID needs to be saved in the activity reason return.
 
-    activity_reason_info( do_activity_reason reason_, bool can_do_,
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const std::string &id_str_,
                           cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
         reason( reason_ ),
         can_do( can_do_ ),
-        con_idx( con_idx_ )
+        con_idx( con_idx_ ),
+        id_str( id_str_ )
     { }
 
     static activity_reason_info ok( const do_activity_reason &reason_ ) {
-        return activity_reason_info( reason_, true );
+        return activity_reason_info( reason_, true, std::string() );
     }
 
     static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
                                        size_t con_idx_ ) {
-        return activity_reason_info( reason_, can_do_, con_idx_ );
+        return activity_reason_info( reason_, can_do_, std::string(), con_idx_ );
     }
 
     static activity_reason_info fail( const do_activity_reason &reason_ ) {
-        return activity_reason_info( reason_, false );
+        return activity_reason_info( reason_, false, std::string() );
     }
 };
 
@@ -154,6 +160,7 @@ void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
+void multiple_craft_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );
 void vehicle_deconstruction_do_turn( player_activity *act, player *p );
 void vehicle_repair_do_turn( player_activity *act, player *p );
@@ -201,6 +208,7 @@ void forage_finish( player_activity *act, player *p );
 void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void pulp_finish( player_activity *act, player *p );
+void craft_finish( player_activity *act, player *p );
 void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );

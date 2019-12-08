@@ -858,6 +858,12 @@
         "effect": "do_fishing"
       },
       {
+        "text": "Please do any crafting that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_crafting"
+      },
+      {
         "text": "Please do some farming work.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

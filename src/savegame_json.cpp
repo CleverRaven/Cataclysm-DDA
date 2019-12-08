@@ -3704,6 +3704,19 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "crafting_bills" );
+    jsout.start_array();
+    for( auto &elem : crafting_bills ) {
+        jsout.write( elem.first );
+        jsout.start_array();
+        for( auto &it : elem.second.bills ) {
+            jsout.write( it.first );
+            jsout.write( it.second );
+        }
+        jsout.end_array();
+    }
+    jsout.end_array();
+
     if( legacy_computer ) {
         // it's possible that no access to computers has been made and legacy_computer
         // is not cleared
@@ -3969,6 +3982,23 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
                 pc.components.push_back( tmp );
             }
             partial_constructions[pt] = pc;
+        }
+    } else if( member_name == "crafting_bills" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            crafting_bill cb;
+            tripoint pt;
+            jsin.read( pt );
+            jsin.start_array();
+            std::map<recipe_id, int> loaded_bill;
+            while( !jsin.end_array() ) {
+                recipe_id tmp;
+                jsin.read( tmp );
+                int count = jsin.get_int();
+                loaded_bill[tmp] = count;
+            }
+            cb.bills = loaded_bill;
+            crafting_bills[pt] = cb;
         }
     } else if( member_name == "computers" ) {
         if( jsin.test_array() ) {

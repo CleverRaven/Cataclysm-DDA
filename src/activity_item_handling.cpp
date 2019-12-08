@@ -31,6 +31,7 @@
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -1278,6 +1279,68 @@ static bool has_skill_for_vehicle_work( std::map<skill_id, int> required_skills,
     return true;
 }
 
+static bool cannot_work_there( const player &p, const tripoint &src_loc,
+                               const bool check_vehicle_index )
+{
+    std::vector<int> already_working_indexes;
+    for( const npc &guy : g->all_npcs() ) {
+        if( &guy == &p ) {
+            continue;
+        }
+        // If the NPC has an activity - make sure they're not duplicating work.
+        tripoint guy_work_spot;
+        if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
+            guy_work_spot = g->m.getlocal( guy.activity.placement );
+        }
+        // If their position or intended position or player position/intended position
+        // then discount, don't need to move each other out of the way.
+        if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
+            guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
+            return true;
+        }
+        if( guy_work_spot != tripoint_zero ) {
+            vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
+            vehicle *other_veh = veh_pointer_or_null( g->m.veh_at( guy_work_spot ) );
+            // working on same vehicle - store the index to check later.
+            if( veh && other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ) {
+                already_working_indexes.push_back( guy.activity_vehicle_part_index );
+            }
+        }
+        if( g->u.activity_vehicle_part_index != -1 ) {
+            already_working_indexes.push_back( g->u.activity_vehicle_part_index );
+        }
+    }
+    if( check_vehicle_index ) {
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
+        std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
+        for( vehicle_part *part_elem : parts ) {
+            int vpindex = veh->index_of_part( part_elem, true );
+            // this is the same part that somebody else wants to work on, or already is.
+            if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
+                           vpindex ) != already_working_indexes.end() ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static bool check_recipe_for_skills_and_liquid( const recipe &rec, const player &p,
+        const inventory pre_inv )
+{
+    // NPC liquid handling is a rabbit hole.
+    // TODO: npc liquid handling
+    if( rec.create_result().made_of( LIQUID ) ) {
+        return false;
+    }
+    for( const auto elem : rec.required_skills ) {
+        if( p.get_skill_level( elem.first ) < elem.second ) {
+            return false;
+        }
+    }
+    return p.has_recipe( &rec, pre_inv, p.get_crafting_helpers() ) != -1;
+}
+
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1296,31 +1359,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         if( abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
             return activity_reason_info::fail( NO_ZONE );
         }
-        for( const npc &guy : g->all_npcs() ) {
-            if( &guy == &p ) {
-                continue;
-            }
-            // If the NPC has an activity - make sure theyre not duplicating work.
-            tripoint guy_work_spot;
-            if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
-                guy_work_spot = g->m.getlocal( guy.activity.placement );
-            }
-            // If their position or intended position or player position/intended position
-            // then discount, dont need to move each other out of the way.
-            if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
-                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
-                return activity_reason_info::fail( ALREADY_WORKING );
-            }
-            if( guy_work_spot != tripoint_zero ) {
-                vehicle *other_veh = veh_pointer_or_null( g->m.veh_at( guy_work_spot ) );
-                // working on same vehicle - store the index to check later.
-                if( other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ) {
-                    already_working_indexes.push_back( guy.activity_vehicle_part_index );
-                }
-            }
-            if( g->u.activity_vehicle_part_index != -1 ) {
-                already_working_indexes.push_back( g->u.activity_vehicle_part_index );
-            }
+        if( cannot_work_there( p, src_loc, true ) ) {
+            return activity_reason_info::fail( ALREADY_WORKING );
         }
         if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
             // find out if there is a vehicle part here we can remove.
@@ -1330,11 +1370,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
                 if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
-                    continue;
-                }
-                // this is the same part that somebody else wants to work on, or already is.
-                if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
-                               vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
                 // dont have skill to remove it
@@ -1400,6 +1435,108 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
         }
         p.activity_vehicle_part_index = -1;
+        return activity_reason_info::fail( NO_ZONE );
+    }
+    if( act == activity_id( "ACT_MULTIPLE_CRAFT" ) ) {
+        if( cannot_work_there( p, src_loc, false ) ) {
+            return activity_reason_info::fail( ALREADY_WORKING );
+        }
+        std::vector<tripoint> already_there_spots;
+        std::vector<tripoint> combined_spots;
+        for( const auto elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+            already_there_spots.push_back( elem );
+            combined_spots.push_back( elem );
+        }
+        for( const tripoint elem : mgr.get_point_set_loot( g->m.getabs( p.pos() ), 60, p.is_npc() ) ) {
+            // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
+            if( std::find( already_there_spots.begin(), already_there_spots.end(),
+                           elem ) != already_there_spots.end() ) {
+                continue;
+            } else {
+                combined_spots.push_back( elem );
+            }
+        }
+        const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        // do unfinished crafts loose on the workbench first, before starting on a new bill entry.
+        // need to do the thorough checks here as multiple crafts can be on one tile.
+        // we cannot discount the tile until we assess everything here.
+        // otherwise it'd just loop back to this item continuously.
+        // we've established now that cannot continue the craft with our inventory and inventory of points around the craft spot.
+        int craft_index = 0;
+        int bill_index = 0;
+        for( auto &elem : g->m.i_at( src_loc ) ) {
+            if( elem.is_craft() ) {
+                const recipe &rec = elem.get_making();
+                if( !check_recipe_for_skills_and_liquid( rec, p, pre_inv ) ) {
+                    craft_index++;
+                    continue;
+                }
+                const requirement_data continue_reqs = elem.get_continue_reqs();
+                if( p.can_continue_craft( elem, true ) ) {
+                    // Have the required stuff to continue working on it nearby / in person.
+                    activity_reason_info ret( CAN_DO_CRAFT, true, continue_reqs.id().str(), craft_index );
+                    return ret;
+                }
+                // if the requirements are available, then prompt a potential fetch task.
+                if( are_requirements_nearby( combined_spots, continue_reqs.id(), p,
+                                             act, false ) ) {
+                    activity_reason_info ret( NEEDS_CRAFT, false, continue_reqs.id().str(), craft_index );
+                    return ret;
+                } else {
+                    // can't do it, no point fetching anything.
+                    craft_index++;
+                    continue;
+                }
+            }
+        }
+        // ok so we got here because there are no potentially workable unfinished crafts here.
+        // now look for bills on the workbench.
+        crafting_bill *cb = g->m.crafting_bill_at( src_loc );
+        if( !cb ) {
+            return activity_reason_info::fail( NO_ZONE );
+        }
+        for( const auto bill_elem : cb->bills ) {
+            const recipe &rec = bill_elem.first.obj();
+            const requirement_data &reqs_for_batch = p.adjusted_requirements( rec, bill_elem.second );
+            const std::string ran_str = random_string( 10 );
+            const requirement_id req_id( ran_str );
+            const requirement_data &req_for_one = rec.requirements();
+            const std::string ran_str_for_one = random_string( 10 );
+            const requirement_id req_id_for_one( ran_str_for_one );
+            requirement_data::save_requirement( req_for_one, req_id_for_one );
+            requirement_data::save_requirement( reqs_for_batch, req_id );
+            // store the id str in the activity_reason_info to skip the same check later on.
+            if( !check_recipe_for_skills_and_liquid( rec, p, pre_inv ) ) {
+                bill_index++;
+                continue;
+            }
+            if( p.can_start_craft( &rec, bill_elem.second ) ) {
+                // can make with what we have on us and near the work spot.
+                activity_reason_info ret( CAN_DO_BILL, true, ran_str, bill_index );
+                return ret;
+            }
+            // if the requirements are available, then prompt a potential fetch task.
+            if( are_requirements_nearby( combined_spots, req_id, p,
+                                         act, false ) ) {
+                activity_reason_info ret( NEEDS_CRAFT, false, ran_str, bill_index );
+                return ret;
+            } else {
+                // see if we can make batch size = 1 with what we have on us
+                if( p.can_start_craft( &rec, 1 ) ) {
+                    activity_reason_info ret( CAN_DO_ONE_BILL, true, ran_str_for_one, bill_index );
+                    return ret;
+                }
+                // or else see if we can fetch enough for batch size = 1
+                if( are_requirements_nearby( combined_spots, req_id_for_one, p, act, false ) ) {
+                    activity_reason_info ret( NEEDS_CRAFT, false, ran_str_for_one, bill_index );
+                    return ret;
+                } else {
+                    // can't do it, no point fetching anything.
+                    bill_index++;
+                    continue;
+                }
+            }
+        }
         return activity_reason_info::fail( NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
@@ -1833,22 +1970,38 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             }
         }
     }
+    std::vector<quality_id> single_item_multiple_quals;
     for( const std::vector<quality_requirement> &elem : quality_comps ) {
         bool line_found = false;
         for( const quality_requirement &comp_elem : elem ) {
             if( line_found || comp_elem.count <= 0 ) {
                 break;
             }
-            const quality_id tool_qual = comp_elem.type;
-            const int qual_level = comp_elem.level;
+            // this is already covered by a previously found item that has more than one quality.
+            if( std::find( single_item_multiple_quals.begin(), single_item_multiple_quals.end(),
+                           comp_elem.type ) != single_item_multiple_quals.end() ) {
+                continue;
+            }
             for( auto it = requirement_map.begin(); it != requirement_map.end(); ) {
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 item test_item = item( item_here, 0 );
-                if( test_item.has_quality( tool_qual, qual_level ) ) {
+                if( test_item.has_quality( comp_elem.type, comp_elem.level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
                     line_found = true;
+                    // now find out if this item satisfies more than one requirement - i.e a toolbox
+                    for( std::vector<quality_requirement> &elem2 : quality_comps ) {
+                        for( quality_requirement &comp_elem2 : elem2 ) {
+                            if( comp_elem.type == comp_elem2.type ) {
+                                continue;
+                            }
+                            if( test_item.has_quality( comp_elem2.type, comp_elem2.level ) ) {
+                                single_item_multiple_quals.push_back( comp_elem2.type );
+                            }
+                        }
+                    }
+                    // this item satisfies at least one requirement, no need to look for other items.
                     break;
                 }
                 it++;
@@ -1975,7 +2128,8 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         for( auto &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
-                    if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+                    if( !p.backlog.empty() && ( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
+                                                p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CRAFT" ) ) ) {
                         move_item( p, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                    g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                         return;
@@ -1989,7 +2143,8 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // construction/crafting tasks want the requred item moved near the work spot.
-                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ) {
+                if( !p.backlog.empty() && ( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
+                                            p.backlog.front().id() == activity_id( "ACT_MULTIPLE_CRAFT" ) ) ) {
                     move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                     return;
@@ -2476,6 +2631,22 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             // farming activies encompass tilling, planting, harvesting.
         } else if( act_id == activity_id( "ACT_MULTIPLE_FARM" ) ) {
             dark_capable = true;
+        } else if( act_id == activity_id( "ACT_MULTIPLE_CRAFT" ) ) {
+            for( const tripoint &elem : g->m.points_in_radius( localpos, 60 ) ) {
+                crafting_bill *cb = g->m.crafting_bill_at( elem );
+                if( cb ) {
+                    src_set.insert( g->m.getabs( elem ) );
+                    continue;
+                }
+                const furn_t &f = g->m.furn( elem ).obj();
+                if( f.has_flag( "FLAT_SURF" ) ) {
+                    for( const auto &it_elem : g->m.i_at( elem ) ) {
+                        if( it_elem.is_craft() ) {
+                            src_set.insert( g->m.getabs( elem ) );
+                        }
+                    }
+                }
+            }
         }
     } else {
         dark_capable = true;
@@ -2520,8 +2691,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
 /** Check if this activity can not be done immediately because it has some requirements */
 /** Returns true if this multi activity may be processed further */
 static bool generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
-        activity_reason_info &act_info,
-        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set )
+        activity_reason_info &act_info, const tripoint &src, const tripoint &src_loc,
+        const std::unordered_set<tripoint> &src_set )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     zone_manager &mgr = zone_manager::get_manager();
@@ -2563,7 +2734,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
                reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
                reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
-               reason == NEEDS_TREE_CHOPPING ||
+               reason == NEEDS_TREE_CHOPPING || reason == NEEDS_CRAFT ||
                reason == NEEDS_FISHING ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
@@ -2588,6 +2759,12 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             // its a construction and we need the components.
             const construction &built_chosen = list_constructions[ *act_info.con_idx ];
             what_we_need = built_chosen.requirements;
+        } else if( reason == NEEDS_CRAFT ) {
+            if( !act_info.con_idx ) {
+                debugmsg( "no craft selected" );
+                return true;
+            }
+            what_we_need = requirement_id( act_info.id_str );
         } else if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
             const vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
             // we already checked this in can_do_activity() but check again just incase.
@@ -2744,6 +2921,60 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         }
         construction_activity( p, zone, src_loc, act_info, list_constructions, act_id );
         return false;
+    } else if( reason == CAN_DO_CRAFT ) {
+        std::vector<item_location> crafts;
+        for( item &it : g->m.i_at( src_loc ) ) {
+            if( it.is_craft() ) {
+                crafts.emplace_back( item_location( map_cursor( src_loc ), &it ) );
+            }
+        }
+        p.backlog.push_front( act_id );
+        p.assign_activity( activity_id( "ACT_CRAFT" ) );
+        p.activity.targets.push_back( crafts[*act_info.con_idx] );
+        p.activity.values.push_back( 0 ); // Not a long craft
+        return false;
+    } else if( reason == CAN_DO_BILL || reason == CAN_DO_ONE_BILL ) {
+        crafting_bill *cb = g->m.crafting_bill_at( src_loc );
+        if( !cb ) {
+            debugmsg( "no crafting bill selected" );
+            return true;
+        }
+        if( !act_info.con_idx ) {
+            debugmsg( "no crafting bill index" );
+            return true;
+        }
+        size_t counter = 0;
+        recipe rec;
+        int batch = 1;
+        bool found = false;
+        for( auto bill_elem : cb->bills ) {
+            if( counter == *act_info.con_idx ) {
+                rec = bill_elem.first.obj();
+                if( reason == CAN_DO_BILL ) {
+                    batch = bill_elem.second;
+                    cb->bills[bill_elem.first] = 0;
+                } else if( reason == CAN_DO_ONE_BILL ) {
+                    cb->bills[bill_elem.first] -= 1;
+                    batch = 1;
+                }
+                if( cb->bills[bill_elem.first] <= 0 ) {
+                    cb->bills.erase( bill_elem.first );
+                }
+                found = true;
+                if( cb->bills.empty() ) {
+                    g->m.crafting_bill_remove( src_loc );
+                }
+                break;
+            }
+            counter++;
+        }
+        if( !found ) {
+            return true;
+        } else {
+            p.backlog.push_front( act_id );
+            p.make_craft( rec.ident(), batch, src_loc, true );
+            return false;
+        }
     } else if( reason == CAN_DO_FETCH && act_id == activity_id( "ACT_TIDY_UP" ) ) {
         if( !tidy_activity( p, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {
             return false;

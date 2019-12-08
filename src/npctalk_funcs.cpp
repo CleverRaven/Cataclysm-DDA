@@ -201,6 +201,13 @@ void talk_function::do_construction( npc &p )
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
 }
 
+void talk_function::do_crafting( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CRAFT" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::do_read( npc &p )
 {
     p.do_npc_read();

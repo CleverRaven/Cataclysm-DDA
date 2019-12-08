@@ -2381,6 +2381,20 @@
   },
   {
     "type": "keybinding",
+    "id": "NEW_BILL",
+    "category": "CRAFTING_BILLS",
+    "name": "Add a new crafting bill entry",
+    "bindings": [ { "input_method": "keyboard", "key": "N" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REMOVE_BILL",
+    "category": "CRAFTING_BILLS",
+    "name": "Remove a crafting bill entry",
+    "bindings": [ { "input_method": "keyboard", "key": "R" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",

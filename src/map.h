@@ -56,6 +56,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
+struct crafting_bill;
 struct partial_con;
 class submap;
 class item_location;
@@ -1126,7 +1127,11 @@ class map
         void create_anomaly( const point &cp, artifact_natural_property prop, bool create_rubble = true ) {
             create_anomaly( tripoint( cp, abs_sub.z ), prop, create_rubble );
         }
-
+        // crafting bill functions
+        void crafting_bill_set( const tripoint &p, const crafting_bill &bill );
+        void crafting_bill_remove( const tripoint &p );
+        bool crafting_bill_nearby( const tripoint &p, int range = 40 );
+        crafting_bill *crafting_bill_at( const tripoint &p );
         // Partial construction functions
         void partial_con_set( const tripoint &p, const partial_con &con );
         void partial_con_remove( const tripoint &p );
