@@ -702,6 +702,18 @@ bool main_menu::new_character_tab()
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
+    std::vector<std::string> hints;
+    hints.push_back(
+        _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
+    hints.push_back(
+        _( "Select from one of previously created character templates." ) );
+    hints.push_back(
+        _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
+    hints.push_back(
+        _( "Puts you right in the game, randomly choosing character's traits, profession, skills and other parameters.  Scenario is fixed to Evacuee." ) );
+    hints.push_back(
+        _( "Puts you right in the game, randomly choosing scenario and character's traits, profession, skills and other parameters." ) );
+
     std::vector<std::vector<std::string>> vNewGameHotkeys;
     vNewGameHotkeys.reserve( vSubItems.size() );
     for( const std::string &item : vSubItems ) {
@@ -712,6 +724,7 @@ bool main_menu::new_character_tab()
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
         print_menu( w_open, 1, menu_offset );
         if( layer == 2 && sel1 == 1 ) {
+            center_print( w_open, getmaxy( w_open ) - 7, c_yellow, hints[sel2] );
             // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
                 world_generator->all_worldnames().empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
