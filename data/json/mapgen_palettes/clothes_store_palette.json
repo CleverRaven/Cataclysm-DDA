@@ -52,11 +52,7 @@
   {
     "type": "palette",
     "id": "tailor_palette",
-    "terrain": {
-      "%": "t_console_broken",
-      ";": "t_door_locked",
-      "0": "t_window_alarm"
-    },
+    "terrain": { "%": "t_console_broken", ";": "t_door_locked", "0": "t_window_alarm" },
     "furniture": {
       "c": "f_counter",
       "C": "f_armchair",
