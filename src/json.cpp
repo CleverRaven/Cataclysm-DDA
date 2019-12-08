@@ -1808,7 +1808,7 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 template void JsonOut::write<12>( const std::bitset<12> & );
 template bool JsonIn::read<12>( std::bitset<12> &, bool throw_on_error );
 
-JsonIn &JsonArrayValueRef::seek() const
+JsonIn &JsonValue::seek() const
 {
     jsin_.seek( pos_ );
     return jsin_;

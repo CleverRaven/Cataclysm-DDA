@@ -888,7 +888,7 @@ class JsonObject
         std::string line_number() const; // for occasional use only
 };
 
-class JsonArrayValueRef;
+class JsonValue;
 
 /* JsonArray
  * =========
@@ -963,8 +963,6 @@ class JsonArrayValueRef;
 class JsonArray
 {
     private:
-        friend JsonArrayValueRef;
-
         std::vector<size_t> positions;
         int start;
         size_t index;
@@ -1060,19 +1058,17 @@ class JsonArray
         }
 };
 
-class JsonArrayValueRef
+class JsonValue
 {
     private:
-        friend JsonArray::const_iterator;
-
         JsonIn &jsin_;
         int pos_;
-
-        JsonArrayValueRef( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
 
         JsonIn &seek() const;
 
     public:
+        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
         operator std::string() const {
             return seek().get_string();
         }
@@ -1110,9 +1106,9 @@ class JsonArray::const_iterator
             index_++;
             return *this;
         }
-        JsonArrayValueRef operator*() const {
+        JsonValue operator*() const {
             array_.verify_index( index_ );
-            return JsonArrayValueRef( *array_.jsin, array_.positions[index_] );
+            return JsonValue( *array_.jsin, array_.positions[index_] );
         }
 
         friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
