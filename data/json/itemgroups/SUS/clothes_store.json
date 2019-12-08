@@ -66,5 +66,44 @@
       },
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 }
     ]
+  },
+  {
+    "id": "SUS_tailoring_materials",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a container of tailoring materials.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "rag", "count": [ 20, 130 ], "prob": 75 },
+      { "item": "button_plastic", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_wood", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "snapfastener_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "zipper_long_plastic", "count": [ 1, 8 ], "prob": 75 },
+      { "item": "zipper_short_plastic", "count": [ 1, 8 ], "prob": 75 },
+      { "item": "sheet_cotton", "count": [ 1, 5 ], "prob": 70 },
+      { "item": "sheet_felt", "count": [ 1, 5 ], "prob": 40 },
+      { "item": "sheet_lycra", "count": [ 1, 5 ], "prob": 20 },
+      { "item": "sheet_nylon", "count": [ 1, 5 ], "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_fur_tailoring_materials",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a container of fur tailoring materials.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "rag", "count": [ 5, 15 ], "prob": 75 },
+      { "item": "button_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_wood", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "snapfastener_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "zipper_long_plastic", "count": [ 1, 8 ], "prob": 30 },
+      { "item": "zipper_short_plastic", "count": [ 1, 8 ], "prob": 30 },
+      { "item": "sheet_cotton", "count": [ 1, 2 ], "prob": 70 },
+      { "item": "tanned_pelt", "count": [ 1, 5 ], "prob": 70 }
+    ]
   }
 ]
