@@ -1179,6 +1179,14 @@ class JsonMember : public JsonValue
         const std::string &name() const {
             return name_;
         }
+        /**
+         * @returns Whether this member is considered a comment.
+         * Comments should generally be ignored by game, but they should be kept
+         * when this class is used within a generic JSON tool.
+         */
+        bool is_comment() const {
+            return name_ == "//";
+        }
 };
 
 class JsonObject::const_iterator

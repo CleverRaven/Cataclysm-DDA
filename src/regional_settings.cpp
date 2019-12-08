@@ -46,10 +46,11 @@ static void load_forest_biome_component(
     } else {
         for( const JsonMember &member : jo.get_object( "types" ) ) {
             int weight = 0;
-            if( member.name() != "//" ) {
-                if( member.read( weight ) ) {
-                    forest_biome_component.unfinalized_types[member.name()] = weight;
-                }
+            if( member.is_comment() ) {
+                continue;
+            }
+            if( member.read( weight ) ) {
+                forest_biome_component.unfinalized_types[member.name()] = weight;
             }
         }
     }
@@ -75,10 +76,11 @@ static void load_forest_biome_terrain_dependent_furniture( const JsonObject &jo,
     } else {
         for( const JsonMember &member : jo.get_object( "furniture" ) ) {
             int weight = 0;
-            if( member.name() != "//" ) {
-                if( member.read( weight ) ) {
-                    forest_biome_terrain_dependent_furniture.unfinalized_furniture[member.name()] = weight;
-                }
+            if( member.is_comment() ) {
+                continue;
+            }
+            if( member.read( weight ) ) {
+                forest_biome_terrain_dependent_furniture.unfinalized_furniture[member.name()] = weight;
             }
         }
     }
@@ -108,11 +110,12 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
         }
     } else {
         for( const JsonMember &member : jo.get_object( "components" ) ) {
-            if( member.name() != "//" ) {
-                JsonObject component_jo = member.get_object();
-                load_forest_biome_component( component_jo, forest_biome.unfinalized_biome_components[member.name()],
-                                             overlay );
+            if( member.is_comment() ) {
+                continue;
             }
+            JsonObject component_jo = member.get_object();
+            load_forest_biome_component( component_jo, forest_biome.unfinalized_biome_components[member.name()],
+                                         overlay );
         }
     }
 
@@ -127,10 +130,11 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
     } else {
         for( const JsonMember &member : jo.get_object( "groundcover" ) ) {
             int weight = 0;
-            if( member.name() != "//" ) {
-                if( member.read( weight ) ) {
-                    forest_biome.unfinalized_groundcover[member.name()] = weight;
-                }
+            if( member.is_comment() ) {
+                continue;
+            }
+            if( member.read( weight ) ) {
+                forest_biome.unfinalized_groundcover[member.name()] = weight;
             }
         }
     }
@@ -141,11 +145,12 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
         }
     } else {
         for( const JsonMember &member : jo.get_object( "terrain_furniture" ) ) {
-            if( member.name() != "//" ) {
-                JsonObject terrain_furniture_jo = member.get_object();
-                load_forest_biome_terrain_dependent_furniture( terrain_furniture_jo,
-                        forest_biome.unfinalized_terrain_dependent_furniture[member.name()], overlay );
+            if( member.is_comment() ) {
+                continue;
             }
+            JsonObject terrain_furniture_jo = member.get_object();
+            load_forest_biome_terrain_dependent_furniture( terrain_furniture_jo,
+                    forest_biome.unfinalized_terrain_dependent_furniture[member.name()], overlay );
         }
     }
 }
@@ -161,11 +166,12 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
         }
     } else {
         for( const JsonMember &member : jo.get_object( "forest_mapgen_settings" ) ) {
-            if( member.name() != "//" ) {
-                JsonObject forest_biome_jo = member.get_object();
-                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
-                                   overlay );
+            if( member.is_comment() ) {
+                continue;
             }
+            JsonObject forest_biome_jo = member.get_object();
+            load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
+                               overlay );
         }
     }
 }
@@ -216,10 +222,11 @@ static void load_forest_trail_settings( const JsonObject &jo,
         } else {
             for( const JsonMember &member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
                 int weight = 0;
-                if( member.name() != "//" ) {
-                    if( member.read( weight ) ) {
-                        forest_trail_settings.unfinalized_trail_terrain[member.name()] = weight;
-                    }
+                if( member.is_comment() ) {
+                    continue;
+                }
+                if( member.read( weight ) ) {
+                    forest_trail_settings.unfinalized_trail_terrain[member.name()] = weight;
                 }
             }
         }
@@ -360,11 +367,11 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
             }
         } else {
             for( const JsonMember &region : region_terrain_and_furniture_settings_jo.get_object( "terrain" ) ) {
-                if( region.name() == "//" ) {
+                if( region.is_comment() ) {
                     continue;
                 }
                 for( const JsonMember &terrain : region.get_object() ) {
-                    if( terrain.name() == "//" ) {
+                    if( terrain.is_comment() ) {
                         continue;
                     }
                     int weight = 0;
@@ -382,11 +389,11 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
         } else {
             for( const JsonMember &template_furniture :
                  region_terrain_and_furniture_settings_jo.get_object( "furniture" ) ) {
-                if( template_furniture.name() == "//" ) {
+                if( template_furniture.is_comment() ) {
                     continue;
                 }
                 for( const JsonMember &furniture : template_furniture.get_object() ) {
-                    if( furniture.name() == "//" ) {
+                    if( furniture.is_comment() ) {
                         continue;
                     }
                     int weight = 0;
@@ -443,10 +450,11 @@ void load_region_settings( const JsonObject &jo )
         if( pjo.has_object( "other" ) ) {
             for( const JsonMember &member : pjo.get_object( "other" ) ) {
                 tmpval = 0.0f;
-                if( member.name() != "//" ) {
-                    if( member.read( tmpval ) ) {
-                        new_region.field_coverage.percent_str[member.name()] = tmpval;
-                    }
+                if( member.is_comment() ) {
+                    continue;
+                }
+                if( member.read( tmpval ) ) {
+                    new_region.field_coverage.percent_str[member.name()] = tmpval;
                 }
             }
         }
@@ -463,10 +471,11 @@ void load_region_settings( const JsonObject &jo )
             if( pjo.has_object( "boosted_other" ) ) {
                 for( const JsonMember &member : pjo.get_object( "boosted_other" ) ) {
                     tmpval = 0.0f;
-                    if( member.name() != "//" ) {
-                        if( member.read( tmpval ) ) {
-                            new_region.field_coverage.boosted_percent_str[member.name()] = tmpval;
-                        }
+                    if( member.is_comment() ) {
+                        continue;
+                    }
+                    if( member.read( tmpval ) ) {
+                        new_region.field_coverage.boosted_percent_str[member.name()] = tmpval;
                     }
                 }
             } else {
@@ -485,28 +494,30 @@ void load_region_settings( const JsonObject &jo )
         }
     } else {
         for( const JsonMember &zone : jo.get_object( "map_extras" ) ) {
-            if( zone.name() != "//" ) {
-                JsonObject zjo = zone.get_object();
-                map_extras extras( 0 );
-
-                if( !zjo.read( "chance", extras.chance ) && strict ) {
-                    zjo.throw_error( "chance required for default" );
-                }
-
-                if( !zjo.has_object( "extras" ) ) {
-                    if( strict ) {
-                        zjo.throw_error( "\"extras\": { … } required for default" );
-                    }
-                } else {
-                    for( const JsonMember &member : zjo.get_object( "extras" ) ) {
-                        if( member.name() != "//" ) {
-                            extras.values.add( member.name(), member.get_int() );
-                        }
-                    }
-                }
-
-                new_region.region_extras[zone.name()] = extras;
+            if( zone.is_comment() ) {
+                continue;
             }
+            JsonObject zjo = zone.get_object();
+            map_extras extras( 0 );
+
+            if( !zjo.read( "chance", extras.chance ) && strict ) {
+                zjo.throw_error( "chance required for default" );
+            }
+
+            if( !zjo.has_object( "extras" ) ) {
+                if( strict ) {
+                    zjo.throw_error( "\"extras\": { … } required for default" );
+                }
+            } else {
+                for( const JsonMember &member : zjo.get_object( "extras" ) ) {
+                    if( member.is_comment() ) {
+                        continue;
+                    }
+                    extras.values.add( member.name(), member.get_int() );
+                }
+            }
+
+            new_region.region_extras[zone.name()] = extras;
         }
     }
 
@@ -537,9 +548,10 @@ void load_region_settings( const JsonObject &jo )
                 jo.throw_error( "city: \"" + type + "\": { … } required for default" );
             } else {
                 for( const JsonMember &member : cjo.get_object( type ) ) {
-                    if( member.name() != "//" ) {
-                        dest.add( overmap_special_id( member.name() ), member.get_int() );
+                    if( member.is_comment() ) {
+                        continue;
                     }
+                    dest.add( overmap_special_id( member.name() ), member.get_int() );
                 }
             }
         };
@@ -629,10 +641,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
 
     for( const JsonMember &member : fieldjo.get_object( "other" ) ) {
-        if( member.name() != "//" ) {
-            if( member.read( tmpval ) ) {
-                region.field_coverage.percent_str[member.name()] = tmpval;
-            }
+        if( member.is_comment() ) {
+            continue;
+        }
+        if( member.read( tmpval ) ) {
+            region.field_coverage.percent_str[member.name()] = tmpval;
         }
     }
 
@@ -656,10 +669,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     }
 
     for( const JsonMember &member : fieldjo.get_object( "boosted_other" ) ) {
-        if( member.name() != "//" ) {
-            if( member.read( tmpval ) ) {
-                region.field_coverage.boosted_percent_str[member.name()] = tmpval;
-            }
+        if( member.is_comment() ) {
+            continue;
+        }
+        if( member.read( tmpval ) ) {
+            region.field_coverage.boosted_percent_str[member.name()] = tmpval;
         }
     }
 
@@ -673,19 +687,21 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_forest_trail_settings( jo, region.forest_trail, false, true );
 
     for( const JsonMember &zone : jo.get_object( "map_extras" ) ) {
-        if( zone.name() != "//" ) {
-            JsonObject zonejo = zone.get_object();
+        if( zone.is_comment() ) {
+            continue;
+        }
+        JsonObject zonejo = zone.get_object();
 
-            int tmpval = 0;
-            if( zonejo.read( "chance", tmpval ) ) {
-                region.region_extras[zone.name()].chance = tmpval;
-            }
+        int tmpval = 0;
+        if( zonejo.read( "chance", tmpval ) ) {
+            region.region_extras[zone.name()].chance = tmpval;
+        }
 
-            for( const JsonMember &member : zonejo.get_object( "extras" ) ) {
-                if( member.name() != "//" ) {
-                    region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
-                }
+        for( const JsonMember &member : zonejo.get_object( "extras" ) ) {
+            if( member.is_comment() ) {
+                continue;
             }
+            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
         }
     }
 
@@ -699,9 +715,10 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
         for( const JsonMember &member : cityjo.get_object( type ) ) {
-            if( member.name() != "//" ) {
-                dest.add( overmap_special_id( member.name() ), member.get_int() );
+            if( member.is_comment() ) {
+                continue;
             }
+            dest.add( overmap_special_id( member.name() ), member.get_int() );
         }
     };
     load_building_types( "houses", region.city_spec.houses );
