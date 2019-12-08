@@ -213,11 +213,11 @@ int game::inv_for_filter( const std::string &title, item_filter filter,
     return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
 }
 
-int game::inv_for_all( const std::string &title, const std::string &none_message )
+item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
+        const std::string &none_message )
 {
     const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
-                                msg ).get_item() );
+    return inv_internal( you, inventory_selector_preset(), title, -1, msg );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )

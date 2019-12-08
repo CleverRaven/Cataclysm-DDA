@@ -1700,12 +1700,12 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
-    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
-    item &cut = p.i_at( pos );
-    if( cut.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, _( "Inscribe which item?" ) );
+    if( !loc ) {
         p.add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
+    item &cut = *loc;
     if( &cut == &it ) {
         p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
         return 0;

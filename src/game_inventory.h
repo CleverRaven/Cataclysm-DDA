@@ -39,6 +39,9 @@ namespace game_menus
 
 namespace inv
 {
+// item selector for all items in @you's inventory.
+item_location titled_menu( avatar &you, const std::string &title,
+                           const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus

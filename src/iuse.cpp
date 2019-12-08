@@ -5865,12 +5865,12 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    int inventory_index = g->inv_for_all( _( "Select the firearm to repair" ) );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to repair" ) );
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
+    item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;

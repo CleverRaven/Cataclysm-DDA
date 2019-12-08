@@ -24,6 +24,7 @@
 #include "debug.h"
 #include "faction_camp.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
@@ -3227,11 +3228,12 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     if( p.is_hallucination() ) {
         return _( "No thanks, I'm good." );
     }
-    const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
-    item &given = g->u.i_at( inv_pos );
-    if( given.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, _( "Offer what?" ),
+                        _( "You have no items to offer." ) );
+    if( !loc ) {
         return _( "Changed your mind?" );
     }
+    item &given = *loc;
 
     if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
             given.has_flag( "NO_TAKEOFF" ) ) ) {
@@ -3248,7 +3250,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         // Eating first, to avoid evaluating bread as a weapon
         const auto consume_res = try_consume( p, given, no_consume_reason );
         if( consume_res == CONSUMED_ALL ) {
-            g->u.i_rem( inv_pos );
+            g->u.i_rem( &given );
         }
         if( consume_res != REFUSED ) {
             g->u.moves -= 100;
@@ -3288,7 +3290,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( taken ) {
-        g->u.i_rem( inv_pos );
+        g->u.i_rem( &given );
         g->u.moves -= 100;
         p.has_new_items = true;
         return _( "Thanks!" );
