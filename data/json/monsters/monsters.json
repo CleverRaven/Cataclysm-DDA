@@ -3506,7 +3506,7 @@
     "id": "mon_zombie_static",
     "type": "MONSTER",
     "name": "static zombie",
-    "description": "Very pale body, it has worst case of static hair you have ever seen.",
+    "description": "Very pale body, it has worst case of static hair you have ever seen.  Sometimes, you can see jolts of electricity around it.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
