@@ -8069,19 +8069,19 @@ std::string item::components_to_string() const
 
 uint64_t item::make_component_hash() const
 {
-    // First we need to ensure all the IDs are unique, to ensure we don't XOR identical hashes later.
-    std::set<std::string> id_set;
+    // First we need to sort the IDs so that identical ingredients give identical hashes.
+    std::multiset<std::string> id_set;
     for( const item &it : components ) {
         id_set.insert( it.typeId() );
     }
 
-    uint64_t component_hash = 0;
-    std::hash<std::string> hasher;
+    std::string concatenated_ids;
     for( std::string id : id_set ) {
-        component_hash ^= hasher( id );
+        concatenated_ids += id;
     }
 
-    return component_hash;
+    std::hash<std::string> hasher;
+    return hasher( concatenated_ids );
 }
 
 bool item::needs_processing() const
