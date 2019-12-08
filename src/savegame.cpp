@@ -269,12 +269,10 @@ void game::load_shortcuts( std::istream &fin )
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
             JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                for( const int i : qs.get_array( *it ) ) {
+            for( const std::string &member : qs.get_member_names() ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member];
+                for( const int i : qs.get_array( member ) ) {
                     qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
