@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "clothes_store_palette",
+    "terrain": { "%": "t_console_broken" },
     "furniture": {
       "c": "f_counter",
       "C": "f_armchair",
@@ -16,13 +17,18 @@
       "B": "f_rack",
       "I": "f_rack",
       "d": "f_desk",
+      "[": "f_table",
+      "h": "f_chair",
       "$": "f_filing_cabinet",
       "L": "f_locker",
+      "l": "f_locker",
       "b": "f_bigmirror",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
       "D": "f_trashcan",
       "&": "f_mannequin",
-      "(": "f_mannequin"
+      "(": "f_mannequin",
+      "n": "f_bulletin"
     },
     "items": {
       "M": [
