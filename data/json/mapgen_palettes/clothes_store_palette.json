@@ -58,24 +58,35 @@
   {
     "type": "palette",
     "id": "tailor_palette",
-    "terrain": { "%": "t_console_broken", ";": "t_door_locked", "0": "t_window_alarm" },
+    "terrain": { "%": "t_console_broken", ";": "t_door_locked", "0": "t_window_alarm", "z": "t_shrub" },
     "furniture": {
       "c": "f_counter",
+      "R": "f_rack",
       "s": "f_stool",
       "d": "f_desk",
+      "[": "f_table",
       "b": "f_bigmirror",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "&": "f_mannequin",
+      "@": "f_mannequin",
       "h": "f_chair",
       "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
       "]": "f_bookcase",
-      "f": "f_cupboard"
+      "f": "f_cupboard",
+      "L": "f_locker"
     },
     "items": {
+      "R": [
+        { "item": "dresses_womens", "chance": 70 },
+        { "item": "shirts_summer_womens", "chance": 70 },
+        { "item": "pants_summer_womens", "chance": 70 }
+      ],
       "]": { "item": "SUS_tailoring_bookcase", "chance": 100 },
       "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
-      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 20 },
-      "f": { "item": "SUS_tailoring_materials", "chance": 85 }
+      "@": { "item": "SUS_mannequin_dresses", "chance": 50 },
+      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
+      "f": { "item": "SUS_tailoring_materials", "chance": 85 },
+      "L": { "item": "SUS_kitchen_sink", "chance": 85 }
     }
   },
   {

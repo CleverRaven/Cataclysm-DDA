@@ -520,6 +520,32 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "shirts_summer_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 5 }, { "item": "tank_top", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "shirts_summer_womens",
+    "subtype": "distribution",
+    "entries": [ { "item": "camisole", "prob": 5 }, { "item": "halter_top", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_summer_womens",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "skirt", "prob": 5 },
+      { "item": "skirt_leather", "prob": 5 },
+      { "item": "leggings", "prob": 3 },
+      { "item": "tights", "prob": 4 },
+      { "item": "hot_pants", "prob": 4 },
+      { "item": "hot_pants_fur", "prob": 1 },
+      { "item": "hot_pants_leather", "prob": 1 }
+    ]
+  },
+  {
     "id": "dress_shop",
     "type": "item_group",
     "items": [
@@ -2600,6 +2626,17 @@
       },
       { "item": "dress_shoes" },
       { "collection": [ { "item": "tophat", "prob": 50 }, { "item": "collarpin", "prob": 50 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "dresses_womens",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "dress", "prob": 5 },
+      { "item": "sundress", "prob": 5 },
+      { "item": "gown", "prob": 2 },
+      { "item": "dress_wedding", "prob": 1 }
     ]
   },
   {

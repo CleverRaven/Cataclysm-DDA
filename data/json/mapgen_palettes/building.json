@@ -13,7 +13,9 @@
       "#": "t_brick_wall",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
-      "o": "t_window"
+      "o": "t_window",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
     },
     "toilets": { "t": {  } }
   }
