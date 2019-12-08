@@ -1623,15 +1623,13 @@ void npc::load( const JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    {
-        complaints.clear();
-        JsonObject jo = data.get_object( "complaints" );
-        for( const std::string &key : jo.get_member_names() ) {
-            // @TODO: time_point does not have a default constructor, need to read in the map manually
-            time_point p = 0;
-            jo.read( key, p );
-            complaints.emplace( key, p );
-        }
+    complaints.clear();
+    JsonObject jo = data.get_object( "complaints" );
+    for( const std::string &key : jo.get_member_names() ) {
+        // @TODO: time_point does not have a default constructor, need to read in the map manually
+        time_point p = 0;
+        jo.read( key, p );
+        complaints.emplace( key, p );
     }
 }
 
