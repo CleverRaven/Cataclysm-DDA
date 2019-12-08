@@ -533,7 +533,7 @@ void load_region_settings( const JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if( key != "//" ) {
-                            extras.values.add( key, exjo.get_int( key, 0 ) );
+                            extras.values.add( key, exjo.get_int( key ) );
                         }
                     }
                 }
