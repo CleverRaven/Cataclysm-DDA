@@ -10305,7 +10305,7 @@ void game::vertical_move( int movez, bool force )
         for( monster &critter : all_monsters() ) {
             // if its a ladder instead of stairs - most zombies cant climb that.
             // unless that have a special flag to allow them to do so.
-            if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.has_flag( MF_CLIMBS ) ) ||
+            if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
                 critter.has_effect( effect_ridden ) ||
                 critter.has_effect( effect_tied ) ) {
                 continue;
@@ -10339,7 +10339,7 @@ void game::vertical_move( int movez, bool force )
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         bool ladder = m.has_flag( "DIFFICULT_Z", u.pos() );
         for( monster &critter : all_monsters() ) {
-            if( ladder && !critter.has_flag( MF_CLIMBS ) ) {
+            if( ladder && !critter.climbs() ) {
                 continue;
             }
             if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&

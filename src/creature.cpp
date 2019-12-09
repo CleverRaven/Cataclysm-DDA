@@ -156,7 +156,6 @@ void Creature::process_turn()
     }
 }
 
-// MF_DIGS or MF_CAN_DIG and diggable terrain
 bool Creature::digging() const
 {
     return false;

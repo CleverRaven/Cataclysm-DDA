@@ -275,7 +275,7 @@ class Creature
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
-        virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc

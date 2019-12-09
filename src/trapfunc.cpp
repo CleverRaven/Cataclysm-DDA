@@ -1117,7 +1117,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+    if( m != nullptr && m->flies() ) {
         return false;
     }
     if( !g->m.has_zlevels() ) {
