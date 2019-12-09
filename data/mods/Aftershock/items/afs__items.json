@@ -170,7 +170,6 @@
     "symbol": "u",
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_atomic_butter_churn" },
-    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ] ],
     "to_hit": -2,
     "bashing": 5,
     "material": [ "plastic", "steel" ],
