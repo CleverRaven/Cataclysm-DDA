@@ -825,8 +825,8 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         if( open ) {
             add_msg( _( "You press your face on the reader." ) );
             add_msg( m_good, _( "The nearby doors are unlocked." ) );
-            sounds::sound( examp, 6, sounds::sound_t::speech, _( "\"Hello Foodperson.  Welcome home.\"" ), true,
-                           "speech", "welcome" );
+            sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
+                           _( "\"Hello Foodperson.  Welcome home.\"" ), true, "speech", "welcome" );
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
@@ -843,11 +843,11 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         }
     } else if( p.has_amount( itype_id( "foodperson_mask" ), 1 ) ||
                p.has_amount( itype_id( "foodperson_mask_on" ), 1 ) ) {
-        sounds::sound( examp, 6, sounds::sound_t::speech,
+        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"FOODPERSON DETECTED.  Please make yourself presentable.\"" ), true,
                        "speech", "welcome" );
     } else {
-        sounds::sound( examp, 6, sounds::sound_t::speech,
+        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
