@@ -57,6 +57,8 @@
 #include "point.h"
 #include "material.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 const efftype_id effect_riding( "riding" );
 
 class player;
@@ -121,7 +123,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u );
             break;
     }
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
@@ -178,8 +180,6 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
 
     return *res;
 }
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 /**
  * Creates a blank veh_interact window.
