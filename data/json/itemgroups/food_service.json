@@ -119,8 +119,7 @@
       { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "pickle", 5 ],
       [ "cheeseburger", 10 ],
-      [ "hamburger", 7 ],
-      [ "bobburger", 1 ],
+      [ "hamburger", 8 ],
       [ "sloppyjoe", 6 ],
       [ "fries", 10 ],
       [ "cheese_fries", 7 ],
@@ -197,7 +196,7 @@
   {
     "id": "pizza_display",
     "type": "item_group",
-    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+    "items": [ [ "pizza_meat", 50 ], [ "pizza_veggy", 50 ] ]
   },
   {
     "id": "pizza_kitchen",

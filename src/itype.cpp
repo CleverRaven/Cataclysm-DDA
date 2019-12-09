@@ -16,6 +16,25 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
+
+namespace io
+{
+template<>
+std::string enum_to_string<condition_type>( condition_type data )
+{
+    switch( data ) {
+        case condition_type::FLAG:
+            return "FLAG";
+        case condition_type::COMPONENT_ID:
+            return "COMPONENT_ID";
+        case condition_type::num_condition_types:
+            break;
+    }
+    debugmsg( "Invalid condition_type" );
+    abort();
+}
+} // namespace io
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.

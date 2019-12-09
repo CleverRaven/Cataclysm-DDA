@@ -769,6 +769,28 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    condition_type type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -840,6 +862,9 @@ struct itype {
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.

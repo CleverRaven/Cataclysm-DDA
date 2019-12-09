@@ -2190,6 +2190,22 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.looks_like = jo.get_string( "looks_like" );
     }
 
+    if( jo.has_member( "conditional_names" ) ) {
+        def.conditional_names.clear();
+        JsonArray jarr = jo.get_array( "conditional_names" );
+        while( jarr.has_more() ) {
+            JsonObject curr = jarr.next_object();
+            conditional_name cname;
+            cname.type = curr.get_enum_value<condition_type>( "type" );
+            cname.condition = curr.get_string( "condition" );
+            cname.name = translation( translation::plural_tag() );
+            if( !curr.read( "name", cname.name ) ) {
+                curr.throw_error( "name unspecified for conditional name" );
+            }
+            def.conditional_names.push_back( cname );
+        }
+    }
+
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );

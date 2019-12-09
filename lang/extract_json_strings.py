@@ -1009,6 +1009,11 @@ def extract(item, infilename):
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
+    if "conditional_names" in item:
+        for cname in item["conditional_names"]:
+            c = "Conditional name for {} when {} matches {}".format(name, cname["type"], cname["condition"])
+            writestr(outfile, cname["name"], comment=c, format_strings=True, new_pl_fmt=True, **kwargs)
+            wrote = True
     if "description" in item:
         if name:
             c = "Description for {}".format(name)
