@@ -348,7 +348,7 @@
     "id": "obfuscating_aura",
     "type": "ARMOR",
     "name": "obfuscating aura",
-    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Makes it easier to dodge attacks.",
+    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
     "volume": "1ml",
     "price": 3646,

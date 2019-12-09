@@ -128,7 +128,7 @@
     "id": "obfuscated_body",
     "type": "SPELL",
     "name": "Obfuscated Body",
-    "description": "A magical aura distorts light around your body, making it easier to dodge enemy attacks.",
+    "description": "A magical aura distorts light around your body, increasing the amount of attacks you might dodge in a given turn.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "obfuscating_aura",

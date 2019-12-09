@@ -402,6 +402,7 @@ class Creature
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
+        virtual int get_num_dodges_base() const;
 
         virtual int get_env_resist( body_part bp ) const;
 
@@ -474,7 +475,7 @@ class Creature
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
-        virtual void set_num_dodges_bonus( int ndodges );
+        virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
