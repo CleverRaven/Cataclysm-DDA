@@ -92,14 +92,12 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    std::unordered_map<std::string, int> companion_skill_practice;
     translation name, desc;
     jsobj.read( "name", name );
     jsobj.read( "description", desc );
-    JsonArray ja = jsobj.get_array( "companion_skill_practice" );
-    while( ja.has_more() ) {
-        JsonObject jo = ja.next_object();
-        companion_skill_practice.emplace( jo.get_string( "skill" ), jo.get_int( "weight" ) );
+    std::unordered_map<std::string, int> companion_skill_practice;
+    for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
+        companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
