@@ -14,14 +14,6 @@
     "deconstruct": { "items": [ { "item": "atomic_butterchurn", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 45,
-    "deconstruct": {
-      "items": [
-        { "item": "plastic_chunk", "count": 10 },
-        { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
-      ]
-    },
     "bash": {
       "str_min": 12,
       "str_max": 50,
