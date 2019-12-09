@@ -1690,31 +1690,23 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text,
         int distance /*=0*/ )
 {
-    switch( type ) {
-        case( distraction_type::noise ):
-            if( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) &&
-                (
-                    get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
-                    ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
-                    ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEOFF" && !g->safe_mode )
-                )
-              ) {
-                return false;
-            }
-            break;
-        case( distraction_type::hostile_spotted ):
-            if( distance >= get_option<int>( "AUTOIGNOREHOSTILEDISTANCE" ) &&
-                (
-                    get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALWAYS" ||
-                    ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEON" && g->safe_mode ) ||
-                    ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEOFF" && !g->safe_mode )
-                )
-              ) {
-                return false;
-            }
-            break;       
-    };
-
+    if( type == distraction_type::noise && distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" )
+        && (
+            get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
+            ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
+            ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEOFF" && !g->safe_mode )
+        ) ) {
+        return false;
+    }
+    if( type == distraction_type::hostile_spotted &&
+        distance >= get_option<int>( "AUTOIGNOREHOSTILEDISTANCE" )
+        && (
+            get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALWAYS" ||
+            ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEON" && g->safe_mode ) ||
+            ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEOFF" && !g->safe_mode )
+        ) ) {
+        return false;
+    }
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
