@@ -116,6 +116,7 @@ const material_id mat_kevlar( "kevlar" );
 
 const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
