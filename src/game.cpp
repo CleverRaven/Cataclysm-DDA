@@ -1694,7 +1694,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         case( distraction_type::noise ):
             if( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) &&
                 (
-                    get_option<std::string>( "AUTOIGNORESOUND" ) == "ALL" ||
+                    get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
                     ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
                     ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEOFF" && !g->safe_mode )
                 )
@@ -1705,7 +1705,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         case( distraction_type::hostile_spotted ):
             if( distance >= get_option<int>( "AUTOIGNOREHOSTILEDISTANCE" ) &&
                 (
-                    get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALL" ||
+                    get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALWAYS" ||
                     ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEON" && g->safe_mode ) ||
                     ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEOFF" && !g->safe_mode )
                 )
@@ -1714,7 +1714,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             }
             break;
         case( distraction_type::pain ):
-            if( get_option<std::string>( "AUTOIGNOREPAIN" ) == "ALL" ||
+            if( get_option<std::string>( "AUTOIGNOREPAIN" ) == "ALWAYS" ||
                 ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEON" && g->safe_mode ) ||
                 ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEOFF" && !g->safe_mode )
               ) {

@@ -1175,34 +1175,34 @@ void options_manager::add_options_general()
     mOptionsSort["general"]++;
 
     add( "AUTOIGNORESOUND", "general", translate_marker( "Auto ignore sound mode" ),
-         translate_marker( "All: All sounds further than auto ignore distance will be ignored.  SafeOn: All sounds further than auto ignore distance will be ignored while safe mode is on.  SafeOff: All sounds further than auto ignore distance will be ignored while safe mode is off.  None: No sounds will be auto ignored" ),
-    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
+         translate_marker( "Always: All sounds auto ignore distance away and further will be ignored.  SafeOn: All sounds auto ignore distance away and further will be ignored while safe mode is on.  SafeOff: All sounds auto ignore distance and further away will be ignored while safe mode is off.  None: No sounds will be auto ignored" ),
+    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
     "NONE"
        );
 
     add( "AUTOIGNORESOUNDDISTANCE", "general", translate_marker( "Auto ignore sound distance" ),
-         translate_marker( "Only sounds further away than this will be auto ignored" ),
+         translate_marker( "Only sounds this distance and further away will be auto ignored" ),
          0, 30, 0
        );
 
-    get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALL", "SAFEON", "SAFEOFF" } );
+    get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
     add( "AUTOIGNOREHOSTILE", "general", translate_marker( "Auto ignore hostile mode" ),
-         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles further than auto ignore distance will be ignored.  SafeOn: All hostiles further than auto ignore distance will be ignored while safe mode is on.  SafeOff: All hostiles further than auto ignore distance will be ignored while safe mode is off.  None: No hostiles will be auto ignored" ),
-    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
+         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles auto ignore distance and further away will be ignored.  SafeOn: All hostiles auto ignore distance and further away will be ignored while safe mode is on.  SafeOff: All hostiles auto ignore distance and further away will be ignored while safe mode is off.  None: No hostiles will be auto ignored" ),
+    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
     "NONE"
        );
 
     add( "AUTOIGNOREHOSTILEDISTANCE", "general", translate_marker( "Auto ignore hostile distance" ),
-         translate_marker( "Only hostiles further away than this will be auto ignored" ),
+         translate_marker( "Only hostiles this distance and further away will be auto ignored" ),
          0, 30, 0
        );
 
-    get_option( "AUTOIGNOREHOSTILEDISTANCE" ).setPrerequisites( "AUTOIGNOREHOSTILE", { "ALL", "SAFEON", "SAFEOFF" } );
+    get_option( "AUTOIGNOREHOSTILEDISTANCE" ).setPrerequisites( "AUTOIGNOREHOSTILE", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
     add( "AUTOIGNOREPAIN", "general", translate_marker( "Auto ignore pain mode" ),
-         translate_marker( "No matter what is chosen attacks will not be ignored. All: All pain will be ignored.  SafeOn: All pain will be ignored while safe mode is on.  SafeOff: All pain will be ignored while safe mode is off.  None: No pain will be auto ignored" ),
-    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
+         translate_marker( "No matter what is chosen attacks will not be ignored. Always: All pain will be ignored.  SafeOn: All pain will be ignored while safe mode is on.  SafeOff: All pain will be ignored while safe mode is off.  None: No pain will be auto ignored" ),
+    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
     "NONE"
        );
 
