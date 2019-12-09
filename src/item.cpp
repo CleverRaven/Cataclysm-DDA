@@ -1329,12 +1329,12 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                       const iteminfo_query *parts, int batch, bool debug ) const
 {
+    const nutrients nutr = g->u.compute_effective_nutrients( *food_item );
     const std::string space = "  ";
-    if( g->u.kcal_for( *food_item ) != 0 || food_item->get_comestible()->quench != 0 ) {
+    if( nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
-            const int value = g->u.kcal_for( *food_item );
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                                      "", iteminfo::no_newline, value ) );
+                                      "", iteminfo::no_newline, nutr.kcal ) );
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ),
@@ -1358,9 +1358,10 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
-    const std::map<vitamin_id, int> vits = g->u.vitamins_from( *food_item );
-    const std::string required_vits = enumerate_as_string( vits.begin(),
-    vits.end(), []( const std::pair<vitamin_id, int> &v ) {
+    const std::string required_vits = enumerate_as_string(
+                                          nutr.vitamins.begin(),
+                                          nutr.vitamins.end(),
+    []( const std::pair<vitamin_id, int> &v ) {
         // only display vitamins that we actually require
         return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 ) ?
                string_format( "%s (%i%%)", v.first.obj().name(),

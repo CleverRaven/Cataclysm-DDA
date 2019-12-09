@@ -653,8 +653,6 @@ class player : public Character
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
-        /** Handles the kcal value for a comestible **/
-        int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
@@ -670,9 +668,9 @@ class player : public Character
 
         std::pair<std::string, nc_color> get_pain_description() const override;
 
-        /** Get vitamin contents for a comestible */
-        std::map<vitamin_id, int> vitamins_from( const item &it ) const;
-        std::map<vitamin_id, int> vitamins_from( const itype_id &id ) const;
+        /** Get calorie & vitamin contents for a comestible, taking into
+         * account player traits */
+        nutrients compute_effective_nutrients( const item & ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;

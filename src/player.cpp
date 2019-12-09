@@ -2307,17 +2307,17 @@ void player::update_stomach( const time_point &from, const time_point &to )
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
-        nutrients digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
         // Digest nutrients in guts, they will be distributed to needs levels
-        nutrients digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         set_thirst( std::max(
                         -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
-            mod_stored_kcal( digested_to_body.kcal );
-            vitamins_mod( digested_to_body.vitamins, false );
+            mod_stored_kcal( digested_to_body.nutr.kcal );
+            vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
     }
     if( stomach.time_since_ate() > 10_minutes ) {

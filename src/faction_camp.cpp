@@ -3701,7 +3701,7 @@ bool basecamp::distribute_food()
                 } else {
                     rot_multip = quick_rot;
                 }
-                total += i.get_comestible()->get_calories() * rot_multip * i.count();
+                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
             } else {
                 keep_me.push_back( i );
             }
