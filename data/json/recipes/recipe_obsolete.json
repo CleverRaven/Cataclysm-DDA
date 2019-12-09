@@ -2176,6 +2176,11 @@
   {
     "type": "recipe",
     "result": "abzats",
+    "obsolete": "true"
+  },
+  {
+    "type": "recipe",
+    "result": "scrambler",
     "obsolete": true
   }
 ]

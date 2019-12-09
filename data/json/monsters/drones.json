@@ -28,7 +28,7 @@
     "color": "cyan",
     "armor_cut": 4,
     "revert_to_itype": "bot_EMP_hack",
-    "starting_ammo": { "EMPbomb": 1 },
+    "starting_ammo": { "grenade_emp": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
   },
   {

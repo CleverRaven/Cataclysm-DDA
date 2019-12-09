@@ -1204,7 +1204,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "EMPbomb", 1 ] ],
+      [ [ "grenade_emp", 1 ] ],
       [ [ "ai_module_basic", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
