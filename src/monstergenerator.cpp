@@ -549,6 +549,7 @@ void MonsterGenerator::init_defense()
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
+    defense_map["RETURN_FIRE"] = &mdefense::return_fire; //Blind fire on unseen attacker
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
