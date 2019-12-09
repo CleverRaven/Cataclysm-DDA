@@ -295,6 +295,21 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
   {
+    "id": "M6_shotgun",
+    "type": "GUNMOD",
+    "name": "M6 Survival Gun shotgun",
+    "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
+    "volume": 0,
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "flags": [ "RELOAD_EJECT" ]
+  },
+  {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
     "type": "GENERIC",
