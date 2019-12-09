@@ -24,6 +24,7 @@ enum class sound_t : int {
     music,
     movement,
     speech,
+    electronic_speech, // Any electronic sound that's not music/alarm: Robot speech, radio, etc.
     activity,
     destructive_activity,
     alarm,

@@ -699,8 +699,8 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
-            sounds::sound( p, 4, sounds::sound_t::speech,  _( "BEEPBOOP!  Please remove non-organic object." ),
-                           false, "speech", "robot" );
+            sounds::sound( p, 4, sounds::sound_t::electronic_speech,
+                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech", "robot" );
             c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                       _( "The dissector lights up, and shuts down." ) );
             return false;

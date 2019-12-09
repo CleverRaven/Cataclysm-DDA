@@ -113,6 +113,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::music: return "music";
     case sounds::sound_t::movement: return "movement";
     case sounds::sound_t::speech: return "speech";
+    case sounds::sound_t::electronic_speech: return "electronic_speech";
     case sounds::sound_t::activity: return "activity";
     case sounds::sound_t::destructive_activity: return "destructive_activity";
     case sounds::sound_t::alarm: return "alarm";
@@ -312,12 +313,12 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
             case sounds::sound_t::combat:
-                return false;
-            case sounds::sound_t::speech:
-            // radios also produce speech sound
-            case sounds::sound_t::alarm:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
+            case sounds::sound_t::speech:
+                return false;
+            case sounds::sound_t::electronic_speech:
+            case sounds::sound_t::alarm:
                 return true;
         }
     } else {
@@ -330,6 +331,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::destructive_activity:
                 return one_in( 100 );
             case sounds::sound_t::speech:
+            case sounds::sound_t::electronic_speech:
             case sounds::sound_t::alarm:
             case sounds::sound_t::combat:
             case sounds::sound_t::alert:

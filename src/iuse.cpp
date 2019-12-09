@@ -2140,7 +2140,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index] );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
+        sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
         if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
             if( one_in( 10 ) ) {
                 sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
@@ -3552,7 +3552,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
     }
     if( t ) { // Simple timer effects
         // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ), true, "speech", it->typeId() );
+        sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
+                       true, "speech", it->typeId() );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
@@ -3566,7 +3567,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         };
         switch( effect_roll ) {
             case 1:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
@@ -3577,7 +3579,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 2:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3615,7 +3618,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 3:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3652,7 +3656,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 4:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3669,7 +3674,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 }
                 break;
             case 5:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
@@ -5836,8 +5842,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(), true,
-                   "speech", it->typeId() );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
+                   speech.text.translated(), true, "speech", it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
