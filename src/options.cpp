@@ -1140,7 +1140,7 @@ void options_manager::add_options_general()
        );
 
     add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
-         translate_marker( "If true, will not prevent the user from walking unto know hazardous tiles while running." ),
+         translate_marker( "If true, the player will not be prevented from moving into known hazardous tiles while running." ),
          false
        );
 
