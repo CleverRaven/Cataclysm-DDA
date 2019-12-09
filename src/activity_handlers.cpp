@@ -3639,8 +3639,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     tripoint direction;
     if( !p->is_npc() ) {
-        if( p->backlog.empty() || ( !p->backlog.empty() &&
-                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+        if( p->backlog.empty() || p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
             while( true ) {
                 if( const cata::optional<tripoint> dir = choose_direction(
                             _( "Select a direction for the tree to fall in." ) ) ) {

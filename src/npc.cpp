@@ -831,7 +831,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !skill || ( skill && skill_level >= type->level ) ) {
+    if( !skill || skill_level >= type->level ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
