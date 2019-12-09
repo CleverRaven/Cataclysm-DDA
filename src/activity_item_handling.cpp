@@ -2622,8 +2622,8 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                 std::vector<tripoint> candidates;
                 for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
                     // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
-                    if( ( std::find( local_src_set.begin(), local_src_set.end(),
-                                     point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
+                    if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                   point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
                         continue;
                     }
                     candidates.push_back( point_elem );
@@ -2808,6 +2808,17 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             // activity will be restarted only if
             // player arrives on destination tile
             p.set_destination( route, player_activity( activity_to_restore ) );
+            return;
+        }
+        // we checked if the work spot was in darkness earlier
+        // but there is a niche case where the player is in darkness but the work spot is not
+        // this can create infinite loops
+        // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
+        // but now we are here, we check
+        if( activity_to_restore != activity_id( "ACT_TIDY_UP" ) &&
+            activity_to_restore != activity_id( "ACT_MOVE_LOOT" ) &&
+            p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
+            p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return;
         }
         //do the activity and continue if possible

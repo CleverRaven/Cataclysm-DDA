@@ -1229,6 +1229,8 @@ class Character : public Creature, public visitable<Character>
         bool in_vehicle;
         bool hauling;
 
+        player_activity stashed_outbounds_activity;
+        player_activity stashed_outbounds_backlog;
         player_activity activity;
         std::list<player_activity> backlog;
         inventory inv;
@@ -1295,7 +1297,8 @@ class Character : public Creature, public visitable<Character>
 
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
-
+        void assign_stashed_activity();
+        bool check_outbounds_activity( player_activity act, bool check_only = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1308,7 +1311,10 @@ class Character : public Creature, public visitable<Character>
         bool has_activity( const std::vector<activity_id> &types ) const;
         void resume_backlog_activity();
         void cancel_activity();
-
+        void cancel_stashed_activity();
+        player_activity get_stashed_activity() const;
+        void set_stashed_activity( player_activity act, player_activity act_back = player_activity() );
+        bool has_stashed_activity() const;
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */

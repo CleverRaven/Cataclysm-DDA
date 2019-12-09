@@ -455,6 +455,8 @@ void Character::load( JsonObject &data )
     }
     data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
+    data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
+    data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
     // Changed from a single element to a list, handle either.
     // Can deprecate once we stop handling pre-0.B saves.
     if( data.has_array( "backlog" ) ) {
@@ -695,6 +697,8 @@ void Character::store( JsonOut &json ) const
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
+    json.member( "stashed_outbounds_activity", stashed_outbounds_activity );
+    json.member( "stashed_outbounds_backlog", stashed_outbounds_backlog );
     json.member( "backlog", backlog );
     json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
