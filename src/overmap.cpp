@@ -1808,6 +1808,13 @@ void overmap::clear_connections_out()
     connections_out.clear();
 }
 
+void overmap::place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                    om_direction::type dir )
+{
+    static city invalid_city;
+    place_special( *special_id, p, dir, invalid_city, false, false );
+}
+
 void mongroup::wander( const overmap &om )
 {
     const city *target_city = nullptr;

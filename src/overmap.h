@@ -298,6 +298,8 @@ class overmap
         void clear_overmap_special_placements();
         void clear_cities();
         void clear_connections_out();
+        void place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                   om_direction::type dir );
     private:
         std::multimap<tripoint, mongroup> zg;
     public:
