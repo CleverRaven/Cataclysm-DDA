@@ -71,6 +71,7 @@ class MonsterGenerator
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
+        std::map<m_flag, int> m_flag_usage_stats;
 
     private:
         MonsterGenerator();

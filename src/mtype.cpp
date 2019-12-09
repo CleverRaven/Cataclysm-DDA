@@ -65,6 +65,7 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
+    MonsterGenerator::generator().m_flag_usage_stats[flag]++;
     return flags[flag];
 }
 
