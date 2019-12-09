@@ -287,17 +287,17 @@ const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id 
     return iter != component.end() ? iter->second : null_match;
 }
 
-void recipe_dictionary::load_recipe( JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_recipe( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.recipes );
 }
 
-void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.uncraft );
 }
 
-recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
+recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
                                  std::map<recipe_id, recipe> &out )
 {
     recipe r;

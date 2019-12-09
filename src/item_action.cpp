@@ -187,7 +187,7 @@ const item_action &item_action_generator::get_action( const item_action_id &id )
     return nullaction;
 }
 
-void item_action_generator::load_item_action( JsonObject &jo )
+void item_action_generator::load_item_action( const JsonObject &jo )
 {
     item_action ia;
 

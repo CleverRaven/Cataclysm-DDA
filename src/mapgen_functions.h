@@ -93,7 +93,7 @@ void madd_field( map *m, int x, int y, field_type_id type, int intensity );
 
 void place_stairs( mapgendata &dat );
 
-mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
+mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );

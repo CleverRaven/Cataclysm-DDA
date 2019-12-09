@@ -623,7 +623,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     ts.tileset_id = tileset_id;
 }
 
-void tileset_loader::load_internal( JsonObject &config, const std::string &tileset_root,
+void tileset_loader::load_internal( const JsonObject &config, const std::string &tileset_root,
                                     const std::string &img_path )
 {
     if( config.has_array( "tiles-new" ) ) {
@@ -725,7 +725,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_ascii( JsonObject &config )
+void tileset_loader::load_ascii( const JsonObject &config )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -737,7 +737,7 @@ void tileset_loader::load_ascii( JsonObject &config )
     }
 }
 
-void tileset_loader::load_ascii_set( JsonObject &entry )
+void tileset_loader::load_ascii_set( const JsonObject &entry )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -846,7 +846,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     }
 }
 
-void tileset_loader::load_tilejson_from_file( JsonObject &config )
+void tileset_loader::load_tilejson_from_file( const JsonObject &config )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -902,7 +902,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * definition of the same id is overridden.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id )
+tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
     tile_type curr_subtile;
 
@@ -912,7 +912,7 @@ tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id )
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_tile_spritelists( JsonObject &entry,
+void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
         const std::string &objname )
 {

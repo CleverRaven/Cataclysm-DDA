@@ -66,7 +66,7 @@ void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
 } // namespace explosion_handler
 
-shrapnel_data load_shrapnel_data( JsonObject &jo );
-explosion_data load_explosion_data( JsonObject &jo );
+shrapnel_data load_shrapnel_data( const JsonObject &jo );
+explosion_data load_explosion_data( const JsonObject &jo );
 
 #endif

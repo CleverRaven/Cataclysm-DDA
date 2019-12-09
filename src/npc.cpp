@@ -198,7 +198,7 @@ npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc_template::load( JsonObject &jsobj )
+void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
@@ -2779,7 +2779,7 @@ epilogue::epilogue()
 
 epilogue_map epilogue::_all_epilogue;
 
-void epilogue::load_epilogue( JsonObject &jsobj )
+void epilogue::load_epilogue( const JsonObject &jsobj )
 {
     epilogue base;
     base.id = jsobj.get_string( "id" );

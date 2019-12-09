@@ -45,7 +45,7 @@ material_type::material_type() :
     _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
 }
 
-static mat_burn_data load_mat_burn_data( JsonObject &jsobj )
+static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
@@ -56,7 +56,7 @@ static mat_burn_data load_mat_burn_data( JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( JsonObject &jsobj, const std::string & )
+void material_type::load( const JsonObject &jsobj, const std::string & )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
@@ -296,7 +296,7 @@ const mat_compacts_into &material_type::compacts_into() const
     return _compacts_into;
 }
 
-void materials::load( JsonObject &jo, const std::string &src )
+void materials::load( const JsonObject &jo, const std::string &src )
 {
     material_data.load( jo, src );
 }

@@ -2786,7 +2786,7 @@ FunctionMap all_functions()
     return builtin_functions;
 }
 
-void load( JsonObject &jo, const std::string &src )
+void load( const JsonObject &jo, const std::string &src )
 {
     extras.load( jo, src );
 }
@@ -2798,7 +2798,7 @@ void check_consistency()
 
 } // namespace MapExtras
 
-void map_extra::load( JsonObject &jo, const std::string & )
+void map_extra::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );

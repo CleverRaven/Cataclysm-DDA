@@ -53,7 +53,7 @@ bool harvest_list::is_null() const
     return id_ == harvest_id::NULL_ID();
 }
 
-harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
+harvest_entry harvest_entry::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -70,7 +70,7 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     return ret;
 }
 
-const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
+const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &src,
                                       const std::string &force_id )
 {
     harvest_list ret;

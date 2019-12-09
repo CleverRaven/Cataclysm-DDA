@@ -43,10 +43,10 @@ struct quality {
 
     std::vector<std::pair<int, std::string>> usages;
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
 
     static void reset();
-    static void load_static( JsonObject &jo, const std::string &src );
+    static void load_static( const JsonObject &jo, const std::string &src );
 };
 
 struct component {
@@ -208,7 +208,7 @@ struct requirement_data {
          * @param jsobj Object to load data from
          * @param id provide (or override) unique id for this instance
          */
-        static void load_requirement( JsonObject &jsobj,
+        static void load_requirement( const JsonObject &jsobj,
                                       const requirement_id &id = requirement_id::NULL_ID() );
 
         /**

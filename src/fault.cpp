@@ -31,7 +31,7 @@ const fault &string_id<fault>::obj() const
     return found->second;
 }
 
-void fault::load_fault( JsonObject &jo )
+void fault::load_fault( const JsonObject &jo )
 {
     fault f;
 

@@ -1433,9 +1433,9 @@ void sfx::end_activity_sounds()
 
 /** Dummy implementations for builds without sound */
 /*@{*/
-void sfx::load_sound_effects( JsonObject & ) { }
-void sfx::load_sound_effect_preload( JsonObject & ) { }
-void sfx::load_playlist( JsonObject & ) { }
+void sfx::load_sound_effects( const JsonObject & ) { }
+void sfx::load_sound_effect_preload( const JsonObject & ) { }
+void sfx::load_playlist( const JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, double, double ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,

@@ -81,7 +81,7 @@ struct field_intensity_level {
 
 struct field_type {
     public:
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
@@ -213,7 +213,7 @@ struct field_type {
 namespace field_types
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize_all();
 void check_consistency();
 void reset();

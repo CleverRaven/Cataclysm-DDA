@@ -1406,7 +1406,7 @@ bool WORLD::load_options()
     return false;
 }
 
-void load_world_option( JsonObject &jo )
+void load_world_option( const JsonObject &jo )
 {
     auto arr = jo.get_array( "options" );
     if( arr.empty() ) {
@@ -1418,7 +1418,7 @@ void load_world_option( JsonObject &jo )
 }
 
 //load external option from json
-void load_external_option( JsonObject &jo )
+void load_external_option( const JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );

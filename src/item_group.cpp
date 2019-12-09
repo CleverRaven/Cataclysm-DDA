@@ -567,7 +567,7 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );

@@ -68,7 +68,7 @@ static std::string get_cat_unprefixed( const std::string &prefixed_name )
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
 
-void load_recipe_category( JsonObject &jsobj )
+void load_recipe_category( const JsonObject &jsobj )
 {
     const std::string category = jsobj.get_string( "id" );
     const bool is_hidden = jsobj.get_bool( "is_hidden", false );

@@ -1590,7 +1590,7 @@ class Character : public Creature, public visitable<Character>
         std::vector<const mutation_branch *> cached_mutations;
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;

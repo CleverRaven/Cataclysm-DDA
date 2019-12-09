@@ -393,7 +393,7 @@ void Character::trait_data::deserialize( JsonIn &jsin )
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
-void Character::load( JsonObject &data )
+void Character::load( const JsonObject &data )
 {
     Creature::load( data );
 
@@ -862,7 +862,7 @@ void player::store( JsonOut &json ) const
 /**
  * Load variables from json into object. These variables are common to both the avatar and NPCs.
  */
-void player::load( JsonObject &data )
+void player::load( const JsonObject &data )
 {
     Character::load( data );
 
@@ -1031,7 +1031,7 @@ void avatar::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void avatar::load( JsonObject &data )
+void avatar::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -1414,7 +1414,7 @@ void npc::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void npc::load( JsonObject &data )
+void npc::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -1783,7 +1783,7 @@ void monster::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void monster::load( JsonObject &data )
+void monster::load( const JsonObject &data )
 {
     Creature::load( data );
 
@@ -2952,7 +2952,7 @@ void Creature::store( JsonOut &jsout ) const
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
-void Creature::load( JsonObject &jsin )
+void Creature::load( const JsonObject &jsin )
 {
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
@@ -3055,7 +3055,7 @@ void player_morale::store( JsonOut &jsout ) const
     jsout.member( "morale", points );
 }
 
-void player_morale::load( JsonObject &jsin )
+void player_morale::load( const JsonObject &jsin )
 {
     jsin.read( "morale", points );
 }
@@ -3132,7 +3132,7 @@ void map_memory::load( JsonIn &jsin )
 }
 
 // Deserializer for legacy object-based memory map.
-void map_memory::load( JsonObject &jsin )
+void map_memory::load( const JsonObject &jsin )
 {
     tile_cache.clear();
     for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {

@@ -114,7 +114,7 @@ class overmap_land_use_code
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 };
@@ -225,7 +225,7 @@ struct oter_type_t {
             flags[flag] = value;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
@@ -449,7 +449,7 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
     private:
@@ -460,7 +460,7 @@ class overmap_special
 namespace overmap_terrains
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 void finalize();
 void reset();
@@ -472,7 +472,7 @@ const std::vector<oter_t> &get_all();
 namespace overmap_land_use_codes
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
@@ -484,7 +484,7 @@ const std::vector<overmap_land_use_code> &get_all();
 namespace overmap_specials
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
@@ -502,7 +502,7 @@ overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 namespace city_buildings
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 
 } // namespace city_buildings
 

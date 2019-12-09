@@ -343,7 +343,7 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     return place;
 }
 
-mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
+mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
     mission_target_params p;
     if( jo.has_string( "om_terrain" ) ) {
@@ -424,7 +424,7 @@ void mission_util::set_reveal_any( JsonArray &ja,
     funcs.emplace_back( mission_func );
 }
 
-void mission_util::set_assign_om_target( JsonObject &jo,
+void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( !jo.has_string( "om_terrain" ) ) {
@@ -439,7 +439,7 @@ void mission_util::set_assign_om_target( JsonObject &jo,
     funcs.emplace_back( mission_func );
 }
 
-bool mission_util::set_update_mapgen( JsonObject &jo,
+bool mission_util::set_update_mapgen( const JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &funcs )
 {
     bool defer = false;
@@ -466,7 +466,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject &jo,
+bool mission_util::load_funcs( const JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
@@ -496,7 +496,7 @@ bool mission_util::load_funcs( JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
+bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;
     if( !mission_util::load_funcs( jo, funcs ) ) {

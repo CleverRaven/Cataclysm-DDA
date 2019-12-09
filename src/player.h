@@ -1296,7 +1296,7 @@ class player : public Character
         trap_map known_traps;
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
