@@ -571,7 +571,7 @@ void player::hardcoded_effects( effect &it )
                 g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                        _( "A monster appears nearby!" ) );
+                                                        _( "A monster appears nearby!" ), -1 );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
                 it.mult_duration( .25 );
@@ -671,7 +671,7 @@ void player::hardcoded_effects( effect &it )
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                            _( "A monster appears nearby!" ) );
+                                                            _( "A monster appears nearby!" ), -1 );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
                     if( one_in( 2 ) ) {

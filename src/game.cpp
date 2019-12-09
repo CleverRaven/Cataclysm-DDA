@@ -1486,7 +1486,7 @@ bool game::do_turn()
                 if( hostile_critter != nullptr ) {
                     cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                      string_format( _( "The %s is dangerously close!" ),
-                                                             hostile_critter->get_name() ) );
+                                                             hostile_critter->get_name() ), -1 );
                 }
             }
 
