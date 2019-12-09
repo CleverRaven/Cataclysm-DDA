@@ -1200,12 +1200,6 @@ void options_manager::add_options_general()
 
     get_option( "AUTOIGNOREHOSTILEDISTANCE" ).setPrerequisites( "AUTOIGNOREHOSTILE", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
-    add( "AUTOIGNOREPAIN", "general", translate_marker( "Auto ignore pain mode" ),
-         translate_marker( "No matter what is chosen attacks will not be ignored. Always: All pain will be ignored.  SafeOn: All pain will be ignored while safe mode is on.  SafeOff: All pain will be ignored while safe mode is off.  None: No pain will be auto ignored" ),
-    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
-    "NONE"
-       );
-
     mOptionsSort["general"]++;
 
     add( "TURN_DURATION", "general", translate_marker( "Realtime turn progression" ),

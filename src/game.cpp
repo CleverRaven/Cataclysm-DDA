@@ -1712,15 +1712,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
               ) {
                 return false;
             }
-            break;
-        case( distraction_type::pain ):
-            if( get_option<std::string>( "AUTOIGNOREPAIN" ) == "ALWAYS" ||
-                ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEON" && g->safe_mode ) ||
-                ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEOFF" && !g->safe_mode )
-              ) {
-                return false;
-            }
-            break;
+            break;       
     };
 
     if( u.has_distant_destination() ) {
