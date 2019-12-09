@@ -1376,9 +1376,9 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             return amount;
         }
         case rechargeable_cbm::other:
+            const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
-            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
+            const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
             return to_charge;
     }
 
