@@ -107,10 +107,7 @@ const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
-const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_unarmed( "unarmed" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );

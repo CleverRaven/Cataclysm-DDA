@@ -92,9 +92,6 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_unarmed( "unarmed" );
 const skill_id skill_cooking( "cooking" );
 

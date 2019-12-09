@@ -84,13 +84,8 @@ const skill_id skill_melee( "melee" );
 const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_speech( "speech" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
-const skill_id skill_archery( "archery" );
 const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );

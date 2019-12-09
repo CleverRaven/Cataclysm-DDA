@@ -67,27 +67,15 @@
 class basecamp;
 class monfaction;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
-const skill_id skill_gun( "gun" );
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_rifle( "rifle" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_archery( "archery" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_tailor( "tailor" );
 const skill_id skill_shotgun( "shotgun" );
 const skill_id skill_smg( "smg" );
-const skill_id skill_launcher( "launcher" );
 const skill_id skill_cutting( "cutting" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );

@@ -120,13 +120,10 @@ const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_cow( "mon_cow" );
 
 const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_tailor( "tailor" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_archery( "archery" );
 const skill_id skill_computer( "computer" );
-const skill_id skill_cutting( "cutting" );
 const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );

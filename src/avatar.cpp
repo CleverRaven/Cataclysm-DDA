@@ -103,8 +103,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
-const skill_id skill_unarmed( "unarmed" );
-
 avatar::avatar()
 {
     show_map_memory = true;
