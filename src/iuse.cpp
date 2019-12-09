@@ -6810,44 +6810,12 @@ static std::string colorized_trap_name_at( const tripoint &point )
 
 static std::string colorized_field_description_at( const tripoint &point )
 {
-    static const std::unordered_set<field_type_id, std::hash<int>> covered_in_affix_ids = {
-        fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
-        fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
-        fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
-        fd_gibs_invertebrate, fd_rubble
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> on_affix_ids = {
-        fd_fire, fd_flame_burst
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> under_affix_ids = {
-        fd_gas_vent, fd_fire_vent, fd_fatigue
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> illuminated_by_affix_ids = {
-        fd_spotlight, fd_laser, fd_dazzling, fd_electricity
-    };
-    static const std::vector<std::pair<std::unordered_set<field_type_id, std::hash<int>>, std::string>>
-    affixes_vec = {
-        { covered_in_affix_ids, translate_marker( " covered in %s" ) },
-        { on_affix_ids, translate_marker( " on %s" ) },
-        { under_affix_ids, translate_marker( " under %s" ) },
-        { illuminated_by_affix_ids, translate_marker( " illuminated by %s" ) }
-    }; // anything else is "in %s"
-
     std::string field_text;
     const field &field = g->m.field_at( point );
     const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
-        std::string affix;
-        for( const auto &pair : affixes_vec ) {
-            if( pair.first.find( entry->get_field_type() ) != pair.first.end() ) {
-                affix = pair.second;
-            }
-        }
-        if( affix.empty() ) {
-            field_text = string_format( _( " in %s" ), colorize( entry->name(), entry->color() ) );
-        } else {
-            field_text = string_format( _( affix ), colorize( entry->name(), entry->color() ) );
-        }
+        field_text = string_format( _( description_affixes.at( field.displayed_description_affix() ) ),
+                                    colorize( entry->name(), entry->color() ) );
     }
     return field_text;
 }

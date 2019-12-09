@@ -24,6 +24,38 @@ class JsonObject;
 enum phase_id : int;
 enum body_part : int;
 
+enum class description_affix : int {
+    DESCRIPTION_AFFIX_IN,
+    DESCRIPTION_AFFIX_COVERED_IN,
+    DESCRIPTION_AFFIX_ON,
+    DESCRIPTION_AFFIX_UNDER,
+    DESCRIPTION_AFFIX_ILLUMINTED_BY,
+    DESCRIPTION_AFFIX_NUM
+};
+
+namespace std
+{
+template <>
+struct hash<description_affix> {
+    std::size_t operator()( const description_affix &k ) const {
+        return static_cast<size_t>( k );
+    }
+};
+} // namespace std
+
+static const std::unordered_map<description_affix, std::string> description_affixes = {
+    { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
+};
+
+template<>
+struct enum_traits<description_affix> {
+    static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
+};
+
 struct field_effect {
     efftype_id id;
     time_duration min_duration = 0_seconds;
@@ -110,6 +142,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
+        description_affix desc_affix;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;

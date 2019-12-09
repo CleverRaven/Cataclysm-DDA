@@ -33,6 +33,24 @@ std::string enum_to_string<game_message_type>( game_message_type data )
     abort();
 }
 
+template<>
+std::string enum_to_string<description_affix>( description_affix data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case description_affix::DESCRIPTION_AFFIX_IN: return "in";
+        case description_affix::DESCRIPTION_AFFIX_COVERED_IN: return "covered_in";
+        case description_affix::DESCRIPTION_AFFIX_ON: return "on";
+        case description_affix::DESCRIPTION_AFFIX_UNDER: return "under";
+        case description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY: return "illuminated_by";
+        // *INDENT-ON*
+        case description_affix::DESCRIPTION_AFFIX_NUM:
+            break;
+    };
+    debugmsg( "Invalid description affix value '%d'.", data );
+    return "invalid";
+}
+
 } // namespace io
 
 namespace
@@ -220,6 +238,9 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "has_fume", has_fume, false );
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
+    const auto description_affix_reader = enum_flags_reader<description_affix> { "description affixes" };
+    optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
+              description_affix::DESCRIPTION_AFFIX_IN );
     if( jo.has_member( "phase" ) ) {
         phase = jo.get_enum_value<phase_id>( "phase", PNULL );
     }
