@@ -350,7 +350,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
         const std::string error = elem.get_consistency_error();
 
         if( !error.empty() ) {
-            debugmsg( "Recipe %s %s.", elem.ident().c_str(), error.c_str() );
+            debugmsg( "obsolete: %s Recipe %s %s.", elem.obsolete ? "yes" : "no", elem.ident().c_str(), error.c_str() );
         }
 
         return !error.empty();
