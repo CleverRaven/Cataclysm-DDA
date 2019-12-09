@@ -965,6 +965,9 @@ struct itype {
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
 
+        /** What recipes can make this item */
+        std::vector<recipe_id> recipes;
+
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
 

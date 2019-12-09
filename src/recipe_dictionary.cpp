@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <stack>
 #include <utility>
 
 #include "cata_utility.h"
@@ -332,6 +333,11 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
     return recipes.end();
 }
 
+bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
+{
+    return items_on_loops.count( i );
+}
+
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
@@ -355,6 +361,75 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 
         return !error.empty();
     } );
+}
+
+void recipe_dictionary::find_items_on_loops()
+{
+    // Check for infinite recipe loops in food (which are problematic for
+    // nutrient calculations).
+    //
+    // Start by building a directed graph of itypes to potential components of
+    // those itypes.
+    items_on_loops.clear();
+    std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
+    for( const itype *i : item_controller->all() ) {
+        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+            continue;
+        }
+        std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
+        for( const recipe_id &rec : i->recipes ) {
+            const requirement_data requirements = rec->requirements();
+            const requirement_data::alter_item_comp_vector &component_requirements =
+                requirements.get_components();
+
+            for( const std::vector<item_comp> &component_options : component_requirements ) {
+                for( const item_comp &component_option : component_options ) {
+                    potential_components.push_back( component_option.type );
+                }
+            }
+        }
+    }
+
+    // Now check that graph for loops
+    for( const auto &p : potential_components_of ) {
+        const itype_id &root = p.first;
+        std::unordered_map<itype_id, itype_id> reachable_via;
+        std::stack<itype_id, std::vector<itype_id>> to_check;
+        to_check.push( root );
+        while( !to_check.empty() && !recipe_dict.items_on_loops.count( root ) ) {
+            itype_id next = to_check.top();
+            to_check.pop();
+            auto it = potential_components_of.find( next );
+            if( it == potential_components_of.end() ) {
+                continue;
+            }
+            for( const itype_id &potential_component : it->second ) {
+                if( potential_component == root ) {
+                    std::string error_message =
+                        "loop in comestible recipes detected: " + potential_component;
+                    itype_id on_path = next;
+                    while( true ) {
+                        error_message += " -> " + on_path;
+                        items_on_loops.insert( on_path );
+                        if( on_path == root ) {
+                            break;
+                        }
+                        on_path = reachable_via[on_path];
+                    }
+                    error_message += ".  Such loops can be broken by either removing or altering "
+                                     "recipes or marking one of the items involved with the NUTRIENT_OVERRIDE "
+                                     "flag";
+                    debugmsg( error_message );
+                    break;
+                } else {
+                    bool inserted = reachable_via.emplace( potential_component, next ).second;
+                    if( inserted ) {
+                        to_check.push( potential_component );
+                    }
+                }
+            }
+        }
+    }
 }
 
 void recipe_dictionary::finalize()
@@ -416,6 +491,8 @@ void recipe_dictionary::finalize()
             recipe_dict.blueprints.insert( &e.second );
         }
     }
+
+    recipe_dict.find_items_on_loops();
 }
 
 void recipe_dictionary::reset()
@@ -424,6 +501,7 @@ void recipe_dictionary::reset()
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
+    recipe_dict.items_on_loops.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )
