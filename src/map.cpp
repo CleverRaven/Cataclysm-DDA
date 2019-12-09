@@ -591,8 +591,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
         veh.on_move();
         // Actually change position
-        tripoint pt = veh.global_pos3(); // displace_vehicle needs a non-const reference
-        new_vehicle = displace_vehicle( pt, dp1 );
+        displace_vehicle( *new_vehicle, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -1003,8 +1002,9 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     unboard_vehicle( *vp, passenger, dead_passenger );
 }
 
-vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
+bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
 {
+    const tripoint p = veh.global_pos3();
     const tripoint p2 = p + dp;
     const tripoint src = p;
     const tripoint dst = p2;
@@ -1012,7 +1012,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
                  src.x, src.y, src.z, dst.x, dst.y, dst.z );
-        return nullptr;
+        return false;
     }
 
     point src_offset;
@@ -1021,45 +1021,42 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     submap *const dst_submap = get_submap_at( dst, dst_offset );
 
     // first, let's find our position in current vehicles vector
-    int our_i = -1;
-    for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
-        if( src_submap->vehicles[i]->pos == src_offset ) {
-            our_i = i;
+    size_t our_i = 0;
+    bool found = false;
+    for( auto &smap : grid ) {
+        for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
+            if( smap->vehicles[i].get() == &veh ) {
+                our_i = i;
+                src_submap = smap;
+                found = true;
+                break;
+            }
+        }
+        if( found ) {
             break;
         }
     }
-    if( our_i < 0 ) {
-        vehicle *v = veh_pointer_or_null( veh_at( p ) );
-        for( auto &smap : grid ) {
-            for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
-                if( smap->vehicles[i].get() == v ) {
-                    our_i = i;
-                    src_submap = smap;
-                    break;
-                }
-            }
-        }
+
+    if( !found ) {
+        add_msg( m_debug, "displace_vehicle [%s] failed", veh.name );
+        return false;
     }
-    if( our_i < 0 ) {
-        add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
-        return nullptr;
-    }
+
     // move the vehicle
-    vehicle *veh = src_submap->vehicles[our_i].get();
     // don't let it go off grid
     if( !inbounds( p2 ) ) {
-        veh->stop();
+        veh.stop();
         // Silent debug
         dbg( D_ERROR ) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
                        << dp.x << ", " << dp.y << ", " << dp.z << ")";
-        return veh;
+        return true;
     }
 
     // Need old coordinates to check for remote control
-    const bool remote = veh->remote_controlled( g->u );
+    const bool remote = veh.remote_controlled( g->u );
 
     // record every passenger and pet inside
-    std::vector<rider_data> riders = veh->get_riders();
+    std::vector<rider_data> riders = veh.get_riders();
 
     bool need_update = false;
     int z_change = 0;
@@ -1074,12 +1071,12 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
             }
             const int prt = r.prt;
             Creature *psg = r.psg;
-            const tripoint part_pos = veh->global_part_pos3( prt );
+            const tripoint part_pos = veh.global_part_pos3( prt );
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
                           g->u.posx(), g->u.posy(), g->u.posz() );
-                veh->parts[prt].remove_flag( vehicle_part::passenger_flag );
+                veh.parts[prt].remove_flag( vehicle_part::passenger_flag );
                 r.moved = true;
                 continue;
             }
@@ -1091,7 +1088,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
             }
 
             // Place passenger on the new part location
-            const vehicle_part &veh_part = veh->parts[prt];
+            const vehicle_part &veh_part = veh.parts[prt];
             tripoint psgp( dp + part_pos.xy() - veh_part.precalc[0] + veh_part.precalc[1] + tripoint( 0, 0,
                            psg->posz() ) );
             // someone is in the way so try again
@@ -1109,28 +1106,26 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         }
     }
 
-    veh->shed_loose_parts();
-    for( auto &prt : veh->parts ) {
+    veh.shed_loose_parts();
+    for( auto &prt : veh.parts ) {
         prt.precalc[0] = prt.precalc[1];
     }
-    veh->pivot_anchor[0] = veh->pivot_anchor[1];
-    veh->pivot_rotation[0] = veh->pivot_rotation[1];
+    veh.pivot_anchor[0] = veh.pivot_anchor[1];
+    veh.pivot_rotation[0] = veh.pivot_rotation[1];
 
-    veh->pos = dst_offset;
-    veh->sm_pos.z = p2.z;
+    veh.pos = dst_offset;
+    veh.sm_pos.z = p2.z;
     // Invalidate vehicle's point cache
-    veh->occupied_cache_time = calendar::before_time_starts;
+    veh.occupied_cache_time = calendar::before_time_starts;
     if( src_submap != dst_submap ) {
-        veh->set_submap_moved( point( p2.x / SEEX, p2.y / SEEY ) );
+        veh.set_submap_moved( point( p2.x / SEEX, p2.y / SEEY ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
         dst_submap->is_uniform = false;
     }
 
-    p = p2;
-
-    update_vehicle_cache( veh, src.z );
+    update_vehicle_cache( &veh, src.z );
 
     if( need_update ) {
         g->update_map( g->u );
@@ -1142,16 +1137,16 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
 
     if( remote ) {
         // Has to be after update_map or coordinates won't be valid
-        g->setremoteveh( veh );
+        g->setremoteveh( &veh );
     }
 
-    veh->check_falling_or_floating();
+    veh.check_falling_or_floating();
 
     //global positions of vehicle loot zones have changed.
-    veh->zones_dirty = true;
+    veh.zones_dirty = true;
 
-    on_vehicle_moved( veh->sm_pos.z );
-    return veh;
+    on_vehicle_moved( veh.sm_pos.z );
+    return true;
 }
 
 bool map::displace_water( const tripoint &p )

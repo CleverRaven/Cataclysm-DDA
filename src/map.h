@@ -581,7 +581,7 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        vehicle *displace_vehicle( tripoint &p, const tripoint &dp );
+        bool displace_vehicle( vehicle &veh, const tripoint &dp );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
