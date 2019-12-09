@@ -3004,7 +3004,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        };
+        }
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }
