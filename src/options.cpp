@@ -1174,6 +1174,40 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
+    add( "AUTOIGNORESOUND", "general", translate_marker( "Auto-ignore sound mode" ),
+         translate_marker( "All:All sounds will be ignored.  SafeOn:All sounds will be ignored while safe mode is on.  SafeOff:All sounds will be ignored while safe mode is off.  None:No sounds will be auto-ignored" ),
+    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "None", translate_marker( "None" ) } },
+    "NONE"
+       );
+
+    add( "AUTOIGNORESOUNDDISTANCE", "general", translate_marker( "Auto-ignore sound distance" ),
+         translate_marker( "Only sounds further away than this will be auto-ignored" ),
+         0, 30, 0
+       );
+
+    get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALL", "SAFEON", "SAFEOFF" } );
+
+    add( "AUTOIGNOREHOSTILE", "general", translate_marker( "Auto-ignore hostile mode" ),
+         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All:All hostiles will be ignored.  SafeOn:All hostiles will be ignored while safe mode is on.  SafeOff:All hostiles will be ignored while safe mode is off.  None:No hostiles will be auto-ignored" ),
+    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "None", translate_marker( "None" ) } },
+    "NONE"
+       );
+
+    add( "AUTOIGNOREHOSTILEDISTANCE", "general", translate_marker( "Auto-ignore hostile distance" ),
+         translate_marker( "Only hostiles further away than this will be auto-ignored" ),
+         0, 30, 0
+       );
+
+    get_option( "AUTOIGNOREHOSTILEDISTANCE" ).setPrerequisites( "AUTOIGNOREHOSTILE", { "ALL", "SAFEON", "SAFEOFF" } );
+
+    add( "AUTOIGNOREPAIN", "general", translate_marker( "Auto-ignore pain mode" ),
+         translate_marker( "No matter what is chosen attacks will not be ignored. All:All pain will be ignored.  SafeOn:All pain will be ignored while safe mode is on.  SafeOff:All pain will be ignored while safe mode is off.  None:No pain will be auto-ignored" ),
+    { { "ALL", translate_marker( "All" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "None", translate_marker( "None" ) } },
+    "NONE"
+       );
+
+    mOptionsSort["general"]++;
+
     add( "TURN_DURATION", "general", translate_marker( "Realtime turn progression" ),
          translate_marker( "If enabled, monsters will take periodic gameplay turns.  This value is the delay between each turn, in seconds.  Works best with Safe Mode disabled.  0 = disabled." ),
          0.0, 10.0, 0.0, 0.05

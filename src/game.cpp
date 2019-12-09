@@ -1687,8 +1687,42 @@ static bool cancel_auto_move( player &p, const std::string &text )
     return false;
 }
 
-bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
+bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text,
+        int distance /*=0*/ )
 {
+    switch( type ) {
+        case( distraction_type::noise ):
+            if( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) &&
+                (
+                    get_option<std::string>( "AUTOIGNORESOUND" ) == "ALL" ||
+                    ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
+                    ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEOFF" && !g->safe_mode )
+                )
+              ) {
+                return false;
+            }
+            break;
+        case( distraction_type::hostile_spotted ):
+            if( distance >= get_option<int>( "AUTOIGNOREHOSTILEDISTANCE" ) &&
+                (
+                    get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALL" ||
+                    ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEON" && g->safe_mode ) ||
+                    ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEOFF" && !g->safe_mode )
+                )
+              ) {
+                return false;
+            }
+            break;
+        case( distraction_type::pain ):
+            if( get_option<std::string>( "AUTOIGNOREPAIN" ) == "ALL" ||
+                ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEON" && g->safe_mode ) ||
+                ( get_option<std::string>( "AUTOIGNOREPAIN" ) == "SAFEOFF" && !g->safe_mode )
+              ) {
+                return false;
+            }
+            break;
+    };
+
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -3844,6 +3878,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     // @todo change current_turn to time_point
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+    int distance = -1;
 
     for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
         const auto m = dynamic_cast<monster *>( c );
@@ -3913,6 +3948,9 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 
             const monster_attitude matt = critter.attitude( &u );
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
+            if( mon_dist < distance || distance == -1 ) {
+                distance = mon_dist;
+            }
             safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
 
             if( ( !safemode_empty && safemode_state == RULE_BLACKLISTED ) || ( safemode_empty &&
@@ -3949,6 +3987,9 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
             //Safe mode NPC check
 
             const int npc_dist = rl_dist( u.pos(), p->pos() );
+            if( npc_dist < distance || distance == -1 ) {
+                distance = npc_dist;
+            }
             safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
                              npc_dist );
 
@@ -3967,7 +4008,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
                 cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "%s spotted!" ), critter.name() ) );
+                                                 string_format( _( "%s spotted!" ), critter.name() ), distance );
                 if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
                     add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
                     if( !u.has_effect( effect_adrenaline_mycus ) ) {
@@ -3982,10 +4023,11 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
             } else {
                 //Hostile NPC
                 cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 _( "Hostile survivor spotted!" ) );
+                                                 _( "Hostile survivor spotted!" ), distance );
             }
         } else {
-            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ),
+                                             distance );
         }
         turnssincelastmon = 0;
         if( safe_mode == SAFE_MODE_ON ) {
