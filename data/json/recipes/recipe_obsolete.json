@@ -2176,7 +2176,7 @@
   {
     "type": "recipe",
     "result": "abzats",
-    "obsolete": "true"
+    "obsolete": true
   },
   {
     "type": "recipe",
