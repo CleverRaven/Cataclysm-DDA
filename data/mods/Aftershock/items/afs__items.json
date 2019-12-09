@@ -176,5 +176,21 @@
     "material": [ "plastic", "steel" ],
     "//": "I figured bionic preppers would have a sci-fi solution to some low tech problems.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "atomic_butter_churn",
+    "type": "TOOL",
+    "name": "pseudo atomic butter churn",
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "6464 g",
+    "volume": "11356 ml",
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "plastic", "steel" ],
+    "qualities": [ [ "CHURN", 2 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]
