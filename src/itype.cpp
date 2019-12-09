@@ -16,7 +16,6 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
-
 namespace io
 {
 template<>
