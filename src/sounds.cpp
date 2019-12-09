@@ -444,7 +444,7 @@ void sounds::process_sound_markers( player *p )
             }
             // if we can see it, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( severity, _( "From your position you hear %1$s." ), description );
+                add_msg( severity, _( "From your position you hear %1$s" ), description );
             } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {

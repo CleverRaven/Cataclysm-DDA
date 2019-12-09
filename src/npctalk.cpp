@@ -461,7 +461,7 @@ void game::chat()
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            yell_msg = popup.text() + ".";
+            yell_msg = popup.text();
             is_order = false;
             break;
         }
