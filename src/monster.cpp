@@ -2357,19 +2357,20 @@ void monster::process_effects()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name() );
+    const int healed_amount = heal( type->regenerates );
+    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        std::string healing_format_string;
+        if( healed_amount >= 50 ) {
+            healing_format_string = _( "The %s is visibly regenerating!" );
+        } else if( healed_amount >= 10 ) {
+            healing_format_string = _( "The %s seems a little healthier." );
+        } else if( healed_amount >= 1 ) {
+            healing_format_string = _( "The %s is healing slowly." );
+        }
+        add_msg( m_warning, healing_format_string, name() );
     }
 
-    if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_IN_DARK ) ) {
+    if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
@@ -2380,7 +2381,7 @@ void monster::process_effects()
 
     //Monster will regen morale and aggression if it is on max HP
     //It regens more morale and aggression if is currently fleeing.
-    if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {
+    if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;
             anger = type->agro;
@@ -2825,18 +2826,15 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
-    float regen = 0.0f;
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        regen = 50.0f;
-    } else if( has_flag( MF_REGENERATES_10 ) ) {
-        regen = 10.0f;
-    } else if( has_flag( MF_REVIVES ) ) {
-        regen = 1.0f / to_turns<int>( 1_hours );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
-        // Most living stuff here
-        regen = 0.25f / to_turns<int>( 1_hours );
+    float regen = type->regenerates;
+    if( regen <= 0 ) {
+        if( has_flag( MF_REVIVES ) ) {
+            regen = 1.0f / to_turns<int>( 1_hours );
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+            // Most living stuff here
+            regen = 0.25f / to_turns<int>( 1_hours );
+        }
     }
-
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;

@@ -118,10 +118,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
-        case MF_REGENERATES_50: return "REGENERATES_50";
-        case MF_REGENERATES_10: return "REGENERATES_10";
-        case MF_REGENERATES_1: return "REGENERATES_1";
-        case MF_REGENERATES_IN_DARK: return "REGENERATES_IN_DARK";
         case MF_FLAMMABLE: return "FLAMMABLE";
         case MF_REVIVES: return "REVIVES";
         case MF_CHITIN: return "CHITIN";
@@ -133,7 +129,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
-        case MF_REGENMORALE: return "REGEN_MORALE";
         case MF_CBM_POWER: return "CBM_POWER";
         case MF_CBM_SCI: return "CBM_SCI";
         case MF_CBM_OP: return "CBM_OP";
@@ -668,6 +663,10 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
+
+    optional( jo, was_loaded, "regenerates", regenerates, 0 );
+    optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
+    optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );

@@ -240,7 +240,8 @@
     "harvest": "human_large_leather",
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "REGENERATES_1", "FLAMMABLE" ]
+    "regenerates": 1,
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "FLAMMABLE" ]
   },
   {
     "id": "mon_stirge",
@@ -327,6 +328,7 @@
     "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REGENERATES_1", "REVIVES" ]
+    "regenerates": 1,
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
   }
 ]
