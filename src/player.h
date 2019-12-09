@@ -671,6 +671,12 @@ class player : public Character
         /** Get calorie & vitamin contents for a comestible, taking into
          * account player traits */
         nutrients compute_effective_nutrients( const item & ) const;
+        /** Get range of possible nutrient content, for a particular recipe,
+         * depending on choice of ingredients */
+        std::pair<nutrients, nutrients> compute_nutrient_range( const item &,
+                const recipe_id & ) const;
+        /** Same, but across arbitrary recipes */
+        std::pair<nutrients, nutrients> compute_nutrient_range( const itype_id & ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
