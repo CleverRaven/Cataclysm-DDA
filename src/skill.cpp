@@ -92,8 +92,9 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    translation name, desc;
+    translation name;
     jsobj.read( "name", name );
+    translation desc;
     jsobj.read( "description", desc );
     std::unordered_map<std::string, int> companion_skill_practice;
     for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
