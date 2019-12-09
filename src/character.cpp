@@ -326,7 +326,8 @@ bool Character::in_species( const species_id &spec ) const
 
 bool Character::is_warm() const
 {
-    return true; // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    return true;
 }
 
 const std::string &Character::symbol() const
@@ -2674,10 +2675,11 @@ bool Character::in_climate_control()
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  vp->is_inside() &&  // Already checks for opened doors
                                  vp->vehicle().total_power_w( true ) > 0 // Out of gas? No AC for you!
-                             );  // TODO: (?) Force player to scrounge together an AC unit
+                             );
         }
         // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;

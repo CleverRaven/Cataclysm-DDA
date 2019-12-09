@@ -1311,8 +1311,8 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     // since the array with the defaults isn't accessible from here.
     slot.dream_freq_unmet = jo.get_int( "dream_freq_unmet", 0 );
     slot.dream_freq_met   = jo.get_int( "dream_freq_met",   0 );
-    slot.dream_msg_unmet  =
-        jo.get_string_array( "dream_unmet" ); // TODO: Make sure it doesn't cause problems if this is empty
+    // TODO: Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" );
     slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
@@ -2440,7 +2440,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     if( obj.has_member( name ) ) {
         obj.throw_error( string_format( "This has been a TODO: since 2014.  Use '%s' and/or '%s' instead.",
                                         iname, gname ) );
-        return false; // TODO: !
+        // TODO: !
+        return false;
     }
     if( obj.has_string( iname ) ) {
         entries.push_back( std::make_pair( obj.get_string( iname ), false ) );

@@ -56,7 +56,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == p ) {
-        player &pl = gm.u; // TODO: Make this accept NPCs when they understand fungals
+        // TODO: Make this accept NPCs when they understand fungals
+        player &pl = gm.u;
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE

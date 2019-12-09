@@ -1194,7 +1194,8 @@ bool monster::is_underwater() const
 
 bool monster::is_on_ground() const
 {
-    return false; // TODO: actually make this work
+    // TODO: actually make this work
+    return false;
 }
 
 bool monster::has_weapon() const

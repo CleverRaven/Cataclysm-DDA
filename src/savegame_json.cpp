@@ -1673,7 +1673,8 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-    json.member( "mission", mission ); // TODO: stringid
+    // TODO: stringid
+    json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
@@ -2069,7 +2070,8 @@ void item::io( Archive &archive )
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
+    // TODO: change default to empty string
+    archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner );
     archive.io( "old_owner", old_owner );
     archive.io( "invlet", invlet, '\0' );
@@ -3620,7 +3622,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( auto &elem : spawns ) {
         jsout.start_array();
-        jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
+        // TODO: json should know how to write string_ids
+        jsout.write( elem.type.str() );
         jsout.write( elem.count );
         jsout.write( elem.pos.x );
         jsout.write( elem.pos.y );

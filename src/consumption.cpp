@@ -1185,7 +1185,8 @@ bool player::feed_reactor_with( item &it )
                            _( "<npcname> pours %s into their reactor's tank." ),
                            it.tname() );
 
-    tank_plut += amount; // TODO: Encapsulate
+    // TODO: Encapsulate
+    tank_plut += amount;
     it.charges -= 1;
     mod_moves( -250 );
     return true;
