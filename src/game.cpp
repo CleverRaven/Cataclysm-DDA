@@ -9148,10 +9148,9 @@ bool game::walk_move( const tripoint &dest_loc )
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         if( !u.movement_mode_is( CMM_RUN ) ) {
             std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
-            std::string key_message = press_x( ACTION_TOGGLE_RUN );
             add_msg( m_warning,
-                     _( "Stepping into that %1$s looks risky. %2$s to run into it to force movement." ),
-                     enumerate_as_string( harmful_stuff ), key_message );
+                     _( "Stepping into that %1$s looks risky. Run into it if you wish to enter anyway." ),
+                     enumerate_as_string( harmful_stuff ) );
             return true;
         } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
             if( !prompt_dangerous_tile( dest_loc ) ) {
