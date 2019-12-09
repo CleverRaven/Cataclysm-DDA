@@ -1506,9 +1506,9 @@ class Character : public Creature, public visitable<Character>
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-
+        const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE );
+                                             int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */

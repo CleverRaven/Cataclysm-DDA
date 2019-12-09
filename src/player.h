@@ -1100,8 +1100,9 @@ class player : public Character
 
         // yet more crafting.cpp
         // includes nearby items
+        const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE );
+                                             int radius = PICKUP_RANGE, bool clear_path = true );
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,

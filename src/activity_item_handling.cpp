@@ -61,6 +61,7 @@ const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
 const quality_id LIFT( "LIFT" );
+const quality_id WELD( "WELD" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -1168,7 +1169,7 @@ static std::string random_string( size_t length )
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, player &p, const activity_id &activity_to_restore,
-                                     const bool in_loot_zones )
+                                     const bool in_loot_zones, tripoint src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
@@ -1188,6 +1189,13 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                               activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ||
                               p.backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ||
                               activity_to_restore == activity_id( "ACT_MULTIPLE_FISH" );
+    bool found_welder = false;
+    for( item *elem : p.inv_dump() ) {
+        if( elem->has_quality( WELD ) ) {
+            found_welder = true;
+        }
+        temp_inv += *elem;
+    }
     for( const tripoint &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain thngs.
         // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
@@ -1225,8 +1233,25 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
     }
-    for( item *elem : p.inv_dump() ) {
-        temp_inv += *elem;
+    // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
+    if( !found_welder ) {
+        for( const tripoint &elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+            const optional_vpart_position vp = g->m.veh_at( elem );
+            if( vp ) {
+                vehicle &veh = vp->vehicle();
+                const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+                if( weldpart ) {
+                    item welder( "welder", 0 );
+                    welder.charges = veh.fuel_left( "battery", true );
+                    welder.item_tags.insert( "PSEUDO" );
+                    temp_inv.add_item( welder );
+                    item soldering_iron( "soldering_iron", 0 );
+                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    temp_inv.add_item( soldering_iron );
+                }
+            }
+        }
     }
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
@@ -1246,6 +1271,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     // see activity_handlers.h cant_do_activity_reason enums
+    p.invalidate_crafting_inventory();
     zone_manager &mgr = zone_manager::get_manager();
     std::vector<zone_data> zones;
     if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
@@ -1318,7 +1344,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const auto &reqs = vpinfo.removal_requirements();
-                const inventory &inv = p.crafting_inventory();
+                const inventory &inv = p.crafting_inventory( false );
+
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
@@ -1349,7 +1376,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 const auto &reqs = vpinfo.repair_requirements();
-                const inventory &inv = p.crafting_inventory();
+                const inventory &inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
@@ -1569,7 +1596,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     std::vector<tripoint> already_there_spots;
     std::vector<tripoint> combined_spots;
     std::map<itype_id, int> total_map;
-    for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( p.backlog.front().placement ),
+    tripoint src_loc = g->m.getlocal( p.backlog.front().placement );
+    for( const tripoint &elem : g->m.points_in_radius( src_loc,
             PICKUP_RANGE - 1 ) ) {
         already_there_spots.push_back( elem );
         combined_spots.push_back( elem );
@@ -1594,13 +1622,13 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     }
     // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
-                                  activity_to_restore, pickup_task ) ) {
+                                  activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
     }
     // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
         are_requirements_nearby( already_there_spots, things_to_fetch_id, p, activity_to_restore,
-                                 false ) ) {
+                                 false, src_loc ) ) {
         return requirement_map;
     }
     // a vector of every item in every tile that matches any part of the requirements.
@@ -2600,7 +2628,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR;
         // is it even worth fetching anything if there isnt enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
-                                      act_id, tool_pickup ) ) {
+                                      act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
@@ -2747,7 +2775,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
 
     // Nuke the current activity, leaving the backlog alone
     p.activity = player_activity();
-
     // now we setup the target spots based on whch activity is occuring
     // the set of target work spots - potentally after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
