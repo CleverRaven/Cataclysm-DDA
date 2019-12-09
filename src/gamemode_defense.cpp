@@ -145,42 +145,74 @@ void defense_game::per_turn()
 
 void defense_game::pre_action( action_id &act )
 {
-    if( act == ACTION_SLEEP && !sleep ) {
-        add_msg( m_info, _( "You don't need to sleep!" ) );
-        act = ACTION_NULL;
+    std::string action_error_message;
+    bool leaving_defloc = false;
+    switch( act ) {
+        case ACTION_SLEEP:
+            if( !sleep ) {
+                action_error_message = _( "You don't need to sleep!" );
+            }
+            break;
+        case ACTION_SAVE:
+        case ACTION_QUICKSAVE:
+            if( !allow_save ) {
+                action_error_message = _( "You cannot save in defense mode!" );
+            }
+            break;
+        case ACTION_MOVE_N:
+            if( g->u.posy() == HALF_MAPSIZE_X && g->get_levy() <= 9 ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_NE:
+            if( ( g->u.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 ) ||
+                ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 && g->get_levx() >= 98 ) ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_E:
+            if( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 && g->get_levx() >= 98 ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_SE:
+            if( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 ) ||
+                ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 && g->get_levx() >= 98 ) ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_S:
+            if( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_SW:
+            if( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 ) ||
+                ( g->u.posx() == HALF_MAPSIZE_X && g->get_levx() <= 93 ) ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_W:
+            if( g->u.posx() == HALF_MAPSIZE_X &&
+                g->get_levx() <= 93 ) {
+                leaving_defloc = true;
+            }
+            break;
+        case ACTION_MOVE_NW:
+            if( ( g->u.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 ) ||
+                ( g->u.posx() == HALF_MAPSIZE_X && g->get_levx() <= 93 ) ) {
+                leaving_defloc = true;
+            }
+            break;
+        default:
+            break;
     }
-    if( !allow_save && ( act == ACTION_SAVE || act == ACTION_QUICKSAVE ) ) {
-        add_msg( m_info, _( "You cannot save in defense mode!" ) );
-        act = ACTION_NULL;
+    if( leaving_defloc ) {
+        action_error_message = string_format( _( "You cannot leave the %s behind!" ),
+                                              defense_location_name( location ) );
     }
-
-    // Big ugly block for movement
-    if( ( act == ACTION_MOVE_N && g->u.posy() == HALF_MAPSIZE_X &&
-          g->get_levy() <= 93 ) ||
-        ( act == ACTION_MOVE_NE && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <= 93 ) ||
-                                     ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
-                                       g->get_levx() >= 98 ) ) ) ||
-        ( act == ACTION_MOVE_E && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
-          g->get_levx() >= 98 ) ||
-        ( act == ACTION_MOVE_SE && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
-                                       g->get_levy() >= 98 ) ||
-                                     ( g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
-                                       g->get_levx() >= 98 ) ) ) ||
-        ( act == ACTION_MOVE_S && g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
-          g->get_levy() >= 98 ) ||
-        ( act == ACTION_MOVE_SW && ( ( g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 &&
-                                       g->get_levy() >= 98 ) ||
-                                     ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <= 93 ) ) ) ||
-        ( act == ACTION_MOVE_W && g->u.posx() == HALF_MAPSIZE_X &&
-          g->get_levx() <= 93 ) ||
-        ( act == ACTION_MOVE_NW && ( ( g->u.posy() == HALF_MAPSIZE_Y &&
-                                       g->get_levy() <= 93 ) ||
-                                     ( g->u.posx() == HALF_MAPSIZE_X &&
-                                       g->get_levx() <= 93 ) ) ) ) {
-        add_msg( m_info, _( "You cannot leave the %s behind!" ),
-                 defense_location_name( location ) );
+    if( !action_error_message.empty() ) {
+        add_msg( m_info, action_error_message );
         act = ACTION_NULL;
     }
 }
@@ -322,6 +354,7 @@ void defense_game::init_to_style( defense_style new_style )
             triffids = true;
             mercenaries = true;
             break;
+
         case DEFENSE_MEDIUM:
             location = DEFLOC_MALL;
             initial_difficulty = 30;
@@ -440,6 +473,8 @@ void defense_game::init_to_style( defense_style new_style )
             hunger = true;
             thirst = true;
             sleep = true;
+            break;
+
     }
 }
 
@@ -449,6 +484,7 @@ void defense_game::setup()
                            point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                   TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
     int selection = 1;
+    int selection_max = 20;
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
@@ -473,7 +509,7 @@ void defense_game::setup()
                 return;
             }
         } else if( action == "DOWN" ) {
-            if( selection == 19 ) {
+            if( selection == selection_max ) {
                 selection = 1;
             } else {
                 selection++;
@@ -481,7 +517,7 @@ void defense_game::setup()
             refresh_setup( w, selection );
         } else if( action == "UP" ) {
             if( selection == 1 ) {
-                selection = 19;
+                selection = selection_max;
             } else {
                 selection--;
             }
@@ -672,14 +708,14 @@ void defense_game::setup()
                     if( action == "CONFIRM" ) {
                         thirst = !thirst;
                     }
-                    mvwprintz( w, point( 16, 21 ), ( thirst ? c_light_green : c_yellow ), _( "Water" ) );
+                    mvwprintz( w, point( 14, 21 ), ( thirst ? c_light_green : c_yellow ), _( "Water" ) );
                     break;
 
                 case 18:
                     if( action == "CONFIRM" ) {
                         sleep = !sleep;
                     }
-                    mvwprintz( w, point( 31, 21 ), ( sleep ? c_light_green : c_yellow ), _( "Sleep" ) );
+                    mvwprintz( w, point( 34, 21 ), ( sleep ? c_light_green : c_yellow ), _( "Sleep" ) );
                     break;
 
                 case 19:
@@ -687,6 +723,13 @@ void defense_game::setup()
                         mercenaries = !mercenaries;
                     }
                     mvwprintz( w, point( 46, 21 ), ( mercenaries ? c_light_green : c_yellow ), _( "Mercenaries" ) );
+                    break;
+
+                case 20:
+                    if( action == "CONFIRM" ) {
+                        allow_save = !allow_save;
+                    }
+                    mvwprintz( w, point( 59, 21 ), ( allow_save ? c_light_green : c_yellow ), _( "Allow save" ) );
                     break;
             }
         }
@@ -697,45 +740,43 @@ void defense_game::setup()
 void defense_game::refresh_setup( const catacurses::window &w, int selection )
 {
     werase( w );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_red, _( "DEFENSE MODE" ) );
-    mvwprintz( w, point( 28, 0 ), c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
-    mvwprintz( w, point( 28, 1 ), c_light_red, _( "Press S to start" ) );
-    mvwprintz( w, point( 2, 2 ), c_light_gray, _( "Scenario:" ) );
+    draw_border( w, c_light_gray, _( "DEFENSE MODE" ), c_light_red );
+    mvwprintz( w, point( 2, 1 ), c_light_red,
+               _( "Press direction keys to cycle, ENTER to toggle, S to start" ) );
+    mvwprintz( w, point( 2, 2 ), c_white, _( "Scenario:" ) );
     mvwprintz( w, point( 2, 3 ), SELCOL( 1 ), defense_style_name( style ) );
     mvwprintz( w, point( 28, 3 ), c_light_gray, defense_style_description( style ) );
-    mvwprintz( w, point( 2, 4 ), c_light_gray, _( "Location:" ) );
+    mvwprintz( w, point( 2, 4 ), c_white, _( "Location:" ) );
     mvwprintz( w, point( 2, 5 ), SELCOL( 2 ), defense_location_name( location ) );
     mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
 
-    mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Initial Difficulty:" ) );
-    mvwprintz( w, point( NUMALIGN( initial_difficulty ), 7 ), SELCOL( 3 ), "%d",
-               initial_difficulty );
+    mvwprintz( w, point( 2, 7 ), c_white, _( "Initial Difficulty:" ) );
+    mvwprintz( w, point( NUMALIGN( initial_difficulty ), 7 ), SELCOL( 3 ), "%d", initial_difficulty );
     mvwprintz( w, point( 28, 7 ), c_light_gray, _( "The difficulty of the first wave." ) );
-    mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Wave Difficulty:" ) );
+    mvwprintz( w, point( 2, 8 ), c_white, _( "Wave Difficulty:" ) );
     mvwprintz( w, point( NUMALIGN( wave_difficulty ), 8 ), SELCOL( 4 ), "%d", wave_difficulty );
     mvwprintz( w, point( 28, 8 ), c_light_gray, _( "The increase of difficulty with each wave." ) );
 
-    mvwprintz( w, point( 2, 10 ), c_light_gray, _( "Time b/w Waves:" ) );
+    mvwprintz( w, point( 2, 10 ), c_white, _( "Time b/w Waves:" ) );
     mvwprintz( w, point( NUMALIGN( to_minutes<int>( time_between_waves ) ), 10 ), SELCOL( 5 ),
                "%d", to_minutes<int>( time_between_waves ) );
     mvwprintz( w, point( 28, 10 ), c_light_gray, _( "The time, in minutes, between waves." ) );
-    mvwprintz( w, point( 2, 11 ), c_light_gray, _( "Waves b/w Caravans:" ) );
+    mvwprintz( w, point( 2, 11 ), c_white, _( "Waves b/w Caravans:" ) );
     mvwprintz( w, point( NUMALIGN( waves_between_caravans ), 11 ), SELCOL( 6 ), "%d",
                waves_between_caravans );
     mvwprintz( w, point( 28, 11 ), c_light_gray, _( "The number of waves in between caravans." ) );
 
-    mvwprintz( w, point( 2, 13 ), c_light_gray, _( "Initial Cash:" ) );
+    mvwprintz( w, point( 2, 13 ), c_white, _( "Initial Cash:" ) );
     mvwprintz( w, point( NUMALIGN( initial_cash ), 13 ), SELCOL( 7 ), "%d", initial_cash / 100 );
     mvwprintz( w, point( 28, 13 ), c_light_gray, _( "The amount of money the player starts with." ) );
-    mvwprintz( w, point( 2, 14 ), c_light_gray, _( "Cash for 1st Wave:" ) );
+    mvwprintz( w, point( 2, 14 ), c_white, _( "Cash for 1st Wave:" ) );
     mvwprintz( w, point( NUMALIGN( cash_per_wave ), 14 ), SELCOL( 8 ), "%d", cash_per_wave / 100 );
     mvwprintz( w, point( 28, 14 ), c_light_gray, _( "The cash awarded for the first wave." ) );
-    mvwprintz( w, point( 2, 15 ), c_light_gray, _( "Cash Increase:" ) );
+    mvwprintz( w, point( 2, 15 ), c_white, _( "Cash Increase:" ) );
     mvwprintz( w, point( NUMALIGN( cash_increase ), 15 ), SELCOL( 9 ), "%d", cash_increase / 100 );
     mvwprintz( w, point( 28, 15 ), c_light_gray, _( "The increase in the award each wave." ) );
 
-    mvwprintz( w, point( 2, 17 ), c_light_gray, _( "Enemy Selection:" ) );
+    mvwprintz( w, point( 2, 17 ), c_white, _( "Enemy Selection:" ) );
     mvwprintz( w, point( 2, 18 ), TOGCOL( 10, zombies ), _( "Zombies" ) );
     mvwprintz( w, point( 14, 18 ), TOGCOL( 11, specials ), _( "Special Zombies" ) );
     mvwprintz( w, point( 34, 18 ), TOGCOL( 12, spiders ), _( "Spiders" ) );
@@ -743,11 +784,12 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     mvwprintz( w, point( 59, 18 ), TOGCOL( 14, robots ), _( "Robots" ) );
     mvwprintz( w, point( 70, 18 ), TOGCOL( 15, subspace ), _( "Subspace" ) );
 
-    mvwprintz( w, point( 2, 20 ), c_light_gray, _( "Needs:" ) );
+    mvwprintz( w, point( 2, 20 ), c_white, _( "Needs:" ) );
     mvwprintz( w, point( 2, 21 ), TOGCOL( 16, hunger ), _( "Food" ) );
-    mvwprintz( w, point( 16, 21 ), TOGCOL( 17, thirst ), _( "Water" ) );
-    mvwprintz( w, point( 31, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
+    mvwprintz( w, point( 14, 21 ), TOGCOL( 17, thirst ), _( "Water" ) );
+    mvwprintz( w, point( 34, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
     mvwprintz( w, point( 46, 21 ), TOGCOL( 19, mercenaries ), _( "Mercenaries" ) );
+    mvwprintz( w, point( 59, 21 ), TOGCOL( 20, allow_save ), _( "Allow save" ) );
     wrefresh( w );
 }
 
