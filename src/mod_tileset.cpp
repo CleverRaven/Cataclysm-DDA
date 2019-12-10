@@ -7,7 +7,7 @@
 
 std::vector<mod_tileset> all_mod_tilesets;
 
-void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
+void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path )
 {
     // This function didn't loads image data actually, loads when tileset loading.

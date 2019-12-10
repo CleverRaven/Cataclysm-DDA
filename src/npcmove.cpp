@@ -67,8 +67,6 @@ static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_throw( "throw" );
 
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bandaged( "bandaged" );
@@ -808,6 +806,18 @@ void npc::move()
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
+        if( has_stashed_activity() ) {
+            if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
+                assign_stashed_activity();
+                action = npc_player_activity;
+            } else {
+                // wait a turn, because next turn, the object of our activity
+                // may have been loaded in.
+                set_moves( 0 );
+                action = npc_pause;
+            }
+            return;
+        }
         std::vector<tripoint> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
             tripoint final_destination;
@@ -1868,7 +1878,8 @@ npc_action npc::address_needs( float danger )
     // TODO: More risky attempts at sleep when exhausted
     if( one_in( 3 ) && could_sleep() ) {
         if( !is_player_ally() ) {
-            set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
+            // TODO: Make tired NPCs handle sleep offscreen
+            set_fatigue( 0 );
             return npc_undecided;
         }
 
@@ -3588,7 +3599,7 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0;
     }
 
-    int nutr = food->get_nutr();
+    int nutr = food->get_default_nutr();
     int quench = food->quench;
 
     if( nutr <= 0 && quench <= 0 ) {

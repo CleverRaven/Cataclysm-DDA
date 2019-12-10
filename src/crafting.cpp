@@ -530,7 +530,12 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
     return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
+const inventory &player::crafting_inventory( bool clear_path )
+{
+    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+}
+
+const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -541,7 +546,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, true );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -1478,7 +1483,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
-                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                if( has_trait( trait_DEBUG_HS ) ) {
                     selected.use_from = use_from_player;
                     return selected;
                 }

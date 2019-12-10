@@ -67,27 +67,15 @@
 class basecamp;
 class monfaction;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
-const skill_id skill_gun( "gun" );
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_rifle( "rifle" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_archery( "archery" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_tailor( "tailor" );
 const skill_id skill_shotgun( "shotgun" );
 const skill_id skill_smg( "smg" );
-const skill_id skill_launcher( "launcher" );
 const skill_id skill_cutting( "cutting" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
@@ -198,7 +186,7 @@ npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc_template::load( JsonObject &jsobj )
+void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
@@ -843,7 +831,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !skill || ( skill && skill_level >= type->level ) ) {
+    if( !skill || skill_level >= type->level ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
@@ -1766,11 +1754,13 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
-            ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
+            // TODO: magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14;
         }
 
         if( has_gun_for_ammo( it.ammo_type() ) ) {
-            ret += 14; // TODO: consider making this cumulative (once was)
+            // TODO: consider making this cumulative (once was)
+            ret += 14;
         }
     }
 
@@ -2779,7 +2769,7 @@ epilogue::epilogue()
 
 epilogue_map epilogue::_all_epilogue;
 
-void epilogue::load_epilogue( JsonObject &jsobj )
+void epilogue::load_epilogue( const JsonObject &jsobj )
 {
     epilogue base;
     base.id = jsobj.get_string( "id" );

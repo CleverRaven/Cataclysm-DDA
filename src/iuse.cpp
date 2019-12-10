@@ -120,13 +120,10 @@ const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_cow( "mon_cow" );
 
 const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_tailor( "tailor" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_archery( "archery" );
 const skill_id skill_computer( "computer" );
-const skill_id skill_cutting( "cutting" );
 const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
@@ -2140,7 +2137,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             messtream << string_format( _( "radio: %s" ), segments[index] );
             message = messtream.str();
         }
-        sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
+        sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
         if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
             if( one_in( 10 ) ) {
                 sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
@@ -3552,7 +3549,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
     }
     if( t ) { // Simple timer effects
         // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ), true, "speech", it->typeId() );
+        sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
+                       true, "speech", it->typeId() );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
@@ -3566,7 +3564,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         };
         switch( effect_roll ) {
             case 1:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
@@ -3577,7 +3576,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 2:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3615,7 +3615,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 3:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3652,7 +3653,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 4:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3669,7 +3671,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 }
                 break;
             case 5:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
@@ -5836,8 +5839,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(), true,
-                   "speech", it->typeId() );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
+                   speech.text.translated(), true, "speech", it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
@@ -6131,7 +6134,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< shared_ptr_fast< monster> > mons; // TODO: change into vector<Creature*>
+            // TODO: change into vector<Creature*>
+            std::vector< shared_ptr_fast< monster> > mons;
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
@@ -6804,44 +6808,12 @@ static std::string colorized_trap_name_at( const tripoint &point )
 
 static std::string colorized_field_description_at( const tripoint &point )
 {
-    static const std::unordered_set<field_type_id, std::hash<int>> covered_in_affix_ids = {
-        fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
-        fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
-        fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
-        fd_gibs_invertebrate, fd_rubble
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> on_affix_ids = {
-        fd_fire, fd_flame_burst
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> under_affix_ids = {
-        fd_gas_vent, fd_fire_vent, fd_fatigue
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> illuminated_by_affix_ids = {
-        fd_spotlight, fd_laser, fd_dazzling, fd_electricity
-    };
-    static const std::vector<std::pair<std::unordered_set<field_type_id, std::hash<int>>, std::string>>
-    affixes_vec = {
-        { covered_in_affix_ids, translate_marker( " covered in %s" ) },
-        { on_affix_ids, translate_marker( " on %s" ) },
-        { under_affix_ids, translate_marker( " under %s" ) },
-        { illuminated_by_affix_ids, translate_marker( " illuminated by %s" ) }
-    }; // anything else is "in %s"
-
     std::string field_text;
     const field &field = g->m.field_at( point );
     const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
-        std::string affix;
-        for( const auto &pair : affixes_vec ) {
-            if( pair.first.find( entry->get_field_type() ) != pair.first.end() ) {
-                affix = pair.second;
-            }
-        }
-        if( affix.empty() ) {
-            field_text = string_format( _( " in %s" ), colorize( entry->name(), entry->color() ) );
-        } else {
-            field_text = string_format( _( affix ), colorize( entry->name(), entry->color() ) );
-        }
+        field_text = string_format( _( description_affixes.at( field.displayed_description_affix() ) ),
+                                    colorize( entry->name(), entry->color() ) );
     }
     return field_text;
 }

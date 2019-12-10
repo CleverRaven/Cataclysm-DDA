@@ -176,7 +176,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
@@ -1319,7 +1319,7 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
     }
 }
 
-void load_construction( JsonObject &jo )
+void load_construction( const JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();

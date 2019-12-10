@@ -92,9 +92,6 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_unarmed( "unarmed" );
 const skill_id skill_cooking( "cooking" );
 
@@ -116,6 +113,7 @@ const material_id mat_kevlar( "kevlar" );
 
 const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
@@ -1328,12 +1326,12 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                       const iteminfo_query *parts, int batch, bool debug ) const
 {
+    const nutrients nutr = g->u.compute_effective_nutrients( *food_item );
     const std::string space = "  ";
-    if( g->u.kcal_for( *food_item ) != 0 || food_item->get_comestible()->quench != 0 ) {
+    if( nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
-            const int value = g->u.kcal_for( *food_item );
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                                      "", iteminfo::no_newline, value ) );
+                                      "", iteminfo::no_newline, nutr.kcal ) );
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ),
@@ -1357,9 +1355,10 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
-    const std::map<vitamin_id, int> vits = g->u.vitamins_from( *food_item );
-    const std::string required_vits = enumerate_as_string( vits.begin(),
-    vits.end(), []( const std::pair<vitamin_id, int> &v ) {
+    const std::string required_vits = enumerate_as_string(
+                                          nutr.vitamins.begin(),
+                                          nutr.vitamins.end(),
+    []( const std::pair<vitamin_id, int> &v ) {
         // only display vitamins that we actually require
         return ( g->u.vitamin_rate( v.first ) > 0_turns && v.second != 0 ) ?
                string_format( "%s (%i%%)", v.first.obj().name(),
@@ -3329,7 +3328,8 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    avatar &u = g->u; // TODO: make a const reference
+    // TODO: make a const reference
+    avatar &u = g->u;
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -8656,6 +8656,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     w_point weatherPoint = *g->weather.weather_precise;
     int windpower = g->weather.windspeed;
     switch( g->weather.weather ) {
+        case WEATHER_LIGHT_DRIZZLE:
+            precipitation = one_in( 100 );
+            break;
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
             precipitation = one_in( 50 );
@@ -9137,50 +9140,8 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
-    bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
-    bool quartered = has_flag( "QUARTERED" );
-    bool skinned = has_flag( "SKINNED" );
-    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
-        if( corpse_name.empty() ) {
-            if( skinned && !f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),
-                                      corpse->nname() );
-            } else if( skinned && f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s carcass", "skinned %s carcasses",
-                                                 quantity ), corpse->nname() );
-            } else if( f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "%s carcass",
-                                                 "%s carcasses", quantity ),
-                                      corpse->nname() );
-            } else if( f_dressed && quartered ) {
-                return string_format( npgettext( "item name", "quartered %s carcass",
-                                                 "quartered %s carcasses", quantity ),
-                                      corpse->nname() );
-            }
-            return string_format( npgettext( "item name", "%s corpse",
-                                             "%s corpses", quantity ),
-                                  corpse->nname() );
-        } else {
-            if( skinned && !f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s corpse of %s", "skinned %s corpses of %s",
-                                                 quantity ), corpse->nname(), corpse_name );
-            } else if( skinned && f_dressed && !quartered ) {
-                return string_format( npgettext( "item name", "skinned %s carcass of %s",
-                                                 "skinned %s carcasses of %s", quantity ), corpse->nname(), corpse_name );
-            } else            if( f_dressed && !quartered && !skinned ) {
-                return string_format( npgettext( "item name", "%s carcass of %s",
-                                                 "%s carcasses of %s", quantity ),
-                                      corpse->nname(), corpse_name );
-            } else if( f_dressed && quartered && !skinned ) {
-                return string_format( npgettext( "item name", "quartered %s carcass",
-                                                 "quartered %s carcasses", quantity ),
-                                      corpse->nname() );
-            }
-            return string_format( npgettext( "item name", "%s corpse of %s",
-                                             "%s corpses of %s", quantity ),
-                                  corpse->nname(), corpse_name );
-        }
-    } else if( typeId() == "blood" ) {
+    std::string ret_name;
+    if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
             return npgettext( "item name", "human blood", "human blood", quantity );
         } else {
@@ -9191,8 +9152,52 @@ std::string item::type_name( unsigned int quantity ) const
     } else if( iter != item_vars.end() ) {
         return iter->second;
     } else {
-        return type->nname( quantity );
+        ret_name = type->nname( quantity );
     }
+
+    // Apply conditional names, in order.
+    for( const conditional_name &cname : type->conditional_names ) {
+        // Lambda for recursively searching for a item ID among all components.
+        std::function<bool ( std::list<item> )> component_id_contains =
+        [&]( std::list<item> components ) {
+            for( const item &component : components ) {
+                if( component.typeId().find( cname.condition ) != std::string::npos ||
+                    component_id_contains( component.components ) ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        switch( cname.type ) {
+            case condition_type::FLAG:
+                if( has_flag( cname.condition ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::COMPONENT_ID:
+                if( component_id_contains( components ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::num_condition_types:
+                break;
+        }
+    }
+
+    // Identify who this corpse belonged to, if applicable.
+    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
+        if( corpse_name.empty() ) {
+            //~ %1$s: name of corpse with modifiers;  %2$s: species name
+            ret_name = string_format( pgettext( "corpse ownership qualifier", "%1$s of a %2$s" ),
+                                      ret_name, corpse->nname() );
+        } else {
+            //~ %1$s: name of corpse with modifiers;  %2$s: proper name;  %3$s: species name
+            ret_name = string_format( pgettext( "corpse ownership qualifier", "%1$s of %2$s, %3$s" ),
+                                      ret_name, corpse_name, corpse->nname() );
+        }
+    }
+
+    return ret_name;
 }
 
 std::string item::get_corpse_name()

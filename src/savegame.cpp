@@ -311,7 +311,7 @@ void game::save_shortcuts( std::ostream &fout )
 
 std::unordered_set<std::string> obsolete_terrains;
 
-void overmap::load_obsolete_terrains( JsonObject &jo )
+void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
     for( const std::string &line : jo.get_array( "terrains" ) ) {
         obsolete_terrains.emplace( line );
@@ -891,7 +891,8 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // TODO: optimize
+                    // TODO: optimize
+                    settings = rit->second;
                 }
             }
         } else if( name == "mongroups" ) {

@@ -93,12 +93,12 @@ size_t trap::count()
     return trap_factory.size();
 }
 
-void trap::load_trap( JsonObject &jo, const std::string &src )
+void trap::load_trap( const JsonObject &jo, const std::string &src )
 {
     trap_factory.load( jo, src );
 }
 
-void trap::load( JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );

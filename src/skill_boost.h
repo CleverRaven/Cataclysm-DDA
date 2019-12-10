@@ -21,7 +21,7 @@ class skill_boost
         const std::vector<std::string> &skills() const;
         float calc_bonus( int skill_total ) const;
 
-        static void load_boost( JsonObject &jo, const std::string &src );
+        static void load_boost( const JsonObject &jo, const std::string &src );
         static void reset();
 
         static const std::vector<skill_boost> &get_all();
@@ -35,7 +35,7 @@ class skill_boost
         int _offset;
         float _power;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 };
 
 #endif

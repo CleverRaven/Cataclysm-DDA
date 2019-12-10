@@ -85,7 +85,7 @@ void Skill::reset()
     contextual_skills.clear();
 }
 
-void Skill::load_skill( JsonObject &jsobj )
+void Skill::load_skill( const JsonObject &jsobj )
 {
     skill_id ident = skill_id( jsobj.get_string( "ident" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
@@ -127,7 +127,7 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
-void SkillDisplayType::load( JsonObject &jsobj )
+void SkillDisplayType::load( const JsonObject &jsobj )
 {
     skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),

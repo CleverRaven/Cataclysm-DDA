@@ -2239,7 +2239,7 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
+static bool get_bool_or_flag( const JsonObject &jsobj, const std::string &name,
                               const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
@@ -2255,7 +2255,7 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
     return value;
 }
 
-void load_bionic( JsonObject &jsobj )
+void load_bionic( const JsonObject &jsobj )
 {
 
     bionic_data new_bionic;

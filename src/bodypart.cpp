@@ -173,12 +173,12 @@ static const body_part_struct &get_bp( body_part bp )
     return convert_bp( bp ).obj();
 }
 
-void body_part_struct::load_bp( JsonObject &jo, const std::string &src )
+void body_part_struct::load_bp( const JsonObject &jo, const std::string &src )
 {
     body_part_factory.load( jo, src );
 }
 
-void body_part_struct::load( JsonObject &jo, const std::string & )
+void body_part_struct::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 

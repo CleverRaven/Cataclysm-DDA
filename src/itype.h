@@ -19,6 +19,7 @@
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -107,6 +108,7 @@ struct islot_tool {
 };
 
 struct islot_comestible {
+    public:
         friend Item_factory;
         friend item;
         /** subtype, e.g. FOOD, DRINK, MED */
@@ -121,8 +123,9 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
-        /** amount of kcal this food has */
-        unsigned int kcal = 0;
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
 
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
@@ -159,19 +162,17 @@ struct islot_comestible {
         float specific_heat_solid = 2.108;
         float latent_heat = 333;
 
-        /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, int> vitamins;
-
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-        int get_calories() const {
-            return kcal;
+        bool has_calories() const {
+            return default_nutrition.kcal > 0;
         }
 
-        int get_nutr() const {
-            return kcal / kcal_per_nutr;
+        int get_default_nutr() const {
+            return default_nutrition.kcal / kcal_per_nutr;
         }
+
         /** The monster group that is drawn from when the item rots away */
         mongroup_id rot_spawn = mongroup_id::NULL_ID();
 
@@ -769,6 +770,28 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    condition_type type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -840,6 +863,9 @@ struct itype {
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.

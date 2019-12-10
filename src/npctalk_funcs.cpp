@@ -53,8 +53,6 @@ struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_survival( "survival" );
-
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );
 const efftype_id effect_asked_personal_info( "asked_personal_info" );

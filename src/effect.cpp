@@ -193,7 +193,7 @@ void weed_msg( player &p )
 }
 
 static void extract_effect(
-    JsonObject &j,
+    const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
     const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
@@ -219,7 +219,7 @@ static void extract_effect(
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
+bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_object( member ) ) {
         JsonObject j = jo.get_object( member );
@@ -449,7 +449,7 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
         JsonArray outer = jo.get_array( member );
@@ -461,7 +461,7 @@ bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
     }
     return false;
 }
-bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
         JsonArray outer = jo.get_array( member );
@@ -1207,7 +1207,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( JsonObject &jo )
+void load_effect_type( const JsonObject &jo )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );

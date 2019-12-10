@@ -205,7 +205,7 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
 {
     mission_type_factory.load( jo, src );
 }
@@ -216,7 +216,7 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( JsonObject &jo, const std::string &id, Fun &target,
+void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
                       const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
@@ -231,7 +231,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
 
 static DynamicDataLoader::deferred_json deferred;
 
-void mission_type::load( JsonObject &jo, const std::string &src )
+void mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 

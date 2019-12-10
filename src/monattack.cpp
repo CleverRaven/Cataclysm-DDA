@@ -1329,9 +1329,11 @@ static body_part body_part_hit_by_plant()
 bool mattack::growplants( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
-        // TODO: Make this sensible - it can destroy EVERYTHING
-        if( !g->m.has_flag( "DIGGABLE", p ) && one_in( 4 ) ) {
-            g->m.ter_set( p, t_dirt );
+
+        // Only affect natural, dirtlike terrain or trees.
+        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+               g->m.has_flag_ter( "TREE", p ) ||
+               g->m.ter( p ) == t_tree_young ) ) {
             continue;
         }
 
@@ -1863,7 +1865,8 @@ bool mattack::fungus_sprout( monster *z )
 bool mattack::fungus_fortify( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = &g->u;
     bool mycus = false;
@@ -2232,7 +2235,8 @@ static bool blobify( monster &blob, monster &target )
 bool mattack::formblob( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
 
     bool didit = false;
@@ -2312,7 +2316,8 @@ bool mattack::formblob( monster *z )
 bool mattack::callblobs( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     // The huge brain blob interposes other blobs between it and any threat.
     // For the moment just target the player, this gets a bit more complicated
@@ -2434,7 +2439,8 @@ bool mattack::dance( monster *z )
 bool mattack::dogthing( monster *z )
 {
     if( z == nullptr ) {
-        return false; // TODO: replace pointers with references
+        // TODO: replace pointers with references
+        return false;
     }
 
     if( !one_in( 3 ) || !g->u.sees( *z ) ) {
@@ -2455,7 +2461,8 @@ bool mattack::dogthing( monster *z )
 bool mattack::tentacle( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = &g->u;
     if( !z->sees( g->u ) ) {
@@ -2756,7 +2763,8 @@ bool mattack::triffid_growth( monster *z )
 bool mattack::stare( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     z->moves -= 200;
     if( z->sees( g->u ) ) {
@@ -2780,7 +2788,8 @@ bool mattack::stare( monster *z )
 bool mattack::fear_paralyze( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
@@ -2819,16 +2828,16 @@ bool mattack::nurse_check_up( monster *z )
 
         if( !z->has_effect(
                 effect_countdown ) ) { // first we offer the check up then we wait to the player to come close
-            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"" ) ) );
             z->add_effect( effect_countdown, 1_minutes );
         } else if( rl_dist( target->pos(), z->pos() ) > 1 ) { // giving them some encouragement
-            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"" ) ) );
         } else {
-            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Here we go.  Just hold still.\"" ) ) );
             if( target == &g->u ) {
@@ -2869,7 +2878,7 @@ bool mattack::nurse_assist( monster *z )
     if( found_target ) {
         if( target->is_wearing( "badge_doctor" ) ||
             z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
-            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                                Name::generate( target->male ) ) );
@@ -2951,12 +2960,12 @@ bool mattack::nurse_operate( monster *z )
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
                     if( mon->type->id != mon_defective_robot_nurse ) {
-                        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                        sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                                        string_format(
                                            _( "a soft robotic voice say, \"Unhand this patient immediately!  If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
                         z->push_to( mon->pos(), 6, 0 );// try to push the perpetrator away
                     } else {
-                        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                        sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                                        string_format(
                                            _( "a soft robotic voice say, \"Greetings kinbot.  Please take good care of this patient.\"" ) ) );
                         z->anger = 0;
@@ -2996,7 +3005,8 @@ bool mattack::check_money_left( monster *z )
             }
 
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
-            sounds::sound( z->pos(), speech_no_time.volume, sounds::sound_t::speech, speech_no_time.text );
+            sounds::sound( z->pos(), speech_no_time.volume,
+                           sounds::sound_t::electronic_speech, speech_no_time.text );
             z->remove_effect( effect_paid );
             return true;
         }
@@ -3005,15 +3015,16 @@ bool mattack::check_money_left( monster *z )
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
-                sounds::sound( z->pos(), speech_time_low.volume, sounds::sound_t::speech, speech_time_low.text );
+                sounds::sound( z->pos(), speech_time_low.volume,
+                               sounds::sound_t::electronic_speech, speech_time_low.text );
             }
         }
     }
     if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
         if( calendar::once_every( 3_hours ) ) {
             const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
-            sounds::sound( z->pos(), speech_override_start.volume, sounds::sound_t::speech,
-                           speech_override_start.text );
+            sounds::sound( z->pos(), speech_override_start.volume,
+                           sounds::sound_t::electronic_speech, speech_override_start.text );
         }
     }
     return false;
@@ -3247,8 +3258,8 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
             }
             g->u.add_effect( effect_laserlocked,
                              3_turns ); // Effect removed in game.cpp, duration doesn't much matter
-            sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "Targeting." ), false, "speech",
-                           z->type->id.str() );
+            sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech, _( "Targeting." ),
+                           false, "speech", z->type->id.str() );
             z->add_effect( effect_targeted, 5_turns );
             z->moves -= 150;
             // Should give some ability to get behind cover,
@@ -3526,7 +3537,8 @@ bool mattack::searchlight( monster *z )
 bool mattack::flamethrower( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( z->friendly != 0 ) { // TODO: that is always false!
         // Attacking monsters, not the player!
@@ -3813,7 +3825,8 @@ bool mattack::multi_robot( monster *z )
 bool mattack::ratking( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     // Disable z-level ratting or it can get silly
     if( rl_dist( z->pos(), g->u.pos() ) > 50 || z->posz() != g->u.posz() ) {
@@ -4013,7 +4026,8 @@ bool mattack::stretch_bite( monster *z )
 bool mattack::brandish( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( !z->sees( g->u ) ) {
         return false; // Only brandish if we can see you!
@@ -4217,7 +4231,8 @@ bool mattack::lunge( monster *z )
 bool mattack::longswipe( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = z->attack_target();
     if( target == nullptr ) {
@@ -4360,7 +4375,8 @@ bool mattack::parrot_at_danger( monster *parrot )
 bool mattack::darkman( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return false;
@@ -4538,7 +4554,7 @@ bool mattack::riotbot( monster *z )
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
-            sounds::sound( z->pos(), 10, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech,
                            _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
                            z->type->id.str() );
         }
@@ -4556,7 +4572,7 @@ bool mattack::riotbot( monster *z )
     //we need empty hands to arrest
     if( foe == &g->u && !foe->is_armed() ) {
 
-        sounds::sound( z->pos(), 15, sounds::sound_t::speech,
+        sounds::sound( z->pos(), 15, sounds::sound_t::electronic_speech,
                        _( "Please stay in place, citizen, do not make any movements!" ), false, "speech",
                        z->type->id.str() );
 
@@ -4620,14 +4636,14 @@ bool mattack::riotbot( monster *z )
                 add_msg( _( "The robot puts handcuffs on you." ) );
             }
 
-            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 5, sounds::sound_t::electronic_speech,
                            _( "You are under arrest, citizen.  You have the right to remain silent.  If you do not remain silent, anything you say may be used against you in a court of law." ),
                            false, "speech", z->type->id.str() );
-            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 5, sounds::sound_t::electronic_speech,
                            _( "You have the right to an attorney.  If you cannot afford an attorney, one will be provided at no cost to you.  You may have your attorney present during any questioning." ) );
-            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 5, sounds::sound_t::electronic_speech,
                            _( "If you do not understand these rights, an officer will explain them in greater detail when taking you into custody." ) );
-            sounds::sound( z->pos(), 5, sounds::sound_t::speech,
+            sounds::sound( z->pos(), 5, sounds::sound_t::electronic_speech,
                            _( "Do not attempt to flee or to remove the handcuffs, citizen.  That can be dangerous to your health." ) );
 
             z->moves -= 300;
@@ -4674,7 +4690,7 @@ bool mattack::riotbot( monster *z )
     }
 
     if( calendar::once_every( 5_turns ) ) {
-        sounds::sound( z->pos(), 25, sounds::sound_t::speech,
+        sounds::sound( z->pos(), 25, sounds::sound_t::electronic_speech,
                        _( "Empty your hands and hold your position, citizen!" ), false, "speech", z->type->id.str() );
     }
 

@@ -523,8 +523,7 @@
       [ "ketchup", 3 ],
       { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "cheeseburger", 10 ],
-      [ "hamburger", 7 ],
-      [ "bobburger", 1 ],
+      [ "hamburger", 8 ],
       [ "sloppyjoe", 6 ],
       [ "hotdogs_frozen", 6 ]
     ]

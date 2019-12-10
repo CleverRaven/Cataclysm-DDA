@@ -107,10 +107,7 @@ const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
-const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_unarmed( "unarmed" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -788,7 +785,7 @@ int player::swim_speed() const
         // no difference in swim speed by monster type yet.
         // TODO: difference in swim speed by monster type.
         // No monsters are currently mountable and can swim, though mods may allow this.
-        if( mon->has_flag( MF_SWIMS ) ) {
+        if( mon->swims() ) {
             ret = 25;
             ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
             return ret;
@@ -2063,7 +2060,8 @@ int player::impact( const int force, const tripoint &p )
         armor_eff = 0.25f; // Not much
         if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
-            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+            // TODO: Make this not happen with heavy duty/plated roof
+            effective_force /= 2;
         }
     } else {
         // Slamming into terrain/furniture
@@ -2199,8 +2197,8 @@ void player::knock_back_to( const tripoint &to )
     } else if( g->m.impassable( to ) ) { // Wait, it's a wall
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso,
-                      3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        apply_damage( nullptr, bp_torso, 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -2307,17 +2305,17 @@ void player::update_stomach( const time_point &from, const time_point &to )
 
     if( five_mins > 0 ) {
         // Digest nutrients in stomach, they are destined for the guts (except water)
-        nutrients digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
         // Digest nutrients in guts, they will be distributed to needs levels
-        nutrients digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
+        food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
         // Water from stomach skips guts and gets absorbed by body
         set_thirst( std::max(
                         -100, get_thirst() - units::to_milliliter<int>( digested_to_guts.water ) / 5 ) );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
-            mod_stored_kcal( digested_to_body.kcal );
-            vitamins_mod( digested_to_body.vitamins, false );
+            mod_stored_kcal( digested_to_body.nutr.kcal );
+            vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
@@ -4934,7 +4932,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            it.tname() );
 
-    mod_moves( -250 );    // TODO: Make this variable
+    // TODO: Make this variable
+    mod_moves( -250 );
     worn.erase( iter );
 
     recalc_sight_limits();

@@ -15,7 +15,7 @@ const json_flag &json_flag::get( const std::string &id )
     return iter != json_flags_all.end() ? iter->second : null_flag;
 }
 
-void json_flag::load( JsonObject &jo )
+void json_flag::load( const JsonObject &jo )
 {
     auto id = jo.get_string( "id" );
     auto &f = json_flags_all.emplace( id, json_flag( id ) ).first->second;

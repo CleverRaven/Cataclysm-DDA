@@ -1756,7 +1756,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_acid ) {
-            if( !z.has_flag( MF_FLIES ) ) {
+            if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
@@ -1768,7 +1768,7 @@ void map::monster_in_field( monster &z )
             cur.set_field_intensity( cur.get_field_intensity() - 1 );
         }
         if( cur_field_type == fd_sludge ) {
-            if( !z.has_flag( MF_DIGS ) && !z.has_flag( MF_FLIES ) &&
+            if( !z.digs() && !z.flies() &&
                 !z.has_flag( MF_SLUDGEPROOF ) ) {
                 z.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
@@ -1792,7 +1792,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flameres ) ) {
                 dam += -20;
             }
-            if( z.has_flag( MF_FLIES ) ) {
+            if( z.flies() ) {
                 dam -= 15;
             }
             dam -= z.get_armor_type( DT_HEAT, bp_torso );
@@ -1801,7 +1801,7 @@ void map::monster_in_field( monster &z )
                 dam += rng( 2, 6 );
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
-                if( !z.has_flag( MF_FLIES ) ) {
+                if( !z.flies() ) {
                     z.moves -= 20;
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
@@ -1809,7 +1809,7 @@ void map::monster_in_field( monster &z )
                 }
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
-                if( !z.has_flag( MF_FLIES ) || one_in( 3 ) ) {
+                if( !z.flies() || one_in( 3 ) ) {
                     z.moves -= 40;
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );

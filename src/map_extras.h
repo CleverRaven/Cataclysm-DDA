@@ -49,7 +49,7 @@ class map_extra
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
 };
 
@@ -63,7 +63,7 @@ FunctionMap all_functions();
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub );
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 
 /// This function provides access to all loaded map extras.

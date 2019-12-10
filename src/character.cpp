@@ -326,7 +326,8 @@ bool Character::in_species( const species_id &spec ) const
 
 bool Character::is_warm() const
 {
-    return true; // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    return true;
 }
 
 const std::string &Character::symbol() const
@@ -528,6 +529,59 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+void Character::cancel_stashed_activity()
+{
+    stashed_outbounds_activity = player_activity();
+    stashed_outbounds_backlog = player_activity();
+}
+
+player_activity Character::get_stashed_activity() const
+{
+    return stashed_outbounds_activity;
+}
+
+void Character::set_stashed_activity( player_activity act, player_activity act_back )
+{
+    stashed_outbounds_activity = act;
+    stashed_outbounds_backlog = act_back;
+}
+
+bool Character::has_stashed_activity() const
+{
+    if( stashed_outbounds_activity ) {
+        return true;
+    }
+    return false;
+}
+
+void Character::assign_stashed_activity()
+{
+    activity = stashed_outbounds_activity;
+    backlog.push_front( stashed_outbounds_backlog );
+    cancel_stashed_activity();
+}
+
+bool Character::check_outbounds_activity( player_activity act, bool check_only )
+{
+    if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
+          !g->m.inbounds( g->m.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !g->m.inbounds( g->m.getlocal( act.coords.back() ) ) ) ) {
+        if( is_npc() && !check_only ) {
+            // stash activity for when reloaded.
+            stashed_outbounds_activity = act;
+            if( !backlog.empty() ) {
+                stashed_outbounds_backlog = backlog.front();
+            }
+            activity = player_activity();
+        }
+        add_msg( m_debug,
+                 "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
+                 disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+        return true;
+    }
+    return false;
 }
 
 void Character::set_destination_activity( const player_activity &new_destination_activity )
@@ -2621,10 +2675,11 @@ bool Character::in_climate_control()
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  vp->is_inside() &&  // Already checks for opened doors
                                  vp->vehicle().total_power_w( true ) > 0 // Out of gas? No AC for you!
-                             );  // TODO: (?) Force player to scrounge together an AC unit
+                             );
         }
         // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;

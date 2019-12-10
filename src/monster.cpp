@@ -713,17 +713,33 @@ std::string monster::extended_description() const
         }
     };
 
+    using property_description = std::pair<bool, std::string>;
+    const auto describe_properties = [&ss](
+                                         const std::string & format,
+                                         const std::vector<property_description> &property_names,
+    const std::string &if_empty = "" ) {
+        std::string property_descriptions = enumerate_as_string( property_names.begin(),
+        property_names.end(), []( const property_description & pd ) {
+            return pd.first ? pd.second : "";
+        } );
+        if( !property_descriptions.empty() ) {
+            ss << string_format( format, property_descriptions ) << std::endl;
+        } else if( !if_empty.empty() ) {
+            ss << if_empty << std::endl;
+        }
+    };
+
     describe_flags( _( "It has the following senses: %s." ), {
         {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
         {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
         {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
-    describe_flags( _( "It can %s." ), {
-        {m_flag::MF_SWIMS, pgettext( "Swim as an action", "swim" )},
-        {m_flag::MF_FLIES, pgettext( "Fly as an action", "fly" )},
-        {m_flag::MF_CAN_DIG, pgettext( "Dig as an action", "dig" )},
-        {m_flag::MF_CLIMBS, pgettext( "Climb as an action", "climb" )}
+    describe_properties( _( "It can %s." ), {
+        {swims(), pgettext( "Swim as an action", "swim" )},
+        {flies(), pgettext( "Fly as an action", "fly" )},
+        {can_dig(), pgettext( "Dig as an action", "dig" )},
+        {climbs(), pgettext( "Climb as an action", "climb" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
@@ -782,7 +798,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
     // Traps are on the ground, digging monsters go below, fliers and climbers go above.
-    if( digging() || has_flag( MF_FLIES ) ) {
+    if( digging() || flies() ) {
         return true;
     }
     return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
@@ -805,19 +821,49 @@ bool monster::can_hear() const
 
 bool monster::can_submerge() const
 {
-    return ( has_flag( MF_NO_BREATHE ) || has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) )
-           && !has_flag( MF_ELECTRONIC );
+    return ( has_flag( MF_NO_BREATHE ) || swims() || has_flag( MF_AQUATIC ) ) &&
+           !has_flag( MF_ELECTRONIC );
 }
 
 bool monster::can_drown() const
 {
-    return !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC )
-           && !has_flag( MF_NO_BREATHE ) && !has_flag( MF_FLIES );
+    return !swims() && !has_flag( MF_AQUATIC ) &&
+           !has_flag( MF_NO_BREATHE ) && !flies();
+}
+
+bool monster::can_climb() const
+{
+    return climbs() || flies();
 }
 
 bool monster::digging() const
 {
-    return has_flag( MF_DIGS ) || ( has_flag( MF_CAN_DIG ) && underwater );
+    return digs() || ( can_dig() && underwater );
+}
+
+bool monster::can_dig() const
+{
+    return has_flag( MF_CAN_DIG );
+}
+
+bool monster::digs() const
+{
+    return has_flag( MF_DIGS );
+}
+
+bool monster::flies() const
+{
+    return has_flag( MF_FLIES );
+}
+
+bool monster::climbs() const
+{
+    return has_flag( MF_CLIMBS );
+}
+
+bool monster::swims() const
+{
+    return has_flag( MF_SWIMS );
 }
 
 bool monster::can_act() const
@@ -831,7 +877,7 @@ int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const int default_daylight = default_daylight_level();
@@ -1148,7 +1194,8 @@ bool monster::is_underwater() const
 
 bool monster::is_on_ground() const
 {
-    return false; // TODO: actually make this work
+    // TODO: actually make this work
+    return false;
 }
 
 bool monster::has_weapon() const
@@ -1857,7 +1904,7 @@ int monster::get_grab_strength() const
 
 float monster::fall_damage_mod() const
 {
-    if( has_flag( MF_FLIES ) ) {
+    if( flies() ) {
         return 0.0f;
     }
 
@@ -2357,19 +2404,20 @@ void monster::process_effects()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name() );
+    const int healed_amount = heal( type->regenerates );
+    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        std::string healing_format_string;
+        if( healed_amount >= 50 ) {
+            healing_format_string = _( "The %s is visibly regenerating!" );
+        } else if( healed_amount >= 10 ) {
+            healing_format_string = _( "The %s seems a little healthier." );
+        } else if( healed_amount >= 1 ) {
+            healing_format_string = _( "The %s is healing slowly." );
+        }
+        add_msg( m_warning, healing_format_string, name() );
     }
 
-    if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_IN_DARK ) ) {
+    if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
@@ -2380,7 +2428,7 @@ void monster::process_effects()
 
     //Monster will regen morale and aggression if it is on max HP
     //It regens more morale and aggression if is currently fleeing.
-    if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {
+    if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;
             anger = type->agro;
@@ -2825,18 +2873,15 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
-    float regen = 0.0f;
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        regen = 50.0f;
-    } else if( has_flag( MF_REGENERATES_10 ) ) {
-        regen = 10.0f;
-    } else if( has_flag( MF_REVIVES ) ) {
-        regen = 1.0f / to_turns<int>( 1_hours );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
-        // Most living stuff here
-        regen = 0.25f / to_turns<int>( 1_hours );
+    float regen = type->regenerates;
+    if( regen <= 0 ) {
+        if( has_flag( MF_REVIVES ) ) {
+            regen = 1.0f / to_turns<int>( 1_hours );
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+            // Most living stuff here
+            regen = 0.25f / to_turns<int>( 1_hours );
+        }
     }
-
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;

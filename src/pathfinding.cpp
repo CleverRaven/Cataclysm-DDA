@@ -228,10 +228,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
     int miny = std::min( f.y, t.y ) - pad;
-    int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
+    // TODO: Make this way bigger
+    int minz = std::min( f.z, t.z );
     int maxx = std::max( f.x, t.x ) + pad;
     int maxy = std::max( f.y, t.y ) + pad;
-    int maxz = std::max( f.z, t.z ); // Same TODO: as above
+    // Same TODO: as above
+    int maxz = std::max( f.z, t.z );
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
 

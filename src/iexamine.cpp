@@ -108,6 +108,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -728,7 +729,8 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
-        ( void ) p; // TODO: use me
+        // TODO: use me
+        ( void ) p;
         liquid_handler::handle_liquid_from_ground( water, examp );
     }
 }
@@ -825,8 +827,8 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         if( open ) {
             add_msg( _( "You press your face on the reader." ) );
             add_msg( m_good, _( "The nearby doors are unlocked." ) );
-            sounds::sound( examp, 6, sounds::sound_t::speech, _( "\"Hello Foodperson.  Welcome home.\"" ), true,
-                           "speech", "welcome" );
+            sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
+                           _( "\"Hello Foodperson.  Welcome home.\"" ), true, "speech", "welcome" );
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
@@ -843,11 +845,11 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
         }
     } else if( p.has_amount( itype_id( "foodperson_mask" ), 1 ) ||
                p.has_amount( itype_id( "foodperson_mask_on" ), 1 ) ) {
-        sounds::sound( examp, 6, sounds::sound_t::speech,
+        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"FOODPERSON DETECTED.  Please make yourself presentable.\"" ), true,
                        "speech", "welcome" );
     } else {
-        sounds::sound( examp, 6, sounds::sound_t::speech,
+        sounds::sound( examp, 6, sounds::sound_t::electronic_speech,
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
@@ -3524,7 +3526,6 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction || g->m.partial_con_at( examp ) ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
-            const trait_id trait_DEBUG_HS( "DEBUG_HS" );
             if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
@@ -3571,7 +3572,8 @@ void iexamine::trap( player &p, const tripoint &examp )
 void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
-    ( void ) p; // TODO: use me
+    // TODO: use me
+    ( void ) p;
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
