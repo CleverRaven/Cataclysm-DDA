@@ -288,12 +288,8 @@
       },
       "place_item": [ { "item": "sarcophagus_access_code", "x": 20, "y": 31 } ],
       "set": [ { "square": "radiation", "amount": [ 10, 70 ], "x": 0, "y": 0, "x2": 47, "y2": 47 } ],
-      "monster": {
-        " ": { "monster": "mon_zombie", "chance": 10 }
-      },
-      "monsters": {
-        "~": { "monster": "GROUP_VANILLA", "chance": 20, "density": 0.1 }
-      },
+      "monster": { " ": { "monster": "mon_zombie", "chance": 10 } },
+      "monsters": { "~": { "monster": "GROUP_VANILLA", "chance": 20, "density": 0.1 } },
       "computers": {
         "5": {
           "name": "SRCF Security Terminal",
