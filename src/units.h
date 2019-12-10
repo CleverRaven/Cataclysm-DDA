@@ -343,6 +343,12 @@ inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
 }
 
 template<typename value_type>
+inline constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
 inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000.0;
@@ -493,11 +499,13 @@ inline std::string display( const units::energy v )
 {
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
-    if( kj >= 1 && float( j ) / kj == 1000 ) { // at least 1 kJ and there is no fraction
+    // at least 1 kJ and there is no fraction
+    if( kj >= 1 && float( j ) / kj == 1000 ) {
         return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
-    if( j >= 1 && float( mj ) / j  == 1000 ) { // at least 1 J and there is no fraction
+    // at least 1 J and there is no fraction
+    if( j >= 1 && float( mj ) / j  == 1000 ) {
         return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
@@ -680,7 +688,8 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
             }
         }
         error( "invalid quantity string: unknown unit" );
-        throw; // above always throws
+        // above always throws
+        throw;
     };
 
     if( skip_spaces() ) {

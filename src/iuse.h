@@ -205,6 +205,7 @@ class iuse
         int panacea( player *, item *, bool, const tripoint & );
         int magnesium_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
+        int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
         int gobag_normal( player *, item *, bool, const tripoint & );
         int gobag_personal( player *, item *, bool, const tripoint & );
@@ -269,7 +270,7 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( JsonObject &jo ) = 0;
+        virtual void load( const JsonObject &jo ) = 0;
         virtual int use( player &, item &, bool, const tripoint & ) const = 0;
         virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}

@@ -19,5 +19,16 @@
     "ammo": "410shot",
     "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
     "flags": [ "NEVER_JAMS" ]
+  },
+  {
+    "id": "shotgun_410",
+    "copy-from": "shotgun_s",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": "Winchester M37 .410",
+    "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
+    "weight": "2721 g",
+    "blackpowder_tolerance": 80,
+    "ammo": "410shot"
   }
 ]

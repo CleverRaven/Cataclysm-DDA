@@ -27,6 +27,7 @@
       [ [ "nomex", 5 ] ],
       [
         [ "lamp_oil", 50 ],
+        [ "motor_oil", 50 ],
         [ "chem_ethanol", 100 ],
         [ "denat_alcohol", 100 ],
         [ "gasoline", 250 ],
@@ -46,7 +47,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ], [ "mutant_lard", 4 ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",

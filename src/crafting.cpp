@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -529,7 +530,12 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
     return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
+const inventory &player::crafting_inventory( bool clear_path )
+{
+    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+}
+
+const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -540,7 +546,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, true );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -1050,16 +1056,14 @@ void item::inherit_flags( const item &parent )
     if( parent.has_flag( "FIT" ) ) {
         item_tags.insert( "FIT" );
     }
-    if( !has_flag( "NO_CRAFT_INHERIT" ) ) {
-        for( const std::string &f : parent.item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    for( const std::string &f : parent.item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
-        for( const std::string &f : parent.type->item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
-                set_flag( f );
-            }
+    }
+    for( const std::string &f : parent.type->item_tags ) {
+        if( json_flag::get( f ).craft_inherit() ) {
+            set_flag( f );
         }
     }
     if( parent.has_flag( "HIDDEN_POISON" ) ) {
@@ -1135,6 +1139,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
         food_contained.inherit_flags( used );
 
+        for( const std::string &flag : making.flags_to_delete ) {
+            food_contained.unset_flag( flag );
+        }
+
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
         if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
@@ -1150,6 +1158,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                }
+                // If this recipe is cooked, components are no longer raw.
+                if( should_heat ) {
+                    comp.set_flag_recursive( "COOKED" );
                 }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
@@ -1421,6 +1433,18 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             selected.use_from = use_from_both;
             selected.comp = mixed[0];
         }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            debugmsg( "Attempted a recipe with no available components!" );
+            selected.use_from = cancel;
+            return selected;
+        }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
         // Populate options with the names of the items
@@ -1459,7 +1483,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
-                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                if( has_trait( trait_DEBUG_HS ) ) {
                     selected.use_from = use_from_player;
                     return selected;
                 }
@@ -1629,6 +1653,17 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         } else {
             selected.use_from = use_from_map;
             selected.comp = map_has[0];
+        }
+    } else if( is_npc() ) {
+        if( !player_has.empty() ) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
+        } else if( !map_has.empty() ) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
+        } else {
+            selected.use_from = use_from_none;
+            return selected;
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1900,6 +1935,31 @@ bool player::disassemble( item_location target, bool interactive )
     }
 
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    if( !obj.is_owned_by( g->u, true ) ) {
+        if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
+                       obj.tname() ) ) {
+            return false;
+        } else {
+            if( obj.get_owner() ) {
+                std::vector<npc *> witnesses;
+                for( npc &elem : g->all_npcs() ) {
+                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                        elem.say( "<witnessed_thievery>", 7 );
+                        npc *npc_to_add = &elem;
+                        witnesses.push_back( npc_to_add );
+                    }
+                }
+                if( !witnesses.empty() ) {
+                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                        for( npc *elem : witnesses ) {
+                            elem->make_angry();
+                        }
+                    }
+                }
+            }
+        }
+    }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
@@ -1907,7 +1967,6 @@ bool player::disassemble( item_location target, bool interactive )
         for( const auto &component : components ) {
             list << "- " << component.to_string() << std::endl;
         }
-
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),

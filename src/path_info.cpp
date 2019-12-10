@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <utility>
 
+#include "enums.h"
 #include "filesystem.h"
 #include "options.h"
 
@@ -384,11 +385,42 @@ std::string PATH_INFO::motd()
     return find_translated_file( datadir_value + "motd/", ".motd", motd_value );
 }
 
-std::string PATH_INFO::title( const bool halloween_theme )
+std::string PATH_INFO::title( const holiday current_holiday )
 {
-    return find_translated_file( datadir_value + "title/", halloween_theme ? ".halloween" : ".title",
-                                 halloween_theme ? ( datadir_value + "title/" + "en.halloween" ) : ( datadir_value + "title/" +
-                                         "en.title" ) );
+    std::string theme_basepath = datadir_value + "title/";
+    std::string theme_extension = ".title";
+    std::string theme_fallback = theme_basepath + "en.title";
+    switch( current_holiday ) {
+        case holiday::new_year:
+            theme_extension = ".new_year";
+            theme_fallback = datadir_value + "title/" + "en.new_year";
+            break;
+        case holiday::easter:
+            theme_extension = ".easter";
+            theme_fallback = datadir_value + "title/" + "en.easter";
+            break;
+        case holiday::independence_day:
+            theme_extension = ".independence_day";
+            theme_fallback = datadir_value + "title/" + "en.independence_day";
+            break;
+        case holiday::halloween:
+            theme_extension = ".halloween";
+            theme_fallback = datadir_value + "title/" + "en.halloween";
+            break;
+        case holiday::thanksgiving:
+            theme_extension = ".thanksgiving";
+            theme_fallback = datadir_value + "title/" + "en.thanksgiving";
+            break;
+        case holiday::christmas:
+            theme_extension = ".christmas";
+            theme_fallback = datadir_value + "title/" + "en.christmas";
+            break;
+        case holiday::none:
+        case holiday::num_holiday:
+        default:
+            break;
+    }
+    return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 
 std::string PATH_INFO::names()

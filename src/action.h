@@ -273,6 +273,8 @@ enum action_id : int {
     ACTION_DEBUG,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
+    /** Toggle scent type map */
+    ACTION_DISPLAY_SCENT_TYPE,
     /** Toggle debug mode */
     ACTION_TOGGLE_DEBUG_MODE,
     /** Zoom view in */
@@ -522,7 +524,7 @@ point get_delta_from_movement_direction( action_id act );
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu(); // Show the action menu.
+action_id handle_action_menu();
 
 /**
  * Show in-game main menu

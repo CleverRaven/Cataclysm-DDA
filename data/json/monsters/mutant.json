@@ -2,13 +2,13 @@
   {
     "id": "mon_mutant_experimental",
     "type": "MONSTER",
-    "name": "experimental mutant",
+    "name": { "str": "experimental mutant" },
     "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and a torn jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
     "default_faction": "factionless",
     "bodytype": "human",
     "species": [ "MUTANT" ],
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": "81500 g",
     "hp": 150,
     "speed": 100,
     "material": [ "flesh" ],
@@ -40,27 +40,18 @@
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "WARM",
-      "BLEED",
-      "BASHES",
-      "PATH_AVOID_DANGER_2",
-      "REGENERATES_1",
-      "REGEN_MORALE"
-    ]
+    "regenerates": 1,
+    "regen_morale": true,
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_mutant_evolved",
     "type": "MONSTER",
-    "name": "evolved mutant",
+    "name": { "str": "evolved mutant" },
     "description": "A towering beast that is neither human nor animal anymore.  A malformed, huge creature covered in thick fur and the torn bottom part of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
     "copy-from": "mon_mutant_experimental",
-    "volume": "875000 ml",
-    "weight": 200000,
+    "volume": "875 L",
+    "weight": "200 kg",
     "hp": 300,
     "speed": 110,
     "aggression": 100,
@@ -86,6 +77,8 @@
       { "id": "impale" }
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
+    "regenerates": 1,
+    "regen_morale": true,
     "flags": [
       "SEES",
       "HEARS",
@@ -97,9 +90,7 @@
       "BASHES",
       "PATH_AVOID_DANGER_2",
       "PUSH_MON",
-      "PUSH_VEH",
-      "REGENERATES_1",
-      "REGEN_MORALE"
+      "PUSH_VEH"
     ]
   }
 ]

@@ -53,8 +53,6 @@ struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_survival( "survival" );
-
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );
 const efftype_id effect_asked_personal_info( "asked_personal_info" );
@@ -66,6 +64,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_currently_busy( "currently_busy" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_controlled( "controlled" );
@@ -422,6 +421,7 @@ void talk_function::wake_up( npc &p )
     p.rules.enable_override( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
+    p.remove_effect( effect_npc_suspend );
     p.remove_effect( effect_sleep );
     // TODO: Get mad at player for waking us up unless we're in danger
 }
@@ -989,7 +989,7 @@ void talk_function::set_npc_pickup( npc &p )
 void talk_function::npc_die( npc &p )
 {
     p.die( nullptr );
-    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
     if( guy && !guy->is_dead() ) {
         guy->marked_for_death = true;
     }

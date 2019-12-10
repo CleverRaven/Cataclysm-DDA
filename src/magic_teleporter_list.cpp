@@ -141,10 +141,7 @@ void teleporter_list::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
 
-    JsonArray parray = data.get_array( "known_teleporters" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
-
+    for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint temp_pos;
         jo.read( "position", temp_pos );
         std::string name;

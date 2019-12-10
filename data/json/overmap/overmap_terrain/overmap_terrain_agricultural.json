@@ -6,7 +6,7 @@
     "name": "sugar house",
     "sym": "S",
     "color": "i_brown",
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW" ]
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1074,7 +1074,7 @@
     "name": "orchard",
     "sym": "#",
     "color": "i_green",
-    "flags": [ "SOURCE_FOOD" ]
+    "extend": { "flags": [ "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",

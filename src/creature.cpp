@@ -45,6 +45,7 @@ const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_npc_suspend( "npc_suspend" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
@@ -155,7 +156,6 @@ void Creature::process_turn()
     }
 }
 
-// MF_DIGS or MF_CAN_DIG and diggable terrain
 bool Creature::digging() const
 {
     return false;
@@ -1301,7 +1301,8 @@ void Creature::set_moves( int nmoves )
 
 bool Creature::in_sleep_state() const
 {
-    return has_effect( effect_sleep ) || has_effect( effect_lying_down );
+    return has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
+           has_effect( effect_npc_suspend );
 }
 
 /*
@@ -1473,7 +1474,6 @@ void Creature::set_armor_cut_bonus( int ncutarm )
 {
     armor_cut_bonus = ncutarm;
 }
-
 
 void Creature::set_speed_base( int nspeed )
 {
@@ -1746,7 +1746,7 @@ std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
     }
 };
 
-void Creature::load_hit_range( JsonObject &jo )
+void Creature::load_hit_range( const JsonObject &jo )
 {
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );

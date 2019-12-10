@@ -14,6 +14,7 @@
 #include "optional.h"
 #include "point.h"
 #include "translations.h"
+#include "memory_fast.h"
 
 class JsonIn;
 class JsonOut;
@@ -36,7 +37,7 @@ struct expansion_data {
 
 };
 
-using npc_ptr = std::shared_ptr<npc>;
+using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
 using itype_id = std::string;
@@ -308,7 +309,7 @@ class basecamp
         /**
         * Perform any mix of the three farm tasks.
         * @param task
-        * @param omt_trg the overmap pos3 of the farm_ops
+        * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const std::string &task, const tripoint &omt_tgt, farm_ops op );

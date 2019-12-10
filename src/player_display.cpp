@@ -1356,29 +1356,35 @@ void player::disp_info()
     do {
         werase( w_info );
         switch( curtab ) {
-            case 1: // Stats tab
+            case 1:
+                // Stats tab
                 draw_stats_tab( w_stats, w_info, *this, line, curtab, ctxt, done, action );
                 break;
-            case 2: // Encumbrance tab
+            case 2:
+                // Encumbrance tab
                 draw_encumbrance_tab( w_encumb, w_info, *this, line, curtab, ctxt, done, action );
                 break;
 
-            case 4: // Traits tab
+            case 4:
+                // Traits tab
                 draw_traits_tab( w_traits, w_info, line, curtab, ctxt, done, action,
                                  traitslist, trait_win_size_y );
                 break;
 
-            case 5: // Bionics tab
+            case 5:
+                // Bionics tab
                 draw_bionics_tab( w_bionics, w_info, *this, line, curtab, ctxt, done, action,
                                   bionicslist, bionics_win_size_y );
                 break;
 
-            case 6: // Effects tab
+            case 6:
+                // Effects tab
                 draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
                                   effect_name_and_text, effect_win_size_y );
                 break;
 
-            case 3: // Skills tab
+            case 3:
+                // Skills tab
                 draw_skills_tab( w_skills, w_info, *this, line, curtab, ctxt, done, action,
                                  skillslist, skill_win_size_y );
 

@@ -35,7 +35,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_JOB",
-    "dynamic_line": "What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a shave out here.",
+    "dynamic_line": "What?  I'm a barber… I cut hair.  There's demand for cheap cuts and a shave out here.",
     "responses": [ { "text": "Sorry.", "topic": "TALK_RANCH_BARBER" } ]
   },
   {

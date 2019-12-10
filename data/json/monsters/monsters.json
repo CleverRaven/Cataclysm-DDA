@@ -19,7 +19,8 @@
     "vision_day": 1,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
     "id": "mon_albino_penguin",
@@ -563,6 +564,7 @@
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
     },
     "death_function": [ "NORMAL" ],
+    "regenerates": 1,
     "flags": [
       "SEES",
       "HEARS",
@@ -577,8 +579,7 @@
       "BILE_BLOOD",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "FILTHY",
-      "REGENERATES_1"
+      "FILTHY"
     ]
   },
   {
@@ -767,7 +768,7 @@
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 1 ] ] },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 4, 6 ] ] },
     "death_function": [ "EXPLODE" ],
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
   },
@@ -917,18 +918,8 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
-    "flags": [
-      "NOHEAD",
-      "HARDTOSHOOT",
-      "WEBWALK",
-      "FLIES",
-      "PLASTIC",
-      "ELECTRIC",
-      "ACIDPROOF",
-      "SUNDEATH",
-      "REGENERATES_IN_DARK",
-      "NO_BREATHE"
-    ]
+    "regenerates_in_dark": true,
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
   {
     "id": "mon_dementia",
@@ -1409,19 +1400,22 @@
     "id": "mon_fungal_wall",
     "type": "MONSTER",
     "name": "fungal wall",
-    "description": "A veritable wall of fungus, grown as a natural defense by the fungal spire.  New spores erupt from the surface every few seconds.",
+    "description": "A veritable wall of fungus, grown as a natural defense by the fungal spire.  New spores erupt from the surface every few seconds, and tendrils constrict around it, pulling new mass into its shape.  They move with an inexorable strength that could snap limbs.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 2,
     "volume": "875000 ml",
     "weight": 200000,
-    "hp": 10,
+    "hp": 20,
     "speed": 100,
     "material": [ "veggy" ],
     "symbol": "T",
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
+    "melee_skill": 1,
+    "melee_dice": 2,
+    "melee_dice_sides": 10,
     "melee_cut": 0,
     "armor_bash": 10,
     "armor_cut": 10,
@@ -2607,20 +2601,9 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "SWIMS",
-      "PLASTIC",
-      "SLUDGEPROOF",
-      "ACID_BLOOD",
-      "ACIDPROOF",
-      "NOHEAD",
-      "REGENERATES_50",
-      "ABSORBS_SPLITS",
-      "REGEN_MORALE",
-      "NOGIB"
-    ]
+    "regenerates": 50,
+    "regen_morale": true,
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {
     "id": "mon_skeleton",
@@ -2756,19 +2739,8 @@
     "vision_night": 30,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [
-      "NOHEAD",
-      "SEES",
-      "POISON",
-      "HEARS",
-      "REGENERATES_50",
-      "SMELLS",
-      "SLUDGEPROOF",
-      "SLUDGETRAIL",
-      "SWIMS",
-      "FLAMMABLE",
-      "NOGIB"
-    ]
+    "regenerates": 50,
+    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {
     "id": "mon_slug_giant",
@@ -3762,7 +3734,8 @@
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "REGENERATES_50", "POISON", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_dog",

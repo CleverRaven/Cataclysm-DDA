@@ -17,7 +17,7 @@ using oter_type_str_id = string_id<oter_type_t>;
 
 struct overmap_location {
     public:
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
@@ -39,7 +39,7 @@ struct overmap_location {
 namespace overmap_locations
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 void reset();
 void finalize();

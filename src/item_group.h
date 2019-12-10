@@ -74,7 +74,8 @@ void debug_spawn();
 /**
  * See @ref Item_factory::load_item_group
  */
-void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+                      const std::string &subtype );
 /**
  * Get an item group id and (optionally) load an inlined item group.
  *

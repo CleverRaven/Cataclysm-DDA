@@ -52,25 +52,31 @@ void weed_msg( player &p )
     if( howhigh > 12_minutes && one_in( 7 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Freakazoid
+            case 0:
+                // Freakazoid
                 p.add_msg_if_player(
                     _( "The scariest thing in the world would be… if all the air in the world turned to WOOD!" ) );
                 return;
-            case 1: // Simpsons
+            case 1:
+                // Simpsons
                 p.add_msg_if_player(
                     _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
                 p.mod_hunger( 2 );
                 return;
             case 2:
-                if( smarts > 8 ) { // Timothy Leary
+                if( smarts > 8 ) {
+                    // Timothy Leary
                     p.add_msg_if_player( _( "Science is all metaphor." ) );
-                } else if( smarts < 3 ) { // It's Always Sunny in Philadelphia
+                } else if( smarts < 3 ) {
+                    // It's Always Sunny in Philadelphia
                     p.add_msg_if_player( _( "Science is a liar sometimes." ) );
-                } else { // Durr
+                } else {
+                    // Durr
                     p.add_msg_if_player( _( "Science is… wait, what was I talking about again?" ) );
                 }
                 return;
-            case 3: // Dazed and Confused
+            case 3:
+                // Dazed and Confused
                 p.add_msg_if_player(
                     _( "Behind every good man there is a woman, and that woman was Martha Washington, man." ) );
                 if( one_in( 2 ) ) {
@@ -105,24 +111,29 @@ void weed_msg( player &p )
     } else if( howhigh > 10_minutes && one_in( 5 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Bob Marley
+            case 0:
+                // Bob Marley
                 p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
                 return;
-            case 1: // Freakazoid
+            case 1:
+                // Freakazoid
                 p.add_msg_if_player(
                     _( "Okay, like, the scariest thing in the world would be… if like you went to grab something and it wasn't there!" ) );
                 return;
-            case 2: // Simpsons
+            case 2:
+                // Simpsons
                 p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
                 if( smarts > 2 && one_in( 2 ) ) {
                     p.add_msg_if_player( _( "…oh, there they go." ) );
                 }
                 return;
-            case 3: // Bill Hicks
+            case 3:
+                // Bill Hicks
                 p.add_msg_if_player(
                     _( "You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively." ) );
                 return;
-            case 4: // Steve Martin
+            case 4:
+                // Steve Martin
                 p.add_msg_if_player( _( "I usually only smoke in the late evening." ) );
                 if( one_in( 4 ) ) {
                     p.add_msg_if_player(
@@ -149,10 +160,12 @@ void weed_msg( player &p )
     } else if( howhigh > 5_minutes && one_in( 3 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Cheech and Chong
+            case 0:
+                // Cheech and Chong
                 p.add_msg_if_player( _( "Dave's not here, man." ) );
                 return;
-            case 1: // Real Life
+            case 1:
+                // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
                 if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
@@ -161,14 +174,17 @@ void weed_msg( player &p )
                     p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;
-            case 2: // Dazed and Confused
+            case 2:
+                // Dazed and Confused
                 p.add_msg_if_player( _( "Walkin' down the hall, by myself, smokin' a j with fifty elves." ) );
                 return;
-            case 3: // Half Baked
+            case 3:
+                // Half Baked
                 p.add_msg_if_player( _( "That weed was the shiz-nittlebam snip-snap-sack." ) );
                 return;
             case 4:
-                weed_msg( p ); // re-roll
+                // re-roll
+                weed_msg( p );
             case 5:
             default:
                 return;
@@ -177,7 +193,7 @@ void weed_msg( player &p )
 }
 
 static void extract_effect(
-    JsonObject &j,
+    const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
     const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
@@ -203,7 +219,7 @@ static void extract_effect(
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
+bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_object( member ) ) {
         JsonObject j = jo.get_object( member );
@@ -433,7 +449,7 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
         JsonArray outer = jo.get_array( member );
@@ -445,7 +461,7 @@ bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
     }
     return false;
 }
-bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
         JsonArray outer = jo.get_array( member );
@@ -1191,7 +1207,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( JsonObject &jo )
+void load_effect_type( const JsonObject &jo )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
