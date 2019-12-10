@@ -47,7 +47,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
     "type": "terrain",
@@ -57,7 +57,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
     "type": "terrain",
@@ -67,7 +67,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
     "type": "terrain",
@@ -77,7 +77,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
     "type": "terrain",
@@ -87,7 +87,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
     "type": "terrain",
