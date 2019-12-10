@@ -1194,7 +1194,7 @@ void options_manager::add_options_general()
        );
 
     add( "AUTOIGNOREHOSTILEDISTANCE", "general", translate_marker( "Auto ignore hostile distance" ),
-         translate_marker( "Only hostiles this distance and further away will be auto ignored" ),
+         translate_marker( "Only hostiles this distance and further away will be auto ignored." ),
          0, 30, 0
        );
 
