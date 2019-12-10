@@ -963,9 +963,16 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 
 int iuse::blech( player *p, item *it, bool, const tripoint & )
 {
+    std::string unclean_or_unhealthy;
+    if( it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
+        unclean_or_unhealthy = "unclean";
+    }
+    if( !it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
+        unclean_or_unhealthy = "unhealthy";
+    }
     // TODO: Add more effects?
     if( it->made_of( LIQUID ) ) {
-        if( !p->query_yn( _( "This looks unhealthy, sure you want to drink it?" ) ) ) {
+        if( !p->query_yn( _( "This looks " + unclean_or_unhealthy + ", sure you want to drink it?" ) ) ) {
             return 0;
         }
     } else { //Assume that if a blech consumable isn't a drink, it will be eaten.

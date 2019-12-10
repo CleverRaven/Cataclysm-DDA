@@ -946,6 +946,22 @@
   },
   {
     "type": "recipe",
+    "result": "stethoscope",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "duct_tape", 30 ] ],
+      [ [ "bottle_plastic_small", 2 ] ],
+	  [ [ "hose", 2 ] ]
+	  ]
+  },
+  {
+    "type": "recipe",
     "result": "shelter_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
