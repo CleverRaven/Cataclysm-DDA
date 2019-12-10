@@ -9063,7 +9063,6 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         if( !u.movement_mode_is( CMM_RUN ) ) {
             std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
