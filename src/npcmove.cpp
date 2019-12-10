@@ -122,8 +122,8 @@ static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_blade( "bio_blade" );
 static const bionic_id bio_claws( "bio_claws" );
 
-const ammotype reactor_slurry( "reactor_slurry" );
-const ammotype plutonium( "plutonium" );
+static const ammotype reactor_slurry( "reactor_slurry" );
+static const ammotype plutonium( "plutonium" );
 
 enum npc_action : int {
     npc_undecided = 0,
