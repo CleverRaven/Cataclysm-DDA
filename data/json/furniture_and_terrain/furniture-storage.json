@@ -444,7 +444,7 @@
     "coverage": 10,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": [ 4, 6 ] }, { "item": "sheet_metal_small", "count": [ 0, 4 ] } ] },
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 4, 6 ] }, { "item": "sheet_metal_small", "count": [ 0, 4 ] } ] }, { "item": "wheel_casters", "count": 1 }
     "max_volume": 7000,
     "bash": {
       "str_min": 6,
