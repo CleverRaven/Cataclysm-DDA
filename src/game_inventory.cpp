@@ -548,7 +548,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this, &p ]( const item_location & loc ) {
                 return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
-            }, _( "ENERGY" ) );
+            }, _( "ENERGY (kJ)" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
