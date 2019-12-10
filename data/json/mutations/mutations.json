@@ -1273,7 +1273,7 @@
     "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
-    "category": [ "TROGLOBITE", "MOUSE" ]
+    "category": [ "TROGLOBITE", "MOUSE" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -4769,7 +4769,7 @@
     "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
     "prereqs": [ "ALBINO" ],
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
-    "category": [ "TROGLOBITE" ]
+    "category": [ "TROGLOBITE" ],
     "types": [ "skin_tone" ]
   },
   {
