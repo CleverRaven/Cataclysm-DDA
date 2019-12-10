@@ -269,7 +269,11 @@
       "dairy_farm_SW",
       "dairy_farm_SE",
       "megastore",
-      "megastore_entrance"
+      "megastore_entrance",
+      "haz_sar_entrance",
+      "haz_sar",
+      "haz_sar_entrance_b1",
+      "haz_sar_b1"
     ]
   }
 ]
