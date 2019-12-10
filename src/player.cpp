@@ -5664,7 +5664,7 @@ void player::try_to_sleep( const time_duration &dur )
         if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
               ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
               ter_at_pos == t_grass || furn_at_pos == furn_str_id( "f_planter" ) ) && !vp &&
-            furn_at_pos == f_null || furn_at_pos == furn_str_id( "f_planter" ) ) {
+            ( furn_at_pos == f_null || furn_at_pos == furn_str_id( "f_planter" ) ) ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
