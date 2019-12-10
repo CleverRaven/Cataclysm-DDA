@@ -179,50 +179,63 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
 
-    // Either find a random or closest match, based on the criteria.
-    if( params.random ) {
-        target_pos = overmap_buffer.find_random( origin_pos, find_params );
-    } else {
-        target_pos = overmap_buffer.find_closest( origin_pos, find_params );
-    }
-
-    // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
-    // have to see the location beforehand, then we can attempt to create the new terrain.
-    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
-        !params.must_see ) {
-        // If this terrain is part of an overmap special...
-        if( params.overmap_special ) {
-            // ...then attempt to place the whole special.
-            const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
-                                params.search_range );
-            // If we succeeded in placing the special, then try and find the particular location
-            // we're interested in.
-            if( placed ) {
-                find_params.must_see = false;
-                target_pos = overmap_buffer.find_closest( origin_pos, find_params );
-            }
-        } else if( params.replaceable_overmap_terrain ) {
-            // This terrain wasn't part of an overmap special, but we do have a replacement
-            // terrain specified. Find a random location of that replacement type.
-            find_params.must_see = false;
-            find_params.types.front().first = *params.replaceable_overmap_terrain;
+    auto get_target_position = [&]() {
+        // Either find a random or closest match, based on the criteria.
+        if( params.random ) {
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
+        } else {
+            target_pos = overmap_buffer.find_closest( origin_pos, find_params );
+        }
 
-            // We didn't find it, so allow this search to create new overmaps and try again.
-            find_params.existing_only = true;
-            if( target_pos == overmap::invalid_tripoint ) {
+        // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
+        // have to see the location beforehand, then we can attempt to create the new terrain.
+        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
+            !params.must_see ) {
+            // If this terrain is part of an overmap special...
+            if( params.overmap_special ) {
+                // ...then attempt to place the whole special.
+                const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
+                                    params.search_range );
+                // If we succeeded in placing the special, then try and find the particular location
+                // we're interested in.
+                if( placed ) {
+                    find_params.must_see = false;
+                    target_pos = overmap_buffer.find_closest( origin_pos, find_params );
+                }
+            } else if( params.replaceable_overmap_terrain ) {
+                // This terrain wasn't part of an overmap special, but we do have a replacement
+                // terrain specified. Find a random location of that replacement type.
+                find_params.must_see = false;
+                find_params.types.front().first = *params.replaceable_overmap_terrain;
                 target_pos = overmap_buffer.find_random( origin_pos, find_params );
-            }
 
-            // We found a match, so set this position (which was our replacement terrain)
-            // to our desired mission terrain.
-            if( target_pos != overmap::invalid_tripoint ) {
-                overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
+                // We didn't find it, so allow this search to create new overmaps and try again.
+                find_params.existing_only = true;
+                if( target_pos == overmap::invalid_tripoint ) {
+                    target_pos = overmap_buffer.find_random( origin_pos, find_params );
+                }
+
+                // We found a match, so set this position (which was our replacement terrain)
+                // to our desired mission terrain.
+                if( target_pos != overmap::invalid_tripoint ) {
+                    overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
+                }
             }
         }
+    };
+
+    // First try to get the position where we only allow existing overmaps.
+    get_target_position();
+
+    if( target_pos == overmap::invalid_tripoint ) {
+        // If it's invalid, then that means we couldn't find it or create it (if allowed) on
+        // our current overmap. We'll now go ahead and try again but allow it to create new overmaps.
+        find_params.existing_only = false;
+        get_target_position();
     }
-    // If we got here and this is still invalid, it means that we couldn't find it and (if
-    // allowed by the parameters) we couldn't create it either.
+
+    // If we got here and this is still invalid, it means that we couldn't find it nor create it
+    // on any overmap (new or existing) within the allowed search range.
     if( target_pos == overmap::invalid_tripoint ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain );
         return cata::nullopt;
