@@ -72,9 +72,9 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_saddled( "monster_saddled" );
 
-const mtype_id mon_horse( "mon_horse" );
-const mtype_id mon_cow( "mon_cow" );
-const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_horse( "mon_horse" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_chicken( "mon_chicken" );
 
 void spawn_animal( npc &p, const mtype_id &mon );
 

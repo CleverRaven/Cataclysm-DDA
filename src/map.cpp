@@ -83,7 +83,7 @@
 #include "construction.h"
 #include "flat_set.h"
 
-const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 const skill_id skill_traps( "traps" );
 

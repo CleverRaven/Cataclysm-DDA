@@ -38,7 +38,7 @@
 #include <functional>
 #include <algorithm>
 
-const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );

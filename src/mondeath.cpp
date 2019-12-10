@@ -48,21 +48,21 @@
 #include "point.h"
 #include "mattack_actors.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_blob_brain( "mon_blob_brain" );
-const mtype_id mon_blob_small( "mon_blob_small" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-const mtype_id mon_halfworm( "mon_halfworm" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_thing( "mon_thing" );
-const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
-const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
-const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );

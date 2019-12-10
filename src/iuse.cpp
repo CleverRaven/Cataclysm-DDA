@@ -105,19 +105,19 @@
 
 #include "iuse_software.h"
 
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_cat( "mon_cat" );
-const mtype_id mon_hologram( "mon_hologram" );
-const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_fly( "mon_fly" );
-const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_spore( "mon_spore" );
-const mtype_id mon_vortex( "mon_vortex" );
-const mtype_id mon_wasp( "mon_wasp" );
-const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_cat( "mon_cat" );
+static const mtype_id mon_hologram( "mon_hologram" );
+static const mtype_id mon_dog( "mon_dog" );
+static const mtype_id mon_dog_thing( "mon_dog_thing" );
+static const mtype_id mon_fly( "mon_fly" );
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_spore( "mon_spore" );
+static const mtype_id mon_vortex( "mon_vortex" );
+static const mtype_id mon_wasp( "mon_wasp" );
+static const mtype_id mon_cow( "mon_cow" );
 
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );

@@ -54,7 +54,7 @@ const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_fungus( "fungus" );
 
-const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
 
 const bionic_id bio_advreactor( "bio_advreactor" );
 const bionic_id bio_digestion( "bio_digestion" );

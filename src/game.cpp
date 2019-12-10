@@ -168,7 +168,7 @@ static constexpr int DANGEROUS_PROXIMITY = 5;
 /** Will be set to true when running unit tests */
 bool test_mode = false;
 
-const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_manhack( "mon_manhack" );
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );

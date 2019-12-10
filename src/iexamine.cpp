@@ -88,12 +88,12 @@
 #include "magic_teleporter_list.h"
 #include "point.h"
 
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
-const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
 const skill_id skill_fabrication( "fabrication" );

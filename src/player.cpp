@@ -102,8 +102,8 @@
 
 const double MAX_RECOIL = 3000;
 
-const mtype_id mon_player_blob( "mon_player_blob" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
