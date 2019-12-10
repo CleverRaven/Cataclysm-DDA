@@ -1181,7 +1181,7 @@ void options_manager::add_options_general()
        );
 
     add( "AUTOIGNORESOUNDDISTANCE", "general", translate_marker( "Auto ignore sound distance" ),
-         translate_marker( "Only sounds this distance and further away will be auto ignored" ),
+         translate_marker( "Only sounds this distance and further away will be auto ignored." ),
          0, 30, 0
        );
 
