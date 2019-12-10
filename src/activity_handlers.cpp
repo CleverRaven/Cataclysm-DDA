@@ -98,10 +98,10 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_computer( "computer" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_computer( "computer" );
 
 const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );

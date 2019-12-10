@@ -170,12 +170,12 @@ bool test_mode = false;
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
-const skill_id skill_melee( "melee" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_computer( "computer" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );

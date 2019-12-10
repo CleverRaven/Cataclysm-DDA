@@ -90,10 +90,10 @@ class npc_class;
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cooking( "cooking" );
 
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );

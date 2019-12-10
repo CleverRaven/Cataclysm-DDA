@@ -74,19 +74,19 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_speech( "speech" );
-const skill_id skill_traps( "traps" );
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 

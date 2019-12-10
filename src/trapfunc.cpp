@@ -40,7 +40,7 @@ static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_throw( "throw" );
+static const skill_id skill_throw( "throw" );
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_heavysnare( "heavysnare" );

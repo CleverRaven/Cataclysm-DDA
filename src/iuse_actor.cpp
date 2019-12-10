@@ -78,10 +78,10 @@
 
 class npc;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_fabrication( "fabrication" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );

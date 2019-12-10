@@ -91,7 +91,7 @@ namespace
 const quality_id LIFT( "LIFT" );
 const quality_id JACK( "JACK" );
 const quality_id SELF_JACK( "SELF_JACK" );
-const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_mechanics( "mechanics" );
 const itype_id fuel_type_battery( "battery" );
 } // namespace
 

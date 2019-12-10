@@ -142,8 +142,8 @@ const efftype_id effect_winded( "winded" );
 
 const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_throw( "throw" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );

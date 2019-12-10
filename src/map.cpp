@@ -85,7 +85,7 @@
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-const skill_id skill_traps( "traps" );
+static const skill_id skill_traps( "traps" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 

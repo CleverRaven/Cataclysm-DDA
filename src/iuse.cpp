@@ -119,14 +119,14 @@ static const mtype_id mon_vortex( "mon_vortex" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_cow( "mon_cow" );
 
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_melee( "melee" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_melee( "melee" );
 
 const species_id ROBOT( "ROBOT" );
 const species_id HALLUCINATION( "HALLUCINATION" );

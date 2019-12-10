@@ -27,8 +27,8 @@
 #include "item.h"
 #include "point.h"
 
-const skill_id skill_gun( "gun" );
-const skill_id skill_rifle( "rifle" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_rifle( "rifle" );
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 

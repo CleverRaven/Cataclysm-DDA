@@ -75,7 +75,7 @@
 
 class basecamp;
 
-const skill_id skill_speech( "speech" );
+static const skill_id skill_speech( "speech" );
 
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );

@@ -107,11 +107,11 @@ static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
-const skill_id skill_melee( "melee" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_launcher( "launcher" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_launcher( "launcher" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );

@@ -66,7 +66,7 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_firstaid( "firstaid" );
 
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_bandaged( "bandaged" );

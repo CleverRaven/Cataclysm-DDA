@@ -50,7 +50,7 @@ const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_saddled( "monster_saddled" );
-const skill_id skill_survival( "survival" );
+static const skill_id skill_survival( "survival" );
 
 bool monexamine::pet_menu( monster &z )
 {

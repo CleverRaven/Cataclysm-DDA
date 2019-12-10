@@ -38,8 +38,8 @@
 
 namespace
 {
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );

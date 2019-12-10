@@ -65,7 +65,7 @@ static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_tied( "tied" );
-const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
     OPENCURTAINS = 0,

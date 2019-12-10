@@ -79,7 +79,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-const skill_id skill_melee( "melee" );
+static const skill_id skill_melee( "melee" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;

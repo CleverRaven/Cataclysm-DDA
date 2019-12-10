@@ -67,16 +67,16 @@
 class basecamp;
 class monfaction;
 
-const skill_id skill_barter( "barter" );
-const skill_id skill_pistol( "pistol" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_archery( "archery" );
-const skill_id skill_shotgun( "shotgun" );
-const skill_id skill_smg( "smg" );
-const skill_id skill_cutting( "cutting" );
+static const skill_id skill_barter( "barter" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_cutting( "cutting" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
