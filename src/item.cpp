@@ -320,6 +320,11 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
             }
         }
     }
+
+    // in craft of liquid item should have liquid attribute
+    if( find_type(making->result())->phase == LIQUID ) {
+        current_phase = static_cast<phase_id>( 2 );
+    }
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )

@@ -272,6 +272,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         }
     } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
+    } else if( newit.is_craft() && newit.made_of( LIQUID )) {
+        got_water = true; //Handles in progress liquid craft
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _( "The %s is too heavy!" ),
