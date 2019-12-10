@@ -5663,12 +5663,12 @@ void player::try_to_sleep( const time_duration &dur )
         plantsleep = true;
         if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
               ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-              ter_at_pos == t_grass ) && !vp &&
-            furn_at_pos == f_null ) {
+              ter_at_pos == t_grass || furn_at_pos == furn_str_id( "f_planter" ) ) && !vp &&
+            furn_at_pos == f_null || furn_at_pos == furn_str_id( "f_planter" ) ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != f_null ) {
+        } else if( furn_at_pos != f_null && furn_at_pos != furn_str_id( "f_planter" ) ) {
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems
@@ -5855,13 +5855,13 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
-        if( vp || furn_at_pos != f_null ) {
+        if( vp || ( furn_at_pos != f_null && furn_at_pos != furn_str_id( "f_planter" ) ) ) {
             // Sleep ain't happening in a vehicle or on furniture
             comfort = static_cast<int>( comfort_level::uncomfortable );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
             if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow ) {
+                ter_at_pos == t_pit_shallow || furn_at_pos == furn_str_id( "f_planter" ) ) {
                 comfort += static_cast<int>( comfort_level::very_comfortable );
             }
             // Not as much if you have to dig through stuff first
