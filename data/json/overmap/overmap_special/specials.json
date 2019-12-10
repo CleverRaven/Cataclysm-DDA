@@ -1106,6 +1106,26 @@
   },
   {
     "type": "overmap_special",
+    "id": "Hws",
+    "overmaps": [
+      { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "haz_sar_1_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "haz_sar_1_2_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "haz_sar_1_3_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "haz_sar_1_4_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "haz_sar_b_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "haz_sar_b_2_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "haz_sar_b_3_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "haz_sar_b_4_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ] } ],
+    "locations": [ "land" ],
+    "city_distance": [ 15, -1 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 1, 2 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Necropolis",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "necropolis_a_1_north" },

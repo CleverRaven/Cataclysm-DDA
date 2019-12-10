@@ -102,6 +102,78 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "haz_sar_1_1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_1_2",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_1_3",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_1_4",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_b_1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_b_2",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_b_3",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_b_4",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "haz_sar_entrance",
     "name": "hazardous waste sarcophagus",
     "sym": "X",
