@@ -41,18 +41,18 @@ namespace
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_cooking( "cooking" );
 
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
