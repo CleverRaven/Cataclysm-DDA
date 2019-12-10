@@ -49,7 +49,6 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_riding( "riding" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );

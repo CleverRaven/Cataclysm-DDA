@@ -98,9 +98,6 @@ static const skill_id skill_cooking( "cooking" );
 static const quality_id quality_jack( "JACK" );
 static const quality_id quality_lift( "LIFT" );
 
-static const species_id FISH( "FISH" );
-static const species_id BIRD( "BIRD" );
-static const species_id INSECT( "INSECT" );
 static const species_id ROBOT( "ROBOT" );
 
 static const efftype_id effect_cig( "cig" );
@@ -108,12 +105,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const material_id mat_leather( "leather" );
-static const material_id mat_kevlar( "kevlar" );
-
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 static const trait_id trait_small2( "SMALL2" );
 static const trait_id trait_small_ok( "SMALL_OK" );

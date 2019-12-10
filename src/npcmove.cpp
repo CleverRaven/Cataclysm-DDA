@@ -77,9 +77,7 @@ static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_onfire( "onfire" );
@@ -87,11 +85,9 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
-static const efftype_id effect_ridden( "ridden" );
 
 // power source CBMs
 static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_ethanol( "bio_ethanol" );
 static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_reactor( "bio_reactor" );
 

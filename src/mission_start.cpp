@@ -26,18 +26,13 @@
 #include "optional.h"
 #include "rng.h"
 
-static const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 static const mtype_id mon_dog( "mon_dog" );
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-
-static const efftype_id effect_infection( "infection" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for

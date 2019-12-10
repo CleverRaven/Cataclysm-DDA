@@ -71,7 +71,6 @@ static const skill_id skill_launcher( "launcher" );
 
 static const efftype_id effect_on_roof( "on_roof" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
-static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );

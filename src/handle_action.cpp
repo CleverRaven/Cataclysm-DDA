@@ -72,7 +72,6 @@
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
-static const efftype_id effect_riding( "riding" );
 
 static const bionic_id bio_remote( "bio_remote" );
 

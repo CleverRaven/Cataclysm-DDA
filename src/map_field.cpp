@@ -70,8 +70,6 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_relax_gas( "relax_gas" );
-static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );

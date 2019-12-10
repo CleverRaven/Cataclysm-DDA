@@ -47,7 +47,6 @@ static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_saddled( "monster_saddled" );
 static const skill_id skill_survival( "survival" );

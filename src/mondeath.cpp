@@ -60,9 +60,7 @@ static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_thing( "mon_thing" );
 static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
 static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
-static const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 static const species_id BLOB( "BLOB" );

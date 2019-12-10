@@ -72,13 +72,9 @@
 #include "point.h"
 #include "units.h"
 
-static const mtype_id mon_ant( "mon_ant" );
-static const mtype_id mon_ant_acid( "mon_ant_acid" );
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_soldier( "mon_ant_acid_soldier" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_ant_soldier( "mon_ant_soldier" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );

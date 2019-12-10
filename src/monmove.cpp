@@ -53,7 +53,6 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
@@ -62,9 +61,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_harnessed( "harnessed" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id BLOB( "BLOB" );
-static const species_id ROBOT( "ROBOT" );
-static const species_id WORM( "WORM" );
 
 bool monster::wander()
 {

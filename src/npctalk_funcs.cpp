@@ -67,10 +67,6 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_controlled( "controlled" );
-static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_saddled( "monster_saddled" );
 
 static const mtype_id mon_horse( "mon_horse" );
 static const mtype_id mon_cow( "mon_cow" );

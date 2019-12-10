@@ -107,9 +107,7 @@
 
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_cat( "mon_cat" );
 static const mtype_id mon_hologram( "mon_hologram" );
-static const mtype_id mon_dog( "mon_dog" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );
 static const mtype_id mon_fly( "mon_fly" );
 static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
@@ -117,7 +115,6 @@ static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
 static const mtype_id mon_wasp( "mon_wasp" );
-static const mtype_id mon_cow( "mon_cow" );
 
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
@@ -185,7 +182,6 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
@@ -213,7 +209,6 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
-static const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );

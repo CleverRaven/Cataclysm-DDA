@@ -85,7 +85,6 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CLAWS( "CLAWS" );

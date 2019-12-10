@@ -59,8 +59,6 @@
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-static const efftype_id effect_riding( "riding" );
-
 class player;
 
 static inline std::string status_color( bool status )

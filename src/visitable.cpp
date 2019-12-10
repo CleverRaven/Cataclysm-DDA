@@ -26,8 +26,6 @@
 #include "colony.h"
 #include "point.h"
 
-static const efftype_id effect_riding( "riding" );
-
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )

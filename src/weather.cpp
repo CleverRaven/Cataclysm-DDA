@@ -39,7 +39,6 @@
 
 static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_snow_glare( "snow_glare" );
-static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );

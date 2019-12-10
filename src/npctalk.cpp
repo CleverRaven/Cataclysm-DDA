@@ -77,18 +77,6 @@ class basecamp;
 
 static const skill_id skill_speech( "speech" );
 
-static const efftype_id effect_allow_sleep( "allow_sleep" );
-static const efftype_id effect_asked_for_item( "asked_for_item" );
-static const efftype_id effect_asked_personal_info( "asked_personal_info" );
-static const efftype_id effect_asked_to_follow( "asked_to_follow" );
-static const efftype_id effect_asked_to_lead( "asked_to_lead" );
-static const efftype_id effect_asked_to_train( "asked_to_train" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_currently_busy( "currently_busy" );
-static const efftype_id effect_gave_quest_item( "gave_quest_item" );
-static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );

@@ -37,7 +37,6 @@
 #include "line.h"
 
 static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-static const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title

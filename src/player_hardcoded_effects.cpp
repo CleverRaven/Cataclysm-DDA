@@ -52,7 +52,6 @@ static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cold( "cold" );
-static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
