@@ -1188,7 +1188,7 @@ void options_manager::add_options_general()
     get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
     add( "AUTOIGNOREHOSTILE", "general", translate_marker( "Auto ignore hostile mode" ),
-         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles auto ignore distance and further away will be ignored.  SafeOn: All hostiles auto ignore distance and further away will be ignored while safe mode is on.  SafeOff: All hostiles auto ignore distance and further away will be ignored while safe mode is off.  None: No hostiles will be auto ignored" ),
+         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles auto ignore distance and further away will be ignored.  SafeOn: All hostiles auto ignore distance and further away will be ignored while safe mode is on.  SafeOff: All hostiles auto ignore distance and further away will be ignored while safe mode is off.  None: No hostiles will be auto ignored." ),
     { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
     "NONE"
        );
