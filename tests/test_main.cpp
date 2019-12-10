@@ -96,23 +96,23 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory. Check permissions." );
+        assert( !"Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        assert( !"Unable to make config directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
+        assert( !"Unable to make config directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
-        assert( !"Unable to make save directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
+        assert( !"Unable to make save directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
-        assert( !"Unable to make templates directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
+        assert( !"Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -275,10 +275,10 @@ int main( int argc, const char *argv[] )
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
         printf( "CataclysmDDA specific options:\n" );
-        printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
+        printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
+        printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
         return result;
     }

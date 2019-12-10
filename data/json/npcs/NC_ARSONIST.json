@@ -165,8 +165,7 @@
       [ "firecracker_pack", 50 ],
       [ "firecracker", 30 ],
       [ "dynamite", 50 ],
-      [ "rebar", 100 ],
-      [ "matchbomb", 50 ]
+      [ "rebar", 100 ]
     ]
   }
 ]

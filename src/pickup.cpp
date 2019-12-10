@@ -211,7 +211,6 @@ bool Pickup::query_thief()
     } else {
         // error
         debugmsg( "Not a valid option [ %s ]", answer );
-        return false;
     }
     return false;
 }
@@ -317,10 +316,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WIELD:
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
-                picked_up = u.wield( it );
-                if( picked_up ) {
-                    it.charges = newit.charges;
-                }
+                picked_up = u.wield( newit );
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -509,6 +505,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
             g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
+            g->u.activity.coords.push_back( g->u.pos() );
         }
         // auto-pickup means pick up all.
         g->u.activity.values.push_back( 0 );
@@ -790,7 +787,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 std::vector<iteminfo> vDummy;
                 selected_item.info( true, vThisItem );
 
-                draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
+                item_info_data dummy( "", "", vThisItem, vDummy, iScrollPos );
+                dummy.without_getch = true;
+                dummy.without_border = true;
+
+                draw_item_info( w_item_info, dummy );
             }
             draw_custom_border( w_item_info, 0 );
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
@@ -990,6 +991,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+    g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;

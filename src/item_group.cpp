@@ -68,9 +68,10 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     }
     if( modifier ) {
         modifier->modify( tmp );
+    } else {
+        // TODO: change the spawn lists to contain proper references to containers
+        tmp = tmp.in_its_container();
     }
-    // TODO: change the spawn lists to contain proper references to containers
-    tmp = tmp.in_its_container();
     return tmp;
 }
 
@@ -114,15 +115,15 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     return result;
 }
 
-void Single_item_creator::check_consistency() const
+void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( id ) ) {
-            debugmsg( "item id %s is unknown", id.c_str() );
+            debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( id ) ) {
-            debugmsg( "item group id %s is unknown", id.c_str() );
+            debugmsg( "item group id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -130,7 +131,7 @@ void Single_item_creator::check_consistency() const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency();
+        modifier->check_consistency( context );
     }
 }
 
@@ -194,7 +195,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
-    , dirt( 100, 9999 )
+    , dirt( 0, 9999 ) // min and max should follow max_dirt in ranged.cpp
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
@@ -203,20 +204,76 @@ Item_modifier::Item_modifier()
 
 void Item_modifier::modify( item &new_item ) const
 {
-
     if( new_item.is_null() ) {
         return;
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    int random_dirt = rng( dirt.first, dirt.second );
-    if( new_item.is_gun() && random_dirt > 0 ) {
-        new_item.set_var( "dirt",  random_dirt );
-        new_item.faults.emplace( "fault_gun_dirt" );
+    if( new_item.is_gun() &&
+        // no need for dirt if it's a bow
+        !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( one_in( 10 ) &&
+            // chance to be unlubed, but only if it's not a laser or something
+            !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+            new_item.faults.emplace( "fault_gun_unlubricated" );
+        }
+        int random_dirt = rng( dirt.first, dirt.second );
+        // if gun RNG is dirty, must add dirt fault to allow cleaning
+        if( random_dirt > 0 ) {
+            new_item.set_var( "dirt", random_dirt );
+            new_item.faults.emplace( "fault_gun_dirt" );
+        }
     }
 
-    int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
-             charges.second );
+    // create container here from modifier or from default to get max charges later
+    item cont;
+    if( container != nullptr ) {
+        cont = container->create_single( new_item.birthday() );
+    }
+    if( cont.is_null() && new_item.type->default_container.has_value() ) {
+        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
+        if( cont_value != "null" ) {
+            cont = item( cont_value, new_item.birthday() );
+        }
+    }
+
+    int max_capacity = -1;
+    if( charges.first != -1 && charges.second == -1 ) {
+        const int max_ammo = new_item.ammo_capacity();
+        if( max_ammo > 0 ) {
+            max_capacity = max_ammo;
+        }
+    }
+
+    if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( LIQUID ) ||
+            ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
+        max_capacity = new_item.charges_per_volume( cont.get_container_capacity() );
+    }
+
+    const bool charges_not_set = charges.first == -1 && charges.second == -1;
+    int ch = -1;
+    if( !charges_not_set ) {
+        int charges_min = charges.first;
+        int charges_max = charges.second;
+
+        if( charges_min == -1 && charges_max != -1 ) {
+            charges_min = 0;
+        }
+
+        if( max_capacity != -1 && ( charges_max > max_capacity || ( charges_min != 1 &&
+                                    charges_max == -1 ) ) ) {
+            charges_max = max_capacity;
+        }
+
+        if( charges_min > charges_max ) {
+            charges_min = charges_max;
+        }
+
+        ch = charges_min == charges_max ? charges_min : rng( charges_min,
+                charges_max );
+    } else if( !cont.is_null() && new_item.made_of( LIQUID ) ) {
+        new_item.charges = std::max( 1, max_capacity );
+    }
 
     if( ch != -1 ) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
@@ -273,20 +330,9 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    if( container != nullptr ) {
-        item cont = container->create_single( new_item.birthday() );
-        if( !cont.is_null() ) {
-            if( new_item.made_of( LIQUID ) ) {
-                int rc = cont.get_remaining_capacity_for_liquid( new_item );
-                if( rc > 0 && ( new_item.charges > rc || ch == -1 ) ) {
-                    // make sure the container is not over-full.
-                    // fill up the container (if using default charges)
-                    new_item.charges = rc;
-                }
-            }
-            cont.put_in( new_item );
-            new_item = cont;
-        }
+    if( !cont.is_null() ) {
+        cont.put_in( new_item );
+        new_item = cont;
     }
 
     if( contents != nullptr ) {
@@ -299,13 +345,13 @@ void Item_modifier::modify( item &new_item ) const
     }
 }
 
-void Item_modifier::check_consistency() const
+void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency();
+        ammo->check_consistency( "ammo of " + context );
     }
     if( container != nullptr ) {
-        container->check_consistency();
+        container->check_consistency( "container of " + context );
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
         debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
@@ -430,10 +476,10 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency() const
+void Item_group::check_consistency( const std::string &context ) const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency();
+        ( elem )->check_consistency( "item in " + context );
     }
 }
 
@@ -521,7 +567,7 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );

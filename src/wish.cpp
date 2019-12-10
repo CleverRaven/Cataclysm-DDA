@@ -74,7 +74,7 @@ class wish_mutate_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
@@ -96,7 +96,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
-                for( auto &j : mdata.prereqs ) {
+                for( const trait_id &j : mdata.prereqs ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -106,7 +106,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
-                for( auto &j : mdata.prereqs2 ) {
+                for( const trait_id &j : mdata.prereqs2 ) {
                     mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -116,7 +116,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
-                for( auto &j : mdata.threshreq ) {
+                for( const trait_id &j : mdata.threshreq ) {
                     mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -126,7 +126,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
-                for( auto &j : mdata.cancels ) {
+                for( const trait_id &j : mdata.cancels ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -136,7 +136,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
-                for( auto &j : mdata.replacements ) {
+                for( const trait_id &j : mdata.replacements ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -283,15 +283,23 @@ void debug_menu::wishmutate( player *p )
 class wish_monster_callback: public uilist_callback
 {
     public:
-        int lastent;           // last menu entry
-        std::string msg;       // feedback message
-        bool friendly;         // spawn friendly critter?
+        // last menu entry
+        int lastent;
+        // feedback message
+        std::string msg;
+        // spawn friendly critter?
+        bool friendly;
         bool hallucination;
-        int group;             // Number of monsters to spawn.
-        catacurses::window w_info;        // ui_parent menu's padding area
-        monster tmp;           // scrap critter for monster::print_info
-        bool started;          // if unset, initialize window
-        std::string padding;   // ' ' x window width
+        // Number of monsters to spawn.
+        int group;
+        // ui_parent menu's padding area
+        catacurses::window w_info;
+        // scrap critter for monster::print_info
+        monster tmp;
+        // if unset, initialize window
+        bool started;
+        // ' ' x window width
+        std::string padding;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
@@ -336,7 +344,7 @@ class wish_monster_callback: public uilist_callback
         }
 
         void select( int entnum, uilist *menu ) override {
-            if( ! started ) {
+            if( !started ) {
                 started = true;
                 setup( menu );
             }
@@ -354,7 +362,7 @@ class wish_monster_callback: public uilist_callback
 
             std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
                                                 group, hallucination ? _( " (hallucination)" ) : "" );
-            mvwprintz( w_info, point( ( getmaxx( w_info ) - header.size() ) / 2, 0 ), c_cyan, header );
+            mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg = padding;
@@ -390,7 +398,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     wmenu.callback = &cb;
 
     int i = 0;
-    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
         wmenu.addentry( i, true, 0, montype.nname() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;
@@ -452,7 +460,7 @@ class wish_item_callback: public uilist_callback
                 flag = string_input_popup()
                        .title( _( "Add which flag?  Use UPPERCASE letters without quotes" ) )
                        .query_string();
-                if( flag.length() > 0 ) {
+                if( !flag.empty() ) {
                     has_flag = true;
                 }
                 return true;
@@ -473,8 +481,8 @@ class wish_item_callback: public uilist_callback
                                        standard_itype_ids[entnum]->get_id().c_str(),
                                        incontainer ? _( " (contained)" ) : "",
                                        has_flag ? _( " (flagged)" ) : "" );
-            mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - header.size() ) / 2, 1 ), c_cyan,
-                       header );
+            mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
+                       c_cyan, header );
 
             fold_and_print( menu->window, point( startx, starty ), menu->pad_right - 1, c_light_gray,
                             tmp.info( true ) );
@@ -502,7 +510,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
+    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -558,7 +566,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
-                    cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
+                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
             }
@@ -579,7 +587,7 @@ void debug_menu::wishskill( player *p )
     uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
-    skmenu.addentry( 0, true, '1', _( "Modify all skills..." ) );
+    skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     std::vector<int> origskills;
     origskills.reserve( Skill::skills.size() );
@@ -612,7 +620,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
-            sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
+            sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {

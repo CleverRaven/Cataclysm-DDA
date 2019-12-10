@@ -18,6 +18,7 @@
       [ "eyedrops", 10 ],
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
+      [ "pepto", 20 ],
       [ "saline", 10 ],
       [ "weak_antibiotic", 30 ]
     ]
@@ -52,6 +53,7 @@
     "items": [
       [ "adderall", 100 ],
       [ "antibiotics", 100 ],
+      [ "strong_antibiotic", 45 ],
       [ "antifungal", 100 ],
       [ "antiparasitic", 100 ],
       [ "diazepam", 100 ],
@@ -66,6 +68,7 @@
   {
     "id": "drugs_soldier",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "item": "1st_aid", "prob": 50 },

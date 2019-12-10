@@ -96,7 +96,7 @@ struct computer_option {
     computer_option();
     computer_option( const std::string &N, computer_action A, int S );
 
-    static computer_option from_json( JsonObject &jo );
+    static computer_option from_json( const JsonObject &jo );
 };
 
 struct computer_failure {
@@ -105,7 +105,7 @@ struct computer_failure {
     computer_failure( computer_failure_type t ) : type( t ) {
     }
 
-    static computer_failure from_json( JsonObject &jo );
+    static computer_failure from_json( const JsonObject &jo );
 };
 
 class computer

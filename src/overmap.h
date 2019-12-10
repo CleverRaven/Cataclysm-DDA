@@ -152,6 +152,43 @@ class overmap_special_batch
         point origin_overmap;
 };
 
+static const std::map<std::string, oter_flags> oter_flags_map = {
+    { "KNOWN_DOWN", known_down },
+    { "KNOWN_UP", known_up },
+    { "RIVER", river_tile },
+    { "SIDEWALK", has_sidewalk },
+    { "NO_ROTATE", no_rotate },
+    { "LINEAR", line_drawing },
+    { "SUBWAY", subway_connection },
+    { "LAKE", lake },
+    { "LAKE_SHORE", lake_shore },
+    { "GENERIC_LOOT", generic_loot },
+    { "RISK_HIGH", risk_high },
+    { "RISK_LOW", risk_low },
+    { "SOURCE_AMMO", source_ammo },
+    { "SOURCE_ANIMALS", source_animals },
+    { "SOURCE_BOOKS", source_books },
+    { "SOURCE_CHEMISTRY", source_chemistry },
+    { "SOURCE_CLOTHING", source_clothing },
+    { "SOURCE_CONSTRUCTION", source_construction },
+    { "SOURCE_COOKING", source_cooking },
+    { "SOURCE_DRINK", source_drink },
+    { "SOURCE_ELECTRONICS", source_electronics },
+    { "SOURCE_FABRICATION", source_fabrication },
+    { "SOURCE_FARMING", source_farming },
+    { "SOURCE_FOOD", source_food },
+    { "SOURCE_FORAGE", source_forage },
+    { "SOURCE_FUEL", source_fuel },
+    { "SOURCE_GUN", source_gun },
+    { "SOURCE_LUXURY", source_luxury },
+    { "SOURCE_MEDICINE", source_medicine },
+    { "SOURCE_PEOPLE", source_people },
+    { "SOURCE_SAFETY", source_safety },
+    { "SOURCE_TAILORING", source_tailoring },
+    { "SOURCE_VEHICLES", source_vehicles },
+    { "SOURCE_WEAPON", source_weapon }
+};
+
 class overmap
 {
     public:
@@ -273,25 +310,26 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( std::shared_ptr<npc> who );
+        void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        std::shared_ptr<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( character_id id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        std::shared_ptr<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( character_id id ) const;
 
-        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
+        const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
         }
-        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate )
+        std::vector<shared_ptr_fast<npc>> get_npcs( const std::function<bool( const npc & )>
+                                       &predicate )
                                        const;
 
     private:
         friend class overmapbuffer;
 
-        std::vector<std::shared_ptr<npc>> npcs;
+        std::vector<shared_ptr_fast<npc>> npcs;
 
         bool nullbool = false;
         point loc = point_zero;
@@ -439,7 +477,7 @@ class overmap
         void load_legacy_monstergroups( JsonIn &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( JsonObject &jo );
+        static void load_obsolete_terrains( const JsonObject &jo );
 };
 
 bool is_river( const oter_id &ter );

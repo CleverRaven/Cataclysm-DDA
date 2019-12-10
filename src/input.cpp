@@ -88,7 +88,7 @@ std::string get_input_string_from_file( const std::string &fname )
         if( !ret.empty() && static_cast<unsigned char>( ret[0] ) == 0xef ) {
             ret.erase( 0, 3 );
         }
-        while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
+        while( !ret.empty() && ( ret.back() == '\r' ||  ret.back() == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
     } );
@@ -116,19 +116,19 @@ void input_manager::init()
     reset_timeout();
 
     try {
-        load( FILENAMES["keybindings"], false );
+        load( PATH_INFO::keybindings(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::keybindings() + ": " + err.what() );
     }
     try {
-        load( FILENAMES["keybindings_vehicle"], false );
+        load( PATH_INFO::keybindings_vehicle(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::keybindings_vehicle() + ": " + err.what() );
     }
     try {
-        load( FILENAMES["user_keybindings"], true );
+        load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
+        throw std::runtime_error( PATH_INFO::user_keybindings() + ": " + err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -199,6 +199,13 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         // JSON object representing the action
         JsonObject action = jsin.get_object();
 
+        const std::string type = action.get_string( "type", "keybinding" );
+        if( type != "keybinding" ) {
+            debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
+                      "keybindings file '%s'", type, file_name );
+            continue;
+        }
+
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];
@@ -268,7 +275,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
 void input_manager::save()
 {
-    write_to_file( FILENAMES["user_keybindings"], [&]( std::ostream & data_file ) {
+    write_to_file( PATH_INFO::user_keybindings(), [&]( std::ostream & data_file ) {
         JsonOut jsout( data_file, true );
 
         jsout.start_array();
@@ -1089,7 +1096,7 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 

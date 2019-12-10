@@ -26,7 +26,9 @@ TEST_CASE( "armor_info", "[item][iteminfo]" )
     iteminfo_test(
         item( "longshirt" ), q,
         "--\n"
+        // NOLINTNEXTLINE(cata-text-style)
         "Covers: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
+        // NOLINTNEXTLINE(cata-text-style)
         "Layer: <color_c_light_blue>Normal</color>. \n"
         "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
         "--\n"
@@ -45,4 +47,23 @@ TEST_CASE( "if_covers_nothing_omit_irreelevant_info", "[item][iteminfo]" )
         item( "ear_plugs" ), q,
         "--\n"
         "Covers: <color_c_cyan>Nothing</color>.\n" );
+}
+
+TEST_CASE( "gun_lists_default_ammo", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::GUN_DEFAULT_AMMO } );
+    iteminfo_test(
+        item( "compbow" ), q,
+        "--\n"
+        "Gun is not loaded, so stats below assume the default ammo: <color_c_light_blue>wooden broadhead arrow</color>\n" );
+}
+TEST_CASE( "gun_damage_multiplier_not_integer", "[item][iteminfo]" )
+{
+    iteminfo_query q( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
+                        iteminfo_parts::GUN_DAMAGE_TOTAL
+                      } );
+    iteminfo_test(
+        item( "compbow" ), q,
+        "--\n"
+        "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
 }

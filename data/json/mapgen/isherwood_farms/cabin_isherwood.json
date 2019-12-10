@@ -68,7 +68,6 @@
     "nested_mapgen_id": "cabin_isherwood_update",
     "object": {
       "mapgensize": [ 20, 20 ],
-      "fill_ter": "t_floor",
       "rows": [
         "........//..........",
         "........//....|0||||",

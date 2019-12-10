@@ -169,12 +169,12 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_KILLER( "KILLER" );
 
-static const std::map<m_size, std::string> size_names {
-    {m_size::MS_TINY, translate_marker( "tiny" )},
-    {m_size::MS_SMALL, translate_marker( "small" )},
-    {m_size::MS_MEDIUM, translate_marker( "medium" )},
-    {m_size::MS_LARGE, translate_marker( "large" )},
-    {m_size::MS_HUGE, translate_marker( "huge" )},
+static const std::map<m_size, translation> size_names {
+    { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
+    { m_size::MS_SMALL, to_translation( "size adj", "small" ) },
+    { m_size::MS_MEDIUM, to_translation( "size adj", "medium" ) },
+    { m_size::MS_LARGE, to_translation( "size adj", "large" ) },
+    { m_size::MS_HUGE, to_translation( "size adj", "huge" ) },
 };
 
 static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
@@ -466,14 +466,16 @@ void monster::try_biosignature()
     if( !biosig_timer ) {
         biosig_timer.emplace( calendar::turn + *type->biosig_timer );
     }
-
+    int counter = 0;
     while( true ) {
-        if( *biosig_timer > calendar::turn ) {
+        // dont catch up too much, otherwise on some scenarios,
+        // we could have years worth of poop just deposited on the floor.
+        if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-
         g->m.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
+        counter += 1;
     }
 }
 
@@ -532,12 +534,12 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive ) const
+std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name() );
+        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name() );
+        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
 }
 
@@ -610,7 +612,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = att.first.length() + name().length() + 3;
+    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
@@ -618,6 +620,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
+
+    if( size_bonus > 0 ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
@@ -668,7 +674,7 @@ std::string monster::extended_description() const
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ),
-                         _( size_names.at( get_size() ) ) ) << std::endl;
+                         size_names.at( get_size() ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -707,17 +713,33 @@ std::string monster::extended_description() const
         }
     };
 
+    using property_description = std::pair<bool, std::string>;
+    const auto describe_properties = [&ss](
+                                         const std::string & format,
+                                         const std::vector<property_description> &property_names,
+    const std::string &if_empty = "" ) {
+        std::string property_descriptions = enumerate_as_string( property_names.begin(),
+        property_names.end(), []( const property_description & pd ) {
+            return pd.first ? pd.second : "";
+        } );
+        if( !property_descriptions.empty() ) {
+            ss << string_format( format, property_descriptions ) << std::endl;
+        } else if( !if_empty.empty() ) {
+            ss << if_empty << std::endl;
+        }
+    };
+
     describe_flags( _( "It has the following senses: %s." ), {
         {m_flag::MF_HEARS, pgettext( "Hearing as sense", "hearing" )},
         {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
         {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
-    describe_flags( _( "It can %s." ), {
-        {m_flag::MF_SWIMS, pgettext( "Swim as an action", "swim" )},
-        {m_flag::MF_FLIES, pgettext( "Fly as an action", "fly" )},
-        {m_flag::MF_CAN_DIG, pgettext( "Dig as an action", "dig" )},
-        {m_flag::MF_CLIMBS, pgettext( "Climb as an action", "climb" )}
+    describe_properties( _( "It can %s." ), {
+        {swims(), pgettext( "Swim as an action", "swim" )},
+        {flies(), pgettext( "Fly as an action", "fly" )},
+        {can_dig(), pgettext( "Dig as an action", "dig" )},
+        {climbs(), pgettext( "Climb as an action", "climb" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
@@ -776,7 +798,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
     // Traps are on the ground, digging monsters go below, fliers and climbers go above.
-    if( digging() || has_flag( MF_FLIES ) ) {
+    if( digging() || flies() ) {
         return true;
     }
     return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
@@ -799,19 +821,49 @@ bool monster::can_hear() const
 
 bool monster::can_submerge() const
 {
-    return ( has_flag( MF_NO_BREATHE ) || has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) )
-           && !has_flag( MF_ELECTRONIC );
+    return ( has_flag( MF_NO_BREATHE ) || swims() || has_flag( MF_AQUATIC ) ) &&
+           !has_flag( MF_ELECTRONIC );
 }
 
 bool monster::can_drown() const
 {
-    return !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC )
-           && !has_flag( MF_NO_BREATHE ) && !has_flag( MF_FLIES );
+    return !swims() && !has_flag( MF_AQUATIC ) &&
+           !has_flag( MF_NO_BREATHE ) && !flies();
+}
+
+bool monster::can_climb() const
+{
+    return climbs() || flies();
 }
 
 bool monster::digging() const
 {
-    return has_flag( MF_DIGS ) || ( has_flag( MF_CAN_DIG ) && underwater );
+    return digs() || ( can_dig() && underwater );
+}
+
+bool monster::can_dig() const
+{
+    return has_flag( MF_CAN_DIG );
+}
+
+bool monster::digs() const
+{
+    return has_flag( MF_DIGS );
+}
+
+bool monster::flies() const
+{
+    return has_flag( MF_FLIES );
+}
+
+bool monster::climbs() const
+{
+    return has_flag( MF_CLIMBS );
+}
+
+bool monster::swims() const
+{
+    return has_flag( MF_SWIMS );
 }
 
 bool monster::can_act() const
@@ -825,7 +877,7 @@ int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
+        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
     static const int default_daylight = default_daylight_level();
@@ -1142,7 +1194,8 @@ bool monster::is_underwater() const
 
 bool monster::is_on_ground() const
 {
-    return false; // TODO: actually make this work
+    // TODO: actually make this work
+    return false;
 }
 
 bool monster::has_weapon() const
@@ -1153,6 +1206,11 @@ bool monster::has_weapon() const
 bool monster::is_warm() const
 {
     return has_flag( MF_WARM );
+}
+
+bool monster::in_species( const species_id &spec ) const
+{
+    return type->in_species( spec );
 }
 
 bool monster::is_elec_immune() const
@@ -1194,7 +1252,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return true;
         case DT_TRUE:
             return false;
-        case DT_BIOLOGICAL: // NOTE: Unused
+        case DT_BIOLOGICAL:
+            // NOTE: Unused
             return false;
         case DT_BASH:
             return false;
@@ -1205,8 +1264,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_STAB:
             return false;
         case DT_HEAT:
-            return made_of( material_id( "steel" ) ) ||
-                   made_of( material_id( "stone" ) ); // Ugly hardcode - remove later
+            // Ugly hardcode - remove later
+            return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
@@ -1394,7 +1453,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel venom flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain…" ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
@@ -1470,10 +1529,13 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
             break;
         case DT_ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
-                return; // immunity
+                // immunity
+                return;
             }
-        case DT_TRUE: // typeless damage, should always go through
-        case DT_BIOLOGICAL: // internal damage, like from smoke or poison
+        case DT_TRUE:
+        // typeless damage, should always go through
+        case DT_BIOLOGICAL:
+        // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
         case DT_HEAT:
@@ -1842,7 +1904,7 @@ int monster::get_grab_strength() const
 
 float monster::fall_damage_mod() const
 {
-    if( has_flag( MF_FLIES ) ) {
+    if( flies() ) {
         return 0.0f;
     }
 
@@ -2098,8 +2160,8 @@ void monster::die( Creature *nkiller )
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
-                std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
-                ch->add_msg_if_player( m_good, _( snip ) );
+                const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+                ch->add_msg_if_player( m_good, "%s", snip );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
@@ -2245,8 +2307,27 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::start_of_cataclysm );
+
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+
+    // This block removes some items, according to item spawn scaling factor
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        // Temporary vector, to remember which items will be dropped
+        std::vector<item> remaining;
+        for( const item &it : items ) {
+            if( rng_float( 0, 1 ) < spawn_rate ) {
+                remaining.push_back( it );
+            }
+        }
+        // If there aren't any items left, there's nothing left to do
+        if( remaining.empty() ) {
+            return;
+        }
+        items = remaining;
+    }
+
+    const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
@@ -2269,6 +2350,11 @@ void monster::process_one_effect( effect &it, bool is_new )
     };
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2318,19 +2404,20 @@ void monster::process_effects()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name() );
+    const int healed_amount = heal( type->regenerates );
+    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        std::string healing_format_string;
+        if( healed_amount >= 50 ) {
+            healing_format_string = _( "The %s is visibly regenerating!" );
+        } else if( healed_amount >= 10 ) {
+            healing_format_string = _( "The %s seems a little healthier." );
+        } else if( healed_amount >= 1 ) {
+            healing_format_string = _( "The %s is healing slowly." );
+        }
+        add_msg( m_warning, healing_format_string, name() );
     }
 
-    if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
-    }
-
-    if( has_flag( MF_REGENERATES_IN_DARK ) ) {
+    if( type->regenerates_in_dark ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
@@ -2341,7 +2428,7 @@ void monster::process_effects()
 
     //Monster will regen morale and aggression if it is on max HP
     //It regens more morale and aggression if is currently fleeing.
-    if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {
+    if( type->regen_morale && hp >= type->hp ) {
         if( is_fleeing( g->u ) ) {
             morale = type->morale;
             anger = type->agro;
@@ -2429,7 +2516,8 @@ bool monster::make_fungus()
         case 1:
             poly( mon_ant_fungus );
             break;
-        case 2: // zombies, non-boomer
+        case 2:
+            // zombies, non-boomer
             poly( mon_zombie_fungus );
             break;
         case 3:
@@ -2504,17 +2592,22 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    return m_size( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    return units::operator*( type->weight, get_size() / type->size );
+}
+
+units::mass monster::weight_capacity() const
+{
+    return type->weight * type->mountable_weight_ratio;
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    return units::operator*( type->volume, get_size() / type->size );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2592,7 +2685,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
@@ -2688,6 +2781,11 @@ int monster::get_hp() const
     return hp;
 }
 
+float monster::get_mountable_weight_ratio() const
+{
+    return type->mountable_weight_ratio;
+}
+
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {
@@ -2775,18 +2873,15 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
-    float regen = 0.0f;
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        regen = 50.0f;
-    } else if( has_flag( MF_REGENERATES_10 ) ) {
-        regen = 10.0f;
-    } else if( has_flag( MF_REVIVES ) ) {
-        regen = 1.0f / to_turns<int>( 1_hours );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
-        // Most living stuff here
-        regen = 0.25f / to_turns<int>( 1_hours );
+    float regen = type->regenerates;
+    if( regen <= 0 ) {
+        if( has_flag( MF_REVIVES ) ) {
+            regen = 1.0f / to_turns<int>( 1_hours );
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "veggy" ) ) ) {
+            // Most living stuff here
+            regen = 0.25f / to_turns<int>( 1_hours );
+        }
     }
-
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;

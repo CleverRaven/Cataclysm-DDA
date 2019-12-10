@@ -62,21 +62,19 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
-    JsonArray arr = jo.get_array( "usages" );
-    while( arr.has_more() ) {
-        auto lvl = arr.next_array();
-        auto funcs = lvl.get_array( 1 );
-        while( funcs.has_more() ) {
-            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+    for( JsonArray levels : jo.get_array( "usages" ) ) {
+        const int level = levels.get_int( 0 );
+        for( const std::string &line : levels.get_array( 1 ) ) {
+            usages.emplace_back( level, line );
         }
     }
 }
@@ -125,7 +123,13 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
-        if( avail > 0 ) {
+        if( avail == item::INFINITE_CHARGES ) {
+            //~ %1$s: item name, %2$d: charge requirement
+            return string_format( npgettext( "requirement", "%1$s (%2$d of infinite)",
+                                             "%1$s (%2$d of infinite)",
+                                             c ),
+                                  type_ptr->nname( 1 ), c );
+        } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
                                   type_ptr->nname( 1 ), c, avail );
@@ -135,7 +139,12 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         }
     } else {
-        if( avail > 0 ) {
+        if( avail == item::INFINITE_CHARGES ) {
+            //~ %1$s: item name, %2$d: required count
+            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
+                                             c ),
+                                  type_ptr->nname( c ), c );
+        } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
             return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
                                   type_ptr->nname( c ), c, avail );
@@ -255,7 +264,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 

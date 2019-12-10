@@ -239,8 +239,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                           bad_item_name, body_parts
                       );
         }
-        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-        i += fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
+        fold_and_print( w_sort_middle, point( 0, i ), win_width, c_light_gray, message );
     }
 }
 
@@ -288,7 +287,7 @@ std::vector<std::string> clothing_properties(
 std::vector<std::string> clothing_protection( const item &worn_item, const int width )
 {
     std::vector<std::string> prot;
-    prot.reserve( 4 );
+    prot.reserve( 6 );
 
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
@@ -296,6 +295,10 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Acid:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Fire:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -522,17 +525,19 @@ void player::sort_armor()
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex] );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press %s for help. Press %s to change keybindings." ),
+                         _( "Press %s for help.  Press %s to change keybindings." ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
         // Create ptr list of items to display
         tmp_worn.clear();
-        if( tabindex == num_bp ) { // All
+        if( tabindex == num_bp ) {
+            // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 tmp_worn.push_back( it );
             }
-        } else { // bp_*
+        } else {
+            // bp_*
             body_part bp = static_cast<body_part>( tabindex );
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 if( it->covers( bp ) ) {
@@ -822,23 +827,22 @@ void player::sort_armor()
                 }
             }
         } else if( action == "USAGE_HELP" ) {
-            popup_getkey( _( "\
-Use the arrow- or keypad keys to navigate the left list.\n\
-[%s] to select highlighted armor for reordering.\n\
-[%s] / [%s] to scroll the right list.\n\
-[%s] to assign special inventory letters to clothing.\n\
-[%s] to change the side on which item is worn.\n\
-[%s] to sort armor into natural layer order.\n\
-[%s] to equip a new item.\n\
-[%s] to equip a new item at the currently selected position.\n\
-[%s] to remove selected armor from oneself.\n\
- \n\
-[Encumbrance and Warmth] explanation:\n\
-The first number is the summed encumbrance from all clothing on that bodypart.\n\
-The second number is an additional encumbrance penalty caused by wearing multiple items \
-on one of the bodypart's layers or wearing items outside of other items they would \
-normally be work beneath (e.g. a shirt over a backpack).\n\
-The sum of these values is the effective encumbrance value your character has for that bodypart." ),
+            popup_getkey( _( "Use the arrow- or keypad keys to navigate the left list.\n"
+                             "[%s] to select highlighted armor for reordering.\n"
+                             "[%s] / [%s] to scroll the right list.\n"
+                             "[%s] to assign special inventory letters to clothing.\n"
+                             "[%s] to change the side on which item is worn.\n"
+                             "[%s] to sort armor into natural layer order.\n"
+                             "[%s] to equip a new item.\n"
+                             "[%s] to equip a new item at the currently selected position.\n"
+                             "[%s] to remove selected armor from oneself.\n"
+                             "\n"
+                             "[Encumbrance and Warmth] explanation:\n"
+                             "The first number is the summed encumbrance from all clothing on that bodypart.\n"
+                             "The second number is an additional encumbrance penalty caused by wearing multiple items "
+                             "on one of the bodypart's layers or wearing items outside of other items they would "
+                             "normally be work beneath (e.g. a shirt over a backpack).\n"
+                             "The sum of these values is the effective encumbrance value your character has for that bodypart." ),
                           ctxt.get_desc( "MOVE_ARMOR" ),
                           ctxt.get_desc( "PREV_TAB" ),
                           ctxt.get_desc( "NEXT_TAB" ),

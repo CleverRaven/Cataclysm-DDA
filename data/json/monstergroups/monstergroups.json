@@ -5266,6 +5266,7 @@
     "monsters": [
       { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_wretched", "freq": 120, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 }
     ]
@@ -5349,6 +5350,26 @@
       { "monster": "mon_dog_rottweiler_pup", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle_pup", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_HOTEL_POOL",
+    "type": "monstergroup",
+    "default": "mon_zombie_swimmer",
+    "monsters": [
+      { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_zombie_child", "freq": 35, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_HOTEL_GYM",
+    "type": "monstergroup",
+    "default": "mon_zombie_fat",
+    "monsters": [
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie_tough", "freq": 8, "cost_multiplier": 3 }
     ]
   }
 ]

@@ -40,7 +40,12 @@
     "id": "lab_loot_research",
     "mapping": {
       "c": {
-        "items": [ { "item": "dissection", "chance": 10 }, { "item": "chem_lab", "chance": 10 }, { "item": "mut_lab", "chance": 2 } ]
+        "items": [
+          { "item": "tools_science", "chance": 10 },
+          { "item": "dissection", "chance": 10 },
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 }
+        ]
       },
       "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
       "X": {

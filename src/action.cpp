@@ -44,10 +44,10 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
     const auto parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
-    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["keymap"];
-    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
+    if( read_from_file_optional( PATH_INFO::keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::keymap();
+    } else if( read_from_file_optional( PATH_INFO::legacy_keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::legacy_keymap();
     }
 }
 
@@ -70,8 +70,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
-                          "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
+                          "Fix \"%s\" at your next chance!", id, PATH_INFO::keymap() );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -82,7 +82,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                         if( kmap.find( ch ) != kmap.end() ) {
                             debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
                                       "%s is being ignored.\n"
-                                      "Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                                      "Fix \"%s\" at your next chance!", ch, id, PATH_INFO::keymap() );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -90,7 +90,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                 }
             }
         } else {
-            getline( keymap_txt, id ); // Clear the whole line
+            // Clear the whole line
+            getline( keymap_txt, id );
         }
     }
 }
@@ -308,10 +309,16 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_SCENT_TYPE:
+            return "debug_scent_type";
         case ACTION_DISPLAY_TEMPERATURE:
             return "debug_temp";
+        case ACTION_DISPLAY_VEHICLE_AI:
+            return "debug_vehicle_ai";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_LIGHTING:
+            return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
@@ -418,8 +425,11 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_SCENT_TYPE:
         case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VEHICLE_AI:
         case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
@@ -663,7 +673,7 @@ action_id handle_action_menu()
         ctxt.get_action_name( action_ident( name ) ) );
 #define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
-    catgname += "..."; \
+    catgname += "…"; \
     entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
@@ -684,11 +694,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
@@ -768,10 +778,12 @@ action_id handle_action_menu()
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "...";        // help _is_a menu.
+                // help _is_a menu.
+                entry->txt += "…";
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
+                // register with global key
+                REGISTER_CATEGORY( _( "Debug" ) );
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -806,7 +818,8 @@ action_id handle_action_menu()
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "..."; // debug _is_a menu.
+                // debug _is_a menu.
+                entry->txt += "…";
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -817,8 +830,11 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_SCENT_TYPE );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
@@ -888,7 +904,7 @@ action_id handle_action_menu()
 
         if( category != "back" ) {
             std::string msg = _( "Back" );
-            msg += "...";
+            msg += "…";
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
@@ -902,9 +918,7 @@ action_id handle_action_menu()
 
         int width = 0;
         for( auto &cur_entry : entries ) {
-            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
-                width = cur_entry.txt.length();
-            }
+            width = std::max( width, utf8_width( cur_entry.txt ) );
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
@@ -960,9 +974,7 @@ action_id handle_main_menu()
 
     int width = 0;
     for( auto &entry : entries ) {
-        if( width < static_cast<int>( entry.txt.length() ) ) {
-            width = entry.txt.length();
-        }
+        width = std::max( width, utf8_width( entry.txt ) );
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
@@ -988,7 +1000,8 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    // why not?
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );

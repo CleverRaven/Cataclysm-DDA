@@ -45,6 +45,7 @@ enum weather_type : int {
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
     WEATHER_CLOUDY,       //!< No effects
+    WEATHER_LIGHT_DRIZZLE,//!< very Light rain
     WEATHER_DRIZZLE,      //!< Light rain
     WEATHER_RAINY,        //!< Lots of rain, sight penalties
     WEATHER_THUNDER,      //!< Warns of lightning to come
@@ -56,6 +57,16 @@ enum weather_type : int {
     WEATHER_SNOWSTORM,    //!< sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
+
+enum precip_class : int {
+    PRECIP_NONE,
+    PRECIP_VERY_LIGHT,
+    PRECIP_LIGHT,
+    PRECIP_HEAVY
+};
+
+double precip_mm_per_hour( precip_class p );
+void do_rain( weather_type w );
 
 /**
  * Weather animation class.
@@ -77,10 +88,14 @@ weather_animation_t get_weather_animation( weather_type type );
  * @see game::get_player_input
  */
 struct weather_printable {
-    weather_type wtype; //!< Weather type in use.
-    std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
-    nc_color colGlyph; //!< Color to draw glyph this animation frame.
-    char cGlyph; //!< Glyph to draw this animation frame.
+    //!< Weather type in use.
+    weather_type wtype;
+    //!< Coordinates targeted for droplets.
+    std::vector<std::pair<int, int> > vdrops;
+    //!< Color to draw glyph this animation frame.
+    nc_color colGlyph;
+    //!< Glyph to draw this animation frame.
+    char cGlyph;
 };
 
 /**
@@ -95,15 +110,15 @@ enum sun_intensity : int {
     high
 };
 
-void none();        //!< Fallback weather.
+//!< Fallback weather.
+void none();
 void glare( sun_intensity );
-void wet();
-void very_wet();
 void thunder();
 void lightning();
 void light_acid();
 void acid();
-void flurry();      //!< Currently flurries have no additional effects.
+//!< Currently flurries have no additional effects.
+void flurry();
 void snow();
 void sunny();
 void snowstorm();
@@ -121,6 +136,9 @@ struct weather_datum {
     int light_modifier;           //!< Modification to ambient light.
     int sound_attn;               //!< Sound attenuation of a given weather type.
     bool dangerous;               //!< If true, our activity gets interrupted.
+    precip_class precip;          //!< Amount of associated precipitation.
+    bool rains;                   //!< Whether said precipitation falls as rain.
+    bool acidic;                  //!< Whether said precipitation is acidic.
     weather_effect_fn effect;     //!< Function pointer for weather effects.
 };
 
@@ -143,6 +161,9 @@ float sight_penalty( weather_type type );
 int light_modifier( weather_type type );
 int sound_attn( weather_type type );
 bool dangerous( weather_type type );
+precip_class precip( weather_type type );
+bool rains( weather_type type );
+bool acidic( weather_type type );
 weather_effect_fn effect( weather_type type );
 } // namespace weather
 

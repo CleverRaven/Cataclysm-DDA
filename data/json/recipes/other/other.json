@@ -10,7 +10,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
-        [ "meat", 1 ],
+        [ "meat_red_raw", 1, "LIST" ],
         [ "fish", 1 ],
         [ "corn", 1 ],
         [ "irradiated_corn", 1 ],

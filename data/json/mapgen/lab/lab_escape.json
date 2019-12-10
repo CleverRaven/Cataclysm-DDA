@@ -38,12 +38,12 @@
       "monster": { "z": { "monster": "mon_zombie" } },
       "mapping": {
         "b": { "items": [ { "item": "bed", "chance": 66 } ] },
-        "!": { "item": [ { "item": "glass_shard", "count": [ 25, 50 ] } ] },
+        "!": { "item": [ { "item": "glass_shard", "amount": [ 25, 50 ] } ] },
         "l": {
           "item": [
-            { "item": "bottle_plastic", "count": [ 1, 2 ] },
-            { "item": "can_food_unsealed", "count": [ 1, 2 ] },
-            { "item": "steel_chunk", "count": 1 }
+            { "item": "bottle_plastic", "amount": [ 1, 2 ] },
+            { "item": "can_food_unsealed", "amount": [ 1, 2 ] },
+            { "item": "steel_chunk", "amount": 1 }
           ]
         }
       }

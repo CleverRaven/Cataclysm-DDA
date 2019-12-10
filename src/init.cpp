@@ -66,6 +66,7 @@
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
+#include "scent_map.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -95,7 +96,7 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src,
+void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const std::string &base_path,
                                      const std::string &full_path )
 {
@@ -129,7 +130,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             for( const auto &elem : data ) {
                 discarded << elem.first;
             }
-            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
                       data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
@@ -137,16 +138,16 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
     }
 }
 
-static void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( const JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored
     // (for example for testing or for unimplemented types)
-    ( void ) jo;
+    jo.allow_omitted_members();
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
                              f )
 {
     const auto pair = type_function_map.emplace( type, f );
@@ -156,9 +157,10 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( JsonObject &, const std::string & )> f )
+                             std::function<void( const JsonObject &, const std::string & )> f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( JsonObject & obj, const std::string & src,
+    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
+                      const std::string & src,
     const std::string &, const std::string & ) {
         f( obj, src );
     } );
@@ -167,9 +169,9 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void DynamicDataLoader::add( const std::string &type, std::function<void( JsonObject & )> f )
+void DynamicDataLoader::add( const std::string &type, std::function<void( const JsonObject & )> f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( JsonObject & obj, const std::string &,
+    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
     const std::string &, const std::string & ) {
         f( obj );
     } );
@@ -213,19 +215,20 @@ void DynamicDataLoader::initialize()
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
+    add( "scent_type", &scent_type::load_scent_type );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
-    add( "snippet", []( JsonObject & jo ) {
+    add( "snippet", []( const JsonObject & jo ) {
         SNIPPET.load_snippet( jo );
     } );
-    add( "item_group", []( JsonObject & jo ) {
+    add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );
     } );
-    add( "trait_group", []( JsonObject & jo ) {
+    add( "trait_group", []( const JsonObject & jo ) {
         mutation_branch::load_trait_group( jo );
     } );
-    add( "item_action", []( JsonObject & jo ) {
+    add( "item_action", []( const JsonObject & jo ) {
         item_action_generator::generator().load_item_action( jo );
     } );
 
@@ -235,79 +238,80 @@ void DynamicDataLoader::initialize()
     add( "vehicle_placement",  &VehiclePlacement::load );
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
-    add( "requirement", []( JsonObject & jo ) {
+    add( "requirement", []( const JsonObject & jo ) {
         requirement_data::load_requirement( jo );
     } );
     add( "trap", &trap::load_trap );
 
-    add( "AMMO", []( JsonObject & jo, const std::string & src ) {
+    add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_ammo( jo, src );
     } );
-    add( "GUN", []( JsonObject & jo, const std::string & src ) {
+    add( "GUN", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_gun( jo, src );
     } );
-    add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
+    add( "ARMOR", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
     } );
-    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_pet_armor( jo, src );
     } );
-    add( "TOOL", []( JsonObject & jo, const std::string & src ) {
+    add( "TOOL", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
     } );
-    add( "TOOLMOD", []( JsonObject & jo, const std::string & src ) {
+    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_toolmod( jo, src );
     } );
-    add( "TOOL_ARMOR", []( JsonObject & jo, const std::string & src ) {
+    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_tool_armor( jo, src );
     } );
-    add( "BOOK", []( JsonObject & jo, const std::string & src ) {
+    add( "BOOK", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_book( jo, src );
     } );
-    add( "COMESTIBLE", []( JsonObject & jo, const std::string & src ) {
+    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_comestible( jo, src );
     } );
-    add( "CONTAINER", []( JsonObject & jo, const std::string & src ) {
+    add( "CONTAINER", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_container( jo, src );
     } );
-    add( "ENGINE", []( JsonObject & jo, const std::string & src ) {
+    add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_engine( jo, src );
     } );
-    add( "WHEEL", []( JsonObject & jo, const std::string & src ) {
+    add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_wheel( jo, src );
     } );
-    add( "FUEL", []( JsonObject & jo, const std::string & src ) {
+    add( "FUEL", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_fuel( jo, src );
     } );
-    add( "GUNMOD", []( JsonObject & jo, const std::string & src ) {
+    add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_gunmod( jo, src );
     } );
-    add( "MAGAZINE", []( JsonObject & jo, const std::string & src ) {
+    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_magazine( jo, src );
     } );
-    add( "BATTERY", []( JsonObject & jo, const std::string & src ) {
+    add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_battery( jo, src );
     } );
-    add( "GENERIC", []( JsonObject & jo, const std::string & src ) {
+    add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );
-    add( "BIONIC_ITEM", []( JsonObject & jo, const std::string & src ) {
+    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_bionic( jo, src );
     } );
 
-    add( "ITEM_CATEGORY", []( JsonObject & jo ) {
-        item_controller->load_item_category( jo );
-    } );
-    add( "MIGRATION", []( JsonObject & jo ) {
+    add( "ITEM_CATEGORY", &item_category::load_item_cat );
+
+    add( "MIGRATION", []( const JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
 
-    add( "MONSTER", []( JsonObject & jo, const std::string & src ) {
+    add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
     } );
-    add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
+    add( "SPECIES", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
+
+    add( "LOOT_ZONE", &zone_type::load_zones );
     add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
@@ -333,10 +337,10 @@ void DynamicDataLoader::initialize()
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
-    add( "ITEM_BLACKLIST", []( JsonObject & jo ) {
+    add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
     } );
-    add( "TRAIT_BLACKLIST", []( JsonObject & jo ) {
+    add( "TRAIT_BLACKLIST", []( const JsonObject & jo ) {
         mutation_branch::load_trait_blacklist( jo );
     } );
 
@@ -360,14 +364,14 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
-    add( "mission_definition", []( JsonObject & jo, const std::string & src ) {
+    add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
         mission_type::load_mission_type( jo, src );
     } );
-    add( "harvest", []( JsonObject & jo, const std::string & src ) {
+    add( "harvest", []( const JsonObject & jo, const std::string & src ) {
         harvest_list::load( jo, src );
     } );
 
-    add( "monster_attack", []( JsonObject & jo, const std::string & src ) {
+    add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster_attack( jo, src );
     } );
     add( "palette", mapgen_palette::load );
@@ -385,14 +389,14 @@ void DynamicDataLoader::initialize()
     add( "mod_tileset", &load_mod_tileset );
 #else
     // Dummy function
-    add( "mod_tileset", []( JsonObject &, const std::string & ) { } );
+    add( "mod_tileset", []( const JsonObject &, const std::string & ) { } );
 #endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization. Must be unloaded first." );
+    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -572,6 +576,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
+            { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
@@ -592,6 +597,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
+            { _( "Mutations" ), &mutation_branch::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -679,6 +685,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Spells" ), &spell_type::check_consistency },
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
+            { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency }
         }
     };

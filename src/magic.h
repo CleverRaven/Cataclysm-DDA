@@ -17,6 +17,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "event_bus.h"
+#include "sounds.h"
 
 struct tripoint;
 class Creature;
@@ -47,6 +48,8 @@ enum spell_flag {
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_TARGET, // picks a random valid target within your range instead of normal behavior.
+    MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     LAST
 };
@@ -99,7 +102,7 @@ struct fake_spell {
 
     spell get_spell( int input_level ) const;
 
-    void load( JsonObject &jo );
+    void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -125,6 +128,12 @@ class spell_type
         translation description;
         // spell message when cast
         translation message;
+        // spell sound effect
+        translation sound_description;
+        sounds::sound_t sound_type;
+        bool sound_ambient;
+        std::string sound_id;
+        std::string sound_variant;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
@@ -240,8 +249,8 @@ class spell_type
 
         enum_bitset<spell_flag> spell_tags;
 
-        static void load_spell( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_spell( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
          */
@@ -377,6 +386,7 @@ class spell
 
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
+        void make_sound( const tripoint &target, int loudness ) const;
         // heals the critter at the location, returns amount healed (player heals each body part)
         int heal( const tripoint &target ) const;
 
@@ -389,6 +399,9 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
+
+        // picks a random valid tripoint from @area
+        tripoint random_valid_target( const Creature &caster, const tripoint &caster_pos ) const;
 };
 
 class known_magic
@@ -446,9 +459,13 @@ class known_magic
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        // returns false if invlet is already used
+        bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
+        void rem_invlet( const spell_id &sp );
     private:
         // gets length of longest spell name
-        size_t get_spellname_max_width();
+        int get_spellname_max_width();
         // gets invlet if assigned, or -1 if not
         int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
@@ -486,10 +503,16 @@ void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
+void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
+void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );
+void morale( const spell &sp, Creature &caster, const tripoint &target );
+void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
+void mutate( const spell &sp, Creature &caster, const tripoint &target );
+void bash( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

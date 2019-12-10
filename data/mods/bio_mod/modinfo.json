@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "bio_mod",
     "name": "Bionics Systems Mod",
     "authors": [ "Noctifer-de-Mortem" ],

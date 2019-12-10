@@ -119,7 +119,7 @@ Alternately, if present, it can be an object as described below.
 ### start / end / fail effects
 If any of these optional fields are present they can be objects with the following fields contained:
 
-#### effects
+#### effect
 This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values from
 effects.  In all cases, the NPC involved is the quest giver.
 

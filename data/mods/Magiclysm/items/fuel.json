@@ -50,7 +50,6 @@
     "weight": 265,
     "color": "red",
     "container": "flask_glass",
-    "comestible_type": "DRINK",
     "symbol": "~",
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,

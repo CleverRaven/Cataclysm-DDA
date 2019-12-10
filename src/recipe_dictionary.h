@@ -42,8 +42,8 @@ class recipe_dictionary
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
-        static void load_recipe( JsonObject &jo, const std::string &src );
-        static void load_uncraft( JsonObject &jo, const std::string &src );
+        static void load_recipe( const JsonObject &jo, const std::string &src );
+        static void load_uncraft( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void reset();
@@ -55,7 +55,7 @@ class recipe_dictionary
          */
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
-        static recipe &load( JsonObject &jo, const std::string &src,
+        static recipe &load( const JsonObject &jo, const std::string &src,
                              std::map<recipe_id, recipe> &out );
 
     private:

@@ -626,7 +626,6 @@
     "name": "downspout funnel",
     "color": "brown",
     "symbol": "v",
-    "looks_like": "t_gutter_downspout",
     "visibility": 999,
     "avoidance": 0,
     "difficulty": 0,

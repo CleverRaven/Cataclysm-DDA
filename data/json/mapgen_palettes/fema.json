@@ -48,15 +48,15 @@
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
       "b": { "item": "homebooks", "chance": 60 },
-      "B": { "item": "bed", "chance": 10, "count-min": 1, "count-max": 2 },
+      "B": { "item": "bed", "chance": 10, "repeat": [ 1, 2 ] },
       "D": { "item": "radio", "chance": 60 },
       "l": { "item": "guns_milspec", "chance": 30 },
-      "o": { "item": "oven", "chance": 70, "count-min": 1, "count-max": 2 },
-      "R": { "item": "fridge", "chance": 80, "count-min": 1, "count-max": 3 },
+      "o": { "item": "oven", "chance": 70, "repeat": [ 1, 2 ] },
+      "R": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
       "s": { "item": "cleaning", "chance": 15 },
       "S": { "item": "cleaning", "chance": 25 },
-      "t": { "item": "trash_cart", "chance": 60, "count-min": 1, "count-max": 4 },
-      "U": { "item": "kitchen", "chance": 40, "count-min": 1, "count-max": 3 }
+      "t": { "item": "trash_cart", "chance": 60, "repeat": [ 1, 4 ] },
+      "U": { "item": "kitchen", "chance": 40, "repeat": [ 1, 3 ] }
     }
   }
 ]

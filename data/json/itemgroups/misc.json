@@ -51,6 +51,7 @@
       [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
       [ "ceramic_plate", 10 ],
+      [ "wine_glass", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ]
     ]

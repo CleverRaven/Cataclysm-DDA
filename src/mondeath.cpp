@@ -543,7 +543,7 @@ void mdeath::amigara( monster &z )
     // We were the last!
     if( g->u.has_effect( effect_amigara ) ) {
         g->u.remove_effect( effect_amigara );
-        add_msg( _( "Your obsession with the fault fades away..." ) );
+        add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
     g->m.spawn_artifact( z.pos() );
@@ -602,7 +602,7 @@ void mdeath::focused_beam( monster &z )
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
-            if( !g->m.trans( elem ) ) {
+            if( !g->m.is_transparent( elem ) ) {
                 break;
             }
             g->m.add_field( elem, fd_dazzling, 2 );

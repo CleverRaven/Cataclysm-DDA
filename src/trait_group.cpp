@@ -27,7 +27,7 @@ bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_
     return mutation_branch::get_group( gid )->has_trait( tid );
 }
 
-void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+void trait_group::load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
                                     const std::string &subtype )
 {
     mutation_branch::load_trait_group( jsobj, gid, subtype );

@@ -1,6 +1,7 @@
 [
   {
     "id": "ak74",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AK-74M",
@@ -18,7 +19,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
-    "burst": 10,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": 1,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -39,6 +40,7 @@
   },
   {
     "id": "an94",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "AN-94",
@@ -56,7 +58,7 @@
     "dispersion": 150,
     "durability": 7,
     "barrel_length": 1,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 10 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

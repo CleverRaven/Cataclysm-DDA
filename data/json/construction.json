@@ -66,7 +66,6 @@
   },
   {
     "type": "construction",
-    "skill": "survival",
     "description": "Build Improvised Shelter",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 2 ] ],
@@ -853,6 +852,38 @@
   },
   {
     "type": "construction",
+    "description": "Make Gravel Floor",
+    "//": "Covers the floor with pebbles. Used for constructing railroads.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "40 m",
+    "components": [ [ [ "pebble", 100 ] ] ],
+    "post_terrain": "t_railroad_rubble"
+  },
+  {
+    "type": "construction",
+    "description": "Build Straight Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small"
+  },
+  {
+    "type": "construction",
+    "description": "Build Diagonal Small Railroad Track",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "railroad_track_small", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "sheet_metal_small", 2 ] ] ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_railroad_track_small_d"
+  },
+  {
+    "type": "construction",
     "description": "Build Wooden Floor",
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
@@ -1260,6 +1291,30 @@
   },
   {
     "type": "construction",
+    "description": "Build Screen Door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_screen_door_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Screen Mesh Wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "screen_mesh", 1 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_screened_porch_wall"
+  },
+  {
+    "type": "construction",
     "description": "Build Chickenwire Fence",
     "//": "Step 1: 2x4 stud frame",
     "category": "CONSTRUCT",
@@ -1393,12 +1448,23 @@
   },
   {
     "type": "construction",
+    "description": "Build Entertainment Center",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "80 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_entertainment_center"
+  },
+  {
+    "type": "construction",
     "description": "Build Locker",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ], [ [ "lock", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_locker"
   },
@@ -1477,6 +1543,17 @@
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
+    "description": "Build Coffee Table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_coffee_table"
   },
   {
     "type": "construction",
@@ -1576,7 +1653,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bed"
   },
@@ -1597,7 +1674,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 5,
-    "components": [ [ [ "mattress", 1 ] ] ],
+    "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
   },
@@ -2158,7 +2235,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_special": "done_dig_stair"
@@ -2174,7 +2251,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
@@ -2230,7 +2307,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ],
+      [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -2319,6 +2396,42 @@
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_water_moving_sh",
     "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "720 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_dock_deep_pile"
+  },
+  {
+    "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 2: add a log frame atop the pile",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "log", 4 ] ], [ [ "spike", 8 ] ] ],
+    "pre_terrain": "t_dock_deep_pile",
+    "post_terrain": "t_dock_deep_frame"
+  },
+  {
+    "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 3: Finish with a wood surface",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
+    "pre_terrain": "t_dock_deep_frame",
+    "post_terrain": "t_dock_deep"
   },
   {
     "type": "construction",
@@ -3077,7 +3190,7 @@
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "frame", 1 ] ],
       [ [ "circuit", 4 ] ],
@@ -3088,5 +3201,16 @@
     ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "t_radio_controls"
+  },
+  {
+    "type": "construction",
+    "description": "Build Log Stool",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_logstool"
   }
 ]

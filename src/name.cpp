@@ -102,7 +102,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 std::string get( nameFlags searchFlags )
 {
     auto matching_groups = get_matching_groups( searchFlags );
-    if( ! matching_groups.empty() ) {
+    if( !matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;
         for( const auto &i : matching_groups ) {
@@ -131,11 +131,11 @@ std::string generate( bool is_male )
     if( one_in( 20 ) ) {
         return get( baseSearchFlags | nameIsFullName );
     } else {
-        //~ Used for constructing full name: %1$s is `family name`, %2$s is `given name`
+        //~ Used for constructing full name: %1$s is `given name`, %2$s is `family name`
         translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
         //One in three chance to add a nickname to full name
         if( one_in( 3 ) ) {
-            //~ Used for constructing full name with nickname: %1$s is `family name`, %2$s is `given name`, %3$s is `nickname`
+            //~ Used for constructing full name with nickname: %1$s is `given name`, %2$s is `family name`, %3$s is `nickname`
             full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
         }
         return string_format( full_name_format,

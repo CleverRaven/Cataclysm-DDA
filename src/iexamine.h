@@ -20,13 +20,6 @@ struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
-};
-
 namespace iexamine
 {
 
@@ -63,6 +56,7 @@ void harvest_ter_nectar( player &p, const tripoint &examp );
 void harvest_ter( player &p, const tripoint &examp );
 void harvested_plant( player &p, const tripoint &examp );
 void locked_object( player &p, const tripoint &examp );
+void locked_object_pickable( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );
@@ -118,9 +112,11 @@ void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
 void workbench_internal( player &p, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
-hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
+cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
+bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
+cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
 
 bool has_keg( const tripoint &pos );
 

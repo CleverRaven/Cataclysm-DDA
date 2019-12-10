@@ -31,10 +31,8 @@ static void pass_time( player &p, time_duration amt )
 
 static void clear_stomach( player &p )
 {
-    p.guts.set_calories( 0 );
-    p.stomach.set_calories( 0 );
-    p.stomach.bowel_movement();
-    p.guts.bowel_movement();
+    p.stomach.empty();
+    p.guts.empty();
 }
 
 static void set_all_vitamins( int target, player &p )
@@ -63,14 +61,13 @@ static void print_stomach_contents( player &p, const bool print )
     if( !print ) {
         return;
     }
-    printf( "stomach: %d/%d guts: %d/%d player: %d/%d hunger: %d\n", p.stomach.get_calories(),
-            p.stomach.get_calories_absorbed(), p.guts.get_calories(),
-            p.guts.get_calories_absorbed(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
+    printf( "stomach: %d guts: %d player: %d/%d hunger: %d\n", p.stomach.get_calories(),
+            p.guts.get_calories(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
     printf( "stomach: %d mL/ %d mL guts %d mL/ %d mL\n",
             units::to_milliliter<int>( p.stomach.contains() ),
-            units::to_milliliter<int>( p.stomach.capacity() ),
+            units::to_milliliter<int>( p.stomach.capacity( p ) ),
             units::to_milliliter<int>( p.guts.contains() ),
-            units::to_milliliter<int>( p.guts.capacity() ) );
+            units::to_milliliter<int>( p.guts.capacity( p ) ) );
     printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
 }
 
@@ -78,23 +75,9 @@ static void print_stomach_contents( player &p, const bool print )
 // accounting for appropriate vitamins
 static void eat_all_nutrients( player &p )
 {
-    item f( "pizza_veggy" );
-    p.eat( f );
-    f = item( "pizza_veggy" );
-    p.eat( f );
-    f = item( "pizza_veggy" );
-    p.eat( f );
-    f = item( "pizza_veggy" );
-    p.eat( f );
-    f = item( "fried_livers" );
-    p.eat( f );
-    f = item( "chips3" );
-    p.eat( f );
-    f = item( "chips3" );
-    p.eat( f );
-    f = item( "chips3" );
-    p.eat( f );
-    f = item( "chips3" );
+    // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
+    // Energy target: 2100 kcal -- debug target will be completely sedentary.
+    item f( "debug_nutrition" );
     p.eat( f );
 }
 
@@ -110,7 +93,8 @@ TEST_CASE( "starve_test" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    unsigned int day = 0;
+    constexpr int expected_day = 30;
+    int day = 0;
     do {
         if( print_tests ) {
             printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
@@ -120,12 +104,11 @@ TEST_CASE( "starve_test" )
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
         day++;
-    } while( dummy.get_stored_kcal() > 0 );
+    } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
     if( print_tests ) {
         printf( "\n\n" );
-
-        CHECK( day == 46 );
     }
+    CHECK( day == expected_day );
 }
 
 // how long does it take to starve to death with extreme metabolism
@@ -195,12 +178,32 @@ TEST_CASE( "all_nutrition_starve_test" )
         printf( "\n" );
     }
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
-    // since vitamins drain very quickly, it is almost impossible to remain at 0
-    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -2 );
-    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -2 );
+    // We need to account for a day's worth of error since we're passing a day at a time and we are
+    // close to 0 which is the max value for some vitamins
+    CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitB" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "vitC" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "iron" ) ) >= -100 );
+    CHECK( dummy.vitamin_get( vitamin_id( "calcium" ) ) >= -100 );
+}
+
+TEST_CASE( "tape_worm_halves_nutrients" )
+{
+    const efftype_id effect_tapeworm( "tapeworm" );
+    const bool print_tests = false;
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    eat_all_nutrients( dummy );
+    print_stomach_contents( dummy, print_tests );
+    int regular_kcal = dummy.stomach.get_calories();
+    clear_stomach( dummy );
+    dummy.add_effect( effect_tapeworm, 1_days );
+    eat_all_nutrients( dummy );
+    print_stomach_contents( dummy, print_tests );
+    int tapeworm_kcal = dummy.stomach.get_calories();
+
+    CHECK( tapeworm_kcal == regular_kcal / 2 );
 }
 
 // reasonable length of time to pass before hunger sets in

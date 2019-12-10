@@ -54,7 +54,7 @@ static void reveal_route( mission *miss, const tripoint &destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it..." ), p->name );
+        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
     }
 }
 
@@ -167,8 +167,12 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
     tripoint target_pos = overmap::invalid_tripoint;
 
     omt_find_params find_params;
-    find_params.type = params.overmap_terrain;
-    find_params.match_type = params.overmap_terrain_match_type;
+    std::vector<std::pair<std::string, ot_match_type>> temp_types;
+    std::pair<std::string, ot_match_type> temp_pair;
+    temp_pair.first = params.overmap_terrain;
+    temp_pair.second = params.overmap_terrain_match_type;
+    temp_types.push_back( temp_pair );
+    find_params.types = temp_types;
     find_params.search_range = params.search_range;
     find_params.min_distance = params.min_distance;
     find_params.must_see = params.must_see;
@@ -201,7 +205,7 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
             // This terrain wasn't part of an overmap special, but we do have a replacement
             // terrain specified. Find a random location of that replacement type.
             find_params.must_see = false;
-            find_params.type = *params.replaceable_overmap_terrain;
+            find_params.types.front().first = *params.replaceable_overmap_terrain;
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
 
             // We didn't find it, so allow this search to create new overmaps and try again.
@@ -339,7 +343,7 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     return place;
 }
 
-mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
+mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
     mission_target_params p;
     if( jo.has_string( "om_terrain" ) ) {
@@ -420,7 +424,7 @@ void mission_util::set_reveal_any( JsonArray &ja,
     funcs.emplace_back( mission_func );
 }
 
-void mission_util::set_assign_om_target( JsonObject &jo,
+void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( !jo.has_string( "om_terrain" ) ) {
@@ -435,12 +439,13 @@ void mission_util::set_assign_om_target( JsonObject &jo,
     funcs.emplace_back( mission_func );
 }
 
-bool mission_util::set_update_mapgen( JsonObject &jo,
+bool mission_util::set_update_mapgen( const JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &funcs )
 {
     bool defer = false;
     mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
     if( defer ) {
+        jo.allow_omitted_members();
         return false;
     }
 
@@ -461,7 +466,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject jo,
+bool mission_util::load_funcs( const JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
@@ -481,9 +486,7 @@ bool mission_util::load_funcs( JsonObject jo,
             return false;
         }
     } else if( jo.has_array( "update_mapgen" ) ) {
-        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
-        while( mapgen_array.has_more() ) {
-            JsonObject update_mapgen = mapgen_array.next_object();
+        for( JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
             if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }
@@ -493,7 +496,7 @@ bool mission_util::load_funcs( JsonObject jo,
     return true;
 }
 
-bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
+bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;
     if( !mission_util::load_funcs( jo, funcs ) ) {

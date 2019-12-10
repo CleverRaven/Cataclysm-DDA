@@ -219,6 +219,15 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         callExpr(
+            callee( functionDecl( hasName( "pl_translation" ) ) ),
+            argumentCountIs( 2 ),
+            hasImmediateArgument( 0, stringLiteralArgumentBound ),
+            hasImmediateArgument( 1, stringLiteralArgumentUnbound )
+        ),
+        this
+    );
+    Finder->addMatcher(
+        callExpr(
             callee( functionDecl( hasAnyName( "pgettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentUnbound ),
             hasImmediateArgument( 1, stringLiteralArgumentBound )
@@ -240,6 +249,16 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
             argumentCountIs( 2 ),
             hasImmediateArgument( 0, stringLiteralArgumentUnbound ),
             hasImmediateArgument( 1, stringLiteralArgumentBound )
+        ),
+        this
+    );
+    Finder->addMatcher(
+        callExpr(
+            callee( functionDecl( hasName( "pl_translation" ) ) ),
+            argumentCountIs( 3 ),
+            hasImmediateArgument( 0, stringLiteralArgumentUnbound ),
+            hasImmediateArgument( 1, stringLiteralArgumentBound ),
+            hasImmediateArgument( 2, stringLiteralArgumentUnbound )
         ),
         this
     );

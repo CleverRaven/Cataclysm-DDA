@@ -19,6 +19,7 @@
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -107,74 +108,80 @@ struct islot_tool {
 };
 
 struct islot_comestible {
-    /** subtype, e.g. FOOD, DRINK, MED */
-    std::string comesttype;
+    public:
+        friend Item_factory;
+        friend item;
+        /** subtype, e.g. FOOD, DRINK, MED */
+        std::string comesttype;
 
-    /** tool needed to consume (e.g. lighter for cigarettes) */
-    std::string tool = "null";
+        /** tool needed to consume (e.g. lighter for cigarettes) */
+        std::string tool = "null";
 
-    /** Defaults # of charges (drugs, loaf of bread? etc) */
-    int def_charges = 1;
+        /** Defaults # of charges (drugs, loaf of bread? etc) */
+        int def_charges = 1;
 
-    /** effect on character thirst (may be negative) */
-    int quench = 0;
+        /** effect on character thirst (may be negative) */
+        int quench = 0;
 
-    /** amount of kcal this food has */
-    unsigned int kcal = 0;
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
 
-    /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0_turns;
+        /** Time until becomes rotten at standard temperature, or zero if never spoils */
+        time_duration spoils = 0_turns;
 
-    /** addiction potential */
-    int addict = 0;
+        /** addiction potential */
+        int addict = 0;
 
-    /** effects of addiction */
-    add_type add = ADD_NULL;
+        /** effects of addiction */
+        add_type add = ADD_NULL;
 
-    /** effect on morale when consuming */
-    int fun = 0;
+        /** stimulant effect */
+        int stim = 0;
 
-    /** stimulant effect */
-    int stim = 0;
+        /** Reference to other item that replaces this one as a component in recipe results */
+        itype_id cooks_like;
 
-    /** Reference to other item that replaces this one as a component in recipe results */
-    itype_id cooks_like;
+        /** Reference to item that will be received after smoking current item */
+        itype_id smoking_result;
 
-    /** Reference to item that will be received after smoking current item */
-    itype_id smoking_result;
+        /** TODO: add documentation */
+        int healthy = 0;
 
-    /** TODO: add documentation */
-    int healthy = 0;
+        /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
+        int parasites = 0;
 
-    /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
-    int parasites = 0;
+        /** probability [0, 100] to get food poisoning from this comestible */
+        int contamination = 0;
 
-    /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
-    int freeze_point = temperatures::freezing;
+        /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
+        int freeze_point = temperatures::freezing;
 
-    //** specific heats in J/(g K) and latent heat in J/g */
-    float specific_heat_liquid = 4.186;
-    float specific_heat_solid = 2.108;
-    float latent_heat = 333;
+        //** specific heats in J/(g K) and latent heat in J/g */
+        float specific_heat_liquid = 4.186;
+        float specific_heat_solid = 2.108;
+        float latent_heat = 333;
 
-    /** vitamins potentially provided by this comestible (if any) */
-    std::map<vitamin_id, int> vitamins;
+        /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
+        static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-    /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
-    static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+        bool has_calories() const {
+            return default_nutrition.kcal > 0;
+        }
 
-    int get_calories() const {
-        return kcal;
-    }
+        int get_default_nutr() const {
+            return default_nutrition.kcal / kcal_per_nutr;
+        }
 
-    int get_nutr() const {
-        return kcal / kcal_per_nutr;
-    }
-    /** The monster group that is drawn from when the item rots away */
-    mongroup_id rot_spawn = mongroup_id::NULL_ID();
+        /** The monster group that is drawn from when the item rots away */
+        mongroup_id rot_spawn = mongroup_id::NULL_ID();
 
-    /** Chance the above monster group spawns*/
-    int rot_spawn_chance = 10;
+        /** Chance the above monster group spawns*/
+        int rot_spawn_chance = 10;
+
+    private:
+        /** effect on morale when consuming */
+        int fun = 0;
 };
 
 struct islot_brewable {
@@ -264,6 +271,11 @@ struct islot_armor {
      * Whether this is a power armor item.
      */
     bool power_armor = false;
+    /**
+     * Whitelisted clothing mods.
+     * Restricted clothing mods must be listed here by id to be compatible.
+     */
+    std::vector<std::string> valid_mods;
 };
 
 struct islot_pet_armor {
@@ -758,6 +770,28 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    condition_type type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -803,13 +837,8 @@ struct itype {
         std::string id = "null"; /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
-        // name and name_plural are not translated automatically
         // nname() is used for display purposes
-        std::string name = "none";        // Proper name, singular form, in American English.
-        std::string name_plural = "none"; // name, plural form, in American English.
-
-        /** If set via JSON forces item category to this (preventing automatic assignment) */
-        std::string category_force;
+        translation name = no_translation( "none" );
 
     public:
         itype() {
@@ -834,6 +863,9 @@ struct itype {
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.
@@ -918,7 +950,8 @@ struct itype {
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
-        const item_category *category = nullptr; // category pointer or NULL for automatic selection
+        /** If set via JSON forces item category to this (preventing automatic assignment) */
+        item_category_id category_force;
 
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)
