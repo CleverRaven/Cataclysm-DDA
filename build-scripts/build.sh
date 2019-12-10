@@ -161,6 +161,18 @@ else
         fi
         wait -n
     fi
+
+    if [ -n "$TEST_STAGE" ]
+    then
+        # Run the tests one more time, without actually running any tests, just to verify that all
+        # the mod data can be successfully loaded
+
+        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
+        # shrink over time.
+        blacklist=build-scripts/mod_test_blacklist
+        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
+    fi
 fi
 ccache --show-stats
 
