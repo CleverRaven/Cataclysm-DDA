@@ -28,7 +28,7 @@ class map;
 struct construction;
 
 using faction_id = string_id<faction>;
-const faction_id your_fac( "your_followers" );
+static const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 class zone_type
