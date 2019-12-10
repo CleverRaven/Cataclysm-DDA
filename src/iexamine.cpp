@@ -126,7 +126,7 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,

@@ -101,8 +101,8 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const itype_id fuel_type_animal( "animal" );
 
-const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
+static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 

@@ -90,9 +90,9 @@ static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
-const zone_type_id z_camp_food( "CAMP_FOOD" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
+static const zone_type_id z_camp_food( "CAMP_FOOD" );
 
 struct mass_volume {
     units::mass wgt;
