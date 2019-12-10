@@ -28,7 +28,7 @@
 
 class item;
 
-const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bleed( "bleed" );
 
 namespace
 {

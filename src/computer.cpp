@@ -63,7 +63,7 @@ static const skill_id skill_computer( "computer" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_amigara( "amigara" );
 
 static int alerts = 0;
 

@@ -89,10 +89,10 @@ static const skill_id skill_traps( "traps" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_crushed( "crushed" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_riding( "riding" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

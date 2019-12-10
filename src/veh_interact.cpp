@@ -59,7 +59,7 @@
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_riding( "riding" );
 
 class player;
 

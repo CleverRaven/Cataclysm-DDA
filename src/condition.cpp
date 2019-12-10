@@ -29,7 +29,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-const efftype_id effect_currently_busy( "currently_busy" );
+static const efftype_id effect_currently_busy( "currently_busy" );
 
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )

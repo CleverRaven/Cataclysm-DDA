@@ -62,7 +62,7 @@ class map_extra;
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
 
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;

@@ -54,8 +54,8 @@ struct construction_category;
 
 void cancel_aim_processing();
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_pet( "pet" );
 
 const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );

@@ -103,10 +103,10 @@ const species_id BIRD( "BIRD" );
 const species_id INSECT( "INSECT" );
 const species_id ROBOT( "ROBOT" );
 
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );

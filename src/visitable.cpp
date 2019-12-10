@@ -26,7 +26,7 @@
 #include "colony.h"
 #include "point.h"
 
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_riding( "riding" );
 
 /** @relates visitable */
 template <typename T>

@@ -37,10 +37,10 @@
 #include "player_activity.h"
 #include "regional_settings.h"
 
-const efftype_id effect_glare( "glare" );
-const efftype_id effect_snow_glare( "snow_glare" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_glare( "glare" );
+static const efftype_id effect_snow_glare( "snow_glare" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );

@@ -67,14 +67,14 @@ static const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroac
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 
-const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_no_ammo( "no_ammo" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_rat( "rat" );
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
 
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PRED1( "PRED1" );

@@ -73,7 +73,7 @@ static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;

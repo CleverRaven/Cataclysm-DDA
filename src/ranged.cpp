@@ -69,10 +69,10 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_launcher( "launcher" );
 
-const efftype_id effect_on_roof( "on_roof" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 

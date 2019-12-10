@@ -47,7 +47,7 @@
 #include "type_id.h"
 #include "point.h"
 
-const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_assisted( "assisted" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
