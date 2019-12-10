@@ -718,14 +718,13 @@
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
-      [ [ "scrap", 1 ] ],
+      [ [ "scrap", 5 ] ],
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "tazer", 2 ] ],
-      [ [ "scrap", 4 ] ]
+      [ [ "tazer", 2 ] ]
     ]
   },
   {
