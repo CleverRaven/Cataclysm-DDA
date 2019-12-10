@@ -6381,5 +6381,52 @@
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "private_resort",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "p_resort_1nw_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "p_resort_1nn_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "p_resort_1ne_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "p_resort_1ww_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "p_resort_1mm_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "p_resort_1ee_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "p_resort_1sw_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "p_resort_1ss_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "p_resort_1se_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "p_resort_pw_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "p_resort_pm_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "p_resort_pe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "p_resort_2nw_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "p_resort_2nn_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "p_resort_2ne_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "p_resort_2ww_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "p_resort_2mm_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "p_resort_2ee_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "p_resort_2sw_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "p_resort_2ss_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "p_resort_2se_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "p_resort_0nw_north" },
+      { "point": [ 2, 2, -1 ], "overmap": "p_resort_0se_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "p_resort_rnw_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "p_resort_rnn_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "p_resort_rne_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "p_resort_rww_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "p_resort_rmm_north" },
+      { "point": [ 2, 1, 2 ], "overmap": "p_resort_ree_north" },
+      { "point": [ 0, 2, 2 ], "overmap": "p_resort_rsw_north" },
+      { "point": [ 1, 2, 2 ], "overmap": "p_resort_rss_north" },
+      { "point": [ 2, 2, 2 ], "overmap": "p_resort_rse_north" }
+    ],
+    "connections": [
+      { "point": [ 1, 4, 0 ], "terrain": "road", "connection": "local_road" },
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, 20 ],
+    "city_sizes": [ 4, 20 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC" ]
   }
 ]
