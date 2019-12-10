@@ -85,7 +85,7 @@
       "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
       "@": { "item": "SUS_mannequin_dresses", "chance": 50 },
       "d": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
-      "f": { "item": "SUS_tailoring_materials", "chance": 85 },
+      "f": [ { "item": "SUS_tailoring_materials", "chance": 85 }, { "item": "SUS_tailoring_fasteners", "chance": 85 } ],
       "L": { "item": "SUS_janitors_closet", "chance": 85 }
     }
   },
@@ -116,7 +116,7 @@
       "&": { "item": "SUS_mannequin_fur", "chance": 50 },
       "d": { "item": "SUS_office_desk", "chance": 60 },
       "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
-      "L": { "item": "SUS_fur_tailoring_materials", "chance": 50 },
+      "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
       "J": { "item": "SUS_janitors_closet", "chance": 60 }
     }
   }
