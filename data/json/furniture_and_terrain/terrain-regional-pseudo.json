@@ -7,7 +7,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -17,7 +17,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -27,7 +27,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -37,7 +37,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -47,7 +47,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -57,7 +57,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -67,7 +67,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -77,7 +77,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -87,7 +87,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -97,7 +97,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -107,7 +107,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -117,6 +117,6 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
   }
 ]
