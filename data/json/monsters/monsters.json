@@ -2825,7 +2825,18 @@
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "BASHES",
+      "DESTROYS",
+      "NO_BREATHE",
+      "ELECTRONIC",
+      "PRIORITIZE_TARGETS",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_thing",
