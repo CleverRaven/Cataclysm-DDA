@@ -417,8 +417,8 @@ void Character::suffer_from_schizophrenia()
     std::string i_name_w;
     if( !weapon.is_null() ) {
         i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
-                               //~ %1$s: weapon name
-                               string_format( _( "your %1$s" ), weapon.type_name() );
+                   //~ %1$s: weapon name
+                   string_format( _( "your %1$s" ), weapon.type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
