@@ -56,11 +56,11 @@ const efftype_id effect_fungus( "fungus" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
