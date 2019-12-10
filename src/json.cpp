@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <exception>
 #include <utility>
+#include <limits>
 
 #include "cata_utility.h"
 
@@ -1020,6 +1021,16 @@ std::string JsonIn::get_string()
     throw JsonError( "something went wrong D:" );
 }
 
+static uint64_t abs_of_INT_MIN()
+{
+    return static_cast<uint64_t>( std::abs( std::numeric_limits<int>::min() + 1 ) ) + 1;
+}
+
+static uint64_t abs_of_INT64_MIN()
+{
+    return static_cast<uint64_t>( std::abs( std::numeric_limits<int64_t>::min() + 1 ) ) + 1;
+}
+
 number_sci_notation JsonIn::get_any_int()
 {
     number_sci_notation n = get_any_number();
@@ -1028,7 +1039,7 @@ number_sci_notation JsonIn::get_any_int()
     }
     // Manually apply scientific notation, since std::pow converts to double under the hood.
     for( int i = 0; i < n.exp; i++ ) {
-        if( n.number > UINT64_MAX / 10ULL ) {
+        if( n.number > std::numeric_limits<uint64_t>::max() / 10ULL ) {
             error( "Specified order of magnitude too large -- encountered overflow applying it." );
         }
         n.number *= 10ULL;
@@ -1040,11 +1051,11 @@ number_sci_notation JsonIn::get_any_int()
 int JsonIn::get_int()
 {
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > INT_MAX ) {
-        error( "Found a number greater than " + std::to_string( INT_MAX ) +
+    if( !n.negative && n.number > std::numeric_limits<int>::max() ) {
+        error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
-    } else if( n.negative && n.number > ( UINT_MAX - INT_MAX ) ) {
-        error( "Found a number less than " + std::to_string( INT_MIN ) +
+    } else if( n.negative && n.number > abs_of_INT_MIN() ) {
+        error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
     return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
@@ -1053,8 +1064,9 @@ int JsonIn::get_int()
 unsigned int JsonIn::get_uint()
 {
     number_sci_notation n = get_any_int();
-    if( n.number > UINT_MAX ) {
-        error( "Found a number greater than " + std::to_string( UINT_MAX ) +
+    if( n.number > std::numeric_limits<unsigned int>::max() ) {
+        error( "Found a number greater than " +
+               std::to_string( std::numeric_limits<unsigned int>::max() ) +
                " which is unsupported in this context." );
     }
     if( n.negative ) {
@@ -1066,10 +1078,12 @@ unsigned int JsonIn::get_uint()
 int64_t JsonIn::get_int64()
 {
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > INT64_MAX ) {
-        error( "Signed integers greater than " + std::to_string( INT64_MAX ) + " not supported." );
-    } else if( n.negative && n.number > ( UINT64_MAX - INT64_MAX ) ) {
-        error( "Integers less than " + std::to_string( INT64_MIN ) + " not supported." );
+    if( !n.negative && n.number > std::numeric_limits<int64_t>::max() ) {
+        error( "Signed integers greater than " +
+               std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
+    } else if( n.negative && n.number > abs_of_INT64_MIN() ) {
+        error( "Integers less than "
+               + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
     return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
 }
