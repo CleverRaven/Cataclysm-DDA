@@ -60,8 +60,8 @@ static const efftype_id effect_pet( "pet" );
 const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
-const quality_id LIFT( "LIFT" );
-const quality_id WELD( "WELD" );
+static const quality_id LIFT( "LIFT" );
+static const quality_id WELD( "WELD" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );

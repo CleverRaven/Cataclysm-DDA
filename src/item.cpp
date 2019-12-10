@@ -95,8 +95,8 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_cooking( "cooking" );
 
-const quality_id quality_jack( "JACK" );
-const quality_id quality_lift( "LIFT" );
+static const quality_id quality_jack( "JACK" );
+static const quality_id quality_lift( "LIFT" );
 
 static const species_id FISH( "FISH" );
 static const species_id BIRD( "BIRD" );
