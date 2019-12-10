@@ -98,10 +98,10 @@ static const skill_id skill_cooking( "cooking" );
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );
 
-const species_id FISH( "FISH" );
-const species_id BIRD( "BIRD" );
-const species_id INSECT( "INSECT" );
-const species_id ROBOT( "ROBOT" );
+static const species_id FISH( "FISH" );
+static const species_id BIRD( "BIRD" );
+static const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
 
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );

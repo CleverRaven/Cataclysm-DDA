@@ -43,9 +43,9 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
@@ -61,10 +61,10 @@ static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_harnessed( "harnessed" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
-const species_id ROBOT( "ROBOT" );
-const species_id WORM( "WORM" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id BLOB( "BLOB" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id WORM( "WORM" );
 
 bool monster::wander()
 {

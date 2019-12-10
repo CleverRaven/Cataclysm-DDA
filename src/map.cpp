@@ -87,7 +87,7 @@ static const mtype_id mon_zombie( "mon_zombie" );
 
 static const skill_id skill_traps( "traps" );
 
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );

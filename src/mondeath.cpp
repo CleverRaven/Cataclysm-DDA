@@ -64,8 +64,8 @@ static const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
 static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
 static const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id BLOB( "BLOB" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );

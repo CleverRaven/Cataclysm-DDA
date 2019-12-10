@@ -177,8 +177,8 @@ static const skill_id skill_survival( "survival" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_computer( "computer" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id PLANT( "PLANT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );

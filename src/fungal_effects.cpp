@@ -35,7 +35,7 @@ static const mtype_id mon_spore( "mon_spore" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_spores( "spores" );
 
-const species_id FUNGUS( "FUNGUS" );
+static const species_id FUNGUS( "FUNGUS" );
 
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )

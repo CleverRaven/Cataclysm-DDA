@@ -184,7 +184,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_magnesium_supplements( "magnesium" );
 static const efftype_id effect_pet( "pet" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );

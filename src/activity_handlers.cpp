@@ -103,8 +103,8 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_computer( "computer" );
 
-const species_id HUMAN( "HUMAN" );
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );

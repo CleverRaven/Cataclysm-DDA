@@ -60,9 +60,9 @@
 #include "mongroup.h"
 #include "teleport.h"
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );

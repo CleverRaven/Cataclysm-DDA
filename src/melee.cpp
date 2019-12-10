@@ -108,7 +108,7 @@ static const trait_id trait_THORNS( "THORNS" );
 
 static const efftype_id effect_amigara( "amigara" );
 
-const species_id HUMAN( "HUMAN" );
+static const species_id HUMAN( "HUMAN" );
 
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );

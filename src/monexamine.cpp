@@ -37,7 +37,7 @@
 #include "pimpl.h"
 #include "point.h"
 
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );

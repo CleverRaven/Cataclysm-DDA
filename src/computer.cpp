@@ -60,8 +60,8 @@ static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 static const skill_id skill_computer( "computer" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
 static const efftype_id effect_amigara( "amigara" );
 

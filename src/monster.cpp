@@ -117,15 +117,15 @@ static const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 static const mtype_id mon_spider_fungus( "mon_spider_fungus" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id MAMMAL( "MAMMAL" );
-const species_id ABERRATION( "ABERRATION" );
-const species_id MOLLUSK( "MOLLUSK" );
-const species_id ROBOT( "ROBOT" );
-const species_id FISH( "FISH" );
-const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id MAMMAL( "MAMMAL" );
+static const species_id ABERRATION( "ABERRATION" );
+static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id FISH( "FISH" );
+static const species_id SPIDER( "SPIDER" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );

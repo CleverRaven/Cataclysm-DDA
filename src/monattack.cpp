@@ -113,8 +113,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_launcher( "launcher" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id BLOB( "BLOB" );
 
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );

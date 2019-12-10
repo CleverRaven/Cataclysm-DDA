@@ -140,7 +140,7 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_throw( "throw" );
@@ -204,7 +204,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
-const species_id HUMAN( "HUMAN" );
+static const species_id HUMAN( "HUMAN" );
 
 // *INDENT-OFF*
 Character::Character() :

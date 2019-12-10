@@ -38,7 +38,7 @@ static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
 static const skill_id skill_throw( "throw" );
 

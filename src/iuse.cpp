@@ -128,11 +128,11 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_melee( "melee" );
 
-const species_id ROBOT( "ROBOT" );
-const species_id HALLUCINATION( "HALLUCINATION" );
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id HALLUCINATION( "HALLUCINATION" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
