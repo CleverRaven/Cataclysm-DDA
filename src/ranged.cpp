@@ -76,7 +76,7 @@ static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
-const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );

@@ -63,8 +63,8 @@ static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 static const quality_id LIFT( "LIFT" );
 static const quality_id WELD( "WELD" );
 
-const trap_str_id tr_firewood_source( "tr_firewood_source" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
