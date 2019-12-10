@@ -1175,7 +1175,7 @@ void options_manager::add_options_general()
     mOptionsSort["general"]++;
 
     add( "AUTOIGNORESOUND", "general", translate_marker( "Auto ignore sound mode" ),
-         translate_marker( "Always: All sounds auto ignore distance away and further will be ignored.  SafeOn: All sounds auto ignore distance away and further will be ignored while safe mode is on.  SafeOff: All sounds auto ignore distance and further away will be ignored while safe mode is off.  None: No sounds will be auto ignored" ),
+         translate_marker( "Always: All sounds auto ignore distance away and further will be ignored.  SafeOn: All sounds auto ignore distance away and further will be ignored while safe mode is on.  SafeOff: All sounds auto ignore distance and further away will be ignored while safe mode is off.  None: No sounds will be auto ignored." ),
     { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
     "NONE"
        );
