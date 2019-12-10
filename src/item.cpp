@@ -115,10 +115,10 @@ const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
-const trait_id trait_small2( "SMALL2" );
-const trait_id trait_small_ok( "SMALL_OK" );
-const trait_id trait_huge( "HUGE" );
-const trait_id trait_huge_ok( "HUGE_OK" );
+static const trait_id trait_small2( "SMALL2" );
+static const trait_id trait_small_ok( "SMALL_OK" );
+static const trait_id trait_huge( "HUGE" );
+static const trait_id trait_huge_ok( "HUGE_OK" );
 using npc_class_id = string_id<npc_class>;
 
 std::string rad_badge_color( const int rad )
