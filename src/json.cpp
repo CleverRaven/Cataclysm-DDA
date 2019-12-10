@@ -1020,32 +1020,84 @@ std::string JsonIn::get_string()
     throw JsonError( "something went wrong D:" );
 }
 
-int JsonIn::get_int()
+number_sci_notation JsonIn::get_any_int()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int>( get_float() );
+    number_sci_notation n = get_any_number();
+    if( n.exp < 0 ) {
+        error( "Integers cannot have a decimal point or negative order of magnitude." );
+    }
+    // Manually apply scientific notation, since std::pow converts to double under the hood.
+    for( int i = 0; i < n.exp; i++ ) {
+        if( n.number > UINT64_MAX / 10ULL ) {
+            error( "Specified order of magnitude too large -- encountered overflow applying it." );
+        }
+        n.number *= 10ULL;
+    }
+    n.exp = 0;
+    return n;
 }
 
-std::int64_t JsonIn::get_int64()
+int JsonIn::get_int()
 {
-    // get float value and then convert to int,
-    // because "1.359e3" is technically a valid integer.
-    return static_cast<int64_t>( get_float() );
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > INT_MAX ) {
+        error( "Found a number greater than " + std::to_string( INT_MAX ) +
+               " which is unsupported in this context." );
+    } else if( n.negative && n.number > ( UINT_MAX - INT_MAX ) ) {
+        error( "Found a number less than " + std::to_string( INT_MIN ) +
+               " which is unsupported in this context." );
+    }
+    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+}
+
+unsigned int JsonIn::get_uint()
+{
+    number_sci_notation n = get_any_int();
+    if( n.number > UINT_MAX ) {
+        error( "Found a number greater than " + std::to_string( UINT_MAX ) +
+               " which is unsupported in this context." );
+    }
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return static_cast<unsigned int>( n.number );
+}
+
+int64_t JsonIn::get_int64()
+{
+    number_sci_notation n = get_any_int();
+    if( !n.negative && n.number > INT64_MAX ) {
+        error( "Signed integers greater than " + std::to_string( INT64_MAX ) + " not supported." );
+    } else if( n.negative && n.number > ( UINT64_MAX - INT64_MAX ) ) {
+        error( "Integers less than " + std::to_string( INT64_MIN ) + " not supported." );
+    }
+    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+}
+
+uint64_t JsonIn::get_uint64()
+{
+    number_sci_notation n = get_any_int();
+    if( n.negative ) {
+        error( "Unsigned integers cannot have a negative sign." );
+    }
+    return n.number;
 }
 
 double JsonIn::get_float()
 {
+    number_sci_notation n = get_any_number();
+    return n.number * std::pow( 10.0f, n.exp ) * ( n.negative ? -1.f : 1.f );
+}
+
+number_sci_notation JsonIn::get_any_number()
+{
     // this could maybe be prettier?
     char ch;
-    bool neg = false;
-    int i = 0;
-    int e = 0;
+    number_sci_notation ret;
     int mod_e = 0;
     eat_whitespace();
     stream->get( ch );
-    if( ch == '-' ) {
-        neg = true;
+    if( ( ret.negative = ch == '-' ) ) {
         stream->get( ch );
     } else if( ch != '.' && ( ch < '0' || ch > '9' ) ) {
         // not a valid float
@@ -1061,45 +1113,41 @@ double JsonIn::get_float()
         }
     }
     while( ch >= '0' && ch <= '9' ) {
-        i *= 10;
-        i += ( ch - '0' );
+        ret.number *= 10;
+        ret.number += ( ch - '0' );
         stream->get( ch );
     }
     if( ch == '.' ) {
         stream->get( ch );
         while( ch >= '0' && ch <= '9' ) {
-            i *= 10;
-            i += ( ch - '0' );
+            ret.number *= 10;
+            ret.number += ( ch - '0' );
             mod_e -= 1;
             stream->get( ch );
         }
     }
-    if( neg ) {
-        i *= -1;
-    }
     if( ch == 'e' || ch == 'E' ) {
         stream->get( ch );
-        neg = false;
-        if( ch == '-' ) {
-            neg = true;
+        bool neg;
+        if( ( neg = ch == '-' ) ) {
             stream->get( ch );
         } else if( ch == '+' ) {
             stream->get( ch );
         }
         while( ch >= '0' && ch <= '9' ) {
-            e *= 10;
-            e += ( ch - '0' );
+            ret.exp *= 10;
+            ret.exp += ( ch - '0' );
             stream->get( ch );
         }
         if( neg ) {
-            e *= -1;
+            ret.exp *= -1;
         }
     }
     // unget the final non-number character (probably a separator)
     stream->unget();
     end_value();
-    // now put it all together!
-    return i * std::pow( 10.0f, e + mod_e );
+    ret.exp += mod_e;
+    return ret;
 }
 
 bool JsonIn::get_bool()
@@ -1332,12 +1380,21 @@ bool JsonIn::read( std::int64_t &i, bool throw_on_error )
     return true;
 }
 
+bool JsonIn::read( std::uint64_t &i, bool throw_on_error )
+{
+    if( !test_number() ) {
+        return error_or_false( throw_on_error, "Expected number" );
+    }
+    i = get_uint64();
+    return true;
+}
+
 bool JsonIn::read( unsigned int &u, bool throw_on_error )
 {
     if( !test_number() ) {
         return error_or_false( throw_on_error, "Expected number" );
     }
-    u = get_int();
+    u = get_uint();
     return true;
 }
 
