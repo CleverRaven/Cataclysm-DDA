@@ -30,7 +30,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "file", "count": [ 1, 15 ], "prob": 50 },
-      { "item": "paper", "count": [ 20, 300 ], "prob": 60 },
+      { "item": "paper", "count": [ 2, 30 ], "prob": 60 },
       { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
     ]
