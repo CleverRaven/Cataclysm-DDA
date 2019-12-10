@@ -299,7 +299,8 @@ void start_location::place_player( player &u ) const
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
-    const int bash = u.get_str(); // TODO: Allow using items here
+    // TODO: Allow using items here
+    const int bash = u.get_str();
 
     // Remember biggest found location
     // Sometimes it may be impossible to automatically found an ideal location

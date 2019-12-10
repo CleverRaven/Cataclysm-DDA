@@ -402,7 +402,8 @@ void recipe_dictionary::finalize()
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
-            bk.time = pages * 10; // TODO: allow specifying time in requirement_data
+            // TODO: allow specifying time in requirement_data
+            bk.time = pages * 10;
         }
     }
 

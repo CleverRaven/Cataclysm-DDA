@@ -35,8 +35,6 @@
 
 class npc;
 
-const skill_id skill_mechanics( "mechanics" );
-
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES

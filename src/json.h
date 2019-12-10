@@ -692,7 +692,8 @@ class JsonOut
         }
 
         // convenience methods for writing named object members
-        void member( const std::string &name ); // TODO: enforce value after
+        // TODO: enforce value after
+        void member( const std::string &name );
         void null_member( const std::string &name );
         template <typename T> void member( const std::string &name, const T &value ) {
             member( name );

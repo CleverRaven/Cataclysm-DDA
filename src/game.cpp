@@ -172,11 +172,9 @@ const mtype_id mon_manhack( "mon_manhack" );
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );
-const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_electronics( "electronics" );
-const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
@@ -5164,7 +5162,8 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         return;
     }
     tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
-    const int d = ray.dir(); // TODO:: make dir() const correct!
+    // TODO:: make dir() const correct!
+    const int d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;

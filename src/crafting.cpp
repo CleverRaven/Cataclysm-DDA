@@ -1483,7 +1483,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
-                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                if( has_trait( trait_DEBUG_HS ) ) {
                     selected.use_from = use_from_player;
                     return selected;
                 }

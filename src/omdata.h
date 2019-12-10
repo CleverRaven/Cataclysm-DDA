@@ -410,7 +410,8 @@ struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
     om_direction::type initial_dir = om_direction::type::invalid;
-    string_id<oter_type_t> terrain; // TODO: Remove it.
+    // TODO: Remove it.
+    string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 

@@ -3541,7 +3541,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );
-        dam = 0; // TODO: Preserve some residual damage when it makes sense.
+        // TODO: Preserve some residual damage when it makes sense.
+        dam = 0;
     }
 
     if( ammo_effects.count( "TRAIL" ) && !one_in( 4 ) ) {
@@ -4755,7 +4756,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = type;
             }
 
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
@@ -4774,8 +4776,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             } else if( type == "soldering_iron" ) {
                 ftype = "battery";
             }
-
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = weldpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4798,7 +4800,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = craftpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4815,7 +4818,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4832,7 +4836,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4851,7 +4856,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); // TODO: add a sane birthday arg
+            // TODO: add a sane birthday arg
+            item tmp( type, 0 );
             tmp.charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );

@@ -639,7 +639,7 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && ( ( started_at_night && !( d % 2 ) ) || ( !started_at_night && d % 2 ) ) ) {
+        if( d > 0 && started_at_night != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );

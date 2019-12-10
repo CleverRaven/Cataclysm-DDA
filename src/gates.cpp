@@ -335,6 +335,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     }
 
     if( didit ) {
-        who.mod_moves( -90 ); // TODO: Vary this? Based on strength, broken legs, and so on.
+        // TODO: Vary this? Based on strength, broken legs, and so on.
+        who.mod_moves( -90 );
     }
 }

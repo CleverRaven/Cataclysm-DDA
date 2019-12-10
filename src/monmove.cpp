@@ -1230,7 +1230,8 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
 bool monster::bash_at( const tripoint &p )
 {
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     //Hallucinations can't bash stuff.
@@ -1333,7 +1334,8 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
     if( p.z != posz() ) {
-        return false; // TODO: Remove this
+        // TODO: Remove this
+        return false;
     }
 
     if( p == g->u.pos() ) {

@@ -33,7 +33,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         // *INDENT-ON*
         case cata_variant_type::num_types:
             break;
-    };
+    }
     debugmsg( "unknown cata_variant_type %d", static_cast<int>( type ) );
     return "";
 }

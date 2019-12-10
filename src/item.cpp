@@ -92,9 +92,6 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_unarmed( "unarmed" );
 const skill_id skill_cooking( "cooking" );
 
@@ -3331,7 +3328,8 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    avatar &u = g->u; // TODO: make a const reference
+    // TODO: make a const reference
+    avatar &u = g->u;
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;

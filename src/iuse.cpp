@@ -120,13 +120,10 @@ const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_cow( "mon_cow" );
 
 const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_tailor( "tailor" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_archery( "archery" );
 const skill_id skill_computer( "computer" );
-const skill_id skill_cutting( "cutting" );
 const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
@@ -6137,7 +6134,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< shared_ptr_fast< monster> > mons; // TODO: change into vector<Creature*>
+            // TODO: change into vector<Creature*>
+            std::vector< shared_ptr_fast< monster> > mons;
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {

@@ -1865,7 +1865,8 @@ bool mattack::fungus_sprout( monster *z )
 bool mattack::fungus_fortify( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = &g->u;
     bool mycus = false;
@@ -2234,7 +2235,8 @@ static bool blobify( monster &blob, monster &target )
 bool mattack::formblob( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
 
     bool didit = false;
@@ -2314,7 +2316,8 @@ bool mattack::formblob( monster *z )
 bool mattack::callblobs( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     // The huge brain blob interposes other blobs between it and any threat.
     // For the moment just target the player, this gets a bit more complicated
@@ -2436,7 +2439,8 @@ bool mattack::dance( monster *z )
 bool mattack::dogthing( monster *z )
 {
     if( z == nullptr ) {
-        return false; // TODO: replace pointers with references
+        // TODO: replace pointers with references
+        return false;
     }
 
     if( !one_in( 3 ) || !g->u.sees( *z ) ) {
@@ -2457,7 +2461,8 @@ bool mattack::dogthing( monster *z )
 bool mattack::tentacle( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = &g->u;
     if( !z->sees( g->u ) ) {
@@ -2758,7 +2763,8 @@ bool mattack::triffid_growth( monster *z )
 bool mattack::stare( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     z->moves -= 200;
     if( z->sees( g->u ) ) {
@@ -2782,7 +2788,8 @@ bool mattack::stare( monster *z )
 bool mattack::fear_paralyze( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
@@ -3530,7 +3537,8 @@ bool mattack::searchlight( monster *z )
 bool mattack::flamethrower( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( z->friendly != 0 ) { // TODO: that is always false!
         // Attacking monsters, not the player!
@@ -3817,7 +3825,8 @@ bool mattack::multi_robot( monster *z )
 bool mattack::ratking( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     // Disable z-level ratting or it can get silly
     if( rl_dist( z->pos(), g->u.pos() ) > 50 || z->posz() != g->u.posz() ) {
@@ -4017,7 +4026,8 @@ bool mattack::stretch_bite( monster *z )
 bool mattack::brandish( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( !z->sees( g->u ) ) {
         return false; // Only brandish if we can see you!
@@ -4221,7 +4231,8 @@ bool mattack::lunge( monster *z )
 bool mattack::longswipe( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     Creature *target = z->attack_target();
     if( target == nullptr ) {
@@ -4364,7 +4375,8 @@ bool mattack::parrot_at_danger( monster *parrot )
 bool mattack::darkman( monster *z )
 {
     if( z->friendly ) {
-        return false; // TODO: handle friendly monsters
+        // TODO: handle friendly monsters
+        return false;
     }
     if( rl_dist( z->pos(), g->u.pos() ) > 40 ) {
         return false;

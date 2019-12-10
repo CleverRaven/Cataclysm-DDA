@@ -46,7 +46,7 @@ std::string enum_to_string<description_affix>( description_affix data )
         // *INDENT-ON*
         case description_affix::DESCRIPTION_AFFIX_NUM:
             break;
-    };
+    }
     debugmsg( "Invalid description affix value '%d'.", data );
     return "invalid";
 }

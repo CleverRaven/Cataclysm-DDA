@@ -680,7 +680,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override {
             return martial_arts_data.has_grab_break_tec();
-        };
+        }
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;

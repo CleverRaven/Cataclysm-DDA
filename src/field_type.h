@@ -37,7 +37,7 @@ namespace std
 {
 template <>
 struct hash<description_affix> {
-    std::size_t operator()( const description_affix &k ) const {
+    std::size_t operator()( const description_affix &k ) const noexcept {
         return static_cast<size_t>( k );
     }
 };
