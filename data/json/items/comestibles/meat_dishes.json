@@ -846,6 +846,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "pizza_supreme",
+    "name": "supreme pizza",
+    "copy-from": "pizza_meat",
+    "color": "light_red",
+    "weight": "300 g",
+    "calories": 641,
+    "description": "A supreme pizza with ALL the toppings.",
+    "price": 1500,
+    "material": [ "wheat", "flesh", "veggy", "milk" ],
+    "fun": 11,
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "deluxe_eggs",
     "name": "deluxe scrambled eggs",
     "name_plural": "deluxe scrambled eggs",
