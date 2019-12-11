@@ -5858,7 +5858,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
         }
     } else if( plantsleep ) {
         // Sleep ain't happening in a vehicle or on inappropriate furniture
-        if( vp || ( g->m.has_flag_furn( "ALLOW_ROOT", pos() ) ||  g->m.has_flag_furn( "ALLOW_ROOT_WEAK", pos() ) ) ){
+        if( vp || !( g->m.has_flag_furn( "ALLOW_ROOT", pos() ) ||  g->m.has_flag_furn( "ALLOW_ROOT_WEAK", pos() ) ) ){
             comfort = static_cast<int>( comfort_level::uncomfortable );
         }
         // It's very easy for Chloromorphs to get to sleep on soil!
