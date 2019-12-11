@@ -5661,10 +5661,9 @@ void player::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-              ter_at_pos == t_grass || furn_at_pos == furn_str_id( "f_planter" ) ) && !vp &&
-            ( furn_at_pos == f_null || furn_at_pos == furn_str_id( "f_planter" ) ) ) {
+        if( ( g->m.has_flag_ter_or_furn( "PLANTABLE", pos() ) || 
+                ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+                ter_at_pos == t_pit_shallow ) && !vp  ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
@@ -5860,8 +5859,9 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort = static_cast<int>( comfort_level::uncomfortable );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
-            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow || furn_at_pos == furn_str_id( "f_planter" ) ) {
+            if( g->m.has_flag_ter_or_furn( "PLANTABLE", pos() ) || 
+                ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+                ter_at_pos == t_pit_shallow ) {
                 comfort += static_cast<int>( comfort_level::very_comfortable );
             }
             // Not as much if you have to dig through stuff first
