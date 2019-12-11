@@ -114,7 +114,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
-                const int percentage = ( counter / 100000 );
+                const int percentage = counter / 100000;
 
                 extra_info = string_format( "%d%%", percentage );
             }
