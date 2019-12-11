@@ -126,6 +126,8 @@ struct plant_data {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * ALLOW_ROOT - Allows plant mutants with Chloromorph mutation sleep on the surface very comfortable
+ * ALLOW_ROOT_WEAK - Allows plant mutants with Chloromorph mutation sleep on the surface somewhat comfortable
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
