@@ -135,7 +135,6 @@
     "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": "0 hours",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "container": "bag_plastic"
   },
   {
@@ -221,7 +220,6 @@
     "description": "An irradiated melon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2 },
     "spoils_in": "0 hours",
-    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "container": "bag_plastic"
   },
   {

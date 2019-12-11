@@ -1336,8 +1336,6 @@
       [ "power_armor_frame", 4 ],
       [ "helmet_army", 40 ],
       [ "helmet_liner", 10 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 3 ],
       [ "beret", 50 ],
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],

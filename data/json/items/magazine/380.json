@@ -66,7 +66,7 @@
   {
     "id": "hptcf380mag_8rd",
     "type": "MAGAZINE",
-    "name": "CF-380 magazine",
+    "name": "CF-380 8-round magazine",
     "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.",
     "weight": "110 g",
     "volume": "236 ml",
@@ -82,7 +82,7 @@
   {
     "id": "hptcf380mag_10rd",
     "type": "MAGAZINE",
-    "name": "CF-380 magazine",
+    "name": "CF-380 10-round magazine",
     "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.",
     "weight": "110 g",
     "volume": "236 ml",

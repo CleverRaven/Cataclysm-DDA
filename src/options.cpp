@@ -1140,6 +1140,11 @@ void options_manager::add_options_general()
          false
        );
 
+    add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
+         translate_marker( "If true, the player will not be prevented from moving into known hazardous tiles while running." ),
+         false
+       );
+
     mOptionsSort["general"]++;
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
@@ -1183,7 +1188,7 @@ void options_manager::add_options_general()
 
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
          translate_marker( "If true, game will periodically save the map.  Autosaves occur based on in-game turns or real-time minutes, whichever is larger." ),
-         false
+         true
        );
 
     add( "AUTOSAVE_TURNS", "general", translate_marker( "Game turns between autosaves" ),
@@ -1238,6 +1243,11 @@ void options_manager::add_options_general()
          translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
     { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
     "ask"
+       );
+
+    add( "MAP_UI_SEARCH_RADIUS", "general", translate_marker( "Map search radius" ),
+         translate_marker( "Radius around the cursor to search in the map UI.  Setting very high may be slow." ),
+         10, 4000, 100
        );
 
     mOptionsSort["general"]++;
@@ -2593,9 +2603,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             return action;
         }
 
@@ -2683,9 +2691,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             break;
         }
     }
@@ -3003,7 +3009,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        };
+        }
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }

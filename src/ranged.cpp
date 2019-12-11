@@ -63,23 +63,23 @@
 #include "type_id.h"
 #include "point.h"
 
-const skill_id skill_throw( "throw" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_driving( "driving" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_launcher( "launcher" );
 
-const efftype_id effect_on_roof( "on_roof" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
-const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
@@ -153,6 +153,8 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 
 bool player::handle_gun_damage( item &it )
 {
+    // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
+    const double dirt_max_dbl = 10000;
     if( !it.is_gun() ) {
         debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
         return false;
@@ -167,11 +169,22 @@ bool player::handle_gun_damage( item &it )
 
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
+    // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
     if( !it.has_flag( "NEVER_JAMS" ) &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 1000000000000.0 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
+                1000000000000.0 ) ) {
+        add_msg_player_or_npc(
+            _( "Your %s misfires with a muffled click!" ),
+            _( "<npcname>'s %s misfires with a muffled click!" ),
+            it.tname() );
+        // at high dirt levels the chance to misfire gets to significant levels. 10,000 is max and 7800 is quite high so above that the player gets some relief in the form of exchanging time for some dirt reduction. Basically jiggling the parts loose to remove some dirt and get a few more shots out.
+        if( dirt_dbl >
+            7800 ) {
+            add_msg_player_or_npc(
+                _( "Perhaps taking the ammo out of your %s and reloading will help." ),
+                _( "Perhaps taking the ammo out of <npcname>'s %s and reloading will help." ),
+                it.tname() );
+        }
         return false;
     }
 
@@ -228,12 +241,12 @@ bool player::handle_gun_damage( item &it )
                 }
                 if( one_in( modconsume ) ) {
                     if( mod->mod_damage( dmgamt ) ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
                                                _( "<npcname>'s attached %s is destroyed by their shot!" ),
                                                mod->tname() );
                         i_rem( mod );
                     } else if( it.damage() > initstate ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
                                                _( "<npcname>'s %s is damaged by their shot!" ),
                                                mod->tname() );
                     }
@@ -241,10 +254,20 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) &&
+    if( it.has_fault( fault_gun_unlubricated ) &&
+        x_in_y( dirt_dbl, dirt_max_dbl ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
+                               _( "<npcname>'s %s emits a grimace-inducing screech!" ),
+                               it.tname() );
+        it.inc_damage();
+    }
+    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) ||
+          ( it.has_fault( fault_gun_unlubricated ) ) ) &&
         !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
-        if( curammo_effects.count( "BLACKPOWDER" ) ) {
-            if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+        if( curammo_effects.count( "BLACKPOWDER" ) ||
+            it.has_fault( fault_gun_unlubricated ) ) {
+            if( ( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) ||
+                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                        _( "<npcname>'s %s fails to cycle!" ),
@@ -254,27 +277,36 @@ bool player::handle_gun_damage( item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( dirt < 10000 ) {
-            dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
-                        2 ) );
-            if( dirtadder < 0 ) {
-                dirtadder = 0;
+        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+            if( dirt < static_cast<int>( dirt_max_dbl ) ) {
+                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                            2 ) );
+                // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
+                if( dirtadder < 0 ) {
+                    dirtadder = 0;
+                }
+                // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
+                if( curammo_effects.count( "BLACKPOWDER" ) ||
+                    dirt < 7150 ) {
+                    it.set_var( "dirt", std::min( static_cast<int>( dirt_max_dbl ), dirt + dirtadder + 1 ) );
+                }
             }
-            it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+            dirt = it.get_var( "dirt", 0 );
+            dirt_dbl = static_cast<double>( dirt );
+            if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+                it.faults.insert( fault_gun_dirt );
+            }
+            if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+                it.faults.erase( fault_gun_dirt );
+                it.faults.insert( fault_gun_blackpowder );
+            }
+            // end fouling mechanics
         }
-        dirt = it.get_var( "dirt", 0 );
-        dirt_dbl = static_cast<double>( dirt );
-        if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
-            it.faults.insert( fault_gun_dirt );
-        }
-        if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
-            it.faults.erase( fault_gun_dirt );
-            it.faults.insert( fault_gun_blackpowder );
-        }
-        // end fouling mechanics
     }
+    // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
     if( dirt_dbl > 5000 &&
-        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) {
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
+                5555555555555 ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
@@ -807,7 +839,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( is_mouse_enabled() ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
+        mvwprintz( w_target, point( 1, text_y ), c_white,
                    _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
     }
     return lines_used;
@@ -1168,7 +1200,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
             if( local_last_tgt_pos ) {
                 dst = *local_last_tgt_pos;
             }
-            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock().get() ) ) &&
+            if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
                 pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
                 //We lost our target. Stop auto aiming.
                 pc.cancel_activity();
@@ -1464,14 +1496,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_turret_aim( pc, w_target, line_number, dst );
+                draw_turret_aim( pc, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
+                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND ) {
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
             }
 
             wrefresh( g->w_terrain );
@@ -1606,11 +1635,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 ammo = on_ammo_change( relevant );
             } else {
                 const int pos = pc.get_item_position( relevant );
-                const item it = g->u.i_at( pos );
-                if( it.typeId() == "null" ) {
+                item *it = &g->u.i_at( pos );
+                if( it->typeId() == "null" ) {
                     add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
                 } else {
-                    g->reload( pos, true );
+                    item_location loc( pc, it );
+                    g->reload( loc, true );
                 }
                 ret.clear();
                 break;
@@ -1710,7 +1740,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         int new_dy = dst.y - src.y;
 
         // Make player's sprite flip to face the current target
-        if( ! tile_iso ) {
+        if( !tile_iso ) {
             if( new_dx > 0 ) {
                 g->u.facing = FD_RIGHT;
             } else if( new_dx < 0 ) {

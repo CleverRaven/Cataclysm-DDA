@@ -50,7 +50,6 @@
     "description": "A remote-controlled car.  Fun for young and old alike.",
     "symbol": "#",
     "ammo": "battery",
-    "revert_to": "radio_car",
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
     "flags": [ "RADIO_CONTAINER" ],
@@ -98,6 +97,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "RADIO_OFF",
     "magazines": [
       [
@@ -141,6 +141,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
+    "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO" ],
     "magazines": [
       [

@@ -59,7 +59,6 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": {
       "items": [

@@ -94,7 +94,7 @@ unzipDeps.dependsOn makeLocalization
 preBuild.dependsOn unzipDeps
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 26
 
     if (override_version.isEmpty()) {
         println("Generating version number to $version_header_path")
@@ -127,8 +127,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 14
+        targetSdkVersion 26
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
@@ -162,6 +162,16 @@ android {
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        experimental {
+            dimension "version"
+            applicationIdSuffix ".experimental"
+        }
+    }
+
     signingConfigs {
         if (keystoreProperties.getProperty('storeFile') != null) {
             if (file(keystoreProperties.getProperty('storeFile')).exists()) {
@@ -221,7 +231,7 @@ android {
             variant.outputs.each { output ->
                 def outputFile = output.outputFile
                 if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "com.cleverraven.cataclysmdda.aar";
+                    def fileName = "$applicationId.aar";
                     output.outputFile = new File(outputFile.parent, fileName);
                 }
             }

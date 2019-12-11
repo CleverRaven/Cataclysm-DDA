@@ -304,7 +304,7 @@ static inline int add_sfx_path( const std::string &path )
     }
 }
 
-void sfx::load_sound_effects( JsonObject &jsobj )
+void sfx::load_sound_effects( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
@@ -313,48 +313,39 @@ void sfx::load_sound_effects( JsonObject &jsobj )
     const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sfx_resources.sound_effects[ key ];
 
-    JsonArray jsarr = jsobj.get_array( "files" );
-    while( jsarr.has_more() ) {
+    for( const std::string file : jsobj.get_array( "files" ) ) {
         sound_effect new_sound_effect;
-        const std::string file = jsarr.next_string();
         new_sound_effect.volume = volume;
         new_sound_effect.resource_id = add_sfx_path( file );
 
         effects.push_back( new_sound_effect );
     }
 }
-void sfx::load_sound_effect_preload( JsonObject &jsobj )
+void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
     }
 
-    JsonArray jsarr = jsobj.get_array( "preload" );
-    while( jsarr.has_more() ) {
-        JsonObject aobj = jsarr.next_object();
+    for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         const id_and_variant preload_key( aobj.get_string( "id" ), aobj.get_string( "variant",
                                           "default" ) );
         sfx_preload.push_back( preload_key );
     }
 }
 
-void sfx::load_playlist( JsonObject &jsobj )
+void sfx::load_playlist( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
     }
 
-    JsonArray jarr = jsobj.get_array( "playlists" );
-    while( jarr.has_more() ) {
-        JsonObject playlist = jarr.next_object();
-
+    for( JsonObject playlist : jsobj.get_array( "playlists" ) ) {
         const std::string playlist_id = playlist.get_string( "id" );
         music_playlist playlist_to_load;
         playlist_to_load.shuffle = playlist.get_bool( "shuffle", false );
 
-        JsonArray files = playlist.get_array( "files" );
-        while( files.has_more() ) {
-            JsonObject entry = files.next_object();
+        for( JsonObject entry : playlist.get_array( "files" ) ) {
             const music_playlist::entry e{ entry.get_string( "file" ),  entry.get_int( "volume" ) };
             playlist_to_load.entries.push_back( e );
         }

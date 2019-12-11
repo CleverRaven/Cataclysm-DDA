@@ -195,7 +195,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
-    , dirt( 0, 500 )
+    , dirt( 0, 9999 ) // min and max should follow max_dirt in ranged.cpp
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
@@ -209,8 +209,16 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( new_item.is_gun() &&
+        // no need for dirt if it's a bow
+        !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( one_in( 10 ) &&
+            // chance to be unlubed, but only if it's not a laser or something
+            !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+            new_item.faults.emplace( "fault_gun_unlubricated" );
+        }
         int random_dirt = rng( dirt.first, dirt.second );
+        // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
@@ -559,7 +567,7 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );

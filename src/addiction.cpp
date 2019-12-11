@@ -12,8 +12,8 @@
 #include "calendar.h"
 #include "enums.h"
 
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_shakes( "shakes" );
 
 namespace io
 {
@@ -127,9 +127,11 @@ void addict_effect( Character &u, addiction &add )
         case ADD_PKILLER:
             if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
                 u.get_painkiller() > 20 - in ) {
-                u.mod_painkiller( -1 );    // Tolerance increases!
+                // Tolerance increases!
+                u.mod_painkiller( -1 );
             }
-            if( u.get_painkiller() >= 35 ) { // No further effects if we're doped up.
+            // No further effects if we're doped up.
+            if( u.get_painkiller() >= 35 ) {
                 add.sated = 0_turns;
                 break;
             }

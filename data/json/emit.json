@@ -227,6 +227,27 @@
     "qty": 1
   },
   {
+    "id": "emit_hot_air_migo_seep",
+    "type": "emit",
+    "field": "fd_hot_air_sauna",
+    "intensity": 3,
+    "qty": 50
+  },
+  {
+    "id": "emit_hot_air_migo_blast",
+    "type": "emit",
+    "field": "fd_hot_air_sauna",
+    "intensity": 3,
+    "qty": 300
+  },
+  {
+    "id": "emit_migo_atmosphere",
+    "type": "emit",
+    "field": "fd_migo_atmosphere",
+    "intensity": 3,
+    "qty": 300
+  },
+  {
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",

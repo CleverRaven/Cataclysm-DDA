@@ -6,7 +6,7 @@
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
@@ -15,8 +15,8 @@
     "price": 4,
     "//": "Small cans--needs upsized after the string freeze.",
     "material": "tomato",
-    "volume": "250 ml",
-    "charges": 4,
+    "volume": "500 ml",
+    "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1
@@ -41,7 +41,7 @@
     "//": "need 40 charges of maple sap to make 16 charges of maple syrup",
     "proportional": { "calories": 0.4 },
     "fun": 1,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
     "freezing_point": 30
@@ -217,7 +217,6 @@
     "name_plural": "molasses",
     "weight": "89 g",
     "color": "brown",
-    "stim": 3,
     "container": "jar_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
@@ -254,7 +253,6 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
-    "stim": 1,
     "phase": "liquid"
   },
   {

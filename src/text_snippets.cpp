@@ -10,7 +10,7 @@
 
 snippet_library SNIPPET;
 
-void snippet_library::load_snippet( JsonObject &jsobj )
+void snippet_library::load_snippet( const JsonObject &jsobj )
 {
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::load_snippet called after snippet_library::migrate_hash_to_id." );
@@ -45,7 +45,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
     }
 }
 
-void snippet_library::add_snippet_from_json( const std::string &category, JsonObject &jo )
+void snippet_library::add_snippet_from_json( const std::string &category, const JsonObject &jo )
 {
     if( hash_to_id_migration.has_value() ) {
         debugmsg( "snippet_library::add_snippet_from_json called after snippet_library::migrate_hash_to_id." );
