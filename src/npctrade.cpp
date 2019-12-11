@@ -32,7 +32,7 @@
 #include "faction.h"
 #include "pimpl.h"
 
-const skill_id skill_barter( "barter" );
+static const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -95,8 +95,8 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
     if(
         np.will_exchange_items_freely() &&
-        ! np.weapon.is_null() &&
-        ! np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.is_null() &&
+        !np.weapon.has_flag( "NO_UNWIELD" )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -279,16 +279,16 @@ void trading_window::update_win( npc &np, const std::string &deal )
                    convert_weight( weight_left ), weight_units() );
 
         std::string cost_str = _( "Exchange" );
-        if( ! np.will_exchange_items_freely() ) {
+        if( !np.will_exchange_items_freely() ) {
             cost_str = string_format( your_balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
                                       format_money( std::abs( your_balance ) ) );
         }
 
-        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2, 3 ),
+        mvwprintz( w_head, point( TERMX / 2 + ( TERMX / 2 - utf8_width( cost_str ) ) / 2, 3 ),
                    trade_color, cost_str );
 
         if( !deal.empty() ) {
-            mvwprintz( w_head, point( ( TERMX - deal.length() ) / 2, 3 ),
+            mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                        trade_color_light, deal );
         }
         draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
@@ -349,7 +349,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 std::string price_str = format_money( ip.price );
                 nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
                                        c_light_gray );
-                mvwprintz( w_whose, point( win_w - price_str.length(), i - offset + 1 ),
+                mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                            price_color, price_str );
             }
             if( offset > 0 ) {
@@ -397,8 +397,12 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ),
-                              it.display_name(), total_count );
+    const bool contained = it.is_container() && !it.contents.empty();
+
+    const std::string title = contained ?
+                              string_format( _( "Trade how many containers with %s [MAX: %d]: " ),
+                                      it.get_contained().type_name( how_many ), total_count ) :
+                              string_format( _( "Trade how many %s [MAX: %d]: " ), it.type_name( how_many ), total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -415,7 +419,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
     // Shopkeeps are happy to have large inventories.
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = 5'000'000_ml;
+        volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
 
@@ -455,7 +459,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 ch = ' ';
                 break;
             case '\n':
-                if( ! npc_will_accept_trade( np ) ) {
+                if( !npc_will_accept_trade( np ) ) {
 
                     if( np.max_credit_extended() == 0 ) {
                         popup( _( "You'll need to offer me more than that." ) );
@@ -476,22 +480,23 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 } else if( calc_npc_owes_you( np ) < your_balance ) {
                     // NPC is happy with the trade, but isn't willing to remember the whole debt.
                     const bool trade_ok = query_yn(
-                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                              _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                               format_money( np.max_willing_to_owe() )
                                           );
 
-                    if( ! trade_ok ) {
+                    if( !trade_ok ) {
                         update = true;
                         ch = ' ';
                     }
                 } else {
-                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
+                    if( !query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
                         update = true;
                         ch = ' ';
                     }
                 }
                 break;
-            default: // Letters & such
+            default:
+                // Letters & such
                 if( ch >= 'a' && ch <= 'z' ) {
                     ch -= 'a';
                 } else if( ch >= 'A' && ch <= 'Z' ) {
@@ -538,10 +543,12 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         change_amount *= -1;
                     }
                     int delta_price = ip.price * change_amount;
-                    if( ! np.will_exchange_items_freely() ) {
+                    if( !np.will_exchange_items_freely() ) {
                         your_balance -= delta_price;
-                        volume_left -= ip.vol * change_amount;
-                        weight_left -= ip.weight * change_amount;
+                    }
+                    if( ip.loc.where() == item_location::type::character ) {
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
                     }
                 }
                 ch = 0;
@@ -586,6 +593,10 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     np.shop_restock();
+    //np.drop_items( np.weight_carried() - np.weight_capacity(),
+    //               np.volume_carried() - np.volume_capacity() );
+    np.drop_invalid_inventory();
+
     trading_window trade_win;
     trade_win.setup_win( np );
     trade_win.setup_trade( cost, np );
@@ -604,7 +615,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         }
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
-        if( ! np.will_exchange_items_freely() ) {
+        if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
             g->u.practice( skill_barter, practice / 10000 );
         }

@@ -342,7 +342,8 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
         switch( clowncar_factor ) {
             case 1:
             case 2:
-            case 3: // Full clown car
+            case 3:
+                // Full clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
@@ -369,7 +370,8 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                 }
                 break;
             case 4:
-            case 5: // 2/3rds clown car
+            case 5:
+                // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
                     const tripoint pos = vp.pos();
                     // Spawn pilots in seats with controls.
@@ -391,7 +393,8 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
                 }
                 break;
-            case 6: // Just pilots
+            case 6:
+                // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint pos = vp.pos();
                     m.add_spawn( mon_zombie_military_pilot, 1, pos.xy() );
@@ -406,7 +409,8 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                     }
                 }
                 break;
-            case 7: // Empty clown car
+            case 7:
+            // Empty clown car
             case 8:
                 break;
             default:
@@ -718,25 +722,29 @@ static void mx_drugdeal( map &m, const tripoint &abs_sub )
     int num_drugs = 0;
     itype_id drugtype;
     switch( rng( 1, 10 ) ) {
-        case 1: // Weed
+        case 1:
+            // Weed
             num_drugs = rng( 20, 30 );
             drugtype = "weed";
             break;
         case 2:
         case 3:
         case 4:
-        case 5: // Cocaine
+        case 5:
+            // Cocaine
             num_drugs = rng( 10, 20 );
             drugtype = "coke";
             break;
         case 6:
         case 7:
-        case 8: // Meth
+        case 8:
+            // Meth
             num_drugs = rng( 8, 14 );
             drugtype = "meth";
             break;
         case 9:
-        case 10: // Heroin
+        case 10:
+            // Heroin
             num_drugs = rng( 6, 12 );
             drugtype = "heroin";
             break;
@@ -950,7 +958,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     const bool road_at_east = is_ot_match( "road", east, ot_match_type::type );
 
     const int num_mines = rng( 6, 20 );
-    const std::string text = _( "DANGER! MINEFIELD!" );
+    const std::string text = _( "DANGER!  MINEFIELD!" );
     int x, y, x1, y1 = 0;
 
     if( bridge_at_north && !bridge_at_center && road_at_south ) {
@@ -1932,14 +1940,14 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint> occupied = vehicle.v->get_points();
-        for( tripoint t : occupied ) {
+        for( const tripoint &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( tripoint tri : points ) {
+    for( const tripoint &tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
 
@@ -2065,14 +2073,14 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint> occupied = vehicle.v->get_points();
-        for( tripoint t : occupied ) {
+        for( const tripoint &t : occupied ) {
             points.push_back( t );
         }
     }
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( tripoint tri : points ) {
+    for( const tripoint &tri : points ) {
         m.furn_set( tri, f_wreckage );
     }
 }
@@ -2778,7 +2786,7 @@ FunctionMap all_functions()
     return builtin_functions;
 }
 
-void load( JsonObject &jo, const std::string &src )
+void load( const JsonObject &jo, const std::string &src )
 {
     extras.load( jo, src );
 }
@@ -2790,7 +2798,7 @@ void check_consistency()
 
 } // namespace MapExtras
 
-void map_extra::load( JsonObject &jo, const std::string & )
+void map_extra::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );

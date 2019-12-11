@@ -256,6 +256,11 @@ field_type_id field::displayed_field_type() const
     return _displayed_field_type;
 }
 
+description_affix field::displayed_description_affix() const
+{
+    return _displayed_field_type.obj().desc_affix;
+}
+
 int field::total_move_cost() const
 {
     int current_cost = 0;
@@ -265,18 +270,7 @@ int field::total_move_cost() const
     return current_cost;
 }
 
-effect field_entry::field_effect() const
+std::vector<field_effect> field_entry::field_effects() const
 {
-    const field_effect_data &field_effect = type->get_intensity_level( intensity - 1 ).field_effect;
-    const efftype_id fx_id = field_effect.id;
-    if( fx_id.is_empty() || fx_id.is_null() ) {
-        return effect();
-    }
-    return effect( &field_effect.id.obj(), rng( field_effect.min_duration, field_effect.max_duration ),
-                   field_effect.bp, false, field_effect.intensity, calendar::turn );
-}
-
-bool field_entry::inside_immune() const
-{
-    return type->get_intensity_level( intensity - 1 ).field_effect.inside_immune;
+    return type->get_intensity_level( intensity - 1 ).field_effects;
 }

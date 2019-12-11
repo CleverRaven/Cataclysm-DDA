@@ -34,22 +34,21 @@
 #include "point.h"
 #include "teleport.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_throw( "throw" );
+static const skill_id skill_throw( "throw" );
 
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_heavysnare( "heavysnare" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_ridden( "ridden" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -126,7 +125,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name() );
+        add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
         c->moves -= 100;
         return true;
     }
@@ -150,7 +149,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
                                   _( "A bear trap closes on <npcname>'s foot!" ) );
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
-            g->u.add_effect( effect_beartrap, 1_turns, hit, true );
         }
         // Actual effects
         c->add_effect( effect_beartrap, 1_turns, hit, true );
@@ -547,7 +545,6 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     // Messages
     if( c->has_effect( effect_ridden ) ) {
         add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
-        g->u.add_effect( effect_lightsnare, 1_turns, hit, true );
     }
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
                               _( "A snare closes on <npcname>s leg." ) );
@@ -572,8 +569,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     // Determine what got hit
     const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
     if( c->has_effect( effect_ridden ) ) {
-        add_msg( m_bad, _( "A snare closes on your %s's leg" ), c->get_name() );
-        g->u.add_effect( effect_heavysnare, 1_turns, hit, true );
+        add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
     }
     //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
@@ -640,10 +636,10 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
         return false;
     }
     if( c == &g->u ) {
-        c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
+        c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
     } else {
         if( g->u.sees( p ) ) {
-            add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
+            add_msg( _( "The air shimmers around %s…" ), c->disp_name() );
         }
     }
     teleport::teleport( *c );
@@ -698,22 +694,43 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->in_species( ROBOT ) ) {
-        //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-        sounds::sound( p, 4, sounds::sound_t::speech,
-                       _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
-                       "robot" ); //Dissector error sound.
-        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
-                                  _( "The dissector lights up, and shuts down." ) );
-        return false;
+    if( z != nullptr ) {
+        if( z->type->in_species( ROBOT ) ) {
+            //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+            //Dissector error sound.
+            sounds::sound( p, 4, sounds::sound_t::electronic_speech,
+                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech", "robot" );
+            c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                                      _( "The dissector lights up, and shuts down." ) );
+            return false;
+        }
+        // distribute damage amongst player and horse
+        if( z->has_effect( effect_ridden ) && z->mounted_player ) {
+            Character *ch = z->mounted_player;
+            ch->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+            ch->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+            ch->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            ch->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+            if( g->u.sees( p ) ) {
+                ch->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                                           _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+            }
+            ch->check_dead_state();
+        }
     }
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
-
     if( c != nullptr ) {
-        c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                  _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+        if( g->u.sees( p ) ) {
+            add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
+        }
         c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
         c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
         c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
@@ -724,23 +741,6 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
         c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
         c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        c->check_dead_state();
-    }
-    if( c != nullptr ) {
-        if( c->has_effect( effect_ridden ) ) {
-            g->u.deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            g->u.deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-            add_msg( m_bad, _( "Electrical beams emit from the floor and slice your %s!" ), c->get_name() );
-            g->u.check_dead_state();
-        }
     }
     c->check_dead_state();
     return true;
@@ -773,7 +773,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
+                // like the message says \-:
+                n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n );
                 n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                 n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
             } else {
@@ -865,7 +866,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             add_msg( _( "The spears break!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 4; i++ ) { // 4 spears to a pit
+        // 4 spears to a pit
+        for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "pointy_stick" );
             }
@@ -951,7 +953,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             add_msg( _( "The shards shatter!" ) );
         }
         g->m.ter_set( p, t_pit );
-        for( int i = 0; i < 20; i++ ) { // 20 shards in a pit.
+        // 20 shards in a pit.
+        for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
                 g->m.spawn_item( p, "glass_shard" );
             }
@@ -1031,7 +1034,7 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     const int throwing_skill_level = p->get_skill_level( skill_throw );
     const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
     if( roll < diff ) {
-        p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
+        p->add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         p->use_amount( itemname, 1 );
         g->m.spawn_item( random_neighbor( p->pos() ), itemname );
         return false;
@@ -1113,7 +1116,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+    if( m != nullptr && m->flies() ) {
         return false;
     }
     if( !g->m.has_zlevels() ) {
@@ -1194,7 +1197,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     if( pl->is_player() ) {
-        add_msg( m_warning, _( "You fall down a level!" ) );
+        add_msg( m_bad, ngettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                 height );
         g->vertical_move( -height, true );
     } else {
         pl->setpos( where );
@@ -1207,7 +1211,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {
-        pl->impact( height * 10, where );
+        pl->impact( height * 30, where );
     }
     return true;
 }
@@ -1371,6 +1375,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
+            g->m.set_transparency_cache_dirty( p.z );
             return true;
         }
     }
@@ -1424,7 +1429,6 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     }
     return true;
 }
-
 
 /**
  * Takes the name of a trap function and returns a function pointer to it.

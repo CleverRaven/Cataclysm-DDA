@@ -51,8 +51,7 @@
         "text": "I've come to take you home, lets go.",
         "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_MISSION_OFFER",
-        "effect": "follow",
-        "assign_mission": "MISSION_ISHERWOOD_BARRY_1"
+        "effect": "follow"
       },
       {
         "text": "Hey buddy, feel like talking about what you saw in that tower?",
@@ -65,7 +64,6 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER",
-    "condition": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
     "dynamic_line": [ "Yeah, I think we need to talk about it, but I'm not ready yet.  Let me reclaim my life for a while. " ],
     "responses": [ { "text": "Sounds good, Barry.", "topic": "TALK_DONE" } ]
   },

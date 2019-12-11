@@ -43,7 +43,7 @@
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
-const skill_id skill_barter( "barter" );
+static const skill_id skill_barter( "barter" );
 
 static const mongroup_id GROUP_NETHER = mongroup_id( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT = mongroup_id( "GROUP_ROBOT" );
@@ -134,7 +134,7 @@ void defense_game::per_turn()
     if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
-            popup( _( "A caravan approaches!  Press spacebar..." ) );
+            popup( _( "A caravan approaches!  Press spacebar…" ) );
             caravan();
         }
         spawn_wave();
@@ -345,7 +345,8 @@ void defense_game::init_to_style( defense_style new_style )
         case NUM_DEFENSE_STYLES:
             DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
             break;
-        case DEFENSE_EASY: // fall through to custom
+        case DEFENSE_EASY:
+        // fall through to custom
         case DEFENSE_CUSTOM:
             location = DEFLOC_HOSPITAL;
             initial_difficulty = 15;
@@ -526,7 +527,8 @@ void defense_game::setup()
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
-                case 1: // Scenario selection
+                case 1:
+                    // Scenario selection
                     if( action == "RIGHT" ) {
                         if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
                             style = static_cast<defense_style>( 1 );
@@ -544,7 +546,8 @@ void defense_game::setup()
                     init_to_style( style );
                     break;
 
-                case 2: // Location selection
+                case 2:
+                    // Location selection
                     if( action == "RIGHT" ) {
                         if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
                             location = static_cast<defense_location>( 1 );
@@ -565,7 +568,8 @@ void defense_game::setup()
                     mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
                     break;
 
-                case 3: // Difficulty of the first wave
+                case 3:
+                    // Difficulty of the first wave
                     if( action == "LEFT" && initial_difficulty > 10 ) {
                         initial_difficulty -= 5;
                     }
@@ -577,7 +581,8 @@ void defense_game::setup()
                                initial_difficulty );
                     break;
 
-                case 4: // Wave Difficulty
+                case 4:
+                    // Wave Difficulty
                     if( action == "LEFT" && wave_difficulty > 10 ) {
                         wave_difficulty -= 5;
                     }
@@ -812,7 +817,7 @@ std::string defense_style_name( defense_style style )
         case NUM_DEFENSE_STYLES:
             break;
     }
-    return "Bug! (bug in defense.cpp:defense_style_name)";
+    return "Bug!  (bug in defense.cpp:defense_style_name)";
 }
 
 std::string defense_style_description( defense_style style )
@@ -842,14 +847,14 @@ std::string defense_style_description( defense_style style )
         case NUM_DEFENSE_STYLES:
             break;
     }
-    return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
+    return "What the heck is this I don't even know.  (defense.cpp:defense_style_description)";
 }
 
 std::string defense_location_name( defense_location location )
 {
     switch( location ) {
         case DEFLOC_NULL:
-            return "Nowhere?! (bug in defense.cpp:defense_location_name)";
+            return "Nowhere?!  (bug in defense.cpp:defense_location_name)";
         case DEFLOC_HOSPITAL:
             return _( "Hospital" );
         case DEFLOC_WORKS:
@@ -870,7 +875,7 @@ std::string defense_location_description( defense_location location )
 {
     switch( location ) {
         case DEFLOC_NULL:
-            return "NULL Bug. (defense.cpp:defense_location_description)";
+            return "NULL Bug.  (defense.cpp:defense_location_description)";
         case DEFLOC_HOSPITAL:
             return                 _( "One entrance and many rooms.  Some medical supplies." );
         case DEFLOC_WORKS:
@@ -884,7 +889,7 @@ std::string defense_location_description( defense_location location )
         case NUM_DEFENSE_LOCATIONS:
             break;
     }
-    return "Unknown data bug. (defense.cpp:defense_location_description)";
+    return "Unknown data bug.  (defense.cpp:defense_location_description)";
 }
 
 void defense_game::caravan()
@@ -1124,7 +1129,7 @@ void defense_game::caravan()
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), tmp );
+                    g->m.add_item_or_charges( g->u.pos(), tmp );
                 }
             }
         }
@@ -1261,6 +1266,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     mvwputch( w, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), col, LINE_XOOX );
 
     // Quick reminded about help.
+    // NOLINTNEXTLINE(cata-text-style): literal question mark
     mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
     wrefresh( w );
 }
@@ -1465,7 +1471,7 @@ std::string defense_game::special_wave_message( std::string name )
             ret << string_format( _( "%s from Hell!" ), name );
             break;
         case 5:
-            ret << string_format( _( "Beware! %s!" ), name );
+            ret << string_format( _( "Beware!  %s!" ), name );
             break;
         case 6:
             ret << string_format( _( "The Day of the %s!" ), name );

@@ -53,8 +53,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-struct points_left;
-
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
 #define COL_STAT_BONUS      c_light_green // Bonus
@@ -87,90 +85,6 @@ struct points_left;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL
-    } limit;
-
-    points_left() {
-        limit = MULTI_POOL;
-        init_from_options();
-    }
-
-    void init_from_options() {
-        stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-        trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-        skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-    }
-
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return std::min( trait_points_left(),
-                                 stat_points + std::min( 0, trait_points + skill_points ) );
-        }
-
-        return 0;
-    }
-
-    int trait_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + std::min( 0, skill_points );
-        }
-
-        return 0;
-    }
-
-    int skill_points_left() const {
-        return stat_points + trait_points + skill_points;
-    }
-
-    bool is_freeform() {
-        return limit == FREEFORM;
-    }
-
-    bool is_valid() {
-        return is_freeform() ||
-               ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-                 skill_points_left() >= 0 );
-    }
-
-    bool has_spare() {
-        return !is_freeform() && is_valid() && skill_points_left() > 0;
-    }
-
-    std::string to_string() {
-        if( limit == MULTI_POOL ) {
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                       trait_points >= 0 ? '+' : '-',
-                       trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
-                       skill_points >= 0 ? '+' : '-',
-                       skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
-                       is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-        } else if( limit == ONE_POOL ) {
-            return string_format( _( "Points left: %4d" ), skill_points_left() );
-        } else {
-            return _( "Freeform" );
-        }
-    }
-};
-
 enum struct tab_direction {
     NONE,
     FORWARD,
@@ -190,7 +104,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, bool al
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const avatar &u, const std::string &name, const points_left &points );
 void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -216,7 +129,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style. (press %s for more info)" ),
+    menu.text = string_format( _( "Select a style.  (press %s for more info)" ),
                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
@@ -449,14 +362,17 @@ bool avatar::create( character_type type, const std::string &tempname )
     switch( type ) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_RANDOM: //random scenario, default name if exist
+        case PLTYPE_RANDOM:
+            //random scenario, default name if exist
             randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW: //default world, fixed scenario, random name
+        case PLTYPE_NOW:
+            //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM: //default world, random scenario, random name
+        case PLTYPE_FULL_RANDOM:
+            //default world, random scenario, random name
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
@@ -465,7 +381,10 @@ bool avatar::create( character_type type, const std::string &tempname )
             }
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
-            learned_recipes->clear();
+            // Except if it is a character transfer template
+            if( points.limit != points_left::TRANSFER ) {
+                learned_recipes->clear();
+            }
             tab = NEWCHAR_TAB_MAX;
             break;
     }
@@ -491,6 +410,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
         werase( w );
         wrefresh( w );
+
+        if( points.limit == points_left::TRANSFER ) {
+            tab = 6;
+        }
+
         switch( tab ) {
             case 0:
                 result = set_points( w, *this, points );
@@ -502,10 +426,10 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( w, *this, points, result );
                 break;
             case 3:
-                result = set_traits( w, *this, points );
+                result = set_stats( w, *this, points );
                 break;
             case 4:
-                result = set_stats( w, *this, points );
+                result = set_traits( w, *this, points );
                 break;
             case 5:
                 result = set_skills( w, *this, points );
@@ -543,7 +467,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         return false;
     }
 
-    save_template( *this, _( "Last Character" ), points );
+    if( points.limit == points_left::TRANSFER ) {
+        return true;
+    }
+
+    save_template( _( "Last Character" ), points );
 
     recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -626,21 +554,21 @@ bool avatar::create( character_type type, const std::string &tempname )
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
-    power_level = max_power_level;
+    set_power_level( get_max_power_level() );
 
-    for( auto &t : get_base_traits() ) {
+    for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
-        for( auto &s : t->initial_ma_styles ) {
-            if( !has_martialart( s ) ) {
+        for( const matype_id &s : t->initial_ma_styles ) {
+            if( !martial_arts_data.has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const auto ma_type = choose_ma_style( type, styles );
-            ma_styles.push_back( ma_type );
-            style_selected = ma_type;
+            const matype_id ma_type = choose_ma_style( type, styles );
+            martial_arts_data.add_martialart( ma_type );
+            martial_arts_data.set_style( ma_type );
         }
     }
 
@@ -666,8 +594,8 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
-        _( "TRAITS" ),
         _( "STATS" ),
+        _( "TRAITS" ),
         _( "SKILLS" ),
         _( "DESCRIPTION" ),
     };
@@ -1690,10 +1618,22 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+
+        // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
-        mvwprintz( w, point( 31, 3 ), points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red,
-                   ngettext( "Upgrading %s costs %d point", "Upgrading %s costs %d points", cost ),
-                   currentSkill->name(), cost );
+        const int level = u.get_skill_level( currentSkill->ident() );
+        const int upgrade_levels = level == 0 ? 2 : 1;
+        // We have two different strings to pluralize, so we have to use two
+        // translation calls.
+        const std::string upgrade_levels_s = string_format(
+                //~ levels here are skill levels at character creation time
+                ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+        const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
+        mvwprintz( w, point( 31, 3 ), color,
+                   //~ Second string is e.g. "1 level" or "2 levels"
+                   ngettext( "Upgrading %s by %s costs %d point",
+                             "Upgrading %s by %s costs %d points", cost ),
+                   currentSkill->name(), upgrade_levels_s, cost );
 
         // We want recipes from profession skills displayed, but without boosting the skills
         // Copy the skills, and boost the copy
@@ -1739,9 +1679,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n \n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
             } else {
-                rec_disp += "\n \n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
+                rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
         }
 
@@ -2003,7 +1943,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
             const std::string scenUnavailable =
-                _( "This scenario is not available in this world due to city size settings. " );
+                _( "This scenario is not available in this world due to city size settings." );
             fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
@@ -2179,20 +2119,19 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     catacurses::window w_gender =
         catacurses::newwin( 2, 33, point( getbegx( w ) + 46, getbegy( w ) + 5 ) );
     catacurses::window w_location =
-        catacurses::newwin( 1, 76, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
+        catacurses::newwin( 1, TERMX - 3, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
     catacurses::window w_stats =
         catacurses::newwin( 6, 20, point( getbegx( w ) + 2, getbegy( w ) + 9 ) );
     catacurses::window w_traits =
-        catacurses::newwin( 13, 24, point( getbegx( w ) + 22, getbegy( w ) + 9 ) );
+        catacurses::newwin( 30, 24, point( getbegx( w ) + 22, getbegy( w ) + 9 ) );
     catacurses::window w_scenario =
-        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
+        catacurses::newwin( 1, TERMX - 47, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
     catacurses::window w_profession =
-        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
+        catacurses::newwin( 1, TERMX - 47, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
     catacurses::window w_skills =
-        catacurses::newwin( 9, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
+        catacurses::newwin( 30, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
     catacurses::window w_guide =
-        catacurses::newwin( TERMY - getbegy( w ) - 19 - 1, TERMX - 3,
-                            point( getbegx( w ) + 2, getbegy( w ) + 19 ) );
+        catacurses::newwin( 4, TERMX - 3, point( getbegx( w ) + 2, TERMY - 5 ) );
 
     draw_points( w, points );
 
@@ -2219,8 +2158,11 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
-            select_location.entries.emplace_back( loc.name() );
-            if( loc.ident() == you.start_location ) {
+            uilist_entry entry( loc.ident().get_cid(), true, -1, loc.name() );
+
+            select_location.entries.emplace_back( entry );
+
+            if( loc.ident().get_cid() == you.start_location.get_cid() ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2273,13 +2215,15 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             wrefresh( w_stats );
 
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_base_traits();
+            std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
+                                                   you.get_base_traits();
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
-                for( auto &current_trait : current_traits ) {
-                    wprintz( w_traits, c_light_gray, "\n" );
-                    wprintz( w_traits, current_trait->get_display_color(), current_trait->name() );
+                for( size_t i = 0; i < current_traits.size(); i++ ) {
+                    const auto current_trait = current_traits[i];
+                    trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
+                                    current_trait->get_display_color(), current_trait->name() );
                 }
             }
             wrefresh( w_traits );
@@ -2297,13 +2241,16 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             profession::StartingSkillList list_skills = you.prof->skills();
             for( auto &elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
-                profession::StartingSkillList::iterator i = list_skills.begin();
-                while( i != list_skills.end() ) {
-                    if( i->first == ( elem )->ident() ) {
-                        level += i->second;
-                        break;
+
+                if( points.limit != points_left::TRANSFER ) {
+                    profession::StartingSkillList::iterator i = list_skills.begin();
+                    while( i != list_skills.end() ) {
+                        if( i->first == ( elem )->ident() ) {
+                            level += i->second;
+                            break;
+                        }
+                        ++i;
                     }
-                    ++i;
                 }
 
                 if( level > 0 ) {
@@ -2316,8 +2263,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             }
             if( !has_skills ) {
                 mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
-            } else if( line > 10 ) {
-                mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_gray, _( "(Top 8)" ) );
             }
             wrefresh( w_skills );
 
@@ -2406,7 +2351,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             } else if( you.name.empty() ) {
                 mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
                 wrefresh( w_name );
-                if( !query_yn( _( "Are you SURE you're finished? Your name will be randomly generated." ) ) ) {
+                if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
                     redraw = true;
                     continue;
                 } else {
@@ -2433,8 +2378,11 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                ::save_template( you, *name, points );
+                you.save_template( *name, points );
             }
+            // redraw after saving template
+            draw_character_tabs( w, _( "DESCRIPTION" ) );
+            draw_points( w, points );
             redraw = true;
         } else if( action == "PICK_RANDOM_NAME" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
@@ -2447,8 +2395,9 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             select_location.query();
             if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_location::get_all() ) {
-                    if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
+                    if( loc.ident().get_cid() == select_location.ret ) {
                         you.start_location = loc.ident();
+                        break;
                     }
                 }
             }
@@ -2602,13 +2551,13 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const avatar &u, const std::string &name, const points_left &points )
+void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
     if( native.find_first_of( "\"*/:<>?\\|"
-                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09"
-                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12"
+                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09" // NOLINT(cata-text-style)
+                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12" // NOLINT(cata-text-style)
                               "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
                               "\x1C\x1D\x1E\x1F"
                             ) != std::string::npos ) {
@@ -2617,7 +2566,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
     }
 #endif
 
-    write_to_file( FILENAMES["templatedir"] + native + ".template", [&]( std::ostream & fout ) {
+    write_to_file( PATH_INFO::templatedir() + native + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -2627,9 +2576,10 @@ void save_template( const avatar &u, const std::string &name, const points_left 
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
+        jsout.member( "start_location", start_location );
         jsout.end_object();
 
-        u.serialize( jsout );
+        serialize( jsout );
 
         jsout.end_array();
     }, _( "player template" ) );
@@ -2637,7 +2587,7 @@ void save_template( const avatar &u, const std::string &name, const points_left 
 
 bool avatar::load_template( const std::string &template_name, points_left &points )
 {
-    return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
+    return read_from_file_json( PATH_INFO::templatedir() + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {
@@ -2654,6 +2604,16 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.trait_points = jobj.get_int( "trait_points" );
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
+
+            const std::string jobj_start_location = jobj.get_string( "start_location", "" );
+
+            // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
+            for( const auto &loc : start_location::get_all() ) {
+                if( loc.ident().str() == jobj_start_location ) {
+                    this->start_location = loc.ident();
+                    break;
+                }
+            }
 
             if( jsin.end_array() ) {
                 return;

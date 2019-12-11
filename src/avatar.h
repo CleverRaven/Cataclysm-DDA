@@ -34,7 +34,7 @@ class avatar : public player
         avatar();
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
@@ -44,6 +44,7 @@ class avatar : public player
         bool create( character_type type, const std::string &tempname = "" );
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
+        void save_template( const std::string &name, const points_left &points );
 
         bool is_avatar() const override {
             return true;
@@ -73,13 +74,15 @@ class avatar : public player
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium() const;
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
+        /** Resets all missions before saving character to template */
+        void reset_all_misions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -162,6 +165,27 @@ class avatar : public player
         int kill_xp() const;
 
         faction *get_faction() const override;
+        // Set in npc::talk_to_you for use in further NPC interactions
+        bool dialogue_by_radio = false;
+
+        void set_movement_mode( character_movemode mode ) override;
+
+        // Cycles to the next move mode.
+        void cycle_move_mode();
+        // Resets to walking.
+        void reset_move_mode();
+        // Toggles running on/off.
+        void toggle_run_mode();
+        // Toggles crouching on/off.
+        void toggle_crouch_mode();
+
+        bool wield( item &target ) override;
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item * ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string & ) override;
 
     private:
         map_memory player_map_memory;
@@ -200,6 +224,30 @@ class avatar : public player
         int dex_upgrade = 0;
         int int_upgrade = 0;
         int per_upgrade = 0;
+};
+
+struct points_left {
+    int stat_points;
+    int trait_points;
+    int skill_points;
+
+    enum point_limit : int {
+        FREEFORM = 0,
+        ONE_POOL,
+        MULTI_POOL,
+        TRANSFER,
+    } limit;
+
+    points_left();
+    void init_from_options();
+    // Highest amount of points to spend on stats without points going invalid
+    int stat_points_left() const;
+    int trait_points_left() const;
+    int skill_points_left() const;
+    bool is_freeform();
+    bool is_valid();
+    bool has_spare();
+    std::string to_string();
 };
 
 #endif

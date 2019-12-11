@@ -58,5 +58,22 @@
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
     },
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "debug_fireball_hammer",
+    "type": "GENERIC",
+    "name": "fireball hammer",
+    "copy-from": "magi_staff_minor",
+    "description": "Use with caution!  Flammable!  Explosive!",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [ { "id": "fireball" } ],
+          "hit_me_effect": [ { "id": "light_healing" } ]
+        }
+      ]
+    }
   }
 ]

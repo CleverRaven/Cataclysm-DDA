@@ -72,7 +72,6 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
 
         view.draw( c_white );
 
-
         const std::string action = ctxt.handle_input();
         new_tab = false;
         if( action == "RIGHT" ) {

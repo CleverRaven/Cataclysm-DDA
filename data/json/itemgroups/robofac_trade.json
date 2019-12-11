@@ -25,7 +25,7 @@
     "type": "item_group",
     "id": "robofac_basic_grenades",
     "subtype": "distribution",
-    "items": [ [ "EMPbomb", 70 ], [ "scrambler", 30 ] ]
+    "items": [ [ "grenade_emp", 70 ], [ "scrambler", 30 ] ]
   },
   {
     "type": "item_group",

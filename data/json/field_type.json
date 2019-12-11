@@ -10,6 +10,7 @@
     "type": "field_type",
     "legacy_enum_id": 1,
     "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -23,6 +24,7 @@
     "type": "field_type",
     "legacy_enum_id": 2,
     "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -40,6 +42,7 @@
       { "name": "bloody meat chunks", "color": "light_red" },
       { "name": "heap of gore", "color": "red" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -57,6 +60,7 @@
       { "name": "shattered branches and leaves" },
       { "name": "broken vegetation tangle", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -70,6 +74,7 @@
     "type": "field_type",
     "legacy_enum_id": 5,
     "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
     "priority": 2,
     "phase": "solid",
@@ -85,6 +90,7 @@
       { "name": "slime stain" },
       { "name": "puddle of slime", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "decay_amount_factor": 2,
     "apply_slime_factor": 10,
     "is_splattering": true,
@@ -102,6 +108,7 @@
       { "name": "acid streak" },
       { "name": "pool of acid", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "immunity_data": { "traits": [ "ACIDPROOF" ] },
     "underwater_age_speedup": "2 minutes",
     "has_acid": true,
@@ -115,10 +122,60 @@
     "type": "field_type",
     "legacy_enum_id": 8,
     "intensity_levels": [
-      { "name": "sap splatter", "sym": "5", "color": "yellow", "dangerous": true },
-      { "name": "glob of sap" },
-      { "name": "pool of sap", "color": "brown" }
+      {
+        "name": "sap splatter",
+        "sym": "5",
+        "color": "yellow",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "glob of sap",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "pool of sap",
+        "color": "brown",
+        "effects": [
+          {
+            "effect_id": "sap",
+            "intensity": 1,
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The sap sticks to you!",
+            "message_npc": "The sap sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
+    "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
     "half_life": "2 minutes",
@@ -134,6 +191,7 @@
       { "name": "sludge trail", "color": "dark_gray" },
       { "name": "thick sludge trail" }
     ],
+    "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
     "half_life": "6 hours",
@@ -157,6 +215,7 @@
       { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
       { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
+    "description_affix": "on",
     "decay_amount_factor": 3,
     "has_fire": true,
     "priority": 4,
@@ -170,6 +229,7 @@
     "type": "field_type",
     "legacy_enum_id": 11,
     "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
+    "description_affix": "covered_in",
     "half_life": "1 turns",
     "phase": "solid",
     "display_items": false,
@@ -185,33 +245,49 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "2 seconds",
-        "inside_immune": true
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
       },
       {
         "name": "smoke",
         "color": "light_gray",
         "transparent": false,
         "translucency": 10,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 2,
-        "effect_min_duration": "7 seconds",
-        "effect_max_duration": "7 seconds"
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
+        "scent_neutralization": 1
       },
       {
         "name": "thick smoke",
         "color": "dark_gray",
         "translucency": 0,
-        "effect_id": "smoke",
-        "effect_body_part": "MOUTH",
-        "effect_intensity": 4,
-        "effect_min_duration": "15 seconds",
-        "effect_max_duration": "15 seconds"
+        "effects": [
+          {
+            "effect_id": "smoke",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immune_inside_vehicle": true
+          }
+        ],
+        "scent_neutralization": 5
       }
     ],
     "decay_amount_factor": 5,
@@ -219,7 +295,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 12 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -232,9 +308,71 @@
     "type": "field_type",
     "legacy_enum_id": 13,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
-      { "name": "toxic gas", "color": "light_green", "transparent": false, "translucency": 10 },
-      { "name": "thick toxic gas", "color": "green", "translucency": 0 }
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the hazy cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "toxic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick toxic gas",
+        "color": "green",
+        "translucency": 0,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick toxic gas",
+            "message_type": "bad"
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -255,8 +393,14 @@
     "legacy_enum_id": 14,
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
-      { "name": "tear gas", "color": "light_green", "transparent": false, "translucency": 10 },
-      { "name": "thick tear gas", "color": "green", "translucency": 0 }
+      {
+        "name": "tear gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "scent_neutralization": 1
+      },
+      { "name": "thick tear gas", "color": "green", "translucency": 0, "scent_neutralization": 5 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -304,6 +448,7 @@
     "type": "field_type",
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
@@ -344,6 +489,7 @@
     "type": "field_type",
     "legacy_enum_id": 17,
     "intensity_levels": [ { "name": "fire vent", "light_emitted": 20 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_fire": true,
     "phase": "gas",
     "display_items": false,
@@ -354,6 +500,7 @@
     "type": "field_type",
     "legacy_enum_id": 18,
     "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "description_affix": "on",
     "has_fire": true,
     "priority": 4,
     "phase": "gas",
@@ -369,6 +516,7 @@
       { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
       { "name": "electric cloud", "color": "blue", "light_emitted": 20 }
     ],
+    "description_affix": "illuminated_by",
     "has_elec": true,
     "priority": 4,
     "half_life": "2 turns",
@@ -400,6 +548,7 @@
         "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
       }
     ],
+    "description_affix": "under",
     "priority": 8,
     "display_items": false,
     "display_field": true
@@ -418,6 +567,7 @@
     "type": "field_type",
     "legacy_enum_id": 22,
     "intensity_levels": [ { "name": "shock vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_elec": true,
     "priority": -1,
     "phase": "plasma",
@@ -429,6 +579,7 @@
     "type": "field_type",
     "legacy_enum_id": 23,
     "intensity_levels": [ { "name": "acid vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_acid": true,
     "priority": -1,
     "phase": "liquid",
@@ -460,6 +611,7 @@
       { "name": "beam of light", "color": "light_blue" },
       { "name": "intense beam of light", "color": "white" }
     ],
+    "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
     "dirty_transparency_cache": true,
@@ -472,6 +624,7 @@
     "type": "field_type",
     "legacy_enum_id": 26,
     "intensity_levels": [ { "name": "spotlight", "sym": "&", "light_emitted": 80 } ],
+    "description_affix": "illuminated_by",
     "priority": 1,
     "half_life": "1 turns",
     "display_field": true
@@ -481,6 +634,7 @@
     "type": "field_type",
     "legacy_enum_id": 27,
     "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
+    "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
@@ -496,6 +650,7 @@
       { "name": "plant sap stain" },
       { "name": "puddle of resin" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -509,6 +664,7 @@
     "type": "field_type",
     "legacy_enum_id": 29,
     "intensity_levels": [ { "name": "bug blood splatter", "color": "green" }, { "name": "bug blood stain" }, { "name": "puddle of bug blood" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -526,6 +682,7 @@
       { "name": "hemolymph stain" },
       { "name": "puddle of hemolymph" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -543,6 +700,7 @@
       { "name": "shattered bug leg", "color": "green" },
       { "name": "torn insect organs", "color": "yellow" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -560,6 +718,7 @@
       { "name": "icky mess" },
       { "name": "heap of squishy gore", "color": "dark_gray" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -711,9 +870,51 @@
     "type": "field_type",
     "legacy_enum_id": 39,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true, "translucency": 5 },
-      { "name": "sedative gas", "color": "pink" },
-      { "name": "relaxation gas", "color": "cyan" }
+      {
+        "name": "hazy cloud",
+        "sym": ".",
+        "dangerous": true,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_outside_vehicle": 3,
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "sedative gas",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      },
+      {
+        "name": "relaxation gas",
+        "color": "cyan",
+        "effects": [
+          {
+            "effect_id": "relax_gas",
+            "body_part": "MOUTH",
+            "intensity": 6,
+            "min_duration": "3 seconds",
+            "max_duration": "3 seconds",
+            "chance_inside_vehicle": 3
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
@@ -928,6 +1129,78 @@
     "display_field": true
   },
   {
+    "id": "fd_hot_air_sauna",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 65 },
+      { "color": "yellow", "convection_temperature_mod": 68 },
+      { "color": "red", "convection_temperature_mod": 71 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
+    "priority": -1,
+    "half_life": "50 minutes",
+    "phase": "gas",
+    "display_field": true
+  },
+  {
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 1,
+            "min_duration": "5 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "10 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "MOUTH",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
+  },
+  {
     "id": "fd_fungicidal_gas",
     "type": "field_type",
     "legacy_enum_id": 49,
@@ -975,6 +1248,7 @@
     "type": "field_type",
     "legacy_enum_id": 50,
     "intensity_levels": [ { "name": "smoke vent", "dangerous": true }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "wandering_field": "fd_smoke",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,

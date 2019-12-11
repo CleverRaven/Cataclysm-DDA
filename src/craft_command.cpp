@@ -22,6 +22,8 @@
 #include "uistate.h"
 #include "type_id.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {
@@ -30,7 +32,8 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
+        case use_from_player:
+        // Is the same as the default return;
         case use_from_none:
         case cancel:
         case num_usages:
@@ -189,7 +192,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
                                     const std::vector<comp_selection<tool_comp>> &missing_tools )
 {
     std::stringstream ss;
-    ss << _( "Some components used previously are missing. Continue?" );
+    ss << _( "Some components used previously are missing.  Continue?" );
 
     if( !missing_items.empty() ) {
         ss << std::endl << _( "Item(s): " );
@@ -209,7 +212,7 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     std::list<item> used;
     std::vector<item_comp> comps_used;
-    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
     }
 
@@ -259,6 +262,11 @@ item craft_command::create_in_progress_craft()
     new_craft.set_next_failure_point( *crafter );
 
     return new_craft;
+}
+
+skill_id craft_command::get_skill_id()
+{
+    return rec->skill_used;
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(

@@ -153,10 +153,10 @@ class worldfactory
         std::vector<worldgen_display> tabs;
 };
 
-void load_world_option( JsonObject &jo );
+void load_world_option( const JsonObject &jo );
 
 //load external option from json
-void load_external_option( JsonObject &jo );
+void load_external_option( const JsonObject &jo );
 
 extern std::unique_ptr<worldfactory> world_generator;
 

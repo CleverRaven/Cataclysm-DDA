@@ -1,6 +1,7 @@
 [
   {
     "id": "deagle_44",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "Desert Eagle .44",
@@ -40,6 +41,7 @@
   {
     "id": "henry_big_boy",
     "copy-from": "rifle_manual",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "Henry Big Boy .44",
     "name_plural": "Henry Big Boy .44",
@@ -75,6 +77,7 @@
   {
     "id": "rifle_44",
     "copy-from": "gun_base",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": "pipe rifle: .44 Magnum",
     "name_plural": "pipe rifles: .44 Magnum",
@@ -112,6 +115,7 @@
   {
     "id": "ruger_redhawk",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "Ruger Redhawk",
     "name_plural": "Ruger Redhawk",
@@ -145,6 +149,7 @@
   {
     "id": "sw629",
     "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
     "type": "GUN",
     "name": "S&W 629",
     "name_plural": "S&W 629",

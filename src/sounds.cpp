@@ -70,11 +70,11 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 activity_id act;
 std::pair<std::string, std::string> engine_external_id_and_variant;
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -100,6 +100,33 @@ struct centroid {
     float volume;
     float weight;
 };
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
+{
+    switch ( data ) {
+    case sounds::sound_t::background: return "background";
+    case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::music: return "music";
+    case sounds::sound_t::movement: return "movement";
+    case sounds::sound_t::speech: return "speech";
+    case sounds::sound_t::electronic_speech: return "electronic_speech";
+    case sounds::sound_t::activity: return "activity";
+    case sounds::sound_t::destructive_activity: return "destructive_activity";
+    case sounds::sound_t::alarm: return "alarm";
+    case sounds::sound_t::combat: return "combat";
+    case sounds::sound_t::alert: return "alert";
+    case sounds::sound_t::order: return "order";
+    case sounds::sound_t::_LAST: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
+}
+// *INDENT-ON*
+} // namespace io
 
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
@@ -275,18 +302,23 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
-            case sounds::sound_t::music: // detailed music descriptions are printed in iuse::play_music
+            case sounds::sound_t::music:
+            // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
             case sounds::sound_t::combat:
-                return false;
-            case sounds::sound_t::speech: // radios also produce speech sound
-            case sounds::sound_t::alarm:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
+            case sounds::sound_t::speech:
+                return false;
+            case sounds::sound_t::electronic_speech:
+            case sounds::sound_t::alarm:
                 return true;
         }
     } else {
@@ -299,11 +331,15 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::destructive_activity:
                 return one_in( 100 );
             case sounds::sound_t::speech:
+            case sounds::sound_t::electronic_speech:
             case sounds::sound_t::alarm:
             case sounds::sound_t::combat:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
                 return true;
+            case sounds::sound_t::_LAST:
+                debugmsg( "ERROR: Incorrect sound category" );
+                return false;
         }
     }
     return true;
@@ -384,7 +420,7 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-        const std::string &description = sound.description.empty() ? "a noise" : sound.description;
+        const std::string &description = sound.description.empty() ? _( "a noise" ) : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );
@@ -410,7 +446,7 @@ void sounds::process_sound_markers( player *p )
             }
             // if we can see it, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( severity, _( "From your position you hear %1$s." ), description );
+                add_msg( severity, _( "From your position you hear %1$s" ), description );
             } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
@@ -843,6 +879,7 @@ void sfx::do_ambient()
         switch( g->weather.weather ) {
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
+            case WEATHER_LIGHT_DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
@@ -1145,39 +1182,39 @@ void sfx::do_fatigue()
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
-    if( g->u.stamina >= g->u.get_stamina_max() * .75 ) {
+    if( g->u.get_stamina() >= g->u.get_stamina_max() * .75 ) {
         fade_audio_group( group::fatigue, 2000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .74
-               && g->u.stamina >= g->u.get_stamina_max() * .5 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .74
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .5 &&
                !g->u.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .49
-               && g->u.stamina >= g->u.get_stamina_max() * .25 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .49
+               && g->u.get_stamina() >= g->u.get_stamina_max() * .25 &&
                !g->u.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
         return;
-    } else if( g->u.stamina <= g->u.get_stamina_max() * .24 && g->u.stamina >= 0 &&
+    } else if( g->u.get_stamina() <= g->u.get_stamina_max() * .24 && g->u.get_stamina() >= 0 &&
                !g->u.male && !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );
@@ -1398,9 +1435,9 @@ void sfx::end_activity_sounds()
 
 /** Dummy implementations for builds without sound */
 /*@{*/
-void sfx::load_sound_effects( JsonObject & ) { }
-void sfx::load_sound_effect_preload( JsonObject & ) { }
-void sfx::load_playlist( JsonObject & ) { }
+void sfx::load_sound_effects( const JsonObject & ) { }
+void sfx::load_sound_effect_preload( const JsonObject & ) { }
+void sfx::load_playlist( const JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, double, double ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,

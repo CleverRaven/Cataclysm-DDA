@@ -17,13 +17,13 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_RANCH_WOODCUTTER_JOB" },
       { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_WOODCUTTER_HIRE" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_WOODCUTTER_JOB",
-    "dynamic_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an ax so my profession became lumberjack... didn't have any say in it.  If I want to eat then I'll be cutting wood from now till kingdom come.",
+    "dynamic_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an ax so my profession became lumberjack… didn't have any say in it.  If I want to eat then I'll be cutting wood from now till kingdom come.",
     "responses": [ { "text": "Oh.", "topic": "TALK_RANCH_WOODCUTTER" } ]
   },
   {

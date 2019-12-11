@@ -35,7 +35,7 @@ class is_optional : public detail::is_optional_helper<typename std::decay<T>::ty
 {
 };
 
-inline void report_strict_violation( JsonObject &jo, const std::string &message,
+inline void report_strict_violation( const JsonObject &jo, const std::string &message,
                                      const std::string &name )
 {
     try {
@@ -48,7 +48,7 @@ inline void report_strict_violation( JsonObject &jo, const std::string &message,
 }
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false,
+bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     T out;
@@ -56,16 +56,21 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, out ) ) {
-        err = jo.get_object( "relative" );
+    if( relative.read( name, out ) ) {
+        err = relative;
         strict = false;
         out += val;
 
-    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        err = jo.get_object( "proportional" );
+    } else if( proportional.read( name, scalar ) ) {
+        err = proportional;
         if( scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -73,7 +78,6 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
         out = val * scalar;
 
     } else if( !jo.read( name, out ) ) {
-
         return false;
     }
 
@@ -92,19 +96,16 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
 
 // Overload assign specifically for bool to avoid warnings,
 // and also to avoid potentially nonsensical interactions between relative and proportional.
-inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool strict = false )
+inline bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false )
 {
     bool out;
-
-    // Object via which to report errors which differs for proportional/relative values
-    JsonObject err = jo;
 
     if( !jo.read( name, out ) ) {
         return false;
     }
 
     if( strict && out == val ) {
-        report_strict_violation( err, "assignment does not update value", name );
+        report_strict_violation( jo, "assignment does not update value", name );
     }
 
     val = out;
@@ -113,7 +114,7 @@ inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool str
 }
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
+bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     std::pair<T, T> out;
@@ -151,7 +152,7 @@ bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
 // handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
-bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false )
+bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
     T out;
     if( !jo.read( name, out ) ) {
@@ -169,10 +170,12 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
 {
-    auto add = jo.get_object( "extend" );
-    auto del = jo.get_object( "delete" );
+    JsonObject add = jo.get_object( "extend" );
+    add.allow_omitted_members();
+    JsonObject del = jo.get_object( "delete" );
+    del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T>( name );
@@ -202,12 +205,12 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     return res;
 }
 
-inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
+inline bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
                     bool strict = false,
                     const units::volume lo = units::volume_min,
                     const units::volume hi = units::volume_max )
 {
-    const auto parse = [&name]( JsonObject & obj, units::volume & out ) {
+    const auto parse = [&name]( const JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
             out = obj.get_int( name ) * units::legacy_volume_factor;
             return true;
@@ -239,21 +242,26 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).has_member( name ) ) {
+    if( relative.has_member( name ) ) {
         units::volume tmp;
-        err = jo.get_object( "relative" );
+        err = relative;
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
-    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+    } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = jo.get_object( "proportional" );
+        err = proportional;
         if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -277,12 +285,12 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     return true;
 }
 
-inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
+inline bool assign( const JsonObject &jo, const std::string &name, units::mass &val,
                     bool strict = false,
                     const units::mass lo = units::mass_min,
                     const units::mass hi = units::mass_max )
 {
-    const auto parse = [&name]( JsonObject & obj, units::mass & out ) {
+    const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
         if( obj.has_int( name ) ) {
             out = units::from_gram<std::int64_t>( obj.get_int( name ) );
             return true;
@@ -299,21 +307,26 @@ inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).has_member( name ) ) {
+    if( relative.has_member( name ) ) {
         units::mass tmp;
-        err = jo.get_object( "relative" );
+        err = relative;
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
-    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+    } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = jo.get_object( "proportional" );
+        err = proportional;
         if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -337,12 +350,12 @@ inline bool assign( JsonObject &jo, const std::string &name, units::mass &val,
     return true;
 }
 
-inline bool assign( JsonObject &jo, const std::string &name, units::money &val,
+inline bool assign( const JsonObject &jo, const std::string &name, units::money &val,
                     bool strict = false,
                     const units::money lo = units::money_min,
                     const units::money hi = units::money_max )
 {
-    const auto parse = [&name]( JsonObject & obj, units::money & out ) {
+    const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
         if( obj.has_int( name ) ) {
             out = units::from_cent( obj.get_int( name ) );
             return true;
@@ -359,21 +372,26 @@ inline bool assign( JsonObject &jo, const std::string &name, units::money &val,
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).has_member( name ) ) {
+    if( relative.has_member( name ) ) {
         units::money tmp;
-        err = jo.get_object( "relative" );
+        err = relative;
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
-    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+    } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = jo.get_object( "proportional" );
+        err = proportional;
         if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -397,14 +415,19 @@ inline bool assign( JsonObject &jo, const std::string &name, units::money &val,
     return true;
 }
 
-inline bool assign( JsonObject &jo, const std::string &name, units::energy &val,
+inline bool assign( const JsonObject &jo, const std::string &name, units::energy &val,
                     bool strict = false,
                     const units::energy lo = units::energy_min,
                     const units::energy hi = units::energy_max )
 {
-    const auto parse = [&name]( JsonObject & obj, units::energy & out ) {
+    const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
         if( obj.has_int( name ) ) {
-            out = units::from_kilojoule( obj.get_int( name ) );
+            const std::int64_t tmp = obj.get_int( name );
+            if( tmp > units::to_kilojoule( units::energy_max ) ) {
+                out = units::energy_max;
+            } else {
+                out = units::from_kilojoule( tmp );
+            }
             return true;
         }
         if( obj.has_string( name ) ) {
@@ -419,21 +442,26 @@ inline bool assign( JsonObject &jo, const std::string &name, units::energy &val,
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).has_member( name ) ) {
+    if( relative.has_member( name ) ) {
         units::energy tmp;
-        err = jo.get_object( "relative" );
+        err = relative;
         if( !parse( err, tmp ) ) {
             err.throw_error( "invalid relative value specified", name );
         }
         strict = false;
         out = val + tmp;
 
-    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+    } else if( proportional.has_member( name ) ) {
         double scalar;
-        err = jo.get_object( "proportional" );
+        err = proportional;
         if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -457,7 +485,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::energy &val,
     return true;
 }
 
-inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
+inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
                     const bool strict = false )
 {
     if( !jo.has_member( name ) ) {
@@ -479,7 +507,7 @@ class time_duration;
 template<typename T>
 inline typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
-read_with_factor( JsonObject jo, const std::string &name, T &val, const T &factor )
+read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor )
 {
     int tmp;
     if( jo.read( name, tmp, false ) ) {
@@ -502,23 +530,28 @@ read_with_factor( JsonObject jo, const std::string &name, T &val, const T &facto
 template<typename T>
 inline typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
+    const JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
 {
     T out{};
     double scalar;
 
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( read_with_factor( jo.get_object( "relative" ), name, out, factor ) ) {
-        err = jo.get_object( "relative" );
+    if( read_with_factor( relative, name, out, factor ) ) {
+        err = relative;
         strict = false;
         out = out + val;
 
-    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        err = jo.get_object( "proportional" );
+    } else if( proportional.read( name, scalar ) ) {
+        err = proportional;
         if( scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
@@ -541,7 +574,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 }
 
 template<typename T>
-inline bool assign( JsonObject &jo, const std::string &name, cata::optional<T> &val,
+inline bool assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
                     const bool strict = false )
 {
     if( !jo.has_member( name ) ) {

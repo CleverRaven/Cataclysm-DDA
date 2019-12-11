@@ -30,6 +30,16 @@ class json_flag
             return inherit_;
         }
 
+        /** Is flag inherited by crafted items from any component items? */
+        bool craft_inherit() const {
+            return craft_inherit_;
+        }
+
+        /** The flag's modifier on the fun value of comestibles */
+        int taste_mod() const {
+            return taste_mod_;
+        }
+
         /** Is this a valid (non-null) flag */
         operator bool() const {
             return !id_.empty();
@@ -40,11 +50,13 @@ class json_flag
         std::string info_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
+        bool craft_inherit_ = false;
+        int taste_mod_ = 0;
 
         json_flag( const std::string &id = std::string() ) : id_( id ) {}
 
         /** Load flag definition from JSON */
-        static void load( JsonObject &jo );
+        static void load( const JsonObject &jo );
 
         /** Check consistency of all loaded flags */
         static void check_consistency();

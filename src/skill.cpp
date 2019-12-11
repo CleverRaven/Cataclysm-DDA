@@ -85,18 +85,29 @@ void Skill::reset()
     contextual_skills.clear();
 }
 
-void Skill::load_skill( JsonObject &jsobj )
+void Skill::load_skill( const JsonObject &jsobj )
 {
     skill_id ident = skill_id( jsobj.get_string( "ident" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
 
+    std::unordered_map<std::string, int> companion_skill_practice;
     translation name, desc;
     jsobj.read( "name", name );
     jsobj.read( "description", desc );
+    JsonArray ja = jsobj.get_array( "companion_skill_practice" );
+    while( ja.has_more() ) {
+        JsonObject jo = ja.next_object();
+        companion_skill_practice.emplace( jo.get_string( "skill" ), jo.get_int( "weight" ) );
+    }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
-    const Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+
+    sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
+    sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
+    sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
+    sk._companion_skill_practice = companion_skill_practice;
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -116,8 +127,7 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
-
-void SkillDisplayType::load( JsonObject &jsobj )
+void SkillDisplayType::load( const JsonObject &jsobj )
 {
     skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),
@@ -130,7 +140,6 @@ void SkillDisplayType::load( JsonObject &jsobj )
     const SkillDisplayType sk( ident, display_string );
     skillTypes.push_back( sk );
 }
-
 
 const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
 {
@@ -272,7 +281,7 @@ const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static const SkillLevel null_skill{};
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 
@@ -290,7 +299,7 @@ SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
     static SkillLevel null_skill;
 
     if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident.str() );
+        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
         return null_skill;
     }
 

@@ -1,6 +1,7 @@
 # JSON Flags
 
 * [Notes](#notes)
+* [Inheritance](#inheritance)
 * [TODO](#todo)
 * [Ammo](#ammo)
   + [Ammo type](#ammo-type)
@@ -72,6 +73,11 @@
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
+
+
+## Inheritance
+
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
 
 
 ## TODO
@@ -465,7 +471,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
+- ```HIDDEN_POISON``` ... Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
@@ -475,6 +481,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
+- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
 - ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
@@ -518,6 +525,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
+- ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )
 - ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
@@ -569,6 +577,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -635,6 +644,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
+- ```DETERGENT``` ... This item can be used as a detergent in a washing machine.
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```FAKE_MILL``` ... Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` ... Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -931,11 +941,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
-- ```REGENERATES_1``` Monster regenerates slowly over time.
-- ```REGENERATES_10``` Monster regenerates quickly over time.
-- ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
-- ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
@@ -1214,6 +1219,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRESTARTER``` Item will start fire with some difficulty.
@@ -1256,6 +1262,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
 - ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
@@ -1272,6 +1279,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
@@ -1371,6 +1379,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
+- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.

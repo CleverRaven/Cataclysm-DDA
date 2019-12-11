@@ -66,13 +66,13 @@
     "type": "MONSTER",
     "name": "W12B10",
     "description": "Wraitheon (12B) Combat Engineer 10 Level.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
-    "starting_ammo": { "gasoline": 120 },
+    "starting_ammo": { "napalm": 120 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "flamethrower",
-        "ammo_type": "gasoline",
+        "ammo_type": "napalm",
         "fake_skills": [ [ "gun", 1 ] ],
         "fake_dex": 8,
         "range": 5,

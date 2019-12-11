@@ -224,7 +224,6 @@
     "update_mapgen_id": "fbmh_core_kitchen_fireplace_center",
     "method": "json",
     "object": {
-      "mapgensize": [ 6, 6 ],
       "set": [
         { "point": "furniture", "id": "f_counter", "x": 13, "y": 10 },
         { "point": "furniture", "id": "f_fireplace", "x": 12, "y": 11 }

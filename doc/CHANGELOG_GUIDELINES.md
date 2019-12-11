@@ -1,6 +1,9 @@
 These are the categories used by Pull Request Summary lines as outlined in the [PR Template](../.github/pull_request_template.md).
 In the end, it's up to the author to decide where *they* want their change to be listed, these are only guidelines, not rules.
 
+
+#### None
+Please consider a summary of "SUMMARY: None" for minor additions and fixes. There are far too many changes made to the game to feature anything approaching all of them in the changelog.
 #### Features
 If it adds something new that the player can do, or that can happen to the player, it's a feature.
 These will generally be edits to the C++ code in the game, though new json entities may be involved as well.

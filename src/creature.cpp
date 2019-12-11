@@ -41,21 +41,21 @@
 #include "string_id.h"
 #include "point.h"
 
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bounced( "bounced" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_zapped( "zapped" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_paralyzepoison( "paralyzepoison" );
-
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_zapped( "zapped" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -128,6 +128,7 @@ void Creature::reset_bonuses()
     hit_bonus = 0;
     bash_bonus = 0;
     cut_bonus = 0;
+    size_bonus = 0;
 
     bash_mult = 1.0f;
     cut_mult = 1.0f;
@@ -155,7 +156,6 @@ void Creature::process_turn()
     }
 }
 
-// MF_DIGS or MF_CAN_DIG and diggable terrain
 bool Creature::digging() const
 {
     return false;
@@ -198,15 +198,15 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
-    auto visible = []( const player * p ) {
-        return p == nullptr || !p->is_invisible();
+    auto visible = []( const Character * ch ) {
+        return ch == nullptr || !ch->is_invisible();
     };
 
-    const player *p = critter.as_player();
+    const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return visible( p );
+        return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -215,14 +215,14 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( p != nullptr ) {
-        if( p->movement_mode_is( PMM_CROUCH ) ) {
+    if( ch != nullptr ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
             float size_modifier = 1.0;
-            switch( p->get_size() ) {
+            switch( ch->get_size() ) {
                 case MS_TINY:
                     size_modifier = 2.0;
                     break;
@@ -240,15 +240,15 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
             return false;
         }
     }
-    return sees( critter.pos(), p != nullptr ) && visible( p );
+    return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
+bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -275,7 +275,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
         if( range_mod > 0 ) {
             range = std::min( range, range_mod );
         }
-        if( is_player ) {
+        if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
@@ -896,6 +896,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;
@@ -1296,7 +1301,8 @@ void Creature::set_moves( int nmoves )
 
 bool Creature::in_sleep_state() const
 {
-    return has_effect( effect_sleep ) || has_effect( effect_lying_down );
+    return has_effect( effect_sleep ) || has_effect( effect_lying_down ) ||
+           has_effect( effect_npc_suspend );
 }
 
 /*
@@ -1481,6 +1487,7 @@ void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;
@@ -1520,6 +1527,10 @@ void Creature::mod_bash_bonus( int nbash )
 void Creature::mod_cut_bonus( int ncut )
 {
     cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 void Creature::set_bash_mult( float nbashmult )
@@ -1640,7 +1651,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
             pair_t {to_translation( "Neutral" ), h_white},
             pair_t {to_translation( "Friendly" ), c_green},
             pair_t {to_translation( "Any" ), c_yellow},
-            pair_t {to_translation( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "BUG: Behavior unnamed.  (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 
@@ -1735,7 +1746,7 @@ std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
     }
 };
 
-void Creature::load_hit_range( JsonObject &jo )
+void Creature::load_hit_range( const JsonObject &jo )
 {
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );

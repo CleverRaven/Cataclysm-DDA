@@ -82,7 +82,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -132,8 +132,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         } else if( sk.has_array( 0 ) ) {
             // multiple requirements
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
+            for( JsonArray arr : sk ) {
                 required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
 
@@ -149,9 +148,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
-        auto sk = jo.get_array( "autolearn" );
-        while( sk.has_more() ) {
-            auto arr = sk.next_array();
+        for( JsonArray arr : jo.get_array( "autolearn" ) ) {
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
@@ -171,22 +168,21 @@ void recipe::load( JsonObject &jo, const std::string &src )
             assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
-            auto sk = jo.get_array( "decomp_learn" );
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
+            for( JsonArray arr : jo.get_array( "decomp_learn" ) ) {
                 learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
         }
     }
 
     if( jo.has_member( "book_learn" ) ) {
-        auto bk = jo.get_array( "book_learn" );
         booksets.clear();
-
-        while( bk.has_more() ) {
-            auto arr = bk.next_array();
+        for( JsonArray arr : jo.get_array( "book_learn" ) ) {
             booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
+    }
+
+    if( jo.has_member( "delete_flags" ) ) {
+        flags_to_delete = jo.get_tags( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -194,11 +190,8 @@ void recipe::load( JsonObject &jo, const std::string &src )
         reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
 
     } else if( jo.has_array( "using" ) ) {
-        auto arr = jo.get_array( "using" );
         reqs_external.clear();
-
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
+        for( JsonArray cur : jo.get_array( "using" ) ) {
             reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -222,41 +215,31 @@ void recipe::load( JsonObject &jo, const std::string &src )
             if( this->reversible ) {
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
-            auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
-            while( bp.has_more() ) {
-                auto arr = bp.next_array();
+            for( JsonArray arr : jo.get_array( "byproducts" ) ) {
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.empty() ) {
             assign( jo, "blueprint_name", bp_name );
-            JsonArray bp_array = jo.get_array( "blueprint_resources" );
             bp_resources.clear();
-            while( bp_array.has_more() ) {
-                std::string resource = bp_array.next_string();
+            for( const std::string &resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
             }
-            bp_array = jo.get_array( "blueprint_provides" );
-            while( bp_array.has_more() ) {
-                JsonObject provide = bp_array.next_object();
+            for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
                 bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
             bp_provides.emplace_back( std::make_pair( result_, 1 ) );
-            bp_array = jo.get_array( "blueprint_requires" );
-            while( bp_array.has_more() ) {
-                JsonObject require = bp_array.next_object();
+            for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
             bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
-            bp_array = jo.get_array( "blueprint_excludes" );
-            while( bp_array.has_more() ) {
-                JsonObject exclude = bp_array.next_object();
+            for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
@@ -323,7 +306,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( charges >= 0 && !item::count_by_charges( result_ ) ) {
+    if( charges && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
     }
 
@@ -366,8 +349,8 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
-    if( charges >= 0 ) {
-        newit.charges = charges;
+    if( charges ) {
+        newit.charges = *charges;
     }
 
     if( !newit.craft_has_charges() ) {
@@ -375,10 +358,6 @@ item recipe::create_result() const
     } else if( result_mult != 1 ) {
         // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
-    }
-
-    if( newit.has_flag( "VARSIZE" ) ) {
-        newit.item_tags.insert( "FIT" );
     }
 
     if( contained ) {
@@ -442,11 +421,21 @@ bool recipe::has_byproducts() const
 std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
-        return _( "<color_cyan>none</color>" );
+        if( difficulty == 0 ) {
+            return _( "<color_cyan>none</color>" );
+        } else {
+            const int player_skill = c ? c->get_skill_level( skill_used ) : 0;
+            std::string difficulty_color = difficulty > player_skill ? "yellow" : "green";
+            std::string skill_level_string = print_skill_level ? "" :
+                                             ( std::to_string( player_skill ) + "/" );
+            skill_level_string += std::to_string( difficulty );
+            return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                                  skill_used.obj().name(), difficulty_color, skill_level_string );
+        }
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
-        const auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
@@ -463,7 +452,12 @@ std::string recipe::required_skills_string( const Character *c ) const
 std::string recipe::required_skills_string() const
 {
     if( required_skills.empty() ) {
-        return _( "<color_white>none</color>" );
+        if( difficulty == 0 ) {
+            return _( "<color_cyan>none</color>" );
+        } else {
+            return string_format( "<color_white>%s: %d</color>", skill_used.obj().name(),
+                                  difficulty );
+        }
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {

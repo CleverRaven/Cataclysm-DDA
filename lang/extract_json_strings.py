@@ -63,7 +63,6 @@ ignore_files = {os.path.normpath(i) for i in {
 # these objects have no translatable strings
 ignorable = {
     "behavior",
-    "BULLET_PULLING",
     "city_building",
     "colordef",
     "emit",
@@ -71,14 +70,11 @@ ignorable = {
     "event_transformation",
     "event_statistic",
     "EXTERNAL_OPTION",
-    "GAME_OPTION",
+    "hit_range",
     "ITEM_BLACKLIST",
     "item_group",
-    "ITEM_OPTION",
-    "ITEM_WHITELIST",
     "MIGRATION",
     "mod_tileset",
-    "monitems",
     "monster_adjustment",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
@@ -96,14 +92,13 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "scent_type",
     "skill_boost",
     "SPECIES",
     "trait_group",
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
-    "WORLD_OPTION",
-    "enchantment"
 }
 
 # these objects can have their strings automatically extracted.
@@ -131,18 +126,17 @@ automatically_convertible = {
     "ENGINE",
     "epilogue",
     "faction",
-    "fault",
     "furniture",
     "GENERIC",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
     "keybinding",
+    "LOOT_ZONE",
     "MAGAZINE",
     "map_extra",
     "MOD_INFO",
     "MONSTER",
-    "morale_type",
     "morale_type",
     "npc",
     "npc_class",
@@ -151,18 +145,15 @@ automatically_convertible = {
     "PET_ARMOR",
     "score",
     "skill",
-    "snippet",
     "speech",
     "SPELL",
     "start_location",
-    "STATIONARY_ITEM",
     "terrain",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
     "tutorial_messages",
-    "VAR_VEH_PART",
     "vehicle",
     "vehicle_part",
     "vitamin",
@@ -179,12 +170,10 @@ needs_plural = {
     "GENERIC",
     "GUN",
     "GUNMOD",
-    "MONSTER"
-    "STATIONARY_ITEM",
+    "MONSTER",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
-    "VAR_VEH_PART",
 }
 
 # these objects can be automatically converted, but use format strings
@@ -351,16 +340,17 @@ def extract_gun(item):
     outfile = get_outfile("gun")
     if "name" in item:
         item_name = item.get("name")
-        writestr(outfile, item_name)
         if "name_plural" in item:
-            if item.get("name_plural") != "none":
-                writestr(outfile, item_name, item.get("name_plural"))
+            if type(item_name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
+            # legacy format
+            if item["name_plural"] != "none":
+                writestr(outfile, item_name, item["name_plural"])
             else:
                 writestr(outfile, item_name)
         else:
-            if item.get("type") in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item_name, "{}s".format(item_name))
+            if item["type"] in needs_plural:
+                writestr(outfile, item_name, new_pl_fmt=True)
             else:
                 writestr(outfile, item_name)
     if "description" in item:
@@ -386,16 +376,17 @@ def extract_gunmod(item):
     outfile = get_outfile("gunmod")
     if "name" in item:
         item_name = item.get("name")
-        writestr(outfile, item_name)
         if "name_plural" in item:
-            if item.get("name_plural") != "none":
-                writestr(outfile, item_name, item.get("name_plural"))
+            if type(item_name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
+            # legacy format
+            if item["name_plural"] != "none":
+                writestr(outfile, item_name, item["name_plural"])
             else:
                 writestr(outfile, item_name)
         else:
-            if item.get("type") in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item_name, "{}s".format(item_name))
+            if item["type"] in needs_plural:
+                writestr(outfile, item_name, new_pl_fmt=True)
             else:
                 writestr(outfile, item_name)
     if "description" in item:
@@ -757,6 +748,29 @@ def extract_skill_display_type(item):
     outfile = get_outfile("skill_display_type")
     writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
 
+def extract_fault(item):
+    outfile = get_outfile("fault")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["description"], comment="description for fault '{}'".format(item["name"]))
+    for method in item["mending_methods"]:
+        if "name" in method:
+            writestr(outfile, method["name"], comment="name of mending method for fault '{}'".format(item["name"]))
+        if "description" in method:
+            writestr(outfile, method["description"], comment="description for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+        if "success_msg" in method:
+            writestr(outfile, method["success_msg"], format_strings=True, comment="success message for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
+
+def extract_snippets(item):
+    outfile = get_outfile("snippet")
+    text = item["text"];
+    if type(text) is not list:
+        text = [text];
+    for snip in text:
+        if type(snip) is str:
+            writestr(outfile, snip)
+        else:
+            writestr(outfile, snip["text"])
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "harvest" : extract_harvest,
@@ -764,6 +778,7 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
+    "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
@@ -778,14 +793,14 @@ extract_specials = {
     "recipe": extract_recipes,
     "recipe_group": extract_recipe_group,
     "scenario": extract_scenarios,
+    "snippet": extract_snippets,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn,
     "field_type": extract_field_type,
     "ter_furn_transform": extract_ter_furn_transform_messages,
-    "skill_display_type": extract_skill_display_type
-
+    "skill_display_type": extract_skill_display_type,
 }
 
 ##
@@ -826,33 +841,54 @@ for filename in os.listdir(to_dir):
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
     if len(string) > 0:
-        fs.write("#~ {}\n".format(string))
+        for line in string.splitlines():
+            fs.write("#~ {}\n".format(line))
 
 def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
-        return "pgettext(%r, %r)\n" % (context, string)
+        if plural:
+            return "npgettext(%r, %r, %r, n)\n" % (context, string, plural)
+        else:
+            return "pgettext(%r, %r)\n" % (context, string)
     else:
         if plural:
             return "ngettext(%r, %r, n)\n" % (string, plural)
         else:
             return "_(%r)\n" % string
 
-def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
+def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None, new_pl_fmt=False):
     "Wrap the string and write to the file."
     if type(string) is list and plural is None:
         for entry in string:
             writestr(filename, entry, None, context, format_strings, comment)
         return
     elif type(string) is dict and plural is None:
-        if "ctxt" in string:
-            writestr(filename, string["str"], None, string["ctxt"], format_strings, comment)
-        else:
-            writestr(filename, string["str"], None, None, format_strings, comment)
+        if "//~" in string:
+            if comment is None:
+                comment = string["//~"]
+            else:
+                comment = "{}\n{}".format(comment, string["//~"])
+        ctxt = string.get( "ctxt" )
+        str_pl = None
+        if new_pl_fmt:
+            if "str_pl" in string:
+                str_pl = string["str_pl"]
+            else:
+                # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
+                str_pl = "{}s".format(string["str"])
+        elif "str_pl" in string:
+            str_pl = string["str_pl"]
+        writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
         return
+    elif type(string) is not str and plural is not None:
+        raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", plural)
 
     # don't write empty strings
     if not string: return
+    if new_pl_fmt:
+        # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
+        plural = "{}s".format(string)
 
     with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
         # Append developers comment
@@ -917,13 +953,17 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
         for (k, v) in sorted(use_action.items(), key=lambda x: x[0]):
             extract_use_action_msgs(outfile, v, it_name, kwargs)
 
+found_types = set();
+known_types = ignorable | use_format_strings | extract_specials.keys() | automatically_convertible
+
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
     if not "type" in item:
-        raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
+        return
     object_type = item["type"]
+    found_types.add(object_type)
     outfile = get_outfile(object_type)
     kwargs = {}
     if object_type in ignorable:
@@ -935,6 +975,8 @@ def extract(item, infilename):
         return
     elif object_type not in automatically_convertible:
         raise WrongJSONItem("ERROR: Unrecognized object type '{}'!".format(object_type), item)
+    if object_type not in known_types:
+        print("WARNING: known_types does not contain object type '{}'".format(object_type))
     wrote = False
     name = item.get("name") # Used in gettext comments below.
     # Don't extract any record with name = "none".
@@ -942,14 +984,16 @@ def extract(item, infilename):
         return
     if name:
         if "name_plural" in item:
+            if type(name) is not str:
+                raise WrongJSONItem("ERROR: 'name_plural' found but 'name' is not a string", item)
+            # legacy format
             if item["name_plural"] != "none":
                 writestr(outfile, name, item["name_plural"], **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
         else:
             if object_type in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, name, "{}s".format(name), **kwargs)
+                writestr(outfile, name, new_pl_fmt=True, **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
         wrote = True
@@ -965,6 +1009,11 @@ def extract(item, infilename):
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
+    if "conditional_names" in item:
+        for cname in item["conditional_names"]:
+            c = "Conditional name for {} when {} matches {}".format(name, cname["type"], cname["condition"])
+            writestr(outfile, cname["name"], comment=c, format_strings=True, new_pl_fmt=True, **kwargs)
+            wrote = True
     if "description" in item:
         if name:
             c = "Description for {}".format(name)
@@ -977,6 +1026,9 @@ def extract(item, infilename):
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
+        wrote = True
+    if "sound_description" in item:
+        writestr(outfile, item["sound_description"], comment="description for the sound of spell '{}'".format(name), **kwargs)
         wrote = True
     if "snippet_category" in item and type(item["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)
@@ -1097,16 +1149,6 @@ def extract_all_from_file(json_file):
         print(E)
         exit(1)
 
-def add_fake_types():
-    """Add names of fake items and monsters. This is done by hand and must be updated
-    manually each time something is added to itypedef.cpp or mtypedef.cpp."""
-    outfile = os.path.join(to_dir, os.path.normpath("faketypes.py"))
-
-    # fake item types
-
-    # fake monster types
-    writestr(outfile, "human", "humans")
-
 def prepare_git_file_list():
     command_str = "git ls-files"
     res = None;
@@ -1134,6 +1176,9 @@ for i in sorted(directories):
     print("----> Traversing directory {}".format(i))
     extract_all_from_dir(i)
 print("==> Finalizing")
-add_fake_types()
+if len(known_types - found_types) != 0:
+    print("WARNING: type {} not found in any JSON objects".format(known_types - found_types))
+if len(needs_plural - found_types) != 0:
+    print("WARNING: type {} from needs_plural not found in any JSON objects".format(needs_plural - found_types))
 
 # done.

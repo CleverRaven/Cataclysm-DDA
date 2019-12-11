@@ -9,6 +9,7 @@
 #include "clone_ptr.h"
 #include "units.h"
 
+class Character;
 class item;
 class player;
 class JsonObject;
@@ -204,6 +205,7 @@ class iuse
         int panacea( player *, item *, bool, const tripoint & );
         int magnesium_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
+        int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
         int gobag_normal( player *, item *, bool, const tripoint & );
         int gobag_personal( player *, item *, bool, const tripoint & );
@@ -236,7 +238,7 @@ class iuse
 
         // Helper for handling pesky wannabe-artists
         static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                                           const tripoint &pt );
+                                           const tripoint &where );
 
 };
 
@@ -268,9 +270,9 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( JsonObject &jo ) = 0;
+        virtual void load( const JsonObject &jo ) = 0;
         virtual int use( player &, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const;
+        virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -308,7 +310,7 @@ struct use_function {
         use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         int call( player &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const player &, const item &, bool t, const tripoint &pos ) const;
+        ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();

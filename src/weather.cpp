@@ -37,10 +37,9 @@
 #include "player_activity.h"
 #include "regional_settings.h"
 
-const efftype_id effect_glare( "glare" );
-const efftype_id effect_snow_glare( "snow_glare" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_glare( "glare" );
+static const efftype_id effect_snow_glare( "snow_glare" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -106,6 +105,9 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
+        case WEATHER_LIGHT_DRIZZLE:
+            data.rain_amount += 1 * to_turns<int>( tick_size );
+            break;
         case WEATHER_DRIZZLE:
             data.rain_amount += 4 * to_turns<int>( tick_size );
             break;
@@ -176,7 +178,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // bday == last fill check
     it.set_birthday( end );
-    auto data = sum_conditions( start, end, pos );
+    weather_sum data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -305,15 +307,16 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     // Give each funnel on the map a chance to collect the rain.
-    const auto &funnel_locs = g->m.trap_locations( tr.loadid );
-    for( auto loc : funnel_locs ) {
+    const std::vector<tripoint> &funnel_locs = g->m.trap_locations( tr.loadid );
+    for( const tripoint &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
-        if( one_in( turns_per_charge ) ) { // FIXME:
+        if( one_in( turns_per_charge ) ) {
+            // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            auto items = g->m.i_at( loc );
+            map_stack items = g->m.i_at( loc );
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {
@@ -361,8 +364,12 @@ static void wet_player( int amount )
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
-
-    if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
+    // Coarse correction to get us back to previously intended soaking rate.
+    if( !calendar::once_every( 6_seconds ) ) {
+        return;
+    }
+    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
@@ -378,25 +385,37 @@ static void wet_player( int amount )
     g->u.drench( amount, drenched_parts, false );
 }
 
-/**
- * Main routine for wet effects caused by weather.
- */
-static void generic_wet( bool acid )
+double precip_mm_per_hour( precip_class const p )
+// Precipitation rate expressed as the rainfall equivalent if all
+// the precipitation were rain (rather than snow).
 {
-    fill_water_collectors( 4, acid );
-    g->m.decay_fields_and_scent( 15_turns );
-    wet_player( 30 );
+    return
+        p == PRECIP_VERY_LIGHT ? 0.5 :
+        p == PRECIP_LIGHT ? 1.5 :
+        p == PRECIP_HEAVY ? 3   :
+        0;
 }
 
-/**
- * Main routine for very wet effects caused by weather.
- * Similar to generic_wet() but with more aggressive numbers.
- */
-static void generic_very_wet( bool acid )
+void do_rain( weather_type const w )
 {
-    fill_water_collectors( 8, acid );
-    g->m.decay_fields_and_scent( 45_turns );
-    wet_player( 60 );
+    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+        return;
+    }
+    fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
+    int wetness = 0;
+    time_duration decay_time = 60_turns;
+    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+        wetness = 5;
+        decay_time = 5_turns;
+    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+        wetness = 30;
+        decay_time = 15_turns;
+    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+        decay_time = 45_turns;
+        wetness = 60;
+    }
+    g->m.decay_fields_and_scent( decay_time );
+    wet_player( wetness );
 }
 
 void weather_effect::none()
@@ -408,24 +427,6 @@ void weather_effect::flurry()    {}
 void weather_effect::sunny()
 {
     glare( sun_intensity::high );
-}
-
-/**
- * Wet.
- * @see generic_wet
- */
-void weather_effect::wet()
-{
-    generic_wet( false );
-}
-
-/**
- * Very wet.
- * @see generic_very_wet
- */
-void weather_effect::very_wet()
-{
-    generic_very_wet( false );
 }
 
 void weather_effect::snow()
@@ -443,7 +444,6 @@ void weather_effect::snowstorm()
  */
 void weather_effect::thunder()
 {
-    very_wet();
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( THUNDER_CHANCE ) ) {
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
@@ -485,7 +485,6 @@ void weather_effect::lightning()
  */
 void weather_effect::light_acid()
 {
-    generic_wet( true );
     if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
@@ -497,7 +496,7 @@ void weather_effect::light_acid()
                 if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
                     add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
                 } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now..." ) );
+                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
                     if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
                         g->u.mod_pain( 1 );
                     }
@@ -532,7 +531,6 @@ void weather_effect::acid()
             }
         }
     }
-    generic_very_wet( true );
 }
 
 static std::string to_string( const weekdays &d )
@@ -640,13 +638,13 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && ( ( started_at_night && !( d % 2 ) ) || ( !started_at_night && d % 2 ) ) ) {
+        if( d > 0 && started_at_night != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );
         }
         weather_report << string_format(
-                           _( "%s... %s. Highs of %s. Lows of %s. " ),
+                           _( "%s… %s. Highs of %s. Lows of %s. " ),
                            day, weather::name( forecast ),
                            print_temperature( high ), print_temperature( low )
                        );
@@ -716,13 +714,15 @@ int get_local_windchill( double temperature, double humidity, double windpower )
         windchill = 35.74 + 0.6215 * tmptemp - 35.75 * pow( tmpwind,
                     0.16 ) + 0.4275 * tmptemp * pow( tmpwind, 0.16 ) - tmptemp;
         if( tmpwind < 4 ) {
-            windchill = 0;    // This model fails when there is 0 wind.
+            // This model fails when there is 0 wind.
+            windchill = 0;
         }
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        // Convert to meters per second.
+        tmpwind = tmpwind * 0.44704;
         tmptemp = temp_to_celsius( tmptemp );
 
         windchill = 0.33 * ( humidity / 100.00 * 6.105 * exp( 17.27 * tmptemp /
@@ -862,24 +862,24 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
     if( sheltered ) {
-        return 0.0;
+        return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    double tmpwind = windpower;
+    int tmpwind = static_cast<int>( windpower );
     tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
-    if( omter.id() == "forest_water" ) {
-        tmpwind *= 0.7;
-    } else if( omter.id() == "forest" ) {
-        tmpwind *= 0.5;
-    } else if( omter.id() == "forest_thick" || omter.id() == "hive" ) {
-        tmpwind *= 0.4;
+    if( is_ot_match( "forest", omter, ot_match_type::type ) ||
+        is_ot_match( "forest_water", omter, ot_match_type::type ) ) {
+        tmpwind = tmpwind / 2;
+    }
+    if( location.z > 0 ) {
+        tmpwind = tmpwind + ( location.z * std::min( 5, tmpwind ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
-        tmpwind *= 0.1;
+        tmpwind = tmpwind / 10;
     }
-    return tmpwind;
+    return static_cast<double>( tmpwind );
 }
 
 bool is_wind_blocker( const tripoint &location )
@@ -1025,7 +1025,8 @@ int weather_manager::get_temperature( const tripoint &location )
         return cached->second;
     }
 
-    int temp_mod = 0; // local modifier
+    // local modifier
+    int temp_mod = 0;
 
     if( !g->new_game ) {
         temp_mod += get_heat_radiation( location, false );

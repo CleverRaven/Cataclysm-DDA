@@ -28,8 +28,6 @@
 
 class item;
 
-const efftype_id effect_bleed( "bleed" );
-
 namespace
 {
 generic_factory<start_location> all_starting_locations( "starting location", "ident" );
@@ -79,12 +77,12 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load_location( JsonObject &jo, const std::string &src )
+void start_location::load_location( const JsonObject &jo, const std::string &src )
 {
     all_starting_locations.load( jo, src );
 }
 
-void start_location::load( JsonObject &jo, const std::string & )
+void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );
@@ -299,7 +297,8 @@ void start_location::place_player( player &u ) const
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
-    const int bash = u.get_str(); // TODO: Allow using items here
+    // TODO: Allow using items here
+    const int bash = u.get_str();
 
     // Remember biggest found location
     // Sometimes it may be impossible to automatically found an ideal location

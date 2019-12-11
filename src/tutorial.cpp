@@ -34,7 +34,7 @@
 #include "point.h"
 #include "weather.h"
 
-const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static std::vector<translation> tut_text;
 
@@ -42,7 +42,8 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
+    // Start at noon
+    calendar::turn = calendar::turn_zero + 12_hours;
     for( auto &elem : tutorials_seen ) {
         elem = false;
     }
@@ -158,8 +159,8 @@ void tutorial_game::pre_action( action_id &act )
     switch( act ) {
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
-            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
-                      "Weird things might happen when you load this save. You have been warned." ) );
+            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds.  "
+                      "Weird things might happen when you load this save.  You have been warned." ) );
             break;
         default:
             // Other actions are fine.
@@ -252,7 +253,8 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        default: // TODO: add more actions here
+        default:
+            // TODO: add more actions here
             break;
 
     }
@@ -268,14 +270,13 @@ void tutorial_game::add_message( tut_lesson lesson )
     g->refresh_all();
 }
 
-void load_tutorial_messages( JsonObject &jo )
+void load_tutorial_messages( const JsonObject &jo )
 {
     // loading them all at once, as they have to be in exact order
     tut_text.clear();
-    JsonArray messages = jo.get_array( "messages" );
-    while( messages.has_more() ) {
+    for( auto messages : jo.get_array( "messages" ) ) {
         translation next;
-        messages.read_next( next );
+        messages.read( next );
         tut_text.emplace_back( next );
     }
 }

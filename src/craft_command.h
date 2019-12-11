@@ -83,6 +83,7 @@ class craft_command
         bool empty() const {
             return rec == nullptr;
         }
+        skill_id get_skill_id();
 
     private:
         const recipe *rec = nullptr;

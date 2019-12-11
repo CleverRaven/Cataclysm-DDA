@@ -26,18 +26,13 @@
 #include "optional.h"
 #include "rng.h"
 
-const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
-const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_jabberwock( "mon_jabberwock" );
-const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_zombie_master( "mon_zombie_master" );
-const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-
-const efftype_id effect_infection( "infection" );
+static const mtype_id mon_dog( "mon_dog" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_zombie_master( "mon_zombie_master" );
+static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -53,7 +48,7 @@ void mission_start::place_dog( mission *miss )
     const tripoint house = mission_util::random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "dog_whistle", 0 ) );
@@ -188,7 +183,7 @@ void mission_start::place_npc_software( mission *miss )
 {
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
-        debugmsg( "Couldn't find NPC! %d", miss->npc_id.get_value() );
+        debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
     g->u.i_add( item( "usb_drive", 0 ) );
@@ -606,7 +601,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     const cata::optional<tripoint> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
-        add_msg( _( "You don't know where the address could be..." ) );
+        add_msg( _( "You don't know where the address could be…" ) );
         return;
     }
 
@@ -615,9 +610,9 @@ void mission_start::reveal_refugee_center( mission *miss )
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
-        add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
+        add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
     } else {
-        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
+        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );
     }
 }
 

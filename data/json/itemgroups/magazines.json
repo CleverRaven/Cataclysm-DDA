@@ -21,6 +21,7 @@
       [ "hk46mag", 15 ],
       [ "hk46bigmag", 5 ],
       [ "m107a1mag", 50 ],
+      [ "tac50mag", 20 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
@@ -103,6 +104,7 @@
     "items": [
       [ "38_speedloader", 8 ],
       [ "38_speedloader5", 6 ],
+      [ "38_speedloader6", 7 ],
       [ "40_speedloader6", 10 ],
       [ "glock17_17", 14 ],
       [ "glock17_22", 6 ],
@@ -126,6 +128,7 @@
       [ "ppq40mag_12rd", 2 ],
       [ "ppq40mag_14rd", 1 ],
       [ "ppq45mag", 1 ],
+      [ "taurus_spectrum_mag", 1 ],
       [ "hptc9", 1 ],
       [ "hptcf380", 1 ],
       [ "hptjcp", 1 ],
@@ -170,7 +173,6 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
-      [ "taurus38mag", 30 ],
       [ "ppkmag", 15 ],
       [ "lw12mag", 5 ],
       [ "lw21mag", 5 ]
@@ -272,6 +274,8 @@
     "items": [
       [ "saiga10mag", 50 ],
       [ "saiga30mag", 10 ],
+      [ "USAS10mag", 20 ],
+      [ "USAS20mag", 5 ],
       [ "saiga410mag_10rd", 30 ],
       [ "saiga410mag_30rd", 10 ],
       [ "shot_speedloader6", 15 ],
@@ -339,6 +343,7 @@
     "items": [
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
+      [ "af2011a1mag", 1 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "ppshmag", 10 ],
