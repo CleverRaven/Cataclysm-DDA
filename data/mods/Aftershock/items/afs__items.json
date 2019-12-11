@@ -177,7 +177,7 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
-    "id": "atomic_butter_churn",
+    "id": "atomic_pseudo_churn",
     "type": "TOOL",
     "name": "pseudo atomic butter churn",
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",

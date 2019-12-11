@@ -6,7 +6,7 @@
     "description": "The Rivtech Atomic Butter Churn in deployed state. It hums menacingly. Ready to add raw milk and salt. It will churn til the earth is a cinder.",
     "symbol": "H",
     "color": "light_green",
-    "crafting_pseudo_item": "atomic_butter_churn",
+    "crafting_pseudo_item": "atomic_pseudo_churn",
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
