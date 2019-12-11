@@ -432,7 +432,7 @@ void game::init_ui( const bool resized )
     }
 
     // First get TERMX, TERMY
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -2198,7 +2198,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, co
     ( void ) ctxt;
     ( void ) speed;
     ( void ) iso;
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES)
     auto now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;

@@ -1,4 +1,4 @@
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 #include "cursesport.h"
 
 #include <cstdint>

@@ -3,7 +3,7 @@
 #define CATACURSE_H
 
 #include <utility>
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 
 #include <array>
 #include <string>

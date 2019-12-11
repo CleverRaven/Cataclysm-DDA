@@ -2539,7 +2539,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
         if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
@@ -2752,7 +2752,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
+#if !defined(__ANDROID__) && defined(TILES)
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );

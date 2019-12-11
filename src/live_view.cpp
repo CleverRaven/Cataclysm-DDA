@@ -41,7 +41,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     const int live_view_box_height = std::min( max_height, std::max( line_out + 2, MIN_BOX_HEIGHT ) );
 
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
     // Because of the way the status UI is done, the live view window must
     // be tall enough to clear the entire height of the viewport below the
     // status bar. This hack allows the border around the live view box to
@@ -58,7 +58,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
     wrefresh( win );
 
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
 

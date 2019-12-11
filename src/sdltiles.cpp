@@ -28,7 +28,7 @@
 #   include <SDL2/SDL_syswm.h>
 #else
 #   include <SDL_image.h>
-#ifdef _WIN32
+#if defined(_WIN32)
 #   include <SDL_syswm.h>
 #endif
 #endif
@@ -3912,7 +3912,7 @@ bool save_screenshot( const std::string &file_path )
     return true;
 }
 
-#ifdef _WIN32
+#if defined(_WIN32)
 HWND getWindowHandle()
 {
     SDL_SysWMinfo info;
