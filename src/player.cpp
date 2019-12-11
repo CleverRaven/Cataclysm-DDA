@@ -5661,15 +5661,18 @@ void player::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( g->m.has_flag_ter_or_furn( "PLANTABLE", pos() ) || 
-                ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-                ter_at_pos == t_pit_shallow || ter_at_pos == t_grass ) && !vp  ) {
-            add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
-        } else if( vp ) {
+        // Down to bottom: if in vehicle - can't sleep
+        if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != f_null && furn_at_pos != furn_str_id( "f_planter" ) ) {
+        // Else if on wrong furniture - can't sleep
+        } else if( furn_at_pos != f_null && !( g->m.has_flag_furn( "ALLOW_ROOT", pos() ) ||  g->m.has_flag_furn( "ALLOW_ROOT_WEAK", pos() ) ) ) {
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
+        }
+        // Then, if on allowed furniture or terrain - can sleep
+        else if(  g->m.has_flag_ter_or_furn( "ALLOW_ROOT", pos() ) ||  g->m.has_flag_ter_or_furn( "ALLOW_ROOT_WEAK", pos() ) ) {
+            add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
+        // All other clauses (wrong terrain without furniture) - can't sleep
         } else { // Floor problems
             add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
         }
@@ -5854,24 +5857,21 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
-        if( vp || ( furn_at_pos != f_null && furn_at_pos != furn_str_id( "f_planter" ) ) ) {
-            // Sleep ain't happening in a vehicle or on furniture
+        // Sleep ain't happening in a vehicle or on inappropriate furniture
+        if( vp || ( g->m.has_flag_furn( "ALLOW_ROOT", pos() ) ||  g->m.has_flag_furn( "ALLOW_ROOT_WEAK", pos() ) ) ){
             comfort = static_cast<int>( comfort_level::uncomfortable );
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            if( g->m.has_flag_ter_or_furn( "PLANTABLE", pos() ) || 
-                ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-                ter_at_pos == t_pit_shallow ) {
-                comfort += static_cast<int>( comfort_level::very_comfortable );
-            }
-            // Not as much if you have to dig through stuff first
-            else if( ter_at_pos == t_grass ) {
-                comfort += static_cast<int>( comfort_level::comfortable );
-            }
-            // Sleep ain't happening
-            else {
-                comfort = static_cast<int>( comfort_level::uncomfortable );
-            }
+        }
+        // It's very easy for Chloromorphs to get to sleep on soil!
+        else if( g->m.has_flag_ter_or_furn( "ALLOW_ROOT", pos() ) ) {
+            comfort += static_cast<int>( comfort_level::very_comfortable );
+        }
+        // Not as much if you have to dig through stuff first
+        else if( g->m.has_flag_ter_or_furn( "ALLOW_ROOT_WEAK", pos() )) {
+            comfort += static_cast<int>( comfort_level::comfortable );
+        }
+        // No sleeping anywhere else
+        else {
+            comfort = static_cast<int>( comfort_level::uncomfortable );
         }
         // Has webforce
     } else {
