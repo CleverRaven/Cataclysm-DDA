@@ -1181,11 +1181,19 @@ void options_manager::add_options_general()
        );
 
     add( "AUTOIGNORESOUNDDISTANCE", "general", translate_marker( "Auto ignore sound distance" ),
-         translate_marker( "Only sounds this distance and further away will be auto ignored." ),
+         translate_marker( "Only sounds this distance and further away will be auto ignored.  Each Z Level counts as 10 horizontal distance." ),
          0, 30, 0
        );
 
     get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
+
+    add( "AUTOIGNORESOUNDZLEVEL", "general",
+         translate_marker( "Auto ignore sounds on different z levels." ),
+         translate_marker( "If true, you will auto ignore sounds from different z levels regardless of distance." ),
+         false
+       );
+
+    get_option( "AUTOIGNORESOUNDZLEVEL" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
     add( "AUTOIGNOREHOSTILE", "general", translate_marker( "Auto ignore hostile mode" ),
          translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles auto ignore distance and further away will be ignored.  SafeOn: All hostiles auto ignore distance and further away will be ignored while safe mode is on.  SafeOff: All hostiles auto ignore distance and further away will be ignored while safe mode is off.  None: No hostiles will be auto ignored." ),

@@ -432,7 +432,8 @@ void sounds::process_sound_markers( player *p )
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.is_distraction_ignored( distraction_type::noise ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
-                g->cancel_activity_or_ignore_query( distraction_type::noise, query, distance_to_sound );
+                bool differentZLevel = p->pos().z != pos.z;       
+                g->cancel_activity_or_ignore_query( distraction_type::noise, query, distance_to_sound, differentZLevel );
             }
         }
 

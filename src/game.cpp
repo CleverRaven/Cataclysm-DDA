@@ -1688,9 +1688,11 @@ static bool cancel_auto_move( player &p, const std::string &text )
 }
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text,
-        int distance /*=0*/ )
+        int distance /*=0*/, bool diffZLevel /*=false*/ )
 {
-    if( type == distraction_type::noise && distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" )
+    if( type == distraction_type::noise &&
+        ( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) || 
+        ( diffZLevel && get_option<bool>( "AUTOIGNORESOUNDZLEVEL" ) ) )
         && (
             get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
             ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
