@@ -12,7 +12,7 @@
     },
     "responses": [
       {
-        "text": "I'm <name_g>.",
+        "text": "Hello <name_g>.",
         "topic": "TALK_HEALER_GREY_INTRO",
         "effect": { "u_add_var": "talked_to_HEALER_GREY", "type": "dialogue", "context": "healer_grey", "value": "yes" }
       },

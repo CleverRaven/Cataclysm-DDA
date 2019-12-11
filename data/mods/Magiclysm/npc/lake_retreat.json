@@ -314,7 +314,9 @@
       "furniture": { "h": "f_bench" },
       "items": { "h": [ { "item": "enchanted_small_items", "chance": 20 }, { "item": "magic_shop_books", "chance": 30 } ] },
       "place_npcs": [
-        { "class": "magus_old", "x": 10, "y": 12 }
+        { "class": "magus_old", "x": 10, "y": 12 },
+        { "class": "techno_kid", "x": 10, "y": 13 },
+        { "class": "healer_priest", "x": 10, "y": 14 }
       ]
     }
   },

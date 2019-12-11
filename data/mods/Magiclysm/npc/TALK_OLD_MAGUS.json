@@ -7,12 +7,12 @@
       "type": "dialogue",
       "context": "old_magus",
       "value": "yes",
-      "no": "*mumble mumble* Huh? ... Who are you?",
+      "no": "Huh? *mumble mumble* ... Who are you?",
       "yes": "Oh, you again."
     },
     "responses": [
       {
-        "text": "I'm <name_g>.",
+        "text": "Hello <name_g>.",
         "topic": "TALK_OLD_MAGUS_INTRO",
         "effect": { "u_add_var": "talked_to_old_magus", "type": "dialogue", "context": "old_magus", "value": "yes" }
       },

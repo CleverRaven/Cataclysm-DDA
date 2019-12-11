@@ -34,6 +34,7 @@
     "start": {
       "effect": [ { "npc_remove_item_with": "bio_power_storage" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
     },
+	"end": { "u_buy_item:": "techno_fundamentals" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "More power...moar power...MOAR POWAA!",
@@ -84,7 +85,6 @@
     "start": { "effect": "follow_only" },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_KILL_HORDE_MASTER",
     "dialogue": {
       "describe": "You have proven you are one of the few, will you stand with the few again?",
       "offer": "We must continue the purge. Remove more of the cursed from this land and you shall be blessed with greatness.",

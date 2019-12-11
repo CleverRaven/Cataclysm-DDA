@@ -31,7 +31,7 @@
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
       { "skill": "spellcraft", "bonus": { "rng": [ 4, 6 ] } }
     ],
-    "spells": [ { "id": "magic_missle", "level": 18 }, { "id": "gravity_well", "level": 10 }, { "id": "foxs_cunning", "level": 7 } ]
+    "spells": [ { "id": "magic_missile", "level": 18 }, { "id": "gravity_well", "level": 10 }, { "id": "foxs_cunning", "level": 7 } ]
   },
   {
     "type": "npc_class",
