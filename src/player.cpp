@@ -5663,7 +5663,7 @@ void player::try_to_sleep( const time_duration &dur )
         plantsleep = true;
         if( ( g->m.has_flag_ter_or_furn( "PLANTABLE", pos() ) || 
                 ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-                ter_at_pos == t_pit_shallow ) && !vp  ) {
+                ter_at_pos == t_pit_shallow || ter_at_pos == t_grass ) && !vp  ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
