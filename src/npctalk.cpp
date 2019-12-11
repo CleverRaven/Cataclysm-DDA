@@ -546,17 +546,16 @@ void game::chat()
     refresh_all();
 }
 
-void npc::handle_sound( int priority, const std::string &description, int heard_volume,
-                        const tripoint &spos )
+void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
+                        int heard_volume, const tripoint &spos )
 {
     const tripoint s_abs_pos = g->m.getabs( spos );
     const tripoint my_abs_pos = g->m.getabs( pos() );
 
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, s_abs_pos.x, s_abs_pos.y,
-             my_abs_pos.x, my_abs_pos.y );
+             disp_name(), description, static_cast<int>( spriority ), heard_volume,
+             s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
-    const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
     player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
@@ -628,7 +627,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
-                temp_sound.type = priority;
+                temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
                     if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
