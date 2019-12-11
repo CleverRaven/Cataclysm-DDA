@@ -193,7 +193,7 @@ void check_bionics();
 void finalize_bionics();
 void reset_bionics();
 // load a bionic from JSON
-void load_bionic( JsonObject &jsobj );
+void load_bionic( const JsonObject &jsobj );
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

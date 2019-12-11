@@ -34,7 +34,7 @@
 #include "point.h"
 #include "weather.h"
 
-const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static std::vector<translation> tut_text;
 
@@ -270,7 +270,7 @@ void tutorial_game::add_message( tut_lesson lesson )
     g->refresh_all();
 }
 
-void load_tutorial_messages( JsonObject &jo )
+void load_tutorial_messages( const JsonObject &jo )
 {
     // loading them all at once, as they have to be in exact order
     tut_text.clear();

@@ -82,7 +82,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 

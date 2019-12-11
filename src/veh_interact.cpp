@@ -57,7 +57,7 @@
 #include "point.h"
 #include "material.h"
 
-const efftype_id effect_riding( "riding" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 class player;
 
@@ -86,11 +86,11 @@ static auto can_refill = []( const vehicle_part &pt )
 
 namespace
 {
-const quality_id LIFT( "LIFT" );
-const quality_id JACK( "JACK" );
-const quality_id SELF_JACK( "SELF_JACK" );
-const skill_id skill_mechanics( "mechanics" );
-const itype_id fuel_type_battery( "battery" );
+static const quality_id LIFT( "LIFT" );
+static const quality_id JACK( "JACK" );
+static const quality_id SELF_JACK( "SELF_JACK" );
+static const skill_id skill_mechanics( "mechanics" );
+static const itype_id fuel_type_battery( "battery" );
 } // namespace
 
 void act_vehicle_siphon( vehicle *veh );
@@ -121,7 +121,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u );
             break;
     }
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
@@ -178,8 +178,6 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
 
     return *res;
 }
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 /**
  * Creates a blank veh_interact window.

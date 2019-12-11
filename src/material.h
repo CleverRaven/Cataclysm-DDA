@@ -68,7 +68,7 @@ class material_type
     public:
         material_type();
 
-        void load( JsonObject &jsobj, const std::string &src );
+        void load( const JsonObject &jsobj, const std::string &src );
         void check() const;
 
         int dam_resist( damage_type damtype ) const;
@@ -117,7 +117,7 @@ class material_type
 namespace materials
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 

@@ -61,6 +61,7 @@
 #include "type_id.h"
 
 static const itype_id null_itype( "null" );
+static const species_id ROBOT( "ROBOT" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -72,7 +73,7 @@ constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
 constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
 
-explosion_data load_explosion_data( JsonObject &jo )
+explosion_data load_explosion_data( const JsonObject &jo )
 {
     explosion_data ret;
     // Power is mandatory
@@ -92,7 +93,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     return ret;
 }
 
-shrapnel_data load_shrapnel_data( JsonObject &jo )
+shrapnel_data load_shrapnel_data( const JsonObject &jo )
 {
     shrapnel_data ret;
     // Casing mass is mandatory
@@ -550,6 +551,9 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
+        if( critter.type->in_species( ROBOT ) ) {
+            continue;
+        }
         // TODO: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {

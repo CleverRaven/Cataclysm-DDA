@@ -840,17 +840,18 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
             const auto vFolded = foldstring( buffer, width - 1 );
             iLines = vFolded.size();
 
-            if( data.selected < 0 ) {
-                data.selected = 0;
+            if( *data.ptr_selected < 0 ) {
+                *data.ptr_selected = 0;
             } else if( iLines < height ) {
-                data.selected = 0;
-            } else if( data.selected >= iLines - height ) {
-                data.selected = iLines - height;
+                *data.ptr_selected = 0;
+            } else if( *data.ptr_selected >= iLines - height ) {
+                *data.ptr_selected = iLines - height;
             }
 
-            fold_and_print_from( win, point( b, line_num ), width - 1, data.selected, c_light_gray, buffer );
+            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray,
+                                 buffer );
 
-            draw_scrollbar( win, data.selected, height, iLines,
+            draw_scrollbar( win, *data.ptr_selected, height, iLines,
                             point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
                                    ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         }
@@ -868,15 +869,15 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
         result = inp_mngr.get_input_event();
         const int ch = static_cast<int>( result.get_first_input() );
         if( data.handle_scrolling && ch == KEY_PPAGE ) {
-            data.selected--;
+            ( *data.ptr_selected )--;
             werase( win );
         } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
-            data.selected++;
+            ( *data.ptr_selected )++;
             werase( win );
-        } else if( data.selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+        } else if( *data.ptr_selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
             result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
-        } else if( data.selected == KEY_LEFT ) {
+        } else if( *data.ptr_selected == KEY_LEFT ) {
             result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
@@ -1165,8 +1166,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
  * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
  * @param iNumLines Total number of lines
- * @param iOffsetY Y drawing offset
- * @param iOffsetX X drawing offset
+ * @param offset Point indicating drawing offset
  * @param bar_color Default line color
  * @param bDoNotScrollToEnd True if the last (iContentHeight-1) lines cannot be a start position or be selected
  *   If false, iCurrentLine can be from 0 to iNumLines - 1.

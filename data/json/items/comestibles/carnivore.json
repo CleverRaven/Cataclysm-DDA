@@ -90,8 +90,7 @@
     "name": "human flesh",
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
-    "material": "hflesh",
-    "smoking_result": "human_smoked"
+    "material": "hflesh"
   },
   {
     "id": "human_cooked",
@@ -169,8 +168,7 @@
     "cooks_like": "mutant_human_cooked",
     "name": "mutant humanoid meat",
     "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
-    "material": "hflesh",
-    "smoking_result": "human_smoked"
+    "material": "hflesh"
   },
   {
     "id": "mutant_human_cooked",
@@ -342,6 +340,10 @@
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
+    ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
     "weight": "85 g",
@@ -377,32 +379,14 @@
     "delete": { "flags": [ "RAW" ] }
   },
   {
-    "id": "jerky_human",
-    "copy-from": "human_flesh",
-    "type": "COMESTIBLE",
-    "name": "jerk jerky",
-    "name_plural": "jerk jerky",
-    "description": "Salty dried human flesh that lasts for a long time, but will make you thirsty.",
-    "primary_material": "cured_meat",
-    "color": "brown",
-    "spoils_in": "24 days",
-    "healthy": 0,
-    "volume": "250 ml",
-    "charges": 2,
-    "parasites": 0,
-    "quench": -5,
-    "fun": 4,
-    "calories": 348,
-    "weight": "85 g",
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 8 ] ],
-    "proportional": { "price": 0.44 },
-    "delete": { "flags": [ "RAW" ] }
-  },
-  {
     "id": "meat_smoked",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
     "name": "smoked meat",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
+    ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
     "spoils_in": "24 days",
@@ -423,19 +407,6 @@
     "fun": 6,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_fish"
-  },
-  {
-    "id": "human_smoked",
-    "copy-from": "human_cooked",
-    "type": "COMESTIBLE",
-    "name": "smoked sucker",
-    "description": "A heavily smoked portion of human flesh.  Lasts for a long time and tastes pretty good, if you like that sort of thing.",
-    "color": "brown",
-    "spoils_in": "24 days",
-    "quench": -1,
-    "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
-    "smoking_result": "dry_hflesh"
   },
   {
     "id": "lung",
@@ -752,7 +723,7 @@
     "copy-from": "bone",
     "name": "human bone",
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "//": "Not for use in normal food recipes."
+    "flags": [ "CANNIBALISM" ]
   },
   {
     "type": "COMESTIBLE",

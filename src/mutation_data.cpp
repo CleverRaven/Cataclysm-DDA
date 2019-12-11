@@ -52,7 +52,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod(
-    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
+    const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
     const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
@@ -62,7 +62,7 @@ static void extract_mod(
 }
 
 static void load_mutation_mods(
-    JsonObject &jsobj, const std::string &member,
+    const JsonObject &jsobj, const std::string &member,
     std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
@@ -79,7 +79,7 @@ static void load_mutation_mods(
     }
 }
 
-void mutation_category_trait::load( JsonObject &jsobj )
+void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
     new_category.id = jsobj.get_string( "id" );
@@ -199,7 +199,7 @@ void mutation_category_trait::check_consistency()
     }
 }
 
-static mut_attack load_mutation_attack( JsonObject &jo )
+static mut_attack load_mutation_attack( const JsonObject &jo )
 {
     mut_attack ret;
     jo.read( "attack_text_u", ret.attack_text_u );
@@ -247,7 +247,7 @@ static mut_attack load_mutation_attack( JsonObject &jo )
     return ret;
 }
 
-static social_modifiers load_mutation_social_mods( JsonObject &jo )
+static social_modifiers load_mutation_social_mods( const JsonObject &jo )
 {
     social_modifiers ret;
     jo.read( "lie", ret.lie );
@@ -256,12 +256,12 @@ static social_modifiers load_mutation_social_mods( JsonObject &jo )
     return ret;
 }
 
-void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
+void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
 {
     trait_factory.load( jo, src );
 }
 
-void mutation_branch::load( JsonObject &jo, const std::string & )
+void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
@@ -560,7 +560,7 @@ std::vector<std::string> dream::messages() const
     return ret;
 }
 
-void dream::load( JsonObject &jsobj )
+void dream::load( const JsonObject &jsobj )
 {
     dream newdream;
 
@@ -579,7 +579,7 @@ bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
     return a->name() < b->name();
 }
 
-void mutation_branch::load_trait_blacklist( JsonObject &jsobj )
+void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 {
     for( const std::string &line : jsobj.get_array( "traits" ) ) {
         trait_blacklist.insert( trait_id( line ) );
@@ -610,7 +610,7 @@ void mutation_branch::finalize_trait_blacklist()
     }
 }
 
-void mutation_branch::load_trait_group( JsonObject &jsobj )
+void mutation_branch::load_trait_group( const JsonObject &jsobj )
 {
     const trait_group::Trait_group_tag group_id( jsobj.get_string( "id" ) );
     const std::string subtype = jsobj.get_string( "subtype", "old" );
@@ -659,7 +659,8 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
     }
 }
 
-void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+void mutation_branch::load_trait_group( const JsonObject &jsobj,
+                                        const trait_group::Trait_group_tag &gid,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
@@ -712,7 +713,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
     }
 }
 
-void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
+void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 {
     std::unique_ptr<Trait_creation_data> ptr;
     int probability = obj.get_int( "prob", 100 );

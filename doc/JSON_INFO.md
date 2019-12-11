@@ -1152,6 +1152,11 @@ See also VEHICLE_JSON.md
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
     "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
 },
+"conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
+    "type": "COMPONENT_ID",       // The condition type.
+    "condition": "leather",       // The condition to check for.
+    "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
+} ],
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
@@ -1323,6 +1328,42 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
     "required_level" : 2
 }
 ```
+
+#### Conditional Naming
+
+The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
+
+```json
+{
+  "name": "sausage",
+  "conditional_names": [
+    {
+      "type": "FLAG",
+      "condition": "CANNIBALISM",
+      "name": "Mannwurst"
+    },
+    {
+      "type": "COMPONENT_ID",
+      "condition": "mutant",
+      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+    }
+  ]
+}
+```
+
+You can list as many conditional names for a given item as you want. Each conditional name must consist of 3 elements:
+1. The condition type:
+    - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
+    - `FLAG` which checks if an item has the specified flag (exact match).
+2. The condition you want to look for.
+3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
+
+So, in the above example, if the sausage is made from mutant humanoid meat, and therefore both has the `CANNIBALISM` flag, *and* has a component with `mutant` in its ID:
+1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
+2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
+
+NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+
 
 #### Color Key
 

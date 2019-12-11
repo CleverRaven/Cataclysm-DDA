@@ -26,9 +26,10 @@ static int comp_calories( const std::vector<item_comp> &components )
     for( item_comp it : components ) {
         auto temp = item::find_type( it.type )->comestible;
         if( temp && temp->cooks_like.empty() ) {
-            calories += temp->get_calories() * it.count;
+            calories += temp->default_nutrition.kcal * it.count;
         } else if( temp ) {
-            calories += item::find_type( temp->cooks_like )->comestible->get_calories() * it.count;
+            const itype *cooks_like = item::find_type( temp->cooks_like );
+            calories += cooks_like->comestible->default_nutrition.kcal * it.count;
         }
     }
     return calories;
@@ -85,7 +86,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->get_calories() * it.charges;
+            kcal += it.type->comestible->default_nutrition.kcal * it.charges;
         }
     }
     return kcal;
@@ -131,7 +132,7 @@ TEST_CASE( "recipe_permutations" )
             // The calories of the result
             int default_calories = 0;
             if( res_it.type->comestible ) {
-                default_calories = res_it.type->comestible->get_calories();
+                default_calories = res_it.type->comestible->default_nutrition.kcal;
             }
             if( res_it.charges > 0 ) {
                 default_calories *= res_it.charges;

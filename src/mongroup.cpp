@@ -261,13 +261,13 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
-void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterBlacklist( const JsonObject &jo )
 {
     add_array_to_set( monster_blacklist, jo, "monsters" );
     add_array_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
-void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
 {
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
@@ -328,7 +328,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     }
 }
 
-void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
     float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 

@@ -66,48 +66,48 @@
 #include "point.h"
 #include "teleport.h"
 
-const skill_id skilll_electronics( "electronics" );
-const skill_id skilll_firstaid( "firstaid" );
-const skill_id skilll_mechanics( "mechanics" );
-const skill_id skilll_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_computer( "computer" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_assisted( "assisted" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_high( "high" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_operating( "operating" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pblue( "pblue" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_pkill_l( "pkill_l" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stung( "stung" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_took_flumed( "took_flumed" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-const efftype_id effect_took_xanax( "took_xanax" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_pblue( "pblue" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
@@ -1580,14 +1580,14 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
@@ -1627,22 +1627,22 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     float adjusted_skill;
     int pl_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
-                                               skilll_computer,
-                                               skilll_electronics,
+        pl_skill = installer.bionics_pl_skill( skill_firstaid,
+                                               skill_computer,
+                                               skill_electronics,
                                                skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_electronics,
-                                               skilll_firstaid,
-                                               skilll_mechanics,
+        pl_skill = installer.bionics_pl_skill( skill_electronics,
+                                               skill_firstaid,
+                                               skill_mechanics,
                                                skill_level );
     }
 
@@ -1818,14 +1818,14 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
     float adjusted_skill;
 
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
@@ -1877,31 +1877,31 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     float adjusted_skill;
     int pl_skill;
     if( autodoc ) {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
-                         skilll_computer,
-                         skilll_electronics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                         skill_computer,
+                         skill_electronics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_firstaid,
-                                               skilll_computer,
-                                               skilll_electronics,
+        pl_skill = installer.bionics_pl_skill( skill_firstaid,
+                                               skill_computer,
+                                               skill_electronics,
                                                skill_level );
     } else {
-        adjusted_skill = installer.bionics_adjusted_skill( skilll_electronics,
-                         skilll_firstaid,
-                         skilll_mechanics,
+        adjusted_skill = installer.bionics_adjusted_skill( skill_electronics,
+                         skill_firstaid,
+                         skill_mechanics,
                          skill_level );
-        pl_skill = installer.bionics_pl_skill( skilll_electronics,
-                                               skilll_firstaid,
-                                               skilll_mechanics,
+        pl_skill = installer.bionics_pl_skill( skill_electronics,
+                                               skill_firstaid,
+                                               skill_mechanics,
                                                skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skilll_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skilll_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skilll_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skill_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skill_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );
@@ -2239,7 +2239,7 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
+static bool get_bool_or_flag( const JsonObject &jsobj, const std::string &name,
                               const std::string &flag,
                               const bool fallback, const std::string &flags_node = "flags" )
 {
@@ -2255,7 +2255,7 @@ static bool get_bool_or_flag( JsonObject &jsobj, const std::string &name,
     return value;
 }
 
-void load_bionic( JsonObject &jsobj )
+void load_bionic( const JsonObject &jsobj )
 {
 
     bionic_data new_bionic;

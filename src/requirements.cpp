@@ -62,12 +62,12 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -264,7 +264,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 

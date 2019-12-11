@@ -1340,7 +1340,7 @@ class npc : public player
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
@@ -1382,7 +1382,7 @@ class npc_template
         };
         gender gender_override;
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
 };
@@ -1396,7 +1396,7 @@ struct epilogue {
 
     static epilogue_map _all_epilogue;
 
-    static void load_epilogue( JsonObject &jsobj );
+    static void load_epilogue( const JsonObject &jsobj );
     epilogue *find_epilogue( const std::string &ident );
     void random_by_group( std::string group );
 };
