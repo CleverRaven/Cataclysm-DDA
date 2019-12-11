@@ -1021,14 +1021,18 @@ std::string JsonIn::get_string()
     throw JsonError( "something went wrong D:" );
 }
 
-static uint64_t abs_of_INT_MIN()
+// These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
+constexpr static uint64_t neg_INT_MIN()
 {
-    return static_cast<uint64_t>( std::abs( std::numeric_limits<int>::min() + 1 ) ) + 1;
+    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
 }
-
-static uint64_t abs_of_INT64_MIN()
+constexpr static uint64_t neg_INT64_MIN()
 {
-    return static_cast<uint64_t>( std::abs( std::numeric_limits<int64_t>::min() + 1 ) ) + 1;
+    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
+           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
 }
 
 number_sci_notation JsonIn::get_any_int()
@@ -1054,7 +1058,7 @@ int JsonIn::get_int()
     if( !n.negative && n.number > std::numeric_limits<int>::max() ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
-    } else if( n.negative && n.number > abs_of_INT_MIN() ) {
+    } else if( n.negative && n.number > neg_INT_MIN() ) {
         error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
@@ -1081,7 +1085,7 @@ int64_t JsonIn::get_int64()
     if( !n.negative && n.number > std::numeric_limits<int64_t>::max() ) {
         error( "Signed integers greater than " +
                std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
-    } else if( n.negative && n.number > abs_of_INT64_MIN() ) {
+    } else if( n.negative && n.number > neg_INT64_MIN() ) {
         error( "Integers less than "
                + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
