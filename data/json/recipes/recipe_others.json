@@ -4444,7 +4444,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "autolearn": [ [ "fabrication", 1 ] ],
     "book_learn": [
       [ "mag_fabrication", 1 ],
       [ "manual_fabrication", 1 ],
