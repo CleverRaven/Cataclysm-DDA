@@ -478,7 +478,7 @@
     "type": "profession",
     "ident": "labtech",
     "name": "Lab Technician",
-    "description": "Thanks to your time in the lab, you're familiar with the basics of conducting science.  Now that the world has ended, only one question remains: Can you undo the very Cataclysm you helped create?",
+    "description": "Thanks to your time in the lab, you're familiar with the basics of conducting science.  Now that the world has ended, only one question remains: Can you undo the very cataclysm you helped create?",
     "points": 3,
     "skills": [
       { "level": 2, "name": "computer" },
@@ -1095,7 +1095,7 @@
     "type": "profession",
     "ident": "detective",
     "name": "Police Detective",
-    "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck.  Now that suspect is dead.  Everyone's dead.  You need a smoke.",
+    "description": "You were on the brink of a major breakthrough in your last homicide case when the cataclysm struck.  Now that suspect is dead.  Everyone's dead.  You need a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
     "items": {
@@ -1599,7 +1599,7 @@
     "type": "profession",
     "ident": "mutant_volunteer",
     "name": "Volunteer Mutant",
-    "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the Cataclysm struck, you and the scientists were ready to put your new body to the test.",
+    "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the cataclysm struck, you and the scientists were ready to put your new body to the test.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "electronics" } ],
     "items": {
@@ -2356,7 +2356,7 @@
     "type": "profession",
     "ident": "convict_political",
     "name": "Political Prisoner",
-    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the Cataclysm if it weren't for that misdemeanor charge.",
+    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the cataclysm if it weren't for that misdemeanor charge.",
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
@@ -2714,7 +2714,7 @@
     "type": "profession",
     "ident": "boxer",
     "name": "Boxer",
-    "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
+    "description": "You were training for the fight of your life before the cataclysm struck.  Now you fight just to keep yourself alive.",
     "points": 3,
     "traits": [ "PROF_BOXER" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
@@ -2801,7 +2801,7 @@
     "type": "profession",
     "ident": "paperboy",
     "name": { "male": "Paperboy", "female": "Papergirl" },
-    "description": "You were delivering the morning paper along your usual route when the Cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
+    "description": "You were delivering the morning paper along your usual route when the cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
     "points": 3,
     "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
     "items": {
@@ -3856,7 +3856,7 @@
     "type": "profession",
     "ident": "musician",
     "name": "Musician",
-    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "description": "You were just about to hit the stage when the cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
     "points": -1,
     "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "items": {

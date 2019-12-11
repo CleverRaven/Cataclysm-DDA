@@ -3,7 +3,7 @@
     "type": "profession",
     "ident": "rookie",
     "name": "Rookie",
-    "description": "It's been months since the Cataclysm and somehow you're still greener than a tree.  Maybe you're just a slow learner, who knows.",
+    "description": "It's been months since the cataclysm and somehow you're still greener than a tree.  Maybe you're just a slow learner, who knows.",
     "points": 0,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" } ],
     "items": {

@@ -225,7 +225,7 @@
     "type": "profession",
     "ident": "novice_technomancer",
     "name": "Novice Technomancer",
-    "description": "With the recent Cataclysm, the way you found to cheat on tests may have to find some other use.",
+    "description": "With the recent cataclysm, the way you found to cheat on tests may have to find some other use.",
     "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
     "points": 0,
     "items": {
