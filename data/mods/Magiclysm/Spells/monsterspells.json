@@ -39,7 +39,7 @@
     "type": "SPELL",
     "name": "Gas Attack",
     "description": "Spreads toxic gas around itself.",
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "self", "hostile", "ground" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "damage_type": "bio",
     "min_damage": 1,
