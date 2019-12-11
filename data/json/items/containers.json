@@ -1147,18 +1147,7 @@
     "looks_like": "condom",
     "name": "balloon",
     "description": "A child's balloon.  This could be used as a makeshift water container.",
-    "weight": "5 g",
-    "volume": 0,
-    "price": 0,
-    "to_hit": -5,
-    "rigid": false,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "white",
-    "contains": "3750 ml",
-    "watertight": true,
-    "seals": true,
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "copy-from": "condom"
   },
   {
     "id": "can_food_big",
