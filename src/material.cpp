@@ -106,7 +106,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_products.emplace_back( pair.get_string( 0 ), static_cast< float >( pair.get_float( 1 ) ) );
     }
 
-    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts, auto_flags_reader<material_id>() );
+    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
+              auto_flags_reader<material_id>() );
     optional( jsobj, was_loaded, "compacts_into", _compacts_into, string_reader() );
 }
 
