@@ -58,8 +58,6 @@ class options_manager
             COPT_SDL_HIDE,
             /** Show this option in SDL builds only */
             COPT_CURSES_HIDE,
-            /** Hide this option in non-Windows Curses builds */
-            COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
             COPT_NO_SOUND_HIDE,
             /** Hide this option always, it should not be changed by user directly through UI. **/

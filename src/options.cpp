@@ -434,14 +434,6 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_POSIX_CURSES_HIDE:
-            // Check if we on windows and using wincurses.
-#if defined(TILES) || defined(_WIN32)
-            return false;
-#else
-            return true;
-#endif
-
         case COPT_NO_SOUND_HIDE:
 #if !defined(SDL_SOUND) // If not defined, we have no sound support.
             return true;
@@ -1631,12 +1623,12 @@ void options_manager::add_options_graphics()
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
          translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
-         80, 960, 80, COPT_POSIX_CURSES_HIDE
+         80, 960, 80, COPT_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
          translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
-         24, 270, 24, COPT_POSIX_CURSES_HIDE
+         24, 270, 24, COPT_CURSES_HIDE
        );
 
     mOptionsSort["graphics"]++;

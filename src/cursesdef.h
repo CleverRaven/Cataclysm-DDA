@@ -24,9 +24,8 @@ class nc_color;
  * - our own curses library @ref cata_cursesport (mostly in cursesport.cpp),
  *   cursesport.h contains the structures and some functions specific to that.
  *
- * A few (system specific) functions are implemented in three versions:
+ * A few (system specific) functions are implemented in two versions:
  * - ncurses (ncurses_def.cpp),
- * - Windows curses (no SDL, using @ref cata_cursesport, see wincurses.cpp), and
  * - SDL curses (using @ref cata_cursesport, see sdltiles.cpp).
  *
  * As this interface is derived from ncurses, refer to documentation of that.

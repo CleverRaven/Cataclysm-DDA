@@ -208,7 +208,7 @@ void catacurses::resizeterm()
 }
 
 // init_interface is defined in another cpp file, depending on build type:
-// wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
+// e.g. sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
 {
     // ::endwin will free the pointer returned by ::initscr
