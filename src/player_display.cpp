@@ -24,7 +24,7 @@
 #include "string_id.h"
 #include "enums.h"
 
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_swimming( "swimming" );
 
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );

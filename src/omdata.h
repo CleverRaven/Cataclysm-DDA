@@ -36,10 +36,10 @@ class overmap_special;
 
 using overmap_special_id = string_id<overmap_special>;
 
-const overmap_land_use_code_id land_use_code_forest( "forest" );
-const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+static const overmap_land_use_code_id land_use_code_forest( "forest" );
+static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction

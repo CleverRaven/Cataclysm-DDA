@@ -69,7 +69,7 @@
 
 class basecamp;
 
-const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_contacts( "contacts" );
 
 void drop_or_handle( const item &newit, player &p );
 

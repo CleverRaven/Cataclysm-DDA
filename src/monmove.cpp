@@ -43,28 +43,24 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_countdown( "countdown" );
-const efftype_id effect_docile( "docile" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_dragging( "dragging" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_operating( "operating" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_pushed( "pushed" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_harnessed( "harnessed" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
-const species_id ROBOT( "ROBOT" );
-const species_id WORM( "WORM" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monster::wander()
 {

@@ -78,26 +78,26 @@
 
 class npc;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_fabrication( "fabrication" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_music( "music" );
-const efftype_id effect_playing_instrument( "playing_instrument" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
