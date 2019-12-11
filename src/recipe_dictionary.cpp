@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <stack>
 #include <utility>
 
+#include "cata_algo.h"
 #include "cata_utility.h"
 #include "init.h"
 #include "item.h"
@@ -391,44 +391,18 @@ void recipe_dictionary::find_items_on_loops()
     }
 
     // Now check that graph for loops
-    for( const auto &p : potential_components_of ) {
-        const itype_id &root = p.first;
-        std::unordered_map<itype_id, itype_id> reachable_via;
-        std::stack<itype_id, std::vector<itype_id>> to_check;
-        to_check.push( root );
-        while( !to_check.empty() && !recipe_dict.items_on_loops.count( root ) ) {
-            itype_id next = to_check.top();
-            to_check.pop();
-            auto it = potential_components_of.find( next );
-            if( it == potential_components_of.end() ) {
-                continue;
-            }
-            for( const itype_id &potential_component : it->second ) {
-                if( potential_component == root ) {
-                    std::string error_message =
-                        "loop in comestible recipes detected: " + potential_component;
-                    itype_id on_path = next;
-                    while( true ) {
-                        error_message += " -> " + on_path;
-                        items_on_loops.insert( on_path );
-                        if( on_path == root ) {
-                            break;
-                        }
-                        on_path = reachable_via[on_path];
-                    }
-                    error_message += ".  Such loops can be broken by either removing or altering "
-                                     "recipes or marking one of the items involved with the NUTRIENT_OVERRIDE "
-                                     "flag";
-                    debugmsg( error_message );
-                    break;
-                } else {
-                    bool inserted = reachable_via.emplace( potential_component, next ).second;
-                    if( inserted ) {
-                        to_check.push( potential_component );
-                    }
-                }
-            }
+    std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
+    for( const std::vector<itype_id> &loop : loops ) {
+        std::string error_message =
+            "loop in comestible recipes detected: " + loop.back();
+        for( const itype_id &i : loop ) {
+            error_message += " -> " + i;
+            items_on_loops.insert( i );
         }
+        error_message += ".  Such loops can be broken by either removing or altering "
+                         "recipes or marking one of the items involved with the NUTRIENT_OVERRIDE "
+                         "flag";
+        debugmsg( error_message );
     }
 }
 
