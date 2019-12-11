@@ -137,7 +137,7 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE", "PLOWABLE" ],
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
