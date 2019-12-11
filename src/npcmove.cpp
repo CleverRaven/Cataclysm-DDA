@@ -66,64 +66,60 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_firstaid( "firstaid" );
 
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_catch_up( "catch_up" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_infection( "infection" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_npc_run_away( "npc_run_away" );
-const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
-const efftype_id effect_npc_flee_player( "npc_flee_player" );
-const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
-const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_npc_run_away( "npc_run_away" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 
 // power source CBMs
-const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_ethanol( "bio_ethanol" );
-const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
 
 // active defense CBMs - activate when in danger
-const bionic_id bio_ads( "bio_ads" );
-const bionic_id bio_faraday( "bio_faraday" );
-const bionic_id bio_heat_absorb( "bio_heat_absorb" );
-const bionic_id bio_heat_sink( "bio_heatsink" );
-const bionic_id bio_ods( "bio_ods" );
-const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+static const bionic_id bio_heat_sink( "bio_heatsink" );
+static const bionic_id bio_ods( "bio_ods" );
+static const bionic_id bio_shock( "bio_shock" );
 
 // special health CBMs - activate as needed
-const bionic_id bio_painkiller( "bio_painkiller" );
-const bionic_id bio_nanobots( "bio_nanobots" );
-const bionic_id bio_radscrubber( "bio_radscrubber" );
-const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_soporific( "bio_soporific" );
 
 // health CBMs - always activate
-const bionic_id bio_leukocyte( "bio_leukocyte" );
-const bionic_id bio_plutfilter( "bio_plutfilter" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_plutfilter( "bio_plutfilter" );
 
 // melee CBMs - activate for melee combat
-const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
 
 // weapon CBMs - activate in combat if they're better than what we have
-const bionic_id bio_lightning( "bio_chain_lightning" );
-const bionic_id bio_laser( "bio_laser" );
-const bionic_id bio_blade( "bio_blade" );
-const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_claws( "bio_claws" );
 
-const ammotype reactor_slurry( "reactor_slurry" );
-const ammotype plutonium( "plutonium" );
+static const ammotype reactor_slurry( "reactor_slurry" );
+static const ammotype plutonium( "plutonium" );
 
 enum npc_action : int {
     npc_undecided = 0,

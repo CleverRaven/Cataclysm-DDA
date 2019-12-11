@@ -92,8 +92,7 @@ class vehicle;
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_flu( "flu" );
+static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 

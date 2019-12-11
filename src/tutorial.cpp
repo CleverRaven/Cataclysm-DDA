@@ -34,7 +34,7 @@
 #include "point.h"
 #include "weather.h"
 
-const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static std::vector<translation> tut_text;
 

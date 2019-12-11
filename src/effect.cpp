@@ -42,7 +42,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg( player &p )
 {

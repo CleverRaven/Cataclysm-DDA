@@ -38,29 +38,29 @@
 
 namespace
 {
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
 
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
 
-const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
 
-const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",

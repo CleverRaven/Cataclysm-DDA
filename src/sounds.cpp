@@ -70,11 +70,11 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 activity_id act;
 std::pair<std::string, std::string> engine_external_id_and_variant;
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );

@@ -63,20 +63,19 @@
 #include "type_id.h"
 #include "point.h"
 
-const skill_id skill_throw( "throw" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_driving( "driving" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_launcher( "launcher" );
 
-const efftype_id effect_on_roof( "on_roof" );
-const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
-const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );

@@ -59,8 +59,6 @@
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const efftype_id effect_riding( "riding" );
-
 class player;
 
 static inline std::string status_color( bool status )
@@ -88,11 +86,11 @@ static auto can_refill = []( const vehicle_part &pt )
 
 namespace
 {
-const quality_id LIFT( "LIFT" );
-const quality_id JACK( "JACK" );
-const quality_id SELF_JACK( "SELF_JACK" );
-const skill_id skill_mechanics( "mechanics" );
-const itype_id fuel_type_battery( "battery" );
+static const quality_id LIFT( "LIFT" );
+static const quality_id JACK( "JACK" );
+static const quality_id SELF_JACK( "SELF_JACK" );
+static const skill_id skill_mechanics( "mechanics" );
+static const itype_id fuel_type_battery( "battery" );
 } // namespace
 
 void act_vehicle_siphon( vehicle *veh );

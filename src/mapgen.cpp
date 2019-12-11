@@ -71,29 +71,29 @@
 
 #define MON_RADIUS 3
 
-const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
-const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
-const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
-const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
-const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
-const mongroup_id GROUP_LAB( "GROUP_LAB" );
-const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
-const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
-const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
-const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
-const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
-const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
-const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
-const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
-const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
-const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
-const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
-const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
+static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
+static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
+static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
+static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
+static const mongroup_id GROUP_LAB( "GROUP_LAB" );
+static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
+static const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
+static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
+static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
