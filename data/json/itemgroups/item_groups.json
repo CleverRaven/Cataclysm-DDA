@@ -65,7 +65,8 @@
       [ "dnd_handbook", 1 ],
       [ "RPG_die", 1 ],
       [ "metal_RPG_die", 1 ],
-      [ "milkshake_fastfood", 3 ]
+      [ "milkshake_fastfood", 3 ],
+      [ "balloon", 5 ]
     ]
   },
   {
@@ -415,7 +416,8 @@
       [ "thawb", 1 ],
       [ "yukata", 1 ],
       [ "eclipse_glasses", 1 ],
-      [ "reading_light", 9 ]
+      [ "reading_light", 9 ],
+      [ "balloon", 5 ]
     ]
   },
   {
@@ -637,6 +639,7 @@
       [ "cookbook_sushi", 5 ],
       [ "scots_cookbook", 6 ],
       [ "food_processor", 30 ],
+      [ "balloon", 5 ],
       [ "eclipse_glasses", 1 ],
       [ "thermos", 15 ],
       { "item": "meat_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -1013,6 +1016,7 @@
       [ "straw_doll", 1 ],
       [ "money_bundle", 30 ],
       [ "wristwatch", 15 ],
+      [ "balloon", 5 ],
       [ "diving_watch", 5 ],
       [ "gold_watch", 5 ],
       [ "silver_watch", 7 ],
@@ -1201,7 +1205,8 @@
       [ "haori", 2 ],
       [ "hakama", 4 ],
       [ "eclipse_glasses", 1 ],
-      [ "thermos", 20 ]
+      [ "thermos", 20 ],
+      [ "balloon", 5 ]
     ]
   },
   {
@@ -2732,6 +2737,7 @@
       [ "survnote", 5 ],
       [ "eclipse_glasses", 1 ],
       [ "plastic_sheet", 5 ],
+      [ "balloon", 5 ],
       [ "box_medium", 5 ],
       [ "thermos", 30 ],
       { "group": "tinware", "prob": 15 }
@@ -4037,7 +4043,8 @@
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
       [ "eclipse_glasses", 1 ],
-      [ "dnd_handbook", 1 ]
+      [ "dnd_handbook", 1 ],
+      [ "balloon", 5 ]
     ]
   },
   {

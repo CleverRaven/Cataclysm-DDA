@@ -2379,6 +2379,22 @@
     "coverage": 5
   },
   {
+    "id": "makeshift_stethoscope",
+    "type": "TOOL_ARMOR",
+    "symbol": "y",
+    "color": "dark_gray",
+    "name": "makeshift stethoscope",
+    "description": "This is a relatively cumbersome DIY child's medical listening toy.  Use it to listen to things.  Closely.",
+    "price": 500,
+    "material": [ "plastic" ],
+    "weight": "400 g",
+    "volume": "500 ml",
+    "covers": [ "TORSO" ],
+    "encumbrance": 3,
+    "flags": [ "BELTED", "SAFECRACK" ],
+    "coverage": 8
+  },
+  {
     "id": "solarpack",
     "type": "TOOL_ARMOR",
     "name": "solar backpack (folded)",
