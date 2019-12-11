@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace algo
+namespace cata
 {
 
 /**
@@ -41,6 +41,6 @@ void sort_by_rating( Iterator begin, Iterator end, RatingFunction rating_func )
     } );
 }
 
-} // namespace algo
+} // namespace cata
 
 #endif // CATA_ALGO_H
