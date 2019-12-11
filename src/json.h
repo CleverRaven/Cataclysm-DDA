@@ -1204,6 +1204,7 @@ class JsonObject::const_iterator
             return *this;
         }
         JsonMember operator*() const {
+            object_.visited_members.insert( iter_->first );
             return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
         }
 
