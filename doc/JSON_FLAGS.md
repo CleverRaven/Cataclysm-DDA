@@ -496,6 +496,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
+- ```ALLOW_ROOT``` - Allows plant mutants with Chloromorph mutation sleep on the surface very comfortable
+- ```ALLOW_ROOT_WEAK``` - Allows plant mutants with Chloromorph mutation sleep on the surface somewhat comfortable
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
     Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
