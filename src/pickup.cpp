@@ -270,8 +270,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
-    } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ||
-               newit.is_craft() && newit.made_of( LIQUID ) ) {
+    } else if(( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) ||
+             ( newit.is_craft() && newit.made_of( LIQUID ) )) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
