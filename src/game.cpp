@@ -1691,8 +1691,8 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         int distance /*=0*/, bool diffZLevel /*=false*/ )
 {
     if( type == distraction_type::noise &&
-        ( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) || 
-        ( diffZLevel && get_option<bool>( "AUTOIGNORESOUNDZLEVEL" ) ) )
+        ( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) ||
+          ( diffZLevel && get_option<bool>( "AUTOIGNORESOUNDZLEVEL" ) ) )
         && (
             get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
             ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
