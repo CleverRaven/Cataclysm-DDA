@@ -1165,16 +1165,15 @@ class jmapgen_monster : public jmapgen_piece
                     return;
                 }
             } else if( jsi.has_array( "monster" ) ) {
-                JsonArray jarr = jsi.get_array( "monster" );
-                while( jarr.has_more() ) {
+                for( const JsonValue &entry : jsi.get_array( "monster" ) ) {
                     mtype_id id;
                     int weight = 100;
-                    if( jarr.test_array() ) {
-                        JsonArray inner = jarr.next_array();
+                    if( entry.test_array() ) {
+                        JsonArray inner = entry.get_array();
                         id = mtype_id( inner.get_string( 0 ) );
                         weight = inner.get_int( 1 );
                     } else {
-                        id = mtype_id( jarr.next_string() );
+                        id = mtype_id( entry.get_string() );
                     }
                     if( !id.is_valid() ) {
                         set_mapgen_defer( jsi, "monster", "no such monster" );
@@ -1641,13 +1640,12 @@ class jmapgen_zone : public jmapgen_piece
 static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
-    JsonArray jarr = jsi.get_array( json_key );
-    while( jarr.has_more() ) {
-        if( jarr.test_array() ) {
-            JsonArray inner = jarr.next_array();
+    for( const JsonValue &entry : jsi.get_array( json_key ) ) {
+        if( entry.test_array() ) {
+            JsonArray inner = entry.get_array();
             list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
         } else {
-            list.add( jarr.next_string(), 100 );
+            list.add( entry.get_string(), 100 );
         }
     }
 }
@@ -1883,17 +1881,16 @@ void load_place_mapings_string( const JsonObject &pjo, const std::string &key,
     } else if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
     } else {
-        JsonArray jarr = pjo.get_array( key );
-        while( jarr.has_more() ) {
-            if( jarr.test_string() ) {
+        for( const JsonValue &entry : pjo.get_array( key ) ) {
+            if( entry.test_string() ) {
                 try {
-                    vect.push_back( make_shared_fast<PieceType>( jarr.next_string() ) );
+                    vect.push_back( make_shared_fast<PieceType>( entry.get_string() ) );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err.what() );
+                    entry.throw_error( err.what() );
                 }
             } else {
-                load_place_mapings<PieceType>( jarr.next_object(), vect );
+                load_place_mapings<PieceType>( entry.get_object(), vect );
             }
         }
     }
@@ -1911,21 +1908,20 @@ void load_place_mapings_alternatively( const JsonObject &pjo, const std::string 
         load_place_mapings_string<PieceType>( pjo, key, vect );
     } else {
         auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
-        JsonArray jarr = pjo.get_array( key );
-        while( jarr.has_more() ) {
-            if( jarr.test_string() ) {
+        for( const JsonValue &entry : pjo.get_array( key ) ) {
+            if( entry.test_string() ) {
                 try {
-                    alter->alternatives.emplace_back( jarr.next_string() );
+                    alter->alternatives.emplace_back( entry.get_string() );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err.what() );
+                    entry.throw_error( err.what() );
                 }
-            } else if( jarr.test_object() ) {
-                JsonObject jsi = jarr.next_object();
+            } else if( entry.test_object() ) {
+                JsonObject jsi = entry.get_object();
                 alter->alternatives.emplace_back( jsi );
-            } else if( jarr.test_array() ) {
+            } else if( entry.test_array() ) {
                 // If this is an array, it means it is an entry followed by a desired total count of instances.
-                JsonArray piece_and_count_jarr = jarr.next_array();
+                JsonArray piece_and_count_jarr = entry.get_array();
                 if( piece_and_count_jarr.size() != 2 ) {
                     piece_and_count_jarr.throw_error( "Array must have exactly two entries: the object, then the count." );
                 }

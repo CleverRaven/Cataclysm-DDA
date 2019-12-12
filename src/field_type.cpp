@@ -214,13 +214,10 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    JsonArray jidt = jid.get_array( "traits" );
-    while( jidt.has_more() ) {
-        immunity_data_traits.emplace_back( trait_id( jidt.next_string() ) );
+    for( const std::string &id : jid.get_array( "traits" ) ) {
+        immunity_data_traits.emplace_back( id );
     }
-    JsonArray jidr = jid.get_array( "body_part_env_resistance" );
-    while( jidr.has_more() ) {
-        JsonArray jao = jidr.next_array();
+    for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
         immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }

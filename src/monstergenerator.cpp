@@ -1024,14 +1024,13 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string &member
         return;
     }
 
-    JsonArray outer = jo.get_array( member );
-    while( outer.has_more() ) {
-        if( outer.test_array() ) {
-            add_special_attack( outer.next_array(), src );
-        } else if( outer.test_object() ) {
-            add_special_attack( outer.next_object(), src );
+    for( const JsonValue &entry : jo.get_array( member ) ) {
+        if( entry.test_array() ) {
+            add_special_attack( entry.get_array(), src );
+        } else if( entry.test_object() ) {
+            add_special_attack( entry.get_object(), src );
         } else {
-            outer.throw_error( "array element is neither array nor object." );
+            entry.throw_error( "array element is neither array nor object." );
         }
     }
 }

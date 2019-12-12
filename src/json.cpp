@@ -321,20 +321,18 @@ JsonArray JsonObject::get_array( const std::string &name ) const
 
 std::vector<int> JsonObject::get_int_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<int> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_int() );
+    for( const int entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
 
 std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
 {
-    JsonArray ja = get_array( name );
     std::vector<std::string> ret;
-    while( ja.has_more() ) {
-        ret.push_back( ja.next_string() );
+    for( const std::string &entry : get_array( name ) ) {
+        ret.push_back( entry );
     }
     return ret;
 }
@@ -699,9 +697,8 @@ bool JsonArray::has_object( const size_t i ) const
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
+    for( const std::string &line : json.get_array( name ) ) {
+        s.insert( line );
     }
 }
 

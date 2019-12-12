@@ -1114,6 +1114,25 @@ class JsonValue
             return seek().read( t );
         }
 
+        bool test_string() const {
+            return seek().test_string();
+        }
+        bool test_int() const {
+            return seek().test_int();
+        }
+        bool test_bool() const {
+            return seek().test_bool();
+        }
+        bool test_float() const {
+            return seek().test_float();
+        }
+        bool test_object() const {
+            return seek().test_object();
+        }
+        bool test_array() const {
+            return seek().test_array();
+        }
+
         void throw_error( const std::string &err ) const {
             seek().error( err );
         }

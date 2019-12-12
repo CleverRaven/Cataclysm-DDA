@@ -304,9 +304,7 @@ damage_instance load_damage_instance( const JsonObject &jo )
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
-        JsonArray jarr = jo.get_array( "values" );
-        while( jarr.has_more() ) {
-            JsonObject curr = jarr.next_object();
+        for( const JsonObject &curr : jo.get_array( "values" ) ) {
             di.damage_units.push_back( load_damage_unit( curr ) );
         }
     } else if( jo.has_string( "damage_type" ) ) {

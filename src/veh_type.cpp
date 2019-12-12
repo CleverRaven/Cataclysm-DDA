@@ -946,13 +946,12 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
         } else if( part.has_array( "parts" ) ) {
-            JsonArray subparts = part.get_array( "parts" );
-            while( subparts.has_more() ) {
-                if( subparts.test_string() ) {
-                    std::string part_name = subparts.next_string();
+            for( const JsonValue &entry : part.get_array( "parts" ) ) {
+                if( entry.test_string() ) {
+                    std::string part_name = entry.get_string();
                     add_part_string( part_name, pos );
                 } else {
-                    JsonObject subpart = subparts.next_object();
+                    JsonObject subpart = entry.get_object();
                     add_part_obj( subpart, pos );
                 }
             }
@@ -978,9 +977,8 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            JsonArray item_group = spawn_info.get_array( "items" );
-            while( item_group.has_more() ) {
-                next_spawn.item_ids.push_back( item_group.next_string() );
+            for( const std::string &line : spawn_info.get_array( "items" ) ) {
+                next_spawn.item_ids.push_back( line );
             }
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
@@ -988,9 +986,8 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
-            JsonArray item_group_names = spawn_info.get_array( "item_groups" );
-            while( item_group_names.has_more() ) {
-                next_spawn.item_groups.push_back( item_group_names.next_string() );
+            for( const std::string &line : spawn_info.get_array( "item_groups" ) ) {
+                next_spawn.item_groups.push_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
             next_spawn.item_groups.push_back( spawn_info.get_string( "item_groups" ) );

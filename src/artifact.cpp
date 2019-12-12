@@ -1209,36 +1209,31 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
         artifact->charge_req = ACR_NULL;
     }
 
-    JsonArray ja = jo.get_array( "effects_wielded" );
-    while( ja.has_more() ) {
-        artifact->effects_wielded.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_wielded" ) ) {
+        artifact->effects_wielded.push_back( static_cast<art_effect_passive>( entry ) );
     }
 
-    ja = jo.get_array( "effects_activated" );
-    while( ja.has_more() ) {
-        artifact->effects_activated.push_back( static_cast<art_effect_active>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_activated" ) ) {
+        artifact->effects_activated.push_back( static_cast<art_effect_active>( entry ) );
     }
 
-    ja = jo.get_array( "effects_carried" );
-    while( ja.has_more() ) {
-        artifact->effects_carried.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_carried" ) ) {
+        artifact->effects_carried.push_back( static_cast<art_effect_passive>( entry ) );
     }
 
     //Generate any missing dream data (due to e.g. old save)
     if( !jo.has_array( "dream_unmet" ) ) {
         artifact->dream_msg_unmet = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_unmet;
     } else {
-        ja = jo.get_array( "dream_unmet" );
-        while( ja.has_more() ) {
-            artifact->dream_msg_unmet.push_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "dream_unmet" ) ) {
+            artifact->dream_msg_unmet.push_back( line );
         }
     }
     if( !jo.has_array( "dream_met" ) ) {
         artifact->dream_msg_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_met;
     } else {
-        ja = jo.get_array( "dream_met" );
-        while( ja.has_more() ) {
-            artifact->dream_msg_met.push_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "dream_met" ) ) {
+            artifact->dream_msg_met.push_back( line );
         }
     }
     if( jo.has_int( "dream_freq_unmet" ) ) {
@@ -1303,9 +1298,8 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     armor->storage = jo.get_int( "storage" ) * units::legacy_volume_factor;
     armor->power_armor = jo.get_bool( "power_armor" );
 
-    JsonArray ja = jo.get_array( "effects_worn" );
-    while( ja.has_more() ) {
-        artifact->effects_worn.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_worn" ) ) {
+        artifact->effects_worn.push_back( static_cast<art_effect_passive>( entry ) );
     }
 }
 

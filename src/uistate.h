@@ -256,11 +256,10 @@ class uistatedata
             jo.read( "list_item_priority_active", list_item_priority_active );
 
             for( const JsonMember &member : jo.get_object( "input_history" ) ) {
-                JsonArray ja = member.get_array();
                 std::vector<std::string> &v = gethistory( member.name() );
                 v.clear();
-                while( ja.has_more() ) {
-                    v.push_back( ja.next_string() );
+                for( const std::string &line : member.get_array() ) {
+                    v.push_back( line );
                 }
             }
             // fetch list_item settings from input_history
