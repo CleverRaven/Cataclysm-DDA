@@ -639,21 +639,20 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     return *found->second;
 }
 
-void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                        const bool is_collection )
+void mutation_branch::load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection )
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
-    while( entries.has_more() ) {
+    for( const JsonValue &entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
-        if( entries.test_array() ) {
-            JsonArray subarr = entries.next_array();
+        if( entry.test_array() ) {
+            JsonArray subarr = entry.get_array();
 
             trait_id id( subarr.get_string( 0 ) );
             tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
-            JsonObject subobj = entries.next_object();
+            JsonObject subobj = entry.get_object();
             add_entry( tg, subobj );
         }
     }

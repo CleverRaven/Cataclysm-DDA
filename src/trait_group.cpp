@@ -66,12 +66,11 @@ Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string
     } else if( stream.test_array() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonArray jarr = stream.get_array();
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
-            jarr.throw_error( "invalid subtype for trait group" );
+            stream.throw_error( "invalid subtype for trait group" );
         }
 
-        mutation_branch::load_trait_group( jarr, group, default_subtype == "collection" );
+        mutation_branch::load_trait_group( stream.get_array(), group, default_subtype == "collection" );
         return group;
     } else {
         stream.error( "invalid trait group, must be string (group id) or object/array (the group data)" );
