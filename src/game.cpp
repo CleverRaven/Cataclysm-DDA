@@ -114,6 +114,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
+#include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -11760,8 +11761,8 @@ void game::add_artifact_dreams( )
     add_msg( m_debug, "Checking %s carried artifacts", art_items.size() );
     for( auto &it : art_items ) {
         //Pick only the ones with an applicable dream
-        auto art = it->type->artifact;
-        if( art.has_value() && art->charge_req != ACR_NULL &&
+        const cata::value_ptr<islot_artifact> &art = it->type->artifact;
+        if( art && art->charge_req != ACR_NULL &&
             ( it->ammo_remaining() < it->ammo_capacity() ||
               it->ammo_capacity() == 0 ) ) { //or max 0 in case of wacky mod shenanigans
             add_msg( m_debug, "Checking artifact %s", it->tname() );

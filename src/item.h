@@ -42,6 +42,8 @@ namespace cata
 {
 template<typename T>
 class optional;
+template<typename T>
+class value_ptr;
 } // namespace cata
 class nc_color;
 class JsonIn;
@@ -1967,7 +1969,7 @@ class item : public visitable<item>
         std::string get_owner_name() const;
         int get_min_str() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        const cata::value_ptr<islot_comestible> &get_comestible() const;
 
         /**
          * Get the stored recipe for in progress crafts.

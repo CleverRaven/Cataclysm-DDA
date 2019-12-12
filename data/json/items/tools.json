@@ -963,21 +963,6 @@
     "magazine_well": 2
   },
   {
-    "id": "catfood",
-    "type": "TOOL",
-    "name": "cat food",
-    "name_plural": "cat food",
-    "description": "This is food for cats.  It smells strange, but cats seem to love it.",
-    "weight": "223 g",
-    "volume": "250 ml",
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATFOOD"
-  },
-  {
     "id": "cell_phone",
     "type": "TOOL",
     "name": "cellphone",

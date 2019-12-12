@@ -323,7 +323,7 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+    if( item::find_type( itype_id( what ) )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         for( const std::string &flg : flags ) {
             cbm.set_flag( flg );

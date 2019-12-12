@@ -169,7 +169,7 @@ bool player::handle_gun_damage( item &it )
     }
 
     const auto &curammo_effects = it.ammo_effects();
-    const cata::optional<islot_gun> &firing = it.type->gun;
+    const islot_gun &firing = *it.type->gun;
     // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
     if( !it.has_flag( "NEVER_JAMS" ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
@@ -193,7 +193,7 @@ bool player::handle_gun_damage( item &it )
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    int effective_durability = firing->durability;
+    int effective_durability = firing.durability;
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
@@ -267,7 +267,7 @@ bool player::handle_gun_damage( item &it )
         !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         if( curammo_effects.count( "BLACKPOWDER" ) ||
             it.has_fault( fault_gun_unlubricated ) ) {
-            if( ( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) ||
+            if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
                   ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
@@ -280,7 +280,7 @@ bool player::handle_gun_damage( item &it )
         // These are the dirtying/fouling mechanics
         if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
-                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing.blackpowder_tolerance *
                             2 ) );
                 // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
                 if( dirtadder < 0 ) {

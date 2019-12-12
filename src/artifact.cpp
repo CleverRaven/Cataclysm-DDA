@@ -24,6 +24,7 @@
 #include "optional.h"
 #include "units.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -617,8 +618,8 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 // Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool()
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
     tool->charges_per_use = 1;
@@ -633,24 +634,24 @@ it_artifact_tool::it_artifact_tool()
 
 it_artifact_tool::it_artifact_tool( const JsonObject &jo )
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
 it_artifact_armor::it_artifact_armor()
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
 }
 
 it_artifact_armor::it_artifact_armor( const JsonObject &jo )
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     deserialize( jo );
 }
 
