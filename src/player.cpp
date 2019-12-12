@@ -5221,8 +5221,6 @@ void player::use( int inventory_position )
 void player::use( item_location loc )
 {
     item &used = *loc.get_item();
-    int inventory_position = loc.where() == item_location::type::character ?
-                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
