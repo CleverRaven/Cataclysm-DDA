@@ -794,6 +794,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
+    cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
+    if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
+        return *zone_check_first;
+    }
+
     if( cat.zone() ) {
         return *cat.zone();
     }
@@ -818,18 +823,6 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
 
         return zone_type_id( "LOOT_FOOD" );
-    }
-    if( cat.get_id() == "clothing" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where, range ) ) {
-            return zone_type_id( "LOOT_FCLOTHING" );
-        }
-        return zone_type_id( "LOOT_CLOTHING" );
-    }
-    if( cat.get_id() == "armor" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where, range ) ) {
-            return zone_type_id( "LOOT_FARMOR" );
-        }
-        return zone_type_id( "LOOT_ARMOR" );
     }
 
     return zone_type_id();
