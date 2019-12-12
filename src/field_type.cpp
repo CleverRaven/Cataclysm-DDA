@@ -121,11 +121,9 @@ const field_intensity_level &field_type::get_intensity_level( int level ) const
 void field_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
-    JsonArray ja = jo.get_array( "intensity_levels" );
-    for( size_t i = 0; i < ja.size(); ++i ) {
+    for( const JsonObject &jao : jo.get_array( "intensity_levels" ) ) {
         field_intensity_level intensity_level;
-        field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
-        JsonObject jao = ja.get_object( i );
+        field_intensity_level fallback_intensity_level = !intensity_levels.empty() ? intensity_levels.back() : intensity_level;
         optional( jao, was_loaded, "name", intensity_level.name, fallback_intensity_level.name );
         optional( jao, was_loaded, "sym", intensity_level.symbol, unicode_codepoint_from_symbol_reader,
                   fallback_intensity_level.symbol );
@@ -166,9 +164,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
         if( jao.has_array( "effects" ) ) {
-            JsonArray jae = jao.get_array( "effects" );
-            for( size_t j = 0; j < jae.size(); ++j ) {
-                JsonObject joe = jae.next_object();
+            for( const JsonObject &joe : jao.get_array( "effects" ) ) {
                 field_effect fe;
                 mandatory( joe, was_loaded, "effect_id", fe.id );
                 optional( joe, was_loaded, "min_duration", fe.min_duration );

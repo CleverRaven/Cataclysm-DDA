@@ -1406,9 +1406,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "skill", slot.skill_used, strict );
     if( jo.has_array( "ammo" ) ) {
         slot.ammo.clear();
-        JsonArray atypes = jo.get_array( "ammo" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo" ) ) {
+            slot.ammo.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo.clear();
@@ -1517,9 +1516,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo" ) ) {
-        JsonArray atypes = jo.get_array( "ammo" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo" ) ) {
+            slot.ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
@@ -1567,9 +1565,8 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo_modifier" ) ) {
-        JsonArray atypes = jo.get_array( "ammo_modifier" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo_modifier" ) ) {
+            slot.ammo_modifier.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_modifier" ) ) {
         slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
@@ -1855,9 +1852,8 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
 {
     bool strict = src == "dda";
     if( jo.has_array( "ammo_type" ) ) {
-        JsonArray atypes = jo.get_array( "ammo_type" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.type.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
+            slot.type.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_type" ) ) {
         slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
