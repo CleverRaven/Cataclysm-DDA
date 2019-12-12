@@ -122,9 +122,6 @@ void field_type::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     JsonArray ja = jo.get_array( "intensity_levels" );
-    if( ja.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
-    }
     for( size_t i = 0; i < ja.size(); ++i ) {
         field_intensity_level intensity_level;
         field_intensity_level fallback_intensity_level = i > 0 ? intensity_levels[i - 1] : intensity_level;
@@ -198,6 +195,9 @@ void field_type::load( const JsonObject &jo, const std::string & )
         optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
                   fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );
+    }
+    if( intensity_levels.empty() ) {
+        jo.throw_error( "No intensity levels defined for field type", "id" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {
