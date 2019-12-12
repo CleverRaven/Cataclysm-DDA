@@ -2204,8 +2204,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // auto-create a category that is unlikely to already be used and put the
         // snippets in it.
         def.snippet_category = std::string( "auto:" ) + def.id;
-        JsonArray jarr = jo.get_array( "snippet_category" );
-        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
+        SNIPPET.add_snippets_from_json( def.snippet_category, jo.get_array( "snippet_category" ) );
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
