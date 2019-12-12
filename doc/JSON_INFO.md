@@ -1372,10 +1372,10 @@ When adding a new book, please use this color key:
 * Magazines: `pink`
 * “Paperbacks” Short enjoyment books (including novels): `light_cyan`
 * “Hardbacks” Long enjoyment books (including novels): `light_blue`
-* “Small textbook” Beginner level textbooks, guides and martial arts books: `dark_green`
-* “Large textbook” Advanced level textbooks and advanced guides: `dark_blue`
+* “Small textbook” Beginner level textbooks, guides and martial arts books: `green`
+* “Large textbook” Advanced level textbooks and advanced guides: `blue`
 * Religious books: `dark_gray`
-* “Printouts” (including spiral-bound and similar) Technical documents, (technical?) protocols, (lab) journals: `light_green`
+* “Printouts” (including spiral-bound, binders, and similar) Technical documents, (technical?) protocols, (lab) journals, personal diaries: `light_green`
 * Other reading material/non-books (use only if every other category does not apply): `light_gray`
 
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
