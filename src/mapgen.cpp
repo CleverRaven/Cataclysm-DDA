@@ -577,7 +577,7 @@ int jmapgen_int::get() const
  * Turn json gobbldigook into machine friendly gobbldigook, for applying
  * basic map 'set' functions, optionally based on one_in(chance) or repeat value
  */
-void mapgen_function_json_base::setup_setmap( JsonArray &parray )
+void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
 {
     std::string tmpval;
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
@@ -590,8 +590,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
 
-    while( parray.has_more() ) {
-        JsonObject pjo = parray.next_object();
+    for( const JsonObject &pjo : parray ) {
         if( pjo.read( "point", tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_POINT;
         } else if( pjo.read( "set", tmpval ) ) {
@@ -2304,8 +2303,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     }
 
     if( jo.has_array( "set" ) ) {
-        parray = jo.get_array( "set" );
-        setup_setmap( parray );
+        setup_setmap( jo.get_array( "set" ) );
     }
 
     // "add" is deprecated in favor of "place_item", but kept to support mods
