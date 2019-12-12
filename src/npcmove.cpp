@@ -4234,11 +4234,11 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), static_cast<int>( spriority ) );
+    complain_about( warning_name, d, speech, is_enemy(), spriority );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const int priority )
+                          const std::string &speech, const bool force, const sounds::sound_t priority )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.

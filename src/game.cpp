@@ -9067,7 +9067,7 @@ bool game::walk_move( const tripoint &dest_loc )
         if( !u.movement_mode_is( CMM_RUN ) ) {
             std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
             add_msg( m_warning,
-                     _( "Stepping into that %1$s looks risky. Run into it if you wish to enter anyway." ),
+                     _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
         } else if( !get_option<bool>( "DANGEROUS_RUNNING" ) ) {
