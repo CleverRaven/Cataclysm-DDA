@@ -62,6 +62,7 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "skill.h"
 
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_gun( "gun" );
@@ -83,7 +84,7 @@ static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_fire( const Character &p, const itype &firing );
+int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
@@ -469,7 +470,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     last_target_pos = cata::nullopt;
 
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire( *this, *gun.type );
+    moves -= time_to_attack( *this, *gun.type );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     practice( skill_gun, ( hits + 1 ) * 5 );
@@ -997,7 +998,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
             moves_to_fire = throw_cost( p, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_fire( p,
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
                             *ranged_weapon.type );
         }
 
@@ -2180,32 +2181,12 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_fire( const Character &p, const itype &firing )
+int time_to_attack( const Character &p, const itype &firing )
 {
-    struct time_info_t {
-        int min_time;  // absolute floor on the time taken to fire.
-        int base;      // the base or max time taken to fire.
-        int reduction; // the reduction in time given per skill level.
-    };
-
-    static const std::map<skill_id, time_info_t> map {
-        {skill_id {"pistol"},   {10, 80,  10}},
-        {skill_id {"shotgun"},  {70, 150, 25}},
-        {skill_id {"smg"},      {20, 80,  10}},
-        {skill_id {"rifle"},    {30, 150, 15}},
-        {skill_id {"archery"},  {20, 220, 25}},
-        {skill_id {"throw"},    {50, 220, 25}},
-        {skill_id {"launcher"}, {30, 200, 20}},
-        {skill_id {"melee"},    {50, 200, 20}}
-    };
-
     const skill_id &skill_used = firing.gun->skill_used;
-    const auto it = map.find( skill_used );
-    // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
-    static const time_info_t default_info{ 50, 220, 25 };
-
-    const time_info_t &info = ( it == map.end() ) ? default_info : it->second;
-    return std::max( info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ) );
+    const time_info_t &info = skill_used->time_to_attack();
+    return std::max( info.min_time,
+                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
 static void cycle_action( item &weap, const tripoint &pos )
@@ -2451,7 +2432,7 @@ double player::gun_value( const item &weap, int ammo ) const
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = time_to_fire( *this, *weap.type );
+    int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
         int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );

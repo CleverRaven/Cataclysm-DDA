@@ -20,6 +20,15 @@ class JsonOut;
 class recipe;
 class item;
 
+struct time_info_t {
+    // Absolute floor on the time taken to attack.
+    int min_time = 50;
+    // The base or max time taken to attack.
+    int base_time = 220;
+    // The reduction in time given per skill level.
+    int time_reduction_per_level = 25;
+};
+
 class Skill
 {
         friend class string_id<Skill>;
@@ -28,6 +37,7 @@ class Skill
         translation _name;
         translation _description;
         std::set<std::string> _tags;
+        time_info_t _time_to_attack;
         skill_displayType_id _display_type;
         std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
@@ -67,6 +77,9 @@ class Skill
         }
         skill_displayType_id display_category() const {
             return _display_type;
+        }
+        time_info_t time_to_attack() const {
+            return _time_to_attack;
         }
         int companion_combat_rank_factor() const {
             return _companion_combat_rank_factor;
