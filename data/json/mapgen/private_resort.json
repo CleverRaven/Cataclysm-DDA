@@ -80,7 +80,7 @@
         { "vehicle": "policesuv", "x": 11, "y": 7, "chance": 25, "rotation": 90, "status": -1 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_RAID", "x": [ 4, 20 ], "y": [ 3, 9 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE_COP", "x": [ 4, 20 ], "y": [ 3, 9 ], "density": 0.5 },
         { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [ 5, 23 ], "y": [ 11, 23 ], "density": 0.5 }
       ]
     }
@@ -215,12 +215,12 @@
         { "chance": 25, "item": "stash_drugs", "x": [ 15, 16 ], "y": [ 4, 6 ], "repeat": [ 1, 2 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 10, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 15, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 20, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 50, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 10, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
       ]
     }
   },
@@ -259,12 +259,12 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 0, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 11, "chance": 50, "rotation": 0, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 16, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 0, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 11, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 16, "chance": 50, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 11, "chance": 20, "rotation": 0, "status": -1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 0, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
       ]
     }
   },
@@ -386,7 +386,7 @@
         { "chance": 60, "item": "bar_alcohol", "x": [ 13, 13 ], "y": [ 5, 8 ], "repeat": [ 2, 6 ] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_POOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.5 },
+        { "monster": "GROUP_POOL_NOKIDS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.5 },
         { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
       ]
     }
@@ -441,7 +441,7 @@
         { "vehicle": "police_pileup", "x": 19, "y": 20, "chance": 25, "rotation": 0, "status": 1 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_RAID", "x": [ 0, 23 ], "y": [ 10, 23 ], "density": 0.5 },
+        { "monster": "GROUP_ZOMBIE_COP", "x": [ 0, 23 ], "y": [ 10, 23 ], "density": 0.5 },
         { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 9 ], "repeat": [ 0, 1 ], "density": 0.5 }
       ]
     }
@@ -669,12 +669,12 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 10, "chance": 50, "rotation": 0, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 15, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 20, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 50, "rotation": 180, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 50, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 10, "chance": 20, "rotation": 0, "status": -1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": -1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
       ],
       "place_items": [
         { "chance": 50, "item": "coffee_table", "x": 4, "y": 1, "repeat": [ 2, 5 ] },
@@ -737,12 +737,12 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 0, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 11, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 16, "chance": 50, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 0, "chance": 50, "rotation": 180, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 11, "chance": 50, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 16, "chance": 50, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 11, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 0, "chance": 20, "rotation": 180, "status": -1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
       ]
     }
   },

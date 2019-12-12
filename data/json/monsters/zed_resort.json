@@ -6,8 +6,7 @@
     "description": "This zombie is rather sleek and barely clothed.",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
-    "hp": 25,
-    "color": "green",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },
   {
@@ -17,6 +16,7 @@
     "description": "This zombie looks beefed and dressed in remainings of security uniform.",
     "copy-from": "mon_zombie_tough",
     "looks_like": "mon_zombie_tough",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_bouncer_death_drops"
   },
   {
@@ -24,6 +24,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_staff_death_drops"
   }
 ]
