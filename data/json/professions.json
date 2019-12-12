@@ -364,7 +364,7 @@
     "type": "profession",
     "ident": "sheltered_survivor",
     "name": "Sheltered Survivor",
-    "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
     "points": 4,
     "skills": [
       { "level": 2, "name": "tailor" },
@@ -389,7 +389,7 @@
     "type": "profession",
     "ident": "sheltered_militia",
     "name": "Sheltered Militia",
-    "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
@@ -457,7 +457,7 @@
     "type": "profession",
     "ident": "churl",
     "name": "Churl",
-    "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+    "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
     "points": 1,
     "items": {
       "both": {
@@ -478,7 +478,7 @@
     "type": "profession",
     "ident": "labtech",
     "name": "Lab Technician",
-    "description": "Thanks to your time in the lab, you're familiar with the basics of conducting science.  Now that the world has ended, only one question remains: Can you undo the very cataclysm you helped create?",
+    "description": "Thanks to your time in the lab, you're familiar with the basics of conducting science.  Now that the world has ended, only one question remains: Can you undo the very Cataclysm you helped create?",
     "points": 3,
     "skills": [
       { "level": 2, "name": "computer" },
@@ -554,7 +554,7 @@
     "type": "profession",
     "ident": "beekeeper",
     "name": "Beekeeper",
-    "description": "You used to be a professional beekeeper.  You had to abandon your precious bees when the cataclysm struck, but at least you managed to grab some utensils and honey.",
+    "description": "You used to be a professional beekeeper.  You had to abandon your precious bees when the Cataclysm struck, but at least you managed to grab some utensils and honey.",
     "points": 2,
     "skills": [ { "name": "survival", "level": 2 }, { "name": "fabrication", "level": 1 } ],
     "items": {
@@ -581,7 +581,7 @@
     "type": "profession",
     "ident": "basketball_player",
     "name": "Basketball Player",
-    "description": "It was going to be your first major game, but then the cataclysm struck.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+    "description": "It was going to be your first major game, but then the Cataclysm struck.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
     "points": 1,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
@@ -743,7 +743,7 @@
     "type": "profession",
     "ident": "maid",
     "name": { "male": "Butler", "female": "Maid" },
-    "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
+    "description": "You worked in a wealthy household, but after the Cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
@@ -1095,7 +1095,7 @@
     "type": "profession",
     "ident": "detective",
     "name": "Police Detective",
-    "description": "You were on the brink of a major breakthrough in your last homicide case when the cataclysm struck.  Now that suspect is dead.  Everyone's dead.  You need a smoke.",
+    "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck.  Now that suspect is dead.  Everyone's dead.  You need a smoke.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
     "items": {
@@ -1448,7 +1448,7 @@
     "type": "profession",
     "ident": "electrician",
     "name": "Electrician",
-    "description": "You used to work for some small-time business owners doing minor electrical work, and you just so happened to be working on one of these jokes of an evac shelter when the cataclysm struck.  Unfortunately, you didn't finish wiring anything up except the computer - fat lot of good it's doing you now.",
+    "description": "You used to work for some small-time business owners doing minor electrical work, and you just so happened to be working on one of these jokes of an evac shelter when the Cataclysm struck.  Unfortunately, you didn't finish wiring anything up except the computer - fat lot of good it's doing you now.",
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
@@ -1507,7 +1507,7 @@
     "type": "profession",
     "ident": "svictim",
     "name": "Shower Victim",
-    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
+    "description": "You were in the middle of a nice, hot shower when the Cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
     "points": -1,
     "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
@@ -1531,7 +1531,7 @@
     "type": "profession",
     "ident": "dancer",
     "name": "Ballroom Dancer",
-    "description": "You used to be a ballroom dancer before the cataclysm, and now you use your skills to save your life.",
+    "description": "You used to be a ballroom dancer before the Cataclysm, and now you use your skills to save your life.",
     "points": 0,
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
@@ -1599,7 +1599,7 @@
     "type": "profession",
     "ident": "mutant_volunteer",
     "name": "Volunteer Mutant",
-    "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the cataclysm struck, you and the scientists were ready to put your new body to the test.",
+    "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the Cataclysm struck, you and the scientists were ready to put your new body to the test.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "electronics" } ],
     "items": {
@@ -2180,7 +2180,7 @@
     "type": "profession",
     "ident": "spouse",
     "name": { "male": "Groom", "female": "Bride" },
-    "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
+    "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_cell_phone" } ] },
@@ -2245,7 +2245,7 @@
     "type": "profession",
     "ident": "skaboy",
     "name": { "male": "Rude Boy", "female": "Rude Girl" },
-    "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the cataclysm with some cigarettes and your mp3 player.",
+    "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the Cataclysm with some cigarettes and your mp3 player.",
     "points": 0,
     "items": {
       "both": {
@@ -2298,7 +2298,7 @@
     "type": "profession",
     "ident": "convict",
     "name": "Convict",
-    "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
+    "description": "The Cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "items": {
@@ -2356,7 +2356,7 @@
     "type": "profession",
     "ident": "convict_political",
     "name": "Political Prisoner",
-    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the cataclysm if it weren't for that misdemeanor charge.",
+    "description": "Exposing what was going on in those labs was a noble idea. You insist you could have stopped the Cataclysm if it weren't for that misdemeanor charge.",
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
@@ -2589,7 +2589,7 @@
     "type": "profession",
     "ident": "rabbi",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
     "points": 0,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
@@ -2714,7 +2714,7 @@
     "type": "profession",
     "ident": "boxer",
     "name": "Boxer",
-    "description": "You were training for the fight of your life before the cataclysm struck.  Now you fight just to keep yourself alive.",
+    "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
     "points": 3,
     "traits": [ "PROF_BOXER" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
@@ -2740,7 +2740,7 @@
     "type": "profession",
     "ident": "pizzaboy",
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
-    "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
+    "description": "You were delivering the last pizza of the night to the local cryogenics lab when the Cataclysm hit.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
     "items": {
@@ -2801,7 +2801,7 @@
     "type": "profession",
     "ident": "paperboy",
     "name": { "male": "Paperboy", "female": "Papergirl" },
-    "description": "You were delivering the morning paper along your usual route when the cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
+    "description": "You were delivering the morning paper along your usual route when the Cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
     "points": 3,
     "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
     "items": {
@@ -2863,7 +2863,7 @@
     "type": "profession",
     "ident": "farmer",
     "name": "Farmer",
-    "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and some seeds it's time to rebuild the Earth, one plant at a time.",
+    "description": "You were making a living by raising crops, when the Cataclysm struck.  Now, with your trusty hoe and some seeds it's time to rebuild the Earth, one plant at a time.",
     "points": 1,
     "items": {
       "both": {
@@ -2911,7 +2911,7 @@
     "type": "profession",
     "ident": "winter_scavenger",
     "name": "Hardened Scavenger",
-    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
+    "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
     "skills": [
       { "level": 5, "name": "melee" },
@@ -3265,7 +3265,7 @@
     "type": "profession",
     "ident": "jr_survivalist",
     "name": "Survivalist Jr.",
-    "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
+    "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
     "items": {
@@ -3856,7 +3856,7 @@
     "type": "profession",
     "ident": "musician",
     "name": "Musician",
-    "description": "You were just about to hit the stage when the cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
+    "description": "You were just about to hit the stage when the Cataclysm struck.  You weren't able to grab much during the panic, but at least you have your loaded six string on your back.",
     "points": -1,
     "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "items": {
