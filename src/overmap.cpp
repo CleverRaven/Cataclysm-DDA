@@ -62,7 +62,7 @@ class map_extra;
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
 
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -332,7 +332,7 @@ std::string overmap_land_use_code::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
+void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     assign( jo, "land_use_code", land_use_code, strict );
@@ -360,7 +360,7 @@ void overmap_land_use_code::check() const
 
 }
 
-void overmap_land_use_codes::load( JsonObject &jo, const std::string &src )
+void overmap_land_use_codes::load( const JsonObject &jo, const std::string &src )
 {
     land_use_codes.load( jo, src );
 }
@@ -387,12 +387,12 @@ const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
     return land_use_codes.get_all();
 }
 
-void overmap_specials::load( JsonObject &jo, const std::string &src )
+void overmap_specials::load( const JsonObject &jo, const std::string &src )
 {
     specials.load( jo, src );
 }
 
-void city_buildings::load( JsonObject &jo, const std::string &src )
+void city_buildings::load( const JsonObject &jo, const std::string &src )
 {
     // Just an alias
     overmap_specials::load( jo, src );
@@ -525,7 +525,7 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::string &id_base,
         const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
@@ -539,14 +539,8 @@ static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_
         }
     }
     if( jo.has_array( jsonkey ) ) {
-        JsonArray ja = jo.get_array( jsonkey );
-        int c = 0;
-        while( ja.has_more() ) {
-            if( ja.has_object( c ) ) {
-                JsonObject jio = ja.next_object();
-                load_mapgen_function( jio, fmapkey, default_idx );
-            }
-            c++;
+        for( JsonObject jio : jo.get_array( jsonkey ) ) {
+            load_mapgen_function( jio, fmapkey, default_idx );
         }
     }
 }
@@ -556,7 +550,7 @@ std::string oter_type_t::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void oter_type_t::load( JsonObject &jo, const std::string &src )
+void oter_type_t::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -776,7 +770,7 @@ bool oter_t::is_hardcoded() const
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
 }
 
-void overmap_terrains::load( JsonObject &jo, const std::string &src )
+void overmap_terrains::load( const JsonObject &jo, const std::string &src )
 {
     terrain_types.load( jo, src );
 }
@@ -880,7 +874,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     return city_distance.contains( cit.get_distance_from( p ) );
 }
 
-void overmap_special::load( JsonObject &jo, const std::string &src )
+void overmap_special::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special

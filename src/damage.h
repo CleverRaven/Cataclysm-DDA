@@ -108,13 +108,13 @@ std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 
-damage_instance load_damage_instance( JsonObject &jo );
+damage_instance load_damage_instance( const JsonObject &jo );
 damage_instance load_damage_instance( JsonArray &jarr );
 
-resistances load_resistances_instance( JsonObject &jo );
+resistances load_resistances_instance( const JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, NUM_DT> load_damage_array( JsonObject &jo );
+std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
 
 #endif

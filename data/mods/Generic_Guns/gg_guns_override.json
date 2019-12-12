@@ -231,7 +231,7 @@
     "copy-from": "emp_gun",
     "type": "GUN",
     "name": "EMP Projector",
-    "description": "A powerful electrolaser developed by paramilitary R&D not long before the cataclysm.  Especially effective against electronic targets.  It charges off of UPS power stations."
+    "description": "A powerful electrolaser developed by paramilitary R&D not long before the Cataclysm.  Especially effective against electronic targets.  It charges off of UPS power stations."
   },
   {
     "id": "laser_cannon",
@@ -245,7 +245,7 @@
     "copy-from": "laser_rifle",
     "type": "GUN",
     "name": "laser rifle",
-    "description": "A state of the art laser rifle which runs on UPS power.  It was developed by paramilitary R&D shortly before the cataclysm.  Initial performance rivaled the most advanced ballistic weapons of the day.  Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
+    "description": "A state of the art laser rifle which runs on UPS power.  It was developed by paramilitary R&D shortly before the Cataclysm.  Initial performance rivaled the most advanced ballistic weapons of the day.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes."
   },
   {
     "id": "v29",

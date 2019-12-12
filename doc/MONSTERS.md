@@ -200,6 +200,21 @@ An item group that is used to spawn items when the monster dies. This can be an 
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
 
+## "regenerates"
+(integer, optional)
+
+Number of hitpoints regenerated per turn.
+
+## "regenerates_in_dark"
+(boolean, optional)
+
+Monster regenerates very quickly in poorly lit tiles.
+
+## "regen_morale"
+(boolean, optional)
+
+Will stop fleeing if at max hp, and regen anger and morale.
+
 ## "special_attack"
 (array of special attack definitions, optional)
 

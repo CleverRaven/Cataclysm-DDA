@@ -12,6 +12,17 @@
   },
   {
     "type": "recipe",
+    "result": "soapy_water",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "detergent", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "saline",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",

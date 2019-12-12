@@ -32,7 +32,8 @@ static void curses_check_result( const int result, const int expected, const cha
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
 {
-    const auto w = ::newwin( nlines, ncols, begin.y, begin.x ); // TODO: check for errors
+    // TODO: check for errors
+    const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -225,7 +226,8 @@ void catacurses::init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make Escape actually responsive
-    start_color(); // TODO: error checking
+    // TODO: error checking
+    start_color();
     init_colors();
 }
 

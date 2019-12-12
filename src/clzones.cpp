@@ -123,12 +123,12 @@ const std::vector<zone_type> &zone_type::get_all()
     return zone_type_factory.get_all();
 }
 
-void zone_type::load_zones( JsonObject &jo, const std::string &src )
+void zone_type::load_zones( const JsonObject &jo, const std::string &src )
 {
     zone_type_factory.load( jo, src );
 }
 
-void zone_type::load( JsonObject &jo, const std::string & )
+void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
@@ -311,7 +311,7 @@ void loot_options::serialize( JsonOut &json ) const
     json.member( "mark", mark );
 }
 
-void loot_options::deserialize( JsonObject &jo_zone )
+void loot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
 }
@@ -386,7 +386,7 @@ void blueprint_options::serialize( JsonOut &json ) const
     json.member( "index", index );
 }
 
-void blueprint_options::deserialize( JsonObject &jo_zone )
+void blueprint_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "con", con );
@@ -399,7 +399,7 @@ void plot_options::serialize( JsonOut &json ) const
     json.member( "seed", seed );
 }
 
-void plot_options::deserialize( JsonObject &jo_zone )
+void plot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "seed", seed );

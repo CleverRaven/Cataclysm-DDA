@@ -329,7 +329,7 @@ void Messages::serialize( JsonOut &json )
     json.end_object();
 }
 
-void Messages::deserialize( JsonObject &json )
+void Messages::deserialize( const JsonObject &json )
 {
     if( !json.has_member( "player_messages" ) ) {
         return;

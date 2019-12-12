@@ -1093,9 +1093,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
-                       // NOLINTNEXTLINE(cata-text-style): literal comma
                        .description( string_format(
-                                         _( "Multiple entries separated with , Excludes starting with -\n"
+                                         _( "Multiple entries separated with comma (,).  Excludes starting with hyphen (-)\n"
                                             "Current search radius is %d.  It can be changed in options." ),
                                          radius ) )
                        .query_string();

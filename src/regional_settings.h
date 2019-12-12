@@ -260,9 +260,9 @@ using t_regional_settings_map = std::unordered_map<std::string, regional_setting
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
-void load_region_settings( JsonObject &jo );
+void load_region_settings( const JsonObject &jo );
 void reset_region_settings();
-void load_region_overlay( JsonObject &jo );
-void apply_region_overlay( JsonObject &jo, regional_settings &region );
+void load_region_overlay( const JsonObject &jo );
+void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
 #endif

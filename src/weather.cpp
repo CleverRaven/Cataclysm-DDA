@@ -37,10 +37,9 @@
 #include "player_activity.h"
 #include "regional_settings.h"
 
-const efftype_id effect_glare( "glare" );
-const efftype_id effect_snow_glare( "snow_glare" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_glare( "glare" );
+static const efftype_id effect_snow_glare( "snow_glare" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -106,6 +105,9 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
+        case WEATHER_LIGHT_DRIZZLE:
+            data.rain_amount += 1 * to_turns<int>( tick_size );
+            break;
         case WEATHER_DRIZZLE:
             data.rain_amount += 4 * to_turns<int>( tick_size );
             break;
@@ -388,6 +390,7 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
+        p == PRECIP_VERY_LIGHT ? 0.5 :
         p == PRECIP_LIGHT ? 1.5 :
         p == PRECIP_HEAVY ? 3   :
         0;
@@ -399,9 +402,20 @@ void do_rain( weather_type const w )
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
-    bool light = weather::precip( w ) == PRECIP_LIGHT;
-    g->m.decay_fields_and_scent( light ? 15_turns : 45_turns );
-    wet_player( light ? 30 : 60 );
+    int wetness = 0;
+    time_duration decay_time = 60_turns;
+    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+        wetness = 5;
+        decay_time = 5_turns;
+    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+        wetness = 30;
+        decay_time = 15_turns;
+    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+        decay_time = 45_turns;
+        wetness = 60;
+    }
+    g->m.decay_fields_and_scent( decay_time );
+    wet_player( wetness );
 }
 
 void weather_effect::none()
@@ -624,7 +638,7 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && ( ( started_at_night && !( d % 2 ) ) || ( !started_at_night && d % 2 ) ) ) {
+        if( d > 0 && started_at_night != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );

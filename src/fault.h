@@ -63,7 +63,7 @@ class fault
         }
 
         /** Load fault from JSON definition */
-        static void load_fault( JsonObject &jo );
+        static void load_fault( const JsonObject &jo );
 
         /** Get all currently loaded faults */
         static const std::map<fault_id, fault> &all();

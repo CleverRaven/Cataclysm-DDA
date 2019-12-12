@@ -246,8 +246,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
         const tripoint displacement = starting_point - veh.global_pos3();
-        tripoint veh_pos = veh.global_pos3();
-        g->m.displace_vehicle( veh_pos, displacement );
+        g->m.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;
         }

@@ -41,16 +41,16 @@ class npc_template;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-const mtype_id mon_ant_larva( "mon_ant_larva" );
-const mtype_id mon_ant_queen( "mon_ant_queen" );
-const mtype_id mon_bat( "mon_bat" );
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_beekeeper( "mon_beekeeper" );
-const mtype_id mon_rat_king( "mon_rat_king" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_bat( "mon_bat" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_beekeeper( "mon_beekeeper" );
+static const mtype_id mon_rat_king( "mon_rat_king" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )
 {

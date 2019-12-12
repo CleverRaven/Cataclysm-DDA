@@ -119,7 +119,6 @@ void player_activity::do_turn( player &p )
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
-
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100;
@@ -138,9 +137,17 @@ void player_activity::do_turn( player &p )
         }
     }
     int previous_stamina = p.get_stamina();
+    if( p.is_npc() && p.check_outbounds_activity( *this ) ) {
+        // npc might be operating at the edge of the reality bubble.
+        // or just now reloaded back into it, and their activity target might
+        // be still unloaded, can cause infinite loops.
+        set_to_null();
+        p.drop_invalid_inventory();
+        return;
+    }
+
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
-
     // Activities should never excessively drain stamina.
     if( p.get_stamina() < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {

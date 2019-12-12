@@ -1406,19 +1406,19 @@ bool WORLD::load_options()
     return false;
 }
 
-void load_world_option( JsonObject &jo )
+void load_world_option( const JsonObject &jo )
 {
     auto arr = jo.get_array( "options" );
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    while( arr.has_more() ) {
-        get_options().get_option( arr.next_string() ).setValue( "true" );
+    for( const std::string &line : arr ) {
+        get_options().get_option( line ).setValue( "true" );
     }
 }
 
 //load external option from json
-void load_external_option( JsonObject &jo )
+void load_external_option( const JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );
