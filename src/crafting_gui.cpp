@@ -82,7 +82,7 @@ void load_recipe_category( const JsonObject &jsobj )
 
         const std::string cat_name = get_cat_unprefixed( category );
 
-        craft_subcat_list[category] = std::vector<std::string>();
+        craft_subcat_list[category].clear();
         JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
         while( subcats.has_more() ) {
             const std::string subcat_id = subcats.next_string();
