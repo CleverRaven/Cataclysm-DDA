@@ -8,6 +8,42 @@
 #include "game.h"
 #include "itype.h"
 
+nutrients &nutrients::operator+=( const nutrients &r )
+{
+    kcal += r.kcal;
+    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
+        vitamins[vit.first] += vit.second;
+    }
+    return *this;
+}
+
+nutrients &nutrients::operator-=( const nutrients &r )
+{
+    kcal -= r.kcal;
+    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
+        vitamins[vit.first] -= vit.second;
+    }
+    return *this;
+}
+
+nutrients &nutrients::operator*=( int r )
+{
+    kcal *= r;
+    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
+        vit.second *= r;
+    }
+    return *this;
+}
+
+nutrients &nutrients::operator/=( int r )
+{
+    kcal = divide_round_up( kcal, r );
+    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
+        vit.second = divide_round_up( vit.second, r );
+    }
+    return *this;
+}
+
 stomach_contents::stomach_contents() = default;
 
 stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
@@ -25,8 +61,8 @@ static std::string ml_to_string( units::volume vol )
 void stomach_contents::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "vitamins", vitamins );
-    json.member( "calories", calories );
+    json.member( "vitamins", nutr.vitamins );
+    json.member( "calories", nutr.kcal );
     json.member( "water", ml_to_string( water ) );
     json.member( "max_volume", ml_to_string( max_volume ) );
     json.member( "contents", ml_to_string( contents ) );
@@ -42,8 +78,8 @@ static units::volume string_to_ml( const std::string &str )
 void stomach_contents::deserialize( JsonIn &json )
 {
     JsonObject jo = json.get_object();
-    jo.read( "vitamins", vitamins );
-    jo.read( "calories", calories );
+    jo.read( "vitamins", nutr.vitamins );
+    jo.read( "calories", nutr.kcal );
     std::string str;
     jo.read( "water", str );
     water = string_to_ml( str );
@@ -82,21 +118,18 @@ units::volume stomach_contents::contains() const
     return contents + water;
 }
 
-void stomach_contents::ingest( const nutrients &ingested )
+void stomach_contents::ingest( const food_summary &ingested )
 {
     contents += ingested.solids;
     water += ingested.water;
-    calories += ingested.kcal;
-    for( const std::pair<const vitamin_id, int> &vit : ingested.vitamins ) {
-        vitamins[vit.first] += vit.second;
-    }
+    nutr += ingested.nutr;
     ate();
 }
 
-nutrients stomach_contents::digest( const Character &owner, const needs_rates &metabolic_rates,
-                                    int five_mins, int half_hours )
+food_summary stomach_contents::digest( const Character &owner, const needs_rates &metabolic_rates,
+                                       int five_mins, int half_hours )
 {
-    nutrients digested;
+    food_summary digested;
     stomach_digest_rates rates = get_digest_rates( metabolic_rates, owner );
 
     // Digest water, but no more than in stomach.
@@ -105,12 +138,6 @@ nutrients stomach_contents::digest( const Character &owner, const needs_rates &m
 
     // If no half-hour intervals have passed, we only process water, so bail out early.
     if( half_hours == 0 ) {
-        // We need to initialize these to zero first, though.
-        digested.kcal = 0;
-        digested.solids = 0_ml;
-        for( const std::pair<const vitamin_id, int> &vit : digested.vitamins ) {
-            digested.vitamins[vit.first] = 0;
-        }
         return digested;
     }
 
@@ -120,26 +147,25 @@ nutrients stomach_contents::digest( const Character &owner, const needs_rates &m
 
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
-    digested.kcal = half_hours * clamp( rates.min_kcal,
-                                        static_cast<int>( round( calories * rates.percent_kcal ) ), calories );
-    calories -= digested.kcal;
+    int kcal_fraction = lround( nutr.kcal * rates.percent_kcal );
+    digested.nutr.kcal = half_hours * clamp( rates.min_kcal, kcal_fraction, nutr.kcal );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
-    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
-        digested.vitamins[vit.first] = half_hours * clamp( rates.min_vitamin,
-                                       static_cast<int>( round( vit.second * rates.percent_vitamin ) ), vit.second );
-        vitamins[vit.first] -= digested.vitamins[vit.first];
+    for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
+        int vit_fraction = lround( vit.second * rates.percent_vitamin );
+        digested.nutr.vitamins[vit.first] =
+            half_hours * clamp( rates.min_vitamin, vit_fraction, vit.second );
     }
 
+    nutr -= digested.nutr;
     return digested;
 }
 
 void stomach_contents::empty()
 {
-    calories = 0;
+    nutr = nutrients{};
     water = 0_ml;
     contents = 0_ml;
-    vitamins.clear();
 }
 
 stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates,
@@ -170,11 +196,11 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
 
 void stomach_contents::mod_calories( int cal )
 {
-    if( -cal >= calories ) {
-        calories = 0;
+    if( -cal >= nutr.kcal ) {
+        nutr.kcal = 0;
         return;
     }
-    calories += cal;
+    nutr.kcal += cal;
 }
 
 void stomach_contents::mod_nutr( int nutr )
@@ -206,7 +232,7 @@ void stomach_contents::mod_contents( units::volume vol )
 
 int stomach_contents::get_calories() const
 {
-    return calories;
+    return nutr.kcal;
 }
 
 units::volume stomach_contents::get_water() const

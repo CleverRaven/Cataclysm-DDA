@@ -79,9 +79,8 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
-const skill_id skill_mechanics( "mechanics" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -1163,7 +1162,9 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
-                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3;
+                // An animal that can carry twice as much weight, can pull a cart twice as hard.
+                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
+                      * ( mon->get_mountable_weight_ratio() * 5 );
             } else {
                 pwr = 0;
             }
@@ -3705,7 +3706,7 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
+            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
                 vp.part().blood--;
             }
         }

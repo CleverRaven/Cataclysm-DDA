@@ -74,30 +74,24 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_speech( "speech" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_traps( "traps" );
-const skill_id skill_archery( "archery" );
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
-const zone_type_id z_camp_food( "CAMP_FOOD" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id z_camp_food( "CAMP_FOOD" );
 
 struct mass_volume {
     units::mass wgt;
@@ -3689,7 +3683,7 @@ bool basecamp::distribute_food()
                 g->m.add_item_or_charges( litter_spread, i, false );
                 i = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible()->fun < -6 ) ) {
+            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
                 keep_me.push_back( i );
             } else if( i.is_food() ) {
                 double rot_multip;
@@ -3701,7 +3695,7 @@ bool basecamp::distribute_food()
                 } else {
                     rot_multip = quick_rot;
                 }
-                total += i.get_comestible()->get_calories() * rot_multip * i.count();
+                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
             } else {
                 keep_me.push_back( i );
             }

@@ -119,7 +119,7 @@ namespace std
 {
 template<typename T>
 struct hash< int_id<T> > {
-    std::size_t operator()( const int_id<T> &v ) const {
+    std::size_t operator()( const int_id<T> &v ) const noexcept {
         return hash<int>()( v.to_i() );
     }
 };

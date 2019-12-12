@@ -250,7 +250,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
@@ -280,7 +280,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
@@ -306,7 +306,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param begin The coordinates of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
@@ -476,15 +476,24 @@ struct item_info_data {
         std::string sTypeName;
         std::vector<iteminfo> vItemDisplay;
         std::vector<iteminfo> vItemCompare;
+        int selected = 0;
+
     public:
 
         item_info_data() = default;
+
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                        const int selected = 0 )
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
             : sItemName( sItemName ), sTypeName( sTypeName ),
               vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( selected ) {}
+              selected( 0 ), ptr_selected( &selected ) {}
+
+        item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+                        int &ptr_selected )
+            : sItemName( sItemName ), sTypeName( sTypeName ),
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+              ptr_selected( &ptr_selected ) {}
 
         const std::string &get_item_name() const {
             return sItemName;
@@ -499,7 +508,7 @@ struct item_info_data {
             return vItemCompare;
         }
 
-        int selected = 0;
+        int *ptr_selected = &selected;
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;

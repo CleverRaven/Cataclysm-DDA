@@ -17,7 +17,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "int_id.h"
-#include "io.h"
+#include "cata_io.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -201,11 +201,10 @@ void game::unserialize( std::istream &fin )
         }
         data.read( "active_monsters", *critter_tracker );
 
-        JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
-        while( vdata.has_more() ) {
+        for( auto elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
-            vdata.read_next( stairtmp );
+            elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -215,16 +214,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            JsonObject odata = data.get_object( "kills" );
-            std::set<std::string> members = odata.get_member_names();
-            for( const auto &member : members ) {
-                kills[mtype_id( member )] = odata.get_int( member );
+            for( const JsonMember &member : data.get_object( "kills" ) ) {
+                kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            vdata = data.get_array( "npc_kills" );
-            while( vdata.has_more() ) {
-                std::string npc_name;
-                vdata.read_next( npc_name );
+            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -272,16 +266,11 @@ void game::load_shortcuts( std::istream &fin )
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
-            JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                JsonArray ja = qs.get_array( *it );
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
-                while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
+            for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
+                for( const int i : member.get_array() ) {
+                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -316,11 +305,10 @@ void game::save_shortcuts( std::ostream &fout )
 
 std::unordered_set<std::string> obsolete_terrains;
 
-void overmap::load_obsolete_terrains( JsonObject &jo )
+void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    JsonArray ja = jo.get_array( "terrains" );
-    while( ja.has_more() ) {
-        obsolete_terrains.emplace( ja.next_string() );
+    for( const std::string &line : jo.get_array( "terrains" ) ) {
+        obsolete_terrains.emplace( line );
     }
 }
 
@@ -897,7 +885,8 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // TODO: optimize
+                    // TODO: optimize
+                    settings = rit->second;
                 }
             }
         } else if( name == "mongroups" ) {

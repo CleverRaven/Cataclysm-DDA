@@ -129,7 +129,8 @@ void uilist::init()
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    textalign = MENU_ALIGN_LEFT; // TODO:
+    // TODO:
+    textalign = MENU_ALIGN_LEFT;
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
@@ -142,7 +143,8 @@ void uilist::init()
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
     footer_text.clear();   // takes precedence over per-entry descriptions.
-    border = true;         // TODO: always true.
+    // TODO: always true.
+    border = true;
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -186,7 +188,8 @@ void uilist::filterlist()
 {
     bool notfiltering = ( !filtering || filter.empty() );
     int num_entries = entries.size();
-    bool nocase = filtering_nocase; // TODO: && is_all_lc( filter )
+    // TODO: && is_all_lc( filter )
+    bool nocase = filtering_nocase;
     std::string fstr;
     fstr.reserve( filter.size() );
     if( nocase ) {
@@ -235,7 +238,8 @@ void uilist::filterlist()
  */
 std::string uilist::inputfilter()
 {
-    std::string identifier; // TODO: uilist.filter_identifier ?
+    // TODO: uilist.filter_identifier ?
+    std::string identifier;
     mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
     mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
     /*
@@ -376,7 +380,8 @@ void uilist::setup()
             }
         } else {
             if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-                w_width = txtwidth + pad + 4 + clen;    // TODO: or +5 if header
+                // TODO: or +5 if header
+                w_width = txtwidth + pad + 4 + clen;
             }
         }
         if( desc_enabled ) {
@@ -712,7 +717,8 @@ void uilist::redraw( bool redraw_callback )
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
         mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
     }
-    ( void )redraw_callback; // TODO: something
+    // TODO: something
+    ( void )redraw_callback;
     /*
     // pending tests on if this is needed
         if ( redraw_callback && callback != NULL ) {
@@ -968,7 +974,8 @@ void pointmenu_cb::refresh( uilist *menu )
     last = menu->selected;
     const tripoint &center = points[menu->selected];
     g->u.view_offset = center - g->u.pos();
-    g->u.view_offset.z = 0; // TODO: Remove this line when it's safe
+    // TODO: Remove this line when it's safe
+    g->u.view_offset.z = 0;
     g->draw_trail_to_square( g->u.view_offset, true );
     menu->redraw( false );
     menu->show();

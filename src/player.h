@@ -622,7 +622,7 @@ class player : public Character
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( int target_position );
+        bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &target );
@@ -653,8 +653,6 @@ class player : public Character
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
-        /** Handles the kcal value for a comestible **/
-        int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
@@ -670,9 +668,9 @@ class player : public Character
 
         std::pair<std::string, nc_color> get_pain_description() const override;
 
-        /** Get vitamin contents for a comestible */
-        std::map<vitamin_id, int> vitamins_from( const item &it ) const;
-        std::map<vitamin_id, int> vitamins_from( const itype_id &id ) const;
+        /** Get calorie & vitamin contents for a comestible, taking into
+         * account player traits */
+        nutrients compute_effective_nutrients( const item & ) const;
 
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
@@ -1100,8 +1098,9 @@ class player : public Character
 
         // yet more crafting.cpp
         // includes nearby items
+        const inventory &crafting_inventory( bool clear_path );
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE );
+                                             int radius = PICKUP_RANGE, bool clear_path = true );
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
@@ -1295,7 +1294,7 @@ class player : public Character
         trap_map known_traps;
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;

@@ -60,22 +60,20 @@
 #include "mongroup.h"
 #include "teleport.h"
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
-const efftype_id effect_badpoison( "badpoison" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_relax_gas( "relax_gas" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_stung( "stung" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_teargas( "teargas" );
-const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -1233,7 +1231,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Bees chase the player if in range, wander randomly otherwise.
                         if( !g->u.is_underwater() &&
                             rl_dist( p, g->u.pos() ) < 10 &&
-                            clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
+                            clear_path( p, g->u.pos(), 10, 1, 100 ) ) {
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
@@ -1602,47 +1600,22 @@ void map::player_in_field( player &u )
         if( ft == fd_bees ) {
             // Player is immune to bees while underwater.
             if( !u.is_underwater() ) {
-                int times_stung = 0;
                 const int intensity = cur.get_field_intensity();
-                // If the bees can get at you, they cause steadily increasing pain.
-                // TODO: Specific stinging messages.
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                times_stung += one_in( 4 ) &&
-                               u.add_env_effect( effect_stung, bp_torso, intensity, 9_minutes );
-                switch( times_stung ) {
-                    case 0:
-                        // Woo, unscathed!
-                        break;
-                    case 1:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you!" ) );
-                        break;
-                    case 2:
-                    case 3:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you several times!" ) );
-                        break;
-                    case 4:
-                    case 5:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you many times!" ) );
-                        break;
-                    case 6:
-                    case 7:
-                    case 8:
-                    default:
-                        u.add_msg_if_player( m_bad, _( "The bees sting you all over your body!" ) );
-                        break;
+                // Bees will try to sting you in random body parts, up to 8 times.
+                for( int i = 0; i < rng( 1, 7 ); i++ ) {
+                    body_part bp = random_body_part();
+                    int sum_cover = 0;
+                    for( const item &i : u.worn ) {
+                        if( i.covers( bp ) ) {
+                            sum_cover += i.get_coverage();
+                        }
+                    }
+                    // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
+                    // AND clothing on affected body part has low environmental protection value
+                    if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
+                        u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
+                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ), body_part_name_accusative( bp ) );
+                    }
                 }
             }
         }
@@ -1781,7 +1754,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_acid ) {
-            if( !z.has_flag( MF_FLIES ) ) {
+            if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
@@ -1793,7 +1766,7 @@ void map::monster_in_field( monster &z )
             cur.set_field_intensity( cur.get_field_intensity() - 1 );
         }
         if( cur_field_type == fd_sludge ) {
-            if( !z.has_flag( MF_DIGS ) && !z.has_flag( MF_FLIES ) &&
+            if( !z.digs() && !z.flies() &&
                 !z.has_flag( MF_SLUDGEPROOF ) ) {
                 z.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
@@ -1817,7 +1790,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flameres ) ) {
                 dam += -20;
             }
-            if( z.has_flag( MF_FLIES ) ) {
+            if( z.flies() ) {
                 dam -= 15;
             }
             dam -= z.get_armor_type( DT_HEAT, bp_torso );
@@ -1826,7 +1799,7 @@ void map::monster_in_field( monster &z )
                 dam += rng( 2, 6 );
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
-                if( !z.has_flag( MF_FLIES ) ) {
+                if( !z.flies() ) {
                     z.moves -= 20;
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
@@ -1834,7 +1807,7 @@ void map::monster_in_field( monster &z )
                 }
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
-                if( !z.has_flag( MF_FLIES ) || one_in( 3 ) ) {
+                if( !z.flies() || one_in( 3 ) ) {
                     z.moves -= 40;
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
