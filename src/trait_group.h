@@ -52,7 +52,7 @@ void load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
  * @param stream Stream to load from
  * @param default_subtype If an inlined trait group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Trait_group.
- * @throw std::string as usual for JSON errors, including invalid input values.
+ * @throw JsonError as usual for JSON errors, including invalid input values.
  */
 Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_subtype );
 

@@ -93,7 +93,7 @@ void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
  * @param stream Stream to load from
  * @param default_subtype If an inlined item group is loaded this is used as the default
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
- * @throw std::string as usual for JSON errors, including invalid input values.
+ * @throw JsonError as usual for JSON errors, including invalid input values.
  */
 Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
 } // namespace item_group
