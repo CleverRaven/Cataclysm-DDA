@@ -202,7 +202,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         JsonArray jarray = jo.get_array( "effects" );
         while( jarray.has_more() ) {
-            JsonObject effect_obj;
+            JsonObject effect_obj = jarray.next_object();
             time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
