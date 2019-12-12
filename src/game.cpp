@@ -2076,7 +2076,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     avatar_action::use_item( u, locThisItem );
                     break;
                 case 'E':
-                    eat( pos );
+                    avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
                     u.wear( oThisItem );
@@ -8332,101 +8332,6 @@ void game::butcher()
             salvage_iuse->cut_up( u, *salvage_tool, item_loc );
         }
         break;
-    }
-}
-
-void game::eat()
-{
-    eat( game_menus::inv::consume, INT_MIN );
-}
-
-void game::eat( int pos )
-{
-    eat( game_menus::inv::consume, pos );
-}
-
-void game::eat( item_location( *menu )( player &p ) )
-{
-    eat( menu, INT_MIN );
-}
-
-void game::eat( item_location( *menu )( player &p ), int pos )
-{
-    if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
-        ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
-        if( u.get_hunger() < 20 ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), m.ter( u.pos() )->name() );
-            return;
-        } else {
-            u.moves -= 400;
-            m.ter_set( u.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
-            item food( "underbrush", calendar::turn, 1 );
-            u.eat( food );
-            return;
-        }
-    }
-    if( u.has_active_mutation( trait_GRAZER ) && ( m.ter( u.pos() ) == t_grass ||
-            m.ter( u.pos() ) == t_grass_long || m.ter( u.pos() ) == t_grass_tall ) ) {
-        if( u.get_hunger() < 8 ) {
-            add_msg( _( "You're too full to graze." ) );
-            return;
-        } else {
-            u.moves -= 400;
-            add_msg( _( "You eat the grass." ) );
-            item food( item( "grass", calendar::turn, 1 ) );
-            u.eat( food );
-            m.ter_set( u.pos(), t_dirt );
-            if( m.ter( u.pos() ) == t_grass_tall ) {
-                m.ter_set( u.pos(), t_grass_long );
-            } else if( m.ter( u.pos() ) == t_grass_long ) {
-                m.ter_set( u.pos(), t_grass );
-            } else {
-                m.ter_set( u.pos(), t_dirt );
-            }
-            return;
-        }
-    }
-    if( u.has_active_mutation( trait_GRAZER ) ) {
-        if( m.ter( u.pos() ) == t_grass_golf ) {
-            add_msg( _( "This grass is too short to graze." ) );
-            return;
-        } else if( m.ter( u.pos() ) == t_grass_dead ) {
-            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
-            return;
-        } else if( m.ter( u.pos() ) == t_grass_white ) {
-            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
-            return;
-        }
-    }
-
-    if( pos != INT_MIN ) {
-        u.consume( pos );
-        return;
-    }
-
-    auto item_loc = menu( u );
-    if( !item_loc ) {
-        u.cancel_activity();
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    item *it = item_loc.get_item();
-    pos = u.get_item_position( it );
-    if( pos != INT_MIN ) {
-        u.consume( pos );
-
-    } else if( u.consume_item( *it ) ) {
-        if( it->is_food_container() || !u.can_consume_as_is( *it ) ) {
-            it->contents.erase( it->contents.begin() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            item_loc.remove_item();
-        }
-    }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
 }
 

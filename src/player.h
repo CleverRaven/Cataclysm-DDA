@@ -622,7 +622,7 @@ class player : public Character
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( int target_position );
+        bool consume( item_location loc );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &target );

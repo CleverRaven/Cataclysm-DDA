@@ -780,11 +780,6 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
     public:
-        /** Eat food or fuel  'E' (or 'a') */
-        void eat();
-        void eat( item_location( *menu )( player &p ) );
-        void eat( int pos );
-        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.

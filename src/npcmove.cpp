@@ -1629,7 +1629,8 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
         return false;
     }
     int old_moves = moves;
-    return consume( index ) && old_moves != moves;
+    item_location loc = item_location( *this, &i_at( index ) );
+    return consume( loc ) && old_moves != moves;
 }
 
 bool npc::recharge_cbm()
@@ -3573,7 +3574,8 @@ void npc::use_painkiller()
         if( g->u.sees( *this ) ) {
             add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
-        consume( inv.position_by_item( it ) );
+        item_location loc = item_location( *this, it );
+        consume( loc );
         moves = 0;
     }
 }
@@ -3730,7 +3732,8 @@ bool npc::consume_food()
     // consume doesn't return a meaningful answer, we need to compare moves
     // TODO: Make player::consume return false if it fails to consume
     int old_moves = moves;
-    bool consumed = consume( index ) && old_moves != moves;
+    item_location loc = item_location( *this, &i_at( index ) );
+    bool consumed = consume( loc ) && old_moves != moves;
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
