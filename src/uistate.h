@@ -206,9 +206,9 @@ class uistatedata
             }
             // viewing vehicle cargo
             if( jo.has_array( "adv_inv_in_vehicle" ) ) {
-                auto ja = jo.get_array( "adv_inv_in_vehicle" );
-                for( size_t i = 0; ja.has_more(); ++i ) {
-                    adv_inv_in_vehicle[i] = ja.next_bool();
+                const JsonArray ja = jo.get_array( "adv_inv_in_vehicle" );
+                for( size_t i = 0; i < adv_inv_in_vehicle.size() && i < ja.size(); ++i ) {
+                    adv_inv_in_vehicle[i] = ja.get_bool( i );
                 }
             }
             // filter strings
