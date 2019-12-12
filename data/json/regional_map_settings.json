@@ -143,15 +143,16 @@
     },
     "river_scale": 1.0,
     "field_coverage": {
-      "percent_coverage": 0.93,
+      "percent_coverage": 0.2,
       "default_ter": "t_shrub",
       "other": {
-        "t_region_tree": 1.2,
-        "t_region_shrub": 17,
-        "f_region_flower": 73,
-        "f_boulder_small": 1,
-        "f_boulder_medium": 0.6666,
-        "f_boulder_large": 0.3333
+        "t_region_tree": 1,
+        "t_region_shrub": 3,
+        "f_region_weed": 73,
+        "f_region_flower": 60,
+        "f_boulder_small": 5,
+        "f_boulder_medium": 4,
+        "f_boulder_large": 1
       },
       "boost_chance": 0.833,
       "boosted_percent_coverage": 2.5,
