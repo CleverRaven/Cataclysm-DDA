@@ -292,7 +292,7 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vehicles.json
 
 # Generic properties and formatting
-This section describes properties and formatting that are applied to all of the JSON files.
+This section describes properties and formatting applied to all of the JSON files.
 
 ## Generic properties
 A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
