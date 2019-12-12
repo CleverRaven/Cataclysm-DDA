@@ -239,8 +239,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bo
     }
 
     if( j.has_member( "items" ) ) {
-        JsonIn &stream = *j.get_raw( "items" );
-        drop_group = item_group::load_item_group( stream, "collection" );
+        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     } else {
         drop_group = "EMPTY_GROUP";
     }
@@ -270,8 +269,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     can_do = true;
     deconstruct_above = j.get_bool( "deconstruct_above", false );
 
-    JsonIn &stream = *j.get_raw( "items" );
-    drop_group = item_group::load_item_group( stream, "collection" );
+    drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
     return true;
 }
 

@@ -16,7 +16,7 @@ struct itype;
 using Item_tag = std::string;
 using Group_tag = std::string;
 class JsonObject;
-class JsonIn;
+class JsonValue;
 class time_point;
 
 namespace item_group
@@ -79,14 +79,14 @@ void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
 /**
  * Get an item group id and (optionally) load an inlined item group.
  *
- * If the next value in the JSON stream is string, it's assumed to be an item group id and it's
+ * If the value is string, it's assumed to be an item group id and it's
  * returned directly.
  *
- * If the next value is a JSON object, it is loaded as item group. The group will be given a
+ * If the value is a JSON object, it is loaded as item group. The group will be given a
  * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
  * If the JSON object does not contain a subtype, the given default is used.
  *
- * If the next value is a JSON array, it is loaded as item group: the default_subtype will be
+ * If the value is a JSON array, it is loaded as item group: the default_subtype will be
  * used as subtype of the new item group and the array is loaded like the "entries" array of
  * a item group definition (see format of item groups).
  *
@@ -95,7 +95,7 @@ void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
  * subtype. It must be either "distribution" or "collection". See @ref Item_group.
  * @throw JsonError as usual for JSON errors, including invalid input values.
  */
-Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
+Group_tag load_item_group( const JsonValue &value, const std::string &default_subtype );
 } // namespace item_group
 
 /**

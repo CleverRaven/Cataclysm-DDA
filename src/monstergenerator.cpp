@@ -697,8 +697,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        JsonIn &stream = *jo.get_raw( "death_drops" );
-        death_drops = item_group::load_item_group( stream, "distribution" );
+        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
     }
 
     assign( jo, "harvest", harvest );

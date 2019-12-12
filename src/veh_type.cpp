@@ -388,8 +388,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        JsonIn &stream = *jo.get_raw( "breaks_into" );
-        def.breaks_into_group = item_group::load_item_group( stream, "collection" );
+        def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
     }
 
     auto qual = jo.get_array( "qualities" );
