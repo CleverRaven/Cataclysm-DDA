@@ -215,5 +215,45 @@
       { "group": "preserved_food", "prob": 40, "count": [ 1, 3 ] },
       { "group": "pet_food", "prob": 50 }
     ]
+  },
+  {
+    "id": "SUS_appliances_cupboard",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard where various appliances are stored.",
+    "subtype": "collection",
+    "entries": [
+     
+    ]
+  },
+  {
+    "id": "SUS_coffee_cupboard",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard where coffee and tea supplies are kept.",
+    "subtype": "collection",
+    "entries": [
+     
+    ]
+  },
+  {
+    "id": "SUS_breakfast_cupboard",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard where breakfast supplies are kept.",
+    "subtype": "collection",
+    "entries": [
+     
+    ]
+  },
+  {
+    "id": "SUS_fridge",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a well-stocked refrigerator.",
+    "subtype": "collection",
+    "entries": [
+     
+    ]
   }
 ]
