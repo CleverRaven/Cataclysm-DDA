@@ -704,7 +704,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                 tg.add_group_entry( trait_group::Trait_group_tag( traits.next_string() ), 100 );
             } else if( traits.test_array() ) {
                 JsonArray subtrait = traits.next_array();
-                tg.add_group_entry( trait_group::Trait_group_tag( traits.get_string( 0 ) ), subtrait.get_int( 1 ) );
+                tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
             } else {
                 JsonObject subobj = traits.next_object();
                 add_entry( tg, subobj );
