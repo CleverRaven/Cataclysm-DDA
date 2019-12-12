@@ -2513,16 +2513,13 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
     load_item_group( jsobj, group_id, subtype );
 }
 
-void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
-                                    const bool is_collection, int ammo_chance,
-                                    int magazine_chance )
+void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id, const bool is_collection, const int ammo_chance, const int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
-    while( entries.has_more() ) {
-        JsonObject subobj = entries.next_object();
+    for( const JsonObject &subobj : entries ) {
         add_entry( *ig, subobj );
     }
 }
