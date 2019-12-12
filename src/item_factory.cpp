@@ -2035,8 +2035,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
 
     if( jo.has_member( "thrown_damage" ) ) {
-        JsonArray jarr = jo.get_array( "thrown_damage" );
-        def.thrown_damage = load_damage_instance( jarr );
+        def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();

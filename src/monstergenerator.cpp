@@ -679,8 +679,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
-        JsonArray arr = jo.get_array( "melee_damage" );
-        melee_damage = load_damage_instance( arr );
+        melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo );
     }
