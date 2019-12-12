@@ -218,7 +218,9 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
+    // Add volume of the bag itself since it is going to be subtracted later in the for-each loop.
+    units::volume remaining_volume = pet.inv.empty() ? 0_ml :
+                                     pet.inv.front().get_storage() + pet.inv.front().volume();
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
