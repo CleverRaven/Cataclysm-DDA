@@ -2110,7 +2110,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     mend( pos );
                     break;
                 case 'R':
-                    u.read( pos );
+                    u.read( oThisItem );
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );

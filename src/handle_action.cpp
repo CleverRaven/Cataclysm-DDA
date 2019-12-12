@@ -1159,7 +1159,9 @@ static void read()
     auto loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        // calling obtain() invalidates the item pointer
+        // @TODO: find a way to do this without an int index
+        u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
