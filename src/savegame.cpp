@@ -214,10 +214,8 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            JsonObject odata = data.get_object( "kills" );
-            std::set<std::string> members = odata.get_member_names();
-            for( const auto &member : members ) {
-                kills[mtype_id( member )] = odata.get_int( member );
+            for( const JsonMember &member : data.get_object( "kills" ) ) {
+                kills[mtype_id( member.name() )] = member.get_int();
             }
 
             for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
@@ -268,14 +266,10 @@ void game::load_shortcuts( std::istream &fin )
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
-            JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
-                for( const int i : qs.get_array( *it ) ) {
+            for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
+                for( const int i : member.get_array() ) {
                     qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
