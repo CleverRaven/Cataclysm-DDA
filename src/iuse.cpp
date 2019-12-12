@@ -3017,13 +3017,14 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
         it.convert( it.typeId().substr( 0, it.typeId().size() - 4 ) + "_on" ); // 4 is the length of "_off".
         it.active = true;
+        return it.type->charges_to_use();
     } else {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
         }
         p.add_msg_if_player( msg_failure );
+        return 0; // No charges consumed on failure.
     }
-    return it.type->charges_to_use();
 }
 
 int iuse::combatsaw_off( player *p, item *it, bool, const tripoint & )
@@ -3125,6 +3126,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( off_type ).active = false;
+        return 0; // Don't consume charges when turning off.
     }
     return it.type->charges_to_use();
 }
