@@ -899,12 +899,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
             if( ja.test_string() ) {
                 conditional_t<T> type_condition( ja.next_string() );
                 conditionals.emplace_back( type_condition );
-            } else if( ja.test_object() ) {
+            } else {
                 JsonObject cond = ja.next_object();
                 conditional_t<T> type_condition( cond );
                 conditionals.emplace_back( type_condition );
-            } else {
-                ja.skip_value();
             }
         }
         return conditionals;
