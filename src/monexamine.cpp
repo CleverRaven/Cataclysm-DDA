@@ -253,12 +253,15 @@ bool monexamine::pet_menu( monster &z )
 
 int monexamine::pet_armor_pos( monster &z )
 {
-    int pos = g->inv_for_filter( _( "Pet armor" ), [z]( const item & it ) {
+    auto filter = [z]( const item & it ) {
         return z.type->bodytype == it.get_pet_armor_bodytype() &&
                z.get_volume() >= it.get_pet_armor_min_vol() &&
                z.get_volume() <= it.get_pet_armor_max_vol();
-    } );
-    return pos;
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Pet armor" ) );
+
+    return g->u.get_item_position( loc.get_item() );
 }
 
 void monexamine::remove_battery( monster &z )
@@ -461,21 +464,24 @@ void monexamine::rename_pet( monster &z )
 void monexamine::attach_bag_to( monster &z )
 {
     std::string pet_name = z.get_name();
-    int pos = g->inv_for_filter( _( "Bag item" ), []( const item & it ) {
-        return it.is_armor() && it.get_storage() > 0_ml;
-    } );
 
-    if( pos == INT_MIN ) {
+    auto filter = []( const item & it ) {
+        return it.is_armor() && it.get_storage() > 0_ml;
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Bag item" ) );
+
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    item &it = g->u.i_at( pos );
+    item &it = *loc;
     // force it to the front of the monster's inventory in case they have armor on
     z.inv.insert( z.inv.begin(), it );
     add_msg( _( "You mount the %1$s on your %2$s, ready to store gear." ),
              it.display_name(), pet_name );
-    g->u.i_rem( pos );
+    g->u.i_rem( &*loc );
     z.add_effect( effect_has_bag, 1_turns, num_bp, true );
     // Update encumbrance in case we were wearing it
     g->u.flag_encumbrance();

@@ -22,6 +22,7 @@ class player;
 class salvage_actor;
 class repair_item_actor;
 
+using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
 class inventory_filter_preset : public inventory_selector_preset
@@ -42,6 +43,9 @@ namespace inv
 // item selector for all items in @you's inventory.
 item_location titled_menu( avatar &you, const std::string &title,
                            const std::string &none_message = "" );
+// item selector for items in @you's inventory with a filter
+item_location titled_filter_menu( item_filter filter, avatar &you,
+                                  const std::string &title, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus

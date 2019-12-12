@@ -5346,13 +5346,13 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
+        item_location loc = game_menus::inv::titled_filter_menu( will_accept, u, _( "Use which item?" ) );
 
-        if( pos == INT_MIN ) {
+        if( !loc ) {
             add_msg( _( "Never mind" ) );
             return false;
         }
-        item &used = u.i_at( pos );
+        item &used = *loc;
         bool did_use = u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -8446,9 +8446,11 @@ void game::eat( item_location( *menu )( player &p ), int pos )
 void game::change_side( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv_for_filter( _( "Change side for item" ), [&]( const item & it ) {
+        auto filter = [&]( const item & it ) {
             return u.is_worn( it ) && it.is_sided();
-        }, _( "You don't have sided items worn." ) );
+        };
+        pos = u.get_item_position( game_menus::inv::titled_filter_menu( filter, u,
+                                   _( "Change side for item" ), _( "You don't have sided items worn." ) ).get_item() );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
