@@ -79,7 +79,7 @@
               { "item": "awl_steel", "prob": 70 },
               { "item": "needle_curved", "prob": 75 },
               { "item": "scissors", "prob": 90 },
-              { "item": "knitting_needles", "prob": 70 },
+              { "item": "knitting_needles", "prob": 20 },
               { "item": "sewing_kit", "prob": 85 }
             ],
             "prob": 25
