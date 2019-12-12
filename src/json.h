@@ -35,6 +35,7 @@ class JsonObject;
 class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
+class JsonValue;
 
 template<typename T>
 class string_id;
@@ -836,6 +837,7 @@ class JsonObject
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
+        JsonValue get_member( const std::string &name ) const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
@@ -909,8 +911,6 @@ class JsonObject
         // useful debug info
         std::string line_number() const; // for occasional use only
 };
-
-class JsonValue;
 
 /* JsonArray
  * =========

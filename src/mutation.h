@@ -355,8 +355,7 @@ struct mutation_branch {
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                      bool is_collection );
+        static void load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid, bool is_collection );
 
         /**
          * Create a new trait group as specified by the given JSON object and register
