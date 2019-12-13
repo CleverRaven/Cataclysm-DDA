@@ -11,8 +11,7 @@
   {
     "type": "overmap_terrain",
     "id": "basement",
-    "copy-from": "generic_city_house_basement",
-    "mapgen": [ { "method": "builtin", "name": "basement_junk" }, { "method": "builtin", "name": "basement_spiders" } ]
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",
@@ -34,11 +33,6 @@
     "see_cost": 2,
     "extras": "build",
     "mondensity": 2,
-    "mapgen": [
-      { "method": "builtin", "name": "house_generic_boxy" },
-      { "method": "builtin", "name": "house_generic_big_livingroom" },
-      { "method": "builtin", "name": "house_generic_center_hallway" }
-    ],
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
@@ -49,16 +43,6 @@
     "color": "light_green",
     "see_cost": 2,
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_base",
-    "copy-from": "house",
-    "mapgen": [
-      { "method": "builtin", "name": "house_generic_boxy" },
-      { "method": "builtin", "name": "house_generic_big_livingroom" },
-      { "method": "builtin", "name": "house_generic_center_hallway" }
-    ]
   },
   {
     "type": "overmap_terrain",
