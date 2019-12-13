@@ -5,7 +5,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a silverware drawer.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "item": "knife_butter", "count": [ 1, 6 ] },
       { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
       { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
@@ -43,7 +43,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a utensils drawer.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "item": "tongs", "prob": 95 },
       { "item": "tongs", "prob": 50 },
       { "item": "ladle", "prob": 95 },
@@ -71,7 +71,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a drawer full of knives and related implements.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ] },
       { "item": "knife_paring" },
       { "item": "knife_paring", "prob": 75 },
@@ -95,7 +95,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a junk drawer.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "item": "xacto", "prob": 80 },
       { "item": "scissors", "prob": 80 },
       { "item": "screwdriver", "prob": 70 },
@@ -128,7 +128,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a cupboard full of dining dishes.",
     "subtype": "distribution",
-    "items": [
+    "entries": [
       { "item": "wine_glass", "prob": 50, "count": [ 1, 4 ] },
       { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
@@ -160,7 +160,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a cupboard full of pots and pans.",
     "subtype": "distribution",
-    "items": [
+    "entries": [
       { "item": "pot", "count": [ 1, 2 ] },
       { "item": "pot", "prob": 50 },
       { "collection": [ { "item": "iron_pot" }, { "item": "iron_pot", "prob": 60 } ], "prob": 70 },
@@ -182,7 +182,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for the cleaning materials under a kitchen sink.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "item": "detergent", "count": [ 1, 2 ] },
       { "item": "rag", "count": [ 1, 6 ] },
       { "item": "towel", "count": [ 1, 3 ] },

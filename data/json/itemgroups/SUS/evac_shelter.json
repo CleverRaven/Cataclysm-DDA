@@ -5,7 +5,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       [ "evac_pamphlet", 99 ],
       [ "jacket_evac", 75 ],
       [ "emer_blanket", 75 ],
@@ -32,7 +32,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This locker has been picked through by an evacuee already. Not everyone wants the jacket, plenty leave the blanket or the gas mask, but the useful stuff is usually gone.  Some people left junk behind.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       [ "evac_pamphlet", 95 ],
       [ "jacket_evac", 15 ],
       [ "emer_blanket", 45 ],
@@ -65,7 +65,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "The cabinets contain a stock of delicious evac protein bars, and may contain clean water, cans of food, and spare blankets.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       {
         "distribution": [
           {
@@ -116,7 +116,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "These cabinets have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       {
         "distribution": [
           {
@@ -179,7 +179,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "The cabinets contain a stock of delicious evac protein bars, and may contain clean water, cans of food, and spare blankets.",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "item": "soap", "count": [ 1, 2 ] },
       [ "brush", 90 ],
       [ "bleach", 45 ],

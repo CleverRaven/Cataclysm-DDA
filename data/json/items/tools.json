@@ -5132,23 +5132,6 @@
     "flags": [ "SPEAR" ]
   },
   {
-    "id": "scissors",
-    "type": "TOOL",
-    "name": "pair of scissors",
-    "name_plural": "pairs of scissors",
-    "description": "These are a long pair of heavy duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
-    "weight": "113 g",
-    "volume": "250 ml",
-    "price": 400,
-    "to_hit": -1,
-    "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ",",
-    "color": "light_red",
-    "qualities": [ [ "CUT", 1 ] ],
-    "flags": [ "SPEAR" ]
-  },
-  {
     "id": "screwdriver",
     "type": "TOOL",
     "name": "screwdriver",

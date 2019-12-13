@@ -1,0 +1,62 @@
+[
+  {
+    "id": "SUS_office_desk",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for an office desk containing documents and electronics for work and some desk clutter.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "eink_tablet_pc", "prob": 20 },
+      { "item": "laptop", "prob": 60 },
+      { "item": "usb_drive", "prob": 20 },
+      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 },
+      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
+      { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
+      { "item": "pen", "count": [ 1, 10 ], "prob": 95 },
+      { "item": "stapler", "prob": 60 },
+      { "item": "scissors", "prob": 35 },
+      { "item": "phonebook", "prob": 10 },
+      { "item": "family_photo", "prob": 10 },
+      { "item": "coin_quarter", "prob": 10 },
+      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_office_filing_cabinet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for an office filing cabinet containing folders and documents.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "file", "count": [ 1, 15 ], "prob": 95 },
+      { "item": "paper", "count": [ 2, 30 ], "prob": 80 },
+      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_janitors_closet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a typical janitors closet with cleaning chemicals and tools.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bleach", "prob": 90, "charges-min": 20 },
+      { "item": "ammonia", "prob": 75, "charges-min": 20 },
+      { "item": "broom", "prob": 95 },
+      { "item": "mop", "prob": 95 },
+      { "item": "sponge", "prob": 90 },
+      { "item": "rag", "count": [ 1, 6 ] },
+      { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "brush", "prob": 95 },
+      { "item": "bucket", "prob": 90 },
+      { "item": "boots_rubber", "prob": 90 },
+      { "item": "gloves_rubber", "prob": 90 },
+      { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 4 },
+      { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
+      { "item": "detergent", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "paper", "count": [ 1, 2 ], "prob": 90 }
+    ]
+  }
+]
