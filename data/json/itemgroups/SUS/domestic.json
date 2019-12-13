@@ -510,21 +510,21 @@
               { "item": "crispycran", "count": [ 1, 6 ], "prob": 20 },
               { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 }
             ],
-            "prob": 30
+            "prob": 15
+          },
+          {
+            "distribution": [
+              { "item": "cola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "creamsoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+              { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
+            ],
+            "prob": 15
           }
         ],
         "prob": 90
-      },
-      {
-        "distribution": [
-          { "item": "cola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-          { "item": "creamsoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-          { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-          { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-          { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-          { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
-        ],
-        "prob": 75
       },
       {
         "distribution": [
