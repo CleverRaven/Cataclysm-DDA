@@ -503,11 +503,11 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
   },
   {
-    "id": "UNDER_THE_SKIN",
+    "id": "POWERAMOR_COMPATIBLE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Allows power armor to be worn under 'internally worn' armors like ear plugs and mouthpieces.",
-    "info": "This clothing fits completely under the skin and is compatible with armors requiring skin contact."
+    "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
+    "info": "This item can be worn simultaneously with power armor."
   },
   {
     "id": "furred",
