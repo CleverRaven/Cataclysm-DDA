@@ -14,7 +14,10 @@
     "//2": "This group is for a mannequin displaying average clothes.",
     "subtype": "distribution",
     "entries": [
-      { "collection": [ { "group": "shirts_unisex" }, { "group": "pants_unisex" }, { "group": "shoes_unisex", "prob": 75 } ], "prob": 95 },
+      {
+        "collection": [ { "group": "shirts_unisex" }, { "group": "pants_unisex" }, { "group": "shoes_unisex", "prob": 75 } ],
+        "prob": 95
+      },
       {
         "collection": [ { "group": "shirts_womens" }, { "group": "pants_womens" }, { "group": "shoes_womens", "prob": 75 } ],
         "prob": 5
