@@ -1076,7 +1076,7 @@
     "copy-from": "whiskey",
     "name": "single pot still Irish whiskey",
     "name_plural": "single pot still Irish whiskey",
-    "description": "A bottle of fine Irish whiskey.",
+    "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": 2600,
     "fun": 20
   },
@@ -1086,7 +1086,7 @@
     "copy-from": "whiskey",
     "name": "cheap whiskey",
     "name_plural": "cheap whiskey",
-    "description": "A bottle of cheap whiskey.",
+    "description": "Really cheap blended whiskey.",
     "price": 1800,
     "fun": 12
   },
@@ -1096,7 +1096,7 @@
     "copy-from": "whiskey",
     "name": "Canadian whiskey",
     "name_plural": "Canadian whiskey",
-    "description": "A bottle of fine Canadian whiskey.",
+    "description": "A multi-grain liquor made from a mash of corn and rye.",
     "price": 2400,
     "fun": 17
   },
@@ -1131,9 +1131,9 @@
     "type": "COMESTIBLE",
     "id": "bristol_sherry",
     "copy-from": "sherry",
-    "name": "Bristol sherry",
-    "name_plural": "Bristol sherry",
-    "description": "Finest sherry straight from Bristol.  Adorned with a Royal Purveyor's mark.",
+    "name": "Bristol Cream",
+    "name_plural": "Bristol Cream",
+    "description": "A fine sherry that was been aged in American oak casks and bottled in Bristol, England.",
     "price": 2800,
     "fun": 18
   },
@@ -1141,8 +1141,8 @@
     "type": "COMESTIBLE",
     "id": "madeira",
     "copy-from": "sherry",
-    "name": "madera",
-    "name_plural": "madeira",
+    "name": "Madeira wine",
+    "name_plural": "Madeira wine",
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
     "price": 2400,
     "fun": 15
