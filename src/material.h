@@ -71,8 +71,6 @@ class material_type
         void load( const JsonObject &jsobj, const std::string &src );
         void check() const;
 
-        int dam_resist( damage_type damtype ) const;
-
         material_id ident() const;
         std::string name() const;
         /**
