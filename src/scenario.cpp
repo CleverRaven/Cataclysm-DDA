@@ -247,7 +247,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
                           id.c_str(), p.ident().c_str() );
             }
         } else if( extra_professions ) {
-            if( (!p.has_flag( "SCEN_ONLY" )) && !conflicting_traits ) {
+            if( !p.has_flag( "SCEN_ONLY" ) && !conflicting_traits ) {
                 res.push_back( p.ident() );
             }
         }
