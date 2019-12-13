@@ -2583,7 +2583,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
     }
-	// also_mends removes not just the fault picked to be mended, but this as well.
+    // also_mends removes not just the fault picked to be mended, but this as well.
     if( method->also_mends ) {
         target->faults.erase( *method->also_mends );
     }
