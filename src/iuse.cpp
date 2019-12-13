@@ -971,7 +971,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         unclean_or_unhealthy = "unclean";
     }
     if( !it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
-        unclean_or_unhealthy = "unhealthy";
+        unclean_or_unhealthy = _( "unhealthy" );
     }
     // TODO: Add more effects?
     if( it->made_of( LIQUID ) ) {
