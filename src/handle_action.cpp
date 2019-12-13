@@ -969,8 +969,6 @@ static void sleep()
     std::string deaf_text;
     if( g->u.is_deaf() ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
-    } else {
-        deaf_text = "";
     }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
