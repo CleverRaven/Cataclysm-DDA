@@ -329,6 +329,7 @@
       },
       { "item": "ketchup", "charges-min": 1, "prob": 85 },
       { "item": "mustard", "charges-min": 1, "prob": 85 },
+      { "item": "mayonnaise", "charges-min": 1, "prob": 75 },
       { "item": "soysauce", "charges-min": 1, "prob": 65 },
       { "item": "horseradish", "charges-min": 1, "prob": 25 },
       { "item": "jam_fruit", "charges-min": 1, "prob": 60 },
@@ -586,6 +587,25 @@
         ],
         "prob": 50
       }
+    ]
+  },
+  {
+    "id": "SUS_spice_collection",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for cupboard, drawer, or rack with spices.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "salt" },
+      { "item": "pepper" },
+      { "item": "cinnamon", "prob": 75 },
+      { "item": "chilly-p", "prob": 75 },
+      { "item": "sugar", "prob": 15 },
+      { "item": "curry_powder", "prob": 25 },
+      { "item": "sprinkles", "prob": 10 },
+      { "item": "thyme", "prob": 65 },
+      { "item": "seasoning_italian", "prob": 65 },
+      { "item": "seasoning_salt", "prob": 65 }
     ]
   }
 ]
