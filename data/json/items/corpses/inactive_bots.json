@@ -721,8 +721,8 @@
       "moves": 500,
       "skill1": "electronics",
       "skill2": "computer"
-   }
-  }
+    }
+  },
   {
     "id": "bot_tripod",
     "looks_like": "broken_tripod",
