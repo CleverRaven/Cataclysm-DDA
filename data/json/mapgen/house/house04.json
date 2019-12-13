@@ -66,7 +66,7 @@
         "5": "f_sink",
         "6": "f_cupboard",
         "7": "f_cupboard",
-		"I": "f_dishwasher",
+        "I": "f_dishwasher",
         "D": "f_trashcan",
         "O": "f_oven",
         "P": "f_mailbox",
@@ -89,12 +89,12 @@
         "3": [ { "item": "SUS_utensils", "chance": 100 }, { "item": "SUS_knife_drawer", "chance": 100 } ],
         "4": [ { "item": "SUS_junk_drawer", "chance": 100 }, { "item": "SUS_appliances_cupboard", "chance": 100 } ],
         "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-		"6": { "item": "SUS_pantry", "chance": 100 },
-		"7": [ { "item": "SUS_breakfast_cupboard", "chance": 100 }, { "item": "SUS_coffee_cupboard", "chance": 100 } ],
-		"f": { "item": "SUS_fridge", "chance": 100 },
-		"O": { "item": "SUS_oven", "chance": 100 },
-		"I": { "item": "SUS_dishwasher", "chance": 100 },
-		"C": { "item": "kitchen_counters", "chance": 5 }
+        "6": { "item": "SUS_pantry", "chance": 100 },
+        "7": [ { "item": "SUS_breakfast_cupboard", "chance": 100 }, { "item": "SUS_coffee_cupboard", "chance": 100 } ],
+        "f": { "item": "SUS_fridge", "chance": 100 },
+        "O": { "item": "SUS_oven", "chance": 100 },
+        "I": { "item": "SUS_dishwasher", "chance": 100 },
+        "C": { "item": "kitchen_counters", "chance": 5 }
       },
       "place_loot": [
         { "group": "bed", "x": [ 4, 5 ], "y": [ 6, 7 ], "chance": 90, "repeat": [ 1, 3 ] },
