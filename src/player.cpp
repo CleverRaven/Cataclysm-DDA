@@ -4509,6 +4509,10 @@ void player::mend_item( item_location &&obj, bool interactive )
                 descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
             }
+            if( method.also_mends ) {
+                descr << string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
+                                        method.also_mends->obj().name() );
+            }
             descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
                                     to_string_approx( method.time ) );
             if( method.skills.empty() ) {
