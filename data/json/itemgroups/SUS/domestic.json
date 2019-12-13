@@ -243,7 +243,6 @@
     "subtype": "collection",
     "entries": [
       { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
-      { "item": "tea_raw", "count": [ 1, 10 ], "prob": 80 },
       {
         "distribution": [
           { "item": "coffee_raw", "prob": 50 },
@@ -251,6 +250,9 @@
         ],
         "prob": 80
       },
+      { "item": "tea_raw", "count": [ 1, 10 ], "prob": 80 },
+      { "item": "teapot", "prob": 70 },
+      { "item": "kettle", "prob": 50 },
       { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass", "prob": 90 },
       {
         "distribution": [
@@ -279,7 +281,10 @@
       {
         "collection": [
           { "item": "toaster" },
-          { "item": "bread", "prob": 70 },
+          {
+            "distribution": [ { "item": "bread", "prob": 70 }, { "item": "sourdough_bread", "prob": 30 } ],
+            "prob": 80
+          },
           {
             "distribution": [ { "item": "toastem", "prob": 40 }, { "item": "toastem2", "prob": 30 }, { "item": "toastem3", "prob": 30 } ],
             "prob": 60
@@ -287,12 +292,24 @@
         ],
         "prob": 80
       },
+      { "item": "jam_fruit", "prob": 80 },
+      { "item": "butter", "prob": 80 },
+      { "item": "peanutbutter", "prob": 80 },
+      { "item": "syrup", "prob": 50 },
       {
         "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ]
       },
       {
         "distribution": [ { "item": "cereal", "prob": 50 }, { "item": "cereal2", "prob": 50 }, { "item": "cereal3", "prob": 50 } ],
         "prob": 75
+      },
+      {
+        "distribution": [
+          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass", "prob": 60 },
+          { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
+          { "item": "milk_UHT", "prob": 20 }
+        ],
+        "prob": 20
       }
     ]
   },
@@ -301,8 +318,122 @@
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a well-stocked refrigerator.",
+    "//3": "In the future could make several fridge lists, eg SUS_fridge_vegetarian or SUS_fridge_bachelor, and have this be a distribution to randomly choose them",
     "subtype": "collection",
-    "entries": [  ]
+    "entries": [
+      { "group": "fresh_produce", "count": [ 1, 15 ] },
+      { "group": "fresh_produce", "count": [ 1, 15 ], "prob": 50 },
+      {
+        "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
+        "prob": 95
+      },
+      { "item": "ketchup", "charges-min": 1, "prob": 85 },
+      { "item": "mustard", "charges-min": 1, "prob": 85 },
+      { "item": "soysauce", "charges-min": 1, "prob": 65 },
+      { "item": "horseradish", "charges-min": 1, "prob": 25 },
+      { "item": "jam_fruit", "charges-min": 1, "prob": 60 },
+      { "item": "cheese", "prob": 60 },
+      { "item": "cheese_hard", "prob": 55 },
+      { "item": "yoghurt", "prob": 80 },
+      { "item": "butter", "prob": 80 },
+      { "item": "pudding", "prob": 30 },
+      { "item": "egg_bird", "prob": 85, "count-min": 1, "count-max": 12 },
+      { "item": "bacon", "prob": 25 },
+      {
+        "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
+        "prob": 60
+      },
+      { "item": "jar_sauerkraut_pickled", "charges-min": 1, "prob": 25 },
+      { "item": "pickle", "prob": 60, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "meat_pickled", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "fish_pickled", "prob": 20, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "veggy_pickled", "prob": 40, "charges-min": 1, "container-item": "jar_glass" },
+      {
+        "distribution": [
+          { "item": "veggy_salad", "charges-min": 1, "prob": 10 },
+          { "item": "blt", "charges-min": 1, "prob": 10 },
+          { "item": "protein_shake", "charges-min": 1, "prob": 5 },
+          { "item": "fries", "charges-min": 1, "prob": 10 },
+          { "item": "cheese_fries", "charges-min": 1, "prob": 10 },
+          { "item": "onion_rings", "charges-min": 1, "prob": 10 },
+          { "item": "milkshake", "charges-min": 1, "prob": 10 },
+          { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+          { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
+          { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
+          { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
+          { "item": "pizza_cheese", "charges-min": 1, "prob": 10 },
+          { "item": "pizza_supreme", "charges-min": 1, "prob": 10 },
+          { "item": "cheeseburger", "charges-min": 1, "prob": 10 },
+          { "item": "hamburger", "charges-min": 1, "prob": 10 },
+          { "item": "fish_fried", "charges-min": 1, "prob": 10 },
+          { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
+          { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
+          { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
+          { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
+          { "item": "chili", "charges-min": 1, "prob": 10 }
+        ],
+        "prob": 95
+      },
+      {
+        "distribution": [
+          { "item": "water_clean", "charges-min": 1, "prob": 90 },
+          { "item": "water_mineral", "charges-min": 1, "prob": 70 },
+          { "item": "oj", "charges-min": 1, "prob": 50 },
+          { "item": "cranberry_juice", "charges-min": 1, "prob": 50 },
+          { "item": "juice", "charges-min": 1, "prob": 50 },
+          { "item": "sports_drink", "charges-min": 1, "prob": 30 },
+          { "item": "lemonade", "charges-min": 1, "prob": 50 },
+          { "item": "cola", "charges-min": 1, "prob": 70 },
+          { "item": "choc_drink", "charges-min": 1, "prob": 30 },
+          { "item": "rootbeer", "charges-min": 1, "prob": 65 },
+          { "item": "purple_drink", "charges-min": 1, "prob": 35 },
+          { "item": "creamsoda", "charges-min": 1, "prob": 35 },
+          { "item": "lemonlime", "charges-min": 1, "prob": 35 },
+          { "item": "orangesoda", "charges-min": 1, "prob": 20 },
+          { "item": "crispycran", "charges-min": 1, "prob": 20 },
+          { "item": "colamdew", "charges-min": 1, "prob": 35 }
+        ],
+        "prob": 90
+      },
+      {
+        "distribution": [
+          { "item": "cola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+          { "item": "creamsoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+          { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+          { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+          { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+          { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" }
+        ],
+        "prob": 75
+      },
+      {
+        "distribution": [
+          { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
+          { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
+          { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
+          { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "apple_cider", "charges-min": 1, "prob": 20 },
+          { "item": "fruit_wine", "charges-min": 1, "prob": 15 },
+          { "item": "beer", "charges-min": 1, "prob": 35 },
+          { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
+          { "item": "pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "india_pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "stout", "charges-min": 1, "prob": 15 },
+          { "item": "belgian_ale", "charges-min": 1, "prob": 10 },
+          { "item": "imperial_stout", "charges-min": 1, "prob": 4 },
+          { "item": "wine_barley", "charges-min": 1, "prob": 2 }
+        ],
+        "prob": 60
+      }
+    ]
   },
   {
     "id": "SUS_dishwasher",
@@ -322,7 +453,19 @@
     "//2": "This group is for an oven that might have some pots and pans in the warming drawer.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "extinguisher", "prob": 20 }, { "item": "sm_extinguisher", "prob": 80 } ], "prob": 75 }
+      { "distribution": [ { "item": "extinguisher", "prob": 20 }, { "item": "sm_extinguisher", "prob": 80 } ], "prob": 65 },
+      {
+        "distribution": [ { "item": "pot", "prob": 20 }, { "item": "pot_copper", "prob": 5 }, { "item": "iron_pot", "prob": 5 } ],
+        "prob": 25
+      },
+      {
+        "collection": [
+          { "item": "pan", "count": [ 1, 2 ], "prob": 60 },
+          { "item": "steel_pan", "count": [ 1, 2 ], "prob": 50 },
+          { "item": "copper_pan", "count": [ 1, 2 ], "prob": 30 }
+        ],
+        "prob": 50
+      }
     ]
   }
 ]
