@@ -26,6 +26,9 @@
   + [Flags](#flags-3)
 * [Guns](#guns)
   + [Firing modes](#firing-modes)
+  + [Faults](#faults)
+    - [Flags](#flags)
+    - [Parameters](#parameters)
 * [Magazines](#magazines)
 * [MAP SPECIALS](#map-specials)
 * [Material Phases](#material-phases)
@@ -713,6 +716,17 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
 
 ## Magazines
