@@ -1736,7 +1736,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
                 }
-                map[member] = invlets;
+                map[member.name()] = invlets;
             }
         }
         invlet_cache = { map };
