@@ -966,7 +966,7 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
-    std::string deaf_text = "";
+    std::string deaf_text;
     if( g->u.is_deaf() ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     } else {
