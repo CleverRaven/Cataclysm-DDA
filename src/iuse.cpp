@@ -966,7 +966,6 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 int iuse::blech( player *p, item *it, bool, const tripoint & )
 {
     std::string unclean_or_unhealthy;
-    std::string warning_string;
     if( it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
         unclean_or_unhealthy = _( "unclean" );
     }
