@@ -32,8 +32,8 @@
         "prob": 30
       },
       { "item": "plastic_spoon_kids", "prob": 35, "count": [ 1, 6 ] },
-      [ "corkscrew", 75 ],
-      [ "bottle_opener", 75 ],
+      { "item": "corkscrew", "prob": 75 },
+      { "item": "bottle_opener", "prob": 75 },
       { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
     ]
   },

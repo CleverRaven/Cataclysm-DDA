@@ -6,13 +6,13 @@
     "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
     "subtype": "collection",
     "entries": [
-      [ "evac_pamphlet", 99 ],
-      [ "jacket_evac", 75 ],
-      [ "emer_blanket", 75 ],
-      [ "mask_gas", 2 ],
-      [ "flashlight", 50 ],
-      [ "light_disposable_cell", 10 ],
-      [ "lighter", 20 ],
+      { "item": "evac_pamphlet", "prob": 99 },
+      { "item": "jacket_evac", "prob": 75 },
+      { "item": "emer_blanket", "prob": 75 },
+      { "item": "mask_gas", "prob": 2 },
+      { "item": "flashlight", "prob": 50 },
+      { "item": "light_disposable_cell", "prob": 10 },
+      { "item": "lighter", "prob": 20 },
       { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
       { "item": "protein_bar_evac", "count": [ 2, 3 ] },
       {
@@ -33,19 +33,19 @@
     "//2": "This locker has been picked through by an evacuee already. Not everyone wants the jacket, plenty leave the blanket or the gas mask, but the useful stuff is usually gone.  Some people left junk behind.",
     "subtype": "collection",
     "entries": [
-      [ "evac_pamphlet", 95 ],
-      [ "jacket_evac", 15 ],
-      [ "emer_blanket", 45 ],
-      [ "mask_gas", 1 ],
-      [ "flashlight", 10 ],
-      [ "wrapper", 50 ],
-      [ "survnote", 5 ],
-      [ "plastic_shopping_bag", 5 ],
-      [ "box_small", 5 ],
-      [ "bag_plastic", 5 ],
-      [ "bowl_plastic", 5 ],
-      [ "can_food_unsealed", 5 ],
-      [ "can_opener", 3 ],
+      { "item": "evac_pamphlet", "prob": 95 },
+      { "item": "jacket_evac", "prob": 15 },
+      { "item": "emer_blanket", "prob": 45 },
+      { "item": "mask_gas", "prob": 1 },
+      { "item": "flashlight", "prob": 10 },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "survnote", "prob": 5 },
+      { "item": "plastic_shopping_bag", "prob": 5 },
+      { "item": "box_small", "prob": 5 },
+      { "item": "bag_plastic", "prob": 5 },
+      { "item": "bowl_plastic", "prob": 5 },
+      { "item": "can_food_unsealed", "prob": 5 },
+      { "item": "can_opener", "prob": 3 },
       { "item": "bottle_plastic", "count": [ 1, 2 ], "prob": 50 },
       { "item": "protein_bar_evac", "count": [ 2, 3 ], "prob": 70 },
       {
@@ -107,7 +107,7 @@
           }
         ]
       },
-      [ "evac_pamphlet", 15 ]
+      { "item": "evac_pamphlet", "prob": 15 }
     ]
   },
   {
@@ -170,7 +170,7 @@
           }
         ]
       },
-      [ "evac_pamphlet", 15 ]
+      { "item": "evac_pamphlet", "prob": 15 }
     ]
   },
   {
@@ -181,12 +181,12 @@
     "subtype": "collection",
     "entries": [
       { "item": "soap", "count": [ 1, 2 ] },
-      [ "brush", 90 ],
-      [ "bleach", 45 ],
-      [ "ammonia", 25 ],
-      [ "1st_aid", 60 ],
+      { "item": "brush", "prob": 90 },
+      { "item": "bleach", "prob": 45 },
+      { "item": "ammonia", "prob": 25 },
+      { "item": "1st_aid", "prob": 60 },
       { "item": "paper", "count": [ 1, 3 ] },
-      [ "evac_pamphlet", 10 ]
+      { "item": "evac_pamphlet", "prob": 10 }
     ]
   }
 ]
