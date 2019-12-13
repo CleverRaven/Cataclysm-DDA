@@ -980,7 +980,8 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
             return 0;
         }
     } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
-        if( !p->query_yn( _( "This looks unhealthy, sure you want to eat it?" ) ) ) {
+        if( !p->query_yn( string_format( "This looks %s, sure you want to eat it?",
+                                         unclean_or_unhealthy ) ) ) {
             return 0;
         }
     }
@@ -998,11 +999,13 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
-        p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
-        p->mod_pain( rng( 32, 64 ) );
-        p->add_effect( effect_poison, 1_hours );
-        p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
-        p->vomit();
+        if( !it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
+            p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
+            p->mod_pain( rng( 32, 64 ) );
+            p->add_effect( effect_poison, 1_hours );
+            p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
+            p->vomit();
+        }
     }
     return it->type->charges_to_use();
 }
