@@ -232,16 +232,24 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     for( const profession &p : all ) {
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
+
+        bool conflicting_traits = this->scenario_traits_conflict_with_profession_traits(p);
+
         if( blacklist || professions.empty() ) {
-            if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
-                res.push_back( p.ident() );
-            }
-        } else if( extra_professions ) {
-            if( present || !p.has_flag( "SCEN_ONLY" ) ) {
+            if( !present && !p.has_flag( "SCEN_ONLY" ) && !conflicting_traits ) {
                 res.push_back( p.ident() );
             }
         } else if( present ) {
-            res.push_back( p.ident() );
+            if ( !conflicting_traits ) {
+                res.push_back( p.ident() );
+            } else {
+                debugmsg( "Scenario %s and profession %s have conflicting trait requirements",
+                          id.c_str(), p.ident().c_str() );
+            }
+        } else if( extra_professions ) {
+            if( (!p.has_flag( "SCEN_ONLY" )) && !conflicting_traits ) {
+                res.push_back( p.ident() );
+            }
         }
     }
 
@@ -250,6 +258,29 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         res.push_back( profession::generic()->ident() );
     }
     return res;
+}
+
+bool scenario::scenario_traits_conflict_with_profession_traits(const profession& p) const
+{
+    // TODO: use "player::has_conflicting_trait" to check if:
+    //  locked traits for scenario prevent taking locked traits for professions
+    //  locked traits for professions prevent taking locked traits for scenario
+    bool conflicts = false;
+
+    for ( auto &pt : p.get_forbidden_traits() ) {
+        if ( is_locked_trait(pt) ) {
+            conflicts = true;
+        }
+    }
+
+    for ( auto &pt : p.get_locked_traits() ) {
+        if ( is_forbidden_trait(pt) ) {
+            conflicts = true;
+
+        }
+    }
+
+    return conflicts;
 }
 
 const profession *scenario::weighted_random_profession() const
