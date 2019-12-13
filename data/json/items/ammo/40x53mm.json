@@ -36,7 +36,7 @@
     "id": "40x53mm_m430a1",
     "copy-from": "40x53mm_grenade",
     "type": "AMMO",
-    "name": "40x53mm M430a1",
+    "name": "40x53mm M430A1",
     "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "weight": "340 g",
     "volume": "132 ml",
@@ -70,8 +70,7 @@
     "damage": 130,
     "pierce": 6,
     "recoil": 1200,
-    "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "casing": "40x53mm_m169_casing"
   },
   {
     "id": "40x53mm_flechette_m169",

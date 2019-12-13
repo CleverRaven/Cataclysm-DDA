@@ -105,8 +105,7 @@
     "damage": 120,
     "pierce": 6,
     "recoil": 1000,
-    "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "casing": "40x46mm_m118_casing"
   },
   {
     "id": "40x46mm_slug_m199",
@@ -119,8 +118,7 @@
     "damage": 120,
     "pierce": 6,
     "recoil": 1000,
-    "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "casing": "40x46mm_m199_casing"
   },
   {
     "id": "40x46mm_flechette_m118",
