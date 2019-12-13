@@ -59,7 +59,7 @@
       "explosive": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_gas_tank_smashed",
+      "ter_set": "t_gas_tank_smashed"
     }
   },
   {
