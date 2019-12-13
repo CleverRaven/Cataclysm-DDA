@@ -4043,7 +4043,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
                 !elem.has_flag( "POWERARMOR_COMPATIBLE" ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
