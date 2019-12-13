@@ -448,7 +448,7 @@
       "items": [
         { "item": "pipe", "count": [ 4, 6 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "wheel_casters", "count": 1 }
+        { "item": "wheel_caster", "count": 1 }
       ]
     },
     "max_volume": 7000,
@@ -462,7 +462,7 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "wheel_casters", "count": [ 0, 1 ] }
+        { "item": "wheel_caster", "count": [ 0, 1 ] }
       ]
     }
   },
