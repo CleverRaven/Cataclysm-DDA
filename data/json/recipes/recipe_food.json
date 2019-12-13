@@ -1863,7 +1863,7 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "sugar", 6 ] ],
-      [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ] ],
+      [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
       [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
     ]
@@ -4505,6 +4505,9 @@
         [ "gin", 1 ],
         [ "rum", 1 ],
         [ "single_malt_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
         [ "tequila", 1 ],
         [ "triple_sec", 1 ],
         [ "vodka", 1 ],
