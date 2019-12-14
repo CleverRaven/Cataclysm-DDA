@@ -1704,7 +1704,7 @@
     "armor_cut": 8,
     "harvest": "meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
   },
   {
     "id": "mon_gracke",
@@ -1756,7 +1756,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "NORMAL" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
     "id": "mon_hallu_mom",
@@ -2986,7 +2986,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
     "id": "mon_yugg",
