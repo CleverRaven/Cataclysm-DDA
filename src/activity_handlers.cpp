@@ -323,7 +323,7 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+    if( item::find_type( itype_id( what ) )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
@@ -2583,6 +2583,10 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
     }
+    // also_mends removes not just the fault picked to be mended, but this as well.
+    if( method->also_mends ) {
+        target->faults.erase( *method->also_mends );
+    }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
@@ -2700,22 +2704,22 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    g->eat();
+    avatar_action::eat( g->u );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_food );
+    avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_drink );
+    avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_meds );
+    avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
 }
 
 void activity_handlers::move_items_do_turn( player_activity *act, player *p )

@@ -1517,7 +1517,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line, const int priority ) const
+void npc::say( const std::string &line, const sounds::sound_t spriority ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1535,7 +1535,6 @@ void npc::say( const std::string &line, const int priority ) const
         return;
     }
     // Sound happens even if we can't hear it
-    sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );

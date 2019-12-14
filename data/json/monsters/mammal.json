@@ -1347,7 +1347,7 @@
     "morale": -5,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
@@ -1697,7 +1697,7 @@
     "morale": -7,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]

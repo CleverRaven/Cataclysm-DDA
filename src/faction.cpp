@@ -69,14 +69,13 @@ void faction_template::reset()
 
 void faction_template::load_relations( const JsonObject &jsobj )
 {
-    JsonObject jo = jsobj.get_object( "relations" );
-    for( const std::string &fac_id : jo.get_member_names() ) {
-        JsonObject rel_jo = jo.get_object( fac_id );
+    for( const JsonMember &fac : jsobj.get_object( "relations" ) ) {
+        JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
             fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
         }
-        relations[fac_id] = fac_relation;
+        relations[fac.name()] = fac_relation;
     }
 }
 

@@ -7,6 +7,7 @@
     "maintainers": [ "Inglonias" ],
     "description": "Allows you to reload and unload battery cells with legacy batteries.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

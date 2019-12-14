@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -2586,7 +2587,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         // Note: there is no guarantee that whl is non-empty!
-        const cata::optional<islot_wheel> &whl = item::find_type( part->item )->wheel;
+        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->item )->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
@@ -2632,7 +2633,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        cata::optional<islot_magazine> battery = item::find_type( part->item )->magazine;
+        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%8d</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),

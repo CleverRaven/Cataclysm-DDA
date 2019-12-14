@@ -6366,7 +6366,7 @@ void map::shift( const point &sp )
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-                        if( gridx == 0 || gridy == 0 ) {
+                        if( ( sp.x > 0 && gridx == 0 ) || ( sp.y > 0 && gridy == 0 ) ) {
                             submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y < my_MAPSIZE ) {
@@ -6379,7 +6379,7 @@ void map::shift( const point &sp )
                     }
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
-                        if( gridx == 0 || gridy == my_MAPSIZE - 1 ) {
+                        if( ( sp.x > 0 && gridx == 0 ) || gridy == my_MAPSIZE - 1 ) {
                             submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
                         if( gridx + sp.x < my_MAPSIZE && gridy + sp.y >= 0 ) {
@@ -6396,7 +6396,7 @@ void map::shift( const point &sp )
             for( int gridx = my_MAPSIZE - 1; gridx >= 0; gridx-- ) {
                 if( sp.y >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-                        if( gridx == my_MAPSIZE - 1 || gridy == 0 ) {
+                        if( gridx == my_MAPSIZE - 1 || ( sp.y > 0 && gridy == 0 ) ) {
                             submaps_with_active_items.erase( { abs.x + gridx, abs.y + gridy, gridz } );
                         }
                         if( gridx + sp.x >= 0 && gridy + sp.y < my_MAPSIZE ) {

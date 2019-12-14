@@ -1959,12 +1959,12 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         placing_map &format_placings )
 {
     if( jo.has_object( "mapping" ) ) {
-        JsonObject pjo = jo.get_object( "mapping" );
-        for( auto &key : pjo.get_member_names() ) {
+        for( const JsonMember &member : jo.get_object( "mapping" ) ) {
+            const std::string &key = member.name();
             if( key.size() != 1 ) {
-                pjo.throw_error( "format map key must be 1 character", key );
+                member.throw_error( "format map key must be 1 character" );
             }
-            JsonObject sub = pjo.get_object( key );
+            JsonObject sub = member.get_object();
             sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;

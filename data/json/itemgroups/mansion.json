@@ -849,12 +849,6 @@
     ]
   },
   {
-    "id": "pantry",
-    "type": "item_group",
-    "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
-  },
-  {
     "id": "clutter_basement",
     "type": "item_group",
     "subtype": "distribution",

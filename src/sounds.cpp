@@ -424,8 +424,7 @@ void sounds::process_sound_markers( player *p )
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );
-                guy->handle_sound( static_cast<int>( sound.category ), description,
-                                   heard_volume, pos );
+                guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
         }

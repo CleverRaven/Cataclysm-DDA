@@ -1629,7 +1629,8 @@ bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
         return false;
     }
     int old_moves = moves;
-    return consume( index ) && old_moves != moves;
+    item_location loc = item_location( *this, &i_at( index ) );
+    return consume( loc ) && old_moves != moves;
 }
 
 bool npc::recharge_cbm()
@@ -3573,7 +3574,8 @@ void npc::use_painkiller()
         if( g->u.sees( *this ) ) {
             add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
-        consume( inv.position_by_item( it ) );
+        item_location loc = item_location( *this, it );
+        consume( loc );
         moves = 0;
     }
 }
@@ -3730,7 +3732,8 @@ bool npc::consume_food()
     // consume doesn't return a meaningful answer, we need to compare moves
     // TODO: Make player::consume return false if it fails to consume
     int old_moves = moves;
-    bool consumed = consume( index ) && old_moves != moves;
+    item_location loc = item_location( *this, &i_at( index ) );
+    bool consumed = consume( loc ) && old_moves != moves;
     if( !consumed ) {
         debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
@@ -4234,11 +4237,11 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), static_cast<int>( spriority ) );
+    complain_about( warning_name, d, speech, is_enemy(), spriority );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const int priority )
+                          const std::string &speech, const bool force, const sounds::sound_t priority )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.

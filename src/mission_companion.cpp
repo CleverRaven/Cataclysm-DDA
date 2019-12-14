@@ -1700,7 +1700,10 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
     } else {
         for( int i = 0; i < checks; i++ ) {
-            comp.practice( *skill_practice.pick(), difficulty );
+            skill_id *ident = skill_practice.pick();
+            if( ident ) {
+                comp.practice( *ident, difficulty );
+            }
         }
     }
 }

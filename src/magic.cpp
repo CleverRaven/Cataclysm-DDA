@@ -318,9 +318,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    JsonObject learning = jo.get_object( "learn_spells" );
-    for( std::string n : learning.get_member_names() ) {
-        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+        learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
 

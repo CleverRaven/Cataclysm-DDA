@@ -1784,6 +1784,10 @@ class map
 
         void update_submap_active_item_status( const tripoint &p );
 
+        // Just exposed for unit test introspection.
+        const std::set<tripoint> &get_submaps_with_active_items() const {
+            return submaps_with_active_items;
+        }
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;

@@ -337,7 +337,7 @@
     "id": "mx_corpses",
     "type": "map_extra",
     "name": "Corpses",
-    "description": "Some unfortunates from the billions lost in the cataclysm.",
+    "description": "Some unfortunates from the billions lost in the Cataclysm.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" }
   }
 ]

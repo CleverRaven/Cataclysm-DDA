@@ -17,6 +17,7 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
@@ -84,11 +85,11 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     dummy.wear_item( item( "backpack", 0 ) );
 
     item &ammo = dummy.i_add( item( "9mm", 0, item::default_charges_tag{} ) );
-    const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
+    const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
     REQUIRE( ammo_type );
 
     const item mag( "glockmag", 0, 0 );
-    const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
+    const cata::value_ptr<islot_magazine> &magazine_type = mag.type->magazine;
     REQUIRE( magazine_type );
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
@@ -190,11 +191,11 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
     GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
         item &ammo = dummy.i_add( item( "9mm", 0, 50 ) );
-        const cata::optional<islot_ammo> &ammo_type = ammo.type->ammo;
+        const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
         REQUIRE( ammo_type );
 
         item &mag = dummy.i_add( item( "glockmag", 0, 0 ) );
-        const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
+        const cata::value_ptr<islot_magazine> &magazine_type = mag.type->magazine;
         REQUIRE( magazine_type );
         REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
         REQUIRE( mag.ammo_remaining() == 0 );
@@ -229,7 +230,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         }
         GIVEN( "the player also has an extended magazine" ) {
             item &mag2 = dummy.i_add( item( "glockbigmag", 0, 0 ) );
-            const cata::optional<islot_magazine> &magazine_type2 = mag2.type->magazine;
+            const cata::value_ptr<islot_magazine> &magazine_type2 = mag2.type->magazine;
             REQUIRE( magazine_type2 );
             REQUIRE( magazine_type2->type.count( ammo_type->type ) != 0 );
             REQUIRE( mag2.ammo_remaining() == 0 );
