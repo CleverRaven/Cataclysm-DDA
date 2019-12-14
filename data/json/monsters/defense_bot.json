@@ -2,8 +2,8 @@
   {
     "id": "mon_secubot",
     "type": "MONSTER",
-    "name": "M249 autonomous TALON UGV",
-    "description": "A TALON unmanned ground vehicle equipped with an M249.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
+    "name": { "str": "M16A4 autonomous TALON UGV" },
+    "description": "A TALON unmanned ground vehicle equipped with an M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -20,13 +20,13 @@
     "armor_cut": 14,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
-    "starting_ammo": { "556": 900 },
+    "starting_ammo": { "556": 30 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "m249",
+        "gun_type": "m16a4",
         "ammo_type": "556",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
