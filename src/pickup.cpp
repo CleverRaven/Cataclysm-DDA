@@ -822,7 +822,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     const item &this_item = *stacked_here[true_it].front();
                     nc_color icolor = this_item.color_in_inventory();
                     if( cur_it == selected ) {
-                        icolor = hilite( c_white );
+                        icolor = hilite( icolor );
                     }
 
                     if( cur_it < static_cast<int>( pickup_chars.size() ) ) {
