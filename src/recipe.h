@@ -104,9 +104,31 @@ class recipe
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
         // Character object (if provided) used to color levels
-        std::string required_skills_string( const Character *, bool print_skill_level ) const;
-        std::string required_skills_string( const Character * ) const;
-        std::string required_skills_string() const;
+
+        // These are primarily used by the crafting menu.
+        // Format the primary skill string.
+        std::string primary_skill_string( const Character *c, bool print_skill_level ) const;
+
+        // Format the other skills string.  This is also used for searching within the crafting
+        // menu which includes the primary skill.
+        std::string required_skills_string( const Character *, bool include_primary_skill,
+                                            bool print_skill_level ) const;
+
+        // This is used by the basecamp bulletin board.
+        std::string required_all_skills_string() const;
+
+        // Format a std::pair<skill_id, int> for the crafting menu.
+        // skill colored green (or yellow if beyond characters skill)
+        // optionally with the skill level (player / difficulty)
+        template<typename _FIter>
+        std::string required_skills_string( _FIter first, _FIter last, const Character *c,
+                                            const bool print_skill_level ) const;
+
+        // Format a std::pair<skill_id, int> for the basecamp bulletin board.
+        // skill colored white with difficulty in parenthesis.
+        template<typename _FIter>
+        std::string required_skills_string( _FIter first, _FIter last ) const;
+
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -201,5 +223,39 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_excludes;
         bool bp_autocalc = false;
 };
+
+template<typename _FIter>
+std::string recipe::required_skills_string( _FIter first, _FIter last, const Character *c,
+        const bool print_skill_level ) const
+{
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
+    }
+
+    return enumerate_as_string( first, last,
+    [&]( const std::pair<skill_id, int> &skill ) {
+        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
+    } );
+}
+
+template<typename _FIter>
+std::string recipe::required_skills_string( _FIter first, _FIter last )
+const
+{
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
+    }
+
+    return enumerate_as_string( first, last,
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s (%d)</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
 
 #endif // RECIPE_H
