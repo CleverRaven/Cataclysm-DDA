@@ -262,25 +262,30 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
 
 bool scenario::scenario_traits_conflict_with_profession_traits(const profession& p) const
 {
-    // TODO: use "player::has_conflicting_trait" to check if:
-    //  locked traits for scenario prevent taking locked traits for professions
-    //  locked traits for professions prevent taking locked traits for scenario
-    bool conflicts = false;
-
     for ( auto &pt : p.get_forbidden_traits() ) {
         if ( is_locked_trait(pt) ) {
-            conflicts = true;
+            return true;
         }
     }
 
     for ( auto &pt : p.get_locked_traits() ) {
         if ( is_forbidden_trait(pt) ) {
-            conflicts = true;
-
+            return true;
         }
     }
 
-    return conflicts;
+    //  check if:
+    //  locked traits for scenario prevent taking locked traits for professions
+    //  locked traits for professions prevent taking locked traits for scenario
+    for ( auto &st : get_locked_traits() ) {
+        for ( auto &pt : p.get_locked_traits() ) {
+            if ( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 const profession *scenario::weighted_random_profession() const
