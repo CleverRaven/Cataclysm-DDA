@@ -6,7 +6,7 @@
   },
   {
     "id": "bolt_bone",
-    "type": "migration",
+    "type": "MIGRATION",
     "replace": "bolt_crude"
   }
 ]
