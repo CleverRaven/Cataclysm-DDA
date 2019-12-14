@@ -2,12 +2,15 @@
   {
     "type": "palette",
     "id": "library_palette",
-    "terrain": { "%": "t_console_broken", "p": [ [ "t_grass", 10 ], [ "t_dirt", 2 ] ] },
+    "terrain": { "%": "t_console_broken", "p": [ [ "t_grass", 10 ], [ "t_dirt", 2 ] ], ";": "t_door_locked", "5": "t_tree_pine" },
     "furniture": {
       "c": "f_counter",
       "d": "f_desk",
       "[": "f_table",
       "h": "f_chair",
+      "b": "f_stool",
+      "C": "f_sofa",
+      "B": "f_armchair",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
       "K": "f_bookcase",
@@ -20,6 +23,7 @@
       "M": "f_bookcase",
       "N": "f_bookcase",
       "P": "f_bookcase",
+      "A": "f_bookcase",
       "Q": "f_bookcase",
       "L": "f_locker"
     },
@@ -34,6 +38,7 @@
       "M": { "item": "SUS_historical_manufacturing_bookcase", "chance": 60 },
       "N": { "item": "SUS_chemistry_bookcase", "chance": 75 },
       "P": { "item": "SUS_medicine_bookcase", "chance": 60 },
+      "A": { "item": "SUS_bushcraft_bookcase", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 70 },
       "L": { "item": "SUS_janitors_closet", "chance": 100 }
