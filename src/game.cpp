@@ -1171,24 +1171,36 @@ bool game::cleanup_at_end()
         if( characters.empty() ) {
             bool queryDelete = false;
             bool queryReset = false;
+            bool decided = false;
+            std::string buffer = _( "Warning, Cataclysm: Dark Days Ahead is not really made for "
+                    "multiple runs in a single world.  "
+                    "You will experience some bugs if you have already played extensively in "
+                    "this world.\n\n"
+                    "Are you sure you wish to keep this world?"
+                    );
 
-            if( get_option<std::string>( "WORLD_END" ) == "query" ) {
-                uilist smenu;
-                smenu.allow_cancel = false;
-                smenu.addentry( 0, true, 'k', "%s", _( "Keep world" ) );
-                smenu.addentry( 1, true, 'r', "%s", _( "Reset world" ) );
-                smenu.addentry( 2, true, 'd', "%s", _( "Delete world" ) );
-                smenu.query();
+            while( !decided ) {
+                if( get_option<std::string>( "WORLD_END" ) == "query" ) {
+                    uilist smenu;
+                    smenu.allow_cancel = false;
+                    smenu.addentry( 0, true, 'r', "%s", _( "Reset world" ) );
+                    smenu.addentry( 1, true, 'd', "%s", _( "Delete world" ) );
+                    smenu.addentry( 2, true, 'k', "%s", _( "Keep world" ) );
+                    smenu.query();
 
-                switch( smenu.ret ) {
-                    case 0:
-                        break;
-                    case 1:
-                        queryReset = true;
-                        break;
-                    case 2:
-                        queryDelete = true;
-                        break;
+                    switch( smenu.ret ) {
+                        case 0:
+                            queryReset = true;
+                            decided = true;
+                            break;
+                        case 1:
+                            queryDelete = true;
+                            decided = true;
+                            break;
+                        case 2:
+                            decided = query_yn( buffer );
+                            break;
+                    }
                 }
             }
 

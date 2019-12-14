@@ -1940,9 +1940,9 @@ void options_manager::add_options_world_default()
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
-        { "keep", translate_marker( "Keep" ) }, { "reset", translate_marker( "Reset" ) },
-        { "delete", translate_marker( "Delete" ) },  { "query", translate_marker( "Query" ) }
-    }, "keep"
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
        );
 
     mOptionsSort["world_default"]++;
