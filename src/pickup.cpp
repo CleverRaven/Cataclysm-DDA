@@ -612,9 +612,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         mvwprintw( w_pickup, point_zero, _( "PICK" ) );
         int selected = 0;
         int iScrollPos = 0;
+        int selected_item_length = 0;
+        static int prev_selected_item_length = 0;
+        static int previous_selected = 0;
 
         std::string filter;
         std::string new_filter;
+        std::string selected_item_text;
+
+        nc_color selected_item_color;
         // Indexes of items that match the filter
         std::vector<int> matches;
         bool filter_changed = true;
@@ -905,10 +911,37 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                                        item_name );
                         }
                     }
+
                     trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
                                     item_name );
+
+                    if( cur_it == selected ) {
+                        selected_item_text = item_name;
+                        selected_item_color = icolor;
+                        selected_item_length = utf8_width( remove_color_tags( item_name ) );
+                    }
                 }
             }
+
+            int win_overlength = prev_selected_item_length - pickupW + 6;
+
+            //fill black color previous overlenght text
+            if( win_overlength > 0 ) {
+                catacurses::window w_dummy = catacurses::newwin( 1, win_overlength, point( pickupW,
+                                             1 + previous_selected ) );
+                trim_and_print( w_dummy, point( pickupW, selected ), win_overlength, c_black, " " );
+                wrefresh( w_dummy );
+                w_dummy = catacurses::window();
+            }
+
+            previous_selected = selected;
+            prev_selected_item_length = selected_item_length;
+
+            //extended windows for selected item
+            catacurses::window w_selected_item = catacurses::newwin( 1, selected_item_length, point( 6,
+                                                 1 + selected ) );
+            trim_and_print( w_selected_item, point( 6, 1 + selected ), selected_item_length,
+                            selected_item_color, selected_item_text );
 
             mvwprintw( w_pickup, point( 0, maxitems + 1 ), _( "[%s] Unmark" ),
                        ctxt.get_desc( "LEFT", 1 ) );
@@ -966,6 +999,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
 
             wrefresh( w_pickup );
+            wrefresh( w_selected_item );
+            w_selected_item = catacurses::window();
 
             action = ctxt.handle_input();
             raw_input_char = ctxt.get_raw_input().get_first_input();
