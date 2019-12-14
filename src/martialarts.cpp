@@ -31,12 +31,6 @@
 #include "enums.h"
 #include "optional.h"
 
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_unarmed( "unarmed" );
-
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
@@ -74,6 +68,52 @@ void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
     }
 }
 
+class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
+{
+    public:
+        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            const skill_id id = skill_id( jin.get_string() );
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
+
+class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_reader>
+{
+    public:
+        std::map<std::string, damage_type> dt_map = get_dt_map();
+
+        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            std::string type = jo.get_string( "type" );
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            const damage_type dt = iter->second;
+            return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            JsonObject jo = jin.get_object();
+            std::string type = jo.get_string( "type" );
+            const auto iter = get_dt_map().find( type );
+            if( iter == get_dt_map().end() ) {
+                jo.throw_error( "Invalid damage type" );
+            }
+            damage_type id = iter->second;
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
+
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
@@ -85,16 +125,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
-    // TODO: De-hardcode the skills and damage types here
-    add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
-    add_if_exists( jo, min_skill, was_loaded, "min_unarmed", skill_unarmed );
-    add_if_exists( jo, min_skill, was_loaded, "min_bashing", skill_bashing );
-    add_if_exists( jo, min_skill, was_loaded, "min_cutting", skill_cutting );
-    add_if_exists( jo, min_skill, was_loaded, "min_stabbing", skill_stabbing );
-
-    add_if_exists( jo, min_damage, was_loaded, "min_bashing_damage", DT_BASH );
-    add_if_exists( jo, min_damage, was_loaded, "min_cutting_damage", DT_CUT );
-    add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
+    optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
+    optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
 void ma_technique::load( const JsonObject &jo, const std::string &src )
@@ -466,6 +498,19 @@ std::string ma_requirements::get_description( bool buff ) const
         dump << enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
             return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
+        }, enumeration_conjunction::none ) << std::endl;
+    }
+
+    if( std::any_of( min_damage.begin(),
+    min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+    return pr.second > 0;
+} ) ) {
+        dump << ngettext( "<bold>Damage type required: </bold>",
+                          "<bold>Damage types required: </bold>", min_damage.size() );
+
+        dump << enumerate_as_string( min_damage.begin(),
+        min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+            return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
         }, enumeration_conjunction::none ) << std::endl;
     }
 
