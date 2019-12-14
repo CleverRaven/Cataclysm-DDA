@@ -25,7 +25,8 @@
       "P": "f_bookcase",
       "A": "f_bookcase",
       "Q": "f_bookcase",
-      "L": "f_locker"
+      "L": "f_locker",
+      "D": "f_trashcan"
     },
     "items": {
       "K": { "item": "SUS_business_bookcase", "chance": 80 },
