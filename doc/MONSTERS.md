@@ -11,6 +11,8 @@ Monster types are specified as JSON object with "type" member set to "MONSTER":
 
 The id member should be the unique id of the type. It can be any string, by convention it has the prefix "mon_". This id can be referred to in various places, like monster groups or in mapgen to spawn specific monsters.
 
+For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+
 Monster types support the following properties (mandatory, except if noted otherwise):
 
 ## "name"
@@ -24,13 +26,21 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
-Name displayed in-game, and optionally the plural name and a translation context.
+Name displayed in-game, and optionally the plural name and a translation context (ctxt).
+
 If the plural name is not specified, it defaults to singular name + "s".
+
+Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
 ## "description"
 (string)
 
 In-game description for the monster.
+
+## "categories"
+(array of strings, optional)
+
+Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
 
 ## "species"
 (array of strings, optional)
@@ -39,10 +49,21 @@ A list of species ids. One can add or remove entries in mods via "add:species" a
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
-## "categories"
-(array of strings, optional)
+## "volume"
+(string)
 
-Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
+```JSON
+"volume": "40 L"
+```
+The numeric part of the string must be an integer.
+
+## "weight"
+(string)
+
+```JSON
+"weight": "3 kg"
+```
+The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g.
 
 ## "scent_tracked"
 (array of strings, optional)
