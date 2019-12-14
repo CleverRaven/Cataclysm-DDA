@@ -13,10 +13,10 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Where did i put that blasted...",
-      "offer": "I seem to have misplaced my book. That worthless apprentice probably stole it. Bring it to me.",
+      "offer": "I seem to have misplaced my book, The Tome of The Battle Mage. That worthless apprentice probably stole it. Bring it to me.",
       "accepted": "...What? Oh youre still here. Go find my book.",
       "rejected": "Just as useless as that apprentice...",
-      "advice": "You want me to do your job for you? Bah. That apprentice said something about wanting to look around town, you might start there.",
+      "advice": "You want me to do your job for you? Bah. That apprentice said something about wanting to look around town, you might start there. Oh, and it's called The Tome of The Battle Mage, you can read at least the title can't you?",
       "inquire": "Where's my book?",
       "success": "Finally. Took you long enough.",
       "success_lie": "Nonsense! Useless! Waste of my time!",
@@ -63,7 +63,7 @@
     "followup": "MISSION_PURGE_150_Z",
     "dialogue": {
       "describe": "Will you answer the call?",
-      "offer": "This world has fallen to chaos and death. Assist me in purging this curse and you shall be rewarded.",
+      "offer": "This world has fallen to chaos and death. Remove 50 of the cursed from this world; assist me in purging this curse and you shall be rewarded.",
       "accepted": "Blessed be. I shall observe your efforts and judge you as one of the many or one of the few.",
       "rejected": "You will not help purge this curse? Perhaps you are a part of the curse...",
       "advice": "The awakened congregate in towns and cities, the closer to the center the more you will find.",
@@ -87,7 +87,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "You have proven you are one of the few, will you stand with the few again?",
-      "offer": "We must continue the purge. Remove more of the cursed from this land and you shall be blessed with greatness.",
+      "offer": "We must continue the purge. Remove 150 more of the cursed from this land and you shall be blessed with greatness.",
       "accepted": "Blessed be. You are a true testament to the few.",
       "rejected": "I see. Perhaps you will find your way back to us one day.",
       "advice": "The awakened stir in even the darkest of corners. Seek them out and destroy them.",
