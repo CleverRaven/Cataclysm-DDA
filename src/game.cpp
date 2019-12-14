@@ -2089,7 +2089,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     avatar_action::plthrow( u, pos );
                     break;
                 case 'c':
-                    change_side( pos );
+                    u.change_side( locThisItem );
                     break;
                 case 'T':
                     u.takeoff( oThisItem );
@@ -8334,22 +8334,6 @@ void game::butcher()
         }
         break;
     }
-}
-
-void game::change_side( int pos )
-{
-    if( pos == INT_MIN ) {
-        auto filter = [&]( const item & it ) {
-            return u.is_worn( it ) && it.is_sided();
-        };
-        pos = u.get_item_position( game_menus::inv::titled_filter_menu( filter, u,
-                                   _( "Change side for item" ), _( "You don't have sided items worn." ) ).get_item() );
-    }
-    if( pos == INT_MIN ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    u.change_side( pos );
 }
 
 void game::reload( item_location &loc, bool prompt, bool empty )

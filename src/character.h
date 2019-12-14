@@ -1505,7 +1505,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
-        bool change_side( int pos, bool interactive = true );
+        bool change_side( item_location &loc, bool interactive = true );
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */

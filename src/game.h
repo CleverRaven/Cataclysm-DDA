@@ -769,7 +769,6 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
-        void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
     public:

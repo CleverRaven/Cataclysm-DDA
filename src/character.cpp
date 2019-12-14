@@ -2603,11 +2603,9 @@ bool Character::change_side( item &it, bool interactive )
     return true;
 }
 
-bool Character::change_side( int pos, bool interactive )
+bool Character::change_side( item_location &loc, bool interactive )
 {
-    item &it( i_at( pos ) );
-
-    if( !is_worn( it ) ) {
+    if( !loc || !is_worn( *loc ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
                                    _( "You are not wearing that item." ),
@@ -2616,7 +2614,7 @@ bool Character::change_side( int pos, bool interactive )
         return false;
     }
 
-    return change_side( it, interactive );
+    return change_side( *loc, interactive );
 }
 
 static void layer_item( std::array<encumbrance_data, num_bp> &vals,
