@@ -61,6 +61,21 @@
     "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
   },
   {
+    "id": "sugar_standard",
+    "type": "requirement",
+    "//": "One unit provides ~260kcal; chosen to match one unit of molasses",
+    "components": [
+      [
+        [ "sugar", 14 ],
+        [ "syrup", 5 ],
+        [ "beet_syrup", 6 ],
+        [ "molasses", 1 ],
+        [ "honey_bottled", 4 ],
+        [ "honey_glassed", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "hard_liquor",
     "type": "requirement",
     "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
