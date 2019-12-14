@@ -83,7 +83,7 @@
 #define VEHICLE_HANDLING_PENALTY 80
 
 // Amount by which to charge an item for each unit of plutonium cell.
-#define PLUTONIUM_CHARGES 500
+#define PLUTONIUM_CHARGES 50000
 
 // Temperature constants.
 namespace temperatures
@@ -125,7 +125,7 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 // Maximum (effective) level for a stat.
 #define MAX_STAT 100
 // Maximum (effective) level for a skill.
-#define MAX_SKILL 10
+#define MAX_SKILL 20
 
 // Maximum (effective) level for a stat.
 #define MAX_STAT 20

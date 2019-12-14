@@ -188,3 +188,5 @@ Xcode/
 msvc-full-features/Cataclysm-vcpkg-static.vcxproj
 msvc-full-features/Cataclysm-vcpkg.vcxproj
 *.vcxproj
+msvc-full-features/distribution*
+msvc-full-features/Cataclysm-vcpkg-static.vcxproj
