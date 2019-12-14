@@ -911,7 +911,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                                        item_name );
                         }
                     }
-
                     trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
                                     item_name );
 
