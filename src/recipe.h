@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "requirements.h"
+#include "skill.h"
 #include "translations.h"
 #include "type_id.h"
 
