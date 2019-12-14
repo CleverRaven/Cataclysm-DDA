@@ -679,7 +679,7 @@
       [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "m249", 1 ] ],
+      [ [ "m16a4", 1 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
   },
@@ -762,7 +762,7 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "m16a4", 1 ] ],
+      [ [ "m249", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
