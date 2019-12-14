@@ -772,7 +772,7 @@
     "id": "camera_pro",
     "type": "TOOL",
     "name": "camera pro",
-    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the cataclysm, you could have taken professional-grade photos using this.",
+    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
     "price": 800000,
@@ -961,21 +961,6 @@
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "magazine_well": 2
-  },
-  {
-    "id": "catfood",
-    "type": "TOOL",
-    "name": "cat food",
-    "name_plural": "cat food",
-    "description": "This is food for cats.  It smells strange, but cats seem to love it.",
-    "weight": "223 g",
-    "volume": "250 ml",
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATFOOD"
   },
   {
     "id": "cell_phone",
@@ -2036,7 +2021,7 @@
     "id": "eink_tablet_pc",
     "type": "TOOL",
     "name": "e-ink tablet PC",
-    "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 20000,
@@ -5144,23 +5129,6 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR" ]
-  },
-  {
-    "id": "scissors",
-    "type": "TOOL",
-    "name": "pair of scissors",
-    "name_plural": "pairs of scissors",
-    "description": "These are a long pair of heavy duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
-    "weight": "113 g",
-    "volume": "250 ml",
-    "price": 400,
-    "to_hit": -1,
-    "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ",",
-    "color": "light_red",
-    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "SPEAR" ]
   },
   {

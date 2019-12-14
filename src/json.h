@@ -781,7 +781,7 @@ class JsonObject
         std::map<std::string, int> positions;
         mutable std::set<std::string> visited_members;
         int start;
-        int end;
+        int end_;
         bool final_separator;
         mutable bool report_unvisited_members = true;
 #ifndef CATA_IN_TOOL
@@ -793,7 +793,7 @@ class JsonObject
 
     public:
         JsonObject( JsonIn &jsin );
-        JsonObject() : start( 0 ), end( 0 ), jsin( nullptr ) {}
+        JsonObject() : start( 0 ), end_( 0 ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
         JsonObject( JsonObject && ) = default;
         JsonObject &operator=( const JsonObject & ) = default;
@@ -801,6 +801,12 @@ class JsonObject
         ~JsonObject() {
             finish();
         }
+
+        class const_iterator;
+        friend const_iterator;
+
+        const_iterator begin() const;
+        const_iterator end() const;
 
         void finish(); // moves the stream to the end of the object
         size_t size() const;
@@ -888,7 +894,7 @@ class JsonObject
         std::string line_number() const; // for occasional use only
 };
 
-class JsonArrayValueRef;
+class JsonValue;
 
 /* JsonArray
  * =========
@@ -963,8 +969,6 @@ class JsonArrayValueRef;
 class JsonArray
 {
     private:
-        friend JsonArrayValueRef;
-
         std::vector<size_t> positions;
         int start;
         size_t index;
@@ -1060,19 +1064,17 @@ class JsonArray
         }
 };
 
-class JsonArrayValueRef
+class JsonValue
 {
     private:
-        friend JsonArray::const_iterator;
-
         JsonIn &jsin_;
         int pos_;
-
-        JsonArrayValueRef( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
 
         JsonIn &seek() const;
 
     public:
+        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+
         operator std::string() const {
             return seek().get_string();
         }
@@ -1095,6 +1097,29 @@ class JsonArrayValueRef
         bool read( T &t ) const {
             return seek().read( t );
         }
+
+        void throw_error( const std::string &err ) const {
+            seek().error( err );
+        }
+
+        std::string get_string() const {
+            return seek().get_string();
+        }
+        int get_int() const {
+            return seek().get_int();
+        }
+        bool get_bool() const {
+            return seek().get_bool();
+        }
+        double get_float() const {
+            return seek().get_float();
+        }
+        JsonObject get_object() const {
+            return seek().get_object();
+        }
+        JsonArray get_array() const {
+            return seek().get_array();
+        }
 };
 
 class JsonArray::const_iterator
@@ -1110,9 +1135,9 @@ class JsonArray::const_iterator
             index_++;
             return *this;
         }
-        JsonArrayValueRef operator*() const {
+        JsonValue operator*() const {
             array_.verify_index( index_ );
-            return JsonArrayValueRef( *array_.jsin, array_.positions[index_] );
+            return JsonValue( *array_.jsin, array_.positions[index_] );
         }
 
         friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
@@ -1131,6 +1156,74 @@ inline JsonArray::const_iterator JsonArray::begin() const
 inline JsonArray::const_iterator JsonArray::end() const
 {
     return const_iterator( *this, size() );
+}
+/**
+ * Represents a member of a @ref JsonObject. This is retured when one iterates over
+ * a JsonObject.
+ * It *is* @ref JsonValue, which is the value of the member, which allows one to write:
+<code>
+for( const JsonMember &member : some_json_object )
+    JsonArray array = member.get_array();
+}
+</code>
+ */
+class JsonMember : public JsonValue
+{
+    private:
+        const std::string &name_;
+
+    public:
+        JsonMember( const std::string &name, const JsonValue &value ) : JsonValue( value ),
+            name_( name ) { }
+
+        const std::string &name() const {
+            return name_;
+        }
+        /**
+         * @returns Whether this member is considered a comment.
+         * Comments should generally be ignored by game, but they should be kept
+         * when this class is used within a generic JSON tool.
+         */
+        bool is_comment() const {
+            return name_ == "//";
+        }
+};
+
+class JsonObject::const_iterator
+{
+    private:
+        const JsonObject &object_;
+        decltype( JsonObject::positions )::const_iterator iter_;
+
+    public:
+        const_iterator( const JsonObject &object, const decltype( iter_ ) &iter ) : object_( object ),
+            iter_( iter ) { }
+
+        const_iterator &operator++() {
+            iter_++;
+            return *this;
+        }
+        JsonMember operator*() const {
+            object_.visited_members.insert( iter_->first );
+            return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
+        }
+
+        friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
+            return lhs.iter_ == rhs.iter_;
+        }
+        friend bool operator!=( const const_iterator &lhs, const const_iterator &rhs ) {
+            return !operator==( lhs, rhs );
+        }
+};
+
+inline JsonObject::const_iterator JsonObject::begin() const
+{
+    return const_iterator( *this, positions.begin() );
+}
+
+inline JsonObject::const_iterator JsonObject::end() const
+{
+    return const_iterator( *this, positions.end() );
 }
 
 template <typename T>

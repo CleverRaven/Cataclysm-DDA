@@ -63,6 +63,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -242,7 +243,9 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         current_phase = type->phase;
     }
     // item always has any relic properties from itype.
-    relic_data = type->relic_data;
+    if( type->relic_data ) {
+        relic_data = *type->relic_data;
+    }
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
@@ -1289,7 +1292,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 void item::med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int batch, bool ) const
 {
-    const cata::optional<islot_comestible> &med_com = med_item->get_comestible();
+    const cata::value_ptr<islot_comestible> &med_com = med_item->get_comestible();
     if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
@@ -3300,7 +3303,7 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
     }
     int result = loc->second;
     for( const item &elem : contents ) {
-        const cata::optional<islot_gunmod> &mod = elem.type->gunmod;
+        const cata::value_ptr<islot_gunmod> &mod = elem.type->gunmod;
         if( mod && mod->location == location ) {
             result--;
         }
@@ -5567,7 +5570,7 @@ bool item::destroyed_at_zero_charges() const
 
 bool item::is_gun() const
 {
-    return type->gun.has_value();
+    return !!type->gun;
 }
 
 bool item::is_firearm() const
@@ -5597,22 +5600,22 @@ bool item::is_silent() const
 
 bool item::is_gunmod() const
 {
-    return type->gunmod.has_value();
+    return !!type->gunmod;
 }
 
 bool item::is_bionic() const
 {
-    return type->bionic.has_value();
+    return !!type->bionic;
 }
 
 bool item::is_magazine() const
 {
-    return type->magazine.has_value();
+    return !!type->magazine;
 }
 
 bool item::is_battery() const
 {
-    return type->battery.has_value();
+    return !!type->battery;
 }
 
 bool item::is_ammo_belt() const
@@ -5632,12 +5635,12 @@ bool item::is_holster() const
 
 bool item::is_ammo() const
 {
-    return type->ammo.has_value();
+    return !!type->ammo;
 }
 
 bool item::is_comestible() const
 {
-    return get_comestible().has_value();
+    return !!get_comestible();
 }
 
 bool item::is_food() const
@@ -5653,7 +5656,7 @@ bool item::is_medication() const
 
 bool item::is_brewable() const
 {
-    return type->brewable.has_value();
+    return !!type->brewable;
 }
 
 bool item::is_food_container() const
@@ -5777,7 +5780,7 @@ bool item::is_armor() const
 
 bool item::is_book() const
 {
-    return type->book.has_value();
+    return !!type->book;
 }
 
 bool item::is_map() const
@@ -5787,7 +5790,7 @@ bool item::is_map() const
 
 bool item::is_container() const
 {
-    return type->container.has_value();
+    return !!type->container;
 }
 
 bool item::is_watertight_container() const
@@ -5818,17 +5821,17 @@ bool item::is_bucket_nonempty() const
 
 bool item::is_engine() const
 {
-    return type->engine.has_value();
+    return !!type->engine;
 }
 
 bool item::is_wheel() const
 {
-    return type->wheel.has_value();
+    return !!type->wheel;
 }
 
 bool item::is_fuel() const
 {
-    return type->fuel.has_value();
+    return !!type->fuel;
 }
 
 bool item::is_toolmod() const
@@ -5993,7 +5996,7 @@ bool item::is_deployable() const
 
 bool item::is_tool() const
 {
-    return type->tool.has_value();
+    return !!type->tool;
 }
 
 bool item::is_transformable() const
@@ -6003,12 +6006,12 @@ bool item::is_transformable() const
 
 bool item::is_artifact() const
 {
-    return type->artifact.has_value();
+    return !!type->artifact;
 }
 
 bool item::is_relic() const
 {
-    return relic_data.has_value();
+    return !!relic_data;
 }
 
 std::vector<enchantment> item::get_enchantments() const
@@ -9057,7 +9060,7 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
 
 bool item::is_seed() const
 {
-    return type->seed.has_value();
+    return !!type->seed;
 }
 
 time_duration item::get_plant_epoch() const
@@ -9388,7 +9391,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
     return cached_tool_selections;
 }
 
-const cata::optional<islot_comestible> &item::get_comestible() const
+const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() ) {
         return find_type( making->result() )->comestible;

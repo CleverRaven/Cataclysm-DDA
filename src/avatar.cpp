@@ -372,9 +372,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( int inventory_position, const bool continuous )
+bool avatar::read( item &it, const bool continuous )
 {
-    item &it = i_at( inventory_position );
     if( it.is_null() ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
@@ -896,7 +895,7 @@ void avatar::do_read( item &book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( get_item_position( &book ), true );
+        read( book, true );
         if( activity ) {
             return;
         }

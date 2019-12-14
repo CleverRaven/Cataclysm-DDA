@@ -345,7 +345,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your weight is a general indicator of how much fat your body has stored up,"
                                              " which in turn shows how prepared you are to survive for a time without food."
-                                             "Having too much, or too little, can be unhealthy." ) );
+                                             " Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         you.get_weight_description() );
     }

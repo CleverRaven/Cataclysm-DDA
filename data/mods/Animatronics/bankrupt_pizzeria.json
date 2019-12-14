@@ -168,7 +168,7 @@
     "type": "overmap_terrain",
     "id": "bankruptpizzeria",
     "name": "Bankrupt Pizzeria",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",

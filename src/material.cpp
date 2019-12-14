@@ -106,7 +106,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         _burn_products.emplace_back( pair.get_string( 0 ), static_cast< float >( pair.get_float( 1 ) ) );
     }
 
-    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts, auto_flags_reader<material_id>() );
+    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
+              auto_flags_reader<material_id>() );
     optional( jsobj, was_loaded, "compacts_into", _compacts_into, string_reader() );
 }
 
@@ -133,24 +134,6 @@ void material_type::check() const
         if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }
-    }
-}
-
-int material_type::dam_resist( damage_type damtype ) const
-{
-    switch( damtype ) {
-        case DT_BASH:
-            return _bash_resist;
-        case DT_CUT:
-            return _cut_resist;
-        case DT_ACID:
-            return _acid_resist;
-        case DT_ELECTRIC:
-            return _elec_resist;
-        case DT_HEAT:
-            return _fire_resist;
-        default:
-            return 0;
     }
 }
 

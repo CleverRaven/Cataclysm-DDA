@@ -64,6 +64,9 @@
         [ "vodka", 1 ],
         [ "whiskey", 1 ],
         [ "single_malt_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
         [ "brandy", 1 ],
         [ "rum", 1 ],
         [ "gin", 1 ],
@@ -76,14 +79,23 @@
     "id": "cheap_wine",
     "type": "requirement",
     "//": "Cheap and improvised wines.",
-    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ] ] ]
+    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ], [ "bum_wine", 1 ] ] ]
   },
   {
     "id": "worthy_wine",
     "type": "requirement",
     "//": "More expensive wines.",
     "components": [
-      [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ], [ "wine_vermouth", 1 ] ]
+      [
+        [ "wine_riesling", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_vermouth", 1 ],
+        [ "sherry", 1 ],
+        [ "bristol_sherry", 1 ],
+        [ "madeira", 1 ]
+      ]
     ]
   },
   {
