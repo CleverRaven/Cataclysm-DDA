@@ -76,7 +76,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "bird serum",
-    "description": "A super-concentrated mutagen the color of the pre-cataclysmic skies.  You need a syringe to inject it… if you really want to?",
+    "description": "A super-concentrated mutagen the color of the pre-Cataclysmic skies.  You need a syringe to inject it… if you really want to?",
     "color": "cyan",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" }
   },

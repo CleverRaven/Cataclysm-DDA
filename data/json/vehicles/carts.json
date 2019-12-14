@@ -34,7 +34,6 @@
       { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "sloppyjoe" ] },
-      { "x": -1, "y": 0, "chance": 1, "items": [ "cheeseburgerhuman", "bobburger", "manwich" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
       { "x": -1, "y": 0, "chance": 30, "items": [ "hotdogs_cooked" ] },

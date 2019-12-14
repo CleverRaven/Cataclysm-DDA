@@ -415,6 +415,7 @@
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
+        [ "motor_oil", 50, "NO_RECOVER" ],
         [ "chem_ethanol", 100, "NO_RECOVER" ],
         [ "denat_alcohol", 100, "NO_RECOVER" ],
         [ "gasoline", 250, "NO_RECOVER" ],
@@ -463,7 +464,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "smpistol_primer", 1 ],
         [ "lgpistol_primer", 1 ],
@@ -489,7 +490,7 @@
     "components": [
       [ [ "bolt_metal", 1 ], [ "bolt_steel", 1 ] ],
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "smpistol_primer", 1 ],
         [ "lgpistol_primer", 1 ],

@@ -133,7 +133,7 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void spell_type::load_spell( JsonObject &jo, const std::string &src )
+void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
 }
@@ -193,7 +193,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string & )
 {
     static const
     std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
@@ -251,10 +251,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     if( jo.has_array( "extra_effects" ) ) {
-        JsonArray jarray = jo.get_array( "extra_effects" );
-        while( jarray.has_more() ) {
+        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
             fake_spell temp;
-            JsonObject fake_spell_obj = jarray.next_object();
             temp.load( fake_spell_obj );
             additional_spells.emplace_back( temp );
         }
@@ -320,9 +318,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 
-    JsonObject learning = jo.get_object( "learn_spells" );
-    for( std::string n : learning.get_member_names() ) {
-        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    for( const JsonMember &member : jo.get_object( "learn_spells" ) ) {
+        learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
 }
 
@@ -851,7 +848,7 @@ void spell::create_field( const tripoint &at ) const
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
-            g->m.add_field( at, *type->field, intensity );
+            g->m.add_field( at, *type->field, intensity, -duration_turns() );
         }
     }
 }
@@ -941,29 +938,7 @@ nc_color spell::damage_type_color() const
 
 std::string spell::damage_type_string() const
 {
-    switch( dmg_type() ) {
-        case DT_HEAT:
-            return "heat";
-        case DT_ACID:
-            return "acid";
-        case DT_BASH:
-            return "bashing";
-        case DT_BIOLOGICAL:
-            return "biological";
-        case DT_COLD:
-            return "cold";
-        case DT_CUT:
-            return "cutting";
-        case DT_ELECTRIC:
-            return "electric";
-        case DT_STAB:
-            return "stabbing";
-        case DT_TRUE:
-            // not *really* force damage
-            return "force";
-        default:
-            return "error";
-    }
+    return name_by_dt( dmg_type() );
 }
 
 // constants defined below are just for the formula to be used,
@@ -1200,9 +1175,7 @@ void known_magic::deserialize( JsonIn &jsin )
     JsonObject data = jsin.get_object();
     data.read( "mana", mana );
 
-    JsonArray parray = data.get_array( "spellbook" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
+    for( JsonObject jo : data.get_array( "spellbook" ) ) {
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
@@ -1585,7 +1558,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     const bool cost_encumb = energy_cost_encumbered( sp, g->u );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( " (%s current)",
+    std::string energy_cur = sp.energy_source() == hp_energy ? "" : string_format( _( " (%s current)" ),
                              sp.energy_cur_string( g->u ) );
     if( !sp.can_cast( g->u ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
@@ -1606,12 +1579,12 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     std::string targets;
     if( sp.is_valid_target( target_none ) ) {
-        targets = "self";
+        targets = _( "self" );
     } else {
         targets = sp.enumerate_targets();
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Valid Targets" ), _( targets ) ) );
+                        string_format( "%s: %s", _( "Valid Targets" ), targets ) );
 
     if( line <= win_height * 3 / 4 ) {
         line++;
@@ -1632,15 +1605,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                            light_green ) );
         }
         if( sp.aoe() > 0 ) {
-            std::string aoe_string_temp = "Spell Radius";
+            std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( fx == "cone_attack" ) {
-                aoe_string_temp = "Cone Arc";
-                degree_string = "degrees";
+                aoe_string_temp = _( "Cone Arc" );
+                degree_string = _( "degrees" );
             } else if( fx == "line_attack" ) {
-                aoe_string_temp = "Line Width";
+                aoe_string_temp = _( "Line Width" );
             }
-            aoe_string = string_format( "%s: %d %s", _( aoe_string_temp ), sp.aoe(), degree_string );
+            aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
         }
     } else if( fx == "teleport_random" ) {
         if( sp.aoe() > 0 ) {
@@ -1906,7 +1879,7 @@ void spellbook_callback::select( int entnum, uilist *menu )
     draw_spellbook_info( spells[entnum], menu );
 }
 
-void fake_spell::load( JsonObject &jo )
+void fake_spell::load( const JsonObject &jo )
 {
     std::string temp_id;
     mandatory( jo, false, "id", temp_id );

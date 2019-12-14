@@ -47,11 +47,11 @@
 #include "type_id.h"
 #include "point.h"
 
-const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_assisted( "assisted" );
 
-const skill_id skill_computer( "computer" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -456,7 +456,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
+                const nutrients nutr = p.compute_effective_nutrients( get_consumable_item( loc ) );
+                return good_bad_none( nutr.kcal );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -547,7 +548,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this, &p ]( const item_location & loc ) {
                 return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
-            }, _( "ENERGY" ) );
+            }, _( "ENERGY (kJ)" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1037,7 +1038,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
-            } else if( !book_a.skill || !book_a.skill ) {
+            } else if( !book_a.skill || !book_b.skill ) {
                 return static_cast<bool>( book_a.skill );
             }
 
@@ -1415,11 +1416,16 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         int iScrollPosLast = 0;
 
         do {
+            item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+            last_item_info.without_getch = true;
+
+            item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+            cur_item_info.without_getch = true;
+
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true );
+                            last_item_info );
             draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                            0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
-                            iScrollPos, true );
+                            0, TERMY - VIEW_OFFSET_Y * 2, cur_item_info );
 
             action = ctxt.handle_input();
 
@@ -1534,8 +1540,6 @@ static item_location autodoc_internal( player &u, player &patient,
             }
 
         }
-    } else {
-        hint = string_format( _( "<color_yellow>Money available: %s</color>" ), format_money( u.cash ) );
     }
 
     if( uninstall ) {
@@ -1613,7 +1617,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\" ) ;
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
@@ -1748,8 +1752,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                 return _( "Superior version installed." );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM is not compatible with patient." );
-            } else if( it->price( true ) * 2 > p.cash ) {
-                return format_money( it->price( true ) * 2 );
             }
 
             return std::string();

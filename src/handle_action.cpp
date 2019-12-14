@@ -69,18 +69,16 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_relax_gas( "relax_gas" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-const skill_id skill_driving( "driving" );
-const skill_id skill_melee( "melee" );
+static const skill_id skill_melee( "melee" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -195,7 +193,7 @@ input_context game::get_player_input( std::string &action )
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
                 WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
@@ -666,7 +664,7 @@ static void smash()
     }
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!", true, "smash", "web" );
+        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -1004,10 +1002,7 @@ static void loot()
     enum ZoneFlags {
         None = 1,
         SortLoot = 2,
-        TillPlots = 4,
-        PlantPlots = 8,
         FertilizePlots = 16,
-        HarvestPlots = 32,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
         Multichoptrees = 256,
@@ -1020,10 +1015,6 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
-    const bool has_seeds = u.has_item_with( []( const item & itm ) {
-        return itm.is_seed();
-    } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
@@ -1033,10 +1024,7 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
-        flags |= TillPlots;
-        flags |= PlantPlots;
         flags |= FertilizePlots;
-        flags |= HarvestPlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
@@ -1065,28 +1053,12 @@ static void loot()
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
 
-    if( flags & TillPlots ) {
-        menu.addentry_desc( TillPlots, has_hoe, 't',
-                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots… you need a tool to dig with" ),
-                            _( "Tills nearby Farm: Plot zones." ) );
-    }
-
-    if( flags & PlantPlots ) {
-        menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds… it is too cold for planting" ) :
-                            !has_seeds ? _( "Plant seeds… you don't have any" ) : _( "Plant seeds" ),
-                            _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-    }
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
                             !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
                             _( "Fertilize any nearby Farm: Plot zones." ) );
     }
 
-    if( flags & HarvestPlots ) {
-        menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
-                            _( "Harvest any full-grown plants from nearby Farm: Plot zones." ) );
-    }
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
                             _( "Work on any nearby Blueprint: construction zones." ) );
@@ -1126,27 +1098,8 @@ static void loot()
         case SortLoot:
             u.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
             break;
-        case TillPlots:
-            if( has_hoe ) {
-                u.assign_activity( activity_id( "ACT_TILL_PLOT" ) );
-            } else {
-                add_msg( _( "You need a tool to dig with." ) );
-            }
-            break;
-        case PlantPlots:
-            if( !warm_enough_to_plant( g->u.pos() ) ) {
-                add_msg( m_info, _( "It is too cold to plant anything now." ) );
-            } else if( !has_seeds ) {
-                add_msg( m_info, _( "You don't have any seeds." ) );
-            } else {
-                u.assign_activity( activity_id( "ACT_PLANT_PLOT" ) );
-            }
-            break;
         case FertilizePlots:
             u.assign_activity( activity_id( "ACT_FERTILIZE_PLOT" ) );
-            break;
-        case HarvestPlots:
-            u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         case ConstructPlots:
             u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
@@ -1206,7 +1159,9 @@ static void read()
     auto loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        // calling obtain() invalidates the item pointer
+        // @TODO: find a way to do this without an int index
+        u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1477,13 +1432,13 @@ void game::open_consume_item_menu()
 
     switch( as_m.ret ) {
         case 0:
-            eat( game_menus::inv::consume_food );
+            avatar_action::eat( u, game_menus::inv::consume_food( u ) );
             break;
         case 1:
-            eat( game_menus::inv::consume_drink );
+            avatar_action::eat( u, game_menus::inv::consume_drink( u ) );
             break;
         case 2:
-            eat( game_menus::inv::consume_meds );
+            avatar_action::eat( u, game_menus::inv::consume_meds( u ) );
             break;
         default:
             break;
@@ -1913,7 +1868,7 @@ bool game::handle_action()
             case ACTION_USE:
                 // Shell-users are presumed to be able to mess with their inventories, etc
                 // while in the shell.  Eating, gear-changing, and item use are OK.
-                use_item();
+                avatar_action::use_item( u );
                 break;
 
             case ACTION_USE_WIELDED:
@@ -1929,11 +1884,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                eat();
+                if( !avatar_action::eat_here( u ) ) {
+                    avatar_action::eat( u );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                open_consume_item_menu();
+                if( !avatar_action::eat_here( u ) ) {
+                    open_consume_item_menu();
+                }
                 break;
 
             case ACTION_READ:
@@ -2368,6 +2327,13 @@ bool game::handle_action()
                 break;
 
             case ACTION_DISPLAY_SCENT:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_scent();
+                break;
+
+            case ACTION_DISPLAY_SCENT_TYPE:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }

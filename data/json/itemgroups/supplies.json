@@ -191,9 +191,9 @@
       [ "rope_30", 35 ],
       [ "circsaw_blade", 8 ],
       [ "glass_sheet", 5 ],
-      [ "box_small", 2 ],
-      [ "box_medium", 2 ],
-      [ "box_large", 2 ],
+      [ "box_small", 10 ],
+      [ "box_medium", 10 ],
+      [ "box_large", 10 ],
       [ "plastic_sheet", 30 ],
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
@@ -317,6 +317,7 @@
       [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
+      [ "motor_oil", 100 ],
       [ "lamp_oil", 100 ]
     ]
   },
@@ -340,7 +341,7 @@
   {
     "id": "supplies_metal_precious",
     "type": "item_group",
-    "//": "Metals of significant economic value before the cataclysm",
+    "//": "Metals of significant economic value before the Cataclysm",
     "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
   },
   {
@@ -392,6 +393,7 @@
       [ "alternator_bicycle", 4 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
+      [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ]
     ]

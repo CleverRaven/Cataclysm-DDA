@@ -53,14 +53,14 @@ matype_id martial_art_learned_from( const itype &type )
     return type.book->martial_art;
 }
 
-void load_technique( JsonObject &jo, const std::string &src )
+void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
 }
 
 // To avoid adding empty entries
 template <typename Container>
-void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
+void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
                     const std::string &json_key, const typename Container::key_type &id )
 {
     if( jo.has_member( json_key ) ) {
@@ -114,7 +114,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
         }
 };
 
-void ma_requirements::load( JsonObject &jo, const std::string & )
+void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -129,7 +129,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( JsonObject &jo, const std::string &src )
+void ma_technique::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, "" );
@@ -190,7 +190,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( JsonObject &jo, const std::string &src )
+void ma_buff::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -226,7 +226,7 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art( JsonObject &jo, const std::string &src )
+void load_martial_art( const JsonObject &jo, const std::string &src )
 {
     martialarts.load( jo, src );
 }
@@ -244,14 +244,12 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
-    JsonArray jsarr = jo.get_array( "autolearn" );
-    while( jsarr.has_more() ) {
-        JsonArray skillArray = jsarr.next_array();
+    for( JsonArray skillArray : jo.get_array( "autolearn" ) ) {
         std::string skill_name = skillArray.get_string( 0 );
         int skill_level = 0;
         std::string skill_level_string = skillArray.get_string( 1 );
@@ -277,6 +275,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
@@ -835,7 +834,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
         return true;
     }
 
@@ -1135,7 +1134,7 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool player::is_throw_immune() const
+bool Character::is_throw_immune() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_throw_immune();
@@ -1202,17 +1201,15 @@ bool player::can_autolearn( const matype_id &ma_id ) const
 void character_martial_arts::martialart_use_message( const Character &owner ) const
 {
     martialart ma = style_selected.obj();
-    if( !ma.force_unarmed && !ma.weapon_valid( owner.weapon ) ) {
-        if( !owner.has_weapon() && ma.strictly_melee ) {
-            owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
-        } else if( owner.has_weapon() && ma.strictly_unarmed ) {
-            owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
-        } else {
-            owner.add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), owner.weapon.tname( 1,
-                                     false ), ma.name );
-        }
-    } else {
+    if( ma.force_unarmed || ma.weapon_valid( owner.weapon ) ) {
         owner.add_msg_if_player( m_info, _( ma.get_initiate_avatar_message() ) );
+    } else if( ma.strictly_melee && !owner.is_armed() ) {
+        owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
+    } else if( ma.strictly_unarmed && owner.is_armed() ) {
+        owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
+    } else {
+        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ), owner.weapon.tname( 1,
+                                 false ), ma.name );
     }
 }
 

@@ -12,6 +12,17 @@
   },
   {
     "type": "recipe",
+    "result": "soapy_water",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "detergent", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "saline",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -724,6 +735,28 @@
   },
   {
     "type": "recipe",
+    "result": "soap_flakes",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "soap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soap_flakes",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "soap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "poppysyrup",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -985,7 +1018,7 @@
     "autolearn": true,
     "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "vinegar", 160 ] ] ]
+    "components": [ [ [ "vinegar", 320 ] ] ]
   },
   {
     "type": "recipe",

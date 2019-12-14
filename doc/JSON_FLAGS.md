@@ -26,6 +26,9 @@
   + [Flags](#flags-3)
 * [Guns](#guns)
   + [Firing modes](#firing-modes)
+  + [Faults](#faults)
+    - [Flags](#flags)
+    - [Parameters](#parameters)
 * [Magazines](#magazines)
 * [MAP SPECIALS](#map-specials)
 * [Material Phases](#material-phases)
@@ -481,6 +484,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
+- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
 - ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
@@ -576,6 +580,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
+- ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -642,6 +647,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
+- ```DETERGENT``` ... This item can be used as a detergent in a washing machine.
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```FAKE_MILL``` ... Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` ... Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
@@ -710,6 +716,17 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
 
 ## Magazines
@@ -938,11 +955,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
-- ```REGENERATES_1``` Monster regenerates slowly over time.
-- ```REGENERATES_10``` Monster regenerates quickly over time.
-- ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
-- ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
@@ -1221,6 +1233,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRESTARTER``` Item will start fire with some difficulty.

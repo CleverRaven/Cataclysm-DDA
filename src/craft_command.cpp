@@ -22,6 +22,8 @@
 #include "uistate.h"
 #include "type_id.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {
@@ -30,7 +32,8 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
+        case use_from_player:
+        // Is the same as the default return;
         case use_from_none:
         case cancel:
         case num_usages:
@@ -209,7 +212,7 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     std::list<item> used;
     std::vector<item_comp> comps_used;
-    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
     }
 

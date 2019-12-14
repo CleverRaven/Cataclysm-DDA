@@ -429,7 +429,7 @@
       {
         "id": "buff_medievalpole_static",
         "name": "Stand Your Ground",
-        "description": "You stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
+        "description": "You are stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
         "melee_allowed": true,
         "bonus_blocks": 2,
         "flat_bonuses": [ [ "block", "str", 0.5 ], [ "dodge", -1.0 ] ]
@@ -1507,7 +1507,7 @@
       {
         "id": "debug_miss_buff",
         "name": "Getting Angry",
-        "description": "When I get my hands on you...  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "description": "When I get my hands on you…  +2 bash damage for 2 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,

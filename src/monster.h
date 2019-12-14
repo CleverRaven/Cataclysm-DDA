@@ -107,6 +107,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
+        units::mass weight_capacity() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -121,7 +122,7 @@ class monster : public Creature
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
-        std::string disp_name( bool possessive = false ) const override;
+        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
@@ -138,11 +139,17 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
-        bool can_see() const;      // MF_SEES and no ME_BLIND
-        bool can_hear() const;     // MF_HEARS and no ME_DEAF
-        bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
-        bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
-        bool digging() const override;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        bool can_see() const;      // MF_SEES and no MF_BLIND
+        bool can_hear() const;     // MF_HEARS and no MF_DEAF
+        bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
+        bool can_drown() const;    // MF_AQUATIC or swims() or MF_NO_BREATHE or flies()
+        bool can_climb() const;         // climbs() or flies()
+        bool digging() const override;  // digs() or can_dig() and diggable terrain
+        bool can_dig() const;
+        bool digs() const;
+        bool flies() const;
+        bool climbs() const;
+        bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
@@ -402,8 +409,8 @@ class monster : public Creature
         /**
          * Makes monster react to heard sound
          *
-         * @param from Location of the sound source
-         * @param source_volume Volume at the center of the sound source
+         * @param source Location of the sound source
+         * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
         void hear_sound( const tripoint &source, int vol, int distance );
@@ -537,7 +544,7 @@ class monster : public Creature
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;

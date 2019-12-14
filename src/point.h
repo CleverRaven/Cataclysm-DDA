@@ -71,7 +71,8 @@ struct point {
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
-     * by @param dim. By default rotates around the origin (0, 0).
+     * by @param dim
+     * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const {
         assert( turns >= 0 );
@@ -317,7 +318,7 @@ namespace std
 {
 template <>
 struct hash<point> {
-    std::size_t operator()( const point &k ) const {
+    std::size_t operator()( const point &k ) const noexcept {
         constexpr uint64_t a = 2862933555777941757;
         size_t result = k.y;
         result *= a;
@@ -333,7 +334,7 @@ namespace std
 {
 template <>
 struct hash<tripoint> {
-    std::size_t operator()( const tripoint &k ) const {
+    std::size_t operator()( const tripoint &k ) const noexcept {
         constexpr uint64_t a = 2862933555777941757;
         size_t result = k.z;
         result *= a;
@@ -347,6 +348,23 @@ struct hash<tripoint> {
 
 static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
+    }};
+
+static constexpr std::array<point, 4> neighborhood{ {
+        point_south, point_east, point_west, point_north
+    }};
+
+static constexpr std::array<point, 4> offsets = {{
+        point_south, point_east, point_west, point_north
+    }
+};
+
+static constexpr std::array<point, 4> four_cardinal_directions{{
+        point_west, point_east, point_north, point_south
+    }};
+
+static constexpr std::array<point, 5> five_cardinal_directions{{
+        point_west, point_east, point_north, point_south, point_zero
     }};
 
 static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
