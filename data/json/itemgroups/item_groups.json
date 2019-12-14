@@ -509,7 +509,8 @@
   },
   {
     "type": "item_group",
-    "id": "fridge",
+     "id": "fridge",
+     "//": "This is a terrible item group and should be phased out.  See SUS_fridge for a more modern take on things.",
     "items": [
       [ "water_clean", 90 ],
       [ "water_mineral", 10 ],
