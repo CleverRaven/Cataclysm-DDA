@@ -26,8 +26,11 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
-Name displayed in-game, and optionally the plural name and a translation context.
+Name displayed in-game, and optionally the plural name and a translation context (ctxt).
+
 If the plural name is not specified, it defaults to singular name + "s".
+
+Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
 ## "description"
 (string)
