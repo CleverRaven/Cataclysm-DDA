@@ -233,7 +233,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
 
-        bool conflicting_traits = this->scenario_traits_conflict_with_profession_traits(p);
+        bool conflicting_traits = scenario_traits_conflict_with_profession_traits(p);
 
         if( blacklist || professions.empty() ) {
             if( !present && !p.has_flag( "SCEN_ONLY" ) && !conflicting_traits ) {
