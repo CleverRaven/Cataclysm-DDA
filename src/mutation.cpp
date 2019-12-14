@@ -101,7 +101,6 @@ bool Character::has_base_trait( const trait_id &b ) const
     return my_traits.find( b ) != my_traits.end();
 }
 
-
 void Character::toggle_trait( const trait_id &flag )
 {
     const auto titer = my_traits.find( flag );
