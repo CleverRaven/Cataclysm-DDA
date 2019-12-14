@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "character.h"
 #include "requirements.h"
 #include "skill.h"
 #include "translations.h"
