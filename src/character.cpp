@@ -2566,6 +2566,59 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
+hint_rating Character::rate_action_change_side( const item &it ) const
+{
+    if( !is_worn( it ) ) {
+        return HINT_IFFY;
+    }
+
+    if( !it.is_sided() ) {
+        return HINT_CANT;
+    }
+
+    return HINT_GOOD;
+}
+
+bool Character::change_side( item &it, bool interactive )
+{
+    if( !it.swap_side() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You cannot swap the side on which your %s is worn." ),
+                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
+                                   it.tname() );
+        }
+        return false;
+    }
+
+    if( interactive ) {
+        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
+                               _( "<npcname> swaps the side on which their %s is worn." ),
+                               it.tname() );
+    }
+
+    mod_moves( -250 );
+    reset_encumbrance();
+
+    return true;
+}
+
+bool Character::change_side( int pos, bool interactive )
+{
+    item &it( i_at( pos ) );
+
+    if( !is_worn( it ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are not wearing that item." ),
+                                   _( "<npcname> isn't wearing that item." ) );
+        }
+        return false;
+    }
+
+    return change_side( it, interactive );
+}
+
 static void layer_item( std::array<encumbrance_data, num_bp> &vals,
                         const item &it,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
