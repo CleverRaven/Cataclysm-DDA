@@ -19,7 +19,7 @@
         "active": true,
         "type": "transform"
       },
-      { "revert_to": "afs_atomic_smartphone", "type": "CAMERA" }
+      { "type": "CAMERA" }
     ],
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },

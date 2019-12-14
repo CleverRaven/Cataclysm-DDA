@@ -198,7 +198,6 @@
       "update_mapgen": [
         {
           "om_terrain": "horse_farm_isherwood_4",
-          "om_special": "Isherwood Farms",
           "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ]
         }
       ]

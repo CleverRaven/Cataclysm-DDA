@@ -276,7 +276,6 @@
         "gun_type": "robogun_laser",
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 6 ] ],
         "fake_dex": 10,
-        "range": 20,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -348,7 +347,6 @@
         "gun_type": "robogun_nail",
         "fake_skills": [ [ "gun", 0 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
-        "range": 3,
         "ranges": [ [ 0, 3, "BURST" ] ]
       }
     ]
@@ -373,7 +371,6 @@
         "gun_type": "watercannon",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 8,
-        "range": 5,
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
@@ -439,7 +436,6 @@
         "fake_skills": [ [ "gun", 3 ], [ "archery", 3 ] ],
         "fake_dex": 8,
         "no_ammo_sound": "click!",
-        "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
     ],
@@ -637,7 +633,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
     ]
@@ -703,7 +698,6 @@
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "range": 8,
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
     ]
@@ -764,7 +758,6 @@
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 4 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click!",
-        "range": 15,
         "ranges": [ [ 0, 15, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -796,7 +789,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 18,
         "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -829,7 +821,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 20,
         "ranges": [ [ 0, 5, "DEFAULT" ], [ 6, 10, "BURST" ], [ 11, 20, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -861,7 +852,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 20,
         "ranges": [ [ 0, 5, "DEFAULT" ], [ 6, 10, "BURST" ], [ 11, 20, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -893,7 +883,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "whirrrr!",
-        "range": 24,
         "ranges": [ [ 0, 5, "BURST" ], [ 6, 10, "AUTO" ], [ 11, 24, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -925,7 +914,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 18,
         "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -958,7 +946,6 @@
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 30,
         "ranges": [ [ 6, 30, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -989,7 +976,6 @@
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
-        "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1038,7 +1024,6 @@
         "gun_type": "robogun_laser",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
-        "range": 18,
         "ranges": [ [ 0, 8, "AUTO" ], [ 8, 16, "BURST" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1067,7 +1052,6 @@
         "gun_type": "robogun_plasma",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
-        "range": 18,
         "ranges": [ [ 4, 16, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1096,7 +1080,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "buzz!",
-        "range": 18,
         "ranges": [ [ 0, 18, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1125,7 +1108,6 @@
         "gun_type": "robogun_lightning",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
-        "range": 12,
         "ranges": [ [ 0, 12, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1153,7 +1135,6 @@
         "gun_type": "robogun_emp",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
-        "range": 18,
         "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1192,7 +1173,6 @@
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click!",
-        "range": 3,
         "ranges": [ [ 0, 3, "DEFAULT" ] ]
       }
     ]
@@ -1255,7 +1235,6 @@
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
-        "range": 10,
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
     ],
@@ -1286,7 +1265,6 @@
         "fake_skills": [ [ "gun", 3 ], [ "smg", 3 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "range": "10",
         "ranges": [ [ 0, 10, "AUTO" ] ]
       }
     ]
@@ -1325,7 +1303,6 @@
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "range": 18,
         "ranges": [ [ 0, 16, "BURST" ] ],
         "require_targeting_player": true
       }
@@ -1357,7 +1334,6 @@
         "fake_dex": 11,
         "fake_per": 10,
         "no_ammo_sound": "click!",
-        "range": 30,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
@@ -1391,7 +1367,6 @@
         "gun_type": "robogun_laser",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 8,
-        "range": 5,
         "ranges": [ [ 0, 5, "AUTO" ] ]
       }
     ]
@@ -1484,7 +1459,6 @@
     "vision_day": 20,
     "vision_night": 10,
     "revert_to_itype": "bot_chickenbot_horror",
-    "remove:special_attack": [ "CHICKENBOT" ],
     "special_attacks": [ [ "SMASH", 30 ], [ "SHRIEK", 10 ], [ "SHRIEK_STUN", 10 ] ]
   },
   {
@@ -1503,7 +1477,6 @@
     "vision_day": 20,
     "vision_night": 10,
     "revert_to_itype": "bot_chickenbot_terror",
-    "remove:special_attack": [ "CHICKENBOT" ],
     "special_attacks": [ [ "SMASH", 30 ], [ "SHRIEK", 10 ], [ "SHRIEK_STUN", 10 ] ]
   },
   {
@@ -1522,7 +1495,6 @@
     "vision_day": 20,
     "vision_night": 10,
     "revert_to_itype": "bot_chickenbot_nightmare",
-    "remove:special_attack": [ "CHICKENBOT" ],
     "special_attacks": [ [ "SMASH", 30 ], [ "SHRIEK", 10 ], [ "SHRIEK_STUN", 10 ], [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 10 ] ],
     "extend": { "flags": [ "GRABS" ] }
   },
@@ -1583,7 +1555,6 @@
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 10 }, { "id": "stunned", "chance": 20, "duration": 10 } ],
     "vision_day": 20,
     "revert_to_itype": "bot_tankbot_king",
-    "remove:special_attack": [ "MULTI_ROBOT" ],
     "special_attacks": [ [ "SMASH", 15 ] ]
   },
   {
@@ -1606,7 +1577,6 @@
     "vision_day": 20,
     "revert_to_itype": "bot_tankbot_sultan",
     "emit_fields": [ "emit_nuclear_trail" ],
-    "remove:special_attack": [ "MULTI_ROBOT" ],
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 20 ] ],
     "extend": { "flags": [ "STUMBLES", "GRABS" ] }
   }

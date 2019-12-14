@@ -106,8 +106,6 @@
     "dispersion": 90,
     "durability": 7,
     "loudness": 8,
-    "max_charges": 80,
-    "initial_charges": 80,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON-FOULING" ]
   }

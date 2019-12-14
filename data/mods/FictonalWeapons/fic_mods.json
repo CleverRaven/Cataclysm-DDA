@@ -60,7 +60,6 @@
     "bashing": 5,
     "handling_modifier": -5,
     "price": 20000,
-    "min_skills": [ [ "gun", 5 ] ],
-    "ups_charges": 5
+    "min_skills": [ [ "gun", 5 ] ]
   }
 ]

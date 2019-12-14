@@ -133,12 +133,10 @@
       "update_mapgen": [
         {
           "om_terrain": "evac_center_19",
-          "om_special": "evac_center",
           "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
         },
         {
           "om_terrain": "evac_center_7",
-          "om_special": "evac_center",
           "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
         }
       ]
