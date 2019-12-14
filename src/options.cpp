@@ -2820,15 +2820,11 @@ void options_manager::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject joOptions = jsin.get_object();
+        joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
-
-        // Verify format of options file
-        if( !joOptions.has_string( "info" ) || !joOptions.has_string( "default" ) ) {
-            dbg( D_ERROR ) << "options object " << name << " was missing info or default";
-        }
 
         add_retry( name, value );
         options[ name ].setValue( value );
