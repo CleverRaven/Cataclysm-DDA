@@ -238,7 +238,7 @@
     "id": "jar_broth_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth_human" ]
+    "contents": [ "broth_bone" ]
   },
   {
     "id": "jar_fish_canned",
@@ -256,13 +256,13 @@
     "id": "jar_human_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "human_canned" ]
+    "contents": [ "meat_canned" ]
   },
   {
     "id": "jar_human_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "human_pickled" ]
+    "contents": [ "meat_pickled" ]
   },
   {
     "id": "jar_kompot",
@@ -292,7 +292,7 @@
     "id": "jar_soup_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_human" ]
+    "contents": [ "soup_meat" ]
   },
   {
     "id": "jar_soup_meat",
@@ -496,7 +496,7 @@
   {
     "id": "hflesh_vac",
     "type": "MIGRATION",
-    "replace": "hflesh_salted"
+    "replace": "meat_salted"
   },
   {
     "id": "meat_vac",
@@ -521,7 +521,7 @@
   {
     "id": "bag_hflesh_vac",
     "type": "MIGRATION",
-    "replace": "hflesh_salted"
+    "replace": "meat_salted"
   },
   {
     "id": "bag_meat_vac",
@@ -542,6 +542,196 @@
     "id": "potato_raw",
     "type": "MIGRATION",
     "replace": "potato"
+  },
+  {
+    "id": "dry_hflesh",
+    "type": "MIGRATION",
+    "replace": "dry_meat"
+  },
+  {
+    "id": "rehydrated_hflesh",
+    "type": "MIGRATION",
+    "replace": "rehydrated_meat"
+  },
+  {
+    "id": "human_haggis",
+    "type": "MIGRATION",
+    "replace": "haggis"
+  },
+  {
+    "id": "hfleshbologna",
+    "type": "MIGRATION",
+    "replace": "bologna"
+  },
+  {
+    "id": "h_currywurst",
+    "type": "MIGRATION",
+    "replace": "currywurst"
+  },
+  {
+    "id": "mannwurstgravy",
+    "type": "MIGRATION",
+    "replace": "sausagegravy"
+  },
+  {
+    "id": "hflesh_aspic",
+    "type": "MIGRATION",
+    "replace": "meat_aspic"
+  },
+  {
+    "id": "hflesh_pemmican",
+    "type": "MIGRATION",
+    "replace": "pemmican"
+  },
+  {
+    "id": "sandwich_human",
+    "type": "MIGRATION",
+    "replace": "sandwich_t"
+  },
+  {
+    "id": "sandwich_dudeluxe",
+    "type": "MIGRATION",
+    "replace": "sandwich_deluxe"
+  },
+  {
+    "id": "hobo_helper",
+    "type": "MIGRATION",
+    "replace": "macaroni_helper"
+  },
+  {
+    "id": "chili_human",
+    "type": "MIGRATION",
+    "replace": "chili"
+  },
+  {
+    "id": "pie_human",
+    "type": "MIGRATION",
+    "replace": "pie_meat"
+  },
+  {
+    "id": "pizza_human",
+    "type": "MIGRATION",
+    "replace": "pizza_meat"
+  },
+  {
+    "id": "human_canned",
+    "type": "MIGRATION",
+    "replace": "meat_canned"
+  },
+  {
+    "id": "hflesh_salted",
+    "type": "MIGRATION",
+    "replace": "meat_salted"
+  },
+  {
+    "id": "spaghetti_human",
+    "type": "MIGRATION",
+    "replace": "spaghetti_bolognese"
+  },
+  {
+    "id": "luigilasagne",
+    "type": "MIGRATION",
+    "replace": "lasagne"
+  },
+  {
+    "id": "cheeseburgerhuman",
+    "type": "MIGRATION",
+    "replace": "cheeseburger"
+  },
+  {
+    "id": "bobburger",
+    "type": "MIGRATION",
+    "replace": "hamburger"
+  },
+  {
+    "id": "manwich",
+    "type": "MIGRATION",
+    "replace": "sloppyjoe"
+  },
+  {
+    "id": "tiotaco",
+    "type": "MIGRATION",
+    "replace": "taco"
+  },
+  {
+    "id": "mannwurst_raw",
+    "type": "MIGRATION",
+    "replace": "sausage_raw"
+  },
+  {
+    "id": "mannwurst_cooked",
+    "type": "MIGRATION",
+    "replace": "sausage_cooked"
+  },
+  {
+    "id": "mann_bratwurst",
+    "type": "MIGRATION",
+    "replace": "bratwurst_sausage"
+  },
+  {
+    "id": "human_pickled",
+    "type": "MIGRATION",
+    "replace": "meat_pickled"
+  },
+  {
+    "id": "human_smoked",
+    "type": "MIGRATION",
+    "replace": "meat_smoked"
+  },
+  {
+    "id": "jerky_human",
+    "type": "MIGRATION",
+    "replace": "jerky"
+  },
+  {
+    "id": "hflesh_drink",
+    "type": "MIGRATION",
+    "replace": "protein_drink"
+  },
+  {
+    "id": "hflesh_powder",
+    "type": "MIGRATION",
+    "replace": "protein_powder"
+  },
+  {
+    "id": "hflesh_shake",
+    "type": "MIGRATION",
+    "replace": "protein_shake"
+  },
+  {
+    "id": "hflesh_shake_fortified",
+    "type": "MIGRATION",
+    "replace": "protein_shake_fortified"
+  },
+  {
+    "id": "broth_human",
+    "type": "MIGRATION",
+    "replace": "broth_bone"
+  },
+  {
+    "id": "soup_human",
+    "type": "MIGRATION",
+    "replace": "soup_meat"
+  },
+  {
+    "id": "nachoshf",
+    "type": "MIGRATION",
+    "replace": "nachosm"
+  },
+  {
+    "id": "nachoshc",
+    "type": "MIGRATION",
+    "replace": "nachosmc"
+  },
+  {
+    "id": "chilidogs_human",
+    "type": "MIGRATION",
+    "replace": "chilidogs"
+  },
+  {
+    "id": "mannwurst",
+    "type": "MIGRATION",
+    "replace": "sausage"
   },
   {
     "id": "lightstrip_dead",

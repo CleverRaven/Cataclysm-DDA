@@ -571,5 +571,19 @@
       { "group": "enchanted_melee_weapons_plus1", "prob": 2 },
       { "group": "enchanted_small_items", "prob": 1 }
     ]
+  },
+  {
+    "id": "boss_treasure_items",
+    "//": "A distribution of rare magical items treasure rooms.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_combat_items", "prob": 20 },
+      { "group": "enchanted_misc", "prob": 40 },
+      { "group": "enchanted_rings_unusual", "prob": 10 },
+      { "group": "enchanted_rings_rare", "prob": 20 },
+      { "group": "enchanted_wands_greater", "prob": 20 },
+      { "group": "enchanted_wands_lesser", "prob": 10 }
+    ]
   }
 ]

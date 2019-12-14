@@ -1,0 +1,12 @@
+[
+  {
+    "type": "recipe",
+    "result": "bolt_bone",
+    "obsolete": true
+  },
+  {
+    "id": "bolt_bone",
+    "type": "migration",
+    "replace": "bolt_crude"
+  }
+]

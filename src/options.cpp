@@ -1140,6 +1140,11 @@ void options_manager::add_options_general()
          false
        );
 
+    add( "DANGEROUS_RUNNING", "general", translate_marker( "Dangerous running" ),
+         translate_marker( "If true, the player will not be prevented from moving into known hazardous tiles while running." ),
+         false
+       );
+
     mOptionsSort["general"]++;
 
     add( "SAFEMODE", "general", translate_marker( "Safe mode" ),
@@ -3004,7 +3009,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        };
+        }
     } catch( std::runtime_error &e ) {
         std::locale::global( std::locale() );
     }

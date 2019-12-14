@@ -193,7 +193,9 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             add_msg( _( "Never mind." ) );
             return;
         }
-        if( source != nullptr && cont == source ) {
+        // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
+        // as valid target for the liquid. So check for that.
+        if( cont == source || ( !cont->contents.empty() && &cont->contents.front() == &liquid ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }

@@ -214,33 +214,6 @@
   },
   {
     "type": "recipe",
-    "result": "bolt_bone",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "survival", 1 ] ],
-    "difficulty": 2,
-    "time": 12500,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "bone", 5 ], [ "bone_human", 5 ], [ "bone_tainted", 10 ] ],
-      [
-        [ "feather", 10 ],
-        [ "duct_tape", 40 ],
-        [ "paper", 40 ],
-        [ "bag_plastic", 1 ],
-        [ "bottle_plastic_small", 1 ],
-        [ "box_small", 1 ],
-        [ "plastic_chunk", 1 ],
-        [ "aluminum_foil", 40 ],
-        [ "cash_card", 2 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "snare_trigger",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",

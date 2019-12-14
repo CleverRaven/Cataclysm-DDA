@@ -31,11 +31,11 @@
 #include "enums.h"
 #include "optional.h"
 
-const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_unarmed( "unarmed" );
 
 namespace
 {
@@ -59,14 +59,14 @@ matype_id martial_art_learned_from( const itype &type )
     return type.book->martial_art;
 }
 
-void load_technique( JsonObject &jo, const std::string &src )
+void load_technique( const JsonObject &jo, const std::string &src )
 {
     ma_techniques.load( jo, src );
 }
 
 // To avoid adding empty entries
 template <typename Container>
-void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
+void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
                     const std::string &json_key, const typename Container::key_type &id )
 {
     if( jo.has_member( json_key ) ) {
@@ -74,7 +74,7 @@ void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
     }
 }
 
-void ma_requirements::load( JsonObject &jo, const std::string & )
+void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -97,7 +97,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
 }
 
-void ma_technique::load( JsonObject &jo, const std::string &src )
+void ma_technique::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, "" );
@@ -158,7 +158,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( JsonObject &jo, const std::string &src )
+void ma_buff::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -194,7 +194,7 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art( JsonObject &jo, const std::string &src )
+void load_martial_art( const JsonObject &jo, const std::string &src )
 {
     martialarts.load( jo, src );
 }
@@ -212,7 +212,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );

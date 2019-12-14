@@ -35,8 +35,6 @@
 
 class npc;
 
-const skill_id skill_mechanics( "mechanics" );
-
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
@@ -157,7 +155,7 @@ const vpart_info &string_id<vpart_info>::obj() const
     return found->second;
 }
 
-static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
+static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const std::string &key,
                            std::vector<std::pair<requirement_id, int>> &reqs,
                            std::map<skill_id, int> &skills, int &moves )
 {
@@ -202,7 +200,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
                               const itype_id &fuel_type )
 {
     vpslot_engine e_info{};
@@ -235,7 +233,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
     assert( eptr );
 }
 
-void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
+void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
     if( whptr ) {
@@ -272,7 +270,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
     assert( whptr );
 }
 
-void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
+void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
 {
     vpslot_workbench wb_info{};
     if( wbptr ) {
@@ -292,7 +290,7 @@ void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonOb
 /**
  * Reads in a vehicle part from a JsonObject.
  */
-void vpart_info::load( JsonObject &jo, const std::string &src )
+void vpart_info::load( const JsonObject &jo, const std::string &src )
 {
     vpart_info def;
 
@@ -906,7 +904,7 @@ bool string_id<vehicle_prototype>::is_valid() const
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
-void vehicle_prototype::load( JsonObject &jo )
+void vehicle_prototype::load( const JsonObject &jo )
 {
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
     // If there are already parts defined, this vehicle prototype overrides an existing one.
@@ -923,7 +921,7 @@ void vehicle_prototype::load( JsonObject &jo )
 
     vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
 
-    const auto add_part_obj = [&]( JsonObject & part, point pos ) {
+    const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part.get_string( "part" ) );

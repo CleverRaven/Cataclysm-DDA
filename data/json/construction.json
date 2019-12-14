@@ -1464,7 +1464,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ], [ [ "lock", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_locker"
   },

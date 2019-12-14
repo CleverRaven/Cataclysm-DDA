@@ -2006,7 +2006,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -4436,5 +4436,28 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_stethoscope",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "book_learn": [
+      [ "mag_fabrication", 1 ],
+      [ "manual_fabrication", 1 ],
+      [ "textbook_fabrication", 1 ],
+      [ "manual_first_aid", 1 ],
+      [ "pocket_firstaid", 1 ]
+    ],
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "duct_tape", 30 ], [ "medical_tape", 30 ] ],
+      [ [ "bottle_plastic_small", 2 ], [ "funnel", 2 ], [ "metal_funnel", 2 ], [ "makeshift_funnel", 2 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condom", 1 ], [ "balloon", 1 ] ]
+    ]
   }
 ]

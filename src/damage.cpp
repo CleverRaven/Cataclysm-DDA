@@ -281,7 +281,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-static damage_unit load_damage_unit( JsonObject &curr )
+static damage_unit load_damage_unit( const JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {
@@ -295,7 +295,7 @@ static damage_unit load_damage_unit( JsonObject &curr )
     return damage_unit( dt, amount, arpen, armor_mul, damage_mul );
 }
 
-damage_instance load_damage_instance( JsonObject &jo )
+damage_instance load_damage_instance( const JsonObject &jo )
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
@@ -322,7 +322,7 @@ damage_instance load_damage_instance( JsonArray &jarr )
     return di;
 }
 
-std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
+std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
 {
     std::array<float, NUM_DT> ret;
     float init_val = jo.get_float( "all", 0.0f );
@@ -344,7 +344,7 @@ std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
     return ret;
 }
 
-resistances load_resistances_instance( JsonObject &jo )
+resistances load_resistances_instance( const JsonObject &jo )
 {
     resistances ret;
     ret.resist_vals = load_damage_array( jo );

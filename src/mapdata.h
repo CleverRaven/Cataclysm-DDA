@@ -50,7 +50,7 @@ struct map_bash_info {
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -62,7 +62,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -71,7 +71,7 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, const std::string &member );
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -83,7 +83,7 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, const std::string &member );
 };
 
 /*
@@ -251,7 +251,7 @@ struct map_data_common_t {
         translation description;
 
         std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
-        void load_symbol( JsonObject &jo );
+        void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
 
@@ -307,7 +307,7 @@ struct map_data_common_t {
                    flags.count( "FLAMMABLE_HARD" ) > 0;
         }
 
-        virtual void load( JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string &src );
         virtual void check() const;
 };
 
@@ -330,7 +330,7 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
-    void load( JsonObject &jo, const std::string &src ) override;
+    void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
 
@@ -371,12 +371,12 @@ struct furn_t : map_data_common_t {
 
     static size_t count();
 
-    void load( JsonObject &jo, const std::string &src ) override;
+    void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
 
-void load_furniture( JsonObject &jo, const std::string &src );
-void load_terrain( JsonObject &jo, const std::string &src );
+void load_furniture( const JsonObject &jo, const std::string &src );
+void load_terrain( const JsonObject &jo, const std::string &src );
 
 void verify_furniture();
 void verify_terrain();

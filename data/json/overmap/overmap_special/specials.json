@@ -23,7 +23,7 @@
     "locations": [ "land", "swamp" ],
     "city_distance": [ 2, 120 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
   },
   {

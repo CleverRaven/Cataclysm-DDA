@@ -486,7 +486,7 @@
         "topic": "TALK_FOODPERSON_TEAMUP"
       },
       {
-        "text": "The cataclysm weakened the space-time continuum, I accidentally fell through a tear in reality and ended up here.  I will need access to your resources to keep fighting.",
+        "text": "The Cataclysm weakened the space-time continuum, I accidentally fell through a tear in reality and ended up here.  I will need access to your resources to keep fighting.",
         "effect": { "npc_add_var": "foodperson_meeting_solved", "type": "dialogue", "context": "foodperson", "value": "yes" },
         "topic": "TALK_FOODPERSON_SHARING"
       },

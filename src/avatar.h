@@ -34,7 +34,7 @@ class avatar : public player
         avatar();
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
@@ -129,7 +129,7 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, bool continuous = false );
+        bool read( item &it, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/

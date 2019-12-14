@@ -15,6 +15,14 @@ struct targeting_data;
 
 namespace avatar_action
 {
+
+/** Eat food or fuel  'E' (or 'a') */
+void eat( avatar &you );
+void eat( avatar &you, item_location loc );
+// special rules for eating: grazing etc
+// returns false if no rules are needed
+bool eat_here( avatar &you );
+
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
 bool move( avatar &you, map &m, int dx, int dy, int dz = 0 );

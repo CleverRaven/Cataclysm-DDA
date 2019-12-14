@@ -56,7 +56,7 @@ class json_flag
         json_flag( const std::string &id = std::string() ) : id_( id ) {}
 
         /** Load flag definition from JSON */
-        static void load( JsonObject &jo );
+        static void load( const JsonObject &jo );
 
         /** Check consistency of all loaded flags */
         static void check_consistency();

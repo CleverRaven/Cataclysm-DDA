@@ -71,29 +71,29 @@
 
 #define MON_RADIUS 3
 
-const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
-const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
-const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
-const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
-const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
-const mongroup_id GROUP_LAB( "GROUP_LAB" );
-const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
-const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
-const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
-const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
-const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
-const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
-const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
-const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
-const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
-const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
-const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
-const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
+static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
+static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
+static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
+static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
+static const mongroup_id GROUP_LAB( "GROUP_LAB" );
+static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
+static const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
+static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
+static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
@@ -314,7 +314,7 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( JsonObject &jio, const std::string &id_base,
+load_mapgen_function( const JsonObject &jio, const std::string &id_base,
                       int default_idx, const point &offset )
 {
     int mgweight = jio.get_int( "weight", 1000 );
@@ -365,7 +365,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_nested_mapgen( const JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -383,7 +383,7 @@ static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
     }
 }
 
-static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_update_mapgen( const JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -405,7 +405,7 @@ static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 /*
  * feed bits `o json from standalone file to load_mapgen_function. (standalone json "type": "mapgen")
  */
-void load_mapgen( JsonObject &jo )
+void load_mapgen( const JsonObject &jo )
 {
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
@@ -472,7 +472,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
 }
 
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
-                                 const point &mapgensize, JsonObject &jso )
+                                 const point &mapgensize, const JsonObject &jso )
 {
     rectangle bounds( point_zero, mapgensize );
     if( !bounds.contains_half_open( point( x.val, y.val ) ) ) {
@@ -493,7 +493,7 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
 }
 
 bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y,
-        JsonObject &jso ) const
+        const JsonObject &jso ) const
 {
     return common_check_bounds( x, y, mapgensize, jso );
 }
@@ -529,7 +529,7 @@ mapgen_function_json_nested::mapgen_function_json_nested( const std::string &s )
 
 jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
 
-jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
 {
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
@@ -547,7 +547,7 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
     }
 }
 
-jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag, const short def_val,
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const short def_val,
                           const short def_valmax )
     : val( def_val )
     , valmax( def_valmax )
@@ -673,9 +673,11 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     //Suppress warnings
                     break;
             }
-            tmp_i.valmax = tmp_i.val; // TODO: ... support for random furniture? or not.
+            // TODO: ... support for random furniture? or not.
+            tmp_i.valmax = tmp_i.val;
         }
-        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );  // TODO: sanity check?
+        // TODO: sanity check?
+        const jmapgen_int tmp_repeat = jmapgen_int( pjo, "repeat", 1, 1 );
         pjo.read( "chance", tmp_chance );
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
@@ -690,7 +692,7 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 
 }
 
-jmapgen_place::jmapgen_place( JsonObject &jsi )
+jmapgen_place::jmapgen_place( const JsonObject &jsi )
     : x( jsi, "x" )
     , y( jsi, "y" )
     , repeat( jsi, "repeat", 1, 1 )
@@ -737,7 +739,7 @@ class jmapgen_field : public jmapgen_piece
         field_type_id ftype;
         int intensity;
         time_duration age;
-        jmapgen_field( JsonObject &jsi ) :
+        jmapgen_field( const JsonObject &jsi ) :
             ftype( field_type_id( jsi.get_string( "field" ) ) )
             , intensity( jsi.get_int( "intensity", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
@@ -759,7 +761,7 @@ class jmapgen_npc : public jmapgen_piece
         string_id<npc_template> npc_class;
         bool target;
         std::vector<std::string> traits;
-        jmapgen_npc( JsonObject &jsi ) :
+        jmapgen_npc( const JsonObject &jsi ) :
             npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
@@ -794,7 +796,7 @@ class jmapgen_faction : public jmapgen_piece
 {
     public:
         faction_id id;
-        jmapgen_faction( JsonObject &jsi ) {
+        jmapgen_faction( const JsonObject &jsi ) {
             if( jsi.has_string( "id" ) ) {
                 id = faction_id( jsi.get_string( "id" ) );
             }
@@ -812,7 +814,7 @@ class jmapgen_sign : public jmapgen_piece
     public:
         std::string signage;
         std::string snippet;
-        jmapgen_sign( JsonObject &jsi ) :
+        jmapgen_sign( const JsonObject &jsi ) :
             signage( jsi.get_string( "signage", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( signage.empty() && snippet.empty() ) {
@@ -866,7 +868,7 @@ class jmapgen_graffiti : public jmapgen_piece
     public:
         std::string text;
         std::string snippet;
-        jmapgen_graffiti( JsonObject &jsi ) :
+        jmapgen_graffiti( const JsonObject &jsi ) :
             text( jsi.get_string( "text", "" ) )
             , snippet( jsi.get_string( "snippet", "" ) ) {
             if( text.empty() && snippet.empty() ) {
@@ -914,7 +916,7 @@ class jmapgen_vending_machine : public jmapgen_piece
     public:
         bool reinforced;
         std::string item_group_id;
-        jmapgen_vending_machine( JsonObject &jsi ) :
+        jmapgen_vending_machine( const JsonObject &jsi ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
             , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
             if( !item_group::group_is_defined( item_group_id ) ) {
@@ -939,7 +941,7 @@ class jmapgen_toilet : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        jmapgen_toilet( JsonObject &jsi ) :
+        jmapgen_toilet( const JsonObject &jsi ) :
             amount( jsi, "amount", 0, 0 ) {
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -966,7 +968,7 @@ class jmapgen_gaspump : public jmapgen_piece
     public:
         jmapgen_int amount;
         std::string fuel;
-        jmapgen_gaspump( JsonObject &jsi ) :
+        jmapgen_gaspump( const JsonObject &jsi ) :
             amount( jsi, "amount", 0, 0 ) {
             if( jsi.has_string( "fuel" ) ) {
                 fuel = jsi.get_string( "fuel" );
@@ -1008,7 +1010,7 @@ class jmapgen_liquid_item : public jmapgen_piece
         jmapgen_int amount;
         std::string liquid;
         jmapgen_int chance;
-        jmapgen_liquid_item( JsonObject &jsi ) :
+        jmapgen_liquid_item( const JsonObject &jsi ) :
             amount( jsi, "amount", 0, 0 )
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
@@ -1038,7 +1040,7 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         std::string group_id;
         jmapgen_int chance;
-        jmapgen_item_group( JsonObject &jsi ) :
+        jmapgen_item_group( const JsonObject &jsi ) :
             group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
@@ -1058,7 +1060,7 @@ class jmapgen_loot : public jmapgen_piece
         friend jmapgen_objects;
 
     public:
-        jmapgen_loot( JsonObject &jsi ) :
+        jmapgen_loot( const JsonObject &jsi ) :
             result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
                           jsi.get_int( "magazine", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
@@ -1109,7 +1111,7 @@ class jmapgen_monster_group : public jmapgen_piece
         mongroup_id id;
         float density;
         jmapgen_int chance;
-        jmapgen_monster_group( JsonObject &jsi ) :
+        jmapgen_monster_group( const JsonObject &jsi ) :
             id( jsi.get_string( "monster" ) )
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
@@ -1145,7 +1147,7 @@ class jmapgen_monster : public jmapgen_piece
         bool friendly;
         std::string name;
         bool target;
-        jmapgen_monster( JsonObject &jsi ) :
+        jmapgen_monster( const JsonObject &jsi ) :
             chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
@@ -1247,7 +1249,7 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<int> rotation;
         int fuel;
         int status;
-        jmapgen_vehicle( JsonObject &jsi ) :
+        jmapgen_vehicle( const JsonObject &jsi ) :
             type( jsi.get_string( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
@@ -1287,7 +1289,7 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
-        jmapgen_spawn_item( JsonObject &jsi ) :
+        jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
@@ -1315,7 +1317,7 @@ class jmapgen_trap : public jmapgen_piece
 {
     public:
         trap_id id;
-        jmapgen_trap( JsonObject &jsi ) :
+        jmapgen_trap( const JsonObject &jsi ) :
             id( 0 ) {
             const trap_str_id sid( jsi.get_string( "trap" ) );
             if( !sid.is_valid() ) {
@@ -1348,7 +1350,7 @@ class jmapgen_furniture : public jmapgen_piece
 {
     public:
         furn_id id;
-        jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
+        jmapgen_furniture( const JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
         jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1365,7 +1367,7 @@ class jmapgen_terrain : public jmapgen_piece
 {
     public:
         ter_id id;
-        jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
+        jmapgen_terrain( const JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
         jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             dat.m.ter_set( point( x.get(), y.get() ), id );
@@ -1390,7 +1392,7 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
 {
     public:
         ter_furn_transform_id id;
-        jmapgen_ter_furn_transform( JsonObject &jsi ) : jmapgen_ter_furn_transform(
+        jmapgen_ter_furn_transform( const JsonObject &jsi ) : jmapgen_ter_furn_transform(
                 jsi.get_string( "transform" ) ) {}
         jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id( rid ) ) {}
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1408,7 +1410,7 @@ class jmapgen_make_rubble : public jmapgen_piece
         bool items = false;
         ter_id floor_type = t_dirt;
         bool overwrite = false;
-        jmapgen_make_rubble( JsonObject &jsi ) {
+        jmapgen_make_rubble( const JsonObject &jsi ) {
             if( jsi.has_string( "rubble_type" ) ) {
                 rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
             }
@@ -1438,7 +1440,7 @@ class jmapgen_computer : public jmapgen_piece
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
-        jmapgen_computer( JsonObject &jsi ) {
+        jmapgen_computer( const JsonObject &jsi ) {
             name = jsi.get_string( "name" );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
@@ -1492,7 +1494,7 @@ class jmapgen_sealed_item : public jmapgen_piece
         furn_id furniture;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
-        jmapgen_sealed_item( JsonObject &jsi ) :
+        jmapgen_sealed_item( const JsonObject &jsi ) :
             furniture( jsi.get_string( "furniture" ) ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
@@ -1593,7 +1595,7 @@ class jmapgen_translate : public jmapgen_piece
     public:
         ter_id from;
         ter_id to;
-        jmapgen_translate( JsonObject &jsi ) {
+        jmapgen_translate( const JsonObject &jsi ) {
             if( jsi.has_string( "from" ) && jsi.has_string( "to" ) ) {
                 const std::string from_id = jsi.get_string( "from" );
                 const std::string to_id = jsi.get_string( "to" );
@@ -1614,7 +1616,7 @@ class jmapgen_zone : public jmapgen_piece
         zone_type_id zone_type;
         faction_id faction;
         std::string name = "";
-        jmapgen_zone( JsonObject &jsi ) {
+        jmapgen_zone( const JsonObject &jsi ) {
             if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
                 std::string fac_id = jsi.get_string( "faction" );
                 faction = faction_id( fac_id );
@@ -1633,7 +1635,7 @@ class jmapgen_zone : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
+static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
     JsonArray jarr = jsi.get_array( json_key );
@@ -1663,7 +1665,7 @@ class jmapgen_nested : public jmapgen_piece
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
                 std::set<oter_str_id> above;
             public:
-                neighborhood_check( JsonObject jsi ) {
+                neighborhood_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
@@ -1712,7 +1714,7 @@ class jmapgen_nested : public jmapgen_piece
         weighted_int_list<std::string> entries;
         weighted_int_list<std::string> else_entries;
         neighborhood_check neighbors;
-        jmapgen_nested( JsonObject &jsi ) : neighbors( jsi.get_object( "neighbors" ) ) {
+        jmapgen_nested( const JsonObject &jsi ) : neighbors( jsi.get_object( "neighbors" ) ) {
             load_weighted_entries( jsi, "chunks", entries );
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
@@ -1744,7 +1746,7 @@ jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize )
     , mapgensize( mapsize )
 {}
 
-bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
+bool jmapgen_objects::check_bounds( const jmapgen_place place, const JsonObject &jso )
 {
     return common_check_bounds( place.x, place.y, mapgensize, jso );
 }
@@ -1800,7 +1802,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
 }
 
 template<typename PieceType>
-void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_name )
+void jmapgen_objects::load_objects( const JsonObject &jsi, const std::string &member_name )
 {
     if( !jsi.has_member( member_name ) ) {
         return;
@@ -1809,7 +1811,7 @@ void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_n
 }
 
 template<typename PieceType>
-void load_place_mapings( JsonObject jobj, mapgen_palette::placing_map::mapped_type &vect )
+void load_place_mapings( const JsonObject &jobj, mapgen_palette::placing_map::mapped_type &vect )
 {
     vect.push_back( make_shared_fast<PieceType>( jobj ) );
 }
@@ -1823,7 +1825,7 @@ an overload below.
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings( JsonObject &pjo, const std::string &key,
+void load_place_mapings( const JsonObject &pjo, const std::string &key,
                          mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_object( key ) ) {
@@ -1841,7 +1843,7 @@ This function allows loading the mapgen pieces from a single string, *or* a json
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings_string( JsonObject &pjo, const std::string &key,
+void load_place_mapings_string( const JsonObject &pjo, const std::string &key,
                                 mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_string( key ) ) {
@@ -1875,7 +1877,7 @@ instance of jmapgen_alternativly which will chose the mapgen piece to apply to t
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
-void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
+void load_place_mapings_alternatively( const JsonObject &pjo, const std::string &key,
                                        mapgen_palette::placing_map::mapped_type &vect )
 {
     if( !pjo.has_array( key ) ) {
@@ -1932,37 +1934,37 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key,
 }
 
 template<>
-void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key,
+void load_place_mapings<jmapgen_trap>( const JsonObject &pjo, const std::string &key,
                                        mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_trap>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key,
+void load_place_mapings<jmapgen_furniture>( const JsonObject &pjo, const std::string &key,
         mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_furniture>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key,
+void load_place_mapings<jmapgen_terrain>( const JsonObject &pjo, const std::string &key,
         mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_terrain>( pjo, key, vect );
 }
 
 template<typename PieceType>
-void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &member_name,
+void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string &member_name,
         placing_map &format_placings )
 {
     if( jo.has_object( "mapping" ) ) {
-        JsonObject pjo = jo.get_object( "mapping" );
-        for( auto &key : pjo.get_member_names() ) {
+        for( const JsonMember &member : jo.get_object( "mapping" ) ) {
+            const std::string &key = member.name();
             if( key.size() != 1 ) {
-                pjo.throw_error( "format map key must be 1 character", key );
+                member.throw_error( "format map key must be 1 character" );
             }
-            JsonObject sub = pjo.get_object( key );
+            JsonObject sub = member.get_object();
             sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;
@@ -1992,12 +1994,12 @@ void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &memb
 
 std::map<std::string, mapgen_palette> palettes;
 
-mapgen_palette mapgen_palette::load_temp( JsonObject &jo, const std::string &src )
+mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {
     return load_internal( jo, src, false, true );
 }
 
-void mapgen_palette::load( JsonObject &jo, const std::string &src )
+void mapgen_palette::load( const JsonObject &jo, const std::string &src )
 {
     mapgen_palette ret = load_internal( jo, src, true, false );
     if( ret.id.empty() ) {
@@ -2037,8 +2039,8 @@ void mapgen_palette::add( const mapgen_palette &rh )
     }
 }
 
-mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string &, bool require_id,
-        bool allow_recur )
+mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::string &,
+        bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
     auto &format_placings = new_pal.format_placings;
@@ -2126,7 +2128,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     return new_pal;
 }
 
-bool mapgen_function_json::setup_internal( JsonObject &jo )
+bool mapgen_function_json::setup_internal( const JsonObject &jo )
 {
     // Just to make sure no one does anything stupid
     if( jo.has_member( "mapgensize" ) ) {
@@ -2151,7 +2153,7 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
     return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID();
 }
 
-bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
+bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
 {
     // Mandatory - nested mapgen must be explicitly sized
     if( jo.has_array( "mapgensize" ) ) {
@@ -2210,7 +2212,7 @@ void mapgen_function_json_base::setup_common()
     }
 }
 
-bool mapgen_function_json_base::setup_common( JsonObject &jo )
+bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 {
     bool qualifies = setup_internal( jo );
     JsonArray parray;
@@ -6657,7 +6659,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
-    ter_set( p, t_console ); // TODO: Turn this off?
+    // TODO: Turn this off?
+    ter_set( p, t_console );
     point l;
     submap *const place_on_submap = get_submap_at( p, l );
     place_on_submap->set_computer( l, computer( name, security ) );
@@ -7682,12 +7685,12 @@ void update_mapgen_function_json::check( const std::string &oter_name ) const
     check_common( oter_name );
 }
 
-bool update_mapgen_function_json::setup_update( JsonObject &jo )
+bool update_mapgen_function_json::setup_update( const JsonObject &jo )
 {
     return setup_common( jo );
 }
 
-bool update_mapgen_function_json::setup_internal( JsonObject &/*jo*/ )
+bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 {
     fill_ter = t_null;
     /* update_mapgen doesn't care about fill_ter or rows */
@@ -7745,7 +7748,7 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
     return true;
 }
 
-mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
+mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 {
     if( jo.has_string( "mapgen_update_id" ) ) {
         const std::string mapgen_update_id = jo.get_string( "mapgen_update_id" );

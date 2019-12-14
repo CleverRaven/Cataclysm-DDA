@@ -5078,7 +5078,10 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_COP",
     "default": "mon_zombie_cop",
-    "monsters": [ { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_cop", "freq": 50, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
+    ]
   },
   {
     "type": "monstergroup",
@@ -5370,6 +5373,15 @@
       { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_tough", "freq": 8, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "name": "GROUP_POOL_NOKIDS",
+    "type": "monstergroup",
+    "default": "mon_zombie_swimmer",
+    "monsters": [
+      { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] }
     ]
   }
 ]

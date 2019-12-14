@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -57,7 +58,7 @@
 #include "point.h"
 #include "material.h"
 
-const efftype_id effect_riding( "riding" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 class player;
 
@@ -86,11 +87,11 @@ static auto can_refill = []( const vehicle_part &pt )
 
 namespace
 {
-const quality_id LIFT( "LIFT" );
-const quality_id JACK( "JACK" );
-const quality_id SELF_JACK( "SELF_JACK" );
-const skill_id skill_mechanics( "mechanics" );
-const itype_id fuel_type_battery( "battery" );
+static const quality_id LIFT( "LIFT" );
+static const quality_id JACK( "JACK" );
+static const quality_id SELF_JACK( "SELF_JACK" );
+static const skill_id skill_mechanics( "mechanics" );
+static const itype_id fuel_type_battery( "battery" );
 } // namespace
 
 void act_vehicle_siphon( vehicle *veh );
@@ -121,7 +122,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u );
             break;
     }
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
@@ -178,8 +179,6 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
 
     return *res;
 }
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 /**
  * Creates a blank veh_interact window.
@@ -2588,7 +2587,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         // Note: there is no guarantee that whl is non-empty!
-        const cata::optional<islot_wheel> &whl = item::find_type( part->item )->wheel;
+        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->item )->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
@@ -2634,7 +2633,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        cata::optional<islot_magazine> battery = item::find_type( part->item )->magazine;
+        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%8d</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),

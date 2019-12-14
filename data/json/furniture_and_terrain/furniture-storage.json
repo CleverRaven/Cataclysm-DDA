@@ -435,6 +435,39 @@
   },
   {
     "type": "furniture",
+    "id": "f_clothing_rail",
+    "name": "clothing rail",
+    "description": "A rail for hanging clothes on.",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "wheel_caster", "count": 1 }
+      ]
+    },
+    "max_volume": 7000,
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "wheel_caster", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_rack",
     "name": "display rack",
     "description": "Display your items.",
@@ -854,19 +887,10 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
+    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": 45,
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 18 },
-        { "item": "nail", "charges": [ 7, 14 ] },
-        { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
-        { "item": "scrap", "count": [ 5, 10 ] },
-        { "item": "foot_crank", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "churn", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 50,

@@ -7,7 +7,6 @@
     "default_faction": "lizardfolk",
     "bodytype": "human",
     "species": [ "LIZARDFOLK" ],
-    "size": "MEDIUM",
     "volume": "80 L",
     "weight": "100 kg",
     "hp": 70,
@@ -65,13 +64,13 @@
         "type": "gun",
         "cooldown": 5,
         "move_cost": 150,
-        "gun_type": "lizardfolk_barbed_dart",
+        "gun_type": "lizardfolk_javelin_gun",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 8,
         "fake_per": 8,
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
-        "description": "The hunter hurls a barbed dart at you!"
+        "description": "The hunter hurls a barbed javelin at you!"
       },
       { "type": "bite", "cooldown": 5 }
     ],
@@ -95,7 +94,6 @@
     "melee_dice_sides": 6,
     "special_attacks": [ { "type": "spell", "spell_id": "spell_shaman_base", "cooldown": 5 }, [ "scratch", 5 ] ],
     "death_drops": {
-      "type": "item_group",
       "subtype": "distribution",
       "items": [
         { "group": "enchanted_small_items", "prob": 40 },

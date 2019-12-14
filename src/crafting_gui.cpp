@@ -68,7 +68,7 @@ static std::string get_cat_unprefixed( const std::string &prefixed_name )
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
 
-void load_recipe_category( JsonObject &jsobj )
+void load_recipe_category( const JsonObject &jsobj )
 {
     const std::string category = jsobj.get_string( "id" );
     const bool is_hidden = jsobj.get_bool( "is_hidden", false );
@@ -890,8 +890,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    np_last = related_menu_fill( rel_menu, related_results, available );
+
+    related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();

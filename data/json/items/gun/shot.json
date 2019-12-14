@@ -50,7 +50,7 @@
     "burst": 6,
     "ups_charges": 1,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -131,6 +131,7 @@
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
+      [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -210,6 +211,7 @@
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
+      [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -360,6 +362,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
+      [ "brass catcher", 1 ],
       [ "barrel", 1 ],
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
@@ -421,6 +424,7 @@
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
       [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -491,7 +495,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Cobray Streetsweeper",
-    "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a Destructive Device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
+    "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
     "weight": "419 g",
     "volume": "3193 ml",
     "looks_like": "revolver_shotgun",
@@ -504,19 +508,20 @@
     "clip_size": 12,
     "reload": 220,
     "barrel_length": "36 ml",
-    "default_mods": [ "wire_stock", "grip" ],
+    "default_mods": [ "grip" ],
+    "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3-round", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
@@ -538,7 +543,7 @@
     "durability": 6,
     "clip_size": 9,
     "ranged_damage": 1,
-    "default_mods": [ "wire_stock" ],
+    "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "bore", 1 ],
@@ -549,7 +554,7 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
+      [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ]
@@ -610,6 +615,7 @@
       [ "sling", 1 ],
       [ "muzzle", 1 ],
       [ "grip", 1 ],
+      [ "brass catcher", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -643,6 +649,7 @@
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "grip mount", 1 ],
+      [ "brass catcher", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -672,6 +679,8 @@
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],

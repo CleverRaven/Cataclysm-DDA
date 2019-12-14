@@ -102,7 +102,7 @@ struct fake_spell {
 
     spell get_spell( int input_level ) const;
 
-    void load( JsonObject &jo );
+    void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -249,8 +249,8 @@ class spell_type
 
         enum_bitset<spell_flag> spell_tags;
 
-        static void load_spell( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_spell( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
          */

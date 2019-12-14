@@ -88,13 +88,13 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_16",
-    "text": "     Lost his way long before he met you.  The cataclysm offered him the chance to denounce the former vices that had led to his incarceration… an offer that went unanswered.  After you were killed, he returned to hunting those he saw as weak.  The number of people he murdered is unknown but prior to his execution he claimed that, 'butchering the dead was never as fun as the living.'"
+    "text": "     Lost his way long before he met you.  The Cataclysm offered him the chance to denounce the former vices that had led to his incarceration… an offer that went unanswered.  After you were killed, he returned to hunting those he saw as weak.  The number of people he murdered is unknown but prior to his execution he claimed that, 'butchering the dead was never as fun as the living.'"
   },
   {
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_17",
-    "text": "     Found new meaning in life after your death.  Although he never informed you, his felonies in the departed world had prevented him from ever having a real place in society.  With the destruction of existing criminal records he took it upon himself to prove his worth to his fellow man.  Died from a heart attack while alone on a trip many years after the cataclysm."
+    "text": "     Found new meaning in life after your death.  Although he never informed you, his felonies in the departed world had prevented him from ever having a real place in society.  With the destruction of existing criminal records he took it upon himself to prove his worth to his fellow man.  Died from a heart attack while alone on a trip many years after the Cataclysm."
   },
   {
     "type": "epilogue",
@@ -106,7 +106,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_19",
-    "text": "     Was never known as a particularly brave individual nor an emotionally stable one.  His regret for not helping people during the opening days of the cataclysm led him to attempt suicide multiple times in the years that followed.  Life improved briefly when he married a fellow survivor but was shattered when his spouse was killed by members of a mysterious apocalypse cult.  He was killed when he attempted to sneak into the cult's compound to enact revenge himself."
+    "text": "     Was never known as a particularly brave individual nor an emotionally stable one.  His regret for not helping people during the opening days of the Cataclysm led him to attempt suicide multiple times in the years that followed.  Life improved briefly when he married a fellow survivor but was shattered when his spouse was killed by members of a mysterious apocalypse cult.  He was killed when he attempted to sneak into the cult's compound to enact revenge himself."
   },
   {
     "type": "epilogue",
@@ -124,7 +124,7 @@
     "type": "epilogue",
     "group": "male",
     "id": "npc_male_22",
-    "text": "     Worked hard following your death to organize his own band of survivors.  Went on to marry and have two children that were raised and taught every survival skill they would ever need.  His past eventually caught up to him when he ran afoul with an Old Guard colonel.  Since he fled his post as a National Guard soldier during the cataclysm he was hanged for desertion despite the protests of a huge number of survivors that had benefited from his service over the years."
+    "text": "     Worked hard following your death to organize his own band of survivors.  Went on to marry and have two children that were raised and taught every survival skill they would ever need.  His past eventually caught up to him when he ran afoul with an Old Guard colonel.  Since he fled his post as a National Guard soldier during the Cataclysm he was hanged for desertion despite the protests of a huge number of survivors that had benefited from his service over the years."
   },
   {
     "type": "epilogue",
@@ -412,7 +412,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_15",
-    "text": "     Lost her way long before she met you.  The cataclysm offered her the chance to denounce the former vices that had led to her incarceration… an offer that went unanswered.  After you were killed, she returned to preying upon those she saw as weak.  It is rumored that she robbed dozens of survivors for everything they had before leaving them to die amongst the horrors that roamed the land.  Her eventual fate is unknown."
+    "text": "     Lost her way long before she met you.  The Cataclysm offered her the chance to denounce the former vices that had led to her incarceration… an offer that went unanswered.  After you were killed, she returned to preying upon those she saw as weak.  It is rumored that she robbed dozens of survivors for everything they had before leaving them to die amongst the horrors that roamed the land.  Her eventual fate is unknown."
   },
   {
     "type": "epilogue",
@@ -430,7 +430,7 @@
     "type": "epilogue",
     "group": "female",
     "id": "npc_female_18",
-    "text": "     Was never known as a particularly brave individual nor an emotionally stable one.  Her inability to emotionally conform to life after the cataclysm led her to attempt suicide multiple times in the years that followed.  Attracted by promises of renewal and the prospect of belonging to a new family, she became involved with a charismatic cult.  She was an innocent casualty when Old Guard soldiers stormed the compound on suspicion of crimes against humanity."
+    "text": "     Was never known as a particularly brave individual nor an emotionally stable one.  Her inability to emotionally conform to life after the Cataclysm led her to attempt suicide multiple times in the years that followed.  Attracted by promises of renewal and the prospect of belonging to a new family, she became involved with a charismatic cult.  She was an innocent casualty when Old Guard soldiers stormed the compound on suspicion of crimes against humanity."
   },
   {
     "type": "epilogue",

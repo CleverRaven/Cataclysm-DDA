@@ -33,11 +33,11 @@ static class json_item_substitution
 {
     public:
         void reset();
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
         void check_consistency();
 
     private:
-        void do_load( JsonObject &jo );
+        void do_load( const JsonObject &jo );
 
         struct trait_requirements {
             static trait_requirements load( JsonArray &arr );
@@ -83,7 +83,7 @@ profession::profession()
 {
 }
 
-void profession::load_profession( JsonObject &jo, const std::string &src )
+void profession::load_profession( const JsonObject &jo, const std::string &src )
 {
     all_profs.load( jo, src );
 }
@@ -143,7 +143,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( JsonObject &jo, const std::string & )
+void profession::load( const JsonObject &jo, const std::string & )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -471,7 +471,7 @@ void profession::learn_spells( avatar &you ) const
 
 // item_substitution stuff:
 
-void profession::load_item_substitutions( JsonObject &jo )
+void profession::load_item_substitutions( const JsonObject &jo )
 {
     item_substitutions.load( jo );
 }
@@ -504,7 +504,7 @@ json_item_substitution::trait_requirements json_item_substitution::trait_require
     return ret;
 }
 
-void json_item_substitution::load( JsonObject &jo )
+void json_item_substitution::load( const JsonObject &jo )
 {
     if( !jo.has_array( "substitutions" ) ) {
         jo.throw_error( "No `substitutions` array found." );
@@ -514,7 +514,7 @@ void json_item_substitution::load( JsonObject &jo )
     }
 }
 
-void json_item_substitution::do_load( JsonObject &jo )
+void json_item_substitution::do_load( const JsonObject &jo )
 {
     const bool item_mode = jo.has_string( "item" );
     const std::string title = jo.get_string( item_mode ? "item" : "trait" );
