@@ -4,7 +4,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm> //std::min
-#include <sstream>
 #include <array>
 #include <iterator>
 #include <list>
@@ -2086,16 +2085,15 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     if( bio_id->occupied_bodyparts.empty() ) {
         return "";
     }
-    std::ostringstream desc;
-    desc << intro;
+    std::string desc = intro;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
-        desc << ( each_bp_on_new_line ? "\n" : " " );
+        desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
-        desc << string_format( _( "%s (%i slots);" ),
+        desc += string_format( _( "%s (%i slots);" ),
                                body_part_name_as_heading( elem.first, 1 ),
                                elem.second );
     }
-    return desc.str();
+    return desc;
 }
 
 int player::get_used_bionics_slots( const body_part bp ) const

@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <cmath>
-#include <sstream>
 #include <string>
 #include <functional>
 #include <limits>
@@ -323,10 +322,10 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     }
 
     if( !can_make( &making, batch_size ) ) {
-        std::ostringstream buffer;
-        buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making.requirements().list_missing();
-        popup( buffer.str(), PF_NONE );
+        std::string buffer = _( "You can no longer make that craft!" );
+        buffer += "\n";
+        buffer += making.requirements().list_missing();
+        popup( buffer, PF_NONE );
         return false;
     }
 
@@ -1266,17 +1265,17 @@ bool player::can_continue_craft( item &craft )
         const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
-            std::ostringstream buffer;
-            buffer << _( "You don't have the required components to continue crafting!" ) << "\n";
-            buffer << continue_reqs.list_missing();
-            popup( buffer.str(), PF_NONE );
+            std::string buffer = _( "You don't have the required components to continue crafting!" );
+            buffer += "\n";
+            buffer += continue_reqs.list_missing();
+            popup( buffer, PF_NONE );
             return false;
         }
 
-        std::ostringstream buffer;
-        buffer << _( "Consume the missing components and continue crafting?" ) << "\n";
-        buffer << continue_reqs.list_all() << "\n";
-        if( !query_yn( buffer.str() ) ) {
+        std::string buffer = _( "Consume the missing components and continue crafting?" );
+        buffer += "\n";
+        buffer += continue_reqs.list_all();
+        if( !query_yn( buffer ) ) {
             return false;
         }
 
@@ -1323,10 +1322,10 @@ bool player::can_continue_craft( item &craft )
                 std::vector<std::vector<item_comp>>() );
 
         if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
-            std::ostringstream buffer;
-            buffer << _( "You don't have the necessary tools to continue crafting!" ) << "\n";
-            buffer << tool_continue_reqs.list_missing();
-            popup( buffer.str(), PF_NONE );
+            std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
+            buffer += "\n";
+            buffer += tool_continue_reqs.list_missing();
+            popup( buffer, PF_NONE );
             return false;
         }
 
@@ -1962,21 +1961,21 @@ bool player::disassemble( item_location target, bool interactive )
     }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
-        std::ostringstream list;
+        std::string list;
         const auto components = obj.get_uncraft_components();
         for( const auto &component : components ) {
-            list << "- " << component.to_string() << std::endl;
+            list += "- " + component.to_string() + "\n";
         }
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
                     colorize( obj.tname(), obj.color_in_inventory() ),
-                    list.str() ) ) {
+                    list ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
                               colorize( obj.tname(), obj.color_in_inventory() ),
-                              list.str() ) ) {
+                              list ) ) {
             return false;
         }
     }

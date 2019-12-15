@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <limits>
-#include <sstream>
 #include <tuple>
 #include <cmath>
 
@@ -589,23 +588,23 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         if( !interactive ) {
             return consequences.front();
         }
-        std::ostringstream req;
+        std::string req;
         for( const auto &elem : consequences ) {
-            req << elem.str() << std::endl;
+            req += elem.str() + "\n";
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
         std::string food_tame = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
-        if( !query_yn( req.str() ) ) {
+        if( !query_yn( req ) ) {
             return consequences.front();
         }
     }

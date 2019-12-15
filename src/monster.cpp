@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <algorithm>
-#include <sstream>
 #include <memory>
 #include <tuple>
 #include <unordered_map>
@@ -632,7 +631,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
 std::string monster::extended_description() const
 {
-    std::ostringstream ss;
+    std::string ss;
     const auto att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
@@ -654,22 +653,22 @@ std::string monster::extended_description() const
         }
     }
 
-    ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
-                         difficulty_str ) << std::endl;
+    ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
+                         difficulty_str ) + "\n";
     if( !get_effect_status().empty() ) {
-        ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) << std::endl;
+        ss += string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) + "\n";
     }
 
-    ss << "--" << std::endl;
+    ss += "--\n";
     auto hp_bar = hp_description( hp, type->hp );
-    ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
+    ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
 
-    ss << "--" << std::endl;
-    ss << string_format( "<dark>%s</dark>", type->get_description() ) << std::endl;
-    ss << "--" << std::endl;
+    ss += "--\n";
+    ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
+    ss += "--\n";
 
-    ss << string_format( _( "It is %s in size." ),
-                         size_names.at( get_size() ) ) << std::endl;
+    ss += string_format( _( "It is %s in size." ),
+                         size_names.at( get_size() ) ) + "\n";
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -688,8 +687,8 @@ std::string monster::extended_description() const
         types.emplace_back( _( "an aberration" ) );
     }
     if( !types.empty() ) {
-        ss << string_format( _( "It is %s." ),
-                             enumerate_as_string( types ) ) << std::endl;
+        ss += string_format( _( "It is %s." ),
+                             enumerate_as_string( types ) ) + "\n";
     }
 
     using flag_description = std::pair<m_flag, std::string>;
@@ -702,9 +701,9 @@ std::string monster::extended_description() const
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
         if( !flag_descriptions.empty() ) {
-            ss << string_format( format, flag_descriptions ) << std::endl;
+            ss += string_format( format, flag_descriptions ) + "\n";
         } else if( !if_empty.empty() ) {
-            ss << if_empty << std::endl;
+            ss += if_empty + "\n";
         }
     };
 
@@ -718,9 +717,9 @@ std::string monster::extended_description() const
             return pd.first ? pd.second : "";
         } );
         if( !property_descriptions.empty() ) {
-            ss << string_format( format, property_descriptions ) << std::endl;
+            ss += string_format( format, property_descriptions ) + "\n";
         } else if( !if_empty.empty() ) {
-            ss << if_empty << std::endl;
+            ss += if_empty + "\n";
         }
     };
 
@@ -745,10 +744,10 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It has a head." ) << std::endl;
+        ss += std::string( _( "It has a head." ) ) + "\n";
     }
 
-    return replace_colors( ss.str() );
+    return replace_colors( ss );
 }
 
 const std::string &monster::symbol() const

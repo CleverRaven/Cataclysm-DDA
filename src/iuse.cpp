@@ -2128,9 +2128,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
             int index = to_turn<int>( calendar::turn ) % segments.size();
-            std::stringstream messtream;
-            messtream << string_format( _( "radio: %s" ), segments[index] );
-            message = messtream.str();
+            message = string_format( _( "radio: %s" ), segments[index] );
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
         if( !sfx::is_channel_playing( sfx::channel::radio ) ) {

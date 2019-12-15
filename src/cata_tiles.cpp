@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <tuple>
 #include <set>
-#include <sstream>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -2779,12 +2778,10 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     }
 
     if( result && !is_player ) {
-        std::ostringstream tmp_id;
-        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
+        std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player ) {
-            tmp_id << "_sees_player";
+            draw_id += "_sees_player";
         }
-        const std::string draw_id = tmp_id.str();
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
         }

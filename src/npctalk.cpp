@@ -4,7 +4,6 @@
 #include <cmath>
 #include <cstddef>
 #include <algorithm>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <array>
@@ -243,27 +242,27 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
     while( !done ) {
         int override_count = 0;
-        std::ostringstream override_string;
-        override_string << string_format( _( "%s currently has these temporary orders:" ), guy->name );
+        std::string output_string = string_format( _( "%s currently has these temporary orders:" ),
+                                    guy->name );
         for( const auto &rule : ally_rule_strs ) {
             if( guy->rules.has_override_enable( rule.second.rule ) ) {
                 override_count++;
-                override_string << "\n  ";
-                override_string << ( guy->rules.has_override( rule.second.rule ) ?
-                                     rule.second.rule_true_text : rule.second.rule_false_text );
+                output_string += "\n  ";
+                output_string += ( guy->rules.has_override( rule.second.rule ) ? rule.second.rule_true_text :
+                                   rule.second.rule_false_text );
             }
         }
         if( override_count == 0 ) {
-            override_string << "\n  " << _( "None." ) << "\n";
+            output_string += std::string( "\n  " ) + _( "None." ) + "\n";
         }
         if( npc_list.size() > 1 ) {
-            override_string << "\n" << _( "Other followers might have different temporary orders." );
+            output_string += std::string( "\n" ) +
+                             _( "Other followers might have different temporary orders." );
         }
         g->refresh_all();
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
-        std::string output_string = override_string.str();
         parse_tags( output_string, g->u, *guy );
         nmenu.footer_text = output_string;
         nmenu.addentry( NPC_CHAT_DONE, true, 'd', _( "Done issuing orders" ) );
@@ -1191,8 +1190,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
             g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
-            std::stringstream resume;
-            resume << _( "Yes, let's resume training " );
             const skill_id skillt( backlog.name );
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
@@ -1201,17 +1198,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
                     if( p->magic.knows_spell( sp_id ) ) {
-                        resume << sp_id->name.translated();
-                        add_response( resume.str(), "TALK_TRAIN_START", sp_id );
+                        add_response( string_format( _( "Yes, let's resume training %s" ), sp_id->name ),
+                                      "TALK_TRAIN_START", sp_id );
                     }
                 } else {
-                    martialart style = styleid.obj();
-                    resume << style.name;
-                    add_response( resume.str(), "TALK_TRAIN_START", style );
+                    const martialart &style = styleid.obj();
+                    add_response( string_format( _( "Yes, let's resume training %s" ), style.name ), "TALK_TRAIN_START",
+                                  style );
                 }
             } else {
-                resume << skillt.obj().name();
-                add_response( resume.str(), "TALK_TRAIN_START", skillt );
+                add_response( string_format( _( "Yes, let's resume training %s" ), skillt->name() ),
+                              "TALK_TRAIN_START", skillt );
             }
         }
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
@@ -1662,8 +1659,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        std::stringstream tmp;
-        tmp << "\"" << challenge << "\"";
+        challenge = "\"" + challenge + "\"";
     }
 
     // Parse any tags in challenge
