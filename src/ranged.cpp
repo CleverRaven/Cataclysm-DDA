@@ -1098,14 +1098,14 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
                            input_context &ctxt,
-                           const item *weapon, const tripoint &target_pos, bool is_blind_throw )
+                           const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion = p.throwing_dispersion( *weapon, target, is_blind_throw );
+    const dispersion_sources dispersion = p.throwing_dispersion( weapon, target, is_blind_throw );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -1125,7 +1125,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
 
     const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
 }
@@ -1499,9 +1499,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             } else if( mode == TARGET_MODE_TURRET ) {
                 draw_turret_aim( pc, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
             }
 
             wrefresh( g->w_terrain );
