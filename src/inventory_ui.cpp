@@ -1905,9 +1905,9 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         }
 
         if( compared.size() == 2 ) {
-            const auto res = std::make_pair( &*compared.back()->any_item(),
-                                             &*compared.front()->any_item() );
-            toggle_entry( compared.back() );
+            const auto res = std::make_pair( &*compared.back().any_item(),
+                                             &*compared.front().any_item() );
+            toggle_entry( &compared.back() );
             return res;
         }
     }
@@ -1915,12 +1915,12 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
 void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 {
-    const auto iter = std::find( compared.begin(), compared.end(), entry );
+    const auto iter = std::find( compared.begin(), compared.end(), *entry );
 
     entry->chosen_count = ( iter == compared.end() ) ? 1 : 0;
 
     if( entry->chosen_count != 0 ) {
-        compared.push_back( entry );
+        compared.push_back( *entry );
     } else {
         compared.erase( iter );
     }
