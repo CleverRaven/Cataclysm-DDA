@@ -2293,8 +2293,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
 
     // West external wall
     lw = rng( 0, 4 );
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     // Middle wall between bedroom & kitchen/bath
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 );
     // East external wall
     rw = SEEX * 2 - rng( 1, 5 );
@@ -2302,8 +2302,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
     tw = rng( 1, 6 );
     // South external wall
     bw = SEEX * 2 - rng( 2, 5 );
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     // Middle wall between living room & kitchen/bed
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     cw = tw + rng( 4, 7 );
     //reserving some space for backyard. Actual south external wall.
     actual_house_height = bw - rng( 4, 6 );

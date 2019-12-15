@@ -30,8 +30,6 @@
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_rifle( "rifle" );
 
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
-
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }

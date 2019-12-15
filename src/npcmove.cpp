@@ -804,12 +804,10 @@ void npc::move()
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
-                action = npc_player_activity;
             } else {
                 // wait a turn, because next turn, the object of our activity
                 // may have been loaded in.
                 set_moves( 0 );
-                action = npc_pause;
             }
             return;
         }

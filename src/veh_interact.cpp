@@ -85,14 +85,11 @@ static auto can_refill = []( const vehicle_part &pt )
     return pt.can_reload();
 };
 
-namespace
-{
 static const quality_id LIFT( "LIFT" );
 static const quality_id JACK( "JACK" );
 static const quality_id SELF_JACK( "SELF_JACK" );
 static const skill_id skill_mechanics( "mechanics" );
 static const itype_id fuel_type_battery( "battery" );
-} // namespace
 
 void act_vehicle_siphon( vehicle *veh );
 void act_vehicle_unload_fuel( vehicle *veh );
