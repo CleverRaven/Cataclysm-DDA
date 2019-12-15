@@ -422,7 +422,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
 {
     std::list< std::pair<skill_id, int> > skillList;
 
-    if( skill_used != skill_id( "none" ) ) {
+    if( !skill_used.is_null() ) {
         skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
     }
 
