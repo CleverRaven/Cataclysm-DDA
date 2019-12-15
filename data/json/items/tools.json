@@ -3702,7 +3702,7 @@
     "id": "makeshift_hammer",
     "type": "TOOL",
     "name": "makeshift hammer",
-    "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
+    "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "500 ml",
     "price": 0,
