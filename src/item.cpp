@@ -5714,26 +5714,26 @@ float item::get_freeze_point() const
     return get_comestible()->freeze_point;
 }
 
-item *item::get_food()
+template<typename Item>
+static Item *get_food_impl( Item *it )
 {
-    if( is_food() ) {
-        return this;
-    } else if( is_food_container() && !contents.empty() ) {
-        return &contents.front();
+    if( it->is_food() ) {
+        return it;
+    } else if( it->is_food_container() && !it->contents.empty() ) {
+        return &it->contents.front();
     } else {
         return nullptr;
     }
 }
 
+item *item::get_food()
+{
+    return get_food_impl( this );
+}
+
 const item *item::get_food() const
 {
-    if( is_food() ) {
-        return this;
-    } else if( is_food_container() && !contents.empty() ) {
-        return &contents.front();
-    } else {
-        return nullptr;
-    }
+    return get_food_impl( this );
 }
 
 void item::set_mtype( const mtype *const m )
