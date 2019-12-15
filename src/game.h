@@ -787,7 +787,6 @@ class game
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
-        void unload( int pos = INT_MIN );
 
         unsigned int get_seed() const;
 

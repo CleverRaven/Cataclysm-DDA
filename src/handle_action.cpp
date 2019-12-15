@@ -1922,7 +1922,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_UNLOAD:
-                unload();
+                avatar_action::unload( u );
                 break;
 
             case ACTION_MEND:
