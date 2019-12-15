@@ -398,10 +398,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 4, 10 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
-        { "item": "pipe", "count": 1 }
+        { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
   },
