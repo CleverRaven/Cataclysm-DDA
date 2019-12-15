@@ -35,3 +35,19 @@ Cataclysm: DDA is under constant development. As such, stable can lag behind wit
     {% endunless %}
 
 {% endfor %}
+
+# Packaging status
+
+## Arch Linux
+
+Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+
+`sudo pacman -S cataclysm-dda`
+
+## Fedora
+
+Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+
+`sudo dnf install cataclysm-dda`
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg)](https://repology.org/project/cataclysm-dda/versions)
