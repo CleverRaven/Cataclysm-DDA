@@ -1036,6 +1036,11 @@
   },
   {
     "type": "item_action",
+    "id": "change_scent",
+    "name": "Mask scent"
+  },
+  {
+    "type": "item_action",
     "id": "unfold_vehicle",
     "name": "Unfold"
   },

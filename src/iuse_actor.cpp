@@ -4709,3 +4709,31 @@ std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
 {
     return std::make_unique<sew_advanced_actor>( *this );
 }
+
+void change_scent_iuse::load( const JsonObject &obj )
+{
+    assign( obj, "scent_typeid", scenttypeid );
+    assign( obj, "moves", moves );
+    assign( obj, "charges_to_use", charges_to_use );
+    assign( obj, "scent_mod", scent_mod );
+    assign( obj, "duration", duration );
+    assign( obj, "waterproof", waterproof );
+}
+
+int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
+{
+    p.set_value( "prev_scent", p.get_type_of_scent().c_str() );
+    if( waterproof ) {
+        p.set_value( "waterproof_scent", "true" );
+    }
+    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
+    p.set_type_of_scent( scenttypeid );
+    p.mod_moves( -moves );
+
+    return charges_to_use;
+}
+
+std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
+{
+    return std::make_unique<change_scent_iuse>( *this );
+}

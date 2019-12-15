@@ -311,6 +311,32 @@ class place_monster_iuse : public iuse_actor
 };
 
 /**
+ * This iuse contains the logic to change one's scent.
+ */
+class change_scent_iuse : public iuse_actor
+{
+    public:
+        /** The scent type id of the new scent. */
+        scenttype_id scenttypeid;
+        /** How many move points this action takes. */
+        int moves = 100;
+        /**How many charge are consumed on use*/
+        int charges_to_use = 1;
+        /**Scent value modifier*/
+        int scent_mod = 0;
+        /**How long does the scent stays*/
+        time_duration duration;
+        /**Is the scent mask waterproof*/
+        bool waterproof = false;
+
+        change_scent_iuse() : iuse_actor( "change_scent" ) { }
+        ~change_scent_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
  * Items that can be worn and can be activated to consume energy from UPS.
  * Note that the energy consumption is done in @ref player::process_active_items, it is
  * *not* done by this class!
