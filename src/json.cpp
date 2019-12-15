@@ -1042,7 +1042,7 @@ number_sci_notation JsonIn::get_any_int()
         error( "Integers cannot have a decimal point or negative order of magnitude." );
     }
     // Manually apply scientific notation, since std::pow converts to double under the hood.
-    for( int i = 0; i < n.exp; i++ ) {
+    for( int64_t i = 0; i < n.exp; i++ ) {
         if( n.number > std::numeric_limits<uint64_t>::max() / 10ULL ) {
             error( "Specified order of magnitude too large -- encountered overflow applying it." );
         }

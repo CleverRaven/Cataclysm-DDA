@@ -37,7 +37,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             CHECK( !g->m.get_submaps_with_active_items().empty() );
             CHECK( g->m.get_submaps_with_active_items().find( abs_loc ) !=
                    g->m.get_submaps_with_active_items().end() );
-            CHECK( g->m.i_at( { x, y, z } ).size() != 0 );
+            CHECK( !g->m.i_at( { x, y, z } ).empty() );
             g->m.i_clear( { x, y, z } );
         }
     }
