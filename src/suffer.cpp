@@ -1737,9 +1737,9 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         }
     }
 
-    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2 &&
+    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
         has_effect( efftype_id( "masked_scent" ) ) &&
-        !get_value( "waterproof_scent" ).empty() ) {
+        get_value( "waterproof_scent" ).empty() ) {
         restore_scent();
     }
 
