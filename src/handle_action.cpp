@@ -966,14 +966,19 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
+    std::string deaf_text;
+    if( g->u.is_deaf() ) {
+        deaf_text = _( "<color_c_red> (DEAF!)</color>" );
+    }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate
-                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
-                    : _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" +
+                       deaf_text ) :
+                    _( "You have an alarm clock. Set an alarm?" + deaf_text );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -981,7 +986,7 @@ static void sleep()
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) + deaf_text );
         }
 
         as_m.query();
