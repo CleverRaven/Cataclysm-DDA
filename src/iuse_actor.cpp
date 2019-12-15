@@ -4712,7 +4712,10 @@ std::unique_ptr<iuse_actor> sew_advanced_actor::clone() const
 
 void change_scent_iuse::load( const JsonObject &obj )
 {
-    assign( obj, "scent_typeid", scenttypeid );
+    scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
+    if( !scenttypeid.is_valid() ) {
+        obj.throw_error( "Invalid scent type id.", "scent_typeid" );
+    }
     assign( obj, "moves", moves );
     assign( obj, "charges_to_use", charges_to_use );
     assign( obj, "scent_mod", scent_mod );
