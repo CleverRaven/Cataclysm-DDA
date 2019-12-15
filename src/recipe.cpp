@@ -450,7 +450,7 @@ std::string recipe::required_skills_string( const Character *c, bool include_pri
 std::string recipe::required_all_skills_string() const
 {
     // There is no primary skill used, we can just use the required_skills directly.
-    if( skill_used == skill_id( "none" ) ) {
+    if( skill_used.is_null() ) {
         return required_skills_string( required_skills.begin(), required_skills.end() );
     }
 
