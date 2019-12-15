@@ -241,9 +241,15 @@
   },
   {
     "type": "ammunition_type",
-    "id": "40mm",
-    "name": "40mm grenade",
-    "default": "40mm_frag"
+    "id": "40x46mm",
+    "name": "40x46mm grenade",
+    "default": "40x46mm_m433"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "40x53mm",
+    "name": "40x53mm grenade",
+    "default": "40x53mm_m430a1"
   },
   {
     "type": "ammunition_type",
