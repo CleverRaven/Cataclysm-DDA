@@ -1171,16 +1171,17 @@ bool game::cleanup_at_end()
         if( characters.empty() ) {
             bool queryDelete = false;
             bool queryReset = false;
-            bool decided = false;
-            std::string buffer = _( "Warning, Cataclysm: Dark Days Ahead is not really made for "
-                    "multiple runs in a single world.  "
-                    "You will experience some bugs if you have already played extensively in "
-                    "this world.\n\n"
-                    "Are you sure you wish to keep this world?"
-                    );
 
-            while( !decided ) {
-                if( get_option<std::string>( "WORLD_END" ) == "query" ) {
+            if( get_option<std::string>( "WORLD_END" ) == "query" ) {
+                bool decided = false;
+                std::string buffer = _( "Warning, Cataclysm: Dark Days Ahead is not really made "
+                        "for multiple runs in a single world.  "
+                        "You will experience some bugs if you have already played extensively in "
+                        "this world.\n\n"
+                        "Are you sure you wish to keep this world?"
+                        );
+
+                while( !decided ) {
                     uilist smenu;
                     smenu.allow_cancel = false;
                     smenu.addentry( 0, true, 'r', "%s", _( "Reset world" ) );
