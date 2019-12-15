@@ -2522,7 +2522,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
     if( heat == nullptr ) {
         return;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item &target = *heat->get_food();
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( "EATEN_COLD" ) ) {

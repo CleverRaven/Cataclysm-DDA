@@ -1482,12 +1482,9 @@ void npc::decide_needs()
     invslice slice = inv.slice();
     for( auto &i : slice ) {
         item inventory_item = i->front();
-        if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
-        } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
+        if( const item *food = inventory_item.get_food() ) {
+            needrank[ need_food ] += nutrition_for( *food ) / 4.0;
+            needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
         }
     }
     needs.clear();

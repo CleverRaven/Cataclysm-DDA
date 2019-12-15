@@ -1135,6 +1135,11 @@ class item : public visitable<item>
         float get_latent_heat() const;
         float get_freeze_point() const; // Farenheit
 
+        // If this is food, returns itself.  If it contains food, return that
+        // contents.  Otherwise, returns nullptr.
+        item *get_food();
+        const item *get_food() const;
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
