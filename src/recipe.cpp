@@ -418,6 +418,44 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
+// Format a std::pair<skill_id, int> for the crafting menu.
+// skill colored green (or yellow if beyond characters skill)
+// optionally with the skill level (player / difficulty)
+template<typename _FIter>
+std::string required_skills_as_string( _FIter first, _FIter last, const Character *c,
+                                       const bool print_skill_level )
+{
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
+    }
+
+    return enumerate_as_string( first, last,
+    [&]( const std::pair<skill_id, int> &skill ) {
+        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
+    } );
+}
+
+// Format a std::pair<skill_id, int> for the basecamp bulletin board.
+// skill colored white with difficulty in parenthesis.
+template<typename _FIter>
+std::string required_skills_as_string( _FIter first, _FIter last )
+{
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
+    }
+
+    return enumerate_as_string( first, last,
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s (%d)</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
+
 std::string recipe::primary_skill_string( const Character *c, bool print_skill_level ) const
 {
     std::list< std::pair<skill_id, int> > skillList;
@@ -426,7 +464,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
         skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
     }
 
-    return required_skills_string( skillList.begin(), skillList.end(), c, print_skill_level );
+    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
 std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
@@ -434,8 +472,8 @@ std::string recipe::required_skills_string( const Character *c, bool include_pri
 {
     // There is no primary skill used or it shouldn't be included then we can just use the required_skills directly.
     if( skill_used.is_null() || !include_primary_skill ) {
-        return required_skills_string( required_skills.begin(), required_skills.end(), c,
-                                       print_skill_level );
+        return required_skills_as_string( required_skills.begin(), required_skills.end(), c,
+                                          print_skill_level );
     }
 
     std::list< std::pair<skill_id, int> > skillList;
@@ -444,14 +482,14 @@ std::string recipe::required_skills_string( const Character *c, bool include_pri
         skillList.push_back( skill );
     }
 
-    return required_skills_string( skillList.begin(), skillList.end(), c, print_skill_level );
+    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
 std::string recipe::required_all_skills_string() const
 {
     // There is no primary skill used, we can just use the required_skills directly.
     if( skill_used.is_null() ) {
-        return required_skills_string( required_skills.begin(), required_skills.end() );
+        return required_skills_as_string( required_skills.begin(), required_skills.end() );
     }
 
     std::list< std::pair<skill_id, int> > skillList;
@@ -460,7 +498,7 @@ std::string recipe::required_all_skills_string() const
         skillList.push_back( skill );
     }
 
-    return required_skills_string( skillList.begin(), skillList.end() );
+    return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 
 std::string recipe::batch_savings_string() const
