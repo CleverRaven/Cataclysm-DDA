@@ -4729,7 +4729,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
-
+    add_msg( m_info, string_format( _( "You use the %s to mask your scent" ), it.tname() ) );
     return charges_to_use;
 }
 

@@ -6339,6 +6339,7 @@ void Character::restore_scent()
         set_type_of_scent( scenttype_id( prev_scent ) );
         remove_value( "prev_scent" );
         remove_value( "waterproof_scent" );
+        add_msg_if_player( m_info, _( "You smell like yourself again." ) );
     }
 }
 
