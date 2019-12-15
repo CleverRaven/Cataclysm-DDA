@@ -2154,6 +2154,10 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
+    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
+    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
+    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+
     if( note_read ) {
         snippet_id = SNIPPET.migrate_hash_to_id( note );
     }
