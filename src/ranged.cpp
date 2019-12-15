@@ -1634,15 +1634,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
+            } else if( !pc.has_item( *relevant ) ) {
+                add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {
-                const int pos = pc.get_item_position( relevant );
-                item *it = &g->u.i_at( pos );
-                if( it->typeId() == "null" ) {
-                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
-                } else {
-                    item_location loc( pc, it );
-                    g->reload( loc, true );
-                }
+                item_location loc( pc, relevant );
+                g->reload( loc, true );
                 ret.clear();
                 break;
             }
