@@ -1310,7 +1310,8 @@
     "charges": 50,
     "description": "This is a pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate you could eat it too; it's not much different from cup noodle stock.",
     "material": "powder_nonflam",
-    "volume": 0.1,
+    "volume": "100 ml",
+    "//": "Bulk density is around 0.5 g/mL",
     "weight": "1 g"
   },
   {
@@ -1329,7 +1330,8 @@
     "charges": 50,
     "description": "These clear flakes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "material": "powder_nonflam",
-    "volume": 0.1,
+    "volume": "90 ml",
+    "//": "Bulk density is around 0.55 g/mL",
     "weight": "1 g"
   },
   {
@@ -1349,7 +1351,8 @@
     "charges": 50,
     "description": "This highly carcinogenic white powder can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "material": "powder_nonflam",
-    "volume": 0.1,
+    "volume": "100 ml",
+    "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
   },
   {
