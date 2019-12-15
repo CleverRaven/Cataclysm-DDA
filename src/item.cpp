@@ -7804,9 +7804,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 {
     std::vector<item *> del;
 
-    // Remember qty to unseal self
-    int old_qty = qty;
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -7831,6 +7829,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
+                if( parent ) {
+                    parent->on_contents_changed();
+                }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
                     qty = 0;
@@ -7856,10 +7857,6 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         } else {
             remove_item( *e );
         }
-    }
-
-    if( qty != old_qty || !del.empty() ) {
-        on_contents_changed();
     }
 
     return destroy;
