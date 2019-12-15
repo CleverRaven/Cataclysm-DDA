@@ -10268,6 +10268,11 @@ void game::vertical_move( int movez, bool force )
     } else {
         u.moves -= move_cost;
     }
+    for( const auto &np : npcs_to_bring ) {
+        if( np->in_vehicle ) {
+            g->m.unboard_vehicle( np->pos() );
+        }
+    }
     const tripoint old_pos = g->u.pos();
     point submap_shift;
     vertical_shift( z_after );
@@ -10298,7 +10303,6 @@ void game::vertical_move( int movez, bool force )
             [this, np]( const tripoint & c ) {
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
-
             if( found != candidates.end() ) {
                 // TODO: De-uglify
                 np->setpos( *found );
