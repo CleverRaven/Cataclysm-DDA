@@ -7339,7 +7339,7 @@
   {
     "type": "recipe",
     "result": "con_milk",
-    "charges": 1,
+    "charges": 10,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -7350,17 +7350,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 120, "LIST" ] ] ],
-    "components": [
-      [ [ "milk_standard_raw", 2, "LIST" ] ],
-      [
-        [ "sugar", 100 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ],
-        [ "molasses", 1 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
-      ]
-    ]
+    "components": [ [ [ "milk_standard_raw_fresh", 2, "LIST" ] ], [ [ "sugar_standard", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -7383,15 +7373,8 @@
     "components": [
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "milk_standard_raw", 24, "LIST" ] ],
-      [
-        [ "sugar", 1200 ],
-        [ "syrup", 12 ],
-        [ "beet_syrup", 12 ],
-        [ "molasses", 12 ],
-        [ "honey_bottled", 12 ],
-        [ "honey_glassed", 12 ]
-      ]
+      [ [ "milk_standard_raw_fresh", 24, "LIST" ] ],
+      [ [ "sugar_standard", 36, "LIST" ] ]
     ]
   },
   {
@@ -7412,18 +7395,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "milk_standard_raw", 4, "LIST" ] ],
-      [
-        [ "sugar", 200 ],
-        [ "syrup", 2 ],
-        [ "beet_syrup", 2 ],
-        [ "molasses", 2 ],
-        [ "honey_bottled", 2 ],
-        [ "honey_glassed", 2 ]
-      ]
-    ]
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -7449,15 +7421,8 @@
     "components": [
       [ [ "can_medium_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "milk_standard_raw", 4, "LIST" ] ],
-      [
-        [ "sugar", 200 ],
-        [ "syrup", 2 ],
-        [ "beet_syrup", 2 ],
-        [ "molasses", 2 ],
-        [ "honey_bottled", 2 ],
-        [ "honey_glassed", 2 ]
-      ]
+      [ [ "milk_standard_raw_fresh", 4, "LIST" ] ],
+      [ [ "sugar_standard", 6, "LIST" ] ]
     ]
   },
   {

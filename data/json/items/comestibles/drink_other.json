@@ -126,6 +126,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "phase": "liquid"
   },
   {
