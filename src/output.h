@@ -250,7 +250,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
@@ -280,7 +280,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
@@ -306,7 +306,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param begin The coordinates of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
- * @param mes Actual message to print
+ * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
@@ -469,19 +469,57 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare );
 
-input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
-                            const std::string &sTypeName,
-                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                            int &selected, bool without_getch = false, bool without_border = false,
-                            bool handle_scrolling = false, bool scrollbar_left = true,
-                            bool use_full_win = false, unsigned int padding = 1 );
+// the extra data that item_info needs to draw
+struct item_info_data {
+    private:
+        std::string sItemName;
+        std::string sTypeName;
+        std::vector<iteminfo> vItemDisplay;
+        std::vector<iteminfo> vItemCompare;
+        int selected = 0;
 
-input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight,
-                            const std::string &sItemName, const std::string &sTypeName,
-                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                            int &selected, bool without_getch = false, bool without_border = false,
-                            bool handle_scrolling = false, bool scrollbar_left = true,
-                            bool use_full_win = false, unsigned int padding = 1 );
+    public:
+
+        item_info_data() = default;
+
+        item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
+            : sItemName( sItemName ), sTypeName( sTypeName ),
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+              selected( 0 ), ptr_selected( &selected ) {}
+
+        item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+                        int &ptr_selected )
+            : sItemName( sItemName ), sTypeName( sTypeName ),
+              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+              ptr_selected( &ptr_selected ) {}
+
+        const std::string &get_item_name() const {
+            return sItemName;
+        }
+        const std::string &get_type_name() const {
+            return sTypeName;
+        }
+        const std::vector<iteminfo> &get_item_display() const {
+            return vItemDisplay;
+        }
+        const std::vector<iteminfo> &get_item_compare() const {
+            return vItemCompare;
+        }
+
+        int *ptr_selected = &selected;
+        bool without_getch = false;
+        bool without_border = false;
+        bool handle_scrolling = false;
+        bool scrollbar_left = true;
+        bool use_full_win = false;
+        unsigned int padding = 1;
+};
+
+input_event draw_item_info( const catacurses::window &win, item_info_data &data );
+
+input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_info_data &data );
 
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables

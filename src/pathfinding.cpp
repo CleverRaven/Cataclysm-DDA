@@ -228,10 +228,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
     int miny = std::min( f.y, t.y ) - pad;
-    int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
+    // TODO: Make this way bigger
+    int minz = std::min( f.z, t.z );
     int maxx = std::max( f.x, t.x ) + pad;
     int maxy = std::max( f.y, t.y ) + pad;
-    int maxz = std::max( f.z, t.z ); // Same TODO: as above
+    // Same TODO: as above
+    int maxz = std::max( f.z, t.z );
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
 
@@ -319,7 +321,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr && climb_cost <= 0 ) {
+                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
+                    climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
                     continue;
                 }
@@ -329,8 +332,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
                         // Climbing fences
                         newg += climb_cost;
-                    } else if( doors && terrain.open &&
-                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                    } else if( doors && ( terrain.open || furniture.open ) &&
+                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
+                                 !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
                         newg += 4;
@@ -374,7 +378,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         newg += 500;
                     } else {
                         // Unbashable and unopenable from here
-                        if( !doors || !terrain.open ) {
+                        if( !doors || !terrain.open || !furniture.open ) {
                             // Or anywhere else for that matter
                             layer.state[index] = ASL_CLOSED;
                         }
@@ -474,7 +478,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             // Jumps are acceptable on 1 z-level changes
             // This is because stairs teleport the player too
             if( rl_dist( cur, par ) > 1 && abs( cur.z - par.z ) != 1 ) {
-                debugmsg( "Jump in our route! %d:%d:%d->%d:%d:%d",
+                debugmsg( "Jump in our route!  %d:%d:%d->%d:%d:%d",
                           cur.x, cur.y, cur.z, par.x, par.y, par.z );
                 return ret;
             }

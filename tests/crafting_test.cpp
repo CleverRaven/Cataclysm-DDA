@@ -179,10 +179,10 @@ TEST_CASE( "available_recipes", "[recipes]" )
         }
     }
 
-    GIVEN( "an eink pc with a cannibal recipe" ) {
-        const recipe *r2 = &recipe_id( "soup_human" ).obj();
+    GIVEN( "an eink pc with a sushi recipe" ) {
+        const recipe *r2 = &recipe_id( "sushi_rice" ).obj();
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
-        eink.set_var( "EIPC_RECIPES", ",soup_human," );
+        eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
 
         WHEN( "the player holds it and has an appropriate skill" ) {

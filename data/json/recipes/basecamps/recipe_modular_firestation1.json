@@ -41,7 +41,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_firestation1_well",
-    "description": "We should build a well, put it near that winch. This will make our future here more secure.",
+    "description": "We should build a well, put it near that winch.  This will make our future here more secure.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -145,7 +145,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_firestation1_brazier",
-    "description": "Now that we have some cover, we should set up a brazier for cooking, and grab a pot. Let's put it in that dining area.",
+    "description": "Now that we have some cover, we should set up a brazier for cooking, and grab a pot.  Let's put it in that dining area.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",

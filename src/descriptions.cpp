@@ -16,7 +16,7 @@
 #include "translations.h"
 #include "string_id.h"
 
-const skill_id skill_survival( "survival" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -98,6 +98,7 @@ void game::extended_description( const tripoint &p )
 
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
+            // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
             desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
                     signage );
         }

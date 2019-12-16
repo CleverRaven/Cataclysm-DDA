@@ -66,7 +66,6 @@
         { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
       ]
     },
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "bash": {
       "str_min": 10,
@@ -91,8 +90,6 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": 4000,
-    "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -137,8 +134,6 @@
     "move_cost_mod": 3,
     "coverage": 60,
     "required_str": 16,
-    "max_volume": 4000,
-    "insulation": 2,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
     "deconstruct": {
@@ -183,7 +178,6 @@
     "coverage": 80,
     "required_str": 18,
     "max_volume": 7000,
-    "insulation": 6,
     "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -316,7 +310,6 @@
     "move_cost_mod": 3,
     "coverage": 45,
     "required_str": 10,
-    "max_volume": 4000,
     "looks_like": "f_glass_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
     "deconstruct": {
@@ -504,7 +497,6 @@
     "move_cost_mod": -1,
     "coverage": 45,
     "required_str": -1,
-    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -546,7 +538,6 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "max_volume": 4000,
     "looks_like": "t_machinery_heavy",
     "deconstruct": {
       "items": [

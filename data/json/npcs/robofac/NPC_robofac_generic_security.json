@@ -51,7 +51,7 @@
     "id": "NC_robofac_generic_security_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb", "prob": 33 },
+      { "item": "grenade_emp", "prob": 33 },
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
@@ -64,6 +64,6 @@
     "id": "TALK_HUB_SECURITY",
     "type": "talk_topic",
     "dynamic_line": [ "Keep it civil, merc.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]

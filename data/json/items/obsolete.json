@@ -23,7 +23,7 @@
     "color": "light_gray",
     "name": "leaf spring",
     "category": "spare_parts",
-    "description": "A large, heavy-duty leaf spring.  Probably from some car or truck, and looks an awful lot like a bow.  You can barely bend it...",
+    "description": "A large, heavy-duty leaf spring.  Probably from some car or truck, and looks an awful lot like a bow.  You can barely bend it…",
     "price": 5000,
     "price_postapoc": 500,
     "material": "steel",
@@ -281,15 +281,6 @@
     "ammo_modifier": "9mm",
     "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
-  },
-  {
-    "id": "bio_solar",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Solar Panels CBM",
-    "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge.",
-    "price": 350000,
-    "difficulty": 4
   },
   {
     "id": "beltfeed",
@@ -939,5 +930,81 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": 200
+  },
+  {
+    "id": "hobo_stove_on",
+    "type": "TOOL",
+    "name": "hobo stove (lit)",
+    "name_plural": "hobo stoves (lit)",
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "charges_per_use": 25,
+    "turns_per_charge": 300,
+    "revert_to": "hobo_stove",
+    "use_action": [
+      "HOTPLATE",
+      {
+        "target": "hobo_stove",
+        "msg": "The ember is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "40mm_flare",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40mm flare",
+    "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
+    "drop": "handflare_lit",
+    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
+  },
+  {
+    "id": "40mm_flashbang",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40x46mm ",
+    "description": "A 40mm grenade with a flashbang load.  It will detonate with a blast of light and sound, designed to blind, deafen, and disorient anyone nearby.",
+    "extend": { "effects": [ "FLASHBANG" ] }
+  },
+  {
+    "id": "40mm_incendiary",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40mm incendiary",
+    "name_plural": "40mm incendiaries",
+    "description": "A 40mm grenade with a small napalm load, designed to create a burst of flame.",
+    "extend": { "effects": [ "NAPALM" ] }
+  },
+  {
+    "id": "40mm_smoke",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40mm smoke cover",
+    "description": "A 40mm grenade designed to provide smoke cover.",
+    "drop": "smokebomb_act",
+    "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
+  },
+  {
+    "id": "40mm_slug",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": "40mm slug",
+    "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
+    "damage": 130,
+    "recoil": 875,
+    "extend": { "effects": [ "LARGE_BEANBAG" ] }
   }
 ]

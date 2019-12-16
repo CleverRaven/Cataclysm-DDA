@@ -23,8 +23,12 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
+#include "text_style_check.h"
 #include "cursesdef.h"
 #include "cata_utility.h"
+
+extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -32,7 +36,7 @@
 static void reload_names()
 {
     Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+    Name::load_from_file( PATH_INFO::names() );
 }
 
 static bool sanity_checked_genders = false;
@@ -170,7 +174,8 @@ void set_language()
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
-    if( !lang_opt.empty() ) { // Not 'System Language'
+    if( !lang_opt.empty() ) {
+        // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
@@ -205,11 +210,11 @@ void set_language()
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
-    locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
+    locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !FILENAMES["base_path"].empty() ) {
-        locale_dir = FILENAMES["base_path"] + "share/locale";
+    if( !PATH_INFO::base_path().empty() ) {
+        locale_dir = PATH_INFO::base_path() + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }
@@ -332,7 +337,8 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
     std::vector<std::string> chosen_genders;
     for( const auto &subject_genders : genders ) {
-        std::string chosen_gender = language_genders[0]; // default if no match
+        // default if no match
+        std::string chosen_gender = language_genders[0];
         for( const std::string &gender : subject_genders.second ) {
             if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
                 language_genders.end() ) {
@@ -347,12 +353,12 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 }
 
 translation::translation()
-    : ctxt( cata::nullopt ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( cata::nullopt )
 {
 }
 
 translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw_pl( std::string() ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( std::string() )
 {
 }
 
@@ -379,7 +385,7 @@ translation::translation( const std::string &ctxt, const std::string &raw,
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt )
 {
 }
 
@@ -425,7 +431,21 @@ void translation::make_plural()
 
 void translation::deserialize( JsonIn &jsin )
 {
+#ifndef CATA_IN_TOOL
+    bool check_style = false;
+    std::function<void( const std::string &msg, int offset )> throw_error;
+#endif
     if( jsin.test_string() ) {
+#ifndef CATA_IN_TOOL
+        if( test_mode ) {
+            const int origin = jsin.tell();
+            check_style = true;
+            throw_error = [&jsin, origin]( const std::string & msg, const int offset ) {
+                jsin.seek( origin );
+                jsin.error( msg, offset );
+            };
+        }
+#endif
         ctxt = cata::nullopt;
         raw = jsin.get_string();
         // if plural form is enabled
@@ -452,7 +472,64 @@ void translation::deserialize( JsonIn &jsin )
             jsobj.throw_error( "str_pl not supported here", "str_pl" );
         }
         needs_translation = true;
+#ifndef CATA_IN_TOOL
+        if( test_mode ) {
+            check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
+            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+                jsobj.get_raw( "str" )->error( msg, offset );
+            };
+        }
+#endif
     }
+#ifndef CATA_IN_TOOL
+    // Check text style in translatable json strings.
+    // Strings with plural forms are (for now) only simple names, and thus do
+    // not require styling.
+    if( test_mode && !raw_pl && check_style ) {
+
+        const auto text_style_callback =
+            [&throw_error]
+            ( const text_style_fix type, const std::string & msg,
+              const std::u32string::const_iterator & beg, const std::u32string::const_iterator & /*end*/,
+              const std::u32string::const_iterator & /*at*/,
+              const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
+              const std::string & fix
+        ) {
+            std::string err;
+            switch( type ) {
+                case text_style_fix::removal:
+                    err = msg + "\n"
+                          + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
+                          + "    At the following position (marked with caret)";
+                    break;
+                case text_style_fix::insertion:
+                    err = msg + "\n"
+                          + "    Suggested fix: insert \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
+                    break;
+                case text_style_fix::replacement:
+                    err = msg + "\n"
+                          + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
+                          + "\" with \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
+                    break;
+            }
+            try {
+                const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
+                // +1 for the starting quotation mark
+                //@todo: properly handle escape sequences inside strings, instead
+                //of using `length()` here.
+                throw_error( err, 1 + str_before.length() );
+            } catch( const JsonError &e ) {
+                debugmsg( "\n%s", e.what() );
+            }
+        };
+
+        const std::u32string raw32 = utf8_to_utf32( raw );
+        text_style_check<std::u32string::const_iterator>( raw32.cbegin(), raw32.cend(),
+                fix_end_of_string_spaces::yes, escape_unicode::no, text_style_callback );
+    }
+#endif
 }
 
 std::string translation::translated( const int num ) const
@@ -503,6 +580,16 @@ bool translation::operator==( const translation &that ) const
 bool translation::operator!=( const translation &that ) const
 {
     return !operator==( that );
+}
+
+cata::optional<int> translation::legacy_hash() const
+{
+    if( needs_translation && !ctxt && !raw_pl ) {
+        return djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) );
+    }
+    // Otherwise the translation must have been added after snippets were changed
+    // to use string ids only, so the translation doesn't have a legacy hash value.
+    return cata::nullopt;
 }
 
 translation to_translation( const std::string &raw )

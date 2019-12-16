@@ -17,7 +17,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "int_id.h"
-#include "io.h"
+#include "cata_io.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -90,6 +90,7 @@ void game::serialize( std::ostream &fout )
     json.member( "om_y", pos_om.y );
 
     json.member( "grscent", scent.serialize() );
+    json.member( "typescent", scent.serialize( true ) );
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
@@ -105,26 +106,31 @@ void game::serialize( std::ostream &fout )
     json.end_object();
 }
 
-std::string scent_map::serialize() const
+std::string scent_map::serialize( bool is_type ) const
 {
     std::stringstream rle_out;
-    int rle_lastval = -1;
-    int rle_count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( val == rle_lastval ) {
-                rle_count++;
-            } else {
-                if( rle_count ) {
-                    rle_out << rle_count << " ";
+    if( is_type ) {
+        rle_out << typescent.str();
+    } else {
+        int rle_lastval = -1;
+        int rle_count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( val == rle_lastval ) {
+                    rle_count++;
+                } else {
+                    if( rle_count ) {
+                        rle_out << rle_count << " ";
+                    }
+                    rle_out << val << " ";
+                    rle_lastval = val;
+                    rle_count = 1;
                 }
-                rle_out << val << " ";
-                rle_lastval = val;
-                rle_count = 1;
             }
         }
+        rle_out << rle_count;
     }
-    rle_out << rle_count;
+
     return rle_out.str();
 }
 
@@ -149,20 +155,7 @@ static void chkversion( std::istream &fin )
  */
 void game::unserialize( std::istream &fin )
 {
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-    std::string linebuf;
-
+    chkversion( fin );
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
@@ -198,20 +191,20 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
-        linebuf.clear();
-        if( data.read( "grscent", linebuf ) ) {
+        std::string linebuff;
+        std::string linebuf;
+        if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
             scent.deserialize( linebuf );
+            scent.deserialize( linebuff, true );
         } else {
             scent.reset();
         }
-
         data.read( "active_monsters", *critter_tracker );
 
-        JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
-        while( vdata.has_more() ) {
+        for( auto elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
-            vdata.read_next( stairtmp );
+            elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -221,16 +214,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            JsonObject odata = data.get_object( "kills" );
-            std::set<std::string> members = odata.get_member_names();
-            for( const auto &member : members ) {
-                kills[mtype_id( member )] = odata.get_int( member );
+            for( const JsonMember &member : data.get_object( "kills" ) ) {
+                kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            vdata = data.get_array( "npc_kills" );
-            while( vdata.has_more() ) {
-                std::string npc_name;
-                vdata.read_next( npc_name );
+            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -247,84 +235,42 @@ void game::unserialize( std::istream &fin )
     }
 }
 
-void scent_map::deserialize( const std::string &data )
+void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
-    int stmp = 0;
-    int count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( count == 0 ) {
-                buffer >> stmp >> count;
-            }
-            count--;
-            val = stmp;
-        }
-    }
-}
-
-///// weather
-void game::load_weather( std::istream &fin )
-{
-    if( fin.peek() == '#' ) {
-        std::string vline;
-        getline( fin, vline );
-        std::string tmphash;
-        std::string tmpver;
-        int savedver = -1;
-        std::stringstream vliness( vline );
-        vliness >> tmphash >> tmpver >> savedver;
-        if( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-
-    //Check for "lightning:" marker - if absent, ignore
-    if( fin.peek() == 'l' ) {
-        std::string line;
-        getline( fin, line );
-        weather.lightning_active = line == "lightning: 1";
+    if( is_type ) {
+        std::string str;
+        buffer >> str;
+        typescent = scenttype_id( str );
     } else {
-        weather.lightning_active = false;
+        int stmp = 0;
+        int count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( count == 0 ) {
+                    buffer >> stmp >> count;
+                }
+                count--;
+                val = stmp;
+            }
+        }
     }
-    if( fin.peek() == 's' ) {
-        std::string line;
-        std::string label;
-        getline( fin, line );
-        std::stringstream liness( line );
-        liness >> label >> seed;
-    }
-}
-
-void game::save_weather( std::ostream &fout )
-{
-    fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
-    fout << "seed: " << seed;
 }
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {
-    std::string linebuf;
-    std::stringstream linein;
-
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
-            JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                JsonArray ja = qs.get_array( *it );
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
-                while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
+            for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
+                for( const int i : member.get_array() ) {
+                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -359,11 +305,10 @@ void game::save_shortcuts( std::ostream &fout )
 
 std::unordered_set<std::string> obsolete_terrains;
 
-void overmap::load_obsolete_terrains( JsonObject &jo )
+void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    JsonArray ja = jo.get_array( "terrains" );
-    while( ja.has_more() ) {
-        obsolete_terrains.emplace( ja.next_string() );
+    for( const std::string &line : jo.get_array( "terrains" ) ) {
+        obsolete_terrains.emplace( line );
     }
 }
 
@@ -789,6 +734,58 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old == "dairy_farm_SW" ||
                    old == "dairy_farm_SE" ) {
             ter_set( pos, oter_id( old + "_north" ) );
+
+        } else if( old == "megastore_entrance" ) {
+            const std::string megastore = "megastore";
+            const std::string megastore_entrance = "megastore_entrance";
+            const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
+            const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
+            const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
+            const auto ter_test_w = needs_conversion.find( pos + point( -2,  0 ) );
+            //North
+            if( ter_test_n != needs_conversion.end() && ter_test_n->second == megastore ) {
+                ter_set( pos + point_north + point_north_west, oter_id( megastore + "_0_0_0_north" ) );
+                ter_set( pos + point_north + point_north, oter_id( megastore + "_1_0_0_north" ) );
+                ter_set( pos + point_north + point_north_east, oter_id( megastore + "_2_0_0_north" ) );
+                ter_set( pos + point_north_west, oter_id( megastore + "_0_1_0_north" ) );
+                ter_set( pos + point_north, oter_id( megastore + "_1_1_0_north" ) );
+                ter_set( pos + point_north_east, oter_id( megastore + "_2_1_0_north" ) );
+                ter_set( pos + point_west, oter_id( megastore + "_0_2_0_north" ) );
+                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_north" ) );
+                ter_set( pos + point_east, oter_id( megastore + "_2_2_0_north" ) );
+            } else if( ter_test_s != needs_conversion.end() && ter_test_s->second == megastore ) {
+                ter_set( pos + point_west, oter_id( megastore + "_2_2_0_south" ) );
+                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_south" ) );
+                ter_set( pos + point_east, oter_id( megastore + "_0_2_0_south" ) );
+                ter_set( pos + point_south_west, oter_id( megastore + "_2_1_0_south" ) );
+                ter_set( pos + point_south, oter_id( megastore + "_1_1_0_south" ) );
+                ter_set( pos + point_south_east, oter_id( megastore + "_0_1_0_south" ) );
+                ter_set( pos + point_south + point_south_west, oter_id( megastore + "_2_0_0_south" ) );
+                ter_set( pos + point_south + point_south, oter_id( megastore + "_1_0_0_south" ) );
+                ter_set( pos + point_south + point_south_east, oter_id( megastore + "_0_0_0_south" ) );
+            } else if( ter_test_e != needs_conversion.end() && ter_test_e->second == megastore ) {
+                ter_set( pos + point_north, oter_id( megastore + "_0_2_0_east" ) );
+                ter_set( pos + point_north_east, oter_id( megastore + "_0_1_0_east" ) );
+                ter_set( pos + point_east + point_north_east, oter_id( megastore + "_0_0_0_east" ) );
+                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_east" ) );
+                ter_set( pos + point_east, oter_id( megastore + "_1_1_0_east" ) );
+                ter_set( pos + point_east + point_east, oter_id( megastore + "_1_0_0_east" ) );
+                ter_set( pos + point_south, oter_id( megastore + "_2_2_0_east" ) );
+                ter_set( pos + point_south_east, oter_id( megastore + "_2_1_0_east" ) );
+                ter_set( pos + point_east + point_south_east, oter_id( megastore + "_2_0_0_east" ) );
+            } else if( ter_test_w != needs_conversion.end() && ter_test_w->second == megastore ) {
+                ter_set( pos + point_west + point_north_west, oter_id( megastore + "_2_0_0_west" ) );
+                ter_set( pos + point_north_west, oter_id( megastore + "_2_1_0_west" ) );
+                ter_set( pos + point_north, oter_id( megastore + "_2_2_0_west" ) );
+                ter_set( pos + point_west + point_west, oter_id( megastore + "_1_0_0_west" ) );
+                ter_set( pos + point_west, oter_id( megastore + "_1_1_0_west" ) );
+                ter_set( pos + point_zero, oter_id( megastore + "_1_2_0_west" ) );
+                ter_set( pos + point_west + point_south_west, oter_id( megastore + "_0_0_0_west" ) );
+                ter_set( pos + point_south_west, oter_id( megastore + "_0_1_0_west" ) );
+                ter_set( pos + point_south, oter_id( megastore + "_0_2_0_west" ) );
+            } else {
+                debugmsg( "Malformed Megastore" );
+            }
         }
 
         for( const auto &conv : nearby ) {
@@ -870,7 +867,7 @@ void overmap::unserialize( std::istream &fin )
                             } else if( oter_str_id( tmp_ter ).is_valid() ) {
                                 tmp_otid = oter_id( tmp_ter );
                             } else {
-                                debugmsg( "Loaded bad ter! ter %s", tmp_ter.c_str() );
+                                debugmsg( "Loaded bad ter!  ter %s", tmp_ter.c_str() );
                                 tmp_otid = oter_id( 0 );
                             }
                         }
@@ -888,7 +885,8 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // TODO: optimize
+                    // TODO: optimize
+                    settings = rit->second;
                 }
             }
         } else if( name == "mongroups" ) {
@@ -1015,7 +1013,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
+                shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
@@ -1533,7 +1531,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
 ///// mapbuffer
 
 ///////////////////////////////////////////////////////////////////////////////////////
-///// master.gsav
+///// SAVE_MASTER (i.e. master.gsav)
 
 void mission::unserialize_all( JsonIn &jsin )
 {
@@ -1568,13 +1566,18 @@ void game::unserialize_master( std::istream &fin )
                 mission::unserialize_all( jsin );
             } else if( name == "factions" ) {
                 jsin.read( *faction_manager_ptr );
+            } else if( name == "seed" ) {
+                jsin.read( seed );
+            } else if( name == "weather" ) {
+                JsonObject w = jsin.get_object();
+                w.read( "lightning", weather.lightning_active );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
             }
         }
     } catch( const JsonError &e ) {
-        debugmsg( "error loading master.gsav: %s", e.c_str() );
+        debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
@@ -1601,10 +1604,16 @@ void game::serialize_master( std::ostream &fout )
         mission::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
+        json.member( "seed", seed );
+
+        json.member( "weather" );
+        json.start_object();
+        json.member( "lightning", weather.lightning_active );
+        json.end_object();
 
         json.end_object();
     } catch( const JsonError &e ) {
-        debugmsg( "error saving to master.gsav: %s", e.c_str() );
+        debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
     }
 }
 
@@ -1660,7 +1669,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
-        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
     }

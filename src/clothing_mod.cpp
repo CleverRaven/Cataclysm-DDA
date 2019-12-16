@@ -49,19 +49,20 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
         // *INDENT-ON*
         case num_clothing_mod_types:
             break;
-    };
+    }
     debugmsg( "Invalid mod type value '%d'.", data );
     return "invalid";
 }
 
 } // namespace io
 
-void clothing_mod::load( JsonObject &jo, const std::string & )
+void clothing_mod::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "flag", flag );
     mandatory( jo, was_loaded, "item", item_string );
     mandatory( jo, was_loaded, "implement_prompt", implement_prompt );
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
+    optional( jo, was_loaded, "restricted", restricted, false );
 
     JsonArray jarr = jo.get_array( "mod_value" );
     while( jarr.has_more() ) {
@@ -125,7 +126,7 @@ size_t clothing_mod::count()
     return all_clothing_mods.size();
 }
 
-void clothing_mods::load( JsonObject &jo, const std::string &src )
+void clothing_mods::load( const JsonObject &jo, const std::string &src )
 {
     all_clothing_mods.load( jo, src );
 }

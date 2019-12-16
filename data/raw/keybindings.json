@@ -1412,6 +1412,20 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SAFE_FUEL",
+    "category": "BIONICS",
+    "name": "Toggle safe fuel mod",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_AUTO_START",
+    "category": "BIONICS",
+    "name": "Toggle auto start mod",
+    "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "MUTATIONS",
     "name": "Toggle activate/examine",
@@ -1923,6 +1937,12 @@
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Scent Type",
+    "category": "DEFAULTMODE",
+    "id": "debug_scent_type"
   },
   {
     "type": "keybinding",

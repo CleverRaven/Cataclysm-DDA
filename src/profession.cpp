@@ -33,11 +33,11 @@ static class json_item_substitution
 {
     public:
         void reset();
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
         void check_consistency();
 
     private:
-        void do_load( JsonObject &jo );
+        void do_load( const JsonObject &jo );
 
         struct trait_requirements {
             static trait_requirements load( JsonArray &arr );
@@ -83,7 +83,7 @@ profession::profession()
 {
 }
 
-void profession::load_profession( JsonObject &jo, const std::string &src )
+void profession::load_profession( const JsonObject &jo, const std::string &src )
 {
     all_profs.load( jo, src );
 }
@@ -131,8 +131,7 @@ class item_reader : public generic_typed_reader<item_reader>
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto s = jarr.get_string( 1 );
-            const auto snippet = _( s );
+            const auto snippet = jarr.get_string( 1 );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -144,7 +143,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( JsonObject &jo, const std::string & )
+void profession::load( const JsonObject &jo, const std::string & )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -171,9 +170,7 @@ void profession::load( JsonObject &jo, const std::string & )
         _description_female = to_translation( "prof_desc_female", desc );
     }
     if( jo.has_array( "pets" ) ) {
-        JsonArray array = jo.get_array( "pets" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "pets" ) ) {
             int count = subobj.get_int( "amount" );
             mtype_id mon = mtype_id( subobj.get_string( "name" ) );
             for( int start = 0; start < count; ++start ) {
@@ -183,9 +180,7 @@ void profession::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "spells" ) ) {
-        JsonArray array = jo.get_array( "spells" );
-        while( array.has_more() ) {
-            JsonObject subobj = array.next_object();
+        for( JsonObject subobj : jo.get_array( "spells" ) ) {
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
@@ -256,17 +251,16 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.c_str(), itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          id.c_str(), itd.type_id.c_str() );
+                          id.str(), itd.type_id );
             } else {
-                const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
-                if( SNIPPET.get( hash ).empty() ) {
+                if( !SNIPPET.get_snippet_by_id( itd.snippet_id ).has_value() ) {
                     debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              id.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                              id.str(), itd.snippet_id, itd.type_id, type->snippet_category );
                 }
             }
         }
@@ -477,7 +471,7 @@ void profession::learn_spells( avatar &you ) const
 
 // item_substitution stuff:
 
-void profession::load_item_substitutions( JsonObject &jo )
+void profession::load_item_substitutions( const JsonObject &jo )
 {
     item_substitutions.load( jo );
 }
@@ -510,19 +504,17 @@ json_item_substitution::trait_requirements json_item_substitution::trait_require
     return ret;
 }
 
-void json_item_substitution::load( JsonObject &jo )
+void json_item_substitution::load( const JsonObject &jo )
 {
     if( !jo.has_array( "substitutions" ) ) {
         jo.throw_error( "No `substitutions` array found." );
     }
-    JsonArray outer_arr = jo.get_array( "substitutions" );
-    while( outer_arr.has_more() ) {
-        JsonObject subobj = outer_arr.next_object();
+    for( JsonObject subobj : jo.get_array( "substitutions" ) ) {
         do_load( subobj );
     }
 }
 
-void json_item_substitution::do_load( JsonObject &jo )
+void json_item_substitution::do_load( const JsonObject &jo )
 {
     const bool item_mode = jo.has_string( "item" );
     const std::string title = jo.get_string( item_mode ? "item" : "trait" );
@@ -548,9 +540,7 @@ void json_item_substitution::do_load( JsonObject &jo )
         jo.throw_error( "Missing sub array" );
     }
 
-    JsonArray sub = jo.get_array( "sub" );
-    while( sub.has_more() ) {
-        JsonArray line = sub.next_array();
+    for( JsonArray line : jo.get_array( "sub" ) ) {
         substitution s;
         const itype_id old_it = item_mode ? title : line.next_string();
         if( item_mode ) {

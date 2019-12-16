@@ -258,7 +258,7 @@ class input_manager
          * Get the key name associated with the given keyboard keycode.
          *
          * @param ch Character code.
-         * @param input_type Whether the keycode is a gamepad or a keyboard code.
+         * @param inp_type Whether the keycode is a gamepad or a keyboard code.
          * @param portable If true, return a language independent and portable name
          * of the key. This acts as the inverse to get_keyname:
          * <code>get_keyname(get_keycode(a), , true) == a</code>

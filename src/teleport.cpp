@@ -9,7 +9,7 @@
 #include "messages.h"
 #include "point.h"
 
-const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -67,7 +67,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         } else {
             const bool poor_soul_is_u = ( poor_soul == &g->u );
             if( poor_soul_is_u ) {
-                add_msg( m_bad, _( "..." ) );
+                add_msg( m_bad, _( "…" ) );
                 add_msg( m_bad, _( "You explode into thousands of fragments." ) );
             }
             if( p ) {
@@ -82,7 +82,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                              critter.disp_name(), poor_soul->disp_name() );
                 }
             }
-            poor_soul->apply_damage( nullptr, bp_torso, 9999 ); //Splatter real nice.
+            //Splatter real nice.
+            poor_soul->apply_damage( nullptr, bp_torso, 9999 );
             poor_soul->check_dead_state();
         }
     }
@@ -97,5 +98,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( c_is_u ) {
         g->update_map( *p );
     }
+    critter.remove_effect( efftype_id( "grabbed" ) );
     return true;
 }

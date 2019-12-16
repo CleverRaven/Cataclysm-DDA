@@ -144,7 +144,7 @@ class mod_manager
          * @throws std::string on all kind of errors. The string
          * contains the error message.
          */
-        void load_modfile( JsonObject &jo, const std::string &path );
+        void load_modfile( const JsonObject &jo, const std::string &path );
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );

@@ -91,8 +91,56 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "shotgun_d_roadwarrior",
-    "entries": [ { "item": "shotgun_d", "ammo-item": "reloaded_shot_00", "contents-item": [ "barrel_small" ] } ]
+    "id": "quiver_bow_hunter",
+    "entries": [ { "item": "arrow_cf", "charges": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_crossbow_hunter",
+    "entries": [ { "item": "bolt_metal", "charges": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_shotgun_hunter",
+    "entries": [ { "item": "shot_00", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_rifle_hunter",
+    "entries": [ { "item": "270win_jsp", "charges": 16 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_swat_cqc1",
+    "entries": [ { "item": "shot_00", "charges": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_swat_cqc2",
+    "entries": [ { "item": "shot_slug", "charges": 12 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_bionic_prepper",
+    "entries": [ { "item": "bolt_steel", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_naturalist",
+    "entries": [ { "item": "arrow_wood", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_ww_gunslinger",
+    "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -112,6 +160,14 @@
           [ "kilt", "kilt_leather" ],
           [ "mask_ski", "balclava" ]
         ]
+      },
+      {
+        "item": "sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
+      },
+      {
+        "item": "fancy_sunglasses",
+        "sub": [ [ [ "HYPEROPIC" ], "fitover_sunglasses" ], [ [ "MYOPIC" ], "fitover_sunglasses" ] ]
       },
       {
         "item": "hardtack",
@@ -270,7 +326,7 @@
         ],
         "entries": [
           { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "bolt_steel", "charges": 20, "container-item": "quiver" },
+          { "item": "quiver", "contents-group": "quiver_bionic_prepper" },
           { "item": "machete", "container-item": "scabbard" }
         ]
       },
@@ -308,7 +364,7 @@
     "type": "profession",
     "ident": "sheltered_survivor",
     "name": "Sheltered Survivor",
-    "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
     "points": 4,
     "skills": [
       { "level": 2, "name": "tailor" },
@@ -333,7 +389,7 @@
     "type": "profession",
     "ident": "sheltered_militia",
     "name": "Sheltered Militia",
-    "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
+    "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
     "items": {
@@ -401,7 +457,7 @@
     "type": "profession",
     "ident": "churl",
     "name": "Churl",
-    "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+    "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
     "points": 1,
     "items": {
       "both": {
@@ -498,7 +554,7 @@
     "type": "profession",
     "ident": "beekeeper",
     "name": "Beekeeper",
-    "description": "You used to be a professional beekeeper.  You had to abandon your precious bees when the cataclysm struck, but at least you managed to grab some utensils and honey.",
+    "description": "You used to be a professional beekeeper.  You had to abandon your precious bees when the Cataclysm struck, but at least you managed to grab some utensils and honey.",
     "points": 2,
     "skills": [ { "name": "survival", "level": 2 }, { "name": "fabrication", "level": 1 } ],
     "items": {
@@ -525,7 +581,7 @@
     "type": "profession",
     "ident": "basketball_player",
     "name": "Basketball Player",
-    "description": "It was going to be your first major game, but then the cataclysm struck.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+    "description": "It was going to be your first major game, but then the Cataclysm struck.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
     "points": 1,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
@@ -687,7 +743,7 @@
     "type": "profession",
     "ident": "maid",
     "name": { "male": "Butler", "female": "Maid" },
-    "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
+    "description": "You worked in a wealthy household, but after the Cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
@@ -695,6 +751,43 @@
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
       "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "captive",
+    "name": { "male": "Captive", "female": "Captive" },
+    "description": "You were following a road at night trying to get away from the horrors of the city, when you heard a voice calling out in the dark.  As you stepped away to investigate, you suddenly felt a searing pain in your head and blacked out.  You just woke up in this place… Are you even on earth anymore?",
+    "points": -2,
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "rescuer",
+    "name": { "male": "Rescuer", "female": "Rescuer" },
+    "description": "You were ready.  You went in determined to find and rescue your friends.  But now as you walk through those strange corridors, the atmosphere grows heavy and you're not so sure anymore. You might be the one in need of a rescue now.",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 5, "name": "melee" },
+      { "level": 4, "name": "tailor" },
+      { "level": 3, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "armor_farmor", "socks", "boots_fur", "hat_fur", "gloves_fur", "vest", "wristwatch" ],
+        "entries": [
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "556", "charges": 30, "container-item": "back_holster" },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+          { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -746,7 +839,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
-          { "item": "9mm", "charges": 35 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "lighter", "charges": 100 }
         ]
       },
@@ -767,7 +861,8 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "9mm", "charges": 35 }
+          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -822,7 +917,7 @@
     "type": "profession",
     "ident": "survivalist",
     "name": "Survivalist",
-    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need...  except your canteen's run out!",
+    "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need…  except your canteen's run out!",
     "points": 3,
     "skills": [
       { "level": 4, "name": "survival" },
@@ -950,7 +1045,7 @@
     "type": "profession",
     "ident": "crazy_cat_lady",
     "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
-    "description": "Everyone is dead?  Well, it doesn't matter... your cats are all the friends you need!",
+    "description": "Everyone is dead?  Well, it doesn't matter… your cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
     "pets": [ { "name": "mon_cat", "amount": 30 } ],
@@ -1084,8 +1179,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "shot_slug", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
           { "item": "baton-extended", "container-item": "police_belt" },
@@ -1212,7 +1307,7 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
+          { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1233,7 +1328,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "bolt_metal", "charges": 9, "container-item": "quiver" },
+          { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1254,8 +1349,8 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
-          { "item": "shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
+          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1277,7 +1372,7 @@
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "remington700_270", "ammo-item": "270win_jsp", "charges": 4, "contents-item": "shoulder_strap" },
-          { "item": "270win_jsp", "charges": 16, "container-item": "bandolier_rifle" },
+          { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -1353,7 +1448,7 @@
     "type": "profession",
     "ident": "electrician",
     "name": "Electrician",
-    "description": "You used to work for some small-time business owners doing minor electrical work, and you just so happened to be working on one of these jokes of an evac shelter when the cataclysm struck.  Unfortunately, you didn't finish wiring anything up except the computer - fat lot of good it's doing you now.",
+    "description": "You used to work for some small-time business owners doing minor electrical work, and you just so happened to be working on one of these jokes of an evac shelter when the Cataclysm struck.  Unfortunately, you didn't finish wiring anything up except the computer - fat lot of good it's doing you now.",
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
@@ -1412,9 +1507,9 @@
     "type": "profession",
     "ident": "svictim",
     "name": "Shower Victim",
-    "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+    "description": "You were in the middle of a nice, hot shower when the Cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever…  a towel.",
     "points": -1,
-    "items": { "both": [ "soap", "towel_wet" ] }
+    "items": { "both": { "items": [ "towel_wet" ], "entries": [ { "item": "soap", "custom-flags": [ "auto_wield" ] } ] } }
   },
   {
     "type": "profession",
@@ -1436,7 +1531,7 @@
     "type": "profession",
     "ident": "dancer",
     "name": "Ballroom Dancer",
-    "description": "You used to be a ballroom dancer before the cataclysm, and now you use your skills to save your life.",
+    "description": "You used to be a ballroom dancer before the Cataclysm, and now you use your skills to save your life.",
     "points": 0,
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
@@ -1760,7 +1855,12 @@
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "knife_combat" },
-          { "item": "h&k416a5", "ammo-item": "556", "contents-item": [ "shoulder_strap", "acog_scope" ] },
+          {
+            "item": "h&k416a5",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope" ]
+          },
           { "item": "modularvestceramic", "contents-group": "army_mags_m4" }
         ]
       },
@@ -1820,6 +1920,7 @@
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
+            "charges": 5,
             "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
           },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2018,7 +2119,10 @@
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There's precious few balloon animals in your future now.",
     "points": -1,
     "items": {
-      "both": { "items": [ "clown_suit", "socks", "clownshoes", "airhorn" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "both": {
+        "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes", "airhorn" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2076,7 +2180,7 @@
     "type": "profession",
     "ident": "spouse",
     "name": { "male": "Groom", "female": "Bride" },
-    "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
+    "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_cell_phone" } ] },
@@ -2141,7 +2245,7 @@
     "type": "profession",
     "ident": "skaboy",
     "name": { "male": "Rude Boy", "female": "Rude Girl" },
-    "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the cataclysm with some cigarettes and your mp3 player.",
+    "description": "Your ska band broke up after the drummer became a zombie, now you're alone in the Cataclysm with some cigarettes and your mp3 player.",
     "points": 0,
     "items": {
       "both": {
@@ -2194,7 +2298,7 @@
     "type": "profession",
     "ident": "convict",
     "name": "Convict",
-    "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
+    "description": "The Cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "items": {
@@ -2485,7 +2589,7 @@
     "type": "profession",
     "ident": "rabbi",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
     "points": 0,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
@@ -2615,18 +2719,20 @@
     "traits": [ "PROF_BOXER" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "items": {
-      "both": [
-        "under_armor_shorts",
-        "under_armor",
-        "shorts",
-        "gloves_wraps",
-        "boxing_gloves",
-        "headgear",
-        "mouthpiece",
-        "socks",
-        "boots",
-        "towel"
-      ],
+      "both": {
+        "items": [
+          "under_armor_shorts",
+          "under_armor",
+          "shorts",
+          "gloves_wraps",
+          "boxing_gloves",
+          "headgear",
+          "mouthpiece",
+          "socks",
+          "boots"
+        ],
+        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] } ]
+      },
       "female": [ "sports_bra" ]
     }
   },
@@ -2634,7 +2740,7 @@
     "type": "profession",
     "ident": "pizzaboy",
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
-    "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
+    "description": "You were delivering the last pizza of the night to the local cryogenics lab when the Cataclysm hit.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
     "items": {
@@ -2757,7 +2863,7 @@
     "type": "profession",
     "ident": "farmer",
     "name": "Farmer",
-    "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and some seeds it's time to rebuild the Earth, one plant at a time.",
+    "description": "You were making a living by raising crops, when the Cataclysm struck.  Now, with your trusty hoe and some seeds it's time to rebuild the Earth, one plant at a time.",
     "points": 1,
     "items": {
       "both": {
@@ -2803,37 +2909,9 @@
   },
   {
     "type": "profession",
-    "ident": "winter_survivor",
-    "name": "Hardened Survivor",
-    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "survival" },
-      { "level": 5, "name": "fabrication" },
-      { "level": 5, "name": "melee" },
-      { "level": 4, "name": "tailor" },
-      { "level": 3, "name": "rifle" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "survivor_vest", "wsurvivor_suit", "socks", "boots_wsurvivor", "hood_wsurvivor", "gloves_wsurvivor", "wristwatch" ],
-        "entries": [
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
-          { "item": "kukri", "container-item": "sheath" },
-          { "item": "crossbow", "ammo-item": "bolt_wood", "contents-item": "shoulder_strap" },
-          { "item": "bolt_wood", "charges": 29, "container-item": "quiver_large" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "panties" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
     "ident": "winter_scavenger",
     "name": "Hardened Scavenger",
-    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
+    "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
     "skills": [
       { "level": 5, "name": "melee" },
@@ -2915,149 +2993,6 @@
   },
   {
     "type": "profession",
-    "ident": "road_warrior",
-    "name": "Road Warrior",
-    "description": "You lived by your wheels during the first few months of the apocalypse, but now your car is lost to this maelstrom of decay, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
-    "points": 6,
-    "skills": [
-      { "level": 5, "name": "driving" },
-      { "level": 3, "name": "mechanics" },
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "shotgun" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "unarmed" },
-      { "level": 1, "name": "firstaid" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "tank_top",
-          "pants_leather",
-          "jacket_leather_mod",
-          "boots_steel",
-          "gloves_fingerless_mod",
-          "hat_cotton",
-          "survivor_goggles",
-          "long_patchwork_scarf",
-          "survivor_belt",
-          "legrig",
-          "canteen",
-          "whistle",
-          "binoculars",
-          "duct_tape",
-          "ref_lighter",
-          "wristwatch"
-        ],
-        "entries": [
-          { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "gasoline_cooker", "ammo-item": "gasoline", "charges": 500 },
-          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
-          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "ident": "waste_ranger",
-    "name": "Wasteland Ranger",
-    "description": "If the human race is to survive, the threats facing its existence must be eliminated, no matter the cost.  If it's hostile, you kill it.",
-    "points": 6,
-    "skills": [
-      { "level": 3, "name": "survival" },
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "pistol" },
-      { "level": 1, "name": "stabbing" }
-    ],
-    "items": {
-      "both": {
-        "ammo": 100,
-        "items": [
-          "lsurvivor_suit",
-          "boots_lsurvivor",
-          "gloves_lsurvivor",
-          "mask_lsurvivor",
-          "hood_lsurvivor",
-          "canteen",
-          "wearable_light",
-          "throwing_knife",
-          "wristwatch",
-          "ref_lighter"
-        ],
-        "entries": [
-          { "item": "knife_trench", "container-item": "sheath" },
-          { "item": "ashot", "ammo-item": "reloaded_shot_00", "container-item": "holster" },
-          { "item": "reloaded_shot_00", "charges": 19, "container-item": "bandolier_shotgun" },
-          { "item": "helsing", "ammo-item": "bolt_steel", "contents-item": "shoulder_strap" },
-          { "item": "bolt_steel", "charges": 12, "container-item": "quiver" },
-          { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
-    "ident": "player_bandit",
-    "name": "Veteran Bandit",
-    "description": "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Only those mobile enough to scavenge or brutal enough to pillage would survive.  You are one of the latter.",
-    "points": 6,
-    "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "cutting" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 2, "name": "dodge" },
-      { "level": 1, "name": "bashing" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "survival" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "gold_ear",
-          "pants_survivor",
-          "motorbike_boots",
-          "gauntlets_larmor",
-          "survivor_goggles",
-          "combatnail",
-          "waterskin2",
-          "survivor_scope",
-          "heavy_flashlight",
-          "knuckle_steel",
-          "ref_lighter",
-          "wristwatch",
-          "mess_kit"
-        ],
-        "entries": [
-          {
-            "item": "nailrifle",
-            "ammo-item": "combatnail",
-            "charges": 50,
-            "contents-item": [ "shoulder_strap", "folding_stock" ]
-          },
-          { "item": "makeshift_machete", "container-item": "scabbard" },
-          { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
-        ]
-      },
-      "male": [ "football_armor", "elbow_pads", "bandana" ],
-      "female": [ "leather_collar", "halter_top", "corset", "vambrace_larmor", "long_knit_scarf_loose" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
-  },
-  {
-    "type": "profession",
     "ident": "mall_cop",
     "name": "Mall Security",
     "description": "A mall security guard.  You don't have any useful skills, other than some basic training for your job.  You do however have your trusty tazer, baton, and pocket knife.",
@@ -3109,7 +3044,7 @@
         ],
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
+          { "item": "quiver", "contents-group": "quiver_naturalist" }
         ]
       },
       "male": [ "chestwrap_fur", "loincloth_fur" ],
@@ -3226,7 +3161,6 @@
         "hat_fur",
         "purse",
         "oil_lamp",
-        "needle_wood",
         "pot",
         "cornmeal",
         "salt"
@@ -3246,6 +3180,7 @@
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_ammo", "charges": 14, "container-item": "flintlock_pouch" },
+          { "item": "needle_wood", "charges": 50 },
           { "item": "flintlock_ammo", "charges": 15 }
         ]
       }
@@ -3330,7 +3265,7 @@
     "type": "profession",
     "ident": "jr_survivalist",
     "name": "Survivalist Jr.",
-    "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
+    "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
     "items": {
@@ -3530,7 +3465,6 @@
           "rollmat",
           "sleeping_bag_roll",
           "knife_swissarmy",
-          "mess_kit",
           "gasoline_lantern",
           "canteen",
           "granola",
@@ -3538,7 +3472,10 @@
           "wristwatch",
           "1st_aid"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
@@ -3559,7 +3496,6 @@
           "knee_pads",
           "jumpsuit",
           "mask_gas",
-          "jackhammer",
           "canteen",
           "e_tool",
           "tool_belt",
@@ -3569,6 +3505,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "jackhammer", "charges": 400 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
@@ -3764,23 +3701,25 @@
     "skills": [ { "level": 8, "name": "firstaid" } ],
     "traits": [ "PROF_MED" ],
     "items": {
-      "both": [
-        "gloves_medical",
-        "socks",
-        "mask_dust",
-        "dress_shirt",
-        "pants",
-        "dress_shoes",
-        "coat_lab",
-        "stethoscope",
-        "bfipowder",
-        "antibiotics",
-        "oxycodone",
-        "1st_aid",
-        "smart_phone",
-        "wristwatch",
-        "medium_battery_cell"
-      ],
+      "both": {
+        "items": [
+          "gloves_medical",
+          "socks",
+          "mask_dust",
+          "dress_shirt",
+          "pants",
+          "dress_shoes",
+          "coat_lab",
+          "stethoscope",
+          "bfipowder",
+          "antibiotics",
+          "oxycodone",
+          "1st_aid",
+          "smart_phone",
+          "wristwatch"
+        ],
+        "entries": [ { "item": "medium_battery_cell", "charges": 500 } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -3798,6 +3737,32 @@
         "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "fencer",
+    "name": "Competetive Fencer",
+    "description": "You were an avid sport fencer, always practicing at local clubs and competing in tournaments.  You were on your way to have a few bouts at the club when the world ended.  Now you're in your most important tournament, the refs are all dead, and none of your opponents follow the rules.",
+    "points": 5,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
+    "traits": [ "MARTIAL_FENCING" ],
+    "items": {
+      "both": {
+        "items": [
+          "fencing_pants",
+          "fencing_jacket",
+          "gauntlet_fencing",
+          "plastron_cotton",
+          "under_armor_shorts",
+          "socks",
+          "sneakers",
+          "fencing_epee",
+          "duffelbag"
+        ],
+        "entries": [ { "item": "fencing_mask", "custom-flags": [ "no_auto_equip" ] }, { "group": "charged_cell_phone" } ]
+      },
+      "female": [ "plastron_plastic" ]
     }
   },
   {
@@ -3907,6 +3872,18 @@
   },
   {
     "type": "profession",
+    "ident": "kit_survivor",
+    "name": "Kitted Survivor",
+    "description": "At the local mall, you saw a sign advertising a discount on survival kits.  You bought one, more for show than for actual use.  Now, it's all you have.",
+    "points": 1,
+    "items": {
+      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "gunslinger",
     "name": "Wild West Gunslinger",
     "description": "You made your living on Wild West exhibitions and shows, impressing tourists with your displays of marksmanship. But that world has ended, so you took your trusty 6-shooter and wandered into a world where it's always high noon.",
@@ -3934,7 +3911,7 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "45colt_jhp", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "bandolier_pistol", "contents-group": "bandolier_ww_gunslinger" },
           { "item": "whiskey", "container-item": "bottle_glass" },
           { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
         ]

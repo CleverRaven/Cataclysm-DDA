@@ -4,8 +4,14 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "construction.h"
+#include "map.h"
+#include "game.h"
 #include "player.h"
 #include "sounds.h"
+#include "avatar.h"
+#include "itype.h"
+#include "skill.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -59,7 +65,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-cata::optional<std::string> player_activity::get_progress_message() const
+cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
         return cata::optional<std::string>();
@@ -70,9 +76,23 @@ cata::optional<std::string> player_activity::get_progress_message() const
         if( const item *craft = targets.front().get_item() ) {
             extra_info = craft->tname();
         }
+    } else if( type == activity_id( "ACT_READ" ) ) {
+        if( const item *book = targets.front().get_item() ) {
+            if( const auto &reading = book->type->book ) {
+                const skill_id &skill = reading->skill;
+                if( skill && u.get_skill_level( skill ) < reading->level &&
+                    u.get_skill_level_object( skill ).can_train() ) {
+                    const SkillLevel &skill_level = u.get_skill_level_object( skill );
+                    //~ skill_name current_skill_level -> next_skill_level (% to next level)
+                    extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
+                                                skill.obj().name(),
+                                                skill_level.level(),
+                                                skill_level.level() + 1,
+                                                skill_level.exercise() );
+                }
+            }
+        }
     } else if( moves_total > 0 ) {
-        const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
-
         if( type == activity_id( "ACT_BURROW" ) ||
             type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
@@ -85,7 +105,19 @@ cata::optional<std::string> player_activity::get_progress_message() const
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
           ) {
+            const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
+
             extra_info = string_format( "%d%%", percentage );
+        }
+
+        if( type == activity_id( "ACT_BUILD" ) ) {
+            partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
+            if( pc ) {
+                int counter = std::min( pc->counter, 10000000 );
+                const int percentage = counter / 100000;
+
+                extra_info = string_format( "%d%%", percentage );
+            }
         }
     }
 
@@ -100,9 +132,14 @@ void player_activity::do_turn( player &p )
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
-
     if( type->based_on() == based_on_type::TIME ) {
-        moves_left -= 100;
+        if( moves_left >= 100 ) {
+            moves_left -= 100;
+            p.moves = 0;
+        } else {
+            p.moves -= p.moves * moves_left / 100;
+            moves_left = 0;
+        }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
             moves_left -= p.moves;
@@ -112,12 +149,20 @@ void player_activity::do_turn( player &p )
             moves_left = 0;
         }
     }
-    int previous_stamina = p.stamina;
+    int previous_stamina = p.get_stamina();
+    if( p.is_npc() && p.check_outbounds_activity( *this ) ) {
+        // npc might be operating at the edge of the reality bubble.
+        // or just now reloaded back into it, and their activity target might
+        // be still unloaded, can cause infinite loops.
+        set_to_null();
+        p.drop_invalid_inventory();
+        return;
+    }
+
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
-
     // Activities should never excessively drain stamina.
-    if( p.stamina < previous_stamina && p.stamina < p.get_stamina_max() / 3 ) {
+    if( p.get_stamina() < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }

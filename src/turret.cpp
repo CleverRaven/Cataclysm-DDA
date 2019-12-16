@@ -23,9 +23,10 @@
 #include "debug.h"
 #include "optional.h"
 #include "enums.h"
+#include "vpart_range.h"
 
 static const itype_id fuel_type_battery( "battery" );
-const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_on_roof( "on_roof" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -201,7 +202,8 @@ bool turret_data::can_reload() const
         return false;
     }
     if( !part->base.magazine_integral() ) {
-        return true; // always allow changing of magazines
+        // always allow changing of magazines
+        return true;
     }
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }
@@ -294,7 +296,7 @@ void vehicle::turrets_set_targeting()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
+        if( p.is_turret() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }
@@ -312,8 +314,11 @@ void vehicle::turrets_set_targeting()
         menu.w_y = 2;
 
         for( auto &p : turrets ) {
-            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name(),
-                           p->enabled ? _( "auto" ) : _( "manual" ) );
+            menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
+                           "%s [%s]", p->name(), p->enabled ?
+                           _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
+                           _( "manual -> auto" ) :
+                           _( "manual (turret control unit required for auto mode)" ) );
         }
 
         menu.query();
@@ -322,7 +327,18 @@ void vehicle::turrets_set_targeting()
         }
 
         sel = menu.ret;
-        turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
+        if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
+            turrets[sel]->enabled = !turrets[sel]->enabled;
+        } else {
+            turrets[sel]->enabled = false;
+        }
+
+        for( const vpart_reference &vp : get_avail_parts( "TURRET_CONTROLS" ) ) {
+            vehicle_part &e = vp.part();
+            if( e.mount == turrets[sel]->mount ) {
+                e.enabled = turrets[sel]->enabled;
+            }
+        }
 
         // clear the turret's current targets to prevent unwanted auto-firing
         tripoint pos = locations[ sel ];
@@ -381,7 +397,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
     } ), last );
 
     if( opts.empty() ) {
-        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
+        add_msg( m_warning,
+                 _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
         return false;
     }
 

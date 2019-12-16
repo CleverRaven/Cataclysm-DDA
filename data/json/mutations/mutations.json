@@ -13,6 +13,36 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM1",
+    "name": "Weak Photophore",
+    "points": 1,
+    "description": "A photophore has grown from your head, you can make it glow soflty.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
+    "active": true,
+    "cost": 1,
+    "time": 810000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "changes_to": [ "BIOLUM2" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": [ [ "HEAD", 8 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2",
+    "name": "Photophore",
+    "points": 2,
+    "description": "Your can make your photophore glow brightly.",
+    "active": true,
+    "cost": 1,
+    "time": 405000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "prereqs": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": [ [ "HEAD", 20 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "GOODHEARING",
     "name": "Good Hearing",
     "points": 1,
@@ -494,7 +524,7 @@
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
-    "description": "You have a unique history with stimulants (like coffee or amphetamines). You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things...",
+    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
     "starting_trait": true,
     "valid": false
   },
@@ -623,7 +653,7 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
     "initial_ma_styles": [
       "style_eskrima",
@@ -638,12 +668,23 @@
   },
   {
     "type": "mutation",
+    "id": "MARTIAL_FENCING",
+    "name": "Competitive Fencer",
+    "points": 0,
+    "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
+    "starting_trait": false,
+    "initial_ma_styles": [ "style_fencing" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "WEAKSCENT",
     "name": "Weak Scent",
     "points": 1,
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
     "category": [ "ALPHA" ],
+    "scent_intensity": 300,
     "types": [ "SCENT" ]
   },
   {
@@ -1051,6 +1092,7 @@
     "starting_trait": true,
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
+    "scent_intensity": 800,
     "category": [ "FELINE", "LUPINE", "MOUSE" ]
   },
   {
@@ -1352,7 +1394,7 @@
     "id": "ELFAEYES",
     "name": "Fey Eyes",
     "points": 1,
-    "description": "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
+    "description": "Your eyes have turned… green.  It's tough to tell the exact shade as it seems to shift.  The effect is… pleasant.",
     "leads_to": [ "ELFA_NV" ],
     "valid": false,
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
@@ -2278,6 +2320,7 @@
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "changes_to": [ "ROSEBUDS" ],
+    "scent_mask": -200,
     "social_modifiers": { "lie": 10 }
   },
   {
@@ -2497,7 +2540,7 @@
     "id": "MARLOSS",
     "name": "Marloss Carrier",
     "points": 4,
-    "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
+    "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and… sap?",
     "purifiable": false,
     "valid": false,
     "category": [ "MARLOSS" ],
@@ -2508,7 +2551,7 @@
     "id": "MARLOSS_BLUE",
     "name": "Marloss Vessel",
     "points": 4,
-    "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+    "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and… sap?",
     "purifiable": false,
     "valid": false,
     "category": [ "MARLOSS" ],
@@ -2915,7 +2958,7 @@
     "visibility": 10,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat...  but leave nasty wounds when you bite.",
+    "description": "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat… but leave nasty wounds when you bite.",
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_FELINE", "THRESH_CHIMERA" ],
@@ -4317,6 +4360,7 @@
     "visibility": 4,
     "ugliness": 5,
     "description": "You smell awful.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL" ],
     "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE" ]
@@ -4402,7 +4446,7 @@
     "points": -1,
     "visibility": 4,
     "ugliness": 3,
-    "description": "Your face and jaw have begun...changing.  Masks and such fit OK, but you're noticeably mutated.",
+    "description": "Your face and jaw have begun… changing.  Masks and such fit OK, but you're noticeably mutated.",
     "changes_to": [ "BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT" ],
     "category": [ "FELINE" ]
   },
@@ -5224,6 +5268,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
+    "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ]
   },
   {
@@ -5285,7 +5330,7 @@
     "name": "Ectothermic",
     "points": 0,
     "mixed_effect": true,
-    "description": "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
     "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
     "purifiable": false,
@@ -5717,7 +5762,7 @@
     "id": "THRESH_INSECT",
     "name": "Insect",
     "points": 1,
-    "description": "It would be good to be a Queen, having workers constantly servicing your every need...but how would you keep them in line?",
+    "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -5737,7 +5782,7 @@
     "id": "THRESH_SLIME",
     "name": "Aqueous",
     "points": 1,
-    "description": "What was that old advertisement, 'paint the planet'? That might be a good long-term goal, but for now...",
+    "description": "What was that old advertisement, 'paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
     "purifiable": false,
     "threshold": true

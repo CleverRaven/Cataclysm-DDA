@@ -48,7 +48,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( time_duration ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq );
+        void display( int focus_eq, int pain_penalty, int fatigue_penalty );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
@@ -69,7 +69,7 @@ class player_morale
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonObject &jsin );
+        void load( const JsonObject &jsin );
 
     private:
 

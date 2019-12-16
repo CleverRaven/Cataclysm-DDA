@@ -79,9 +79,9 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-const skill_id skill_traps( "traps" );
+static const skill_id skill_traps( "traps" );
 
-const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
 
 const std::vector<const trap *> &trap::get_funnels()
 {
@@ -93,12 +93,12 @@ size_t trap::count()
     return trap_factory.size();
 }
 
-void trap::load_trap( JsonObject &jo, const std::string &src )
+void trap::load_trap( const JsonObject &jo, const std::string &src )
 {
     trap_factory.load( jo, src );
 }
 
-void trap::load( JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -198,7 +198,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     ///\EFFECT_PER increases chance of detecting a trap
     return p.per_cur - p.encumb( bp_eyes ) / 10 +
            // ...small bonus from stimulants...
-           ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
+           ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
            p.get_skill_level( skill_traps ) * 2 +

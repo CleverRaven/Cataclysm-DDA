@@ -197,7 +197,8 @@ void monfactions::finalize()
             the_faction.base_faction = root;
         }
 
-        debugmsg( "Cycle encountered when processing monster factions. Bad factions:\n %s", names.c_str() );
+        debugmsg( "Cycle encountered when processing monster factions.  Bad factions:\n %s",
+                  names.c_str() );
     }
 
     faction_list.shrink_to_fit(); // Save a couple of bytes
@@ -221,7 +222,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
     }
 }
 
-void monfactions::load_monster_faction( JsonObject &jo )
+void monfactions::load_monster_faction( const JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::set< std::string > by_mood = jo.get_tags( "by_mood" );

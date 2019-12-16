@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "clzones.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -17,6 +18,7 @@
 #include "item_group.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -33,6 +35,8 @@
 #include "type_id.h"
 #include "flat_set.h"
 #include "line.h"
+
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -122,6 +126,11 @@ std::string basecamp::board_name() const
     return string_format( _( "%s Board" ), name );
 }
 
+void basecamp::set_by_radio( bool access_by_radio )
+{
+    by_radio = access_by_radio;
+}
+
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
@@ -144,9 +153,8 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
     resources_updated = false;
-    reset_camp_resources( by_radio );
+    reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
@@ -164,10 +172,10 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
     update_resources( bldg );
 }
 
-void basecamp::define_camp( npc &p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
 {
     query_new_name();
-    omt_pos = p.global_omt_location();
+    omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
@@ -181,7 +189,10 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
+        const std::string direction = oter_get_rotation_string( omt_ref );
+        const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
+                            direction );
+        overmap_buffer.ter_set( omt_pos, bcid );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -433,7 +444,7 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
     }
 }
 
-void basecamp::reset_camp_resources( bool by_radio )
+void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
     if( !resources_updated ) {
@@ -452,7 +463,7 @@ void basecamp::reset_camp_resources( bool by_radio )
             }
         }
     }
-    form_crafting_inventory( by_radio );
+    form_crafting_inventory();
 }
 
 // available companion list manipulation
@@ -568,8 +579,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     return ret;
 }
 
-void basecamp::consume_components( map &target_map, const recipe &making, int batch_size,
-                                   bool by_radio )
+void basecamp::consume_components( map &target_map, const recipe &making, int batch_size )
 {
     const tripoint &origin = target_map.getlocal( get_dumping_spot() );
     const auto &req = making.requirements();
@@ -592,23 +602,31 @@ void basecamp::consume_components( map &target_map, const recipe &making, int ba
     }
 }
 
-void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
+void basecamp::consume_components( const recipe &making, int batch_size )
 {
     if( by_radio ) {
         tinymap target_map;
         target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
-        consume_components( target_map, making, batch_size, by_radio );
+        consume_components( target_map, making, batch_size );
         target_map.save();
     } else {
-        consume_components( g->m, making, batch_size, by_radio );
+        consume_components( g->m, making, batch_size );
     }
 }
 
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
-    _inv.form_from_map( target_map, origin, range, nullptr, false, false );
+    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint &origin = target_map.getlocal( dump_spot );
+    auto &mgr = zone_manager::get_manager();
+    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+        mgr.cache_vzones();
+    }
+    if( mgr.has_near( z_camp_storage, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( z_camp_storage, dump_spot, 60 );
+        _inv.form_from_zone( target_map, src_set, nullptr, false );
+    }
     /*
      * something of a hack: add the resources we know the camp has
      * the hacky part is that we're adding resources based on the camp's flags, which were
@@ -656,7 +674,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
 }
 
-void basecamp::form_crafting_inventory( const bool by_radio )
+void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;

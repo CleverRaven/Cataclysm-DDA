@@ -112,6 +112,7 @@
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
       [ "tinderbox", 10 ],
+      [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       [ "esbit_stove", 15 ],
       [ "mess_tin", 10 ]
@@ -303,6 +304,7 @@
       [ "mess_tin", 5 ],
       [ "riding_saddle", 3 ],
       [ "saddlebag", 5 ],
+      [ "lifestraw", 3 ],
       [ "acetylene_machine", 2 ]
     ]
   },

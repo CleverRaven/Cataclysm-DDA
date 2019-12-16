@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <map>
-#include <sstream>
 #include <vector>
 #include <functional>
 #include <string>
@@ -68,7 +67,8 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
-        char sel_cmd = ' '; //Command currently being run by the player
+        //Command currently being run by the player
+        char sel_cmd = ' ';
 
         const vehicle_part *sel_vehicle_part = nullptr;
 
@@ -92,15 +92,17 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        int max_lift; // maximum level of available lifting equipment (if any)
-        int max_jack; // maximum level of available jacking equipment (if any)
+        // maximum level of available lifting equipment (if any)
+        int max_lift;
+        // maximum level of available jacking equipment (if any)
+        int max_jack;
 
         player_activity serialize_activity();
 
         void set_title( const std::string &msg ) const;
 
         /** Format list of requirements returning true if all are met */
-        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+        bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( const point &d );
