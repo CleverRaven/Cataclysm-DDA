@@ -1859,10 +1859,9 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
     // refuse to disassemble rotten items
-    if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
-        if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
-            return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
-        }
+    const item *food = obj.get_food();
+    if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
+        return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
