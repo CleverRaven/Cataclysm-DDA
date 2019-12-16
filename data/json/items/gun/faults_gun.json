@@ -36,6 +36,7 @@
         "success_msg": "You clean and lubricate your %s.",
         "time": "55 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
+        "also_mends": "fault_gun_unlubricated",
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
@@ -134,6 +135,7 @@
         "success_msg": "You clean and lubricate your %s.",
         "time": "55 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
+        "also_mends": "fault_gun_unlubricated",
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],

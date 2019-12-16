@@ -26,6 +26,9 @@
   + [Flags](#flags-3)
 * [Guns](#guns)
   + [Firing modes](#firing-modes)
+  + [Faults](#faults)
+    - [Flags](#flags)
+    - [Parameters](#parameters)
 * [Magazines](#magazines)
 * [MAP SPECIALS](#map-specials)
 * [Material Phases](#material-phases)
@@ -475,6 +478,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -713,6 +717,17 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
 
 ## Magazines

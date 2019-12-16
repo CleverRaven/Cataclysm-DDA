@@ -239,7 +239,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hbolt_wood", 1 ], [ "hbolt_metal", 1 ] ],
-      [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40mm_frag", 1 ], [ "pipebomb", 1 ] ],
+      [ [ "canbombfrag", 1 ], [ "grenade", 1 ], [ "landmine", 1 ], [ "40x46mm_m433", 1 ], [ "pipebomb", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "adhesive", 1, "LIST" ] ]
     ]
   },

@@ -60,22 +60,20 @@
 #include "mongroup.h"
 #include "teleport.h"
 
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
-const species_id SPIDER( "SPIDER" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
-const efftype_id effect_badpoison( "badpoison" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_relax_gas( "relax_gas" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_stung( "stung" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_teargas( "teargas" );
-const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_webbed( "webbed" );
 
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );

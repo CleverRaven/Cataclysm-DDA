@@ -178,6 +178,21 @@ struct social_modifiers {
         return *this;
     }
 };
+
+struct consumption_event {
+    time_point time;
+    itype_id type_id;
+    uint64_t component_hash;
+
+    consumption_event() = default;
+    consumption_event( const item &food ) : time( calendar::turn ) {
+        type_id = food.typeId();
+        component_hash = food.make_component_hash();
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -668,6 +683,9 @@ class Character : public Creature, public visitable<Character>
                           const item &new_item ) const;
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
+
+        void serialize_consumption_history( JsonOut jsout ) const;
+        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -1242,6 +1260,7 @@ class Character : public Creature, public visitable<Character>
 
         stomach_contents stomach;
         stomach_contents guts;
+        std::list<consumption_event> consumption_history;
 
         int oxygen;
         int radiation;

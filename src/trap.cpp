@@ -79,9 +79,9 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-const skill_id skill_traps( "traps" );
+static const skill_id skill_traps( "traps" );
 
-const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
 
 const std::vector<const trap *> &trap::get_funnels()
 {

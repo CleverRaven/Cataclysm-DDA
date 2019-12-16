@@ -63,6 +63,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -90,35 +91,27 @@ class npc_class;
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cooking( "cooking" );
 
-const quality_id quality_jack( "JACK" );
-const quality_id quality_lift( "LIFT" );
+static const quality_id quality_jack( "JACK" );
+static const quality_id quality_lift( "LIFT" );
 
-const species_id FISH( "FISH" );
-const species_id BIRD( "BIRD" );
-const species_id INSECT( "INSECT" );
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_weed_high( "weed_high" );
 
-const material_id mat_leather( "leather" );
-const material_id mat_kevlar( "kevlar" );
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
-const fault_id fault_gun_dirt( "fault_gun_dirt" );
-const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
-
-const trait_id trait_small2( "SMALL2" );
-const trait_id trait_small_ok( "SMALL_OK" );
-const trait_id trait_huge( "HUGE" );
-const trait_id trait_huge_ok( "HUGE_OK" );
+static const trait_id trait_small2( "SMALL2" );
+static const trait_id trait_small_ok( "SMALL_OK" );
+static const trait_id trait_huge( "HUGE" );
+static const trait_id trait_huge_ok( "HUGE_OK" );
 using npc_class_id = string_id<npc_class>;
 
 std::string rad_badge_color( const int rad )
@@ -250,7 +243,9 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         current_phase = type->phase;
     }
     // item always has any relic properties from itype.
-    relic_data = type->relic_data;
+    if( type->relic_data ) {
+        relic_data = *type->relic_data;
+    }
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
@@ -1297,7 +1292,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 void item::med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int batch, bool ) const
 {
-    const cata::optional<islot_comestible> &med_com = med_item->get_comestible();
+    const cata::value_ptr<islot_comestible> &med_com = med_item->get_comestible();
     if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
         info.push_back( iteminfo( "MED", _( "Quench: " ), med_com->quench ) );
     }
@@ -3308,7 +3303,7 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
     }
     int result = loc->second;
     for( const item &elem : contents ) {
-        const cata::optional<islot_gunmod> &mod = elem.type->gunmod;
+        const cata::value_ptr<islot_gunmod> &mod = elem.type->gunmod;
         if( mod && mod->location == location ) {
             result--;
         }
@@ -5575,7 +5570,7 @@ bool item::destroyed_at_zero_charges() const
 
 bool item::is_gun() const
 {
-    return type->gun.has_value();
+    return !!type->gun;
 }
 
 bool item::is_firearm() const
@@ -5605,22 +5600,22 @@ bool item::is_silent() const
 
 bool item::is_gunmod() const
 {
-    return type->gunmod.has_value();
+    return !!type->gunmod;
 }
 
 bool item::is_bionic() const
 {
-    return type->bionic.has_value();
+    return !!type->bionic;
 }
 
 bool item::is_magazine() const
 {
-    return type->magazine.has_value();
+    return !!type->magazine;
 }
 
 bool item::is_battery() const
 {
-    return type->battery.has_value();
+    return !!type->battery;
 }
 
 bool item::is_ammo_belt() const
@@ -5640,12 +5635,12 @@ bool item::is_holster() const
 
 bool item::is_ammo() const
 {
-    return type->ammo.has_value();
+    return !!type->ammo;
 }
 
 bool item::is_comestible() const
 {
-    return get_comestible().has_value();
+    return !!get_comestible();
 }
 
 bool item::is_food() const
@@ -5661,7 +5656,7 @@ bool item::is_medication() const
 
 bool item::is_brewable() const
 {
-    return type->brewable.has_value();
+    return !!type->brewable;
 }
 
 bool item::is_food_container() const
@@ -5785,7 +5780,7 @@ bool item::is_armor() const
 
 bool item::is_book() const
 {
-    return type->book.has_value();
+    return !!type->book;
 }
 
 bool item::is_map() const
@@ -5795,7 +5790,7 @@ bool item::is_map() const
 
 bool item::is_container() const
 {
-    return type->container.has_value();
+    return !!type->container;
 }
 
 bool item::is_watertight_container() const
@@ -5826,17 +5821,17 @@ bool item::is_bucket_nonempty() const
 
 bool item::is_engine() const
 {
-    return type->engine.has_value();
+    return !!type->engine;
 }
 
 bool item::is_wheel() const
 {
-    return type->wheel.has_value();
+    return !!type->wheel;
 }
 
 bool item::is_fuel() const
 {
-    return type->fuel.has_value();
+    return !!type->fuel;
 }
 
 bool item::is_toolmod() const
@@ -6001,7 +5996,7 @@ bool item::is_deployable() const
 
 bool item::is_tool() const
 {
-    return type->tool.has_value();
+    return !!type->tool;
 }
 
 bool item::is_transformable() const
@@ -6011,12 +6006,12 @@ bool item::is_transformable() const
 
 bool item::is_artifact() const
 {
-    return type->artifact.has_value();
+    return !!type->artifact;
 }
 
 bool item::is_relic() const
 {
-    return relic_data.has_value();
+    return !!relic_data;
 }
 
 std::vector<enchantment> item::get_enchantments() const
@@ -7809,9 +7804,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 {
     std::vector<item *> del;
 
-    // Remember qty to unseal self
-    int old_qty = qty;
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -7836,6 +7829,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
+                if( parent ) {
+                    parent->on_contents_changed();
+                }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
                     qty = 0;
@@ -7861,10 +7857,6 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         } else {
             remove_item( *e );
         }
-    }
-
-    if( qty != old_qty || !del.empty() ) {
-        on_contents_changed();
     }
 
     return destroy;
@@ -8065,6 +8057,23 @@ std::string item::components_to_string() const
             return entry.first;
         }
     }, enumeration_conjunction::none );
+}
+
+uint64_t item::make_component_hash() const
+{
+    // First we need to sort the IDs so that identical ingredients give identical hashes.
+    std::multiset<std::string> id_set;
+    for( const item &it : components ) {
+        id_set.insert( it.typeId() );
+    }
+
+    std::string concatenated_ids;
+    for( std::string id : id_set ) {
+        concatenated_ids += id;
+    }
+
+    std::hash<std::string> hasher;
+    return hasher( concatenated_ids );
 }
 
 bool item::needs_processing() const
@@ -9065,7 +9074,7 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
 
 bool item::is_seed() const
 {
-    return type->seed.has_value();
+    return !!type->seed;
 }
 
 time_duration item::get_plant_epoch() const
@@ -9396,7 +9405,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
     return cached_tool_selections;
 }
 
-const cata::optional<islot_comestible> &item::get_comestible() const
+const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() ) {
         return find_type( making->result() )->comestible;

@@ -79,7 +79,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_food_bribe",
-    "dynamic_line": "You have to earn the right to trade with us. Plus we created our own currency before the cataclysm",
+    "dynamic_line": "You have to earn the right to trade with us. Plus we created our own currency before the Cataclysm",
     "responses": [
       { "text": "It was worth a try.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What kind of currency?", "topic": "TALK_PrepNet_gardener_currency" }
@@ -116,7 +116,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_currency",
-    "dynamic_line": "We use crypto coins for money here. They were a pre cataclysm attempt to abstract money even further and create electronic cash. We figured we'd keep it up. Barter only gets you so far.",
+    "dynamic_line": "We use crypto coins for money here. They were a pre-Cataclysm attempt to abstract money even further and create electronic cash. We figured we'd keep it up. Barter only gets you so far.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }

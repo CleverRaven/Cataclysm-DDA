@@ -1002,7 +1002,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 380,
-    "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
+    "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
     "price": 1000,
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",

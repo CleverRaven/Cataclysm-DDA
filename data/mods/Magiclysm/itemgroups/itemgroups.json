@@ -156,8 +156,12 @@
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 20 },
-      { "group": "magic_shop_wands", "prob": 35 },
-      { "group": "magic_shop_books", "prob": 15 }
+      { "group": "enchanted_wands_lesser", "prob": 15 },
+      { "group": "spellbook_loot_1", "prob": 35, "repeat": [ 1, 3 ] },
+      { "group": "enchanted_rings_common", "prob": 20 },
+      { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_combat_items", "prob": 10 },
+      { "group": "enchanted_belts", "prob": 2 }
     ]
   },
   {

@@ -78,26 +78,26 @@
 
 class npc;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_fabrication( "fabrication" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_music( "music" );
-const efftype_id effect_playing_instrument( "playing_instrument" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_downed( "downed" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_downed( "downed" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
@@ -4620,21 +4620,21 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             enab = true;
             prompt = _( obj.destroy_prompt );
         }
-        std::ostringstream desc;
-        desc << format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
-        desc << format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
-        desc << format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
-        desc << format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
-        desc << format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc << format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
+        std::string desc;
+        desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
+        desc += format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
+        desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
+        desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
+        desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
+        desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
                                     false );
         auto before = mod.get_storage();
         auto after = temp_item.get_storage();
-        desc << colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
+        desc += colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
                                          format_volume( before ), volume_units_abbr(), format_volume( after ),
                                          volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
 
-        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc.str() );
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;

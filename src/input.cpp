@@ -776,20 +776,20 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
-    std::stringstream rval;
+    std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
-            rval << inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
+            rval += inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
         }
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval << _( " or " );
+            rval += _( " or " );
         } else if( i + 1 < inputs_to_show.size() ) {
-            rval << ", ";
+            rval += ", ";
         }
     }
-    return rval.str();
+    return rval;
 }
 
 std::string input_context::get_desc( const std::string &action_descriptor,
@@ -1038,11 +1038,11 @@ void input_context::display_menu()
     // width of the legend
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
-    std::ostringstream legend;
-    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
-    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
-    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
-    legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    std::string legend;
+    legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
+    legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
+    legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
+    legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
@@ -1060,7 +1060,7 @@ void input_context::display_menu()
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
-        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1368,18 +1368,17 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
-    std::ostringstream keyed;
-    keyed << key_bound_pre;
+    std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
         for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
-            keyed << inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
+            keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
         }
         if( j + 1 < events.size() ) {
-            keyed << _( " or " );
+            keyed += _( " or " );
         }
     }
-    keyed << key_bound_suf;
-    return keyed.str();
+    keyed += key_bound_suf;
+    return keyed;
 }
 
 void input_context::set_iso( bool mode )

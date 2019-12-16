@@ -79,8 +79,8 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;

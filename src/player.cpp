@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -102,90 +101,54 @@
 
 const double MAX_RECOIL = 3000;
 
-const mtype_id mon_player_blob( "mon_player_blob" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_swimming( "swimming" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_recently_coughed( "recently_coughed" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_evil( "evil" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_got_checked( "got_checked" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_grabbing( "grabbing" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_masked_scent( "masked_scent" );
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_winded( "winded" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_pet( "pet" );
-
-const species_id ROBOT( "ROBOT" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
@@ -3653,9 +3616,13 @@ bool player::consume_item( item &target )
     return false;
 }
 
-bool player::consume( int target_position )
+bool player::consume( item_location loc )
 {
-    auto &target = i_at( target_position );
+    item &target = *loc;
+    const bool wielding = is_wielding( target );
+    const bool worn = is_worn( target );
+    const bool inv_item = !( wielding || worn );
+
     if( consume_item( target ) ) {
 
         const bool was_in_container = !can_consume_as_is( target );
@@ -3667,13 +3634,13 @@ bool player::consume( int target_position )
         }
 
         //Restack and sort so that we don't lie about target's invlet
-        if( target_position >= 0 ) {
+        if( inv_item ) {
             inv.restack( *this );
         }
 
-        if( was_in_container && target_position == -1 ) {
+        if( was_in_container && wielding ) {
             add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
-        } else if( was_in_container && target_position < -1 ) {
+        } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {
             bool drop_it = false;
@@ -3693,7 +3660,7 @@ bool player::consume( int target_position )
                 add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
             }
         }
-    } else if( target_position >= 0 ) {
+    } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
         }
@@ -4545,17 +4512,21 @@ void player::mend_item( item_location &&obj, bool interactive )
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::ostringstream descr;
+            std::string descr;
             if( method.turns_into ) {
-                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
             }
-            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+            if( method.also_mends ) {
+                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
+                                        method.also_mends->obj().name() );
+            }
+            descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
                                     to_string_approx( method.time ) );
             if( method.skills.empty() ) {
-                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+                descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr << string_format( _( "Skills: %s\n" ),
+                descr += string_format( _( "Skills: %s\n" ),
                                         enumerate_as_string( method.skills.begin(), method.skills.end(),
                 [this]( const std::pair<skill_id, int> &sk ) -> std::string {
                     if( get_skill_level( sk.first ) >= sk.second )
@@ -4574,10 +4545,14 @@ void player::mend_item( item_location &&obj, bool interactive )
                 } ) );
             }
 
-            std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
-            std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+            for( const std::string &line : tools ) {
+                descr += line + "\n";
+            }
+            for( const std::string &line : comps ) {
+                descr += line + "\n";
+            }
 
-            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            const std::string desc = method.description + "\n\n" + colorize( descr, col );
             menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();
@@ -5262,8 +5237,6 @@ void player::use( int inventory_position )
 void player::use( item_location loc )
 {
     item &used = *loc.get_item();
-    int inventory_position = loc.where() == item_location::type::character ?
-                             this->get_item_position( &used ) : INT_MIN;
 
     if( used.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -5289,12 +5262,12 @@ void player::use( item_location loc )
                                      used.is_medication() ||
                                      used.get_contained().is_food() ||
                                      used.get_contained().is_medication() ) ) {
-        consume( inventory_position );
+        consume( loc );
 
     } else if( used.is_book() ) {
-        // TODO: Remove this nasty cast once this and related functions are migrated to avatar
-        if( avatar *u = dynamic_cast<avatar *>( this ) ) {
-            u->read( inventory_position );
+        // TODO: Handle this with dynamic dispatch.
+        if( avatar *u = as_avatar() ) {
+            u->read( used );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );

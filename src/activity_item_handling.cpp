@@ -54,17 +54,16 @@ struct construction_category;
 
 void cancel_aim_processing();
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_pet( "pet" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_pet( "pet" );
 
-const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+static const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
+static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
-const quality_id LIFT( "LIFT" );
-const quality_id WELD( "WELD" );
+static const quality_id WELD( "WELD" );
 
-const trap_str_id tr_firewood_source( "tr_firewood_source" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
@@ -219,7 +218,9 @@ static void pass_to_ownership_handling( item obj, player *p )
 
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
-    units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
+    // Add volume of the bag itself since it is going to be subtracted later in the for-each loop.
+    units::volume remaining_volume = pet.inv.empty() ? 0_ml :
+                                     pet.inv.front().get_storage() + pet.inv.front().volume();
     units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {

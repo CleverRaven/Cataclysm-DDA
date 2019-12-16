@@ -28,8 +28,6 @@
 
 class item;
 
-const efftype_id effect_bleed( "bleed" );
-
 namespace
 {
 generic_factory<start_location> all_starting_locations( "starting location", "ident" );

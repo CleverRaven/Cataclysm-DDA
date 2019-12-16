@@ -88,25 +88,25 @@
 #include "magic_teleporter_list.h"
 #include "point.h"
 
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
-const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
-const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
-const skill_id skill_computer( "computer" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_survival( "survival" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
 
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -124,9 +124,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,

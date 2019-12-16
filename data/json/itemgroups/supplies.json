@@ -341,7 +341,7 @@
   {
     "id": "supplies_metal_precious",
     "type": "item_group",
-    "//": "Metals of significant economic value before the cataclysm",
+    "//": "Metals of significant economic value before the Cataclysm",
     "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
   },
   {

@@ -9,7 +9,7 @@
 #include "messages.h"
 #include "point.h"
 
-const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )

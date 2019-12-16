@@ -58,22 +58,22 @@
 #include "point.h"
 #include "weather.h"
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_survival( "survival" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -1700,7 +1700,10 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         comp.practice( skill_id( skill_tested ), difficulty * to_minutes<int>( time_worked ) / 10 );
     } else {
         for( int i = 0; i < checks; i++ ) {
-            comp.practice( *skill_practice.pick(), difficulty );
+            skill_id *ident = skill_practice.pick();
+            if( ident ) {
+                comp.practice( *ident, difficulty );
+            }
         }
     }
 }

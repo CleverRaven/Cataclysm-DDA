@@ -7,7 +7,6 @@
 #include <functional>
 #include <map>
 #include <memory>
-#include <sstream>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -291,27 +290,22 @@ void main_menu::init_strings()
     // MOTD
     auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
 
-    std::ostringstream buffer;
     mmenu_motd.clear();
-    for( auto &line : motd ) {
-        buffer << ( line.empty() ? " " : line ) << std::endl;
+    for( const std::string &line : motd ) {
+        mmenu_motd += ( line.empty() ? " " : line ) + "\n";
     }
-    mmenu_motd = "<color_light_red>" + buffer.str() + "</color>";
-
-    buffer.str( "" );
+    mmenu_motd = colorize( mmenu_motd, c_light_red );
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::credits(), [&buffer]( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::credits(), [&]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
-                buffer << ( line.empty() ? " " : line ) << std::endl;
+                mmenu_credits + ( line.empty() ? " " : line ) + "\n";
             }
         }
     } );
-
-    mmenu_credits = buffer.str();
 
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );
