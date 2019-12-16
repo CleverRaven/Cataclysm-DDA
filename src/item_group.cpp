@@ -209,17 +209,16 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    if( new_item.is_gun() &&
-        // no need for dirt if it's a bow
-        !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    // no need for dirt if it's a bow
+    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) &&
+        !new_item.has_flag( "NON-FOULING" ) ) {
         int random_dirt = rng( dirt.first, dirt.second );
         // if gun RNG is dirty, must add dirt fault to allow cleaning
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
-        } else if( one_in( 10 ) &&
-                   // chance to be unlubed, but only if it's not a laser or something
-                   !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
+            // chance to be unlubed, but only if it's not a laser or something
+        } else if( one_in( 10 ) && !new_item.has_flag( "NEEDS_NO_LUBE" ) ) {
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
