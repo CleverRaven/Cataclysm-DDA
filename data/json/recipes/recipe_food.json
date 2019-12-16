@@ -6074,8 +6074,8 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "sweet_fruit", 1, "LIST" ] ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sweet_fruit", 2, "LIST" ] ],
+      [ [ "sugar", 20 ] ],
       [ [ "jar_glass", 1 ] ]
     ]
   },
