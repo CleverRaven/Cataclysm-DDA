@@ -16,8 +16,7 @@
   },
   {
     "id": "soap_holder",
-    "name": "soap dish",
-    "name_plural": "soap_dishes",
+    "name": { "str": "soap dish", "str_pl": "soap dishes" },
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
@@ -39,8 +38,7 @@
   },
   {
     "id": "toothbrush_plain",
-    "name": "toothbrush",
-    "name_plural": "toothbrushes",
+    "name": { "str": "toothbrush", "str_pl": "toothbrushes" },
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
@@ -70,8 +68,7 @@
   },
   {
     "id": "hairbrush",
-    "name": "hairbrush",
-    "name_plural": "hairbrushes",
+    "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
     "type": "GENERIC",
     "description": "An instrument of hair torture.",
     "symbol": "/",
@@ -96,8 +93,7 @@
   },
   {
     "id": "string_floss",
-    "name": "dental floss",
-    "name_plural": "rolls of dental floss",
+    "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
     "type": "GENERIC",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
     "copy-from": "base_toiletries",
@@ -154,8 +150,7 @@
   },
   {
     "id": "toilet_paper",
-    "name": "toilet paper",
-    "name_plural": "rolls of toilet paper",
+    "name": { "str": "toilet paper", "str_pl": "rolls of toilet paper" },
     "type": "GENERIC",
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
@@ -216,8 +211,7 @@
   },
   {
     "id": "brush_toilet",
-    "name": "toilet brush",
-    "name_plural": "toilet brushes",
+    "name": { "str": "toilet brush", "str_pl": "toilet brushes" },
     "type": "GENERIC",
     "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
     "symbol": "p",
