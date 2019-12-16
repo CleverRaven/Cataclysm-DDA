@@ -2384,7 +2384,8 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
         return false;
     }
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
-        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ), comp->disp_name(),
+        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                making.get_blueprint() );
         return false;
     }
