@@ -516,7 +516,93 @@
       [ "jade_brooch", 80 ],
       [ "pearl_collar", 50 ],
       [ "silver_bracelet", 30 ],
-      [ "gold_bracelet", 20 ]
+      [ "gold_bracelet", 20 ],
+      { "group": "earrings_silver", "prob": 10 },
+      { "group": "earrings_gold", "prob": 10 },
+      { "group": "earrings_platinum", "prob": 10 }
+    ]
+  },
+  {
+    "id": "dental_grills",
+    "type": "item_group",
+    "items": [
+      [ "gold_dental_grill", 50 ],
+      [ "platinum_dental_grill", 50 ],
+      [ "citrine_dental_grill", 50 ],
+      [ "diamond_dental_grill", 50 ],
+      [ "emerald_dental_grill", 50 ],
+      [ "peridot_dental_grill", 50 ],
+      [ "amethyst_dental_grill", 50 ],
+      [ "sapphire_dental_grill", 50 ],
+      [ "aquamarine_dental_grill", 50 ],
+      [ "blue_topaz_dental_grill", 50 ],
+      [ "tourmaline_dental_grill", 50 ],
+      [ "alexandrite_dental_grill", 50 ],
+      [ "ruby_dental_grill", 50 ],
+      [ "garnet_dental_grill", 50 ]
+    ]
+  },
+  {
+    "id": "earrings_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_ear", 50 ],
+      [ "citrine_silver_earring", 50 ],
+      [ "diamond_silver_earring", 50 ],
+      [ "emerald_silver_earring", 50 ],
+      [ "peridot_silver_earring", 50 ],
+      [ "amethyst_silver_earring", 50 ],
+      [ "sapphire_silver_earring", 50 ],
+      [ "aquamarine_silver_earring", 50 ],
+      [ "blue_topaz_silver_earring", 50 ],
+      [ "tourmaline_silver_earring", 50 ],
+      [ "alexandrite_silver_earring", 50 ],
+      [ "pearl_silver_earring", 50 ],
+      [ "opal_silver_earring", 50 ],
+      [ "ruby_silver_earring", 50 ],
+      [ "garnet_silver_earring", 50 ]
+    ]
+  },
+  {
+    "id": "earrings_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_ear", 50 ],
+      [ "citrine_gold_earring", 50 ],
+      [ "diamond_gold_earring", 50 ],
+      [ "emerald_gold_earring", 50 ],
+      [ "peridot_gold_earring", 50 ],
+      [ "amethyst_gold_earring", 50 ],
+      [ "sapphire_gold_earring", 50 ],
+      [ "aquamarine_gold_earring", 50 ],
+      [ "blue_topaz_gold_earring", 50 ],
+      [ "tourmaline_gold_earring", 50 ],
+      [ "alexandrite_gold_earring", 50 ],
+      [ "pearl_gold_earring", 50 ],
+      [ "opal_gold_earring", 50 ],
+      [ "ruby_gold_earring", 50 ],
+      [ "garnet_gold_earring", 50 ]
+    ]
+  },
+  {
+    "id": "earrings_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_ear", 50 ],
+      [ "citrine_platinum_earring", 50 ],
+      [ "diamond_platinum_earring", 50 ],
+      [ "emerald_platinum_earring", 50 ],
+      [ "peridot_platinum_earring", 50 ],
+      [ "amethyst_platinum_earring", 50 ],
+      [ "sapphire_platinum_earring", 50 ],
+      [ "aquamarine_platinum_earring", 50 ],
+      [ "blue_topaz_platinum_earring", 50 ],
+      [ "tourmaline_platinum_earring", 50 ],
+      [ "alexandrite_platinum_earring", 50 ],
+      [ "pearl_platinum_earring", 50 ],
+      [ "opal_platinum_earring", 50 ],
+      [ "ruby_platinum_earring", 50 ],
+      [ "garnet_platinum_earring", 50 ]
     ]
   },
   {
