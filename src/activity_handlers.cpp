@@ -1857,8 +1857,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
-            _( "You struggle to reload the fouled %s, but manage to loosen some debris and make it somewhat operational." );
-        p->moves -= 2500;
+            _( "You manage to loosen some debris and make your %s somewhat operational." );
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
