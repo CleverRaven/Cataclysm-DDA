@@ -328,7 +328,8 @@
     "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REGENERATES_1", "REVIVES" ]
+    "regenerates": 1,
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
   },
   {
     "id": "mon_claygolem",
