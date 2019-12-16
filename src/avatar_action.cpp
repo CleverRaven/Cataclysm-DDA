@@ -854,6 +854,22 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
+void avatar_action::mend( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        if( you.is_armed() ) {
+            loc = item_location( you, &you.weapon );
+        } else {
+            add_msg( m_info, _( "You're not wielding anything." ) );
+            return;
+        }
+    }
+
+    if( you.has_item( *loc ) ) {
+        you.mend_item( item_location( loc ) );
+    }
+}
+
 bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
