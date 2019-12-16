@@ -1058,13 +1058,13 @@ void Character::suffer_from_radiation()
                 radiation -= 5;
             }
         }
+    }
 
-        if( !radiogenic && radiation > 0 ) {
-            // Even if you heal the radiation itself, the damage is done.
-            const int hmod = get_healthy_mod();
-            if( hmod > 200 - radiation ) {
-                set_healthy_mod( std::max( -200, 200 - radiation ) );
-            }
+    if( !radiogenic && radiation > 0 ) {
+        // Even if you heal the radiation itself, the damage is done.
+        const int hmod = get_healthy_mod();
+        if( hmod > 200 - radiation ) {
+            set_healthy_mod( std::max( -200, 200 - radiation ) );
         }
     }
 
