@@ -2722,7 +2722,8 @@ bool basecamp::survey_return()
                                      _( "Select an expansion:" ) );
 
     if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
-        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ), comp->disp_name(),
+        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                expansion_type->blueprint_name() );
         return false;
     }
