@@ -1815,7 +1815,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "waterproof": "true", // Is the effect waterproof.  (Default: false)
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },
 "use_action": {

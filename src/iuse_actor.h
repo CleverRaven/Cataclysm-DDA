@@ -328,6 +328,8 @@ class change_scent_iuse : public iuse_actor
         time_duration duration;
         /**Is the scent mask waterproof*/
         bool waterproof = false;
+        /**Side effect of using the item*/
+        std::vector<effect_data> effects;
 
         change_scent_iuse() : iuse_actor( "change_scent" ) { }
         ~change_scent_iuse() override = default;

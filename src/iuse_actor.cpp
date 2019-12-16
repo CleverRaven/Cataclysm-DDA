@@ -4716,6 +4716,13 @@ void change_scent_iuse::load( const JsonObject &obj )
     if( !scenttypeid.is_valid() ) {
         obj.throw_error( "Invalid scent type id.", "scent_typeid" );
     }
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effects.push_back( load_effect_data( e ) );
+        }
+    }
     assign( obj, "moves", moves );
     assign( obj, "charges_to_use", charges_to_use );
     assign( obj, "scent_mod", scent_mod );
@@ -4733,6 +4740,12 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, string_format( _( "You use the %s to mask your scent" ), it.tname() ) );
+
+    // Apply the various effects.
+    for( const auto &eff : effects ) {
+        time_duration dur = eff.duration;
+        p.add_effect( eff.id, dur, eff.bp, eff.permanent );
+    }
     return charges_to_use;
 }
 
