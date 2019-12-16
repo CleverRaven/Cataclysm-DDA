@@ -568,7 +568,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    auto critters = you.get_hostile_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
