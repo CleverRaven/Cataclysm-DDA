@@ -40,7 +40,7 @@ Cataclysm: DDA is under constant development. As such, stable can lag behind wit
 
 ## Arch Linux
 
-Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+Ncurses and tiles version available in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
 
 `sudo pacman -S cataclysm-dda`
 
