@@ -152,7 +152,7 @@
     "looks_like": "bionic_general",
     "color": "magenta",
     "skill": "launcher",
-    "ammo": "40mm",
+    "ammo": "40x46mm",
     "dispersion": 290,
     "durability": 6,
     "clip_size": 1,

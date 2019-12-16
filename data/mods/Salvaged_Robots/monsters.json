@@ -947,14 +947,14 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "color": "dark_gray_red",
     "luminance": 50,
-    "starting_ammo": { "40mm_frag": 100 },
+    "starting_ammo": { "40x46mm_m433": 100 },
     "special_attacks": [
       {
         "type": "gun",
         "move_cost": 250,
         "cooldown": 3,
         "gun_type": "robogun_40mm",
-        "ammo_type": "40mm_frag",
+        "ammo_type": "40x46mm_m433",
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
