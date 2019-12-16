@@ -6044,6 +6044,7 @@
   {
     "type": "recipe",
     "result": "jam_fruit",
+    "id_suffix": "jarred",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
