@@ -195,6 +195,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
+    "craft_inherit": true,
     "info": "This item is <bad>filthy</bad>."
   },
   {
@@ -520,6 +521,12 @@
     "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "steel_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -693,5 +700,41 @@
   {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag"
+  },
+  {
+    "id": "HIDDEN_HALLU",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true,
+    "//": "Contains hallucinogenic compounds from foraged foods."
+  },
+  {
+    "id": "HIDDEN_POISON",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true,
+    "//": "Contains poisonous compounds from foraged foods."
+  },
+  {
+    "id": "BAD_TASTE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true,
+    "taste_mod": -5,
+    "//": "Has a bad taste or texture that can't be covered up through cooking.",
+    "info": "This food is <bad>unappetizing</bad> in a way that <bad>can't be covered up by most cooking</bad>."
+  },
+  {
+    "id": "RAW",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "//": "Decreases calories as they appear in JSON def by 25%. This penalty is removed if the item is used in a recipe that requires heating.",
+    "info": "This food is <info>raw</info>, and will be <good>more nutritious</good> if cooked."
+  },
+  {
+    "id": "CANNIBALISM",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "craft_inherit": true
   }
 ]

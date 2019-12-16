@@ -100,7 +100,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -108,6 +107,20 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
+  },
+  {
+    "id": "knife_combat_mod",
+    "copy-from": "knife_combat",
+    "type": "TOOL",
+    "name": "modified combat knife",
+    "name_plural": "modified combat knives",
+    "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+    },
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "knife_hunting",
@@ -166,7 +179,6 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
-      "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -286,6 +298,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
     "use_action": {
@@ -538,7 +551,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "estoc",
-    "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords. It seems a bit too bendy.",
+    "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price": 13500,
     "price_postapoc": 0,
     "material": "budget_steel",
@@ -651,6 +664,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "arming_sword",
     "name": "arming sword",
     "description": "This is a dull, cheaply made replica of a classic medieval sword, just the right size to use one-handed.",
     "price": 10000,
@@ -670,6 +684,7 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
+    "looks_like": "arming_sword",
     "name": "arming sword",
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price": 100000,
@@ -781,13 +796,20 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-      "dispersion_modifier": 20,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "sword_bayonet_mod",
+    "copy-from": "sword_bayonet",
+    "type": "TOOL",
+    "name": "modified sword bayonet",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
+    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "tanto",
@@ -845,6 +867,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": {
@@ -1071,8 +1094,8 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "fencing epee",
-    "description": "A weapon used for fencing, the most noble of all sports.  The epee is the heaviest and stiffest of the fencing weapons, and therefore perhaps the most useful.",
+    "name": "fencing épée",
+    "description": "A weapon used for fencing, the most noble of all sports.  The épée is the heaviest and stiffest of the fencing weapons, and therefore perhaps the most useful.",
     "price": 2000,
     "price_postapoc": 1000,
     "material": "steel",
@@ -1090,7 +1113,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "fencing saber",
-    "description": "A weapon used for fencing, the most noble of all sports.  The fencing saber is marginally shorter than the foil and epee, but no less effective.",
+    "description": "A weapon used for fencing, the most noble of all sports.  The fencing saber is marginally shorter than the foil and épée, but no less effective.",
     "price": 2000,
     "price_postapoc": 0,
     "material": "steel",
@@ -1101,6 +1124,92 @@
     "to_hit": 2,
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "fencing_foil_sharpened",
+    "type": "GENERIC",
+    "copy-from": "fencing_foil",
+    "looks_like": "fencing_foil",
+    "name": "sharpened foil",
+    "description": "This once mostly harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
+    "relative": { "weight": -25, "cutting": 2 }
+  },
+  {
+    "id": "fencing_epee_sharpened",
+    "type": "GENERIC",
+    "copy-from": "fencing_epee",
+    "looks_like": "fencing_epee",
+    "name": "sharpened épée",
+    "description": "This once mostly harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
+    "relative": { "weight": -35, "cutting": 5 }
+  },
+  {
+    "id": "fencing_sabre_sharpened",
+    "type": "GENERIC",
+    "copy-from": "fencing_sabre",
+    "looks_like": "fencing_sabre",
+    "name": "sharpened saber",
+    "description": "This once mostly harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
+    "relative": { "weight": -10, "cutting": 5 }
+  },
+  {
+    "id": "shock_foil",
+    "type": "TOOL",
+    "copy-from": "fencing_foil_sharpened",
+    "name": "electrified foil",
+    "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "ammo": "battery",
+    "charges_per_use": 100,
+    "use_action": "TAZER",
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "volume": "250 ml", "weight": "151 g" },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  },
+  {
+    "id": "shock_epee",
+    "type": "TOOL",
+    "copy-from": "fencing_epee_sharpened",
+    "looks_like": "fencing_epee",
+    "name": "electrified épée",
+    "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "ammo": "battery",
+    "charges_per_use": 100,
+    "use_action": "TAZER",
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "volume": "250 ml", "weight": "151 g" },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
+  },
+  {
+    "id": "shock_sabre",
+    "type": "TOOL",
+    "copy-from": "fencing_sabre_sharpened",
+    "looks_like": "fencing_sabre",
+    "name": "electrified saber",
+    "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Thrusting the sharpened tip into a foe and activating the momentary switch will deliver a painful electric shock.",
+    "ammo": "battery",
+    "charges_per_use": 100,
+    "use_action": "TAZER",
+    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "relative": { "volume": "250 ml", "weight": "151 g" },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "hollow_cane",
@@ -1200,6 +1309,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
     "use_action": {
@@ -1367,6 +1477,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 1,
     "max_charges": 50,
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "use_action": {
@@ -1606,8 +1717,7 @@
     "color": "red",
     "ammo": "gasoline",
     "max_charges": 800,
-    "turns_per_charge": 1,
-    "revert_to": "chainsaw_off",
+    "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
@@ -1623,6 +1733,8 @@
     "cutting": 140,
     "revert_to": "cs_lajatang_off",
     "use_action": "CS_LAJATANG_ON",
+    "turns_per_charge": 1,
+    "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
@@ -1641,8 +1753,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "power_draw": 4000000,
-    "revert_to": "elec_chainsaw_off",
+    "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
@@ -1660,6 +1771,8 @@
     "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  They are currently on and draining power; use this item to turn them off.",
     "bashing": 4,
     "cutting": 140,
+    "power_draw": 4000000,
+    "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
@@ -1719,6 +1832,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
+    "charges_per_use": 5,
     "max_charges": 450,
     "use_action": "COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
@@ -1734,6 +1848,7 @@
     "to_hit": -4,
     "cutting": 82,
     "turns_per_charge": 4,
+    "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",
@@ -1755,6 +1870,7 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "E_COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ],
@@ -1776,6 +1892,7 @@
     "to_hit": -4,
     "cutting": 82,
     "power_draw": 2000000,
+    "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",

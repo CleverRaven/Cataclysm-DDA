@@ -136,7 +136,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
-            FILENAMES["debug"]
+            PATH_INFO::debug()
         );
 #endif
 
@@ -154,7 +154,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #if defined(TILES)
                     " %s\n" // translated user string: copy
 #endif // TILES
-                    , _( "An error has occurred! Written below is the error report:" ),
+                    , _( "An error has occurred!  Written below is the error report:" ),
                     formatted_report,
 #if defined(BACKTRACE)
                     backtrace_instructions,
@@ -358,7 +358,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
             if( rename_failed ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
                                             << oldfile << " failed.\n"
-                                            << "Check the file permissions. This "
+                                            << "Check the file permissions.  This "
                                             "program will continue to use the "
                                             "previous log file.";
             }
@@ -416,7 +416,7 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile.init( output_mode, FILENAMES["debug"] );
+    debugFile.init( output_mode, PATH_INFO::debug() );
 }
 
 void deinitDebug()
@@ -583,7 +583,7 @@ void debug_write_backtrace( std::ostream &out )
 #if defined(_WIN32)
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
-    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
+    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, nullptr );
     HANDLE proc = GetCurrentProcess();
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
@@ -622,7 +622,7 @@ void debug_write_backtrace( std::ostream &out )
     for( int i = 0; i < count; ++i ) {
         out << "\n    " << funcNames[i];
     }
-    out << "\n\n    Attempting to repeat stack trace using debug symbols...\n";
+    out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
     // to extract debug info and thus get a more detailed / useful
     // version.  If addr2line is not available this will just fail,
@@ -665,7 +665,7 @@ void debug_write_backtrace( std::ostream &out )
             if( src == buf_end ) {
                 src = buf;
             } else {
-                out.write( "...", 3 );
+                out << "…";
             }
             out.write( src, strlen( src ) );
         }
@@ -925,7 +925,7 @@ static std::string linux_version()
         // replace '\n' and '\t' in output.
         static const std::vector<std::pair<std::string, std::string>> to_replace = {
             {"\n", "; "},
-            {"\t", " "},
+            {"\t", " "}, // NOLINT(cata-text-style)
         };
         for( const auto &e : to_replace ) {
             std::string::size_type pos;

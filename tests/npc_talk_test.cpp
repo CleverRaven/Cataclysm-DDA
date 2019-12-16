@@ -406,29 +406,29 @@ TEST_CASE( "npc_talk_season", "[npc_talk]" )
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
     CHECK( d.responses[2].text == "This is a season summer test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 120 test response." );
     CHECK( d.responses[3].text == "This is a season autumn test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 5 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 120 test response." );
-    CHECK( d.responses[3].text == "This is a days since cataclysm 210 test response." );
+    CHECK( d.responses[1].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 120 test response." );
+    CHECK( d.responses[3].text == "This is a days since Cataclysm 210 test response." );
     CHECK( d.responses[4].text == "This is a season winter test response." );
     calendar::turn += calendar::season_length();
     gen_response_lines( d, 6 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a season spring test response." );
-    CHECK( d.responses[2].text == "This is a days since cataclysm 30 test response." );
-    CHECK( d.responses[3].text == "This is a days since cataclysm 120 test response." );
-    CHECK( d.responses[4].text == "This is a days since cataclysm 210 test response." );
-    CHECK( d.responses[5].text == "This is a days since cataclysm 300 test response." );
+    CHECK( d.responses[2].text == "This is a days since Cataclysm 30 test response." );
+    CHECK( d.responses[3].text == "This is a days since Cataclysm 120 test response." );
+    CHECK( d.responses[4].text == "This is a days since Cataclysm 210 test response." );
+    CHECK( d.responses[5].text == "This is a days since Cataclysm 300 test response." );
     calendar::turn = old_calendar;
 }
 
@@ -561,7 +561,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     g->u.remove_items_with( []( const item & it ) {
-        return it.get_category().id() == "books" || it.get_category().id() == "food" ||
+        return it.get_category().get_id() == item_category_id( "books" ) ||
+               it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == "bottle_glass";
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
@@ -727,10 +728,10 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
     gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules..." );
-    CHECK( d.responses[1].text == "Change your aiming rules..." );
+    CHECK( d.responses[0].text == "Change your engagement rules…" );
+    CHECK( d.responses[1].text == "Change your aiming rules…" );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_false_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[5].text == "Use only silent weapons." );
     CHECK( d.responses[6].text == "Don't use grenades anymore." );

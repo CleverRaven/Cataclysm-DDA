@@ -11,7 +11,7 @@
         "  ....................  ",
         "  ....................s ",
         " |-------------|-+-|--| ",
-        " |             |...|  | ",
+        " |            S|...|S | ",
         " |  v          |-+-|  | ",
         " |              ...   | ",
         " |               ...  | ",
@@ -22,7 +22,7 @@
         " | *********     ...  | ",
         " | *********     ...  | ",
         " | *********     ...  | ",
-        " | *********     ...  | ",
+        " | *********    T...T | ",
         " | *********    !x#!! | ",
         " |  *******     !,,^! | ",
         " |   *****      !,!$! | ",
@@ -54,10 +54,13 @@
         "x": "t_card_military",
         "#": "t_door_metal_locked",
         "s": "t_pavement",
-        "v": "t_dirt"
+        "v": "t_dirt",
+        "S": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
+        "T": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ]
       },
       "furniture": { "s": "f_sign_warning", "v": "f_vent_pipe" },
-      "signs": { "s": { "signage": "Restricted area!  Violators will be shot!" } }
+      "signs": { "s": { "signage": "Restricted area!  Violators will be shot!" } },
+      "monster": { "S": { "monster": "mon_turret_searchlight" }, "T": { "monster": "mon_turret_rifle" } }
     }
   },
   {
@@ -155,7 +158,8 @@
         "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 }
       },
       "item": { "e": { "item": "microwave", "chance": 70 }, "T": { "item": "militarymap", "chance": 30 } },
-      "toilets": { "&": {  } }
+      "toilets": { "&": {  } },
+      "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } }
     }
   },
   {
@@ -166,13 +170,13 @@
     "object": {
       "fill_ter": "t_rock",
       "rows": [
-        " b..t 1..cd   b.....s   ",
-        " b..s dc..d   b..T9.s   ",
-        " b..s d...1   a.....t   ",
-        "  .     ...X   +X       ",
-        " C. 222 ...+....     &. ",
-        " C........3    .     r.a",
-        " C.c....c.     .     S. ",
+        " b,,t 1,,cd   b.....s   ",
+        " b,,s dc,,d   b..T9.s   ",
+        " b,,s d,,,1   a.....t   ",
+        "  ,     ,,,X   +X       ",
+        " C, 222 ,,,+....     &. ",
+        " C,,,,,,,,3    .     r.a",
+        " C,c,,,,c,     .     S. ",
         " a%%%rxxd1     .a     = ",
         "      000      ........ ",
         "   ~~~~~~~~~   .4       ",
@@ -198,6 +202,7 @@
         "-": "t_metal_railing",
         "~": "t_metal_floor",
         ".": "t_floor",
+        ",": "t_floor",
         "&": "t_floor",
         "1": "t_floor",
         "2": "t_floor",
@@ -269,7 +274,8 @@
       },
       "place_loot": [ { "group": "bunker_basement_suicide", "x": 19, "y": 1 } ],
       "place_fields": [ { "field": "fd_blood", "x": 18, "y": 1 }, { "field": "fd_blood", "x": 19, "y": 1 } ],
-      "toilets": { "&": {  } }
+      "toilets": { "&": {  } },
+      "monster": { ",": { "monster": "mon_zombie_scientist", "chance": 10 } }
     }
   },
   {
@@ -281,12 +287,12 @@
       "fill_ter": "t_rock",
       "rows": [
         "                 x akk.i",
-        "       ,,,,,,,,,,,X,,,,g",
+        "       ,,,,,,,,,,,X....g",
         "       ,Y     4,   .jj.h",
         "       +       ,        ",
         "     %,,,a     ,        ",
         "     %,,,%     ,a  a5555",
-        "     %,,,%     ,,,+,,,,,",
+        "     %,,,%     ,,,+.....",
         "     %,,,%     , x .6666",
         "      000      ,        ",
         "   ~~~~~~~~~   ,       `",
@@ -343,7 +349,8 @@
           "y": 20
         }
       ],
-      "set": [ { "square": "radiation", "amount": [ 100, 120 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "set": [ { "square": "radiation", "amount": [ 100, 120 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "monster": { ",": { "monster": "mon_irradiated_wanderer_1", "chance": 10 } }
     }
   },
   {
@@ -363,7 +370,7 @@
         "  ~  ....... Y .     @ S",
         "  ~  Wlblblb   .        ",
         "  ?            . Y LLLL ",
-        "  ~~~~~~~~~~   ...+....a",
+        "  ~~~~~~~~~~   ,..+....a",
         "  ~~|-----|~~  .   rrrr ",
         " ~~|-`````-|~~ .        ",
         " ~|-`*****`-|~ .        ",
@@ -386,6 +393,7 @@
         "-": "t_metal_railing",
         "~": "t_metal_floor",
         ".": "t_floor",
+        ",": "t_floor",
         "4": "t_floor",
         "a": "t_floor",
         "b": "t_floor",
@@ -439,7 +447,8 @@
           { "item": "gear_soldier_sidearm", "chance": 70, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ]
+      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
+      "monster": { ",": { "monster": "mon_turret_rifle" } }
     }
   },
   {

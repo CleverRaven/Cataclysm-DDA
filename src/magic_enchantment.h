@@ -69,6 +69,14 @@ class enchantment
             SOCIAL_LIE,
             SOCIAL_PERSUADE,
             SOCIAL_INTIMIDATE,
+            ARMOR_BASH,
+            ARMOR_CUT,
+            ARMOR_STAB,
+            ARMOR_HEAT,
+            ARMOR_COLD,
+            ARMOR_ELEC,
+            ARMOR_ACID,
+            ARMOR_BIO,
             // effects for the item that has the enchantment
             ITEM_DAMAGE_BASH,
             ITEM_DAMAGE_CUT,
@@ -96,8 +104,8 @@ class enchantment
             NUM_MOD
         };
 
-        static void load_enchantment( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string &src = "" );
+        static void load_enchantment( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src = "" );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -124,6 +132,11 @@ class enchantment
         bool was_loaded;
 
         void serialize( JsonOut &jsout ) const;
+
+        // casts all the hit_you_effects on the target
+        void cast_hit_you( Character &caster, const tripoint &target ) const;
+        // casts all the hit_me_effects on self
+        void cast_hit_me( Character &caster ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;

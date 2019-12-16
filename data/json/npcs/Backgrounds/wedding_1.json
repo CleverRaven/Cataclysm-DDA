@@ -4,7 +4,7 @@
     "type": "talk_topic",
     "dynamic_line": "Oh, that's quite the story.  <the_cataclysm> happened on my wedding day.",
     "responses": [
-      { "text": "Oh, I'm sorry...", "topic": "BGSS_WEDDING_1_STORY2" },
+      { "text": "Oh, I'm sorry…", "topic": "BGSS_WEDDING_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -12,7 +12,7 @@
   {
     "id": "BGSS_WEDDING_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, in hindsight it maybe wasn't the best choice of dates, huh?  I admit I had cold feet though.  Anyway we were getting hitched at the church.  Lucky for me I was late to the ceremony...  I guess some of the fresher corpses in the graveyard had gotten up and started harassing the party.",
+    "dynamic_line": "Yeah, in hindsight it maybe wasn't the best choice of dates, huh?  I admit I had cold feet though.  Anyway we were getting hitched at the church.  Lucky for me I was late to the ceremony…  I guess some of the fresher corpses in the graveyard had gotten up and started harassing the party.",
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_WEDDING_1_STORY3" },
       { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },

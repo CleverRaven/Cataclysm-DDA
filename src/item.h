@@ -42,6 +42,8 @@ namespace cata
 {
 template<typename T>
 class optional;
+template<typename T>
+class value_ptr;
 } // namespace cata
 class nc_color;
 class JsonIn;
@@ -349,7 +351,7 @@ class item : public visitable<item>
          * properties of the @ref itype (if they are visible to the player). The returned string
          * is already translated and can be *very* long.
          * @param showtext If true, shows the item description, otherwise only the properties item type.
-         * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+         * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
          * the vector can be used to compare them to properties of another item.
          */
         std::string info( bool showtext, std::vector<iteminfo> &iteminfo ) const;
@@ -361,7 +363,7 @@ class item : public visitable<item>
         * properties of the @ref itype (if they are visible to the player). The returned string
         * is already translated and can be *very* long.
         * @param showtext If true, shows the item description, otherwise only the properties item type.
-        * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+        * @param iteminfo The properties (encapsulated into @ref iteminfo) are added to this vector,
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
@@ -374,12 +376,45 @@ class item : public visitable<item>
         * properties of the @ref itype (if they are visible to the player). The returned string
         * is already translated and can be *very* long.
         * @param parts controls which parts of the iteminfo to return.
-        * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+        * @param info The properties (encapsulated into @ref iteminfo) are added to this vector,
         * the vector can be used to compare them to properties of another item.
         * @param batch The batch crafting number to multiply data by
         */
         std::string info( std::vector<iteminfo> &info, const iteminfo_query *parts = nullptr,
                           int batch = 1 ) const;
+        /* type specific helper functions for info() that should probably be in itype() */
+        void basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                       int batch, bool debug ) const;
+        void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                        int batch, bool debug ) const;
+        void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const;
+        void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                       bool debug ) const;
+        void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
+        void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                           bool debug ) const;
+        void container_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                        bool debug ) const;
+        void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
+        void qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
+        void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                         bool debug ) const;
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.
@@ -695,7 +730,7 @@ class item : public visitable<item>
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
-         * @param smoking_duration
+         * @param processing_duration
          */
         void calc_rot_while_processing( time_duration processing_duration );
 
@@ -703,7 +738,6 @@ class item : public visitable<item>
          * Update temperature for things like food
          * Update rot for things that perish
          * All items that rot also have temperature
-         * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
          * @param carrier The current carrier
@@ -726,6 +760,8 @@ class item : public visitable<item>
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
+
+        int get_comestible_fun() const;
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
@@ -893,11 +929,11 @@ class item : public visitable<item>
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
+        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
-        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
         /*@}*/
 
         /**
@@ -1022,7 +1058,7 @@ class item : public visitable<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( player *p, const tripoint &pos ) const;
+        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1162,12 +1198,15 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &snippet_id );
+        void set_snippet( const std::string &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
          * no components */
         std::string components_to_string() const;
+
+        /** Creates a hash from the itype_ids of this item's @ref components. */
+        uint64_t make_component_hash() const;
 
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
@@ -1314,6 +1353,9 @@ class item : public visitable<item>
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const std::string &flag );
+
+        /** Idempotent filter recursively setting an item specific flag on this item and its components. */
+        item &set_flag_recursive( const std::string &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();
@@ -1752,7 +1794,7 @@ class item : public visitable<item>
          * of that gunmod, the guns range is returned only when the item has no active gunmod.
          * This function applies to guns and auxiliary gunmods. For other items, 0 is returned.
          * It includes the range given by the ammo.
-         * @param u The player that uses the weapon, their strength might affect this.
+         * @param p The player that uses the weapon, their strength might affect this.
          * It's optional and can be null.
          */
         int gun_range( const player *p ) const;
@@ -1930,7 +1972,7 @@ class item : public visitable<item>
         std::string get_owner_name() const;
         int get_min_str() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        const cata::value_ptr<islot_comestible> &get_comestible() const;
 
         /**
          * Get the stored recipe for in progress crafts.
@@ -1959,8 +2001,9 @@ class item : public visitable<item>
          * Handle failure during crafting.
          * Destroy components, lose progress, and set a new failure point.
          * @param crafter the crafting player.
+         * @return whether the craft being worked on should be entirely destroyed
          */
-        void handle_craft_failure( player &crafter );
+        bool handle_craft_failure( player &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -1968,6 +2011,20 @@ class item : public visitable<item>
          * @return what is needed to continue craft, may be empty requirement data
          */
         requirement_data get_continue_reqs() const;
+
+        /**
+         * @brief Inherit applicable flags from the given parent item.
+         *
+         * @param parent Item to inherit from
+         */
+        void inherit_flags( const item &parent );
+
+        /**
+         * @brief Inherit applicable flags from the given list of parent items.
+         *
+         * @param parents Items to inherit from
+         */
+        void inherit_flags( const std::list<item> &parents );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2068,7 +2125,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        int note = 0;              // Associated dynamic text snippet.
+        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.

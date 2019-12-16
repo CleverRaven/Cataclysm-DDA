@@ -8,7 +8,8 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [  ]
+    "vitamins": [  ],
+    "flags": [ "RAW" ]
   },
   {
     "id": "fish",
@@ -22,7 +23,7 @@
     "volume": "250 ml",
     "price": 500,
     "spoils_in": "12 hours",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
     "calories": 121
@@ -56,15 +57,40 @@
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
+    "id": "human_fat",
+    "copy-from": "fat",
+    "type": "COMESTIBLE",
+    "name": "chunk of human fat",
+    "name_plural": "chunks of human fat",
+    "description": "Freshly harvested from a human body.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_tallow",
+    "name": "human tallow",
+    "copy-from": "tallow",
+    "description": "A smooth white block of cleaned and rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "//": "*May* have been commercially traded.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_lard",
+    "name": "human lard",
+    "copy-from": "human_tallow",
+    "description": "A smooth white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
     "id": "human_flesh",
     "copy-from": "meat",
     "type": "COMESTIBLE",
+    "cooks_like": "human_cooked",
     "name": "human flesh",
     "name_plural": "human fleshes",
     "description": "Freshly butchered from a human body.",
-    "material": "hflesh",
-    "flags": [ "SMOKABLE" ],
-    "smoking_result": "human_smoked"
+    "material": "hflesh"
   },
   {
     "id": "human_cooked",
@@ -89,12 +115,12 @@
     "volume": "250 ml",
     "price": 500,
     "spoils_in": "1 day",
-    "calories": 302,
+    "calories": 402,
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -108,6 +134,54 @@
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
+  },
+  {
+    "id": "mutant_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "meat",
+    "name": "chunk of mutant meat",
+    "name_plural": "chunks of mutant meat",
+    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "looks_like": "meat",
+    "cooks_like": "mutant_meat_cooked",
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
+    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+  },
+  {
+    "id": "mutant_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "name": "scrap of mutant meat",
+    "name_plural": "scraps of mutant meat",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "looks_like": "meat_scrap",
+    "cooks_like": "mutant_meat_scrap_cooked",
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "mutant_toxin", 2 ] ],
+    "delete": { "flags": [ "SMOKABLE" ] }
+  },
+  {
+    "id": "mutant_human_flesh",
+    "copy-from": "mutant_meat",
+    "type": "COMESTIBLE",
+    "cooks_like": "mutant_human_cooked",
+    "name": "mutant humanoid meat",
+    "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
+    "material": "hflesh"
+  },
+  {
+    "id": "mutant_human_cooked",
+    "copy-from": "mutant_human_flesh",
+    "calories": 402,
+    "type": "COMESTIBLE",
+    "name": "cooked cretin",
+    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -132,15 +206,16 @@
   },
   {
     "id": "meat_cooked",
-    "copy-from": "meat",
+    "copy-from": "flesh",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
     "type": "COMESTIBLE",
     "name": "cooked meat",
     "description": "This is a chunk of freshly cooked meat.  It's filling and nutritious, but unseasoned and a bit bland.",
-    "proportional": { "price": 1.5 },
+    "price": 750,
     "parasites": 0,
     "calories": 402,
-    "healthy": 0,
-    "fun": 0,
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
@@ -157,12 +232,38 @@
     "calories": 51
   },
   {
+    "id": "mutant_meat_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat",
+    "name": "cooked mutant meat",
+    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…",
+    "looks_like": "meat_cooked",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": -1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
+  },
+  {
+    "id": "mutant_meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap",
+    "name": "cooked scrap of mutant meat",
+    "name_plural": "cooked scraps of mutant meat",
+    "looks_like": "meat_scrap_cooked",
+    "parasites": 0,
+    "calories": 25,
+    "fun": 0,
+    "healthy": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
     "id": "offal",
     "copy-from": "meat",
     "type": "COMESTIBLE",
     "name": "raw offal",
     "description": "Offal is uncooked internal organs and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
-    "proportional": { "calories": 0.5, "parasites": 2.0 },
+    "proportional": { "parasites": 2.0 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
@@ -176,7 +277,6 @@
     "parasites": 0,
     "healthy": 1,
     "fun": -5,
-    "proportional": { "calories": 2 },
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -194,7 +294,7 @@
     "spoils_in": "1 day 12 hours",
     "quench": -1,
     "fun": -1,
-    "proportional": { "calories": 2 }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "offal_canned",
@@ -209,7 +309,7 @@
     "healthy": 1,
     "container": "can_food",
     "fun": -2,
-    "proportional": { "calories": 2 }
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "stomach",
@@ -221,7 +321,7 @@
     "volume": "250 ml",
     "price": 200,
     "spoils_in": "8 hours",
-    "calories": 40,
+    "calories": 60,
     "quench": 1,
     "healthy": -1,
     "fun": -15
@@ -236,10 +336,14 @@
   },
   {
     "id": "jerky",
-    "copy-from": "meat",
+    "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "meat jerky",
     "name_plural": "meat jerky",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "jerk jerky", "str_pl": "jerk jerky" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster jerky", "str_pl": "monster jerky" } }
+    ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
     "weight": "85 g",
@@ -249,13 +353,11 @@
     "volume": "250 ml",
     "charges": 2,
     "parasites": 0,
-    "healthy": 0,
+    "price": 320,
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "delete": { "flags": [ "SMOKABLE" ] },
-    "proportional": { "price": 0.64 }
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ]
   },
   {
     "id": "salted_fish",
@@ -273,34 +375,18 @@
     "quench": -5,
     "fun": 4,
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 }
-  },
-  {
-    "id": "jerky_human",
-    "copy-from": "human_flesh",
-    "type": "COMESTIBLE",
-    "name": "jerk jerky",
-    "name_plural": "jerk jerky",
-    "description": "Salty dried human flesh that lasts for a long time, but will make you thirsty.",
-    "primary_material": "cured_meat",
-    "color": "brown",
-    "spoils_in": "24 days",
-    "healthy": 0,
-    "volume": "250 ml",
-    "charges": 2,
-    "parasites": 0,
-    "quench": -5,
-    "fun": 4,
-    "calories": 348,
-    "weight": "85 g",
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 8 ] ],
-    "proportional": { "price": 0.44 }
+    "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "meat_smoked",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
     "name": "smoked meat",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "smoked sucker", "str_pl": "smoked sucker" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
+    ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
     "spoils_in": "24 days",
@@ -321,19 +407,6 @@
     "fun": 6,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_fish"
-  },
-  {
-    "id": "human_smoked",
-    "copy-from": "human_cooked",
-    "type": "COMESTIBLE",
-    "name": "smoked sucker",
-    "description": "A heavily smoked portion of human flesh.  Lasts for a long time and tastes pretty good, if you like that sort of thing.",
-    "color": "brown",
-    "spoils_in": "24 days",
-    "quench": -1,
-    "fun": 5,
-    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
-    "smoking_result": "dry_hflesh"
   },
   {
     "id": "lung",
@@ -362,7 +435,8 @@
     "name": "cooked piece of lung",
     "name_plural": "cooked pieces of lung",
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "liver",
@@ -372,7 +446,7 @@
     "name": "raw liver",
     "description": "The liver from an animal.  Although many dislike the texture, it's one of the more vitamin rich parts of the animal.  It is very good in sausages, but maybe a little less appetizing when cooked on its own.",
     "quench": -4,
-    "calories": 73,
+    "calories": 92,
     "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
   },
   {
@@ -384,7 +458,8 @@
     "description": "Chock full of B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "fun": -2,
-    "healthy": 0
+    "healthy": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "brain",
@@ -393,7 +468,7 @@
     "looks_like": "offal",
     "name": "raw brains",
     "name_plural": "raw brains",
-    "description": "The brain from an animal.  You wouldn't want to eat this raw...",
+    "description": "The brain from an animal.  You wouldn't want to eat this raw…",
     "color": "light_gray",
     "healthy": -15,
     "quench": 10,
@@ -412,7 +487,8 @@
     "description": "Now you can emulate those zombies you love so much!  Preparing brain for eating is challenging, and this doesn't seem to be the best way to do it.",
     "parasites": 0,
     "healthy": -2,
-    "fun": -8
+    "fun": -8,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "kidney",
@@ -437,7 +513,8 @@
     "healthy": -2,
     "quench": -2,
     "fun": -3,
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "sweetbread",
@@ -459,8 +536,9 @@
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
     "fun": -4,
-    "description": "Normally a delicacy, it needs a little... something.",
-    "parasites": 0
+    "description": "Normally a delicacy, it needs a little… something.",
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -547,6 +625,58 @@
     "description": "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
+    "id": "mutant_fat",
+    "type": "COMESTIBLE",
+    "copy-from": "fat",
+    "name": "chunk of mutant fat",
+    "name_plural": "chunks of mutant fat",
+    "description": "Freshly butchered fat from a heavily mutated animal.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
+    "looks_like": "fat",
+    "proportional": { "price": 0.2 },
+    "vitamins": [ [ "mutant_toxin", 360 ] ]
+  },
+  {
+    "id": "mutant_tallow",
+    "type": "COMESTIBLE",
+    "copy-from": "tallow",
+    "name": "mutant tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "looks_like": "tallow",
+    "proportional": { "price": 0.2 },
+    "vitamins": [ [ "mutant_toxin", 180 ] ]
+  },
+  {
+    "id": "mutant_lard",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_tallow",
+    "name": "mutant lard",
+    "description": "A smooth white block of dry-rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "mutant_human_fat",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_fat",
+    "name": "chunk of mutant humanoid fat",
+    "name_plural": "chunks of mutant humanoid fat",
+    "description": "Freshly butchered fat from a heavily mutated humanoid.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_tallow",
+    "name": "mutant humanoid tallow",
+    "copy-from": "mutant_tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_lard",
+    "name": "mutant humanoid lard",
+    "copy-from": "mutant_human_tallow",
+    "description": "A smooth white block of dry-rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
     "type": "COMESTIBLE",
     "id": "meat_tainted",
     "category": "other",
@@ -564,7 +694,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "TRADER_AVOID", "SMOKABLE" ],
+    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "dry_meat_tainted"
   },
   {
@@ -593,7 +723,7 @@
     "copy-from": "bone",
     "name": "human bone",
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "//": "Not for use in normal food recipes."
+    "flags": [ "CANNIBALISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -613,7 +743,8 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
     "material": "flesh",
     "volume": "250 ml",
-    "fun": -10
+    "fun": -10,
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -627,7 +758,7 @@
     "symbol": "%",
     "quench": -10,
     "healthy": -2,
-    "calories": 52,
+    "calories": 18,
     "description": "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
     "price": 0,
     "//": "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
@@ -640,18 +771,10 @@
   {
     "type": "COMESTIBLE",
     "id": "stomach_boiled",
+    "copy-from": "small_stomach_boiled",
     "name": "large boiled stomach",
-    "weight": "145 g",
-    "color": "red",
-    "spoils_in": "1 day",
-    "comestible_type": "FOOD",
-    "symbol": ",",
-    "calories": 260,
     "description": "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
-    "price": 750,
-    "material": "flesh",
-    "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
     "fun": -5
   },
   {
@@ -671,7 +794,7 @@
     "spoils_in": "1 day",
     "comestible_type": "FOOD",
     "symbol": ",",
-    "calories": 130,
+    "calories": 60,
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 375,
     "material": "flesh",
@@ -787,7 +910,7 @@
     "healthy": -10,
     "calories": 347,
     "quench": 20,
-    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies...",
+    "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies…",
     "price": 6500,
     "material": [ "flesh" ],
     "volume": "1 L",

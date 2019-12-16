@@ -79,9 +79,9 @@
     "calories": 240,
     "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
     "price": 20000,
-    "//": "Didn't precisely exist pre-cataclysm, so tough to price.",
+    "//": "Didn't precisely exist pre-Cataclysm, so tough to price.",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "fun": 7
   },
   {
@@ -122,7 +122,7 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 174,
-    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
+    "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
     "volume": 0,
@@ -195,6 +195,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "This is a grayish bone meal made from rotten bones.",
+    "calories": 4,
     "price": 0,
     "material": "powder",
     "volume": "250 ml",
@@ -217,7 +218,7 @@
     "price": 25,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "fun": -10
   },
@@ -230,7 +231,6 @@
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "`",
-    "calories": 9,
     "description": "A piece of paper.  Can be used for fires.",
     "price": 0,
     "material": "paper",
@@ -247,7 +247,7 @@
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -255,7 +255,8 @@
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": 150,
     "material": "bean",
-    "volume": "250 ml",
+    "volume": "500 ml",
+    "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
   },
@@ -379,7 +380,7 @@
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -396,7 +397,7 @@
     "price": 150,
     "fun": 1,
     "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "flags": "NUTRIENT_OVERRIDE"
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -455,7 +456,7 @@
     "price": 900,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "calories": 23,
     "charges": 20,
     "fun": -5
@@ -468,6 +469,7 @@
     "name_plural": "Kentucky coffee grounds",
     "container": "bag_plastic",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 5,
     "stack_size": 20
   },
@@ -496,7 +498,7 @@
     "id": "can_tomato",
     "name": "canned tomato",
     "name_plural": "canned tomatoes",
-    "weight": "256 g",
+    "weight": "128 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",
     "container": "can_food",
@@ -504,13 +506,14 @@
     "symbol": "%",
     "quench": 3,
     "healthy": 1,
-    "calories": 82,
+    "calories": 41,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": 350,
     "material": "tomato",
     "volume": "250 ml",
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -586,8 +589,8 @@
     "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
     "weight": "554 g",
     "spoils_in": "1 day",
-    "container": "can_food",
-    "volume": "250 ml",
+    "container": "can_medium",
+    "volume": "500 ml",
     "price": 300,
     "to_hit": -5,
     "material": "flesh",

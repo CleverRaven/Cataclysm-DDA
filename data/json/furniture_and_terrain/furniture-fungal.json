@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_flower_marloss",
     "name": "marloss flower",
-    "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color, and it emits an aroma both overwhelming and... delicious?",
+    "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color, and it emits an aroma both overwhelming and… delicious?",
     "symbol": "f",
     "color": "cyan",
     "move_cost_mod": 1,
@@ -48,5 +48,18 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
     "bash": { "str_min": 6, "str_max": 20, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_tangle",
+    "name": "fungal tangle",
+    "description": "Thick, ropy tendrils of fungus have risen from the ground and gathered into an impenetrable clump.",
+    "looks_like": "mon_fungal_wall",
+    "symbol": "&",
+    "bgcolor": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
+    "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
   }
 ]

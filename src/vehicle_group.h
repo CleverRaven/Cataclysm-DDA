@@ -41,7 +41,7 @@ class VehicleGroup
             return *vehicles.pick();
         }
 
-        static void load( JsonObject &jo );
+        static void load( const JsonObject &jo );
         static void reset();
 
     private:
@@ -52,7 +52,7 @@ class VehicleGroup
  * The location and facing data needed to place a vehicle onto the map.
  */
 struct VehicleFacings {
-    VehicleFacings( JsonObject &jo, const std::string &key );
+    VehicleFacings( const JsonObject &jo, const std::string &key );
 
     int pick() const {
         return random_entry( values );
@@ -87,7 +87,7 @@ struct VehiclePlacement {
     }
 
     const VehicleLocation *pick() const;
-    static void load( JsonObject &jo );
+    static void load( const JsonObject &jo );
     static void reset();
 
     using LocationMap = std::vector<VehicleLocation>;
@@ -131,7 +131,7 @@ class VehicleFunction_builtin : public VehicleFunction
 class VehicleFunction_json : public VehicleFunction
 {
     public:
-        VehicleFunction_json( JsonObject &jo );
+        VehicleFunction_json( const JsonObject &jo );
         ~VehicleFunction_json() override = default;
 
         /**
@@ -160,7 +160,7 @@ class VehicleSpawn
     public:
         VehicleSpawn() = default;
 
-        void add( const double &weight, const std::shared_ptr<VehicleFunction> &func ) {
+        void add( const double &weight, const shared_ptr_fast<VehicleFunction> &func ) {
             types.add( func, weight );
         }
 
@@ -179,11 +179,11 @@ class VehicleSpawn
          */
         static void apply( const vspawn_id &id, map &m, const std::string &terrain_name );
 
-        static void load( JsonObject &jo );
+        static void load( const JsonObject &jo );
         static void reset();
 
     private:
-        weighted_float_list<std::shared_ptr<VehicleFunction>> types;
+        weighted_float_list<shared_ptr_fast<VehicleFunction>> types;
 
         using FunctionMap = std::unordered_map<std::string, vehicle_gen_pointer>;
         static FunctionMap builtin_functions;

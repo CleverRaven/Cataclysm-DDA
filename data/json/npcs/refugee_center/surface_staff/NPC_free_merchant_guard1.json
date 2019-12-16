@@ -105,7 +105,7 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1_BYE",
     "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
-    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",

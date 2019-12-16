@@ -112,6 +112,7 @@
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
       [ "tinderbox", 10 ],
+      [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
       [ "esbit_stove", 15 ],
       [ "mess_tin", 10 ]
@@ -303,6 +304,7 @@
       [ "mess_tin", 5 ],
       [ "riding_saddle", 3 ],
       [ "saddlebag", 5 ],
+      [ "lifestraw", 3 ],
       [ "acetylene_machine", 2 ]
     ]
   },
@@ -359,6 +361,7 @@
       [ "gloves_medical", 5 ],
       [ "mask_dust", 5 ],
       [ "mask_filter", 5 ],
+      [ "gasfilter_s", 5 ],
       [ "glasses_safety", 5 ],
       [ "UPS_off", 3 ],
       [ "microscope", 5 ],
@@ -393,6 +396,7 @@
       [ "UPS_off", 6 ],
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
+      [ "smart_lamp", 2 ],
       [ "control_laptop", 1 ],
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],

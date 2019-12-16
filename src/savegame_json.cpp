@@ -35,7 +35,7 @@
 #include "effect.h"
 #include "game.h"
 #include "inventory.h"
-#include "io.h"
+#include "cata_io.h"
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
@@ -77,6 +77,7 @@
 #include "morale_types.h"
 #include "pimpl.h"
 #include "recipe.h"
+#include "text_snippets.h"
 #include "tileray.h"
 #include "visitable.h"
 #include "string_id.h"
@@ -100,10 +101,7 @@ struct mutation_branch;
 
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-
-static const matype_id style_kicks( "style_kicks" );
+static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -112,7 +110,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -128,7 +126,7 @@ static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -297,6 +295,39 @@ void player_activity::deserialize( JsonIn &jsin )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+///// requirements.h
+void requirement_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    if( !is_null() ) {
+        json.member( "blacklisted", blacklisted );
+        const std::vector<std::vector<item_comp>> req_comps = get_components();
+        const std::vector<std::vector<tool_comp>> tool_comps = get_tools();
+        const std::vector<std::vector<quality_requirement>> quality_comps = get_qualities();
+
+        json.member( "req_comps_total", req_comps );
+
+        json.member( "tool_comps_total", tool_comps );
+
+        json.member( "quality_comps_total", quality_comps );
+    }
+    json.end_object();
+}
+
+void requirement_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+
+    data.read( "blacklisted", blacklisted );
+
+    data.read( "req_comps_total", components );
+    data.read( "tool_comps_total", tools );
+    data.read( "quality_comps_total", qualities );
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// skill.h
 void SkillLevel::serialize( JsonOut &json ) const
 {
@@ -358,13 +389,37 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+void consumption_event::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "time", time );
+    json.member( "type_id", type_id );
+    json.member( "component_hash", component_hash );
+    json.end_object();
+}
+
+void consumption_event::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "time", time );
+    jo.read( "type_id", type_id );
+    jo.read( "component_hash", component_hash );
+}
+
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
-void Character::load( JsonObject &data )
+void Character::load( const JsonObject &data )
 {
     Creature::load( data );
 
+    if( !data.read( "posx", position.x ) ) {  // uh-oh.
+        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
+    }
+    data.read( "posy", position.y );
+    if( !data.read( "posz", position.z ) && g != nullptr ) {
+        position.z = g->get_levz();
+    }
     // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
@@ -379,7 +434,7 @@ void Character::load( JsonObject &data )
     data.read( "dex_bonus", dex_bonus );
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
-
+    data.read( "omt_path", omt_path );
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -388,6 +443,54 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+    data.read( "pkill", pkill );
+
+    data.read( "type_of_scent", type_of_scent );
+
+    if( data.has_array( "ma_styles" ) ) {
+        std::vector<matype_id> temp_styles;
+        data.read( "ma_styles", temp_styles );
+        bool temp_keep_hands_free = false;
+        data.read( "keep_hands_free", temp_keep_hands_free );
+        matype_id temp_selected_style;
+        data.read( "style_selected", temp_selected_style );
+        if( !temp_selected_style.is_valid() ) {
+            temp_selected_style = matype_id( "style_none" );
+        }
+        martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
+                            temp_keep_hands_free );
+    } else {
+        data.read( "martial_arts_data", martial_arts_data );
+    }
+
+    JsonObject vits = data.get_object( "vitamin_levels" );
+    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[v.first] = lvl;
+    }
+    data.read( "consumption_history", consumption_history );
+    data.read( "activity", activity );
+    data.read( "destination_activity", destination_activity );
+    data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
+    data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
+    // Changed from a single element to a list, handle either.
+    // Can deprecate once we stop handling pre-0.B saves.
+    if( data.has_array( "backlog" ) ) {
+        data.read( "backlog", backlog );
+    } else {
+        player_activity temp;
+        data.read( "backlog", temp );
+        backlog.push_front( temp );
+    }
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+        requirement_data fetch_reqs;
+        data.read( "fetch_data", fetch_reqs );
+        const requirement_id req_id( backlog.front().str_values.back() );
+        requirement_data::save_requirement( fetch_reqs, req_id );
+    }
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -395,9 +498,26 @@ void Character::load( JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
+    // status
+    temp_cur.fill( 5000 );
+    data.read( "temp_cur", temp_cur );
+
+    temp_conv.fill( 5000 );
+    data.read( "temp_conv", temp_conv );
+
+    frostbite_timer.fill( 0 );
+    data.read( "frostbite_timer", frostbite_timer );
+
+    body_wetness.fill( 0 );
+    data.read( "body_wetness", body_wetness );
+
+    //energy
+    data.read( "stim", stim );
+    data.read( "stamina", stamina );
+
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
-
+    data.read( "magic", magic );
     JsonArray parray;
 
     data.read( "underwater", underwater );
@@ -472,6 +592,15 @@ void Character::load( JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    std::string tmove_mode;
+    data.read( "move_mode", tmove_mode );
+    for( int i = 0; i < CMM_COUNT; ++i ) {
+        if( tmove_mode == character_movemode_str[i] ) {
+            move_mode = static_cast<character_movemode>( i );
+            break;
+        }
+    }
+
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
@@ -482,10 +611,11 @@ void Character::load( JsonObject &data )
         }
     }
 
+    morale->load( data );
+
     _skills->clear();
-    JsonObject pmap = data.get_object( "skills" );
-    for( const std::string &member : pmap.get_member_names() ) {
-        pmap.read( member, ( *_skills )[skill_id( member )] );
+    for( const JsonMember &member : data.get_object( "skills" ) ) {
+        member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
     visit_items( [&]( item * it ) {
@@ -499,6 +629,8 @@ void Character::load( JsonObject &data )
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
+    on_stat_change( "pkill", pkill );
+    on_stat_change( "perceived_pain", get_perceived_pain() );
     recalc_sight_limits();
     reset_encumbrance();
 
@@ -512,8 +644,18 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0_kJ ) {
-        power_level = 0_kJ;
+    if( power_level < 0_mJ ) {
+        power_level = 0_mJ;
+    }
+
+    JsonArray overmap_time_array = data.get_array( "overmap_time" );
+    overmap_time.clear();
+    while( overmap_time_array.has_more() ) {
+        point pt;
+        overmap_time_array.read_next( pt );
+        time_duration tdr = 0_turns;
+        overmap_time_array.read_next( tdr );
+        overmap_time[pt] = tdr;
     }
 }
 
@@ -523,6 +665,12 @@ void Character::load( JsonObject &data )
 void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
+
+    // assumes already in Character object
+    // positional data
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
+    json.member( "posz", position.z );
 
     // stat
     json.member( "str_cur", str_cur );
@@ -539,11 +687,16 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
     json.member( "healed_24h", healed_total );
+
+    // status
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
+    json.member( "body_wetness", body_wetness );
 
     // needs
     json.member( "thirst", thirst );
@@ -553,6 +706,29 @@ void Character::store( JsonOut &json ) const
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
+    json.member( "vitamin_levels", vitamin_levels );
+    json.member( "pkill", pkill );
+    json.member( "omt_path", omt_path );
+    json.member( "consumption_history", consumption_history );
+
+    // crafting etc
+    json.member( "destination_activity", destination_activity );
+    json.member( "activity", activity );
+    json.member( "stashed_outbounds_activity", stashed_outbounds_activity );
+    json.member( "stashed_outbounds_backlog", stashed_outbounds_backlog );
+    json.member( "backlog", backlog );
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
+
+    // handling for storing activity requirements
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
+                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+        requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
+        json.member( "fetch_data", things_to_fetch );
+    }
+
+    json.member( "stim", stim );
+    json.member( "type_of_scent", type_of_scent );
 
     // breathing
     json.member( "underwater", underwater );
@@ -561,13 +737,20 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
-
+    json.member( "magic", magic );
+    json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
+
+    json.member( "move_mode", character_movemode_str[ move_mode ] );
+
     // storing the mount
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
     }
+
+    morale->store( json );
+
     // skills
     json.member( "skills" );
     json.start_object();
@@ -577,8 +760,24 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", units::to_kilojoule( power_level ) );
+    if( power_level < 1_J ) {
+        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+    } else if( power_level < 1_kJ ) {
+        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+    } else {
+        json.member( "power_level", units::to_kilojoule( power_level ) );
+    }
     json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
+
+    if( !overmap_time.empty() ) {
+        json.member( "overmap_time" );
+        json.start_array();
+        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+            json.write( pr.first );
+            json.write( pr.second );
+        }
+        json.end_array();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -591,23 +790,13 @@ void player::store( JsonOut &json ) const
 {
     Character::store( json );
 
-    // assumes already in player object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
-
     // energy
-    json.member( "stim", stim );
     json.member( "last_sleep_check", last_sleep_check );
-    // pain
-    json.member( "pkill", pkill );
     // misc levels
     json.member( "tank_plut", tank_plut );
     json.member( "reactor_plut", reactor_plut );
     json.member( "slow_rad", slow_rad );
     json.member( "scent", static_cast<int>( scent ) );
-    json.member( "body_wetness", body_wetness );
 
     // gender
     json.member( "male", male );
@@ -623,8 +812,6 @@ void player::store( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
-
-    json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
@@ -639,6 +826,8 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    json.member( "automoveroute", auto_move_route );
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
@@ -660,6 +849,8 @@ void player::store( JsonOut &json ) const
     } else {
         json.member( "last_target_pos", last_target_pos );
     }
+
+    json.member( "destination_point", destination_point );
 
     // faction warnings
     json.member( "faction_warnings" );
@@ -683,37 +874,18 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
-    if( !overmap_time.empty() ) {
-        json.member( "overmap_time" );
-        json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
-            json.write( pr.first );
-            json.write( pr.second );
-        }
-        json.end_array();
-    }
 }
 
 /**
  * Load variables from json into object. These variables are common to both the avatar and NPCs.
  */
-void player::load( JsonObject &data )
+void player::load( const JsonObject &data )
 {
     Character::load( data );
 
     JsonArray parray;
     character_id tmpid;
 
-    if( !data.read( "posx", position.x ) ) { // uh-oh.
-        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
-    }
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
-    }
-    data.read( "stim", stim );
-    data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
     data.read( "reactor_plut", reactor_plut );
     data.read( "slow_rad", slow_rad );
@@ -730,25 +902,16 @@ void player::load( JsonObject &data )
         setID( tmpid );
     }
 
-    data.read( "ma_styles", ma_styles );
-    // Fix up old ma_styles that doesn't include fake styles
-    if( std::find( ma_styles.begin(), ma_styles.end(), style_kicks ) == ma_styles.end() &&
-        style_kicks.is_valid() ) {
-        ma_styles.insert( ma_styles.begin(), style_kicks );
-    }
-    if( std::find( ma_styles.begin(), ma_styles.end(), matype_id::NULL_ID() ) == ma_styles.end() ) {
-        ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
-    }
     data.read( "addictions", addictions );
     data.read( "followers", follower_ids );
-    JsonArray traps = data.get_array( "known_traps" );
     known_traps.clear();
-    while( traps.has_more() ) {
-        JsonObject pmap = traps.next_object();
+    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
+
+    data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
     if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -769,14 +932,8 @@ void player::load( JsonObject &data )
         remove_mutation( trait_MYOPIC );
     }
 
-    if( has_bionic( bionic_id( "bio_solar" ) ) ) {
-        remove_bionic( bionic_id( "bio_solar" ) );
-    }
-
     if( data.has_array( "faction_warnings" ) ) {
-        JsonArray warning_arr = data.get_array( "faction_warnings" );
-        while( warning_arr.has_more() ) {
-            JsonObject warning_data = warning_arr.next_object();
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
             std::string fac_id = warning_data.get_string( "fac_warning_id" );
             int warning_num = warning_data.get_int( "fac_warning_num" );
             time_point warning_time = calendar::before_time_starts;
@@ -784,9 +941,6 @@ void player::load( JsonObject &data )
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
-
-    on_stat_change( "pkill", pkill );
-    on_stat_change( "perceived_pain", get_perceived_pain() );
 
     int tmptar;
     int tmptartyp = 0;
@@ -806,23 +960,12 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
-
-    JsonArray basecamps = data.get_array( "camps" );
+    data.read( "destination_point", destination_point );
     camps.clear();
-    while( basecamps.has_more() ) {
-        JsonObject bcdata = basecamps.next_object();
+    for( JsonObject bcdata : data.get_array( "camps" ) ) {
         tripoint bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
-    }
-    JsonArray overmap_time_array = data.get_array( "overmap_time" );
-    overmap_time.clear();
-    while( overmap_time_array.has_more() ) {
-        point pt;
-        overmap_time_array.read_next( pt );
-        time_duration tdr = 0_turns;
-        overmap_time_array.read_next( tdr );
-        overmap_time[pt] = tdr;
     }
 }
 
@@ -858,11 +1001,6 @@ void avatar::store( JsonOut &json ) const
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
-    json.member( "style_selected", style_selected );
-    json.member( "keep_hands_free", keep_hands_free );
-
-    json.member( "move_mode", player_movemode_str[ move_mode ] );
-    json.member( "magic", magic );
 
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
@@ -870,29 +1008,16 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
 
-    // crafting etc
-    json.member( "activity", activity );
-    json.member( "backlog", backlog );
-
-    // "The cold wakes you up."
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
-
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    json.member( "vitamin_levels", vitamin_levels );
-
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
     json.member( "translocators", translocators );
-
-    morale->store( json );
 
     // mission stuff
     json.member( "active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
@@ -923,7 +1048,7 @@ void avatar::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void avatar::load( JsonObject &data )
+void avatar::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -934,16 +1059,6 @@ void avatar::load( JsonObject &data )
         debugmsg( "Tried to use non-existent profession '%s'", prof_ident.c_str() );
     }
 
-    data.read( "activity", activity );
-    // Changed from a single element to a list, handle either.
-    // Can deprecate once we stop handling pre-0.B saves.
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    } else {
-        player_activity temp;
-        data.read( "backlog", temp );
-        backlog.push_front( temp );
-    }
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -958,8 +1073,6 @@ void avatar::load( JsonObject &data )
           grab_point );
 
     data.read( "focus_pool", focus_pool );
-    data.read( "style_selected", style_selected );
-    data.read( "keep_hands_free", keep_hands_free );
 
     // stats through kills
     data.read( "str_upgrade", str_upgrade );
@@ -975,23 +1088,17 @@ void avatar::load( JsonObject &data )
         per_upgrade = -per_upgrade;
     }
 
-    data.read( "stamina", stamina );
     data.read( "magic", magic );
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < PMM_COUNT; ++i ) {
-        if( tmove_mode == player_movemode_str[i] ) {
-            move_mode = static_cast<player_movemode>( i );
-            break;
-        }
-    }
 
     set_highest_cat_level();
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
         g->scen = &string_id<scenario>( scen_ident ).obj();
-        start_location = g->scen->start_location();
+
+        if( !g->scen->allowed_start( start_location ) ) {
+            start_location = g->scen->start_location();
+        }
     } else {
         const scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
@@ -1001,17 +1108,6 @@ void avatar::load( JsonObject &data )
         }
         g->scen = generic_scenario;
     }
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
-    body_wetness.fill( 0 );
-    data.read( "body_wetness", body_wetness );
 
     data.read( "learned_recipes", *learned_recipes );
     valid_autolearn_skills->clear(); // Invalidates the cache
@@ -1019,19 +1115,10 @@ void avatar::load( JsonObject &data )
     items_identified.clear();
     data.read( "items_identified", items_identified );
 
-    auto vits = data.get_object( "vitamin_levels" );
-    for( const auto &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[ v.first ] = lvl;
-    }
-
     data.read( "stomach", stomach );
     data.read( "guts", guts );
 
     data.read( "translocators", translocators );
-
-    morale->load( data );
 
     std::vector<int> tmpmissions;
     if( data.read( "active_missions", tmpmissions ) ) {
@@ -1095,9 +1182,7 @@ void avatar::load( JsonObject &data )
     }
     data.read( "show_map_memory", show_map_memory );
 
-    JsonArray parray = data.get_array( "assigned_invlet" );
-    while( parray.has_more() ) {
-        JsonArray pair = parray.next_array();
+    for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );
     }
 
@@ -1181,23 +1266,29 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
 
         // This and the following two entries are for legacy save game handling.
         // "avoid_combat" was renamed "follow_close" to better reflect behavior.
-        data.read( "rule_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            set_flag( ally_rule::follow_close );
-        } else {
-            clear_flag( ally_rule::follow_close );
+        if( data.has_member( "rule_avoid_combat" ) ) {
+            data.read( "rule_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                set_flag( ally_rule::follow_close );
+            } else {
+                clear_flag( ally_rule::follow_close );
+            }
         }
-        data.read( "override_enable_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            enable_override( ally_rule::follow_close );
-        } else {
-            disable_override( ally_rule::follow_close );
+        if( data.has_member( "override_enable_avoid_combat" ) ) {
+            data.read( "override_enable_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                enable_override( ally_rule::follow_close );
+            } else {
+                disable_override( ally_rule::follow_close );
+            }
         }
-        data.read( "override_avoid_combat", tmpflag );
-        if( tmpflag ) {
-            set_override( ally_rule::follow_close );
-        } else {
-            clear_override( ally_rule::follow_close );
+        if( data.has_member( "override_avoid_combat" ) ) {
+            data.read( "override_avoid_combat", tmpflag );
+            if( tmpflag ) {
+                set_override( ally_rule::follow_close );
+            } else {
+                clear_override( ally_rule::follow_close );
+            }
         }
     }
 
@@ -1340,7 +1431,7 @@ void npc::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void npc::load( JsonObject &data )
+void npc::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -1370,7 +1461,6 @@ void npc::load( JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1551,15 +1641,12 @@ void npc::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    // TODO: time_point does not have a default constructor, need to read in the map manually
-    {
-        complaints.clear();
-        JsonObject jo = data.get_object( "complaints" );
-        for( const std::string &key : jo.get_member_names() ) {
-            time_point p = 0;
-            jo.read( key, p );
-            complaints.emplace( key, p );
-        }
+    complaints.clear();
+    for( const JsonMember &member : data.get_object( "complaints" ) ) {
+        // @TODO: time_point does not have a default constructor, need to read in the map manually
+        time_point p = 0;
+        member.read( p );
+        complaints.emplace( member.name(), p );
     }
 }
 
@@ -1600,8 +1687,8 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-
-    json.member( "mission", mission ); // TODO: stringid
+    // TODO: stringid
+    json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
@@ -1662,17 +1749,13 @@ void inventory::json_load_invcache( JsonIn &jsin )
 {
     try {
         std::unordered_map<itype_id, std::string> map;
-        JsonArray ja = jsin.get_array();
-        while( ja.has_more() ) {
-            JsonObject jo = ja.next_object();
-            std::set<std::string> members = jo.get_member_names();
-            for( const auto &member : members ) {
+        for( JsonObject jo : jsin.get_array() ) {
+            for( const JsonMember &member : jo ) {
                 std::string invlets;
-                JsonArray pvect = jo.get_array( member );
-                while( pvect.has_more() ) {
-                    invlets.push_back( pvect.next_int() );
+                for( const int i : member.get_array() ) {
+                    invlets.push_back( i );
                 }
-                map[member] = invlets;
+                map[member.name()] = invlets;
             }
         }
         invlet_cache = { map };
@@ -1714,7 +1797,7 @@ void monster::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void monster::load( JsonObject &data )
+void monster::load( const JsonObject &data )
 {
     Creature::load( data );
 
@@ -1764,10 +1847,9 @@ void monster::load( JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        JsonObject pobject = data.get_object( "special_attacks" );
-        for( const std::string &aname : pobject.get_member_names() ) {
-            JsonObject saobject = pobject.get_object( aname );
-            auto &entry = special_attacks[aname];
+        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+            JsonObject saobject = member.get_object();
+            auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
             entry.enabled = saobject.get_bool( "enabled" );
         }
@@ -1993,14 +2075,15 @@ void item::io( Archive &archive )
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
-    archive.io( "note", note, 0 );
+    archive.io( "snippet_id", snippet_id, io::default_tag() );
     // NB! field is named `irridation` in legacy files
     archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
+    // TODO: change default to empty string
+    archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner );
     archive.io( "old_owner", old_owner );
     archive.io( "invlet", invlet, '\0' );
@@ -2056,6 +2139,9 @@ void item::io( Archive &archive )
                             max_damage() );
     }
 
+    int note = 0;
+    const bool note_read = archive.read( "note", note );
+
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
@@ -2066,6 +2152,14 @@ void item::io( Archive &archive )
     }
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
+    }
+
+    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
+    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
+    item_tags.erase( "ENCUMBRANCE_UPDATE" );
+
+    if( note_read ) {
+        snippet_id = SNIPPET.migrate_hash_to_id( note );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
@@ -2498,6 +2592,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_anchor[1] = pivot_anchor[0];
     pivot_rotation[1] = pivot_rotation[0] = fdir;
     data.read( "is_following", is_following );
+    data.read( "is_patrolling", is_patrolling );
+    data.read( "autodrive_local_target", autodrive_local_target );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2511,6 +2607,15 @@ void vehicle::deserialize( JsonIn &jsin )
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+
+        //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
+        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+            vp.part().enabled = false;
+        }
+        //Set turret control unit's state equal to turret's targeting mode on loading save
+        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+            turret_part.part().enabled = vp.part().enabled;
+        }
     }
 
     // Add vehicle mounts to cars that are missing them.
@@ -2554,9 +2659,7 @@ void vehicle::deserialize( JsonIn &jsin )
 
     point p;
     zone_data zd;
-    JsonArray ja = data.get_array( "zones" );
-    while( ja.has_more() ) {
-        JsonObject sdata = ja.next_object();
+    for( JsonObject sdata : data.get_array( "zones" ) ) {
         sdata.read( "point", p );
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
@@ -2638,6 +2741,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
     json.member( "is_following", is_following );
+    json.member( "is_patrolling", is_patrolling );
+    json.member( "autodrive_local_target", autodrive_local_target );
     json.end_object();
 }
 
@@ -2717,8 +2822,9 @@ void mission::deserialize( JsonIn &jsin )
 
     // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
     // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
-    // When loading player 2, there will be a player_id member in master.gsav, but the bool member legacy_no_player_id
-    // will have been saved as true (unless the mission belongs to a player that's been loaded into 0.D)
+    // When loading player 2, there will be a player_id member in SAVE_MASTER (i.e. master.gsav),
+    // but the bool member legacy_no_player_id will have been saved as true
+    // (unless the mission belongs to a player that's been loaded into 0.D)
     // See player::deserialize and mission::set_player_id_legacy_0c
     legacy_no_player_id = !jo.read( "player_id", player_id ) ||
                           jo.get_bool( "legacy_no_player_id", false );
@@ -2864,7 +2970,7 @@ void Creature::store( JsonOut &jsout ) const
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
-void Creature::load( JsonObject &jsin )
+void Creature::load( const JsonObject &jsin )
 {
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
@@ -2967,7 +3073,7 @@ void player_morale::store( JsonOut &jsout ) const
     jsout.member( "morale", points );
 }
 
-void player_morale::load( JsonObject &jsin )
+void player_morale::load( const JsonObject &jsin )
 {
     jsin.read( "morale", points );
 }
@@ -3044,21 +3150,17 @@ void map_memory::load( JsonIn &jsin )
 }
 
 // Deserializer for legacy object-based memory map.
-void map_memory::load( JsonObject &jsin )
+void map_memory::load( const JsonObject &jsin )
 {
-    JsonArray map_memory_tiles = jsin.get_array( "map_memory_tiles" );
     tile_cache.clear();
-    while( map_memory_tiles.has_more() ) {
-        JsonObject pmap = map_memory_tiles.next_object();
+    for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
                        pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
     }
 
-    JsonArray map_memory_curses = jsin.get_array( "map_memory_curses" );
     symbol_cache.clear();
-    while( map_memory_curses.has_more() ) {
-        JsonObject pmap = map_memory_curses.next_object();
+    for( JsonObject pmap : jsin.get_array( "map_memory_curses" ) ) {
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
     }
@@ -3144,12 +3246,50 @@ static void serialize( const item_comp &value, JsonOut &jsout )
     jsout.end_object();
 }
 
+static void serialize( const tool_comp &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "recoverable", value.recoverable );
+
+    jsout.end_object();
+}
+
 static void deserialize( item_comp &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "recoverable", value.recoverable );
+}
+
+static void deserialize( tool_comp &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "recoverable", value.recoverable );
+}
+
+static void serialize( const quality_requirement &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "level", value.level );
+
+    jsout.end_object();
+}
+
+static void deserialize( quality_requirement &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "level", value.level );
 }
 
 // basecamp
@@ -3208,9 +3348,7 @@ void basecamp::deserialize( JsonIn &jsin )
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
-    JsonArray ja = data.get_array( "expansions" );
-    while( ja.has_more() ) {
-        JsonObject edata = ja.next_object();
+    for( JsonObject edata : data.get_array( "expansions" ) ) {
         expansion_data e;
         point dir;
         if( edata.has_string( "dir" ) ) {
@@ -3226,9 +3364,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
         if( edata.has_array( "provides" ) ) {
             e.cur_level = -1;
-            JsonArray provides_arr = edata.get_array( "provides" );
-            while( provides_arr.has_more() ) {
-                JsonObject provide_data = provides_arr.next_object();
+            for( JsonObject provide_data : edata.get_array( "provides" ) ) {
                 std::string id = provide_data.get_string( "id" );
                 int amount = provide_data.get_int( "amount" );
                 e.provides[ id ] = amount;
@@ -3239,9 +3375,7 @@ void basecamp::deserialize( JsonIn &jsin )
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
         }
-        JsonArray in_progress_arr = edata.get_array( "in_progress" );
-        while( in_progress_arr.has_more() ) {
-            JsonObject in_progress_data = in_progress_arr.next_object();
+        for( JsonObject in_progress_data : edata.get_array( "in_progress" ) ) {
             std::string id = in_progress_data.get_string( "id" );
             int amount = in_progress_data.get_int( "amount" );
             e.in_progress[ id ] = amount;
@@ -3252,9 +3386,7 @@ void basecamp::deserialize( JsonIn &jsin )
             directions.push_back( dir );
         }
     }
-    JsonArray jo = data.get_array( "fortifications" );
-    while( jo.has_more() ) {
-        JsonObject edata = jo.next_object();
+    for( JsonObject edata : data.get_array( "fortifications" ) ) {
         tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
@@ -3283,16 +3415,11 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    JsonObject kills_obj = data.get_object( "kills" );
-    std::set<std::string> members = kills_obj.get_member_names();
-    for( const auto &member : members ) {
-        kills[mtype_id( member )] = kills_obj.get_int( member );
+    for( const JsonMember &member : data.get_object( "kills" ) ) {
+        kills[mtype_id( member.name() )] = member.get_int();
     }
 
-    JsonArray npc_kills_array = data.get_array( "npc_kills" );
-    while( npc_kills_array.has_more() ) {
-        std::string npc_name;
-        npc_kills_array.read_next( npc_name );
+    for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
         npc_kills.push_back( npc_name );
     }
 }
@@ -3509,7 +3636,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( auto &elem : spawns ) {
         jsout.start_array();
-        jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
+        // TODO: json should know how to write string_ids
+        jsout.write( elem.type.str() );
         jsout.write( elem.count );
         jsout.write( elem.pos.x );
         jsout.write( elem.pos.y );
@@ -3561,8 +3689,8 @@ void submap::store( JsonOut &jsout ) const
     }
 
     // Output base camp if any
-    if( camp.is_valid() ) {
-        jsout.member( "camp", camp );
+    if( camp ) {
+        jsout.member( "camp", *camp );
     }
 }
 
@@ -3830,7 +3958,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             legacy_computer->load_data( computer_data );
         }
     } else if( member_name == "camp" ) {
-        jsin.read( camp );
+        camp = std::make_unique<basecamp>();
+        jsin.read( *camp );
     } else {
         jsin.skip_value();
     }

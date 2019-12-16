@@ -59,7 +59,6 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
@@ -255,7 +254,7 @@
     "type": "furniture",
     "id": "f_treadmill",
     "name": "treadmill",
-    "description": "Used for training leg muscles.  It'll be extra hard without power.  Could be taken apart for its... parts.",
+    "description": "Used for training leg muscles.  It'll be extra hard without power.  Could be taken apart for its… parts.",
     "symbol": "L",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -315,7 +314,7 @@
     "type": "furniture",
     "id": "f_piano",
     "name": "piano",
-    "description": "The ol' ebony and ivory.  Really classes up the place.  You could take it apart if you wanted... you monster.",
+    "description": "The ol' ebony and ivory.  Really classes up the place.  You could take it apart if you wanted… you monster.",
     "symbol": "P",
     "color": "i_black",
     "move_cost_mod": 6,
@@ -345,6 +344,45 @@
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "splinter", "count": 1 },
         { "item": "plastic_chunk", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_speaker_cabinet",
+    "name": "speaker cabinet",
+    "description": "A cabinet loaded with 12-inch speakers, intended to help make various things loud.  It can't serve its original purpose these days, but it could be disassembled for various electronic parts.",
+    "symbol": "7",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "max_volume": 15,
+    "required_str": 7,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "e_scrap", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 3, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 6 ] },
+        { "item": "scrap", "count": [ 0, 3 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "e_scrap", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 0, 1 ] }
       ]
     }
   }

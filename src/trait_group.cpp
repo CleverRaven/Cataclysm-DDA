@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <algorithm>
 #include <cassert>
-#include <sstream>
 #include <map>
 #include <utility>
 
@@ -27,7 +26,7 @@ bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_
     return mutation_branch::get_group( gid )->has_trait( tid );
 }
 
-void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+void trait_group::load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
                                     const std::string &subtype )
 {
     mutation_branch::load_trait_group( jsobj, gid, subtype );
@@ -111,9 +110,8 @@ void trait_group::debug_spawn()
         uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : traitnames2 ) {
-            std::ostringstream buffer;
-            buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
+                                        string_format( _( "%d x %s" ), e.first, e.second ) );
         }
         menu2.query();
     }

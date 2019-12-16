@@ -64,7 +64,7 @@
   {
     "id": "survivor_grenades",
     "type": "item_group",
-    "items": [ [ "gasbomb_makeshift", 30 ], [ "matchbomb", 50 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ] ]
+    "items": [ [ "gasbomb_makeshift", 30 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ], [ "can_bomb", 30 ] ]
   },
   {
     "id": "survivor_stabbing",

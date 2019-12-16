@@ -19,7 +19,7 @@
     "id": "upstest",
     "type": "GUNMOD",
     "name": "upstest",
-    "description": "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug. 50x more UPS drain.",
+    "description": "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug.  50x more UPS drain.",
     "weight": "450 g",
     "volume": "500 ml",
     "price": 20000,

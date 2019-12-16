@@ -41,19 +41,16 @@ class npc_template;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-const mtype_id mon_ant_larva( "mon_ant_larva" );
-const mtype_id mon_ant_queen( "mon_ant_queen" );
-const mtype_id mon_bat( "mon_bat" );
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_beekeeper( "mon_beekeeper" );
-const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
-const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
-const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
-const mtype_id mon_rat_king( "mon_rat_king" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_bat( "mon_bat" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_beekeeper( "mon_beekeeper" );
+static const mtype_id mon_rat_king( "mon_rat_king" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )
 {
@@ -102,9 +99,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "hive",             &mapgen_hive },
             { "spider_pit",       &mapgen_spider_pit },
-            { "fungal_bloom",     &mapgen_fungal_bloom },
-            { "fungal_tower",     &mapgen_fungal_tower },
-            { "fungal_flowers",   &mapgen_fungal_flowers },
             { "road_straight",    &mapgen_road },
             { "road_curved",      &mapgen_road },
             { "road_end",         &mapgen_road },
@@ -262,13 +256,15 @@ void mapgen_field( mapgendata &dat )
                                  dat.region.field_coverage.mpercent_coverage
                                );
 
-    ter_furn_id altbush = dat.region.field_coverage.pick(
-                              true ); // one dominant plant type ( for boosted_vegetation == true )
+    // one dominant plant type ( for boosted_vegetation == true )
+    ter_furn_id altbush = dat.region.field_coverage.pick( true );
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            m->ter_set( point( i, j ), dat.groundcover() ); // default is
-            if( mpercent_bush > rng( 0, 1000000 ) ) { // yay, a shrub ( or tombstone )
+            // default is
+            m->ter_set( point( i, j ), dat.groundcover() );
+            // yay, a shrub ( or tombstone )
+            if( mpercent_bush > rng( 0, 1000000 ) ) {
                 if( boosted_vegetation && dat.region.field_coverage.boosted_other_mpercent > rng( 0, 1000000 ) ) {
                     // already chose the lucky terrain/furniture/plant/rock/etc
                     ter_or_furn_set( m, i, j, altbush );
@@ -280,8 +276,8 @@ void mapgen_field( mapgendata &dat )
         }
     }
 
-    m->place_items( "field", 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() ); // FIXME: take 'rock' out and add as regional biome setting
+    // FIXME: take 'rock' out and add as regional biome setting
+    m->place_items( "field", 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 void mapgen_hive( mapgendata &dat )
@@ -513,85 +509,6 @@ void mapgen_spider_pit( mapgendata &dat )
     }
 }
 
-void mapgen_fungal_bloom( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 4 ) ) {
-                m->ter_set( point( i, j ), t_marloss );
-            } else if( one_in( 10 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_tree_fungal );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 5 ) ) {
-                m->ter_set( point( i, j ), t_shrub_fungal );
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_fungus_mound );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_queen, 1, point( 12, 12 ) );
-}
-
-void mapgen_fungal_tower( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( 8 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_tree_fungal );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_fungus_mound );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_tower, 1, point( 12, 12 ) );
-}
-
-void mapgen_fungal_flowers( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( one_in( rl_dist( point( i, j ), point( 12, 12 ) ) * 6 ) ) {
-                m->ter_set( point( i, j ), t_fungus );
-                m->furn_set( point( i, j ), f_flower_marloss );
-            } else if( one_in( 10 ) ) {
-                if( one_in( 3 ) ) {
-                    m->ter_set( point( i, j ), t_fungus_mound );
-                } else {
-                    m->ter_set( point( i, j ), t_tree_fungal_young );
-                }
-
-            } else if( one_in( 5 ) ) {
-                m->ter_set( point( i, j ), t_fungus );
-                m->furn_set( point( i, j ), f_flower_fungal );
-            } else if( one_in( 10 ) ) {
-                m->ter_set( point( i, j ), t_shrub_fungal );
-            } else {
-                m->ter_set( point( i, j ), t_fungus );
-            }
-        }
-    }
-    square( m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2 );
-    m->add_spawn( mon_fungaloid_seeder, 1, point( 12, 12 ) );
-}
-
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
 {
     // count and mark which directions the road goes
@@ -659,7 +576,8 @@ void mapgen_road( mapgendata &dat )
     // which and how many neighbors have sidewalks?
     bool sidewalks_neswx[8] = {};
     int neighbor_sidewalks = 0;
-    for( int dir = 0; dir < 8; dir++ ) { // N E S W NE SE SW NW
+    // N E S W NE SE SW NW
+    for( int dir = 0; dir < 8; dir++ ) {
         sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
@@ -672,7 +590,8 @@ void mapgen_road( mapgendata &dat )
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
-    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+    // N E S W
+    for( int dir = 0; dir < 4; dir++ ) {
         if( !roads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
             continue;
         }
@@ -684,11 +603,13 @@ void mapgen_road( mapgendata &dat )
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
+            // our road curves counterclockwise
             if( n_roads_nesw[( dir - 1 + 4 ) % 4] ) {
-                curvedir_nesw[dir]--;    // our road curves counterclockwise
+                curvedir_nesw[dir]--;
             }
+            // our road curves clockwise
             if( n_roads_nesw[( dir + 1 ) % 4] ) {
-                curvedir_nesw[dir]++;    // our road curves clockwise
+                curvedir_nesw[dir]++;
             }
         }
     }
@@ -702,7 +623,8 @@ void mapgen_road( mapgendata &dat )
     // TODO: reduce amount of logical/conditional constructs here
     // TODO: make plazas include adjacent tees
     switch( num_dirs ) {
-        case 4: // 4-way intersection
+        case 4:
+            // 4-way intersection
             for( int dir = 0; dir < 8; dir++ ) {
                 fourways_neswx[dir] = ( dat.t_nesw[dir].id() == "road_nesw" ||
                                         dat.t_nesw[dir].id() == "road_nesw_manhole" );
@@ -722,59 +644,76 @@ void mapgen_road( mapgendata &dat )
                 rot = plaza_dir % 4;
             }
             break;
-        case 3: // tee
+        case 3:
+            // tee
+            // E/S/W, rotate 180 degrees
             if( !roads_nesw[0] ) {
-                rot = 2;    // E/S/W, rotate 180 degrees
+                rot = 2;
                 break;
             }
+            // N/S/W, rotate 270 degrees
             if( !roads_nesw[1] ) {
-                rot = 3;    // N/S/W, rotate 270 degrees
+                rot = 3;
                 break;
             }
+            // N/E/S, rotate  90 degrees
             if( !roads_nesw[3] ) {
-                rot = 1;    // N/E/S, rotate  90 degrees
+                rot = 1;
                 break;
             }
-            break;                                  // N/E/W, don't rotate
-        case 2: // straight or diagonal
+            // N/E/W, don't rotate
+            break;
+        case 2:
+            // straight or diagonal
+            // E/W, rotate  90 degrees
             if( roads_nesw[1] && roads_nesw[3] ) {
-                rot = 1;    // E/W, rotate  90 degrees
+                rot = 1;
                 break;
             }
+            // E/S, rotate  90 degrees
             if( roads_nesw[1] && roads_nesw[2] ) {
-                rot = 1;    // E/S, rotate  90 degrees
+                rot = 1;
                 diag = true;
                 break;
             }
+            // S/W, rotate 180 degrees
             if( roads_nesw[2] && roads_nesw[3] ) {
-                rot = 2;    // S/W, rotate 180 degrees
+                rot = 2;
                 diag = true;
                 break;
             }
+            // W/N, rotate 270 degrees
             if( roads_nesw[3] && roads_nesw[0] ) {
-                rot = 3;    // W/N, rotate 270 degrees
+                rot = 3;
                 diag = true;
                 break;
             }
+            // N/E, don't rotate
             if( roads_nesw[0] && roads_nesw[1] ) {
-                diag = true;    // N/E, don't rotate
+                diag = true;
                 break;
             }
-            break;                                                               // N/S, don't rotate
-        case 1: // dead end
+            // N/S, don't rotate
+            break;
+        case 1:
+            // dead end
+            // E, rotate  90 degrees
             if( roads_nesw[1] ) {
-                rot = 1;    // E, rotate  90 degrees
+                rot = 1;
                 break;
             }
+            // S, rotate 180 degrees
             if( roads_nesw[2] ) {
-                rot = 2;    // S, rotate 180 degrees
+                rot = 2;
                 break;
             }
+            // W, rotate 270 degrees
             if( roads_nesw[3] ) {
-                rot = 3;    // W, rotate 270 degrees
+                rot = 3;
                 break;
             }
-            break;                               // N, don't rotate
+            // N, don't rotate
+            break;
     }
 
     // rotate the arrays left by rot steps
@@ -784,7 +723,8 @@ void mapgen_road( mapgendata &dat )
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
-    if( diag ) { // diagonal roads get drawn differently from all other types
+    if( diag ) {
+        // diagonal roads get drawn differently from all other types
         // draw sidewalks if a S/SW/W neighbor has_sidewalk
         if( sidewalks_neswx[4] || sidewalks_neswx[5] || sidewalks_neswx[6] ) {
             for( int y = 0; y < SEEY * 2; y++ ) {
@@ -882,7 +822,8 @@ void mapgen_road( mapgendata &dat )
             if( roads_nesw[dir] ) {
                 int max_y = SEEY;
                 if( num_dirs == 4 || ( num_dirs == 3 && dir == 0 ) ) {
-                    max_y = 4; // dots don't extend into some intersections
+                    // dots don't extend into some intersections
+                    max_y = 4;
                 }
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
@@ -904,10 +845,12 @@ void mapgen_road( mapgendata &dat )
 
         // overwrite part of intersection with rotary/plaza
         if( plaza_dir > -1 ) {
-            if( plaza_dir == 8 ) { // plaza center
+            if( plaza_dir == 8 ) {
+                // plaza center
                 fill_background( m, t_sidewalk );
                 // TODO: something interesting here
-            } else if( plaza_dir < 4 ) { // plaza side
+            } else if( plaza_dir < 4 ) {
+                // plaza side
                 square( m, t_pavement, 0, SEEY - 10, SEEX * 2 - 1, SEEY - 1 );
                 square( m, t_sidewalk, 0, SEEY - 2, SEEX * 2 - 1, SEEY * 2 - 1 );
                 if( one_in( 3 ) ) {
@@ -980,7 +923,8 @@ void mapgen_subway( mapgendata &dat )
     bool subway_nesw[4] = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), subway_nesw );
 
-    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+    // N E S W
+    for( int dir = 0; dir < 4; dir++ ) {
         if( dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ) {
             num_dirs++;
             subway_nesw[dir] = true;
@@ -989,7 +933,8 @@ void mapgen_subway( mapgendata &dat )
 
     // which way should our subway curve, based on neighbor subway?
     int curvedir_nesw[4] = {};
-    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+    // N E S W
+    for( int dir = 0; dir < 4; dir++ ) {
         if( !subway_nesw[dir] ) {
             continue;
         }
@@ -1011,11 +956,13 @@ void mapgen_subway( mapgendata &dat )
         // if 2-way neighbor has a subway facing us
         if( n_num_dirs == 2 && n_subway_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
+            // our subway curves counterclockwise
             if( n_subway_nesw[( dir - 1 + 4 ) % 4] ) {
-                curvedir_nesw[dir]--;    // our subway curves counterclockwise
+                curvedir_nesw[dir]--;
             }
+            // our subway curves clockwise
             if( n_subway_nesw[( dir + 1 ) % 4] ) {
-                curvedir_nesw[dir]++;    // our subway curves clockwise
+                curvedir_nesw[dir]++;
             }
         }
     }
@@ -1026,61 +973,78 @@ void mapgen_subway( mapgendata &dat )
     bool diag = false;
     // TODO: reduce amount of logical/conditional constructs here
     switch( num_dirs ) {
-        case 4: // 4-way intersection
+        case 4:
+            // 4-way intersection
             break;
-        case 3: // tee
+        case 3:
+            // tee
+            // E/S/W, rotate 180 degrees
             if( !subway_nesw[0] ) {
-                rot = 2;    // E/S/W, rotate 180 degrees
+                rot = 2;
                 break;
             }
+            // N/S/W, rotate 270 degrees
             if( !subway_nesw[1] ) {
-                rot = 3;    // N/S/W, rotate 270 degrees
+                rot = 3;
                 break;
             }
+            // N/E/S, rotate  90 degrees
             if( !subway_nesw[3] ) {
-                rot = 1;    // N/E/S, rotate  90 degrees
+                rot = 1;
                 break;
             }
-            break;                                    // N/E/W, don't rotate
-        case 2: // straight or diagonal
+            // N/E/W, don't rotate
+            break;
+        case 2:
+            // straight or diagonal
+            // E/W, rotate  90 degrees
             if( subway_nesw[1] && subway_nesw[3] ) {
-                rot = 1;    // E/W, rotate  90 degrees
+                rot = 1;
                 break;
             }
+            // E/S, rotate  90 degrees
             if( subway_nesw[1] && subway_nesw[2] ) {
-                rot = 1;    // E/S, rotate  90 degrees
+                rot = 1;
                 diag = true;
                 break;
             }
+            // S/W, rotate 180 degrees
             if( subway_nesw[2] && subway_nesw[3] ) {
-                rot = 2;    // S/W, rotate 180 degrees
+                rot = 2;
                 diag = true;
                 break;
             }
+            // W/N, rotate 270 degrees
             if( subway_nesw[3] && subway_nesw[0] ) {
-                rot = 3;    // W/N, rotate 270 degrees
+                rot = 3;
                 diag = true;
                 break;
             }
+            // N/E, don't rotate
             if( subway_nesw[0] && subway_nesw[1] ) {
-                diag = true;    // N/E, don't rotate
+                diag = true;
                 break;
             }
             break;                                                                  // N/S, don't rotate
-        case 1: // dead end
+        case 1:
+            // dead end
+            // E, rotate  90 degrees
             if( subway_nesw[1] ) {
-                rot = 1;    // E, rotate  90 degrees
+                rot = 1;
                 break;
             }
+            // S, rotate 180 degrees
             if( subway_nesw[2] ) {
-                rot = 2;    // S, rotate 180 degrees
+                rot = 2;
                 break;
             }
+            // W, rotate 270 degrees
             if( subway_nesw[3] ) {
-                rot = 3;    // W, rotate 270 degrees
+                rot = 3;
                 break;
             }
-            break;                                   // N, don't rotate
+            // N, don't rotate
+            break;
     }
 
     // rotate the arrays left by rot steps
@@ -1090,7 +1054,8 @@ void mapgen_subway( mapgendata &dat )
     // now we have only these shapes: '   |   '-   -'-   -|-
 
     switch( num_dirs ) {
-        case 4: // 4-way intersection
+        case 4:
+            // 4-way intersection
             mapf::formatted_set_simple( m, 0, 0,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
@@ -1131,7 +1096,8 @@ void mapgen_subway( mapgendata &dat )
                                                 f_null,
                                                 f_null ) );
             break;
-        case 3: // tee
+        case 3:
+            // tee
             mapf::formatted_set_simple( m, 0, 0,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
@@ -1176,7 +1142,8 @@ void mapgen_subway( mapgendata &dat )
                                                 f_null,
                                                 f_null ) );
             break;
-        case 2: // straight or diagonal
+        case 2:
+            // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
                 mapf::formatted_set_simple( m, 0, 0,
                                             "...^DD^^DD^...^DD^^DD^..\n"
@@ -1255,7 +1222,8 @@ void mapgen_subway( mapgendata &dat )
                                                     f_null ) );
             }
             break;
-        case 1:  // dead end
+        case 1:
+            // dead end
             mapf::formatted_set_simple( m, 0, 0,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
@@ -1504,9 +1472,11 @@ void mapgen_railroad( mapgendata &dat )
     bool diag = false;
     // TODO: reduce amount of logical/conditional constructs here
     switch( num_dirs ) {
-        case 4: // 4-way intersection
+        case 4:
+            // 4-way intersection
             break;
-        case 3: // tee
+        case 3:
+            // tee
             if( !railroads_nesw[0] ) {
                 rot = 2;    // E/S/W, rotate 180 degrees
                 break;
@@ -1520,7 +1490,8 @@ void mapgen_railroad( mapgendata &dat )
                 break;
             }
             break;                                       // N/E/W, don't rotate
-        case 2: // straight or diagonal
+        case 2:
+            // straight or diagonal
             if( railroads_nesw[1] && railroads_nesw[3] ) {
                 rot = 1;    // E/W, rotate  90 degrees
                 break;
@@ -1540,32 +1511,41 @@ void mapgen_railroad( mapgendata &dat )
                 diag = true;
                 break;
             }
+            // N/E, don't rotate
             if( railroads_nesw[0] && railroads_nesw[1] ) {
-                diag = true;    // N/E, don't rotate
+                diag = true;
                 break;
             }
-            break;                                                                        // N/S, don't rotate
-        case 1: // dead end
+            // N/S, don't rotate
+            break;
+        case 1:
+            // dead end
+            // E, rotate  90 degrees
             if( railroads_nesw[1] ) {
-                rot = 1;    // E, rotate  90 degrees
+                rot = 1;
                 break;
             }
+            // S, rotate 180 degrees
             if( railroads_nesw[2] ) {
-                rot = 2;    // S, rotate 180 degrees
+                rot = 2;
                 break;
             }
+            // W, rotate 270 degrees
             if( railroads_nesw[3] ) {
-                rot = 3;    // W, rotate 270 degrees
+
+                rot = 3;
                 break;
             }
-            break;                               // N, don't rotate
+            // N, don't rotate
+            break;
     }
     // rotate the arrays left by rot steps
     nesw_array_rotate<bool>( railroads_nesw, 4, rot );
     nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
     // now we have only these shapes: '   |   '-   -'-   -|-
     switch( num_dirs ) {
-        case 4: // 4-way intersection
+        case 4:
+            // 4-way intersection
             mapf::formatted_set_simple( m, 0, 0,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
@@ -1600,7 +1580,8 @@ void mapgen_railroad( mapgendata &dat )
                                                 f_null,
                                                 f_null ) );
             break;
-        case 3: // tee
+        case 3:
+            // tee
             mapf::formatted_set_simple( m, 0, 0,
                                         ".DD^^DD^........^DD^^DD.\n"
                                         "DD^^DD^..........^DD^^DD\n"
@@ -1643,8 +1624,10 @@ void mapgen_railroad( mapgendata &dat )
                                                 f_null,
                                                 f_null ) );
             break;
-        case 2: // straight or diagonal
-            if( diag ) { // diagonal railroads get drawn differently from all other types
+        case 2:
+            // straight or diagonal
+            if( diag ) {
+                // diagonal railroads get drawn differently from all other types
                 mapf::formatted_set_simple( m, 0, 0,
                                             ".^DD^^DD^.......^DD^^DD^\n"
                                             "..^DD^^DD^.......^DD^^DD\n"
@@ -1718,7 +1701,8 @@ void mapgen_railroad( mapgendata &dat )
                                                     f_null ) );
             }
             break;
-        case 1:  // dead end
+        case 1:
+            // dead end
             mapf::formatted_set_simple( m, 0, 0,
                                         ".^X^^^X^........^X^^^X^.\n"
                                         ".-x---x-........-x---x-.\n"
@@ -2307,16 +2291,22 @@ void mapgen_generic_house( mapgendata &dat, int variant )
     int actual_house_height = 0;
     int bw_old = 0;
 
-    lw = rng( 0, 4 ); // West external wall
+    // West external wall
+    lw = rng( 0, 4 );
+    // Middle wall between bedroom & kitchen/bath
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    mw = lw + rng( 7, 10 ); // Middle wall between bedroom & kitchen/bath
-    rw = SEEX * 2 - rng( 1, 5 ); // East external wall
-    tw = rng( 1, 6 ); // North external wall
-    bw = SEEX * 2 - rng( 2, 5 ); // South external wall
+    mw = lw + rng( 7, 10 );
+    // East external wall
+    rw = SEEX * 2 - rng( 1, 5 );
+    // North external wall
+    tw = rng( 1, 6 );
+    // South external wall
+    bw = SEEX * 2 - rng( 2, 5 );
+    // Middle wall between living room & kitchen/bed
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-    cw = tw + rng( 4, 7 ); // Middle wall between living room & kitchen/bed
-    actual_house_height = bw - rng( 4,
-                                    6 ); //reserving some space for backyard. Actual south external wall.
+    cw = tw + rng( 4, 7 );
+    //reserving some space for backyard. Actual south external wall.
+    actual_house_height = bw - rng( 4, 6 );
     bw_old = bw;
 
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -2326,17 +2316,19 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
             }
-            if( i >= lw && i <= rw && ( j == tw || j == bw ) ) { //placing north and south walls
+            //placing north and south walls
+            if( i >= lw && i <= rw && ( j == tw || j == bw ) ) {
                 m->ter_set( point( i, j ), t_wall );
             }
-            if( ( i == lw || i == rw ) && j > tw &&
-                j < bw /*actual_house_height*/ ) { //placing west (lw) and east walls
+            //placing west (lw) and east walls
+            if( ( i == lw || i == rw ) && j > tw && j < bw /*actual_house_height*/ ) {
                 m->ter_set( point( i, j ), t_wall );
             }
         }
     }
     switch( variant ) {
-        case 1: // Quadrants, essentially
+        case 1:
+            // Quadrants, essentially
             mw = rng( lw + 5, rw - 5 );
             cw = tw + rng( 4, 7 );
             house_room( room_living, mw, tw, rw, cw, dat );
@@ -2348,7 +2340,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             rn = rng( mw + 1, rw - 2 );
             m->ter_set( point( rn, tw ), t_window_domestic );
             m->ter_set( point( rn + 1, tw ), t_window_domestic );
-            rn = rng( lw + 3, rw - 3 ); // Bottom part mw
+            // Bottom part mw
+            rn = rng( lw + 3, rw - 3 );
             if( rn <= lw + 5 ) {
                 // Bedroom on right, bathroom on left
                 house_room( room_bedroom, rn, cw, rw, bw, dat );
@@ -2479,7 +2472,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             }
             break;
 
-        case 2: // Old-style; simple;
+        case 2:
+            // Old-style; simple;
             //Modified by Jovan in 28 Aug 2013
             //Long narrow living room in front, big kitchen and HUGE bedroom
             bw = SEEX * 2 - 2;
@@ -2498,7 +2492,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             // Plop down the rooms
             house_room( room_living, lw, tw, rw, cw, dat );
             house_room( room_kitchen, mw, cw, rw, actual_house_height - 3, dat );
-            house_room( room_bedroom, lw, cw, mw, actual_house_height, dat ); //making bedroom smaller
+            //making bedroom smaller
+            house_room( room_bedroom, lw, cw, mw, actual_house_height, dat );
             house_room( room_bathroom, mw, actual_house_height - 3, rw, actual_house_height, dat );
 
             // Space between kitchen & living room:
@@ -2543,7 +2538,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             m->ter_set( point( rn, actual_house_height ), t_window_domestic );
             break;
 
-        case 3: // Long center hallway, kitchen, living room and office
+        case 3:
+            // Long center hallway, kitchen, living room and office
             mw = static_cast<int>( ( lw + rw ) / 2 );
             cw = bw - rng( 5, 7 );
             // Hallway doors and windows
@@ -2607,10 +2603,12 @@ void mapgen_generic_house( mapgendata &dat, int variant )
                 } else {
                     m->ter_set( point( rw - 3, rng( cw + 2, bw - 2 ) ), t_door_c );
                 }
-                rn = rng( mw, rw - 5 ); //bedroom windows
+                //bedroom windows
+                rn = rng( mw, rw - 5 );
                 m->ter_set( point( rn, bw ), t_window_domestic );
                 m->ter_set( point( rn + 1, bw ), t_window_domestic );
-                m->ter_set( point( rng( lw + 2, mw - 3 ), bw ), t_window_domestic ); //study window
+                //study window
+                m->ter_set( point( rng( lw + 2, mw - 3 ), bw ), t_window_domestic );
 
                 if( one_in( 4 ) ) {
                     m->ter_set( point( rng( rw - 2, rw - 1 ), bw ), t_window_domestic );
@@ -2643,10 +2641,12 @@ void mapgen_generic_house( mapgendata &dat, int variant )
                 } else {
                     m->ter_set( point( lw + 3, rng( cw + 2, bw - 2 ) ), t_door_c );
                 }
-                rn = rng( lw + 4, mw ); //bedroom windows
+                //bedroom windows
+                rn = rng( lw + 4, mw );
                 m->ter_set( point( rn, bw ), t_window_domestic );
                 m->ter_set( point( rn + 1, bw ), t_window_domestic );
-                m->ter_set( point( rng( mw + 3, rw - 1 ), bw ), t_window_domestic ); //study window
+                //study window
+                m->ter_set( point( rng( mw + 3, rw - 1 ), bw ), t_window_domestic );
                 if( one_in( 4 ) ) {
                     m->ter_set( point( rng( lw + 1, lw + 2 ), bw ), t_window_domestic );
                 } else {
@@ -2658,9 +2658,12 @@ void mapgen_generic_house( mapgendata &dat, int variant )
             m->ter_set( point( mw + 2, rng( tw + 3, cw - 3 ) ), t_door_c );
             m->ter_set( point( mw, cw ), t_door_c );
             break;
-    } // Done with the various house structures
+    }
+    // Done with the various house structures
+
     //////
-    if( rng( 2, 7 ) < tw ) { // Big front yard has a chance for a fence
+    if( rng( 2, 7 ) < tw ) {
+        // Big front yard has a chance for a fence
         for( int i = lw; i <= rw; i++ ) {
             m->ter_set( point( i, 0 ), t_fence );
         }
@@ -2842,7 +2845,8 @@ void mapgen_basement_spiders( mapgendata &dat )
             }
             if( one_in( 30 ) && m->passable( point( i, j ) ) ) {
                 m->furn_set( point( i, j ), egg_type );
-                m->add_spawn( spider_type, rng( 1, 2 ), point( i, j ) ); //hope you like'em spiders
+                //hope you like'em spiders
+                m->add_spawn( spider_type, rng( 1, 2 ), point( i, j ) );
                 m->remove_field( { i, j, m->get_abs_sub().z }, fd_web );
             }
         }
@@ -2963,7 +2967,8 @@ void mapgen_cave_rat( mapgendata &dat )
 
     fill_background( m, t_rock );
 
-    if( dat.above() == "cave_rat" ) { // Finale
+    if( dat.above() == "cave_rat" ) {
+        // Finale
         rough_circle( m, t_rock_floor, SEEX, SEEY, 8 );
         square( m, t_rock_floor, SEEX - 1, SEEY, SEEX, SEEY * 2 - 2 );
         line( m, t_slope_up, SEEX - 1, SEEY * 2 - 3, SEEX, SEEY * 2 - 2 );
@@ -2977,10 +2982,12 @@ void mapgen_cave_rat( mapgendata &dat )
         m->add_spawn( mon_rat_king, 1, point( SEEX, SEEY ) );
         m->place_items( "rare", 75, point( SEEX - 4, SEEY - 4 ), point( SEEX + 4, SEEY + 4 ), true,
                         dat.when() );
-    } else { // Level 1
+    } else {
+        // Level 1
         int cavex = SEEX;
         int cavey = SEEY * 2 - 3;
-        int stairsx = SEEX - 1, stairsy = 1; // Default stairs location--may change
+        // Default stairs location--may change
+        int stairsx = SEEX - 1, stairsy = 1;
         int centerx = 0;
         do {
             cavex += rng( -1, 1 );
@@ -3033,8 +3040,8 @@ void mapgen_cavern( mapgendata &dat )
 {
     map *const m = &dat.m;
 
-    for( int i = 0; i < 4;
-         i++ ) { // FIXME: don't look at me like that, this was messed up before I touched it :P - AD
+    // FIXME: don't look at me like that, this was messed up before I touched it :P - AD
+    for( int i = 0; i < 4; i++ ) {
         dat.set_dir( i,
                      ( dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "subway_ns" ||
                        dat.t_nesw[i] == "subway_ew" ? 0 : 3 )
@@ -3054,7 +3061,8 @@ void mapgen_cavern( mapgendata &dat )
         }
     }
 
-    int rn = rng( 0, 2 ) * rng( 0, 3 ) + rng( 0, 1 ); // Number of pillars
+    // Number of pillars
+    int rn = rng( 0, 2 ) * rng( 0, 3 ) + rng( 0, 1 );
     for( int n = 0; n < rn; n++ ) {
         int px = rng( 5, SEEX * 2 - 6 );
         int py = rng( 5, SEEY * 2 - 6 );
@@ -4605,6 +4613,22 @@ void place_stairs( mapgendata &dat )
             stairs_debug_log( m, "stairs placed:", stair );
         } else {
             stairs_debug_log( m, "stairs not placed:", stair, D_WARNING );
+        }
+    }
+}
+
+void resolve_regional_terrain_and_furniture( const mapgendata &dat )
+{
+    for( const tripoint &p : dat.m.points_on_zlevel() ) {
+        const ter_id tid_before = dat.m.ter( p );
+        const ter_id tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
+        if( tid_after != tid_before ) {
+            dat.m.ter_set( p, tid_after );
+        }
+        const furn_id fid_before = dat.m.furn( p );
+        const furn_id fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
+        if( fid_after != fid_before ) {
+            dat.m.furn_set( p, fid_after );
         }
     }
 }

@@ -31,6 +31,8 @@ class options_manager
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
+        static std::vector<id_and_option> load_tilesets_from(
+            const std::string &path );
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
 
@@ -216,7 +218,7 @@ class options_manager
         options_container get_world_defaults() const;
         std::vector<std::string> getWorldOptPageItems() const;
 
-        options_container *world_options;
+        void set_world_options( options_container *options );
 
         /** Check if an option exists? */
         bool has_option( const std::string &name ) const;
@@ -269,6 +271,7 @@ class options_manager
 
     private:
         options_container options;
+        cata::optional<options_container *> world_options;
         // first is page id, second is untranslated page name
         std::vector<std::pair<std::string, std::string>> vPages;
         std::map<int, std::vector<std::string>> mPageItems;

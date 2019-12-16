@@ -89,6 +89,12 @@
       [ "rum", 12 ],
       [ "tequila", 17 ],
       [ "triple_sec", 10 ],
+      [ "single_pot_whiskey", 10 ],
+      [ "cheap_whiskey", 10 ],
+      [ "canadian_whiskey", 10 ],
+      [ "sherry", 10 ],
+      [ "bristol_sherry", 5 ],
+      [ "madeira", 5 ],
       [ "fruit_wine", 5 ],
       [ "wine_riesling", 7 ],
       [ "wine_chardonnay", 4 ],
@@ -113,8 +119,7 @@
       { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "pickle", 5 ],
       [ "cheeseburger", 10 ],
-      [ "hamburger", 7 ],
-      [ "bobburger", 1 ],
+      [ "hamburger", 8 ],
       [ "sloppyjoe", 6 ],
       [ "fries", 10 ],
       [ "cheese_fries", 7 ],
@@ -130,8 +135,7 @@
       [ "oj", 40 ],
       [ "juice", 35 ],
       [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
+      { "group": "softdrinks_canned", "prob": 95 },
       [ "V8", 15 ],
       [ "fries", 7 ],
       [ "cheese_fries", 5 ],
@@ -192,7 +196,7 @@
   {
     "id": "pizza_display",
     "type": "item_group",
-    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+    "items": [ [ "pizza_meat", 50 ], [ "pizza_veggy", 50 ] ]
   },
   {
     "id": "pizza_kitchen",
@@ -247,18 +251,7 @@
   {
     "id": "pizza_soda",
     "type": "item_group",
-    "items": [
-      [ "purple_drink", 3 ],
-      [ "crispycran", 7 ],
-      [ "rootbeer", 15 ],
-      [ "colamdew", 9 ],
-      [ "orangesoda", 10 ],
-      [ "lemonlime", 9 ],
-      [ "creamsoda", 9 ],
-      [ "cola", 9 ],
-      [ "energy_drink", 5 ],
-      [ "lemonade", 8 ]
-    ]
+    "items": [ { "group": "softdrinks_canned", "prob": 70 }, [ "energy_drink", 5 ], [ "lemonade", 8 ] ]
   },
   {
     "id": "pizza_table",
@@ -284,7 +277,7 @@
       [ "towel", 15 ],
       [ "soap", 15 ],
       [ "detergent", 15 ],
-      [ "bleach", 15 ],
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
       [ "hat_ball", 19 ],
@@ -416,7 +409,7 @@
       [ "detergent", 8 ],
       [ "rag", 15 ],
       [ "broom", 8 ],
-      [ "bleach", 8 ],
+      { "item": "bleach", "prob": 8, "charges-min": 1 },
       [ "hotplate", 1 ],
       [ "vinegar", 3 ]
     ]
@@ -460,13 +453,7 @@
       [ "cheeseburger", 15 ],
       [ "hamburger", 15 ],
       [ "fish_sandwich", 10 ],
-      [ "cola", 15 ],
-      [ "lemonlime", 10 ],
-      [ "orangesoda", 10 ],
-      [ "crispycran", 10 ],
-      [ "rootbeer", 13 ],
-      [ "colamdew", 10 ],
-      [ "lemonade", 7 ]
+      { "group": "softdrinks_canned", "prob": 75 }
     ]
   },
   {
@@ -533,7 +520,7 @@
       [ "soap", 30 ],
       [ "detergent", 30 ],
       [ "rag", 30 ],
-      [ "bleach", 30 ],
+      { "item": "bleach", "prob": 30, "charges-min": 1 },
       [ "vinegar", 30 ],
       [ "backpack", 5 ]
     ]
@@ -621,15 +608,8 @@
       [ "sports_drink", 40 ],
       [ "energy_drink", 40 ],
       [ "energy_drink_atomic", 5 ],
-      [ "cola", 35 ],
-      [ "creamsoda", 30 ],
-      [ "lemonlime", 40 ],
-      [ "orangesoda", 30 ],
-      [ "colamdew", 40 ],
-      [ "rootbeer", 30 ],
+      { "group": "softdrinks_canned", "prob": 290 },
       [ "spezi", 10 ],
-      [ "crispycran", 35 ],
-      [ "purple_drink", 50 ],
       { "item": "cola", "prob": 30, "container-item": "bottle_plastic" },
       { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic" },
       { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic" },
@@ -739,6 +719,9 @@
       [ "wine_chardonnay", 8 ],
       [ "wine_cabernet", 8 ],
       [ "wine_noir", 6 ],
+      [ "sherry", 5 ],
+      [ "bristol_sherry", 5 ],
+      [ "madeira", 5 ],
       [ "currywurst", 5 ],
       [ "macaroni_cooked", 5 ],
       [ "lasagne", 5 ],
@@ -882,6 +865,9 @@
       [ "wine_marsala", 9 ],
       [ "wine_vermouth", 15 ],
       [ "wine_noir", 9 ],
+      [ "sherry", 10 ],
+      [ "bristol_sherry", 5 ],
+      [ "madeira", 5 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
       [ "pants_checkered", 28 ]
@@ -1006,6 +992,9 @@
     "items": [
       [ "flask_hip", 100 ],
       { "item": "whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "single_pot_whiskey", "prob": 20, "container-item": "flask_hip" },
+      { "item": "cheap_whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "canadian_whiskey", "prob": 40, "container-item": "flask_hip" },
       { "item": "vodka", "prob": 30, "container-item": "flask_hip" },
       { "item": "gin", "prob": 20, "container-item": "flask_hip" },
       { "item": "rum", "prob": 20, "container-item": "flask_hip" },
@@ -1056,7 +1045,8 @@
       [ "tongs", 10 ],
       [ "carver_off", 5 ],
       [ "meat", 1 ],
-      [ "hacksaw", 10 ]
+      [ "hacksaw", 10 ],
+      [ "gloves_cut_resistant", 10 ]
     ]
   }
 ]

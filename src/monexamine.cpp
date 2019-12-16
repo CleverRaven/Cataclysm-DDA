@@ -37,20 +37,19 @@
 #include "pimpl.h"
 #include "point.h"
 
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_milked( "milked" );
-const efftype_id effect_monster_armor( "monster_armor" );
-const efftype_id effect_paid( "paid" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_saddled( "monster_saddled" );
-const skill_id skill_survival( "survival" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_milked( "milked" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const skill_id skill_survival( "survival" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -342,20 +341,20 @@ bool monexamine::pay_bot( monster &z )
     int amount = 0;
     uilist bot_menu;
     bot_menu.text = string_format(
-                        _( "Welcome to the %s Friendship Interface. What would you like to do?\n"
+                        _( "Welcome to the %s Friendship Interface.  What would you like to do?\n"
                            "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
     if( charge_count > 0 ) {
-        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 10 cents/min" ) );
+        bot_menu.addentry( 1, true, 'b', _( "Get more friendship.  10 cents/min" ) );
     } else {
         bot_menu.addentry( 2, true, 'q',
-                           _( "Sadly you're not currently able to extend your friendship. - Quit menu" ) );
+                           _( "Sadly you're not currently able to extend your friendship.  - Quit menu" ) );
     }
     bot_menu.query();
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get? Max: %d minute. (0 to cancel) ",
-                                   "How much friendship do you get? Max: %d minutes. ", charge_count / 10 ), charge_count / 10 );
+                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                                   "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
                 g->u.use_charges( "cash_card", amount * 10 );
@@ -386,7 +385,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
-bool player::can_mount( const monster &critter ) const
+bool Character::can_mount( const monster &critter ) const
 {
     const auto &avoid = get_path_avoid();
     auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
@@ -398,7 +397,7 @@ bool player::can_mount( const monster &critter ) const
              !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() / 5 );
+                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
 }
 
 void monexamine::mount_pet( monster &z )
@@ -419,9 +418,7 @@ void monexamine::swap( monster &z )
             z.remove_effect( effect_tied );
         }
 
-        tripoint zp = z.pos();
-        z.move_to( g->u.pos(), true );
-        g->u.setpos( zp );
+        g->swap_critters( g->u, z );
 
         if( t ) {
             z.add_effect( effect_tied, 1_turns, num_bp, true );
@@ -455,7 +452,7 @@ void monexamine::rename_pet( monster &z )
                               .title( _( "Enter new pet name:" ) )
                               .width( 20 )
                               .query_string();
-    if( unique_name.length() > 0 ) {
+    if( !unique_name.empty() ) {
         z.unique_name = unique_name;
     }
 }
@@ -550,7 +547,7 @@ bool monexamine::give_items_to( monster &z )
     }
 
     if( max_weight <= 0_gram ) {
-        add_msg( _( "%1$s is overburdened. You can't transfer your %2$s." ),
+        add_msg( _( "%1$s is overburdened.  You can't transfer your %2$s." ),
                  pet_name, storage.tname( 1 ) );
         return true;
     }
@@ -694,7 +691,7 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
+    const auto milked_item = source_mon.type->starting_ammo.find( "milk_raw" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
                   source_mon.get_name() );
