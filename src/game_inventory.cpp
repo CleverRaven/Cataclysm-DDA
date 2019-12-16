@@ -1229,11 +1229,11 @@ item_location game_menus::inv::holster( player &p, item &holster )
     const std::string title = actor->holster_prompt.empty()
                               ? _( "Holster item" )
                               : _( actor->holster_prompt );
-    const std::string hint = string_format( _( "Choose a weapon to put into your %s" ),
+    const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
     return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
-                         string_format( _( "You have no weapons you could put into your %s." ),
+                         string_format( _( "You have no items you could put into your %s." ),
                                         holster_name ),
                          hint );
 }
