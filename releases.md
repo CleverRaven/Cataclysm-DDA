@@ -46,7 +46,7 @@ Ncurses and tiles version available in [Community repo](https://www.archlinux.or
 
 ## Fedora
 
-Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
 
 `sudo dnf install cataclysm-dda`
 
