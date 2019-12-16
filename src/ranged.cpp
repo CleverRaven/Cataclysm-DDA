@@ -1098,14 +1098,14 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
 static int draw_throw_aim( const player &p, const catacurses::window &w, int line_number,
                            input_context &ctxt,
-                           const item *weapon, const tripoint &target_pos, bool is_blind_throw )
+                           const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion = p.throwing_dispersion( *weapon, target, is_blind_throw );
+    const dispersion_sources dispersion = p.throwing_dispersion( weapon, target, is_blind_throw );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -1125,7 +1125,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
 
     const target_mode throwing_target_mode = is_blind_throw ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
-    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, *weapon, dispersion,
+    return print_ranged_chance( p, w, line_number, throwing_target_mode, ctxt, weapon, dispersion,
                                 confidence_config,
                                 range, target_size );
 }
@@ -1250,9 +1250,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<tripoint> ret;
 
     int sight_dispersion = 0;
-    if( !relevant ) {
-        relevant = &pc.weapon;
-    } else {
+    if( relevant ) {
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
@@ -1315,7 +1313,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<aim_type>::iterator aim_mode;
 
     if( mode == TARGET_MODE_FIRE ) {
-        aim_types = pc.get_aim_types( *relevant );
+        // get_aim_types works for non-guns (null item)
+        aim_types = pc.get_aim_types( relevant ? *relevant : null_item_reference() );
         for( aim_type &type : aim_types ) {
             if( type.has_threshold ) {
                 ctxt.register_action( type.action );
@@ -1324,8 +1323,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
-                                mode, ctxt, aim_types, tiny );
+    // @TODO this assumes that relevant == null means firing turrets, but that may not
+    // always be the case. Consider passing a name into this function.
+    int num_instruction_lines = draw_targeting_window( w_target,
+                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1427,7 +1428,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !compact ) {
                 line_number++;
             }
-            if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
+            // so printing their firing mode / ammo / ... of one of them is misleading.
+            if( relevant && ( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) ) {
                 auto m = relevant->gun_current_mode();
                 std::string str;
                 nc_color col = c_light_gray;
@@ -1470,7 +1473,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                           c_red, '*' );
             }
 
-            if( mode == TARGET_MODE_FIRE ) {
+            // Assumes that relevant == null means firing turrets (maybe even multiple at once),
+            // so printing their firing mode / ammo / ... of one of them is misleading.
+            if( relevant && mode == TARGET_MODE_FIRE ) {
                 double predicted_recoil = pc.recoil;
                 int predicted_delay = 0;
                 if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
@@ -1498,15 +1503,15 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
                 draw_turret_aim( pc, w_target, line_number, dst );
-            } else if( mode == TARGET_MODE_THROW ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
-            } else if( mode == TARGET_MODE_THROW_BLIND ) {
-                draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+            } else if( mode == TARGET_MODE_THROW && relevant ) {
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
+            } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
+                draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, true );
             }
 
             wrefresh( g->w_terrain );
             g->draw_panels();
-            draw_targeting_window( w_target, relevant->tname(),
+            draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
                                    mode, ctxt, aim_types, tiny );
             wrefresh( w_target );
 
@@ -1621,7 +1626,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( on_mode_change ) {
+            if( !relevant ) {
+                // skip this action
+            } else if( on_mode_change ) {
                 ammo = on_mode_change( relevant );
             } else {
                 relevant->gun_cycle_mode();
@@ -1632,17 +1639,15 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 }
             }
         } else if( action == "SWITCH_AMMO" ) {
-            if( on_ammo_change ) {
+            if( !relevant ) {
+                // skip this action
+            } else if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
+            } else if( !pc.has_item( *relevant ) ) {
+                add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {
-                const int pos = pc.get_item_position( relevant );
-                item *it = &g->u.i_at( pos );
-                if( it->typeId() == "null" ) {
-                    add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
-                } else {
-                    item_location loc( pc, it );
-                    g->reload( loc, true );
-                }
+                item_location loc( pc, relevant );
+                g->reload( loc, true );
                 ret.clear();
                 break;
             }
@@ -1673,7 +1678,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int aim_threshold = it->threshold;
             set_last_target( dst );
             do {
-                do_aim( pc, *relevant );
+                do_aim( pc, relevant ? *relevant : null_item_reference() );
             } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > 0 );
 
             if( pc.recoil <= aim_threshold ||
