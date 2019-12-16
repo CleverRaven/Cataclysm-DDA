@@ -65,10 +65,10 @@
       "type": "change_scent",
       "scent_typeid": "sc_fetid",
       "moves": 200,
-      "duration": "6 m",
+      "duration": "1 h",
       "charges_to_use": 1,
       "waterproof": true,
-      "effects": [ { "id": "fetid_goop", "duration": 360 } ]
+      "effects": [ { "id": "fetid_goop", "duration": 3600 } ]
     }
   }
 ]
