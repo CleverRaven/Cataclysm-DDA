@@ -6058,7 +6058,7 @@
   },
   {
     "type": "recipe",
-    "result": "sealed_jam_fruit",
+    "result": "jam_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
