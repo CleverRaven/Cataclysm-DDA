@@ -1825,8 +1825,21 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
         }
         break;
+        case C_FURNITURE: {
+            // If the furniture is not movable, we'll allow seeding by the position
+            // since we won't get the behavior that occurs where the tile constantly
+            // changes when the player grabs the furniture and drags it, causing the
+            // seed to change.
+            const furn_str_id fid( id );
+            if( fid.is_valid() ) {
+                const furn_t &f = fid.obj();
+                if( !f.is_movable() ) {
+                    seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+                }
+            }
+        }
+        break;
         case C_ITEM:
-        case C_FURNITURE:
         case C_TRAP:
         case C_NONE:
         case C_BULLET:
