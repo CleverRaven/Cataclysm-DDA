@@ -555,7 +555,8 @@ void talk_function::start_camp( npc &p )
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
-        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ), p.disp_name(), making.get_blueprint() );
+        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
+               p.disp_name(), making.get_blueprint() );
         return;
     }
     get_basecamp( p, camp_type.str() );
