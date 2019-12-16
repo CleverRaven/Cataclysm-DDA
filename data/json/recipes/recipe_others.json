@@ -4449,7 +4449,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
-    {
+  {
       "type": "recipe",
     "result": "makeshift_stethoscope",
     "category": "CC_OTHER",
