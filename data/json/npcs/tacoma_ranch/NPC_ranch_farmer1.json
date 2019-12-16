@@ -23,7 +23,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FARMER_1_JOB",
-    "dynamic_line": "I was sent here to assist in setting-up the farm.  Most of us have no real skills that transfer from before the cataclysm so things are a bit of trial and error.",
+    "dynamic_line": "I was sent here to assist in setting-up the farm.  Most of us have no real skills that transfer from before the Cataclysm so things are a bit of trial and error.",
     "responses": [ { "text": "…", "topic": "TALK_RANCH_FARMER_1" } ]
   },
   {

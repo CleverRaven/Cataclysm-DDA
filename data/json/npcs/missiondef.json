@@ -37,7 +37,7 @@
     "deadline_low": 30,
     "deadline_high": 48,
     "dialogue": {
-      "describe": "I'm... short... of breath....",
+      "describe": "I'm… short… of breath....",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me...",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
       "rejected": "What?!  Please, <ill_die> without your help!",
@@ -152,11 +152,11 @@
       "describe": "Those twisted snakes...",
       "offer": "I hope you will find use from what you got out of the deposit box but I also have another job for you that might lead you to an opportunity to deal out justice for those who cannot.  First things first, we can't just look like ruffians.  Find us a deputy badge, easy enough?",
       "accepted": "I'd check the police station.",
-      "rejected": "We're also official... just hang in there and I'll show you what we can really do.",
-      "advice": "They shouldn't be that hard to find... should they?",
+      "rejected": "We're also official… just hang in there and I'll show you what we can really do.",
+      "advice": "They shouldn't be that hard to find… should they?",
       "inquire": "Any luck?",
       "success": "Great work, Deputy.  We're in business.",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "The day of reckoning will come for the criminals if it hasn't already."
     }
   },
@@ -179,7 +179,7 @@
       "inquire": "Rescued the standard yet?",
       "success": "America, fuck ya!",
       "success_lie": "What?!  You liar!",
-      "failure": "You give up?  This country fell apart because no one could find a good man to rely on... might as well give up, I guess."
+      "failure": "You give up?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
     }
   },
   {
@@ -200,8 +200,8 @@
       "rejected": "I know it isn't pressing but the big corporations didn't get a chance to destroy the evidence yet.",
       "advice": "Try a big corporate building of some sort, they're bound to have an accounting department.",
       "inquire": "Any luck?",
-      "success": "Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success": "Great, let's see… uh… hmmm…  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -218,13 +218,13 @@
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
       "describe": "I hope I don't see many names I know...",
-      "offer": "I've lost so many friends... please find me a patient list from the regional hospital or doctor's office.  I just want to know who might still be out there.",
+      "offer": "I've lost so many friends… please find me a patient list from the regional hospital or doctor's office.  I just want to know who might still be out there.",
       "accepted": "Thank you, I suppose it won't change what has already happened but it will bring me closure.",
       "rejected": "Please, I just want to know what happened to everyone.",
       "advice": "I bet you'll run into a lot of those things in the hospital, please be careful.",
       "inquire": "Any luck?",
       "success": "Oh dear, I thought Timmy would have made it...",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "I bet some of them are still out there..."
     }
   },
@@ -263,7 +263,7 @@
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic...  I doubt it will be of much use but I've got to hope in something.",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic…  I doubt it will be of much use but I've got to hope in something.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "I suppose a large church or cathedral may have something.",
@@ -293,7 +293,7 @@
       "advice": "This shouldn't be hard unless we run into a horde.",
       "inquire": "Any luck?",
       "success": "Great, anything I can't use to prosecute the bastards is yours, as promised.",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -357,12 +357,12 @@
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "You have no idea how interesting this diary is.  I have two very promising leads...  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path...  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
+      "offer": "You have no idea how interesting this diary is.  I have two very promising leads…  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
       "rejected": "Ya, I guess the stress may just be getting to me...",
-      "advice": "I doubt the site is still occupied but I'd carry a firearm at least...  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
-      "inquire": "I'm positive there is something there... there has to be, any luck?",
-      "success": "Thank you, your account of these... demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult...  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
+      "advice": "I doubt the site is still occupied but I'd carry a firearm at least…  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "inquire": "I'm positive there is something there… there has to be, any luck?",
+      "success": "Thank you, your account of these… demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult…  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -379,8 +379,8 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet... it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
-      "accepted": "I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
+      "offer": "I have another task if you are feeling up to it.  There is a prisoner that the priest made special mention of.  I was wondering if you could see what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm not in a position to cast out the account just yet… it seems the man has prophesied events accurately before concerning the Church of Starry Wisdom.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path…  I can only imagine that the prison will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew death was almost certain.  ",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "The worst case scenario will probably be that the prisoners have escaped their cells and turned the building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in their cells.  Either way, navigating the building will pose its own difficulties.",
       "inquire": "Any luck?",
@@ -407,7 +407,7 @@
       "rejected": "I don't think you're going to find many other survivors who haven't taken up a faction yet.",
       "advice": "I'm a pretty good shot with a rifle or pistol.",
       "inquire": "Any problems boss?",
-      "success": "Wait... are you really making me a deputy?",
+      "success": "Wait… are you really making me a deputy?",
       "success_lie": "I don't think so...",
       "failure": "Quitting already?"
     }
@@ -421,18 +421,18 @@
     "monster_kill_goal": 100,
     "difficulty": 5,
     "value": 250000,
-    "start": { "effect": "follow" },
-    "end": { "effect": "leave" },
+    "start": { "effect": "follow_only" },
+    "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
     "dialogue": {
       "describe": "You seem to know this new world better than most...",
-      "offer": "You're kitted out better than most... would you be interested in making this world a little better for the rest of us?  The towns have enough supplies for us survivors to start securing a foothold but we don't have anyone with the skills and equipment to thin the masses of undead.  I'll lend you a hand to the best of my ability but you really showed promise taking out that other beast.  You, I, and a 100 zombies laid to rest, what do you say?",
+      "offer": "You're kitted out better than most… would you be interested in making this world a little better for the rest of us?  The towns have enough supplies for us survivors to start securing a foothold but we don't have anyone with the skills and equipment to thin the masses of undead.  I'll lend you a hand to the best of my ability but you really showed promise taking out that other beast.  You, I, and a 100 zombies laid to rest, what do you say?",
       "accepted": "Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse.",
-      "rejected": "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
+      "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I'd secure an ammo cache and try to sweep a town in multiple passes.",
       "inquire": "Got this knocked out?",
-      "success": "Man... you're a goddamn machine.  It was a pleasure working with you.  You know, you may just change our little neck of the world if you keep this up.",
+      "success": "Man… you're a goddamn machine.  It was a pleasure working with you.  You know, you may just change our little neck of the world if you keep this up.",
       "success_lie": "I don't think that was quite a hundred dead zeds.",
       "failure": "Quitting already?"
     }
@@ -446,7 +446,7 @@
     "value": 250000,
     "urgent": true,
     "start": "kill_horde_master",
-    "end": { "effect": "leave" },
+    "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
     "dialogue": {
@@ -477,7 +477,7 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
-      "describe": "The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs...",
+      "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs...",
       "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
@@ -485,7 +485,7 @@
       "inquire": "Any luck?",
       "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
       "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
-      "failure": "I'm glad you came back alive...  I wasn't sure if I had sent you to your death."
+      "failure": "I'm glad you came back alive…  I wasn't sure if I had sent you to your death."
     }
   },
   {
@@ -502,14 +502,14 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "Oh god, I can't believe it happened...",
-      "offer": "My mom... she's... she was killed, but then she just got back up... she's one of those things now.  Can you put her out of her misery for me?",
-      "accepted": "Thank you... she would've wanted it this way.",
+      "offer": "My mom… she's… she was killed, but then she just got back up… she's one of those things now.  Can you put her out of her misery for me?",
+      "accepted": "Thank you… she would've wanted it this way.",
       "rejected": "Please reconsider, I know she's suffering...",
       "advice": "Find a gun if you can, make it quick...",
-      "inquire": "Well...?  Did you... finish things for my mom?",
+      "inquire": "Well...?  Did you… finish things for my mom?",
       "success": "Thank you.  I couldn't rest until I knew that was finished.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
-      "failure": "Really... that's too bad."
+      "failure": "Really… that's too bad."
     }
   },
   {
@@ -528,19 +528,19 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": { "effect": "follow" },
-    "end": { "effect": "leave" },
+    "start": { "effect": "follow_only" },
+    "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "farm_2",
     "dialogue": {
       "describe": "I just need a place to start over...",
-      "offer": "I've accepted that everyone I used to know is dead... one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
+      "offer": "I've accepted that everyone I used to know is dead… one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
       "accepted": "Thank you, let's find a remote one so we don't have to worry about many zombies.",
       "rejected": "Please, I just don't know what to do otherwise.",
       "advice": "Traveling the backroads would be a good way to search for one.",
       "inquire": "Shall we keep looking for a farm house?",
       "success": "Well, my adventuring days are over.  I can't thank you enough.  Trying to make this place self sustaining will take some work but the future is looking brighter.  At least it ought to be safe for now.  You'll always be welcome here.",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "I guess it was just a pipe dream."
     }
   },
@@ -551,19 +551,19 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": { "effect": "follow" },
+    "start": { "effect": "follow_only" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
     "destination": "fema",
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps...",
-      "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around... could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
-      "accepted": "Thank you, just bring me to the camp...  I just want to see.",
+      "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
+      "accepted": "Thank you, just bring me to the camp…  I just want to see.",
       "rejected": "Please, I don't know what else to do.",
       "advice": "We should go at night, if it is overrun then we can quickly make our escape.",
       "inquire": "Any leads on where a camp might be?",
       "success": "I guess this wasn't as bright an idea as I thought.",
-      "success_lie": "Thanks for trying...  I guess.",
+      "success_lie": "Thanks for trying…  I guess.",
       "failure": "I bet some of them are still out there..."
     }
   },
@@ -615,10 +615,10 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "You seem to know this new world better than most...",
-      "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer... of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
-      "accepted": "Rodger, if he's a no-show then any other gunslinger will do... but I doubt he'll quit before we even begin.",
-      "rejected": "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
-      "advice": "I hope the bastard is packing heat... else we'll need to grab him a gun before we hit our next target.",
+      "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer… of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
+      "accepted": "Rodger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
+      "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
+      "advice": "I hope the bastard is packing heat… else we'll need to grab him a gun before we hit our next target.",
       "inquire": "Found a gunslinger?",
       "success": "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.",
       "success_lie": "I don't think so...",
@@ -702,7 +702,7 @@
       "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
       "inquire": "How is it going?  Do you have them?",
       "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
-      "success_lie": "Well...  where are they?",
+      "success_lie": "Well…  where are they?",
       "failure": "I'm so disappointed in you kid..."
     }
   },
@@ -710,7 +710,7 @@
     "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
     "type": "mission_definition",
     "name": "Prove You're A Survivor",
-    "description": "Prove you're a survivor by surviving for 10 days after the cataclysm, and then returning to the person who gave you this mission.",
+    "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "days_since_cataclysm": 10 },
     "difficulty": 1,
@@ -720,10 +720,10 @@
     "dialogue": {
       "describe": "It's hard to tell who actually has the skills to survive these days...",
       "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
-      "accepted": "I'll see you then...or I won't, and then I'll know I made the right decision.",
+      "accepted": "I'll see you then…or I won't, and then I'll know I made the right decision.",
       "rejected": "Ya, it was a long shot I admit.",
       "advice": "Don't die. If you're asking me for advice, that doesn't bode well for you.",
-      "inquire": "Well, you're not dead...yet.",
+      "inquire": "Well, you're not dead…yet.",
       "success": "I'll be honest, I wasn't really expecting to see you again. A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."

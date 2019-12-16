@@ -152,7 +152,7 @@
     "looks_like": "bionic_general",
     "color": "magenta",
     "skill": "launcher",
-    "ammo": "40mm",
+    "ammo": "40x46mm",
     "dispersion": 290,
     "durability": 6,
     "clip_size": 1,
@@ -186,6 +186,6 @@
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "flags": [ "NEVER_JAMS", "FIRE_20" ]
+    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ]
   }
 ]

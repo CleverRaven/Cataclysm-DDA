@@ -13,6 +13,36 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM1",
+    "name": "Weak Photophore",
+    "points": 1,
+    "description": "A photophore has grown from your head, you can make it glow soflty.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
+    "active": true,
+    "cost": 1,
+    "time": 810000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "changes_to": [ "BIOLUM2" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": [ [ "HEAD", 8 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2",
+    "name": "Photophore",
+    "points": 2,
+    "description": "Your can make your photophore glow brightly.",
+    "active": true,
+    "cost": 1,
+    "time": 405000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "prereqs": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "lumination": [ [ "HEAD", 20 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "GOODHEARING",
     "name": "Good Hearing",
     "points": 1,
@@ -654,6 +684,7 @@
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
     "category": [ "ALPHA" ],
+    "scent_intensity": 300,
     "types": [ "SCENT" ]
   },
   {
@@ -1061,6 +1092,7 @@
     "starting_trait": true,
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
+    "scent_intensity": 800,
     "category": [ "FELINE", "LUPINE", "MOUSE" ]
   },
   {
@@ -1241,7 +1273,8 @@
     "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
-    "category": [ "TROGLOBITE", "MOUSE" ]
+    "category": [ "TROGLOBITE", "MOUSE" ],
+    "types": [ "skin_tone" ]
   },
   {
     "type": "mutation",
@@ -2162,7 +2195,7 @@
     "visibility": 3,
     "ugliness": 2,
     "description": "Your skin is light green and has a slightly woody quality to it.  This provides a weak armor, and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "skin_tone" ],
     "changes_to": [ "BARK" ],
     "leads_to": [ "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
@@ -2189,7 +2222,7 @@
     "visibility": 10,
     "ugliness": 3,
     "description": "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "skin_tone" ],
     "prereqs": [ "PLANTSKIN" ],
     "category": [ "PLANT" ],
     "wet_protection": [
@@ -2288,6 +2321,7 @@
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "changes_to": [ "ROSEBUDS" ],
+    "scent_mask": -200,
     "social_modifiers": { "lie": 10 }
   },
   {
@@ -4327,6 +4361,7 @@
     "visibility": 4,
     "ugliness": 5,
     "description": "You smell awful.  Monsters that track scent will find you very easily, and humans will react poorly.",
+    "scent_intensity": 1200,
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL" ],
     "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE" ]
@@ -4734,7 +4769,8 @@
     "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
     "prereqs": [ "ALBINO" ],
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
-    "category": [ "TROGLOBITE" ]
+    "category": [ "TROGLOBITE" ],
+    "types": [ "skin_tone" ]
   },
   {
     "type": "mutation",
@@ -5234,6 +5270,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
+    "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ]
   },
   {

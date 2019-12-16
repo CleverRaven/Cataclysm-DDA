@@ -320,5 +320,32 @@
     "min_duration": 3000,
     "max_duration": 6000,
     "duration_increment": 200
+  },
+  {
+    "type": "SPELL",
+    "name": "X-ray Vision",
+    "id": "x-ray",
+    "description": "You fire a cone of X-rays that magically allow you to see that area for a short time.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "CONCENTRATE", "IGNORE_WALLS" ],
+    "effect": "cone_attack",
+    "field_id": "fd_clairvoyant",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "difficulty": 6,
+    "min_range": 5,
+    "max_range": 20,
+    "range_increment": 0.75,
+    "max_level": 20,
+    "min_aoe": 15,
+    "max_aoe": 60,
+    "aoe_increment": 1.5,
+    "min_duration": 0,
+    "max_duration": 900,
+    "duration_increment": 45,
+    "base_casting_time": 175,
+    "base_energy_cost": 550,
+    "energy_source": "BIONIC",
+    "spell_class": "TECHNOMANCER"
   }
 ]

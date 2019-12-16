@@ -75,7 +75,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 15 ] ] ]
+    "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -89,7 +89,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 15 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 72 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -735,7 +735,7 @@
     "decomp_learn": 0,
     "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "string_36", 1 ] ] ]
+    "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "wetsuit",

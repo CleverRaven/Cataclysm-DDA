@@ -63,7 +63,6 @@ class window;
 } // namespace catacurses
 namespace vehicles
 {
-extern point cardinal_d[5];
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
@@ -107,12 +106,15 @@ enum veh_coll_type : int {
 
 struct veh_collision {
     //int veh?
-    int           part        = 0;
-    veh_coll_type type        = veh_coll_nothing;
-    int           imp         = 0; // impulse
-    void         *target      = nullptr;  //vehicle
-    int           target_part = 0; //vehicle partnum
-    std::string   target_name;
+    int part  = 0;
+    veh_coll_type type = veh_coll_nothing;
+    // impulse
+    int  imp = 0;
+    //vehicle
+    void *target  = nullptr;
+    //vehicle partnum
+    int target_part = 0;
+    std::string target_name;
 
     veh_collision() = default;
 };
@@ -687,7 +689,7 @@ class vehicle
          * assumed to have been already visited!
          * @param amount An amount of power to traverse with. This is passed back to the visitor,
          * and reset to the visitor's return value at each step.
-         * @param visitor A function(vehicle* veh, int amount, int loss) returning int. The function
+         * @param action A function(vehicle* veh, int amount, int loss) returning int. The function
          * may do whatever it desires, and may be a lambda (including a capturing lambda).
          * NB: returning 0 from a visitor will stop traversal immediately!
          * @return The last visitor's return value.
@@ -775,6 +777,7 @@ class vehicle
         std::set<point> immediate_path( int rotate = 0 );
         std::set<point> collision_check_points;
         void autopilot_patrol();
+        double get_angle_from_targ( const tripoint &targ );
         void drive_to_local_target( tripoint target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
@@ -1075,7 +1078,7 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy_w Desired amount of energy of fuel to consume
+         * @param energy_j Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
         double drain_energy( const itype_id &ftype, double energy_j );

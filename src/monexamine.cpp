@@ -37,20 +37,19 @@
 #include "pimpl.h"
 #include "point.h"
 
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_milked( "milked" );
-const efftype_id effect_monster_armor( "monster_armor" );
-const efftype_id effect_paid( "paid" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_saddled( "monster_saddled" );
-const skill_id skill_survival( "survival" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_milked( "milked" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const skill_id skill_survival( "survival" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -419,9 +418,7 @@ void monexamine::swap( monster &z )
             z.remove_effect( effect_tied );
         }
 
-        tripoint zp = z.pos();
-        z.move_to( g->u.pos(), true );
-        g->u.setpos( zp );
+        g->swap_critters( g->u, z );
 
         if( t ) {
             z.add_effect( effect_tied, 1_turns, num_bp, true );
@@ -694,7 +691,7 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
+    const auto milked_item = source_mon.type->starting_ammo.find( "milk_raw" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
                   source_mon.get_name() );

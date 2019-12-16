@@ -4,6 +4,7 @@
 
 #include "cata_variant.h"
 #include "json.h"
+#include "stringmaker.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
 {

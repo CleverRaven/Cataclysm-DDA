@@ -4,7 +4,7 @@
 
 class JsonObject;
 
-void load_tutorial_messages( JsonObject &jo );
+void load_tutorial_messages( const JsonObject &jo );
 void clear_tutorial_messages();
 
 #endif

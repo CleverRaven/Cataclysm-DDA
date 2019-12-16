@@ -121,13 +121,13 @@
     "color": "blue",
     "luminance": 300,
     "revert_to_itype": "bot_turret_teargas",
-    "starting_ammo": { "40mm_teargas": 50 },
+    "starting_ammo": { "40x46mm_m651": 50 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 2,
         "gun_type": "robogun_teargas",
-        "ammo_type": "40mm_teargas",
+        "ammo_type": "40x46mm_m651",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
@@ -148,13 +148,13 @@
     "color": "blue",
     "luminance": 300,
     "revert_to_itype": "bot_turret_beanbag",
-    "starting_ammo": { "40mm_beanbag": 50 },
+    "starting_ammo": { "40x46mm_m1006": 50 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "robogun_beanbag",
-        "ammo_type": "40mm_beanbag",
+        "ammo_type": "40x46mm_m1006",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
@@ -346,13 +346,13 @@
     "color": "red",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_40mm",
-    "starting_ammo": { "40mm_frag": 50 },
+    "starting_ammo": { "40x46mm_m433": 50 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 3,
         "gun_type": "robogun_40mm",
-        "ammo_type": "40mm",
+        "ammo_type": "40x46mm_m433",
         "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",

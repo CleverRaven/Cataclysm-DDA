@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "bike_shop",
     "terrain": {
-      " ": [ "t_dirt", "t_grass", "t_grass", "t_grass" ],
-      "*": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_tree" ],
+      " ": "t_region_groundcover_urban",
+      "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
       "_": "t_sidewalk",
       ".": "t_floor",
       "#": "t_wall_w",

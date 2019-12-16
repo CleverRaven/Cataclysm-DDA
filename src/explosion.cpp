@@ -61,6 +61,7 @@
 #include "type_id.h"
 
 static const itype_id null_itype( "null" );
+static const species_id ROBOT( "ROBOT" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -72,7 +73,7 @@ constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
 constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
 
-explosion_data load_explosion_data( JsonObject &jo )
+explosion_data load_explosion_data( const JsonObject &jo )
 {
     explosion_data ret;
     // Power is mandatory
@@ -92,7 +93,7 @@ explosion_data load_explosion_data( JsonObject &jo )
     return ret;
 }
 
-shrapnel_data load_shrapnel_data( JsonObject &jo )
+shrapnel_data load_shrapnel_data( const JsonObject &jo )
 {
     shrapnel_data ret;
     // Casing mass is mandatory
@@ -136,7 +137,7 @@ static void do_blast( const tripoint &p, const float power,
                       const float distance_factor, const bool fire )
 {
     const float tile_dist = 1.0f;
-    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
+    const float diag_dist = trigdist ? M_SQRT2 * tile_dist : 1.0f * tile_dist;
     const float zlev_dist = 2.0f; // Penalty for going up/down
     // 7 3 5
     // 1 . 2
@@ -550,6 +551,9 @@ void flashbang( const tripoint &p, bool player_immune )
         }
     }
     for( monster &critter : g->all_monsters() ) {
+        if( critter.type->in_species( ROBOT ) ) {
+            continue;
+        }
         // TODO: can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
@@ -577,6 +581,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
+        if( critter.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
             g->knockback( p, critter.pos(), force, stun, dam_mult );
@@ -584,6 +591,9 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
     for( npc &guy : g->all_npcs() ) {
+        if( guy.posz() != p.z ) {
+            continue;
+        }
         if( rl_dist( guy.pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
             g->knockback( p, guy.pos(), force, stun, dam_mult );
@@ -671,10 +681,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( point( x, y ), critter.to_item() );
+                g->m.add_item_or_charges( p, critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( point( x, y ), ammodef.first, 1, ammodef.second, calendar::turn );
+                        g->m.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );

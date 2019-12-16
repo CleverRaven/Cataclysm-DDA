@@ -23,7 +23,7 @@
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
     "components": [
-      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
+      [ [ "cordage_superior", 4, "LIST" ] ],
       [ [ "rag", 4 ] ],
       [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
     ]
@@ -319,7 +319,10 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [ [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ], [ [ "rope_6", 2 ] ] ]
+    "components": [
+      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
+      [ [ "rope_natural_short", 2, "LIST" ] ]
+    ]
   },
   {
     "result": "greatcoat",

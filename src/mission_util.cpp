@@ -179,50 +179,63 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
 
-    // Either find a random or closest match, based on the criteria.
-    if( params.random ) {
-        target_pos = overmap_buffer.find_random( origin_pos, find_params );
-    } else {
-        target_pos = overmap_buffer.find_closest( origin_pos, find_params );
-    }
-
-    // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
-    // have to see the location beforehand, then we can attempt to create the new terrain.
-    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
-        !params.must_see ) {
-        // If this terrain is part of an overmap special...
-        if( params.overmap_special ) {
-            // ...then attempt to place the whole special.
-            const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
-                                params.search_range );
-            // If we succeeded in placing the special, then try and find the particular location
-            // we're interested in.
-            if( placed ) {
-                find_params.must_see = false;
-                target_pos = overmap_buffer.find_closest( origin_pos, find_params );
-            }
-        } else if( params.replaceable_overmap_terrain ) {
-            // This terrain wasn't part of an overmap special, but we do have a replacement
-            // terrain specified. Find a random location of that replacement type.
-            find_params.must_see = false;
-            find_params.types.front().first = *params.replaceable_overmap_terrain;
+    auto get_target_position = [&]() {
+        // Either find a random or closest match, based on the criteria.
+        if( params.random ) {
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
+        } else {
+            target_pos = overmap_buffer.find_closest( origin_pos, find_params );
+        }
 
-            // We didn't find it, so allow this search to create new overmaps and try again.
-            find_params.existing_only = true;
-            if( target_pos == overmap::invalid_tripoint ) {
+        // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
+        // have to see the location beforehand, then we can attempt to create the new terrain.
+        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
+            !params.must_see ) {
+            // If this terrain is part of an overmap special...
+            if( params.overmap_special ) {
+                // ...then attempt to place the whole special.
+                const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
+                                    params.search_range );
+                // If we succeeded in placing the special, then try and find the particular location
+                // we're interested in.
+                if( placed ) {
+                    find_params.must_see = false;
+                    target_pos = overmap_buffer.find_closest( origin_pos, find_params );
+                }
+            } else if( params.replaceable_overmap_terrain ) {
+                // This terrain wasn't part of an overmap special, but we do have a replacement
+                // terrain specified. Find a random location of that replacement type.
+                find_params.must_see = false;
+                find_params.types.front().first = *params.replaceable_overmap_terrain;
                 target_pos = overmap_buffer.find_random( origin_pos, find_params );
-            }
 
-            // We found a match, so set this position (which was our replacement terrain)
-            // to our desired mission terrain.
-            if( target_pos != overmap::invalid_tripoint ) {
-                overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
+                // We didn't find it, so allow this search to create new overmaps and try again.
+                find_params.existing_only = true;
+                if( target_pos == overmap::invalid_tripoint ) {
+                    target_pos = overmap_buffer.find_random( origin_pos, find_params );
+                }
+
+                // We found a match, so set this position (which was our replacement terrain)
+                // to our desired mission terrain.
+                if( target_pos != overmap::invalid_tripoint ) {
+                    overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
+                }
             }
         }
+    };
+
+    // First try to get the position where we only allow existing overmaps.
+    get_target_position();
+
+    if( target_pos == overmap::invalid_tripoint ) {
+        // If it's invalid, then that means we couldn't find it or create it (if allowed) on
+        // our current overmap. We'll now go ahead and try again but allow it to create new overmaps.
+        find_params.existing_only = false;
+        get_target_position();
     }
-    // If we got here and this is still invalid, it means that we couldn't find it and (if
-    // allowed by the parameters) we couldn't create it either.
+
+    // If we got here and this is still invalid, it means that we couldn't find it nor create it
+    // on any overmap (new or existing) within the allowed search range.
     if( target_pos == overmap::invalid_tripoint ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain );
         return cata::nullopt;
@@ -343,7 +356,7 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     return place;
 }
 
-mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
+mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
     mission_target_params p;
     if( jo.has_string( "om_terrain" ) ) {
@@ -424,7 +437,7 @@ void mission_util::set_reveal_any( JsonArray &ja,
     funcs.emplace_back( mission_func );
 }
 
-void mission_util::set_assign_om_target( JsonObject &jo,
+void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( !jo.has_string( "om_terrain" ) ) {
@@ -439,7 +452,7 @@ void mission_util::set_assign_om_target( JsonObject &jo,
     funcs.emplace_back( mission_func );
 }
 
-bool mission_util::set_update_mapgen( JsonObject &jo,
+bool mission_util::set_update_mapgen( const JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &funcs )
 {
     bool defer = false;
@@ -466,7 +479,7 @@ bool mission_util::set_update_mapgen( JsonObject &jo,
     return true;
 }
 
-bool mission_util::load_funcs( JsonObject &jo,
+bool mission_util::load_funcs( const JsonObject &jo,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
@@ -486,9 +499,7 @@ bool mission_util::load_funcs( JsonObject &jo,
             return false;
         }
     } else if( jo.has_array( "update_mapgen" ) ) {
-        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
-        while( mapgen_array.has_more() ) {
-            JsonObject update_mapgen = mapgen_array.next_object();
+        for( JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
             if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }
@@ -498,7 +509,7 @@ bool mission_util::load_funcs( JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
+bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;
     if( !mission_util::load_funcs( jo, funcs ) ) {

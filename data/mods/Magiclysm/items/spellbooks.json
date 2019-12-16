@@ -204,7 +204,7 @@
     "name": "The Tome of the Hollow Earth",
     "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
     "weight": 483,
-    "volume": 3.3,
+    "volume": "825 ml",
     "symbol": "?",
     "color": "brown",
     "use_action": {

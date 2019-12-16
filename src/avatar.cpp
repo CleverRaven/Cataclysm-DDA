@@ -67,19 +67,17 @@
 class JsonIn;
 class JsonOut;
 
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_depressants( "depressants" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_irradiated( "irradiated" );
-const efftype_id effect_pkill( "pkill" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_sleep_deprived( "sleep_deprived" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_stim( "stim" );
-const efftype_id effect_stim_overdose( "stim_overdose" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -102,8 +100,6 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
-
-const skill_id skill_unarmed( "unarmed" );
 
 avatar::avatar()
 {
@@ -191,6 +187,14 @@ std::vector<mission *> avatar::get_failed_missions() const
 mission *avatar::get_active_mission() const
 {
     return active_mission;
+}
+
+void avatar::reset_all_misions()
+{
+    active_mission = nullptr;
+    active_missions.clear();
+    completed_missions.clear();
+    failed_missions.clear();
 }
 
 tripoint avatar::get_active_mission_target() const
@@ -326,7 +330,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                 time_taken = proj_time;
             }
         }
-    } //end for all candidates
+    }
+    //end for all candidates
     return reader;
 }
 
@@ -351,7 +356,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
-        retval /= 10; //skimming
+        //skimming
+        retval /= 10;
     }
     return retval;
 }
@@ -366,9 +372,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( int inventory_position, const bool continuous )
+bool avatar::read( item &it, const bool continuous )
 {
-    item &it = i_at( inventory_position );
     if( it.is_null() ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
@@ -417,7 +422,8 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     // Find NPCs to join the study session:
     std::map<npc *, std::string> learners;
-    std::map<npc *, std::string> fun_learners; //reading only for fun
+    //reading only for fun
+    std::map<npc *, std::string> fun_learners;
     std::map<npc *, std::string> nonlearners;
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
@@ -725,7 +731,8 @@ void avatar::do_read( item &book )
         return;
     }
 
-    std::vector<std::pair<player *, double>> learners; //learners and their penalties
+    //learners and their penalties
+    std::vector<std::pair<player *, double>> learners;
     for( size_t i = 0; i < activity.values.size(); i++ ) {
         player *n = g->find_npc( character_id( activity.values[i] ) );
         if( n != nullptr ) {
@@ -735,8 +742,10 @@ void avatar::do_read( item &book )
         // Otherwise they must have died/teleported or something
     }
     learners.push_back( { this, 1.0 } );
-    bool continuous = false; //whether to continue reading or not
-    std::set<std::string> little_learned; // NPCs who learned a little about the skill
+    //whether to continue reading or not
+    bool continuous = false;
+    // NPCs who learned a little about the skill
+    std::set<std::string> little_learned;
     std::set<std::string> cant_learn;
     std::list<std::string> out_of_chapters;
 
@@ -821,7 +830,8 @@ void avatar::do_read( item &book )
                 cant_learn.insert( learner->disp_name() );
             }
         }
-    } //end for all learners
+    }
+    //end for all learners
 
     if( little_learned.size() == 1 ) {
         add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
@@ -885,7 +895,7 @@ void avatar::do_read( item &book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( get_item_position( &book ), true );
+        read( book, true );
         if( activity ) {
             return;
         }
@@ -932,9 +942,11 @@ void avatar::vomit()
         // Remove all joy from previously eaten food and apply the penalty
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
-        rem_morale( MORALE_HONEY ); // bears must suffer too
+        // bears must suffer too
+        rem_morale( MORALE_HONEY );
+        // 1.5 times longer
         add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
-                    45_minutes, false ); // 1.5 times longer
+                    45_minutes, false );
 
     } else {
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
@@ -1529,4 +1541,144 @@ bool avatar::wield( item &target )
     inv.update_cache_with_item( weapon );
 
     return true;
+}
+
+bool avatar::invoke_item( item *used, const tripoint &pt )
+{
+    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+
+    if( use_methods.empty() ) {
+        return false;
+    } else if( use_methods.size() == 1 ) {
+        return invoke_item( used, use_methods.begin()->first, pt );
+    }
+
+    uilist umenu;
+
+    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
+    umenu.hilight_disabled = true;
+
+    for( const auto &e : use_methods ) {
+        const auto res = e.second.can_call( *this, *used, false, pt );
+        umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
+                             res.str() );
+    }
+
+    umenu.desc_enabled = std::any_of( umenu.entries.begin(),
+    umenu.entries.end(), []( const uilist_entry & elem ) {
+        return !elem.desc.empty();
+    } );
+
+    umenu.query();
+
+    int choice = umenu.ret;
+    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+        return false;
+    }
+
+    const std::string &method = std::next( use_methods.begin(), choice )->first;
+
+    return invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used )
+{
+    return Character::invoke_item( used );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+{
+    return Character::invoke_item( used, method, pt );
+}
+
+bool avatar::invoke_item( item *used, const std::string &method )
+{
+    return Character::invoke_item( used, method );
+}
+
+points_left::points_left()
+{
+    limit = MULTI_POOL;
+    init_from_options();
+}
+
+void points_left::init_from_options()
+{
+    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
+}
+
+// Highest amount of points to spend on stats without points going invalid
+int points_left::stat_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return std::min( trait_points_left(),
+                             stat_points + std::min( 0, trait_points + skill_points ) );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::trait_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return stat_points + trait_points + std::min( 0, skill_points );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::skill_points_left() const
+{
+    return stat_points + trait_points + skill_points;
+}
+
+bool points_left::is_freeform()
+{
+    return limit == FREEFORM;
+}
+
+bool points_left::is_valid()
+{
+    return is_freeform() ||
+           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
+             skill_points_left() >= 0 );
+}
+
+bool points_left::has_spare()
+{
+    return !is_freeform() && is_valid() && skill_points_left() > 0;
+}
+
+std::string points_left::to_string()
+{
+    if( limit == MULTI_POOL ) {
+        return string_format(
+                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
+                   trait_points >= 0 ? '+' : '-',
+                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   skill_points >= 0 ? '+' : '-',
+                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
+    } else if( limit == ONE_POOL ) {
+        return string_format( _( "Points left: %4d" ), skill_points_left() );
+    } else if( limit == TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    } else {
+        return _( "Freeform" );
+    }
 }

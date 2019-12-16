@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "pizza_display",
-    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+    "items": [ [ "pizza_meat", 50 ], [ "pizza_veggy", 50 ] ]
   },
   {
     "type": "item_group",
@@ -168,7 +168,7 @@
     "type": "overmap_terrain",
     "id": "bankruptpizzeria",
     "name": "Bankrupt Pizzeria",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",

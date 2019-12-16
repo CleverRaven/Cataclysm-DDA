@@ -104,8 +104,7 @@ class field_entry
             return type.obj().accelerated_decay;
         }
 
-        effect field_effect() const;
-        bool inside_immune() const;
+        std::vector<field_effect> field_effects() const;
 
     private:
         // The field identifier.
@@ -177,6 +176,8 @@ class field
          * Returns field type that should be drawn.
          */
         field_type_id displayed_field_type() const;
+
+        description_affix displayed_description_affix() const;
 
         //Returns the vector iterator to begin searching through the list.
         std::map<field_type_id, field_entry>::iterator begin();

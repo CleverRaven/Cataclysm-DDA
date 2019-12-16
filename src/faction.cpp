@@ -56,7 +56,7 @@ faction::faction( const faction_template &templ )
     static_cast<faction_template &>( *this ) = templ;
 }
 
-void faction_template::load( JsonObject &jsobj )
+void faction_template::load( const JsonObject &jsobj )
 {
     faction_template fac( jsobj );
     npc_factions::all_templates.emplace_back( fac );
@@ -67,20 +67,19 @@ void faction_template::reset()
     npc_factions::all_templates.clear();
 }
 
-void faction_template::load_relations( JsonObject &jsobj )
+void faction_template::load_relations( const JsonObject &jsobj )
 {
-    JsonObject jo = jsobj.get_object( "relations" );
-    for( const std::string &fac_id : jo.get_member_names() ) {
-        JsonObject rel_jo = jo.get_object( fac_id );
+    for( const JsonMember &fac : jsobj.get_object( "relations" ) ) {
+        JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
             fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
         }
-        relations[fac_id] = fac_relation;
+        relations[fac.name()] = fac_relation;
     }
 }
 
-faction_template::faction_template( JsonObject &jsobj )
+faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
@@ -668,7 +667,7 @@ void faction_manager::display() const
         // create a list of NPCs, visible and the ones on overmapbuffer
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
-            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
             }
@@ -704,17 +703,17 @@ void faction_manager::display() const
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
-            if( !followers.empty() ) {
+            if( selection < followers.size() ) {
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            if( !camps.empty() ) {
+            if( selection < camps.size() ) {
                 camp = camps[selection];
             }
             active_vec_size = camps.size();
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
-            if( !valfac.empty() ) {
+            if( selection < valfac.size() ) {
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
@@ -748,8 +747,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
                     }
-                    if( selection < camps.size() ) {
-                        assert( camp ); // To appease static analysis
+                    if( camp ) {
                         camp->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
@@ -770,8 +768,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
                     }
-                    if( selection < followers.size() ) {
-                        assert( guy ); // To appease static analysis
+                    if( guy ) {
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;
@@ -797,8 +794,7 @@ void faction_manager::display() const
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
                     }
-                    if( selection < valfac.size() ) {
-                        assert( cur_fac ); // To appease static analysis
+                    if( cur_fac ) {
                         cur_fac->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );

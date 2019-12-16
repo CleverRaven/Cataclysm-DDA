@@ -41,6 +41,7 @@
 #include "worldfactory.h"
 #include "color.h"
 #include "options.h"
+#include "output.h"
 #include "pldata.h"
 #include "rng.h"
 #include "type_id.h"
@@ -68,26 +69,15 @@ static std::string extract_argument( std::vector<const char *> &arg_vec, const s
 
 static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
-    std::vector<mod_id> ret;
     std::string mod_string = extract_argument( arg_vec, "--mods=" );
 
-    const char delim = ',';
-    size_t i = 0;
-    size_t pos = mod_string.find( delim );
-    if( pos == std::string::npos && !mod_string.empty() ) {
-        ret.emplace_back( mod_string );
-    }
-
-    while( pos != std::string::npos ) {
-        ret.emplace_back( mod_string.substr( i, pos - i ) );
-        i = ++pos;
-        pos = mod_string.find( delim, pos );
-
-        if( pos == std::string::npos ) {
-            ret.emplace_back( mod_string.substr( i, mod_string.length() ) );
+    std::vector<std::string> mod_names = string_split( mod_string, ',' );
+    std::vector<mod_id> ret;
+    for( const std::string mod_name : mod_names ) {
+        if( !mod_name.empty() ) {
+            ret.emplace_back( mod_name );
         }
     }
-
     return ret;
 }
 
@@ -100,18 +90,18 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         assert( !"Unable to make config directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
         assert( !"Unable to make save directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         assert( !"Unable to make templates directory.  Check permissions." );
     }
 
