@@ -6075,7 +6075,7 @@
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ],
-      [ [ "sugar", 12 ] ],
+      [ [ "sugar", 10 ] ],
       [ [ "jar_glass", 1 ] ]
     ]
   },
