@@ -32,6 +32,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "bodypart.h"
@@ -69,7 +70,7 @@ bool item_is_blacklisted( const std::string &id )
     return item_blacklist.count( id );
 }
 
-static void assign( JsonObject &jo, const std::string &name,
+static void assign( const JsonObject &jo, const std::string &name,
                     std::map<gun_mode_id, gun_modifier_data> &mods )
 {
     if( !jo.has_array( name ) ) {
@@ -84,7 +85,7 @@ static void assign( JsonObject &jo, const std::string &name,
     }
 }
 
-static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
+static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
                                        body_part_set &parts, bool &sided )
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
@@ -308,13 +309,14 @@ void Item_factory::finalize_pre( itype &obj )
     npc_implied_flags( obj );
 
     if( obj.comestible ) {
+        std::map<vitamin_id, int> &vitamins = obj.comestible->default_nutrition.vitamins;
         if( get_option<bool>( "NO_VITAMINS" ) ) {
-            for( auto &vit : obj.comestible->vitamins ) {
+            for( auto &vit : vitamins ) {
                 if( vit.first->type() == vitamin_type::VITAMIN ) {
                     vit.second = 0;
                 }
             }
-        } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+        } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
@@ -326,10 +328,10 @@ void Item_factory::finalize_pre( itype &obj )
 
             // For comestibles composed of multiple edible materials we calculate the average.
             for( const auto &v : vitamin::all() ) {
-                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                if( !vitamins.count( v.first ) ) {
                     for( const auto &m : mat ) {
-                        obj.comestible->vitamins[ v.first ] += std::ceil( m.obj().vitamin( v.first ) * healthy /
-                                                               mat.size() );
+                        double amount = m->vitamin( v.first ) * healthy / mat.size();
+                        vitamins[v.first] += std::ceil( amount );
                     }
                 }
             }
@@ -497,7 +499,7 @@ void Item_factory::finalize_item_blacklist()
     }
 }
 
-void Item_factory::load_item_blacklist( JsonObject &json )
+void Item_factory::load_item_blacklist( const JsonObject &json )
 {
     add_array_to_set( item_blacklist, json, "items" );
 }
@@ -526,7 +528,7 @@ class iuse_function_wrapper : public iuse_actor
             return std::make_unique<iuse_function_wrapper>( *this );
         }
 
-        void load( JsonObject & ) override {}
+        void load( const JsonObject & ) override {}
 };
 
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
@@ -1233,17 +1235,17 @@ Item_spawn_data *Item_factory::get_group( const Item_tag &group_tag )
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( cata::optional<SlotType> &slotptr, JsonObject &jo,
+void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                               const std::string &src )
 {
     if( !slotptr ) {
-        slotptr.emplace();
+        slotptr = cata::make_value<SlotType>();
     }
     load( *slotptr, jo, src );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( cata::optional<SlotType> &slotptr, JsonObject &jo,
+void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                        const std::string &member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {
@@ -1254,7 +1256,8 @@ void Item_factory::load_slot_optional( cata::optional<SlotType> &slotptr, JsonOb
 }
 
 template<typename E>
-void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::string &member )
+void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
+                               const std::string &member )
 {
 
     if( !jo.has_member( member ) ) {
@@ -1270,7 +1273,7 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
     }
 }
 
-bool Item_factory::load_definition( JsonObject &jo, const std::string &src, itype &def )
+bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
 {
     assert( !frozen );
 
@@ -1300,7 +1303,7 @@ bool Item_factory::load_definition( JsonObject &jo, const std::string &src, ityp
     return false;
 }
 
-void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::string & )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
@@ -1309,8 +1312,8 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     // since the array with the defaults isn't accessible from here.
     slot.dream_freq_unmet = jo.get_int( "dream_freq_unmet", 0 );
     slot.dream_freq_met   = jo.get_int( "dream_freq_met",   0 );
-    slot.dream_msg_unmet  =
-        jo.get_string_array( "dream_unmet" ); // TODO: Make sure it doesn't cause problems if this is empty
+    // TODO: Make sure it doesn't cause problems if this is empty
+    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" );
     slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
@@ -1318,7 +1321,7 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1344,7 +1347,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 
-void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
+void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1354,12 +1357,12 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_engine &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "displacement", slot.displacement );
 }
 
-void Item_factory::load_engine( JsonObject &jo, const std::string &src )
+void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1368,13 +1371,13 @@ void Item_factory::load_engine( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_wheel &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_wheel &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "diameter", slot.diameter );
     assign( jo, "width", slot.width );
 }
 
-void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
+void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1383,7 +1386,7 @@ void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1402,7 +1405,7 @@ void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &sr
     }
 }
 
-void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
+void Item_factory::load_fuel( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1411,7 +1414,7 @@ void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1469,7 +1472,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "modes", slot.modes );
 }
 
-void Item_factory::load_gun( JsonObject &jo, const std::string &src )
+void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1478,7 +1481,7 @@ void Item_factory::load_gun( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_armor( JsonObject &jo, const std::string &src )
+void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1487,7 +1490,7 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_pet_armor( JsonObject &jo, const std::string &src )
+void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1496,7 +1499,7 @@ void Item_factory::load_pet_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1516,7 +1519,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
-void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1530,7 +1533,7 @@ void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::strin
     assign( jo, "power_armor", slot.power_armor, strict );
 }
 
-void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1567,7 +1570,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     }
 }
 
-void Item_factory::load_tool( JsonObject &jo, const std::string &src )
+void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1576,12 +1579,12 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( relic &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( relic &slot, const JsonObject &jo, const std::string & )
 {
     slot.load( jo );
 }
 
-void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1618,7 +1621,7 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load_toolmod( JsonObject &jo, const std::string &src )
+void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1627,7 +1630,7 @@ void Item_factory::load_toolmod( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
+void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1637,7 +1640,7 @@ void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_book &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1656,7 +1659,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
 
-void Item_factory::load_book( JsonObject &jo, const std::string &src )
+void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1665,7 +1668,7 @@ void Item_factory::load_book( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1688,12 +1691,13 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
+    bool is_junkfood = false;
     if( jo.has_member( "primary_material" ) ) {
-        slot.specific_heat_solid = material_id(
-                                       jo.get_string( "primary_material" ) )->specific_heat_solid();
-        slot.specific_heat_liquid = material_id(
-                                        jo.get_string( "primary_material" ) )->specific_heat_liquid();
-        slot.latent_heat = material_id( jo.get_string( "primary_material" ) )->latent_heat();
+        std::string mat = jo.get_string( "primary_material" );
+        slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
+        slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
+        slot.latent_heat = material_id( mat )->latent_heat();
+        is_junkfood = is_junkfood || mat == "junk";
     } else if( jo.has_member( "material" ) ) {
         float specific_heat_solid = 0;
         float specific_heat_liquid = 0;
@@ -1703,12 +1707,18 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
+            is_junkfood = is_junkfood || m == "junk";
         }
         // Average based on number of materials.
         slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
         slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
     }
+
+    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
+        slot.monotony_penalty = 0;
+    }
+    assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
@@ -1719,19 +1729,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {
-        slot.kcal = jo.get_int( "calories" );
+        slot.default_nutrition.kcal = jo.get_int( "calories" );
         got_calories = true;
 
     } else if( relative.has_int( "calories" ) ) {
-        slot.kcal += relative.get_int( "calories" );
+        slot.default_nutrition.kcal += relative.get_int( "calories" );
         got_calories = true;
 
     } else if( proportional.has_float( "calories" ) ) {
-        slot.kcal *= proportional.get_float( "calories" );
+        slot.default_nutrition.kcal *= proportional.get_float( "calories" );
         got_calories = true;
 
     } else if( jo.has_int( "nutrition" ) ) {
-        slot.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
+        slot.default_nutrition.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -1741,28 +1751,24 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
         auto vits = jo.get_array( "vitamins" );
-        if( vits.empty() ) {
-            for( auto &v : vitamin::all() ) {
-                slot.vitamins[ v.first ] = 0;
-            }
-        } else {
-            while( vits.has_more() ) {
-                auto pair = vits.next_array();
-                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
-            }
+        while( vits.has_more() ) {
+            auto pair = vits.next_array();
+            vitamin_id vit( pair.get_string( 0 ) );
+            slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
         }
 
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
             for( auto &v : vitamin::all() ) {
-                slot.vitamins[ v.first ] += relative.get_int( "vitamins" );
+                slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
             auto vits = relative.get_array( "vitamins" );
             while( vits.has_more() ) {
                 auto pair = vits.next_array();
-                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] += pair.get_int( 1 );
+                vitamin_id vit( pair.get_string( 0 ) );
+                slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
             }
         }
     }
@@ -1774,13 +1780,13 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
 
 }
 
-void Item_factory::load( islot_brewable &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_brewable &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "time", slot.time, false, 1_turns );
     slot.results = jo.get_string_array( "results" );
 }
 
-void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
+void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1790,7 +1796,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_container( JsonObject &jo, const std::string &src )
+void Item_factory::load_container( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1799,7 +1805,7 @@ void Item_factory::load_container( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
@@ -1809,7 +1815,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
     slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
-void Item_factory::load( islot_container &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_container &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "contains", slot.contains );
     assign( jo, "seals", slot.seals );
@@ -1818,7 +1824,7 @@ void Item_factory::load( islot_container &slot, JsonObject &jo, const std::strin
     assign( jo, "unseals_into", slot.unseals_into );
 }
 
-void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1866,7 +1872,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "blacklist_mod", slot.blacklist_mod );
 }
 
-void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
+void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1876,7 +1882,7 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
     if( jo.has_array( "ammo_type" ) ) {
@@ -1895,7 +1901,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string
     assign( jo, "linkage", slot.linkage, strict );
 }
 
-void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
+void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1904,13 +1910,13 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_battery &slot, const JsonObject &jo, const std::string & )
 {
     slot.max_capacity = read_from_json_string<units::energy>( *jo.get_raw( "max_capacity" ),
                         units::energy_units );
 }
 
-void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1919,7 +1925,7 @@ void Item_factory::load_battery( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -1933,7 +1939,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
     assign( jo, "is_upgrade", slot.is_upgrade );
 }
 
-void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
+void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -1942,7 +1948,7 @@ void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load_generic( JsonObject &jo, const std::string &src )
+void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
@@ -2037,7 +2043,7 @@ void npc_implied_flags( itype &item_template )
     }
 }
 
-void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::string &src )
+void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
 
@@ -2190,6 +2196,22 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.looks_like = jo.get_string( "looks_like" );
     }
 
+    if( jo.has_member( "conditional_names" ) ) {
+        def.conditional_names.clear();
+        JsonArray jarr = jo.get_array( "conditional_names" );
+        while( jarr.has_more() ) {
+            JsonObject curr = jarr.next_object();
+            conditional_name cname;
+            cname.type = curr.get_enum_value<condition_type>( "type" );
+            cname.condition = curr.get_string( "condition" );
+            cname.name = translation( translation::plural_tag() );
+            if( !curr.read( "name", cname.name ) ) {
+                curr.throw_error( "name unspecified for conditional name" );
+            }
+            def.conditional_names.push_back( cname );
+        }
+    }
+
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
@@ -2236,7 +2258,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 }
 
-void Item_factory::load_migration( JsonObject &jo )
+void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
     assign( jo, "replace", m.replace );
@@ -2291,7 +2313,8 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     }
 }
 
-void Item_factory::set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def )
+void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
 {
     if( jo.has_array( member ) ) {
         JsonArray jarr = jo.get_array( member );
@@ -2309,7 +2332,8 @@ void Item_factory::set_qualities_from_json( JsonObject &jo, const std::string &m
     }
 }
 
-void Item_factory::set_properties_from_json( JsonObject &jo, const std::string &member, itype &def )
+void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
 {
     if( jo.has_array( member ) ) {
         JsonArray jarr = jo.get_array( member );
@@ -2380,7 +2404,7 @@ static Item_group *make_group_or_throw( const Group_tag &group_id,
 }
 
 template<typename T>
-bool load_min_max( std::pair<T, T> &pa, JsonObject &obj, const std::string &name )
+bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string &name )
 {
     bool result = false;
     if( obj.has_array( name ) ) {
@@ -2398,7 +2422,7 @@ bool load_min_max( std::pair<T, T> &pa, JsonObject &obj, const std::string &name
     return result;
 }
 
-bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
+bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                                  const std::string &name, const Item_group &parent )
 {
     const std::string iname( name + "-item" );
@@ -2424,7 +2448,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     if( obj.has_member( name ) ) {
         obj.throw_error( string_format( "This has been a TODO: since 2014.  Use '%s' and/or '%s' instead.",
                                         iname, gname ) );
-        return false; // TODO: !
+        // TODO: !
+        return false;
     }
     if( obj.has_string( iname ) ) {
         entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
@@ -2459,7 +2484,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     return true;
 }
 
-bool Item_factory::load_string( std::vector<std::string> &vec, JsonObject &obj,
+bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
                                 const std::string &name )
 {
     bool result = false;
@@ -2479,7 +2504,7 @@ bool Item_factory::load_string( std::vector<std::string> &vec, JsonObject &obj,
     return result;
 }
 
-void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
+void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 {
     std::unique_ptr<Item_group> gptr;
     int probability = obj.get_int( "prob", 100 );
@@ -2533,7 +2558,7 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
 }
 
 // Load an item group from JSON
-void Item_factory::load_item_group( JsonObject &jsobj )
+void Item_factory::load_item_group( const JsonObject &jsobj )
 {
     const Item_tag group_id = jsobj.get_string( "id" );
     const std::string subtype = jsobj.get_string( "subtype", "old" );
@@ -2554,7 +2579,7 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
     }
 }
 
-void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
@@ -2619,7 +2644,7 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
     }
 }
 
-void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string &member,
+void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
         std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {
@@ -2655,7 +2680,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, const std::string 
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj )
+std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
 {
     auto type = obj.get_string( "type" );
 

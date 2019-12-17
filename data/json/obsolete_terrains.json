@@ -269,7 +269,11 @@
       "dairy_farm_SW",
       "dairy_farm_SE",
       "megastore",
-      "megastore_entrance"
+      "megastore_entrance",
+      "house_base_north",
+      "house_base_south",
+      "house_base_east",
+      "house_base_west"
     ]
   }
 ]

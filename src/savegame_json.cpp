@@ -35,7 +35,7 @@
 #include "effect.h"
 #include "game.h"
 #include "inventory.h"
-#include "io.h"
+#include "cata_io.h"
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
@@ -101,8 +101,7 @@ struct mutation_branch;
 
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -390,10 +389,27 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+void consumption_event::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "time", time );
+    json.member( "type_id", type_id );
+    json.member( "component_hash", component_hash );
+    json.end_object();
+}
+
+void consumption_event::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "time", time );
+    jo.read( "type_id", type_id );
+    jo.read( "component_hash", component_hash );
+}
+
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
-void Character::load( JsonObject &data )
+void Character::load( const JsonObject &data )
 {
     Creature::load( data );
 
@@ -453,8 +469,11 @@ void Character::load( JsonObject &data )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
     }
+    data.read( "consumption_history", consumption_history );
     data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
+    data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
+    data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
     // Changed from a single element to a list, handle either.
     // Can deprecate once we stop handling pre-0.B saves.
     if( data.has_array( "backlog" ) ) {
@@ -595,9 +614,8 @@ void Character::load( JsonObject &data )
     morale->load( data );
 
     _skills->clear();
-    JsonObject pmap = data.get_object( "skills" );
-    for( const std::string &member : pmap.get_member_names() ) {
-        pmap.read( member, ( *_skills )[skill_id( member )] );
+    for( const JsonMember &member : data.get_object( "skills" ) ) {
+        member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
     visit_items( [&]( item * it ) {
@@ -691,10 +709,13 @@ void Character::store( JsonOut &json ) const
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
+    json.member( "consumption_history", consumption_history );
 
     // crafting etc
     json.member( "destination_activity", destination_activity );
     json.member( "activity", activity );
+    json.member( "stashed_outbounds_activity", stashed_outbounds_activity );
+    json.member( "stashed_outbounds_backlog", stashed_outbounds_backlog );
     json.member( "backlog", backlog );
     json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
 
@@ -858,7 +879,7 @@ void player::store( JsonOut &json ) const
 /**
  * Load variables from json into object. These variables are common to both the avatar and NPCs.
  */
-void player::load( JsonObject &data )
+void player::load( const JsonObject &data )
 {
     Character::load( data );
 
@@ -1027,7 +1048,7 @@ void avatar::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void avatar::load( JsonObject &data )
+void avatar::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -1410,7 +1431,7 @@ void npc::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void npc::load( JsonObject &data )
+void npc::load( const JsonObject &data )
 {
     player::load( data );
 
@@ -1620,15 +1641,12 @@ void npc::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    // TODO: time_point does not have a default constructor, need to read in the map manually
-    {
-        complaints.clear();
-        JsonObject jo = data.get_object( "complaints" );
-        for( const std::string &key : jo.get_member_names() ) {
-            time_point p = 0;
-            jo.read( key, p );
-            complaints.emplace( key, p );
-        }
+    complaints.clear();
+    for( const JsonMember &member : data.get_object( "complaints" ) ) {
+        // @TODO: time_point does not have a default constructor, need to read in the map manually
+        time_point p = 0;
+        member.read( p );
+        complaints.emplace( member.name(), p );
     }
 }
 
@@ -1669,7 +1687,8 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-    json.member( "mission", mission ); // TODO: stringid
+    // TODO: stringid
+    json.member( "mission", mission );
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
@@ -1731,13 +1750,12 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
-            std::set<std::string> members = jo.get_member_names();
-            for( const auto &member : members ) {
+            for( const JsonMember &member : jo ) {
                 std::string invlets;
-                for( const int i : jo.get_array( member ) ) {
+                for( const int i : member.get_array() ) {
                     invlets.push_back( i );
                 }
-                map[member] = invlets;
+                map[member.name()] = invlets;
             }
         }
         invlet_cache = { map };
@@ -1779,7 +1797,7 @@ void monster::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void monster::load( JsonObject &data )
+void monster::load( const JsonObject &data )
 {
     Creature::load( data );
 
@@ -1829,10 +1847,9 @@ void monster::load( JsonObject &data )
 
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
-        JsonObject pobject = data.get_object( "special_attacks" );
-        for( const std::string &aname : pobject.get_member_names() ) {
-            JsonObject saobject = pobject.get_object( aname );
-            auto &entry = special_attacks[aname];
+        for( const JsonMember &member : data.get_object( "special_attacks" ) ) {
+            JsonObject saobject = member.get_object();
+            auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
             entry.enabled = saobject.get_bool( "enabled" );
         }
@@ -2065,7 +2082,8 @@ void item::io( Archive &archive )
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
+    // TODO: change default to empty string
+    archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner );
     archive.io( "old_owner", old_owner );
     archive.io( "invlet", invlet, '\0' );
@@ -2135,6 +2153,10 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
     }
+
+    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
+    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
+    item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
         snippet_id = SNIPPET.migrate_hash_to_id( note );
@@ -2948,7 +2970,7 @@ void Creature::store( JsonOut &jsout ) const
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
-void Creature::load( JsonObject &jsin )
+void Creature::load( const JsonObject &jsin )
 {
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
@@ -3051,7 +3073,7 @@ void player_morale::store( JsonOut &jsout ) const
     jsout.member( "morale", points );
 }
 
-void player_morale::load( JsonObject &jsin )
+void player_morale::load( const JsonObject &jsin )
 {
     jsin.read( "morale", points );
 }
@@ -3128,7 +3150,7 @@ void map_memory::load( JsonIn &jsin )
 }
 
 // Deserializer for legacy object-based memory map.
-void map_memory::load( JsonObject &jsin )
+void map_memory::load( const JsonObject &jsin )
 {
     tile_cache.clear();
     for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
@@ -3393,10 +3415,8 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    JsonObject kills_obj = data.get_object( "kills" );
-    std::set<std::string> members = kills_obj.get_member_names();
-    for( const auto &member : members ) {
-        kills[mtype_id( member )] = kills_obj.get_int( member );
+    for( const JsonMember &member : data.get_object( "kills" ) ) {
+        kills[mtype_id( member.name() )] = member.get_int();
     }
 
     for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
@@ -3616,7 +3636,8 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( auto &elem : spawns ) {
         jsout.start_array();
-        jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
+        // TODO: json should know how to write string_ids
+        jsout.write( elem.type.str() );
         jsout.write( elem.count );
         jsout.write( elem.pos.x );
         jsout.write( elem.pos.y );

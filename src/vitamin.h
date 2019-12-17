@@ -80,7 +80,7 @@ class vitamin
         int severity( int qty ) const;
 
         /** Load vitamin from JSON definition */
-        static void load_vitamin( JsonObject &jo );
+        static void load_vitamin( const JsonObject &jo );
 
         /** Get all currently loaded vitamins */
         static const std::map<vitamin_id, vitamin> &all();

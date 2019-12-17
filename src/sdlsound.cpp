@@ -304,7 +304,7 @@ static inline int add_sfx_path( const std::string &path )
     }
 }
 
-void sfx::load_sound_effects( JsonObject &jsobj )
+void sfx::load_sound_effects( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
@@ -321,7 +321,7 @@ void sfx::load_sound_effects( JsonObject &jsobj )
         effects.push_back( new_sound_effect );
     }
 }
-void sfx::load_sound_effect_preload( JsonObject &jsobj )
+void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;
@@ -334,7 +334,7 @@ void sfx::load_sound_effect_preload( JsonObject &jsobj )
     }
 }
 
-void sfx::load_playlist( JsonObject &jsobj )
+void sfx::load_playlist( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
         return;

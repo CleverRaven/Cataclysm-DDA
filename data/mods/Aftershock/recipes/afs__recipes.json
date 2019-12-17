@@ -31,7 +31,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "canister_empty", 1 ] ],
-      [ [ "grenade", 1 ], [ "40mm_frag", 2 ], [ "40mm_concussive", 2 ] ],
+      [ [ "grenade", 1 ], [ "40x46mm_m433", 2 ] ],
       [ [ "plut_cell", 6 ] ],
       [ [ "amplifier", 3 ] ],
       [ [ "power_supply", 1 ] ],

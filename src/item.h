@@ -42,6 +42,8 @@ namespace cata
 {
 template<typename T>
 class optional;
+template<typename T>
+class value_ptr;
 } // namespace cata
 class nc_color;
 class JsonIn;
@@ -272,7 +274,7 @@ class item : public visitable<item>
          */
         /*@{*/
         static item make_corpse( const mtype_id &mt = string_id<mtype>::NULL_ID(),
-                                 time_point turn = calendar::turn, const std::string &name = "" );
+                                 time_point turn = calendar::turn, const std::string &name = "", const int upgrade_time = -1 );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -1133,6 +1135,11 @@ class item : public visitable<item>
         float get_latent_heat() const;
         float get_freeze_point() const; // Farenheit
 
+        // If this is food, returns itself.  If it contains food, return that
+        // contents.  Otherwise, returns nullptr.
+        item *get_food();
+        const item *get_food() const;
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
@@ -1202,6 +1209,9 @@ class item : public visitable<item>
         /** List of all @ref components in printable form, empty if this item has
          * no components */
         std::string components_to_string() const;
+
+        /** Creates a hash from the itype_ids of this item's @ref components. */
+        uint64_t make_component_hash() const;
 
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
@@ -1967,7 +1977,7 @@ class item : public visitable<item>
         std::string get_owner_name() const;
         int get_min_str() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        const cata::value_ptr<islot_comestible> &get_comestible() const;
 
         /**
          * Get the stored recipe for in progress crafts.

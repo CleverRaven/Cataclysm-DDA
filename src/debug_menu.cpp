@@ -27,6 +27,7 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
@@ -83,6 +84,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "weather_gen.h"
+#include "monstergenerator.h"
 
 class vehicle;
 
@@ -91,8 +93,7 @@ class vehicle;
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_flu( "flu" );
+static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -518,8 +519,11 @@ void character_edit_menu()
             p.weapon = item();
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( _( "Make target equip" ) );
-            item &to_wear = g->u.i_at( item_pos );
+            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            if( !loc ) {
+                break;
+            }
+            item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
@@ -1096,6 +1100,21 @@ void debug()
             break;
 
         case DEBUG_GAME_STATE: {
+            std::string mfus;
+            std::vector<std::pair<m_flag, int>> sorted(
+                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
+                return a.second != b.second ? a.second > b.second : a.first < b.first;
+            } );
+            for( auto &m_flag_stat : sorted ) {
+                mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
+                                       m_flag_stat.second );
+            }
+            DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
+            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
+
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
@@ -1293,7 +1312,9 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                critter.die( nullptr );
+                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                    critter.die( nullptr );
+                }
             }
             g->cleanup_dead();
         }

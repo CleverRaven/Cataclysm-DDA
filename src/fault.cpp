@@ -31,7 +31,7 @@ const fault &string_id<fault>::obj() const
     return found->second;
 }
 
-void fault::load_fault( JsonObject &jo )
+void fault::load_fault( const JsonObject &jo )
 {
     fault f;
 
@@ -67,6 +67,7 @@ void fault::load_fault( JsonObject &jo )
         }
 
         optional( jo_method, false, "turns_into", m.turns_into, cata::nullopt );
+        optional( jo_method, false, "also_mends", m.also_mends, cata::nullopt );
 
         f.mending_methods_.emplace( m.id, m );
     }
@@ -115,6 +116,10 @@ void fault::check_consistency()
             if( m.second.turns_into && !m.second.turns_into->is_valid() ) {
                 debugmsg( "fault %s has invalid turns_into fault id %s for mending method %s",
                           f.second.id_.str(), m.second.turns_into->str(), m.first );
+            }
+            if( m.second.also_mends && !m.second.also_mends->is_valid() ) {
+                debugmsg( "fault %s has invalid also_mends fault id %s for mending method %s",
+                          f.second.id_.str(), m.second.also_mends->str(), m.first );
             }
         }
     }

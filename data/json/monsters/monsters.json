@@ -19,7 +19,8 @@
     "vision_day": 1,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
     "id": "mon_albino_penguin",
@@ -563,6 +564,7 @@
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
     },
     "death_function": [ "NORMAL" ],
+    "regenerates": 1,
     "flags": [
       "SEES",
       "HEARS",
@@ -577,8 +579,7 @@
       "BILE_BLOOD",
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
-      "FILTHY",
-      "REGENERATES_1"
+      "FILTHY"
     ]
   },
   {
@@ -764,7 +765,7 @@
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
-    "starting_ammo": { "40mm_frag": 100, "556": 1000 },
+    "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 4, 6 ] ] },
@@ -917,18 +918,8 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": [ "DARKMAN" ],
-    "flags": [
-      "NOHEAD",
-      "HARDTOSHOOT",
-      "WEBWALK",
-      "FLIES",
-      "PLASTIC",
-      "ELECTRIC",
-      "ACIDPROOF",
-      "SUNDEATH",
-      "REGENERATES_IN_DARK",
-      "NO_BREATHE"
-    ]
+    "regenerates_in_dark": true,
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
   {
     "id": "mon_dementia",
@@ -1713,7 +1704,7 @@
     "armor_cut": 8,
     "harvest": "meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
   },
   {
     "id": "mon_gracke",
@@ -1765,7 +1756,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "NORMAL" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
     "id": "mon_hallu_mom",
@@ -2610,20 +2601,9 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "SWIMS",
-      "PLASTIC",
-      "SLUDGEPROOF",
-      "ACID_BLOOD",
-      "ACIDPROOF",
-      "NOHEAD",
-      "REGENERATES_50",
-      "ABSORBS_SPLITS",
-      "REGEN_MORALE",
-      "NOGIB"
-    ]
+    "regenerates": 50,
+    "regen_morale": true,
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },
   {
     "id": "mon_skeleton",
@@ -2759,19 +2739,8 @@
     "vision_night": 30,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [
-      "NOHEAD",
-      "SEES",
-      "POISON",
-      "HEARS",
-      "REGENERATES_50",
-      "SMELLS",
-      "SLUDGEPROOF",
-      "SLUDGETRAIL",
-      "SWIMS",
-      "FLAMMABLE",
-      "NOGIB"
-    ]
+    "regenerates": 50,
+    "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {
     "id": "mon_slug_giant",
@@ -2853,7 +2822,7 @@
     "armor_cut": 90,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
-    "starting_ammo": { "40mm_frag": 200, "556": 3000 },
+    "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
@@ -3017,7 +2986,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "WORM" ],
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "WARM" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
     "id": "mon_yugg",
@@ -3765,7 +3734,8 @@
     "special_attacks": [ [ "DANCE", 30 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "REGENERATES_50", "POISON", "FILTHY" ]
+    "regenerates": 50,
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_dog",
@@ -3840,6 +3810,51 @@
       "POISON",
       "BLEED",
       "NOHEAD",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
+    "id": "mon_zombie_static",
+    "type": "MONSTER",
+    "name": "zapper zombie",
+    "description": "A very pale dead body with the worst case of static hair you have ever seen.  Sometimes, you can see sparks of electricity around it.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 60,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "melee_cut": 0,
+    "dodge": 2,
+    "luminance": 4,
+    "harvest": "zombie",
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "death_drops": "default_zombie_death_drops",
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 8, "into": "mon_zombie_electric" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ELECTRIC",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",

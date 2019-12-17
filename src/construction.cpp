@@ -64,9 +64,9 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
-const trap_str_id tr_firewood_source( "tr_firewood_source" );
-const trap_str_id tr_practice_target( "tr_practice_target" );
-const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 // Construction functions.
 namespace construct
@@ -115,6 +115,31 @@ static void place_construction( const std::string &desc );
 // Color standardization for string streams
 static const deferred_color color_title = def_c_light_red; //color for titles
 static const deferred_color color_data = def_c_cyan; //color for data parts
+
+static bool has_pre_terrain( const construction &con, const tripoint &p )
+{
+    if( con.pre_terrain.empty() ) {
+        return true;
+    }
+
+    if( con.pre_is_furniture ) {
+        furn_id f = furn_id( con.pre_terrain );
+        return g->m.furn( p ) == f;
+    } else {
+        ter_id t = ter_id( con.pre_terrain );
+        return g->m.ter( p ) == t;
+    }
+}
+
+static bool has_pre_terrain( const construction &con )
+{
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( p != g->u.pos() && has_pre_terrain( con, p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void standardize_construction_times( const int time )
 {
@@ -176,7 +201,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
@@ -491,12 +516,13 @@ int construction_menu( bool blueprint )
                         if( !current_con->pre_terrain.empty() ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
-                                require_string = furn_str_id( current_con->pre_terrain ).obj().name();
+                                require_string = furn_str_id( current_con->pre_terrain )->name();
                             } else {
-                                require_string = ter_str_id( current_con->pre_terrain ).obj().name();
+                                require_string = ter_str_id( current_con->pre_terrain )->name();
                             }
+                            nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
                             current_line << _( "Requires: " )
-                                         << colorize( require_string, color_data );
+                                         << colorize( require_string, pre_color );
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
@@ -736,15 +762,7 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
     // see if the terrain type checks out
-    if( !con.pre_terrain.empty() ) {
-        if( con.pre_is_furniture ) {
-            furn_id f = furn_id( con.pre_terrain );
-            place_okay &= g->m.furn( p ) == f;
-        } else {
-            ter_id t = ter_id( con.pre_terrain );
-            place_okay &= g->m.ter( p ) == t;
-        }
-    }
+    place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
     [&p]( const std::string & flag ) {
@@ -1319,7 +1337,7 @@ void assign_or_debugmsg( T &dest, const std::string &fun_id,
     }
 }
 
-void load_construction( JsonObject &jo )
+void load_construction( const JsonObject &jo )
 {
     construction con;
     con.id = constructions.size();

@@ -510,7 +510,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "nutrition": 35,
-    "description": "A gluten free sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
+    "description": "A gluten free sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
     "price": 1000,
     "material": [ "flesh", "veggy" ],
     "volume": 1,

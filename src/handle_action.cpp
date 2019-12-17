@@ -69,18 +69,16 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_relax_gas( "relax_gas" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-const skill_id skill_driving( "driving" );
-const skill_id skill_melee( "melee" );
+static const skill_id skill_melee( "melee" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -195,7 +193,7 @@ input_context game::get_player_input( std::string &action )
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
                 WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
@@ -576,7 +574,7 @@ static void grab()
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-        if( m.furn( grabp ).obj().move_str_req < 0 ) {
+        if( !m.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
@@ -968,14 +966,19 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
+    std::string deaf_text;
+    if( g->u.is_deaf() ) {
+        deaf_text = _( "<color_c_red> (DEAF!)</color>" );
+    }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate
-                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
-                    : _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" +
+                       deaf_text ) :
+                    _( "You have an alarm clock.  Set an alarm?" + deaf_text );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -983,7 +986,7 @@ static void sleep()
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) + deaf_text );
         }
 
         as_m.query();
@@ -1161,7 +1164,9 @@ static void read()
     auto loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        // calling obtain() invalidates the item pointer
+        // @TODO: find a way to do this without an int index
+        u.read( u.i_at( loc.obtain( u ) ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1432,13 +1437,13 @@ void game::open_consume_item_menu()
 
     switch( as_m.ret ) {
         case 0:
-            eat( game_menus::inv::consume_food );
+            avatar_action::eat( u, game_menus::inv::consume_food( u ) );
             break;
         case 1:
-            eat( game_menus::inv::consume_drink );
+            avatar_action::eat( u, game_menus::inv::consume_drink( u ) );
             break;
         case 2:
-            eat( game_menus::inv::consume_meds );
+            avatar_action::eat( u, game_menus::inv::consume_meds( u ) );
             break;
         default:
             break;
@@ -1884,11 +1889,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_EAT:
-                eat();
+                if( !avatar_action::eat_here( u ) ) {
+                    avatar_action::eat( u );
+                }
                 break;
 
             case ACTION_OPEN_CONSUME:
-                open_consume_item_menu();
+                if( !avatar_action::eat_here( u ) ) {
+                    open_consume_item_menu();
+                }
                 break;
 
             case ACTION_READ:
@@ -1913,7 +1922,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_UNLOAD:
-                unload();
+                avatar_action::unload( u );
                 break;
 
             case ACTION_MEND:

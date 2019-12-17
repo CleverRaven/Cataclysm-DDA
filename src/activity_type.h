@@ -74,7 +74,7 @@ class activity_type
         bool call_finish( player_activity *, player * ) const;
 
         /** JSON stuff */
-        static void load( JsonObject &jo );
+        static void load( const JsonObject &jo );
         static void check_consistency();
         static void reset();
 };

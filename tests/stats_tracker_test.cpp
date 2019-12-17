@@ -4,6 +4,7 @@
 #include "event_statistics.h"
 #include "game.h"
 #include "stats_tracker.h"
+#include "stringmaker.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {

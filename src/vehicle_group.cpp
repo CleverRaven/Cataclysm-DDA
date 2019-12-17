@@ -61,7 +61,7 @@ bool string_id<VehiclePlacement>::is_valid() const
     return vplacements.count( *this ) > 0;
 }
 
-void VehicleGroup::load( JsonObject &jo )
+void VehicleGroup::load( const JsonObject &jo )
 {
     VehicleGroup &group = vgroups[vgroup_id( jo.get_string( "id" ) )];
 
@@ -75,7 +75,7 @@ void VehicleGroup::reset()
     vgroups.clear();
 }
 
-VehicleFacings::VehicleFacings( JsonObject &jo, const std::string &key )
+VehicleFacings::VehicleFacings( const JsonObject &jo, const std::string &key )
 {
     if( jo.has_array( key ) ) {
         for( const int i : jo.get_array( key ) ) {
@@ -86,7 +86,7 @@ VehicleFacings::VehicleFacings( JsonObject &jo, const std::string &key )
     }
 }
 
-void VehiclePlacement::load( JsonObject &jo )
+void VehiclePlacement::load( const JsonObject &jo )
 {
     VehiclePlacement &placement = vplacements[vplacement_id( jo.get_string( "id" ) )];
 
@@ -110,7 +110,7 @@ const VehicleLocation *VehiclePlacement::pick() const
     return nullptr;
 }
 
-VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
+VehicleFunction_json::VehicleFunction_json( const JsonObject &jo )
     : vehicle( jo.get_string( "vehicle" ) ),
       number( jo, "number" ),
       fuel( jo.get_int( "fuel" ) ),
@@ -163,7 +163,7 @@ bool string_id<VehicleSpawn>::is_valid() const
     return vspawns.count( *this ) > 0;
 }
 
-void VehicleSpawn::load( JsonObject &jo )
+void VehicleSpawn::load( const JsonObject &jo )
 {
     VehicleSpawn &spawn = vspawns[vspawn_id( jo.get_string( "id" ) )];
     for( JsonObject type : jo.get_array( "spawn_types" ) ) {

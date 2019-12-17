@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <tuple>
 #include <set>
-#include <sstream>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -83,8 +82,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_ridden( "ridden" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -623,7 +621,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     ts.tileset_id = tileset_id;
 }
 
-void tileset_loader::load_internal( JsonObject &config, const std::string &tileset_root,
+void tileset_loader::load_internal( const JsonObject &config, const std::string &tileset_root,
                                     const std::string &img_path )
 {
     if( config.has_array( "tiles-new" ) ) {
@@ -725,7 +723,7 @@ void tileset_loader::add_ascii_subtile( tile_type &curr_tile, const std::string 
     ts.create_tile_type( m_id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_ascii( JsonObject &config )
+void tileset_loader::load_ascii( const JsonObject &config )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -737,7 +735,7 @@ void tileset_loader::load_ascii( JsonObject &config )
     }
 }
 
-void tileset_loader::load_ascii_set( JsonObject &entry )
+void tileset_loader::load_ascii_set( const JsonObject &entry )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -846,7 +844,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
     }
 }
 
-void tileset_loader::load_tilejson_from_file( JsonObject &config )
+void tileset_loader::load_tilejson_from_file( const JsonObject &config )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -902,7 +900,7 @@ void tileset_loader::load_tilejson_from_file( JsonObject &config )
  * definition of the same id is overridden.
  * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id )
+tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
     tile_type curr_subtile;
 
@@ -912,7 +910,7 @@ tile_type &tileset_loader::load_tile( JsonObject &entry, const std::string &id )
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
-void tileset_loader::load_tile_spritelists( JsonObject &entry,
+void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
         const std::string &objname )
 {
@@ -1827,8 +1825,21 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
         }
         break;
+        case C_FURNITURE: {
+            // If the furniture is not movable, we'll allow seeding by the position
+            // since we won't get the behavior that occurs where the tile constantly
+            // changes when the player grabs the furniture and drags it, causing the
+            // seed to change.
+            const furn_str_id fid( id );
+            if( fid.is_valid() ) {
+                const furn_t &f = fid.obj();
+                if( !f.is_movable() ) {
+                    seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+                }
+            }
+        }
+        break;
         case C_ITEM:
-        case C_FURNITURE:
         case C_TRAP:
         case C_NONE:
         case C_BULLET:
@@ -2780,12 +2791,10 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     }
 
     if( result && !is_player ) {
-        std::ostringstream tmp_id;
-        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
+        std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player ) {
-            tmp_id << "_sees_player";
+            draw_id += "_sees_player";
         }
-        const std::string draw_id = tmp_id.str();
         if( tileset_ptr->find_tile_type( draw_id ) ) {
             draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
         }

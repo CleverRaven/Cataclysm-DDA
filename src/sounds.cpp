@@ -70,11 +70,11 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 activity_id act;
 std::pair<std::string, std::string> engine_external_id_and_variant;
 
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -113,6 +113,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::music: return "music";
     case sounds::sound_t::movement: return "movement";
     case sounds::sound_t::speech: return "speech";
+    case sounds::sound_t::electronic_speech: return "electronic_speech";
     case sounds::sound_t::activity: return "activity";
     case sounds::sound_t::destructive_activity: return "destructive_activity";
     case sounds::sound_t::alarm: return "alarm";
@@ -312,12 +313,12 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
             case sounds::sound_t::combat:
-                return false;
-            case sounds::sound_t::speech:
-            // radios also produce speech sound
-            case sounds::sound_t::alarm:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
+            case sounds::sound_t::speech:
+                return false;
+            case sounds::sound_t::electronic_speech:
+            case sounds::sound_t::alarm:
                 return true;
         }
     } else {
@@ -330,6 +331,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::destructive_activity:
                 return one_in( 100 );
             case sounds::sound_t::speech:
+            case sounds::sound_t::electronic_speech:
             case sounds::sound_t::alarm:
             case sounds::sound_t::combat:
             case sounds::sound_t::alert:
@@ -422,8 +424,7 @@ void sounds::process_sound_markers( player *p )
         if( p->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( p );
-                guy->handle_sound( static_cast<int>( sound.category ), description,
-                                   heard_volume, pos );
+                guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
         }
@@ -444,7 +445,7 @@ void sounds::process_sound_markers( player *p )
             }
             // if we can see it, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( severity, _( "From your position you hear %1$s." ), description );
+                add_msg( severity, _( "From your position you hear %1$s" ), description );
             } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
@@ -877,6 +878,7 @@ void sfx::do_ambient()
         switch( g->weather.weather ) {
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
+            case WEATHER_LIGHT_DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
@@ -1432,9 +1434,9 @@ void sfx::end_activity_sounds()
 
 /** Dummy implementations for builds without sound */
 /*@{*/
-void sfx::load_sound_effects( JsonObject & ) { }
-void sfx::load_sound_effect_preload( JsonObject & ) { }
-void sfx::load_playlist( JsonObject & ) { }
+void sfx::load_sound_effects( const JsonObject & ) { }
+void sfx::load_sound_effect_preload( const JsonObject & ) { }
+void sfx::load_playlist( const JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, double, double ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, channel, int,

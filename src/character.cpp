@@ -86,64 +86,64 @@ static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_alarm_clock( "alarm_clock" );
-const efftype_id effect_bandaged( "bandaged" );
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_blisters( "blisters" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_cold( "cold" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_cough_suppress( "cough_suppress" );
-const efftype_id effect_recently_coughed( "recently_coughed" );
-const efftype_id effect_crushed( "crushed" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_disinfected( "disinfected" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_frostbite( "frostbite" );
-const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_grabbed( "grabbed" );
-const efftype_id effect_grabbing( "grabbing" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_heavysnare( "heavysnare" );
-const efftype_id effect_hot( "hot" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_xanax( "took_xanax" );
-const efftype_id effect_webbed( "webbed" );
-const efftype_id effect_winded( "winded" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_cough_suppress( "cough_suppress" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_winded( "winded" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_throw( "throw" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -204,7 +204,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
-const species_id HUMAN( "HUMAN" );
+static const species_id HUMAN( "HUMAN" );
 
 // *INDENT-OFF*
 Character::Character() :
@@ -326,7 +326,8 @@ bool Character::in_species( const species_id &spec ) const
 
 bool Character::is_warm() const
 {
-    return true; // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
+    return true;
 }
 
 const std::string &Character::symbol() const
@@ -528,6 +529,56 @@ double Character::aim_per_move( const item &gun, double recoil ) const
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+void Character::cancel_stashed_activity()
+{
+    stashed_outbounds_activity = player_activity();
+    stashed_outbounds_backlog = player_activity();
+}
+
+player_activity Character::get_stashed_activity() const
+{
+    return stashed_outbounds_activity;
+}
+
+void Character::set_stashed_activity( player_activity act, player_activity act_back )
+{
+    stashed_outbounds_activity = act;
+    stashed_outbounds_backlog = act_back;
+}
+
+bool Character::has_stashed_activity() const
+{
+    return static_cast<bool>( stashed_outbounds_activity );
+}
+
+void Character::assign_stashed_activity()
+{
+    activity = stashed_outbounds_activity;
+    backlog.push_front( stashed_outbounds_backlog );
+    cancel_stashed_activity();
+}
+
+bool Character::check_outbounds_activity( player_activity act, bool check_only )
+{
+    if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
+          !g->m.inbounds( g->m.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !g->m.inbounds( g->m.getlocal( act.coords.back() ) ) ) ) {
+        if( is_npc() && !check_only ) {
+            // stash activity for when reloaded.
+            stashed_outbounds_activity = act;
+            if( !backlog.empty() ) {
+                stashed_outbounds_backlog = backlog.front();
+            }
+            activity = player_activity();
+        }
+        add_msg( m_debug,
+                 "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
+                 disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+        return true;
+    }
+    return false;
 }
 
 void Character::set_destination_activity( const player_activity &new_destination_activity )
@@ -2621,10 +2672,11 @@ bool Character::in_climate_control()
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  vp->is_inside() &&  // Already checks for opened doors
                                  vp->vehicle().total_power_w( true ) > 0 // Out of gas? No AC for you!
-                             );  // TODO: (?) Force player to scrounge together an AC unit
+                             );
         }
         // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;

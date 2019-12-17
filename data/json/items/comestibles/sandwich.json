@@ -26,6 +26,13 @@
     "id": "sandwich_deluxe",
     "name": "deluxe sandwich",
     "name_plural": "deluxe sandwiches",
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mutant",
+        "name": { "str": "\"deluxe\" sandwich", "str_pl": "\"deluxe\" sandwiches" }
+      }
+    ],
     "weight": "292 g",
     "color": "brown",
     "spoils_in": "1 day 8 hours",
@@ -190,6 +197,10 @@
     "id": "sandwich_t",
     "name": "meat sandwich",
     "name_plural": "meat sandwiches",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+    ],
     "weight": "233 g",
     "color": "light_gray",
     "spoils_in": "1 day 12 hours",

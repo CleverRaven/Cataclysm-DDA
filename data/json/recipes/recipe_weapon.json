@@ -171,10 +171,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
+    "skills_required": [ "tailor", 1 ],
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "filament", 20, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
@@ -1050,13 +1051,12 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
     "skills_required": [ "gun", 3 ],
-    "difficulty": 5,
+    "difficulty": 7,
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ] ]
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1064,13 +1064,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 5 ],
+    "skills_required": [ "gun", 3 ],
     "difficulty": 7,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "welding_standard", 30 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -2652,7 +2650,13 @@
     "//": "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [ [ "any_tallow", 2, "LIST" ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ],
+      [
+        [ "any_tallow", 2, "LIST" ],
+        [ "cooking_oil", 16 ],
+        [ "cooking_oil2", 16 ],
+        [ "lamp_oil", 250 ],
+        [ "motor_oil", 250 ]
+      ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -3152,7 +3156,13 @@
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [ [ "any_tallow", 4, "LIST" ], [ "cooking_oil", 32 ], [ "cooking_oil2", 32 ], [ "lamp_oil", 500 ] ]
+      [
+        [ "any_tallow", 4, "LIST" ],
+        [ "cooking_oil", 32 ],
+        [ "cooking_oil2", 32 ],
+        [ "lamp_oil", 500 ],
+        [ "motor_oil", 500 ]
+      ]
     ]
   },
   {

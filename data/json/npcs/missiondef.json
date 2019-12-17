@@ -710,7 +710,7 @@
     "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
     "type": "mission_definition",
     "name": "Prove You're A Survivor",
-    "description": "Prove you're a survivor by surviving for 10 days after the cataclysm, and then returning to the person who gave you this mission.",
+    "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "days_since_cataclysm": 10 },
     "difficulty": 1,

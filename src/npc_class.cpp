@@ -80,7 +80,7 @@ npc_class::npc_class() : id( NC_NONE )
 {
 }
 
-void npc_class::load_npc_class( JsonObject &jo, const std::string &src )
+void npc_class::load_npc_class( const JsonObject &jo, const std::string &src )
 {
     npc_class_factory.load( jo, src );
 }
@@ -164,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-static distribution load_distribution( JsonObject &jo )
+static distribution load_distribution( const JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -212,7 +212,7 @@ static distribution load_distribution( JsonObject &jo )
     return distribution();
 }
 
-static distribution load_distribution( JsonObject &jo, const std::string &name )
+static distribution load_distribution( const JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -231,7 +231,7 @@ static distribution load_distribution( JsonObject &jo, const std::string &name )
     return distribution();
 }
 
-void npc_class::load( JsonObject &jo, const std::string & )
+void npc_class::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );
@@ -267,8 +267,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
     if( jo.has_object( "mutation_rounds" ) ) {
         const std::map<std::string, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
-        auto jo2 = jo.get_object( "mutation_rounds" );
-        for( auto &mutation : jo2.get_member_names() ) {
+        for( const JsonMember &member : jo.get_object( "mutation_rounds" ) ) {
+            const std::string &mutation = member.name();
             const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
             &p ) {
                 return p.second.id == mutation;
@@ -278,7 +278,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
                 debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
-            auto distrib = jo2.get_object( mutation );
+            auto distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }

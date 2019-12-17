@@ -32,9 +32,9 @@
       { "id": "druid_veggrasp" },
       { "id": "druid_veggrasp" },
       { "id": "druid_veggrasp" },
-      { "id": "light_healing", "self": true },
-      { "id": "light_healing", "self": true },
-      { "id": "light_healing", "self": true },
+      { "id": "light_healing", "hit_self": true },
+      { "id": "light_healing", "hit_self": true },
+      { "id": "light_healing", "hit_self": true },
       { "id": "spell_summon_crocodile" }
     ]
   }

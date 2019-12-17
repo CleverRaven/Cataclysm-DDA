@@ -6,7 +6,6 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 
 #include "cursesdef.h"
 #include "options.h"

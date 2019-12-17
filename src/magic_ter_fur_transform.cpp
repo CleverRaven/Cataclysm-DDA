@@ -27,7 +27,7 @@ bool string_id<ter_furn_transform>::is_valid() const
     return ter_furn_transform_factory.is_valid( *this );
 }
 
-void ter_furn_transform::load_transform( JsonObject &jo, const std::string &src )
+void ter_furn_transform::load_transform( const JsonObject &jo, const std::string &src )
 {
     ter_furn_transform_factory.load( jo, src );
 }
@@ -48,7 +48,7 @@ const std::vector<ter_furn_transform> &ter_furn_transform::get_all()
 }
 
 template<class T>
-static void load_transform_results( JsonObject &jsi, const std::string &json_key,
+static void load_transform_results( const JsonObject &jsi, const std::string &json_key,
                                     weighted_int_list<T> &list )
 {
     if( jsi.has_string( json_key ) ) {
@@ -67,14 +67,14 @@ static void load_transform_results( JsonObject &jsi, const std::string &json_key
 }
 
 template<class T>
-void ter_furn_data<T>::load( JsonObject &jo )
+void ter_furn_data<T>::load( const JsonObject &jo )
 {
     load_transform_results( jo, "result", list );
     message = jo.get_string( "message", "" );
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( JsonObject &jo, const std::string & )
+void ter_furn_transform::load( const JsonObject &jo, const std::string & )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );

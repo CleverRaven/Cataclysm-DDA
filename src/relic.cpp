@@ -24,7 +24,7 @@ void relic::add_passive_effect( const enchantment &nench )
     passive_effects.emplace_back( nench );
 }
 
-void relic::load( JsonObject &jo )
+void relic::load( const JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "active_effects" ) ) {

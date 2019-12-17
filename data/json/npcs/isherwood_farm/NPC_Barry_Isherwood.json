@@ -43,7 +43,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "no": "I can't believe my eyes.  Please get my outta here...",
+      "no": "I can't believe my eyes.  Please get me outta here…",
       "yes": "Hey, <name_g>."
     },
     "responses": [
@@ -96,8 +96,8 @@
       "advice": "We shouldn't stay here too long, more might show up.",
       "inquire": "How much further?",
       "success": "Thanks, we'll never be able to repay you, Here's a token of my gratitude, I made these suits for my family and always keep a few extra around.",
-      "success_lie": "I don't feel saved...",
-      "failure": "Tell my family that I love them..."
+      "success_lie": "I don't feel saved…",
+      "failure": "Tell my family that I love them…"
     }
   }
 ]

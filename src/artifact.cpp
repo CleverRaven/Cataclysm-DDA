@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <array>
-#include <sstream>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -24,6 +23,7 @@
 #include "optional.h"
 #include "units.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -617,8 +617,8 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 // Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool()
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
     tool->charges_per_use = 1;
@@ -631,26 +631,26 @@ it_artifact_tool::it_artifact_tool()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo )
+it_artifact_tool::it_artifact_tool( const JsonObject &jo )
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
 it_artifact_armor::it_artifact_armor()
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo )
+it_artifact_armor::it_artifact_armor( const JsonObject &jo )
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     deserialize( jo );
 }
 
@@ -708,9 +708,7 @@ std::string new_artifact()
                 if( !weapon.tag.empty() ) {
                     def.item_tags.insert( weapon.tag );
                 }
-                std::ostringstream newname;
-                newname << _( weapon.adjective ) << " " << _( info.name );
-                def.create_name( newname.str() );
+                def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }
         }
         def.description = no_translation(
@@ -842,11 +840,9 @@ std::string new_artifact()
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
         def.armor->storage = info.storage;
-        std::ostringstream description;
-        description << string_format( info.plural ?
-                                      _( "This is the %s.\nThey are the only ones of their kind." ) :
-                                      _( "This is the %s.\nIt is the only one of its kind." ),
-                                      def.nname( 1 ) );
+        std::string description = string_format( info.plural ?
+                                  _( "This is the %s.\nThey are the only ones of their kind." ) :
+                                  _( "This is the %s.\nIt is the only one of its kind." ), def.nname( 1 ) );
 
         // Modify the armor further
         if( !one_in( 4 ) ) {
@@ -892,14 +888,14 @@ std::string new_artifact()
                     def.armor->storage = 0_ml;
                 }
 
-                description << string_format( info.plural ?
+                description += string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
                                               _( modinfo.name ) );
             }
         }
 
-        def.description = no_translation( description.str() );
+        def.description = no_translation( description );
 
         // Finally, pick some effects
         int num_good = 0;
@@ -1144,7 +1140,7 @@ void load_artifacts( const std::string &path )
     } );
 }
 
-void it_artifact_tool::deserialize( JsonObject &jo )
+void it_artifact_tool::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );
@@ -1259,7 +1255,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
 }
 
-void it_artifact_armor::deserialize( JsonObject &jo )
+void it_artifact_armor::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );

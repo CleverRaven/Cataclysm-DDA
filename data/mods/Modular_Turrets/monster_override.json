@@ -168,14 +168,14 @@
     "description": "An automated defense robot still active due to its internal power source. This one is equipped with an electric prod, tear gas sprayer, and integrated 40mm beanbag launcher.",
     "emit_fields": [ "emit_tear_gas_pulse" ],
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "40mm_beanbag": 100 },
+    "starting_ammo": { "40x46mm_m1006": 100 },
     "special_attacks": [
       {
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
         "gun_type": "robogun_beanbag",
-        "ammo_type": "40mm_beanbag",
+        "ammo_type": "40x46mm",
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",

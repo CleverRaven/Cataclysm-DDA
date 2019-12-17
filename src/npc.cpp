@@ -67,46 +67,34 @@
 class basecamp;
 class monfaction;
 
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_speech( "speech" );
-const skill_id skill_barter( "barter" );
-const skill_id skill_gun( "gun" );
-const skill_id skill_pistol( "pistol" );
-const skill_id skill_throw( "throw" );
-const skill_id skill_rifle( "rifle" );
-const skill_id skill_dodge( "dodge" );
-const skill_id skill_melee( "melee" );
-const skill_id skill_unarmed( "unarmed" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_archery( "archery" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_shotgun( "shotgun" );
-const skill_id skill_smg( "smg" );
-const skill_id skill_launcher( "launcher" );
-const skill_id skill_cutting( "cutting" );
+static const skill_id skill_barter( "barter" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_cutting( "cutting" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_high( "high" );
-const efftype_id effect_pkill1( "pkill1" );
-const efftype_id effect_pkill2( "pkill2" );
-const efftype_id effect_pkill3( "pkill3" );
-const efftype_id effect_npc_suspend( "npc_suspend" );
-const efftype_id effect_pkill_l( "pkill_l" );
-const efftype_id effect_infection( "infection" );
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_npc_flee_player( "npc_flee_player" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -198,7 +186,7 @@ npc &npc::operator=( npc && ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc_template::load( JsonObject &jsobj )
+void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
@@ -843,7 +831,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
     }
-    if( !skill || ( skill && skill_level >= type->level ) ) {
+    if( !skill || skill_level >= type->level ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
         return false;
     }
@@ -1494,12 +1482,9 @@ void npc::decide_needs()
     invslice slice = inv.slice();
     for( auto &i : slice ) {
         item inventory_item = i->front();
-        if( inventory_item.is_food( ) ) {
-            needrank[ need_food ] += nutrition_for( inventory_item ) / 4.0;
-            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4.0;
-        } else if( inventory_item.is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4.0;
-            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4.0;
+        if( const item *food = inventory_item.get_food() ) {
+            needrank[ need_food ] += nutrition_for( *food ) / 4.0;
+            needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
         }
     }
     needs.clear();
@@ -1529,7 +1514,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line, const int priority ) const
+void npc::say( const std::string &line, const sounds::sound_t spriority ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1547,7 +1532,6 @@ void npc::say( const std::string &line, const int priority ) const
         return;
     }
     // Sound happens even if we can't hear it
-    sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
@@ -1766,11 +1750,13 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
-            ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
+            // TODO: magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14;
         }
 
         if( has_gun_for_ammo( it.ammo_type() ) ) {
-            ret += 14; // TODO: consider making this cumulative (once was)
+            // TODO: consider making this cumulative (once was)
+            ret += 14;
         }
     }
 
@@ -2779,7 +2765,7 @@ epilogue::epilogue()
 
 epilogue_map epilogue::_all_epilogue;
 
-void epilogue::load_epilogue( JsonObject &jsobj )
+void epilogue::load_epilogue( const JsonObject &jsobj )
 {
     epilogue base;
     base.id = jsobj.get_string( "id" );

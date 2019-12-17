@@ -34,22 +34,21 @@
 #include "point.h"
 #include "teleport.h"
 
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
-const species_id ROBOT( "ROBOT" );
+static const species_id ROBOT( "ROBOT" );
 
-const skill_id skill_throw( "throw" );
+static const skill_id skill_throw( "throw" );
 
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_heavysnare( "heavysnare" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_ridden( "ridden" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -699,8 +698,8 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
-            sounds::sound( p, 4, sounds::sound_t::speech,  _( "BEEPBOOP!  Please remove non-organic object." ),
-                           false, "speech", "robot" );
+            sounds::sound( p, 4, sounds::sound_t::electronic_speech,
+                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech", "robot" );
             c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                       _( "The dissector lights up, and shuts down." ) );
             return false;
@@ -1117,7 +1116,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+    if( m != nullptr && m->flies() ) {
         return false;
     }
     if( !g->m.has_zlevels() ) {

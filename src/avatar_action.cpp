@@ -63,6 +63,9 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -336,7 +339,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         // Requires confirmation if we were on dry land previously
         if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
+            if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
@@ -565,7 +568,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    auto critters = you.get_hostile_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
@@ -851,6 +854,87 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
+bool avatar_action::eat_here( avatar &you )
+{
+    if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
+        ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
+        if( you.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
+            return true;
+        } else {
+            you.moves -= 400;
+            g->m.ter_set( you.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            you.eat( food );
+            return true;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
+            g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
+        if( you.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+            return true;
+        } else {
+            you.moves -= 400;
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            you.eat( food );
+            if( g->m.ter( you.pos() ) == t_grass_tall ) {
+                g->m.ter_set( you.pos(), t_grass_long );
+            } else if( g->m.ter( you.pos() ) == t_grass_long ) {
+                g->m.ter_set( you.pos(), t_grass );
+            } else {
+                g->m.ter_set( you.pos(), t_dirt );
+            }
+            return true;
+        }
+    }
+    if( you.has_active_mutation( trait_GRAZER ) ) {
+        if( g->m.ter( you.pos() ) == t_grass_golf ) {
+            add_msg( _( "This grass is too short to graze." ) );
+            return true;
+        } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
+            add_msg( _( "This grass is dead and too mangled for you to graze." ) );
+            return true;
+        } else if( g->m.ter( you.pos() ) == t_grass_white ) {
+            add_msg( _( "This grass is tainted with paint and thus inedible." ) );
+            return true;
+        }
+    }
+    return false;
+}
+
+void avatar_action::eat( avatar &you )
+{
+    item_location loc = game_menus::inv::consume( you );
+    avatar_action::eat( you, loc );
+}
+
+void avatar_action::eat( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        you.cancel_activity();
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    item *it = loc.get_item();
+    if( loc.where() == item_location::type::character ) {
+        you.consume( loc );
+
+    } else if( you.consume_item( *it ) ) {
+        if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
+            it->contents.erase( it->contents.begin() );
+            add_msg( _( "You leave the empty %s." ), it->tname() );
+        } else {
+            loc.remove_item();
+        }
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+}
+
 void avatar_action::plthrow( avatar &you, int pos,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
@@ -870,7 +954,8 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
 
     if( pos == INT_MIN ) {
-        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        pos = you.get_item_position( game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                     _( "You don't have any items to throw." ) ).get_item() );
         g->refresh_all();
     }
 
@@ -1036,4 +1121,26 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     }
 
     you.invalidate_crafting_inventory();
+}
+
+// Opens up a menu to Unload a container, gun, or tool
+// If it's a gun, some gunmods can also be loaded
+void avatar_action::unload( avatar &you )
+{
+    item_location loc;
+
+    loc = g->inv_map_splice( [&you]( const item & it ) {
+        return you.rate_action_unload( it ) == HINT_GOOD;
+    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    if( you.unload( *loc ) ) {
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
+        }
+    }
 }

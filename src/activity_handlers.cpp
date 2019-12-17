@@ -98,23 +98,20 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_survival( "survival" );
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_computer( "computer" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_computer( "computer" );
 
-const species_id HUMAN( "HUMAN" );
-const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_milked( "milked" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_saddled( "saddled" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -326,7 +323,7 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+    if( item::find_type( itype_id( what ) )->bionic ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
         for( const std::string &flg : flags ) {
             cbm.set_flag( flg );
@@ -1858,6 +1855,11 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     std::string msg = _( "You reload the %s." );
+    if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
+        msg =
+            _( "You manage to loosen some debris and make your %s somewhat operational." );
+        reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
+    }
 
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
@@ -2519,7 +2521,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
     if( heat == nullptr ) {
         return;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item &target = *heat->get_food();
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( "EATEN_COLD" ) ) {
@@ -2579,6 +2581,10 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     target->faults.erase( *f );
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
+    }
+    // also_mends removes not just the fault picked to be mended, but this as well.
+    if( method->also_mends ) {
+        target->faults.erase( *method->also_mends );
     }
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
@@ -2697,22 +2703,22 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    g->eat();
+    avatar_action::eat( g->u );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_food );
+    avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_drink );
+    avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    g->eat( game_menus::inv::consume_meds );
+    avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
 }
 
 void activity_handlers::move_items_do_turn( player_activity *act, player *p )
@@ -3633,8 +3639,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     tripoint direction;
     if( !p->is_npc() ) {
-        if( p->backlog.empty() || ( !p->backlog.empty() &&
-                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+        if( p->backlog.empty() || p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
             while( true ) {
                 if( const cata::optional<tripoint> dir = choose_direction(
                             _( "Select a direction for the tree to fall in." ) ) ) {

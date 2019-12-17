@@ -1141,6 +1141,15 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
+    "id": "balloon",
+    "type": "CONTAINER",
+    "category": "other",
+    "looks_like": "condom",
+    "name": "balloon",
+    "description": "A child's balloon.  This could be used as a makeshift water container.",
+    "copy-from": "condom"
+  },
+  {
     "id": "can_food_big",
     "type": "CONTAINER",
     "category": "container",
