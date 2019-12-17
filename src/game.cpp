@@ -8428,7 +8428,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+        int moves = opt.moves();
+        if( it->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+            moves += 2500;
+        }
+
+        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
         if( use_loc ) {
             u.activity.targets.emplace_back( loc );
         } else {
