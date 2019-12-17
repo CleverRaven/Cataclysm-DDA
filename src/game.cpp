@@ -2086,7 +2086,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     wield( locThisItem );
                     break;
                 case 't':
-                    avatar_action::plthrow( u, pos );
+                    avatar_action::plthrow( u, locThisItem );
                     break;
                 case 'c':
                     change_side( pos );
@@ -5671,7 +5671,8 @@ void game::peek( const tripoint &p )
     u.setpos( prev );
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        avatar_action::plthrow( u, INT_MIN, p );
+        item_location loc;
+        avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
 
