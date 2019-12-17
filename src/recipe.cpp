@@ -458,7 +458,7 @@ std::string required_skills_as_string( _FIter first, _FIter last )
 
 std::string recipe::primary_skill_string( const Character *c, bool print_skill_level ) const
 {
-    std::list< std::pair<skill_id, int> > skillList;
+    std::vector< std::pair<skill_id, int> > skillList;
 
     if( !skill_used.is_null() ) {
         skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
