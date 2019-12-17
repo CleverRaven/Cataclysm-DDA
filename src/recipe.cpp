@@ -421,8 +421,8 @@ bool recipe::has_byproducts() const
 // Format a std::pair<skill_id, int> for the crafting menu.
 // skill colored green (or yellow if beyond characters skill)
 // optionally with the skill level (player / difficulty)
-template<typename _FIter>
-std::string required_skills_as_string( _FIter first, _FIter last, const Character *c,
+template<typename Iter>
+std::string required_skills_as_string( Iter first, Iter last, const Character *c,
                                        const bool print_skill_level )
 {
     if( first == last ) {
@@ -442,8 +442,8 @@ std::string required_skills_as_string( _FIter first, _FIter last, const Characte
 
 // Format a std::pair<skill_id, int> for the basecamp bulletin board.
 // skill colored white with difficulty in parenthesis.
-template<typename _FIter>
-std::string required_skills_as_string( _FIter first, _FIter last )
+template<typename Iter>
+std::string required_skills_as_string( Iter first, Iter last )
 {
     if( first == last ) {
         return _( "<color_cyan>none</color>" );
@@ -476,11 +476,10 @@ std::string recipe::required_skills_string( const Character *c, bool include_pri
                                           print_skill_level );
     }
 
-    std::list< std::pair<skill_id, int> > skillList;
+    std::vector< std::pair<skill_id, int> > skillList;
     skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    for( const std::pair<skill_id, int> &skill : required_skills ) {
-        skillList.push_back( skill );
-    }
+    std::copy( required_skills.begin(), required_skills.end(),
+               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
 
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
@@ -492,11 +491,10 @@ std::string recipe::required_all_skills_string() const
         return required_skills_as_string( required_skills.begin(), required_skills.end() );
     }
 
-    std::list< std::pair<skill_id, int> > skillList;
+    std::vector< std::pair<skill_id, int> > skillList;
     skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    for( const std::pair<skill_id, int> &skill : required_skills ) {
-        skillList.push_back( skill );
-    }
+    std::copy( required_skills.begin(), required_skills.end(),
+               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
 
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
