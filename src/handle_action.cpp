@@ -1926,7 +1926,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                mend();
+                avatar_action::mend( g->u, item_location() );
                 break;
 
             case ACTION_THROW:

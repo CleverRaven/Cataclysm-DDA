@@ -2107,7 +2107,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     reload( locThisItem, true );
                     break;
                 case 'm':
-                    mend( pos );
+                    avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
                     u.read( oThisItem );
@@ -8523,22 +8523,6 @@ void game::reload_weapon( bool try_everything )
     }
 
     reload_item();
-}
-
-void game::mend( int pos )
-{
-    if( pos == INT_MIN ) {
-        if( u.is_armed() ) {
-            pos = -1;
-        } else {
-            add_msg( m_info, _( "You're not wielding anything." ) );
-        }
-    }
-
-    item &obj = g->u.i_at( pos );
-    if( g->u.has_item( obj ) ) {
-        g->u.mend_item( item_location( g->u, &obj ) );
-    }
 }
 
 bool game::unload( item &it )
