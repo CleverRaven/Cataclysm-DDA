@@ -10583,12 +10583,11 @@ point game::update_map( int &x, int &y )
         shift.y++;
     }
 
-    // Update what parts of the world map we can see
-    update_overmap_seen();
-
     if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
+        // Update what parts of the world map we can see
+        update_overmap_seen();
         // Not actually shifting the submaps, all the stuff below would do nothing
         return point_zero;
     }
@@ -10640,6 +10639,9 @@ point game::update_map( int &x, int &y )
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading
     m.spawn_monsters( false ); // Static monsters
+
+    // Update what parts of the world map we can see
+    update_overmap_seen();
 
     return shift;
 }
