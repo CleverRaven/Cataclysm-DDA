@@ -26,6 +26,7 @@
       "CHAOTIC_BAD",
       "UNSTABLE",
       "HERBIVORE",
+      "ROBUST",
       "CARNIVORE"
     ],
     "can_only_eat": [ "junk", "sugar" ],
