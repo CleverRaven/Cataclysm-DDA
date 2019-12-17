@@ -1589,15 +1589,19 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         return 0;
     }
 
-    int inventory_index = g->inv_for_filter( _( "Modify what?" ), []( const item & itm ) {
+    auto filter = []( const item & itm ) {
         return itm.has_flag( "RADIO_MODABLE" );
-    } );
-    item &modded = p->i_at( inventory_index );
+    };
 
-    if( modded.is_null() ) {
+    // note: if !p->is_npc() then p is avatar
+    item_location loc = game_menus::inv::titled_filter_menu(
+                            filter, *p->as_avatar(), _( "Modify what?" ) );
+
+    if( !loc ) {
         p->add_msg_if_player( _( "You do not have that item!" ) );
         return 0;
     }
+    item &modded = *loc;
 
     int choice = uilist( _( "Which signal should activate the item?" ), {
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
@@ -4621,12 +4625,20 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
         if( map_it.typeId() == "rmi2_corpse" &&
             query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
                       map_it.color_in_inventory() ) ) ) {
-            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
-            item &data_card = p->i_at( pos );
-            if( data_card.is_null() ) {
+
+            auto filter = []( const item & it ) {
+                return it.typeId() == "data_card";
+            };
+            avatar *you = p->as_avatar();
+            item_location loc;
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
+            }
+            if( !loc ) {
                 add_msg( m_info, _( "Nevermind." ) );
                 return 0;
             }
+            item &data_card = *loc;
             ///\EFFECT_DEX makes using the mind splicer faster
             ///\EFFECT_FIRSTAID makes using the mind splicer faster
             const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
@@ -4674,15 +4686,20 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_id( itype_id( "log" ), _( "Cut up what?" ) );
+    avatar *you = p->as_avatar();
+    item_location loc;
+    auto filter = []( const item & it ) {
+        return it.typeId() == "log";
+    };
+    if( you != nullptr ) {
+        loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Cut up what?" ) );
+    }
 
-    item &cut = p->i_at( pos );
-
-    if( cut.is_null() ) {
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    p->i_rem( &cut );
+    p->i_rem( &*loc );
     cut_log_into_planks( *p );
     return it->type->charges_to_use();
 }
@@ -5863,12 +5880,12 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    int inventory_index = g->inv_for_all( _( "Select the firearm to repair" ) );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to repair" ) );
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
+    item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
@@ -6009,21 +6026,31 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a fabrication skill of 1 to use this repair kit." ) );
         return 0;
     }
-    static const std::set<material_id> repairable {
+    static const std::set<material_id> repairable{
         material_id( "wood" ),
         material_id( "paper" ),
         material_id( "bone" ),
         material_id( "chitin" ),
         material_id( "acidchitin" )
     };
-    int inventory_index = g->inv_for_filter( _( "Select the item to repair" ), []( const item & itm ) {
+
+    auto filter = []( const item & itm ) {
         return !itm.is_firearm() && itm.made_of_any( repairable ) && !itm.count_by_charges();
-    } );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
+    };
+
+    item_location loc;
+    avatar *you = p->as_avatar();
+    if( you != nullptr ) {
+        loc = game_menus::inv::titled_filter_menu(
+                  filter, *you, _( "Select the item to repair" ) );
+    }
+
+    if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
+    item &fix = *loc;
+
     if( fix.damage() <= fix.min_damage() ) {
         p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                               fix.tname() );
@@ -6686,17 +6713,26 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return it->type->charges_to_use();
         }
 
+        avatar *you = p->as_avatar();
+        item_location loc;
+        auto filter = []( const item & it ) {
+            return it.has_flag( "MC_MOBILE" );
+        };
+        const std::string title = _( "Insert memory card" );
+
         if( ei_download == choice ) {
 
             p->moves -= to_moves<int>( 2_seconds );
 
-            const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-            item &mc = p->i_at( inventory_index );
-
-            if( mc.is_null() ) {
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return it->type->charges_to_use();
             }
+            item &mc = *loc;
+
             if( !mc.has_flag( "MC_MOBILE" ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
@@ -6720,13 +6756,15 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( ei_decrypt == choice ) {
             p->moves -= to_moves<int>( 2_seconds );
-            const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-            item &mc = p->i_at( inventory_index );
-
-            if( mc.is_null() ) {
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return it->type->charges_to_use();
             }
+            item &mc = *loc;
+
             if( !mc.has_flag( "MC_MOBILE" ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
@@ -7796,13 +7834,19 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         p->moves -= to_moves<int>( 2_seconds );
 
-        const int inventory_index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
-        item &mc = p->i_at( inventory_index );
-
-        if( mc.is_null() ) {
+        avatar *you = p->as_avatar();
+        item_location loc;
+        if( you != nullptr ) {
+            loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
+                return it.has_flag( "MC_MOBILE" );
+            }, *you, _( "Insert memory card" ) );
+        }
+        if( !loc ) {
             p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
             return it->type->charges_to_use();
         }
+        item &mc = *loc;
+
         if( !mc.has_flag( "MC_MOBILE" ) ) {
             p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
             return it->type->charges_to_use();
@@ -7989,19 +8033,26 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
     if( choice == 1 ) {
 
         if( bomb_it == it->contents.end() ) { //arming car with bomb
-            int inventory_index = g->inv_for_flag( "RADIOCARITEM", _( "Arm what?" ) );
-            item &put = p->i_at( inventory_index );
-            if( put.is_null() ) {
+
+            avatar *you = p->as_avatar();
+            item_location loc;
+            if( you != nullptr ) {
+                loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
+                    return it.has_flag( "RADIOCARITEM" );
+                }, *you, _( "Arm what?" ) );
+            }
+            if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
                 return 0;
             }
+            item &put = *loc;
 
             if( put.has_flag( "RADIOCARITEM" ) && ( put.volume() <= 1250_ml ||
                                                     ( put.weight() <= 2_kilogram ) ) ) {
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( inventory_index ) );
+                it->put_in( p->i_rem( &put ) );
             } else if( !put.has_flag( "RADIOCARITEM" ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );
@@ -8826,6 +8877,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( "UPS_off", 1 ) || p->has_charges( "adv_UPS_off", 1 );
 
+    item_location loc;
+    avatar *you = p->as_avatar();
+
+    auto filter = [&]( const item & itm ) {
+        return itm.has_flag( "IS_UPS" );
+    };
+
+    const std::string choose_ups = _( "Choose UPS:" );
+    const std::string dont_have_ups = _( "You don't have any UPS." );
+
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
@@ -8858,14 +8919,14 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                 p->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 return 0;
             } else if( choice == 3 ) {
-                int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                    return itm.has_flag( "IS_UPS" );
-                }, _( "You don't have any UPS." ) );
-                if( pos == INT_MIN ) {
+                if( you != nullptr )                     {
+                    loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
+                }
+                if( !loc ) {
                     add_msg( _( "Never mind" ) );
                     return 0;
                 }
-                item &chosen = p->i_at( pos );
+                item &chosen = *loc;
                 chosen.set_var( "cable", "plugged_in" );
                 chosen.activate();
                 set_cable_active( p, it, "UPS" );
@@ -8963,15 +9024,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
+            loc = game_menus::inv::titled_filter_menu( filter, *you, choose_ups, dont_have_ups );
             // connecting self to UPS
-            int pos = g->inv_for_filter( _( "Choose UPS:" ), [&]( const item & itm ) {
-                return itm.has_flag( "IS_UPS" );
-            }, _( "You don't have any UPS." ) );
-            if( pos == INT_MIN ) {
+            if( !loc ) {
                 add_msg( _( "Never mind" ) );
                 return 0;
             }
-            item &chosen = p->i_at( pos );
+            item &chosen = *loc;
             chosen.set_var( "cable", "plugged_in" );
             chosen.activate();
             set_cable_active( p, it, "UPS_link" );

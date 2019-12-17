@@ -207,31 +207,18 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-int game::inv_for_filter( const std::string &title, item_filter filter,
-                          const std::string &none_message )
+item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
+        const std::string &title, const std::string &none_message )
 {
-    return u.get_item_position( inv_map_splice( filter, title, -1, none_message ).get_item() );
+    return inv_internal( you, inventory_filter_preset( convert_filter( filter ) ),
+                         title, -1, none_message );
 }
 
-int game::inv_for_all( const std::string &title, const std::string &none_message )
+item_location game_menus::inv::titled_menu( avatar &you, const std::string &title,
+        const std::string &none_message )
 {
     const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
-    return u.get_item_position( inv_internal( u, inventory_selector_preset(), title, -1,
-                                msg ).get_item() );
-}
-
-int game::inv_for_flag( const std::string &flag, const std::string &title )
-{
-    return inv_for_filter( title, [ &flag ]( const item & it ) {
-        return it.has_flag( flag );
-    } );
-}
-
-int game::inv_for_id( const itype_id &id, const std::string &title )
-{
-    return inv_for_filter( title, [ &id ]( const item & it ) {
-        return it.typeId() == id;
-    }, string_format( _( "You don't have a %s." ), item::nname( id ) ) );
+    return inv_internal( you, inventory_selector_preset(), title, -1, msg );
 }
 
 class armor_inventory_preset: public inventory_selector_preset

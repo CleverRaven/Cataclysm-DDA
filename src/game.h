@@ -562,13 +562,6 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // TODO: Move these functions to game_menus::inv and isolate them.
-        int inv_for_filter( const std::string &title, item_filter filter,
-                            const std::string &none_message = "" );
-        int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_flag( const std::string &flag, const std::string &title );
-        int inv_for_id( const itype_id &id, const std::string &title );
-
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,

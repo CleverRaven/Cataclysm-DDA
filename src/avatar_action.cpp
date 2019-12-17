@@ -954,7 +954,8 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
 
     if( pos == INT_MIN ) {
-        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        pos = you.get_item_position( game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                     _( "You don't have any items to throw." ) ).get_item() );
         g->refresh_all();
     }
 

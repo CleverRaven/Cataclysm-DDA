@@ -45,6 +45,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "int_id.h"
 #include "item.h"
 #include "omdata.h"
@@ -366,9 +367,13 @@ void computer::load_data( const std::string &data )
 
 static item *pick_usb()
 {
-    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
-    if( pos != INT_MIN ) {
-        return &g->u.i_at( pos );
+    auto filter = []( const item & it ) {
+        return it.typeId() == "usb_drive";
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
+    if( loc ) {
+        return &*loc;
     }
     return nullptr;
 }

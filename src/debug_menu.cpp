@@ -27,6 +27,7 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
@@ -518,8 +519,11 @@ void character_edit_menu()
             p.weapon = item();
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( _( "Make target equip" ) );
-            item &to_wear = g->u.i_at( item_pos );
+            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            if( !loc ) {
+                break;
+            }
+            item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
