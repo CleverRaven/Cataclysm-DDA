@@ -965,22 +965,13 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 
 int iuse::blech( player *p, item *it, bool, const tripoint & )
 {
-    std::string unclean_or_unhealthy;
-    if( it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
-        unclean_or_unhealthy = _( "unclean" );
-    }
-    if( !it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
-        unclean_or_unhealthy = _( "unhealthy" );
-    }
     // TODO: Add more effects?
     if( it->made_of( LIQUID ) ) {
-        if( !p->query_yn( string_format( "This looks %s, sure you want to drink it?",
-                                         unclean_or_unhealthy ) ) ) {
+        if( !p->query_yn( _( "This looks unhealthy, sure you want to drink it?" ) ) ) {
             return 0;
         }
     } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
-        if( !p->query_yn( string_format( "This looks %s, sure you want to eat it?",
-                                         unclean_or_unhealthy ) ) ) {
+        if( !p->query_yn( _( "This looks unhealthy, sure you want to eat it?" ) ) ) {
             return 0;
         }
     }
@@ -998,13 +989,11 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
-        if( !it->has_flag( "BLECH_BECAUSE_UNCLEAN" ) ) {
-            p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
-            p->mod_pain( rng( 32, 64 ) );
-            p->add_effect( effect_poison, 1_hours );
-            p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
-            p->vomit();
-        }
+        p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
+        p->mod_pain( rng( 32, 64 ) );
+        p->add_effect( effect_poison, 1_hours );
+        p->apply_damage( nullptr, bp_torso, rng( 4, 12 ) );
+        p->vomit();
     }
     return it->type->charges_to_use();
 }

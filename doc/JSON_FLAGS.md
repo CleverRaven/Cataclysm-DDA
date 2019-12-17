@@ -424,6 +424,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
+- ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.

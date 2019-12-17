@@ -602,6 +602,7 @@ void Item_factory::init()
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
+    add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
