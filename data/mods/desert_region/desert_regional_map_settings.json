@@ -534,7 +534,6 @@
     "swamp_river_influence": 5,
     "swamp_spread_chance": 8500,
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
