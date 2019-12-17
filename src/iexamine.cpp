@@ -4242,8 +4242,7 @@ static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &
                                 bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( couch_loc ) == couch ) {
+        if( g->m.furn( couch_loc )->has_flag( "AUTODOC_COUCH" ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
@@ -4263,8 +4262,7 @@ static Character &operator_present( Character &p, const tripoint &autodoc_loc,
                                     Character &null_patient )
 {
     for( const auto &loc : g->m.points_in_radius( autodoc_loc, 1 ) ) {
-        const furn_str_id couch( "f_autodoc_couch" );
-        if( g->m.furn( loc ) != couch ) {
+        if( !g->m.furn( loc )->has_flag("AUTODOC_COUCH")) {
             if( p.pos() == loc ) {
                 return p;
             }
