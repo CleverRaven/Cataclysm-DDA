@@ -2127,7 +2127,7 @@
     "price": 1000000,
     "price_postapoc": 100,
     "material": "diamond",
-    "weight": "120 g",
+    "weight": "200 mg",
     "volume": "250 ml",
     "to_hit": -5
   },
@@ -2141,7 +2141,7 @@
     "price": 800000,
     "price_postapoc": 80,
     "material": "gemstone",
-    "weight": "100 g",
+    "weight": "200 mg",
     "volume": "200 ml",
     "to_hit": -5
   },
