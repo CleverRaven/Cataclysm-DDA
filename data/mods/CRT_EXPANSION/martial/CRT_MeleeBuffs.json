@@ -18,7 +18,7 @@
     "id": "MARTIAL_CRT",
     "name": "C.R.I.T Melee Training",
     "points": 3,
-    "description": "You have received defensive training. For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
+    "description": "You have received defensive training.  For every hit you land, gain various miniscule combat bonuses that scale off of your stats.",
     "starting_trait": true,
     "initial_ma_styles": [ "style_crt_cqb", "style_crt_blade", "style_crt_enforcement" ],
     "valid": false
@@ -27,7 +27,7 @@
     "type": "martial_art",
     "id": "style_crt_cqb",
     "name": "C.R.I.T CQB",
-    "description": "A style centered around rapid strikes and piercing jabs.  Each attack landed adds a plethora of combat bonuses. 25 percent bash damage.",
+    "description": "A style centered around rapid strikes and piercing jabs.  Each attack landed adds a plethora of combat bonuses.  25 percent bash damage.",
     "initiate": [ "Initiate CQB.", "%s initiates CQB." ],
     "arm_block": 3,
     "leg_block": 6,
@@ -35,7 +35,7 @@
       {
         "id": "crt_cqb_static",
         "name": "C.R.I.T Initiative",
-        "description": "DEX provides dodge ability, accuracy and minor cut / stab damage with slight piercing capability. 50 Percent Bash Damage.",
+        "description": "DEX provides dodge ability, accuracy and minor cut / stab damage with slight piercing capability.  50 Percent Bash Damage.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [
@@ -53,7 +53,7 @@
       {
         "id": "crt_cqb_hit_buff",
         "name": "C.R.I.T Tenacity",
-        "description": "+Atk Speed and other small bonuses based on DEX per stack. Max of 5 stacks",
+        "description": "+Atk Speed and other small bonuses based on DEX per stack.  Max of 5 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],

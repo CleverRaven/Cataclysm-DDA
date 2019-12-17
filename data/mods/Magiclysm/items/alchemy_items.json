@@ -30,7 +30,7 @@
     "cutting": 3,
     "to_hit": -2,
     "qualities": [ [ "BUTCHER", -50 ] ],
-    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell. Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
+    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
   },
   {
     "id": "copper_infuser",
@@ -39,7 +39,7 @@
     "qualities": [ [ "MANA_INFUSE", 1 ] ],
     "name": "copper infusion bracelet",
     "name_plural": "copper infusion bracelets",
-    "description": "This bracelet has runes engraved on it. You sense a faint air of mysticism when you look at it. It would be useful for imbuing mana into material."
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
   },
   {
     "id": "silver_infuser",

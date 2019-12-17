@@ -36,7 +36,7 @@
       {
         "id": "crt_blade_hit_buff",
         "name": "C.R.I.T Intensity",
-        "description": "Additional DMG, and Arpen per stack. Max of 5 stacks",
+        "description": "Additional DMG, and Arpen per stack.  Max of 5 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],

@@ -17,7 +17,7 @@
     "type": "martial_art",
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
-    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies.  Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
     "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
     "arm_block": 2,
     "leg_block": 10,
@@ -25,7 +25,7 @@
       {
         "id": "crt_enforcement_static",
         "name": "C.R.I.T Guard",
-        "description": "+1 armor. STR provides accuracy and minor bash arpen.",
+        "description": "+1 armor.  STR provides accuracy and minor bash arpen.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [
@@ -41,7 +41,7 @@
       {
         "id": "crt_enforcement_hit_buff",
         "name": "C.R.I.T Buildup",
-        "description": "+0.05 armor and other small bonuses per stack. Max of 10 stacks",
+        "description": "+0.05 armor and other small bonuses per stack.  Max of 10 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],

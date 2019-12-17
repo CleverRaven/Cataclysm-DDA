@@ -399,7 +399,7 @@
     "looks_like": "broken_skitterbot",
     "name": "broken disarmed skitterbot",
     "category": "other",
-    "description": "A broken skitterbot. Its internal weapon modules have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken skitterbot.  Its internal weapon modules have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 62650,
@@ -425,7 +425,7 @@
     "looks_like": "broken_riotbot",
     "name": "broken disarmed defense bot",
     "category": "other",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
@@ -442,7 +442,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken security robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -450,7 +450,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken riotcontrol robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -458,7 +458,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken riotcontrol robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -466,7 +466,7 @@
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
     "name": "broken riotcontrol robot",
-    "description": "A broken defense robot. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
+    "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -511,7 +511,7 @@
     "looks_like": "broken_chickenbot",
     "name": "broken disarmed chickenwalker",
     "category": "other",
-    "description": "A broken chickenwalker. Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken chickenwalker.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": 430000,

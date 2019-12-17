@@ -31,7 +31,7 @@
     "type": "npc_class",
     "id": "NC_MUTANT_CAPTIVE",
     "name": "Refugee",
-    "comment": "Random mutations. Mostly visible.",
+    "comment": "Random mutations.  Mostly visible.",
     "job_description": "I got locked up those yahoos.",
     "bonus_str": { "rng": [ -2, 4 ] },
     "bonus_dex": { "rng": [ -2, 4 ] },
