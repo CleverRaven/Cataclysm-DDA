@@ -734,7 +734,7 @@ class player : public Character
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /**
          * Check player capable of wielding an item.
@@ -798,10 +798,8 @@ class player : public Character
         bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
 
-        /** Returns all items that must be taken off before taking off this item */
-        std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
         /** So far only called by unload() from game.cpp */

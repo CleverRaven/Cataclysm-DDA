@@ -1075,9 +1075,11 @@ class Character : public Creature, public visitable<Character>
         ret_val<bool> can_unwield( const item &it ) const;
 
         void drop_invalid_inventory();
+        /** Returns all items that must be taken off before taking off this item */
+        std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        virtual void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+        void drop( item_location loc, const tripoint &where );
+        virtual void drop( const std::list<std::pair<item_location, int>> &what, const tripoint &target,
                            bool stash = false );
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;

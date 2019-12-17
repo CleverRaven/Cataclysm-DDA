@@ -480,7 +480,8 @@ void Character::suffer_from_schizophrenia()
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        drop( get_item_position( &weapon ), pos() );
+        item_location loc( *this, &weapon );
+        drop( loc, pos() );
         return;
     }
     // Talk to self
