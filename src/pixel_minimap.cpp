@@ -310,7 +310,8 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
             SDL_Color color;
 
             if( lighting == LL_BLANK || lighting == LL_DARK ) {
-                color = { 0x00, 0x00, 0x00, 0xFF };    // TODO: Map memory?
+                // TODO: Map memory?
+                color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
                 color = get_map_color_at( p );
 

@@ -47,11 +47,11 @@
 #include "type_id.h"
 #include "point.h"
 
-const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_assisted( "assisted" );
 
-const skill_id skill_computer( "computer" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -456,7 +456,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
+                const nutrients nutr = p.compute_effective_nutrients( get_consumable_item( loc ) );
+                return good_bad_none( nutr.kcal );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -547,7 +548,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this, &p ]( const item_location & loc ) {
                 return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
-            }, _( "ENERGY" ) );
+            }, _( "ENERGY (kJ)" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1228,11 +1229,11 @@ item_location game_menus::inv::holster( player &p, item &holster )
     const std::string title = actor->holster_prompt.empty()
                               ? _( "Holster item" )
                               : _( actor->holster_prompt );
-    const std::string hint = string_format( _( "Choose a weapon to put into your %s" ),
+    const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
     return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
-                         string_format( _( "You have no weapons you could put into your %s." ),
+                         string_format( _( "You have no items you could put into your %s." ),
                                         holster_name ),
                          hint );
 }

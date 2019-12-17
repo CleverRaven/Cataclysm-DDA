@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
+[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
 
 # Cataclysm: Dark Days Ahead
 
@@ -9,10 +10,27 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
+<a href="https://repology.org/project/cataclysm-dda/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging status" align="right">
+</a>
+
 Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
+## Packaging status
+
+### Arch Linux
+
+Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.org/packages/?q=cataclysm-dda)
+
+`sudo pacman -S cataclysm-dda`
+
+### Fedora
+
+Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
+
+`sudo dnf install cataclysm-dda`
 
 ## Compile
 

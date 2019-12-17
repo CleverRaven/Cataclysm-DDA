@@ -10,7 +10,6 @@
 #include <set>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -222,7 +221,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const nc_color &format_color, int width ) const;
+        int format_description( std::string &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -340,11 +339,11 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo );
-        static void load( JsonObject &jo, const std::string &src );
+        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();
@@ -383,7 +382,7 @@ struct vehicle_prototype {
 
     std::unique_ptr<vehicle> blueprint;
 
-    static void load( JsonObject &jo );
+    static void load( const JsonObject &jo );
     static void reset();
     static void finalize();
 

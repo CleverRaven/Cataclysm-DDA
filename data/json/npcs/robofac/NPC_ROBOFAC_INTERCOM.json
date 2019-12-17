@@ -79,7 +79,7 @@
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
         "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
         "items": { "@": { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100 } },
-        "item": { "@": [ { "item": "EMPbomb", "amount": 2 }, { "item": "corpse" } ] },
+        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },

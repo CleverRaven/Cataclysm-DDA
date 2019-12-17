@@ -520,6 +520,32 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "shirts_summer_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 5 }, { "item": "tank_top", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "shirts_summer_womens",
+    "subtype": "distribution",
+    "entries": [ { "item": "camisole", "prob": 5 }, { "item": "halter_top", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_summer_womens",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "skirt", "prob": 5 },
+      { "item": "skirt_leather", "prob": 5 },
+      { "item": "leggings", "prob": 3 },
+      { "item": "tights", "prob": 4 },
+      { "item": "hot_pants", "prob": 4 },
+      { "item": "hot_pants_fur", "prob": 1 },
+      { "item": "hot_pants_leather", "prob": 1 }
+    ]
+  },
+  {
     "id": "dress_shop",
     "type": "item_group",
     "items": [
@@ -879,6 +905,50 @@
       [ "leg_warmers", 20 ],
       [ "balclava", 15 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_coats_unisex",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "trenchcoat_fur", "prob": 4 },
+      { "item": "duster_fur", "prob": 4 },
+      { "item": "sleeveless_trenchcoat_fur", "prob": 2 },
+      { "item": "sleeveless_duster_fur", "prob": 2 },
+      { "item": "coat_fur", "prob": 3 },
+      { "item": "coat_fur_sf", "prob": 1 },
+      { "item": "cloak_fur", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_pants_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_fur", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_pants_womens",
+    "subtype": "distribution",
+    "entries": [ { "item": "hot_pants_fur", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_hats_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_fur", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_gloves_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "gloves_fur", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "fur_shoes_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "boots_fur", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -2534,6 +2604,39 @@
         ],
         "prob": 80
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "formal_set_mens",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "collection": [ { "item": "undershirt", "prob": 30 }, { "item": "dress_shirt" }, { "item": "waistcoat", "prob": 20 } ]
+              },
+              { "item": "breeches" }
+            ]
+          },
+          { "distribution": [ { "item": "suit", "prob": 50 }, { "item": "tux", "prob": 50 } ] }
+        ]
+      },
+      { "item": "dress_shoes" },
+      { "collection": [ { "item": "tophat", "prob": 50 }, { "item": "collarpin", "prob": 50 } ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "dresses_womens",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "dress", "prob": 5 },
+      { "item": "sundress", "prob": 5 },
+      { "item": "gown", "prob": 2 },
+      { "item": "dress_wedding", "prob": 1 }
     ]
   },
   {

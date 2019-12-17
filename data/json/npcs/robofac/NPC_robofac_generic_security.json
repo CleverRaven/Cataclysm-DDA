@@ -51,7 +51,7 @@
     "id": "NC_robofac_generic_security_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb", "prob": 33 },
+      { "item": "grenade_emp", "prob": 33 },
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },

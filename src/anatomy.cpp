@@ -37,12 +37,12 @@ const anatomy &anatomy_id::obj() const
     return anatomy_factory.obj( *this );
 }
 
-void anatomy::load_anatomy( JsonObject &jo, const std::string &src )
+void anatomy::load_anatomy( const JsonObject &jo, const std::string &src )
 {
     anatomy_factory.load( jo, src );
 }
 
-void anatomy::load( JsonObject &jo, const std::string & )
+void anatomy::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "parts", unloaded_bps );

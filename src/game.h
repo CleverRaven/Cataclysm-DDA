@@ -437,8 +437,8 @@ class game
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
          * new monster there (see @ref critter_at).
-         * @param location The place where to put the revived monster.
-         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @param p The place where to put the revived monster.
+         * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.
@@ -780,11 +780,6 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
     public:
-        /** Eat food or fuel  'E' (or 'a') */
-        void eat();
-        void eat( item_location( *menu )( player &p ) );
-        void eat( int pos );
-        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
@@ -792,7 +787,6 @@ class game
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
-        void unload( int pos = INT_MIN );
 
         unsigned int get_seed() const;
 

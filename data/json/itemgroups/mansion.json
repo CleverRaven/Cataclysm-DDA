@@ -291,6 +291,9 @@
       { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
       { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
       { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "sherry", "prob": 10, "container-group": "wine_glasses" },
+      { "item": "madeira", "prob": 10, "container-group": "wine_glasses" },
+      { "item": "bristol_sherry", "prob": 10, "container-group": "wine_glasses" },
       { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
     ]
   },
@@ -307,6 +310,11 @@
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
       { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
+      { "item": "single_pot_whiskey", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "canadian_whiskey", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "sherry", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "bristol_sherry", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "madeira", "prob": 10, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
@@ -841,12 +849,6 @@
     ]
   },
   {
-    "id": "pantry",
-    "type": "item_group",
-    "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
-  },
-  {
     "id": "clutter_basement",
     "type": "item_group",
     "subtype": "distribution",
@@ -1163,7 +1165,7 @@
       [ "novel_pulp", 30 ],
       [ "mag_news", 30 ],
       [ "mag_tv", 30 ],
-      [ "cig", 30 ],
+      { "group": "tobacco_products", "prob": 50 },
       [ "gum", 30 ],
       { "group": "vending_drink", "prob": 20 },
       [ "mag_beauty", 20 ],
@@ -1174,15 +1176,11 @@
       [ "mp3", 10 ],
       [ "weeks_old_newspaper", 5 ],
       [ "newest_newspaper", 5 ],
-      [ "advanced_ecig", 5 ],
       [ "portable_game", 5 ],
       [ "cell_phone", 1 ],
       [ "smart_phone", 5 ],
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
-      [ "cigar", 5 ],
-      [ "chaw", 5 ],
-      [ "ecig", 5 ],
       { "group": "tinware", "prob": 5 },
       [ "months_old_newspaper", 4 ],
       [ "one_year_old_newspaper", 3 ],
@@ -1200,16 +1198,12 @@
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
       { "group": "glass_of_wine", "prob": 40 },
-      [ "cig", 30 ],
       { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
-      [ "cigar", 20 ],
-      [ "ecig", 20 ],
+      { "group": "tobacco_products", "prob": 75 },
       [ "money_bundle", 10 ],
-      [ "advanced_ecig", 5 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
-      [ "chaw", 5 ],
       { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
     ]
   },

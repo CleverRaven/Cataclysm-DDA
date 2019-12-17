@@ -4,7 +4,6 @@
 #include <cmath>
 #include <cstddef>
 #include <algorithm>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <array>
@@ -75,35 +74,22 @@
 
 class basecamp;
 
-const skill_id skill_speech( "speech" );
-const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 
-const efftype_id effect_allow_sleep( "allow_sleep" );
-const efftype_id effect_asked_for_item( "asked_for_item" );
-const efftype_id effect_asked_personal_info( "asked_personal_info" );
-const efftype_id effect_asked_to_follow( "asked_to_follow" );
-const efftype_id effect_asked_to_lead( "asked_to_lead" );
-const efftype_id effect_asked_to_train( "asked_to_train" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_currently_busy( "currently_busy" );
-const efftype_id effect_gave_quest_item( "gave_quest_item" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_infection( "infection" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_npc_suspend( "npc_suspend" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_under_op( "under_operation" );
-const efftype_id effect_riding( "riding" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_riding( "riding" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 static const itype_id fuel_type_animal( "animal" );
 
-const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
+static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -256,27 +242,27 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
     while( !done ) {
         int override_count = 0;
-        std::ostringstream override_string;
-        override_string << string_format( _( "%s currently has these temporary orders:" ), guy->name );
+        std::string output_string = string_format( _( "%s currently has these temporary orders:" ),
+                                    guy->name );
         for( const auto &rule : ally_rule_strs ) {
             if( guy->rules.has_override_enable( rule.second.rule ) ) {
                 override_count++;
-                override_string << "\n  ";
-                override_string << ( guy->rules.has_override( rule.second.rule ) ?
-                                     rule.second.rule_true_text : rule.second.rule_false_text );
+                output_string += "\n  ";
+                output_string += ( guy->rules.has_override( rule.second.rule ) ? rule.second.rule_true_text :
+                                   rule.second.rule_false_text );
             }
         }
         if( override_count == 0 ) {
-            override_string << "\n  " << _( "None." ) << "\n";
+            output_string += std::string( "\n  " ) + _( "None." ) + "\n";
         }
         if( npc_list.size() > 1 ) {
-            override_string << "\n" << _( "Other followers might have different temporary orders." );
+            output_string += std::string( "\n" ) +
+                             _( "Other followers might have different temporary orders." );
         }
         g->refresh_all();
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
-        std::string output_string = override_string.str();
         parse_tags( output_string, g->u, *guy );
         nmenu.footer_text = output_string;
         nmenu.addentry( NPC_CHAT_DONE, true, 'd', _( "Done issuing orders" ) );
@@ -462,7 +448,7 @@ void game::chat()
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            yell_msg = popup.text() + ".";
+            yell_msg = popup.text();
             is_order = false;
             break;
         }
@@ -559,17 +545,16 @@ void game::chat()
     refresh_all();
 }
 
-void npc::handle_sound( int priority, const std::string &description, int heard_volume,
-                        const tripoint &spos )
+void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
+                        int heard_volume, const tripoint &spos )
 {
     const tripoint s_abs_pos = g->m.getabs( spos );
     const tripoint my_abs_pos = g->m.getabs( pos() );
 
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, s_abs_pos.x, s_abs_pos.y,
-             my_abs_pos.x, my_abs_pos.y );
+             disp_name(), description, static_cast<int>( spriority ), heard_volume,
+             s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
-    const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
     player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
@@ -641,7 +626,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
-                temp_sound.type = priority;
+                temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
                     if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
@@ -1205,8 +1190,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
             g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
-            std::stringstream resume;
-            resume << _( "Yes, let's resume training " );
             const skill_id skillt( backlog.name );
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
@@ -1215,17 +1198,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
                     if( p->magic.knows_spell( sp_id ) ) {
-                        resume << sp_id->name.translated();
-                        add_response( resume.str(), "TALK_TRAIN_START", sp_id );
+                        add_response( string_format( _( "Yes, let's resume training %s" ), sp_id->name ),
+                                      "TALK_TRAIN_START", sp_id );
                     }
                 } else {
-                    martialart style = styleid.obj();
-                    resume << style.name;
-                    add_response( resume.str(), "TALK_TRAIN_START", style );
+                    const martialart &style = styleid.obj();
+                    add_response( string_format( _( "Yes, let's resume training %s" ), style.name ), "TALK_TRAIN_START",
+                                  style );
                 }
             } else {
-                resume << skillt.obj().name();
-                add_response( resume.str(), "TALK_TRAIN_START", skillt );
+                add_response( string_format( _( "Yes, let's resume training %s" ), skillt->name() ),
+                              "TALK_TRAIN_START", skillt );
             }
         }
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
@@ -1676,8 +1659,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        std::stringstream tmp;
-        tmp << "\"" << challenge << "\"";
+        challenge = "\"" + challenge + "\"";
     }
 
     // Parse any tags in challenge
@@ -1772,7 +1754,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     return effects.apply( *this );
 }
 
-talk_trial::talk_trial( JsonObject &jo )
+talk_trial::talk_trial( const JsonObject &jo )
 {
     static const std::unordered_map<std::string, talk_trial_type> types_map = { {
 #define WRAP(value) { #value, TALK_TRIAL_##value }
@@ -1796,9 +1778,7 @@ talk_trial::talk_trial( JsonObject &jo )
     read_condition<dialogue>( jo, "condition", condition, false );
 
     if( jo.has_array( "mod" ) ) {
-        JsonArray ja = jo.get_array( "mod" );
-        while( ja.has_more() ) {
-            JsonArray jmod = ja.next_array();
+        for( JsonArray jmod : jo.get_array( "mod" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
             this_modifier.second = jmod.next_int();
@@ -1807,7 +1787,7 @@ talk_trial::talk_trial( JsonObject &jo )
     }
 }
 
-static talk_topic load_inline_topic( JsonObject jo )
+static talk_topic load_inline_topic( const JsonObject &jo )
 {
     const std::string id = jo.get_string( "id" );
     json_talk_topics[id].load( jo );
@@ -1846,7 +1826,8 @@ void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
     };
 }
 
-void talk_effect_fun_t::set_add_effect( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
@@ -1870,7 +1851,8 @@ void talk_effect_fun_t::set_add_effect( JsonObject &jo, const std::string &membe
     };
 }
 
-void talk_effect_fun_t::set_remove_effect( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     std::string old_effect = jo.get_string( member );
     function = [is_npc, old_effect]( const dialogue & d ) {
@@ -1882,7 +1864,8 @@ void talk_effect_fun_t::set_remove_effect( JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_add_trait( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
 {
     std::string new_trait = jo.get_string( member );
     function = [is_npc, new_trait]( const dialogue & d ) {
@@ -1894,7 +1877,8 @@ void talk_effect_fun_t::set_add_trait( JsonObject &jo, const std::string &member
     };
 }
 
-void talk_effect_fun_t::set_remove_trait( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
+        bool is_npc )
 {
     std::string old_trait = jo.get_string( member );
     function = [is_npc, old_trait]( const dialogue & d ) {
@@ -1906,7 +1890,7 @@ void talk_effect_fun_t::set_remove_trait( JsonObject &jo, const std::string &mem
     };
 }
 
-void talk_effect_fun_t::set_add_var( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const std::string &value = jo.get_string( "value" );
@@ -1919,7 +1903,8 @@ void talk_effect_fun_t::set_add_var( JsonObject &jo, const std::string &member, 
     };
 }
 
-void talk_effect_fun_t::set_remove_var( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_remove_var( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     function = [is_npc, var_name]( const dialogue & d ) {
@@ -1931,7 +1916,8 @@ void talk_effect_fun_t::set_remove_var( JsonObject &jo, const std::string &membe
     };
 }
 
-void talk_effect_fun_t::set_adjust_var( JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const int value = jo.get_int( "adjustment" );
@@ -2029,7 +2015,8 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     };
 }
 
-void talk_effect_fun_t::set_consume_item( JsonObject &jo, const std::string &member, int count,
+void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::string &member,
+        int count,
         bool is_npc )
 {
     const std::string &item_name = jo.get_string( member );
@@ -2054,7 +2041,7 @@ void talk_effect_fun_t::set_consume_item( JsonObject &jo, const std::string &mem
     };
 }
 
-void talk_effect_fun_t::set_remove_item_with( JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     const std::string &item_name = jo.get_string( member );
@@ -2198,7 +2185,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
     };
 }
 
-void talk_effect_fun_t::set_mapgen_update( JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<std::string> update_ids;
@@ -2206,9 +2193,8 @@ void talk_effect_fun_t::set_mapgen_update( JsonObject &jo, const std::string &me
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( jo.get_string( member ) );
     } else if( jo.has_array( member ) ) {
-        JsonArray ja = jo.get_array( member );
-        while( ja.has_more() ) {
-            update_ids.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( member ) ) {
+            update_ids.emplace_back( line );
         }
     }
 
@@ -2420,7 +2406,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     return next_topic;
 }
 
-talk_effect_t::talk_effect_t( JsonObject &jo )
+talk_effect_t::talk_effect_t( const JsonObject &jo )
 {
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
@@ -2430,7 +2416,7 @@ talk_effect_t::talk_effect_t( JsonObject &jo )
     }
 }
 
-void talk_effect_t::parse_sub_effect( JsonObject &jo )
+void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
     talk_effect_fun_t subeffect_fun;
     const bool is_npc = true;
@@ -2512,9 +2498,7 @@ void talk_effect_t::parse_sub_effect( JsonObject &jo )
         subeffect_fun.set_change_faction_rep( faction_rep );
     } else if( jo.has_array( "add_debt" ) ) {
         std::vector<trial_mod> debt_modifiers;
-        JsonArray ja = jo.get_array( "add_debt" );
-        while( ja.has_more() ) {
-            JsonArray jmod = ja.next_array();
+        for( JsonArray jmod : jo.get_array( "add_debt" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
             this_modifier.second = jmod.next_int();
@@ -2561,7 +2545,7 @@ void talk_effect_t::parse_sub_effect( JsonObject &jo )
     set_effect( subeffect_fun );
 }
 
-void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObject &jo )
+void talk_effect_t::parse_string_effect( const std::string &effect_id, const JsonObject &jo )
 {
     static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
         {
@@ -2669,7 +2653,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
     jo.throw_error( "unknown effect string", effect_id );
 }
 
-void talk_effect_t::load_effect( JsonObject &jo )
+void talk_effect_t::load_effect( const JsonObject &jo )
 {
     if( jo.has_member( "opinion" ) ) {
         JsonIn *ji = jo.get_raw( "opinion" );
@@ -2719,7 +2703,7 @@ talk_response::talk_response()
     dialogue_spell = spell_id();
 }
 
-talk_response::talk_response( JsonObject &jo )
+talk_response::talk_response( const JsonObject &jo )
 {
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
@@ -2759,7 +2743,7 @@ talk_response::talk_response( JsonObject &jo )
     // TODO: style
 }
 
-json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
+json_talk_repeat_response::json_talk_repeat_response( const JsonObject &jo )
 {
     if( jo.has_bool( "is_npc" ) ) {
         is_npc = true;
@@ -2770,16 +2754,14 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     if( jo.has_string( "for_item" ) ) {
         for_item.emplace_back( jo.get_string( "for_item" ) );
     } else if( jo.has_array( "for_item" ) ) {
-        JsonArray ja = jo.get_array( "for_item" );
-        while( ja.has_more() ) {
-            for_item.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "for_item" ) ) {
+            for_item.emplace_back( line );
         }
     } else if( jo.has_string( "for_category" ) ) {
         for_category.emplace_back( jo.get_string( "for_category" ) );
     } else if( jo.has_array( "for_category" ) ) {
-        JsonArray ja = jo.get_array( "for_category" );
-        while( ja.has_more() ) {
-            for_category.emplace_back( ja.next_string() );
+        for( const std::string &line : jo.get_array( "for_category" ) ) {
+            for_category.emplace_back( line );
         }
     } else {
         jo.throw_error( "Repeat response with no repeat information!" );
@@ -2795,13 +2777,13 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     }
 }
 
-json_talk_response::json_talk_response( JsonObject &jo )
+json_talk_response::json_talk_response( const JsonObject &jo )
     : actual_response( jo )
 {
     load_condition( jo );
 }
 
-void json_talk_response::load_condition( JsonObject &jo )
+void json_talk_response::load_condition( const JsonObject &jo )
 {
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
@@ -2862,7 +2844,7 @@ static std::string translate_gendered_line(
     return gettext_gendered( gender_map, line );
 }
 
-dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
+dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
@@ -2882,7 +2864,7 @@ dynamic_line_t::dynamic_line_t( const std::string &line )
     };
 }
 
-dynamic_line_t::dynamic_line_t( JsonObject jo )
+dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {
         std::vector<dynamic_line_t> lines;
@@ -2921,12 +2903,9 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
         }
-        JsonArray ja = jo.get_array( "relevant_genders" );
         std::vector<std::string> relevant_genders;
-        while( ja.has_more() ) {
-            relevant_genders.push_back( ja.next_string() );
-        }
-        for( const std::string &gender : relevant_genders ) {
+        for( const std::string &gender : jo.get_array( "relevant_genders" ) ) {
+            relevant_genders.push_back( gender );
             if( gender != "npc" && gender != "u" ) {
                 jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
             }
@@ -2987,7 +2966,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
     };
 }
 
-json_dynamic_line_effect::json_dynamic_line_effect( JsonObject &jo, const std::string &id )
+json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo, const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
@@ -3021,7 +3000,7 @@ void json_dynamic_line_effect::apply( dialogue &d ) const
     effect.apply( d );
 }
 
-void json_talk_topic::load( JsonObject &jo )
+void json_talk_topic::load( const JsonObject &jo )
 {
     if( jo.has_member( "dynamic_line" ) ) {
         dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
@@ -3037,25 +3016,19 @@ void json_talk_topic::load( JsonObject &jo )
             JsonObject speaker_effect = jo.get_object( "speaker_effect" );
             speaker_effects.emplace_back( speaker_effect, id );
         } else if( jo.has_array( "speaker_effect" ) ) {
-            JsonArray ja = jo.get_array( "speaker_effect" );
-            while( ja.has_more() ) {
-                JsonObject speaker_effect = ja.next_object();
+            for( JsonObject speaker_effect : jo.get_array( "speaker_effect" ) ) {
                 speaker_effects.emplace_back( speaker_effect, id );
             }
         }
     }
-    JsonArray ja = jo.get_array( "responses" );
-    responses.reserve( responses.size() + ja.size() );
-    while( ja.has_more() ) {
-        JsonObject response = ja.next_object();
+    for( JsonObject response : jo.get_array( "responses" ) ) {
         responses.emplace_back( response );
     }
     if( jo.has_object( "repeat_responses" ) ) {
         repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
     } else if( jo.has_array( "repeat_responses" ) ) {
-        ja = jo.get_array( "repeat_responses" );
-        while( ja.has_more() ) {
-            repeat_responses.emplace_back( ja.next_object() );
+        for( JsonObject elem : jo.get_array( "repeat_responses" ) ) {
+            repeat_responses.emplace_back( elem );
         }
     }
     if( responses.empty() ) {
@@ -3123,7 +3096,7 @@ void unload_talk_topics()
     json_talk_topics.clear();
 }
 
-void load_talk_topic( JsonObject &jo )
+void load_talk_topic( const JsonObject &jo )
 {
     if( jo.has_array( "id" ) ) {
         for( auto &id : jo.get_string_array( "id" ) ) {

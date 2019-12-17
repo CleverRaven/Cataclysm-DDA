@@ -47,7 +47,7 @@ struct dream {
             strength = 0;
         }
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
 };
 
 struct mut_attack {
@@ -285,15 +285,15 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( JsonObject &jo, const std::string &src );
-        static void load_trait( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
+        static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
 
         /**
          * Load a trait blacklist specified by the given JSON object.
          */
-        static void load_trait_blacklist( JsonObject &jsobj );
+        static void load_trait_blacklist( const JsonObject &jsobj );
 
         /**
          * Check if the trait with the given ID is blacklisted.
@@ -318,7 +318,7 @@ struct mutation_branch {
          * @param jsobj The json object to load from.
          * @throw std::string if the json object contains invalid data.
          */
-        static void load_trait_group( JsonObject &jsobj );
+        static void load_trait_group( const JsonObject &jsobj );
 
         /**
          * Load a trait group from json. It differs from the other load_trait_group function as it
@@ -334,7 +334,7 @@ struct mutation_branch {
          * (i.e. the old list-based format, `[ ["TRAIT", 100] ]`).
          * @throw std::string if the json object contains invalid data.
          */
-        static void load_trait_group( JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+        static void load_trait_group( const JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
                                       const std::string &subtype );
 
         /**
@@ -362,7 +362,7 @@ struct mutation_branch {
          * Create a new trait group as specified by the given JSON object and register
          * it as part of the given trait group.
          */
-        static void add_entry( Trait_group &tg, JsonObject &obj );
+        static void add_entry( Trait_group &tg, const JsonObject &obj );
 
         /**
          * Get the trait group object specified by the given ID, or null if no
@@ -438,10 +438,10 @@ struct mutation_category_trait {
         static void reset();
         static void check_consistency();
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
 };
 
-void load_mutation_type( JsonObject &jsobj );
+void load_mutation_type( const JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );

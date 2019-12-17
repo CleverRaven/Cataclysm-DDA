@@ -41,7 +41,7 @@
     "name_plural": "sensory clusters",
     "description": "This lump of flesh has various lobes protruding from it that at intervals will emit toned sounds.  Perhaps it works via echolocation. Like all mi-go bioparts the openings on this piece closed up after it was cut free and it seems to have gone into a form of hibernation with the pulses occurring slower and slower as it conserves energy.",
     "weight": "40 g",
-    "volume": "250 mL",
+    "volume": "250 ml",
     "price": 100,
     "to_hit": -1,
     "bashing": 1,
@@ -66,6 +66,23 @@
     "symbol": ")",
     "color": "pink",
     "looks_like": "ruined_chunks"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_afs_mon_migoturret",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken mi-go turret",
+    "category": "other",
+    "description": "A broken mi-go turret.  It's leaking fluids and smells you can't identify.  Could be butchered for parts.",
+    "price": 1000,
+    "material": [ "alien_resin", "flesh" ],
+    "weight": "40750 g",
+    "volume": "30 L",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "vibrating_blaster",

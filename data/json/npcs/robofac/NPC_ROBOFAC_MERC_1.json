@@ -55,7 +55,7 @@
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
       { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "EMPbomb" },
+      { "item": "grenade_emp" },
       { "item": "bot_grenade_hack", "count": 2 }
     ]
   },

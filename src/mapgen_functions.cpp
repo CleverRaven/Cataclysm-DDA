@@ -41,16 +41,16 @@ class npc_template;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
-const mtype_id mon_ant_larva( "mon_ant_larva" );
-const mtype_id mon_ant_queen( "mon_ant_queen" );
-const mtype_id mon_bat( "mon_bat" );
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_beekeeper( "mon_beekeeper" );
-const mtype_id mon_rat_king( "mon_rat_king" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_bat( "mon_bat" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_beekeeper( "mon_beekeeper" );
+static const mtype_id mon_rat_king( "mon_rat_king" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )
 {
@@ -2293,8 +2293,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
 
     // West external wall
     lw = rng( 0, 4 );
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     // Middle wall between bedroom & kitchen/bath
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 );
     // East external wall
     rw = SEEX * 2 - rng( 1, 5 );
@@ -2302,8 +2302,8 @@ void mapgen_generic_house( mapgendata &dat, int variant )
     tw = rng( 1, 6 );
     // South external wall
     bw = SEEX * 2 - rng( 2, 5 );
-    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     // Middle wall between living room & kitchen/bed
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     cw = tw + rng( 4, 7 );
     //reserving some space for backyard. Actual south external wall.
     actual_house_height = bw - rng( 4, 6 );

@@ -26,6 +26,9 @@
   + [Flags](#flags-3)
 * [Guns](#guns)
   + [Firing modes](#firing-modes)
+  + [Faults](#faults)
+    - [Flags](#flags)
+    - [Parameters](#parameters)
 * [Magazines](#magazines)
 * [MAP SPECIALS](#map-specials)
 * [Material Phases](#material-phases)
@@ -475,6 +478,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
@@ -714,6 +718,17 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NPC_AVOID``` NPC's will not attempt to use this mode
 - ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
 
+### Faults
+
+#### Flags
+
+- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
+
+#### Parameters
+
+- ```turns_into``` Causes this fault to apply to the item just mended.
+- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
+
 
 ## Magazines
 
@@ -941,11 +956,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
-- ```REGENERATES_1``` Monster regenerates slowly over time.
-- ```REGENERATES_10``` Monster regenerates quickly over time.
-- ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
-- ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
@@ -1224,6 +1234,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 - ```BOMB``` It can be a remote controlled bomb.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```CANNIBALISM``` The item is a food that contains human flesh, and applies all applicable effects when consumed.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
 - ```FIRESTARTER``` Item will start fire with some difficulty.

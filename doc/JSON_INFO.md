@@ -4,17 +4,17 @@ Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
 - [File descriptions](#file-descriptions)
-  * [`data/json/`](#-data-json--)
-  * [`data/json/items/`](#-data-json-items--)
-  * [`data/json/requirements/`](#-data-json-requirements--)
-  * [`data/json/vehicles/`](#-data-json-vehicles--)
+  * [`data/json/`](#datajson)
+  * [`data/json/items/`](#datajsonitems)
+  * [`data/json/requirements/`](#datajsonrequirements)
+  * [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
   * [Generic properties](#generic-properties)
   * [Formatting](#formatting)
     + [Time duration](#time-duration)
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
-  * [`data/json/` JSONs](#-data-json---jsons)
+  * [`data/json/` JSONs](#datajson-jsons)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
@@ -38,7 +38,7 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
-    + [Scent Types](#scent_type)
+    + [Scent Types](#scent_types)
     + [Scores](#scores)
       - [`event_transformation`](#-event-transformation-)
       - [`event_statistic`](#-event-statistic-)
@@ -51,7 +51,7 @@ Use the `Home` key to return to the top.
     + [Vehicle Placement](#vehicle-placement)
     + [Vehicle Spawn](#vehicle-spawn)
     + [Vehicles](#vehicles)
-- [`data/json/items/` JSONs](#-data-json-items---jsons)
+- [`data/json/items/` JSONs](#datajsonitems-jsons)
     + [Generic Items](#generic-items)
     + [Ammo](#ammo)
     + [Magazine](#magazine)
@@ -69,15 +69,15 @@ Use the `Home` key to return to the top.
     + [Seed Data](#seed-data)
     + [Artifact Data](#artifact-data)
     + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#-charge-type-)
-      - [`Effects_carried`](#-effects-carried-)
-      - [`effects_worn`](#-effects-worn-)
-      - [`effects_wielded`](#-effects-wielded-)
-      - [`effects_activated`](#-effects-activated-)
+      - [`Charge_type`](#charge_type)
+      - [`Effects_carried`](#effects_carried)
+      - [`effects_worn`](#effects_worn)
+      - [`effects_wielded`](#effects_wielded)
+      - [`effects_activated`](#effects_activated)
     + [Software Data](#software-data)
     + [Fuel data](#fuel-data)
     + [Use Actions](#use-actions)
-- [`json/` JSONs](#-json---jsons)
+- [`json/` JSONs](#json-jsons)
     + [Harvest](#harvest)
       - [`id`](#-id-)
       - [`type`](#-type-)
@@ -124,13 +124,13 @@ Use the `Home` key to return to the top.
       - [`items`](#-items--1)
       - [`map_deconstruct_info`](#-map-deconstruct-info-)
       - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-    + [`items`](#-items--2)
-    + [`plant_data`](#-plant-data--1)
+    + [`items`](#-items-2)
+    + [`plant_data`](#plant_data-1)
       - [`transform`](#-transform-)
       - [`base`](#-base-)
       - [`growth_multiplier`](#-growth-multiplier-)
       - [`harvest_multiplier`](#-harvest-multiplier-)
-    + [clothing_mod](#clothing-mod)
+    + [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
   * [`description`](#-description--1)
   * [`name`](#-name--2)
@@ -292,7 +292,7 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vehicles.json
 
 # Generic properties and formatting
-This section describes properties and formatting that are applied to all of the JSON files.
+This section describes properties and formatting applied to all of the JSON files.
 
 ## Generic properties
 A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
@@ -1152,6 +1152,11 @@ See also VEHICLE_JSON.md
     "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
     "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
 },
+"conditional_names": [ {          // Optional list of names that will be applied in specified conditions (see Conditional Naming section for more details).
+    "type": "COMPONENT_ID",       // The condition type.
+    "condition": "leather",       // The condition to check for.
+    "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
+} ],
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
@@ -1324,6 +1329,42 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 }
 ```
 
+#### Conditional Naming
+
+The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
+
+```json
+{
+  "name": "sausage",
+  "conditional_names": [
+    {
+      "type": "FLAG",
+      "condition": "CANNIBALISM",
+      "name": "Mannwurst"
+    },
+    {
+      "type": "COMPONENT_ID",
+      "condition": "mutant",
+      "name": { "str": "sinister %s", "str_pl": "sinister %s" }
+    }
+  ]
+}
+```
+
+You can list as many conditional names for a given item as you want. Each conditional name must consist of 3 elements:
+1. The condition type:
+    - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
+    - `FLAG` which checks if an item has the specified flag (exact match).
+2. The condition you want to look for.
+3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
+
+So, in the above example, if the sausage is made from mutant humanoid meat, and therefore both has the `CANNIBALISM` flag, *and* has a component with `mutant` in its ID:
+1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
+2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
+
+NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+
+
 #### Color Key
 
 When adding a new book, please use this color key:
@@ -1331,10 +1372,10 @@ When adding a new book, please use this color key:
 * Magazines: `pink`
 * “Paperbacks” Short enjoyment books (including novels): `light_cyan`
 * “Hardbacks” Long enjoyment books (including novels): `light_blue`
-* “Small textbook” Beginner level textbooks, guides and martial arts books: `dark_green`
-* “Large textbook” Advanced level textbooks and advanced guides: `dark_blue`
+* “Small textbook” Beginner level textbooks, guides and martial arts books: `green`
+* “Large textbook” Advanced level textbooks and advanced guides: `blue`
 * Religious books: `dark_gray`
-* “Printouts” (including spiral-bound and similar) Technical documents, (technical?) protocols, (lab) journals: `light_green`
+* “Printouts” (including spiral-bound, binders, and similar) Technical documents, (technical?) protocols, (lab) journals, personal diaries: `light_green`
 * Other reading material/non-books (use only if every other category does not apply): `light_gray`
 
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
@@ -1367,6 +1408,8 @@ CBMs can be defined like this:
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
+"monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
+                            // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
 "nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank

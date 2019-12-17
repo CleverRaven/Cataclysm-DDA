@@ -116,7 +116,7 @@ class recipe
             return reversible;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

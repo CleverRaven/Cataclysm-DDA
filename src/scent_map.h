@@ -25,8 +25,8 @@ class window;
 class scent_type
 {
     public:
-        static void load_scent_type( JsonObject &jo, const std::string &src );
-        void load( JsonObject &jo, const std::string & );
+        static void load_scent_type( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
         bool was_loaded;

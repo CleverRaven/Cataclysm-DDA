@@ -76,7 +76,7 @@
     "id": "mon_duck",
     "type": "MONSTER",
     "name": { "str": "duck" },
-    "description": "A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps.",
+    "description": "A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-Cataclysm, bread scraps.",
     "default_faction": "small_animal",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],

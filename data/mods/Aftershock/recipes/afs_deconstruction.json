@@ -1,6 +1,6 @@
 [
   {
-    "result": "broken_migoturret",
+    "result": "broken_afs_mon_migoturret",
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 5,
@@ -9,7 +9,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "living_brain_jar", 1 ] ],
-      [ [ "brains", 4 ] ],
+      [ [ "brain", 4 ] ],
       [ [ "mutant_meat", 12 ] ],
       [ [ "vibrating_blaster", 1 ] ],
       [ [ "humming_heart", 1 ] ],

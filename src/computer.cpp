@@ -54,16 +54,16 @@
 #include "colony.h"
 #include "point.h"
 
-const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
-const skill_id skill_computer( "computer" );
+static const skill_id skill_computer( "computer" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_amigara( "amigara" );
 
 static int alerts = 0;
 
@@ -707,11 +707,11 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
+            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 3 ) ) {
                 for( item &elem : g->m.i_at( p ) ) {
                     if( elem.is_bionic() ) {
                         if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                            names.push_back( elem.tname() );
+                            names.push_back( elem.type_name() );
                         } else {
                             more++;
                         }
@@ -1654,7 +1654,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( JsonObject &jo )
+computer_option computer_option::from_json( const JsonObject &jo )
 {
     std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
@@ -1662,7 +1662,7 @@ computer_option computer_option::from_json( JsonObject &jo )
     return computer_option( name, action, sec );
 }
 
-computer_failure computer_failure::from_json( JsonObject &jo )
+computer_failure computer_failure::from_json( const JsonObject &jo )
 {
     computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
     return computer_failure( type );

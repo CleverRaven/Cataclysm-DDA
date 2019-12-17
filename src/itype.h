@@ -19,9 +19,11 @@
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // see item.h
 class item_category;
@@ -107,6 +109,7 @@ struct islot_tool {
 };
 
 struct islot_comestible {
+    public:
         friend Item_factory;
         friend item;
         /** subtype, e.g. FOOD, DRINK, MED */
@@ -121,8 +124,9 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
-        /** amount of kcal this food has */
-        unsigned int kcal = 0;
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
 
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
@@ -159,19 +163,20 @@ struct islot_comestible {
         float specific_heat_solid = 2.108;
         float latent_heat = 333;
 
-        /** vitamins potentially provided by this comestible (if any) */
-        std::map<vitamin_id, int> vitamins;
+        /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
+        int monotony_penalty = 2;
 
         /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
-        int get_calories() const {
-            return kcal;
+        bool has_calories() const {
+            return default_nutrition.kcal > 0;
         }
 
-        int get_nutr() const {
-            return kcal / kcal_per_nutr;
+        int get_default_nutr() const {
+            return default_nutrition.kcal / kcal_per_nutr;
         }
+
         /** The monster group that is drawn from when the item rots away */
         mongroup_id rot_spawn = mongroup_id::NULL_ID();
 
@@ -769,6 +774,28 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+enum condition_type {
+    FLAG,
+    COMPONENT_ID,
+    num_condition_types
+};
+
+template<>
+struct enum_traits<condition_type> {
+    static constexpr auto last = condition_type::num_condition_types;
+};
+
+// A name that is applied under certain conditions.
+struct conditional_name {
+    // Context type  (i.e. "FLAG"          or "COMPONENT_ID")
+    condition_type type;
+    // Context name  (i.e. "CANNIBALISM"   or "mutant")
+    std::string condition;
+    // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
+    // be replaced by the item's normal name and/or preceding conditional names.
+    translation name;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -777,26 +804,26 @@ struct itype {
          * this before using it.
          */
         /*@{*/
-        cata::optional<islot_container> container;
-        cata::optional<islot_tool> tool;
-        cata::optional<islot_comestible> comestible;
-        cata::optional<islot_brewable> brewable;
-        cata::optional<islot_armor> armor;
-        cata::optional<islot_pet_armor> pet_armor;
-        cata::optional<islot_book> book;
-        cata::optional<islot_mod> mod;
-        cata::optional<islot_engine> engine;
-        cata::optional<islot_wheel> wheel;
-        cata::optional<islot_fuel> fuel;
-        cata::optional<islot_gun> gun;
-        cata::optional<islot_gunmod> gunmod;
-        cata::optional<islot_magazine> magazine;
-        cata::optional<islot_battery> battery;
-        cata::optional<islot_bionic> bionic;
-        cata::optional<islot_ammo> ammo;
-        cata::optional<islot_seed> seed;
-        cata::optional<islot_artifact> artifact;
-        cata::optional<relic> relic_data;
+        cata::value_ptr<islot_container> container;
+        cata::value_ptr<islot_tool> tool;
+        cata::value_ptr<islot_comestible> comestible;
+        cata::value_ptr<islot_brewable> brewable;
+        cata::value_ptr<islot_armor> armor;
+        cata::value_ptr<islot_pet_armor> pet_armor;
+        cata::value_ptr<islot_book> book;
+        cata::value_ptr<islot_mod> mod;
+        cata::value_ptr<islot_engine> engine;
+        cata::value_ptr<islot_wheel> wheel;
+        cata::value_ptr<islot_fuel> fuel;
+        cata::value_ptr<islot_gun> gun;
+        cata::value_ptr<islot_gunmod> gunmod;
+        cata::value_ptr<islot_magazine> magazine;
+        cata::value_ptr<islot_battery> battery;
+        cata::value_ptr<islot_bionic> bionic;
+        cata::value_ptr<islot_ammo> ammo;
+        cata::value_ptr<islot_seed> seed;
+        cata::value_ptr<islot_artifact> artifact;
+        cata::value_ptr<relic> relic_data;
         /*@}*/
 
     private:
@@ -840,6 +867,9 @@ struct itype {
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
+
+        // A list of conditional names, in order of ascending priority.
+        std::vector<conditional_name> conditional_names;
 
         // What we're made of (material names). .size() == made of nothing.
         // MATERIALS WORK IN PROGRESS.
@@ -987,7 +1017,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable_ || ammo.has_value() || comestible.has_value();
+            return stackable_ || ammo || comestible;
         }
 
         int charges_default() const {

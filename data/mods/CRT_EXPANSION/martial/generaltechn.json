@@ -74,7 +74,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "stun_dur": 1.5,
+    "stun_dur": 1,
     "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ],
     "flat_bonuses": [ [ "movecost", "str", -0.8 ] ],
     "messages": [

@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -61,44 +60,42 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_deaf( "deaf" );
-const efftype_id effect_disabled( "disabled" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_glowy_led( "glowy_led" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_iodine( "iodine" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_mending( "mending" );
-const efftype_id effect_narcosis( "narcosis" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_winded( "winded" );
-const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disabled( "disabled" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_drain( "bio_drain" );
-static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_itchy( "bio_itchy" );
-static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_plut_filter( "bio_plut_filter" );
@@ -106,7 +103,6 @@ static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_trip( "bio_trip" );
 
@@ -129,14 +125,10 @@ static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PAINREC1( "PAINREC1" );
-static const trait_id trait_PAINREC2( "PAINREC2" );
-static const trait_id trait_PAINREC3( "PAINREC3" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
@@ -145,7 +137,6 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
@@ -424,9 +415,9 @@ void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
     if( !weapon.is_null() ) {
-        std::string i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
-                               //~ %1$s: weapon name
-                               string_format( _( "your %1$s" ), weapon.type_name() );
+        i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
+                   //~ %1$s: weapon name
+                   string_format( _( "your %1$s" ), weapon.type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -490,7 +481,6 @@ void Character::suffer_from_schizophrenia()
 
         add_msg_if_player( m_bad, "%s", str );
         drop( get_item_position( &weapon ), pos() );
-        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         return;
     }
     // Talk to self
@@ -1068,13 +1058,13 @@ void Character::suffer_from_radiation()
                 radiation -= 5;
             }
         }
+    }
 
-        if( !radiogenic && radiation > 0 ) {
-            // Even if you heal the radiation itself, the damage is done.
-            const int hmod = get_healthy_mod();
-            if( hmod > 200 - radiation ) {
-                set_healthy_mod( std::max( -200, 200 - radiation ) );
-            }
+    if( !radiogenic && radiation > 0 ) {
+        // Even if you heal the radiation itself, the damage is done.
+        const int hmod = get_healthy_mod();
+        if( hmod > 200 - radiation ) {
+            set_healthy_mod( std::max( -200, 200 - radiation ) );
         }
     }
 

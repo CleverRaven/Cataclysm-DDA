@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <cmath>
-#include <sstream>
 #include <string>
 #include <functional>
 #include <limits>
@@ -69,7 +68,7 @@
 
 class basecamp;
 
-const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_contacts( "contacts" );
 
 void drop_or_handle( const item &newit, player &p );
 
@@ -323,10 +322,10 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     }
 
     if( !can_make( &making, batch_size ) ) {
-        std::ostringstream buffer;
-        buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making.requirements().list_missing();
-        popup( buffer.str(), PF_NONE );
+        std::string buffer = _( "You can no longer make that craft!" );
+        buffer += "\n";
+        buffer += making.requirements().list_missing();
+        popup( buffer, PF_NONE );
         return false;
     }
 
@@ -530,7 +529,12 @@ bool player::can_start_craft( const recipe *rec, int batch_size )
     return start_reqs.can_make_with_inventory( crafting_inventory(), rec->get_component_filter() );
 }
 
-const inventory &player::crafting_inventory( const tripoint &src_pos, int radius )
+const inventory &player::crafting_inventory( bool clear_path )
+{
+    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+}
+
+const inventory &player::crafting_inventory( const tripoint &src_pos, int radius, bool clear_path )
 {
     tripoint inv_pos = src_pos;
     if( src_pos == tripoint_zero ) {
@@ -541,7 +545,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         && cached_position == inv_pos ) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, true );
+    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -1261,17 +1265,17 @@ bool player::can_continue_craft( item &craft )
         const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
-            std::ostringstream buffer;
-            buffer << _( "You don't have the required components to continue crafting!" ) << "\n";
-            buffer << continue_reqs.list_missing();
-            popup( buffer.str(), PF_NONE );
+            std::string buffer = _( "You don't have the required components to continue crafting!" );
+            buffer += "\n";
+            buffer += continue_reqs.list_missing();
+            popup( buffer, PF_NONE );
             return false;
         }
 
-        std::ostringstream buffer;
-        buffer << _( "Consume the missing components and continue crafting?" ) << "\n";
-        buffer << continue_reqs.list_all() << "\n";
-        if( !query_yn( buffer.str() ) ) {
+        std::string buffer = _( "Consume the missing components and continue crafting?" );
+        buffer += "\n";
+        buffer += continue_reqs.list_all();
+        if( !query_yn( buffer ) ) {
             return false;
         }
 
@@ -1318,10 +1322,10 @@ bool player::can_continue_craft( item &craft )
                 std::vector<std::vector<item_comp>>() );
 
         if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
-            std::ostringstream buffer;
-            buffer << _( "You don't have the necessary tools to continue crafting!" ) << "\n";
-            buffer << tool_continue_reqs.list_missing();
-            popup( buffer.str(), PF_NONE );
+            std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
+            buffer += "\n";
+            buffer += tool_continue_reqs.list_missing();
+            popup( buffer, PF_NONE );
             return false;
         }
 
@@ -1478,7 +1482,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
-                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                if( has_trait( trait_DEBUG_HS ) ) {
                     selected.use_from = use_from_player;
                     return selected;
                 }
@@ -1855,10 +1859,9 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
     // refuse to disassemble rotten items
-    if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
-        if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
-            return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
-        }
+    const item *food = obj.get_food();
+    if( ( obj.goes_bad() && obj.rotten() ) || ( food && food->goes_bad() && food->rotten() ) ) {
+        return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
@@ -1957,21 +1960,21 @@ bool player::disassemble( item_location target, bool interactive )
     }
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
-        std::ostringstream list;
+        std::string list;
         const auto components = obj.get_uncraft_components();
         for( const auto &component : components ) {
-            list << "- " << component.to_string() << std::endl;
+            list += "- " + component.to_string() + "\n";
         }
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
                     colorize( obj.tname(), obj.color_in_inventory() ),
-                    list.str() ) ) {
+                    list ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
                               colorize( obj.tname(), obj.color_in_inventory() ),
-                              list.str() ) ) {
+                              list ) ) {
             return false;
         }
     }

@@ -105,127 +105,119 @@
 
 #include "iuse_software.h"
 
-const mtype_id mon_bee( "mon_bee" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_cat( "mon_cat" );
-const mtype_id mon_hologram( "mon_hologram" );
-const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_fly( "mon_fly" );
-const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
-const mtype_id mon_shadow( "mon_shadow" );
-const mtype_id mon_spore( "mon_spore" );
-const mtype_id mon_vortex( "mon_vortex" );
-const mtype_id mon_wasp( "mon_wasp" );
-const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_hologram( "mon_hologram" );
+static const mtype_id mon_dog_thing( "mon_dog_thing" );
+static const mtype_id mon_fly( "mon_fly" );
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_spore( "mon_spore" );
+static const mtype_id mon_vortex( "mon_vortex" );
+static const mtype_id mon_wasp( "mon_wasp" );
 
-const skill_id skill_firstaid( "firstaid" );
-const skill_id skill_tailor( "tailor" );
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
-const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_archery( "archery" );
-const skill_id skill_computer( "computer" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_fabrication( "fabrication" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_melee( "melee" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_melee( "melee" );
 
-const species_id ROBOT( "ROBOT" );
-const species_id HALLUCINATION( "HALLUCINATION" );
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id FUNGUS( "FUNGUS" );
-const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id HALLUCINATION( "HALLUCINATION" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
 
-const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_antibiotic( "antibiotic" );
-const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
-const efftype_id effect_asthma( "asthma" );
-const efftype_id effect_attention( "attention" );
-const efftype_id effect_beartrap( "beartrap" );
-const efftype_id effect_bite( "bite" );
-const efftype_id effect_bleed( "bleed" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_bouldering( "bouldering" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_cig( "cig" );
-const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_corroding( "corroding" );
-const efftype_id effect_crushed( "crushed" );
-const efftype_id effect_cureall( "cureall" );
-const efftype_id effect_datura( "datura" );
-const efftype_id effect_dazed( "dazed" );
-const efftype_id effect_dermatik( "dermatik" );
-const efftype_id effect_docile( "docile" );
-const efftype_id effect_downed( "downed" );
-const efftype_id effect_drunk( "drunk" );
-const efftype_id effect_earphones( "earphones" );
-const efftype_id effect_flushot( "flushot" );
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_formication( "formication" );
-const efftype_id effect_fungus( "fungus" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_glowing_led( "glowy_led" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_happy( "happy" );
-const efftype_id effect_harnessed( "harnessed" );
-const efftype_id effect_has_bag( "has_bag" );
-const efftype_id effect_haslight( "haslight" );
-const efftype_id effect_high( "high" );
-const efftype_id effect_in_pit( "in_pit" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_jetinjector( "jetinjector" );
-const efftype_id effect_lack_sleep( "lack_sleep" );
-const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_meth( "meth" );
-const efftype_id effect_monster_armor( "monster_armor" );
-const efftype_id effect_music( "music" );
-const efftype_id effect_onfire( "onfire" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_panacea( "panacea" );
-const efftype_id effect_pet( "pet" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_recover( "recover" );
-const efftype_id effect_ridden( "ridden" );
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_run( "run" );
-const efftype_id effect_sad( "sad" );
-const efftype_id effect_saddled( "monster_saddled" );
-const efftype_id effect_sap( "sap" );
-const efftype_id effect_shakes( "shakes" );
-const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_slimed( "slimed" );
-const efftype_id effect_smoke( "smoke" );
-const efftype_id effect_spores( "spores" );
-const efftype_id effect_stimpack( "stimpack" );
-const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
-const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
-const efftype_id effect_stunned( "stunned" );
-const efftype_id effect_teargas( "teargas" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_tetanus( "tetanus" );
-const efftype_id effect_tied( "tied" );
-const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
-const efftype_id effect_took_flumed( "took_flumed" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
-const efftype_id effect_took_thorazine( "took_thorazine" );
-const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
-const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
-const efftype_id effect_took_xanax( "took_xanax" );
-const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
-const efftype_id effect_valium( "valium" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
-const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
-const efftype_id effect_webbed( "webbed" );
-const efftype_id effect_weed_high( "weed_high" );
-const efftype_id effect_magnesium_supplements( "magnesium" );
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_cureall( "cureall" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flushot( "flushot" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowing_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stimpack( "stimpack" );
+static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_magnesium_supplements( "magnesium" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -2136,11 +2128,9 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
             int index = to_turn<int>( calendar::turn ) % segments.size();
-            std::stringstream messtream;
-            messtream << string_format( _( "radio: %s" ), segments[index] );
-            message = messtream.str();
+            message = string_format( _( "radio: %s" ), segments[index] );
         }
-        sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
+        sounds::ambient_sound( pos, 6, sounds::sound_t::electronic_speech, message );
         if( !sfx::is_channel_playing( sfx::channel::radio ) ) {
             if( one_in( 10 ) ) {
                 sfx::play_ambient_variant_sound( "radio", "static", 100, sfx::channel::radio, 300, -1, 0 );
@@ -3020,13 +3010,14 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
         it.convert( it.typeId().substr( 0, it.typeId().size() - 4 ) + "_on" ); // 4 is the length of "_off".
         it.active = true;
+        return it.type->charges_to_use();
     } else {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
         }
         p.add_msg_if_player( msg_failure );
+        return 0; // No charges consumed on failure.
     }
-    return it.type->charges_to_use();
 }
 
 int iuse::combatsaw_off( player *p, item *it, bool, const tripoint & )
@@ -3128,6 +3119,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         }
         p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
         it.convert( off_type ).active = false;
+        return 0; // Don't consume charges when turning off.
     }
     return it.type->charges_to_use();
 }
@@ -3552,7 +3544,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
     }
     if( t ) { // Simple timer effects
         // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ), true, "speech", it->typeId() );
+        sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
+                       true, "speech", it->typeId() );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
@@ -3566,7 +3559,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         };
         switch( effect_roll ) {
             case 1:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
@@ -3577,7 +3571,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 2:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3615,7 +3610,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 3:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3652,7 +3648,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 break;
 
             case 4:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3669,7 +3666,8 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 }
                 break;
             case 5:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ), true, "speech", it->typeId() );
+                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
+                               true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
@@ -5497,8 +5495,8 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
 static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
-        return( ( itm.is_food() && !itm.item_tags.count( "HOT" ) ) ||
-                ( itm.is_food_container() && !itm.contents.front().item_tags.count( "HOT" ) ) );
+        const item *food = itm.get_food();
+        return food && food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5506,17 +5504,17 @@ static bool heat_item( player &p )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item *target = heat->get_food();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
-    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target.weight() ) ) ) * 10;
-    if( target.item_tags.count( "FROZEN" ) && !target.has_flag( "EATEN_COLD" ) ) {
+    int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
+    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( "EATEN_COLD" ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( activity_id( "ACT_HEATING" ), duration );
-    p.activity.targets.push_back( item_location( p, &target ) );
+    p.activity.targets.push_back( item_location( p, target ) );
     return true;
 }
 
@@ -5836,8 +5834,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(), true,
-                   "speech", it->typeId() );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
+                   speech.text.translated(), true, "speech", it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
@@ -6131,7 +6129,8 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< shared_ptr_fast< monster> > mons; // TODO: change into vector<Creature*>
+            // TODO: change into vector<Creature*>
+            std::vector< shared_ptr_fast< monster> > mons;
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
@@ -6804,44 +6803,12 @@ static std::string colorized_trap_name_at( const tripoint &point )
 
 static std::string colorized_field_description_at( const tripoint &point )
 {
-    static const std::unordered_set<field_type_id, std::hash<int>> covered_in_affix_ids = {
-        fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
-        fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
-        fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
-        fd_gibs_invertebrate, fd_rubble
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> on_affix_ids = {
-        fd_fire, fd_flame_burst
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> under_affix_ids = {
-        fd_gas_vent, fd_fire_vent, fd_fatigue
-    };
-    static const std::unordered_set<field_type_id, std::hash<int>> illuminated_by_affix_ids = {
-        fd_spotlight, fd_laser, fd_dazzling, fd_electricity
-    };
-    static const std::vector<std::pair<std::unordered_set<field_type_id, std::hash<int>>, std::string>>
-    affixes_vec = {
-        { covered_in_affix_ids, translate_marker( " covered in %s" ) },
-        { on_affix_ids, translate_marker( " on %s" ) },
-        { under_affix_ids, translate_marker( " under %s" ) },
-        { illuminated_by_affix_ids, translate_marker( " illuminated by %s" ) }
-    }; // anything else is "in %s"
-
     std::string field_text;
     const field &field = g->m.field_at( point );
     const field_entry *entry = field.find_field( field.displayed_field_type() );
     if( entry ) {
-        std::string affix;
-        for( const auto &pair : affixes_vec ) {
-            if( pair.first.find( entry->get_field_type() ) != pair.first.end() ) {
-                affix = pair.second;
-            }
-        }
-        if( affix.empty() ) {
-            field_text = string_format( _( " in %s" ), colorize( entry->name(), entry->color() ) );
-        } else {
-            field_text = string_format( _( affix ), colorize( entry->name(), entry->color() ) );
-        }
+        field_text = string_format( _( description_affixes.at( field.displayed_description_affix() ) ),
+                                    colorize( entry->name(), entry->color() ) );
     }
     return field_text;
 }

@@ -256,6 +256,11 @@ field_type_id field::displayed_field_type() const
     return _displayed_field_type;
 }
 
+description_affix field::displayed_description_affix() const
+{
+    return _displayed_field_type.obj().desc_affix;
+}
+
 int field::total_move_cost() const
 {
     int current_cost = 0;
