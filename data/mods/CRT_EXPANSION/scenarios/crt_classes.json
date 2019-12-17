@@ -32,7 +32,7 @@
     "type": "profession",
     "ident": "crt_dude",
     "name": "CRIT Janitor",
-    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T...  as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
+    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "tailor" },
