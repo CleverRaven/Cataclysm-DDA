@@ -10,6 +10,10 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
+<a href="https://repology.org/project/cataclysm-dda/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging status" align="right">
+</a>
+
 Visit [our website](http://cataclysmdda.org) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
@@ -27,8 +31,6 @@ Ncurses and tiles version avaliable in [Community repo](https://www.archlinux.or
 Ncurses and tiles version avaliable in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda)
 
 `sudo dnf install cataclysm-dda`
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg)](https://repology.org/project/cataclysm-dda/versions)
 
 ## Compile
 

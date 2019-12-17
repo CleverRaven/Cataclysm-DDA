@@ -3707,13 +3707,13 @@ bool npc::consume_food()
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        const item &food_item = it.is_food_container() ?
-                                it.contents.front() : it;
-        float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: will_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && will_eat( food_item ).success() ) {
-            best_weight = cur_weight;
-            index = i;
+        if( const item *food_item = it.get_food() ) {
+            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // Note: will_eat is expensive, avoid calling it if possible
+            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                best_weight = cur_weight;
+                index = i;
+            }
         }
     }
 

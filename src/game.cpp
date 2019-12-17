@@ -2098,7 +2098,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.drop( pos, u.pos() );
                     break;
                 case 'U':
-                    unload( pos );
+                    unload( oThisItem );
                     break;
                 case 'r':
                     reload( locThisItem );
@@ -5334,13 +5334,13 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
+        item_location loc = game_menus::inv::titled_filter_menu( will_accept, u, _( "Use which item?" ) );
 
-        if( pos == INT_MIN ) {
+        if( !loc ) {
             add_msg( _( "Never mind" ) );
             return false;
         }
-        item &used = u.i_at( pos );
+        item &used = *loc;
         bool did_use = u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -8339,9 +8339,11 @@ void game::butcher()
 void game::change_side( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv_for_filter( _( "Change side for item" ), [&]( const item & it ) {
+        auto filter = [&]( const item & it ) {
             return u.is_worn( it ) && it.is_sided();
-        }, _( "You don't have sided items worn." ) );
+        };
+        pos = u.get_item_position( game_menus::inv::titled_filter_menu( filter, u,
+                                   _( "Change side for item" ), _( "You don't have sided items worn." ) ).get_item() );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -8426,7 +8428,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+        int moves = opt.moves();
+        if( it->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+            moves += 2500;
+        }
+
+        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
         if( use_loc ) {
             u.activity.targets.emplace_back( loc );
         } else {
@@ -8515,39 +8523,6 @@ void game::reload_weapon( bool try_everything )
     }
 
     reload_item();
-}
-
-// Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
-void game::unload( int pos )
-{
-    item *it = nullptr;
-    item_location item_loc;
-
-    if( pos == INT_MIN ) {
-        item_loc = inv_map_splice( [&]( const item & it ) {
-            return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
-        it = item_loc.get_item();
-
-        if( it == nullptr ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-    } else {
-        it = &u.i_at( pos );
-        if( it->is_null() ) {
-            debugmsg( "Tried to unload non-existent item" );
-            return;
-        }
-        item_loc = item_location( u, it );
-    }
-
-    if( u.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            item_loc.remove_item();
-        }
-    }
 }
 
 void game::mend( int pos )

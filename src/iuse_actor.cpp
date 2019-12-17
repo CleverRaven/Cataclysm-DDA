@@ -1700,12 +1700,12 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
-    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
-    item &cut = p.i_at( pos );
-    if( cut.is_null() ) {
+    item_location loc = game_menus::inv::titled_menu( g->u, _( "Inscribe which item?" ) );
+    if( !loc ) {
         p.add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
+    item &cut = *loc;
     if( &cut == &it ) {
         p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
         return 0;
@@ -4511,15 +4511,18 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    int pos = g->inv_for_filter( _( "Enhance which clothing?" ), [ this ]( const item & itm ) {
+    auto filter = [this]( const item & itm ) {
         return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() &&
                itm.made_of_any( materials );
-    } );
-    item &mod = p.i_at( pos );
-    if( mod.is_null() ) {
+    };
+    // note: if !p.is_npc() then p is avatar.
+    item_location loc = game_menus::inv::titled_filter_menu(
+                            filter, *p.as_avatar(), _( "Enhance which clothing?" ) );
+    if( !loc ) {
         p.add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
+    item &mod = *loc;
     if( &mod == &it ) {
         p.add_msg_if_player( m_info,
                              _( "This can be used to repair or modify other items, not itself." ) );
@@ -4681,7 +4684,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-            p.i_rem_keep_contents( pos );
+            p.i_rem_keep_contents( p.get_item_position( &mod ) );
         }
         return thread_needed / 2;
     } else if( rn <= 10 ) {

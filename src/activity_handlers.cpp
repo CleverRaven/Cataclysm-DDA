@@ -1857,8 +1857,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
-            _( "You struggle to reload the fouled %s, but manage to loosen some debris and make it somewhat operational." );
-        p->moves -= 2500;
+            _( "You manage to loosen some debris and make your %s somewhat operational." );
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
@@ -2522,7 +2521,7 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
     if( heat == nullptr ) {
         return;
     }
-    item &target = heat->is_food_container() ? heat->contents.front() : *heat;
+    item &target = *heat->get_food();
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( "EATEN_COLD" ) ) {

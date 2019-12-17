@@ -312,6 +312,11 @@ void monster::hasten_upgrade()
     }
 }
 
+int monster::get_upgrade_time() const
+{
+    return upgrade_time;
+}
+
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time()
@@ -2656,6 +2661,10 @@ void monster::init_from_item( const item &itm )
         if( hp > 0 && type->has_flag( MF_REVIVES_HEALTHY ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
+        }
+        const std::string up_time = itm.get_var( "upgrade_time" );
+        if( !up_time.empty() ) {
+            upgrade_time = std::stoi( up_time );
         }
     } else {
         // must be a robot

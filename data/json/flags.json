@@ -503,6 +503,13 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
   },
   {
+    "id": "POWERARMOR_COMPATIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
+    "info": "This item can be worn simultaneously with power armor."
+  },
+  {
     "id": "furred",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

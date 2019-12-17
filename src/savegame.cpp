@@ -786,6 +786,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else {
                 debugmsg( "Malformed Megastore" );
             }
+        } else if( old == "house_base_north" ) {
+            ter_set( pos, oter_id( "house_north" ) );
+        } else if( old == "house_base_south" ) {
+            ter_set( pos, oter_id( "house_south" ) );
+        } else if( old == "house_base_east" ) {
+            ter_set( pos, oter_id( "house_east" ) );
+        } else if( old == "house_base_west" ) {
+            ter_set( pos, oter_id( "house_west" ) );
         }
 
         for( const auto &conv : nearby ) {

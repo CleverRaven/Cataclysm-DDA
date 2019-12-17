@@ -314,7 +314,8 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
+                        const int upgrade_time )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
@@ -325,8 +326,11 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
-    if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
-        result.item_tags.insert( "REVIVE_SPECIAL" );
+    if( result.corpse->has_flag( MF_REVIVES ) ) {
+        if( one_in( 20 ) ) {
+            result.item_tags.insert( "REVIVE_SPECIAL" );
+        }
+        result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
     // This is unconditional because the const itemructor above sets result.name to
@@ -1248,8 +1252,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   imap.second ) ) );
             }
 
-            const item *food = is_food_container() ? &contents.front() : this;
-            if( food->goes_bad() ) {
+            const item *food = get_food();
+            if( food && food->goes_bad() ) {
                 info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                           "", iteminfo::lower_is_better,
                                           to_turns<int>( food->age() ) ) );
@@ -1266,7 +1270,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
             }
-            if( food->has_temperature() ) {
+            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                           food->temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
@@ -3223,13 +3227,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         med_info( med_item, info, parts, batch, debug );
     }
 
-    const item *food_item = nullptr;
-    if( is_food() ) {
-        food_item = this;
-    } else if( is_food_container() ) {
-        food_item = &contents.front();
-    }
-    if( food_item != nullptr ) {
+    if( const item *food_item = get_food() ) {
         food_info( food_item, info, parts, batch, debug );
     }
 
@@ -3364,13 +3362,12 @@ nc_color item::color_in_inventory() const
     } else if( is_corpse() && can_revive() ) {
         // Only reviving corpses are yellow
         ret = c_yellow;
-    } else if( is_food() || is_food_container() ) {
+    } else if( const item *food = get_food() ) {
         const bool preserves = type->container && type->container->preserves;
-        const item &to_color = is_food() ? *this : contents.front();
 
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( u.allergy_type( to_color ) != morale_type( "morale_null" ) ) {
+        if( u.allergy_type( *food ) != morale_type( "morale_null" ) ) {
             return c_red;
         }
 
@@ -3380,16 +3377,16 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const ret_val<edible_rating> rating = u.will_eat( to_color );
+        const ret_val<edible_rating> rating = u.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
             case TOO_FULL:
                 if( preserves ) {
                     // Nothing, canned food won't rot
-                } else if( to_color.is_going_bad() ) {
+                } else if( food->is_going_bad() ) {
                     ret = c_yellow;
-                } else if( to_color.goes_bad() ) {
+                } else if( food->goes_bad() ) {
                     ret = c_cyan;
                 }
                 break;
@@ -5719,6 +5716,28 @@ float item::get_freeze_point() const
     }
     // If it is not a corpse it is a food
     return get_comestible()->freeze_point;
+}
+
+template<typename Item>
+static Item *get_food_impl( Item *it )
+{
+    if( it->is_food() ) {
+        return it;
+    } else if( it->is_food_container() && !it->contents.empty() ) {
+        return &it->contents.front();
+    } else {
+        return nullptr;
+    }
+}
+
+item *item::get_food()
+{
+    return get_food_impl( this );
+}
+
+const item *item::get_food() const
+{
+    return get_food_impl( this );
 }
 
 void item::set_mtype( const mtype *const m )

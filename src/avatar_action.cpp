@@ -954,7 +954,8 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
 
     if( pos == INT_MIN ) {
-        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        pos = you.get_item_position( game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                     _( "You don't have any items to throw." ) ).get_item() );
         g->refresh_all();
     }
 
@@ -1120,4 +1121,26 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     }
 
     you.invalidate_crafting_inventory();
+}
+
+// Opens up a menu to Unload a container, gun, or tool
+// If it's a gun, some gunmods can also be loaded
+void avatar_action::unload( avatar &you )
+{
+    item_location loc;
+
+    loc = g->inv_map_splice( [&you]( const item & it ) {
+        return you.rate_action_unload( it ) == HINT_GOOD;
+    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    if( you.unload( *loc ) ) {
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
+        }
+    }
 }

@@ -4042,7 +4042,8 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+                !elem.has_flag( "POWERARMOR_COMPATIBLE" ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -4071,8 +4072,8 @@ ret_val<bool> player::can_wear( const item &it ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( is_wearing_power_armor( &has_helmet ) &&
-            ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+        if( !it.has_flag( "POWERARMOR_COMPATIBLE" ) && ( ( is_wearing_power_armor( &has_helmet ) &&
+                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
         }
     }
