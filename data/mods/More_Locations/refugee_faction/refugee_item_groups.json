@@ -165,11 +165,7 @@
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "flashlight", "prob": 10 },
       {
-        "distribution": [
-          { "item": "pockknife", "prob": 200 },
-          { "item": "multitool", "prob": 10 },
-          { "item": "knife_swissarmy", "prob": 20 }
-        ],
+        "distribution": [ { "item": "pockknife", "prob": 200 }, { "item": "multitool", "prob": 10 }, { "item": "knife_swissarmy", "prob": 20 } ],
         "prob": 30
       },
       { "group": "mil_food", "prob": 20 },
