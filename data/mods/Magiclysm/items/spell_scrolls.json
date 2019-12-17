@@ -29,6 +29,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_obfuscated_body",
+    "name": "Scroll of Obfuscated Body",
+    "description": "A magical aura distorts light around your body, making it easier to dodge enemy attacks.",
+    "use_action": { "type": "learn_spell", "spells": [ "obfuscated_body" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "name": "Scroll of Smite",
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",

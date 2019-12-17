@@ -310,6 +310,7 @@
       { "item": "mring_strength_2", "prob": 10 },
       { "item": "mring_dexterity_2", "prob": 10 },
       { "item": "mring_intelligence_2", "prob": 10 },
+      { "item": "mring_dodge_bonus_1", "prob": 10 },
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
       { "item": "mring_protection_4", "prob": 10 }
@@ -323,6 +324,7 @@
     "items": [
       { "item": "mring_strength_3", "prob": 10 },
       { "item": "mring_dexterity_3", "prob": 10 },
+      { "item": "mring_dodge_bonus_2", "prob": 10 },
       { "item": "mring_intelligence_3", "prob": 10 },
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
