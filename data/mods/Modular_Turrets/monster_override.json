@@ -179,7 +179,6 @@
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "range": 8,
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
     ]
