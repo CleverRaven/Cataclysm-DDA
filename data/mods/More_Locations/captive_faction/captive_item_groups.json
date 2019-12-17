@@ -53,9 +53,7 @@
     "type": "item_group",
     "id": "captive_shoes",
     "subtype": "collection",
-    "items": [
-      { "distribution": [ { "item": "footrags", "prob": 200 }, { "item": "sneakers", "prob": 10, "damage": [ 1, 2 ] } ] }
-    ]
+    "items": [ { "distribution": [ { "item": "footrags", "prob": 200 }, { "item": "sneakers", "prob": 10, "damage": [ 1, 2 ] } ] } ]
   },
   {
     "type": "item_group",
@@ -70,10 +68,7 @@
   {
     "type": "item_group",
     "id": "captive_hat",
-    "items": [
-      { "item": "hat_cotton", "prob": 100, "damage": [ 1, 2 ] },
-      { "item": "hat_knit", "prob": 100, "damage": [ 1, 2 ] }
-    ]
+    "items": [ { "item": "hat_cotton", "prob": 100, "damage": [ 1, 2 ] }, { "item": "hat_knit", "prob": 100, "damage": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
