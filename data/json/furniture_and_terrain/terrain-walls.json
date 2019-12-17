@@ -1323,5 +1323,46 @@
         { "item": "scrap", "count": [ 2, 4 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drystone_wall",
+    "name": "field stone wall",
+    "description": "A sturdy dry stone wall. Just rocks fitted together without mortar.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drystone_wall_half",
+    "name": "half-built field stone wall",
+    "description": "Half of a sturdy dry stone wall. Just rocks fitted together without mortar.  Some work still needs to be done before this stone wall is complete.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 4,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 3, 8 ] } ]
+    }
   }
 ]
