@@ -626,7 +626,7 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
-    u.set_num_dodges_bonus( u.get_num_dodges_bonus() + dodges_bonus );
+    u.mod_num_dodges_bonus( dodges_bonus );
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
 }
 

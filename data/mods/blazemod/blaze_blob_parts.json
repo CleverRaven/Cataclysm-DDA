@@ -13,7 +13,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "description": "A set of continuous, interlocking tracks made out of blob. They can be used in place of wheels, and provide good traction and off-road performance.",
+    "description": "A set of continuous, interlocking tracks made out of blob.  They can be used in place of wheels, and provide good traction and off-road performance.",
     "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "wheel_type": "treads",
     "contact_area": 2500,

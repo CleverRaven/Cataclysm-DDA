@@ -206,7 +206,7 @@
   {
     "type": "item_group",
     "id": "lair_black_dragon",
-    "//": "Stuff you would find in any dragon deeper lair level. Gold, jewelry, weapons etc. Should require a bit of a fight or risk to access.",
+    "//": "Stuff you would find in any dragon deeper lair level.  Gold, jewelry, weapons etc.  Should require a bit of a fight or risk to access.",
     "items": [
       { "item": "bone_human", "prob": 30, "count-min": 1, "count-max": 5 },
       { "group": "archery", "prob": 1 },
@@ -223,7 +223,7 @@
   {
     "type": "item_group",
     "id": "lair_black_dragon_treasure",
-    "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access. Includes lower tier group, plus the best magic items.",
+    "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access.  Includes lower tier group, plus the best magic items.",
     "items": [
       { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
       { "item": "dragon_black_scale", "count": [ 48, 120 ] },
@@ -310,6 +310,7 @@
       { "item": "mring_strength_2", "prob": 10 },
       { "item": "mring_dexterity_2", "prob": 10 },
       { "item": "mring_intelligence_2", "prob": 10 },
+      { "item": "mring_dodge_bonus_1", "prob": 10 },
       { "item": "mring_perception_2", "prob": 10 },
       { "item": "mring_speed_5", "prob": 10 },
       { "item": "mring_protection_4", "prob": 10 }
@@ -323,6 +324,7 @@
     "items": [
       { "item": "mring_strength_3", "prob": 10 },
       { "item": "mring_dexterity_3", "prob": 10 },
+      { "item": "mring_dodge_bonus_2", "prob": 10 },
       { "item": "mring_intelligence_3", "prob": 10 },
       { "item": "mring_perception_3", "prob": 10 },
       { "item": "mring_speed_7", "prob": 10 },
@@ -332,7 +334,7 @@
   {
     "id": "enchanted_rings_rare",
     "type": "item_group",
-    "//": "all the rare enchanted rings. High end loot for boss fights, treasure rooms, etc.",
+    "//": "all the rare enchanted rings.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
       { "item": "mring_strength_4", "prob": 10 },
@@ -374,7 +376,7 @@
   {
     "id": "enchanted_wands_greater",
     "type": "item_group",
-    "//": "rare enchanted wands. High end loot for boss fights, treasure rooms, etc.",
+    "//": "rare enchanted wands.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
       { "item": "wand_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
@@ -388,7 +390,7 @@
   {
     "id": "enchanted_masks",
     "type": "item_group",
-    "//": "all enchanted masks. High end loot for boss fights, treasure rooms, etc.",
+    "//": "all enchanted masks.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [ { "item": "mmask_disappearance", "prob": 5 }, { "item": "mmask_vision", "prob": 10 } ]
   },
@@ -488,7 +490,7 @@
   {
     "id": "enchanted_melee_weapons_plus2",
     "type": "item_group",
-    "//": "plus 2 enchanted melee weapons. High end loot for boss fights, treasure rooms, etc.",
+    "//": "plus 2 enchanted melee weapons.  High end loot for boss fights, treasure rooms, etc.",
     "items": [
       { "item": "cudgel_plus_two", "prob": 10 },
       { "item": "q_staff_plus_two", "prob": 10 },

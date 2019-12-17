@@ -110,7 +110,7 @@
     "type": "MONSTER",
     "looks_like": "mon_secubot",
     "name": "defense robot",
-    "description": "An automated defense robot still active due to its internal power source. This one is armed with an electric prod and an integrated 9mm firearm.",
+    "description": "An automated defense robot still active due to its internal power source.  This one is armed with an electric prod and an integrated 9mm firearm.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 10,
@@ -143,7 +143,7 @@
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
     "name": "security robot",
-    "description": "An automated defense robot still active due to its internal power source. This one is equipped with an integrated 9mm firearm.",
+    "description": "An automated defense robot still active due to its internal power source.  This one is equipped with an integrated 9mm firearm.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [
@@ -165,7 +165,7 @@
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
     "name": "riotcontrol robot",
-    "description": "An automated defense robot still active due to its internal power source. This one is equipped with an electric prod, tear gas sprayer, and integrated 40mm beanbag launcher.",
+    "description": "An automated defense robot still active due to its internal power source.  This one is equipped with an electric prod, tear gas sprayer, and integrated 40mm beanbag launcher.",
     "emit_fields": [ "emit_tear_gas_pulse" ],
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "40x46mm_m1006": 100 },
@@ -179,7 +179,6 @@
         "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "range": 8,
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
     ]
@@ -199,7 +198,7 @@
     "type": "MONSTER",
     "id": "mon_secubot",
     "copy-from": "mon_defbot_9mm",
-    "description": "An automated defense robot still active due to its internal power source. This one is equipped with an integrated 9mm firearm."
+    "description": "An automated defense robot still active due to its internal power source.  This one is equipped with an integrated 9mm firearm."
   },
   {
     "type": "MONSTER",
