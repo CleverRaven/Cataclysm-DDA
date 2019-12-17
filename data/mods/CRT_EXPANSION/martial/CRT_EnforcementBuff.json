@@ -44,7 +44,7 @@
         "description": "+0.05 armor and other small bonuses per stack. Max of 10 stacks",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "unarmed", "level": 1 }],
+        "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 10,
         "max_stacks": 10,
         "flat_bonuses": [
