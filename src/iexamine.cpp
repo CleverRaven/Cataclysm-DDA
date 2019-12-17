@@ -744,6 +744,32 @@ void iexamine::elevator( player &p, const tripoint &examp )
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
     g->vertical_move( movez, false );
+
+    for( monster &critter : g->all_monsters() ) {
+        if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+            if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) ) {
+                // they're on the elevator and come along
+                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                    if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            } else if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs(
+                           p.pos() ) ) ) {
+                // they're in the way and get pushed out of the elevator
+                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                    if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
+                        critter.can_move_to( candidate ) &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
