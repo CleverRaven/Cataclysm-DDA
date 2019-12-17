@@ -911,6 +911,19 @@ void overmap_special::finalize()
         }
     }
 
+    // Calculate dimensions
+    tripoint dimension_min;
+    tripoint dimension_max;
+    for( auto &t : terrains ) {
+        dimension_min = tripoint( std::min( dimension_min.x, t.p.x ),
+                                  std::min( dimension_min.y, t.p.y ),
+                                  std::min( dimension_min.z, t.p.z ) );
+        dimension_max = tripoint( std::max( dimension_max.x, t.p.x ),
+                                  std::max( dimension_max.y, t.p.y ),
+                                  std::max( dimension_max.z, t.p.z ) );
+    }
+    dimensions = box( dimension_min, dimension_max );
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
@@ -1416,6 +1429,11 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
+    if( g->gametype() == SGAME_DEFENSE ) {
+        dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
+        return;
+    }
+
     dbg( D_INFO ) << "overmap::generate start…";
 
     populate_connections_out_from_neighbors( north, east, south, west );
@@ -1788,6 +1806,26 @@ void overmap::process_mongroups()
 void overmap::clear_mon_groups()
 {
     zg.clear();
+}
+
+void overmap::clear_overmap_special_placements()
+{
+    overmap_special_placements.clear();
+}
+void overmap::clear_cities()
+{
+    cities.clear();
+}
+void overmap::clear_connections_out()
+{
+    connections_out.clear();
+}
+
+void overmap::place_special_forced( const overmap_special_id &special_id, const tripoint &p,
+                                    om_direction::type dir )
+{
+    static city invalid_city;
+    place_special( *special_id, p, dir, invalid_city, false, false );
 }
 
 void mongroup::wander( const overmap &om )
