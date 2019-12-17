@@ -2183,7 +2183,7 @@
     "copy-from": "garnet",
     "color": "white",
     "name": "pearl",
-    "description": "A lusterous pearl."
+    "description": "A lustrous pearl."
   },
   {
     "type": "GENERIC",
@@ -2215,7 +2215,7 @@
     "copy-from": "garnet",
     "color": "white",
     "name": "opal",
-    "description": "A lusterous opal."
+    "description": "A lustrous opal."
   },
   {
     "type": "GENERIC",
