@@ -42,6 +42,10 @@ def abi64 = getProperty("abi64").toBoolean()
 def deps = getProperty("deps")
 def override_version = getProperty("override_version")
 def version_header_path = getProperty("version_header_path")
+def override_compileSdkVersion = getProperty("override_compileSdkVersion")
+def override_minSdkVersion = getProperty("override_minSdkVersion")
+def override_targetSdkVersion = getProperty("override_targetSdkVersion")
+def override_ndkBuildAppPlatform = getProperty("override_ndkBuildAppPlatform")
 
 if (!abi32 && !abi64) {
     throw new GradleException("Both `abi32` and `abi64` properties are set to false")
@@ -94,7 +98,7 @@ unzipDeps.dependsOn makeLocalization
 preBuild.dependsOn unzipDeps
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion override_compileSdkVersion
 
     if (override_version.isEmpty()) {
         println("Generating version number to $version_header_path")
@@ -127,8 +131,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion override_minSdkVersion
+        targetSdkVersion overrid_targetSdkVersion
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
@@ -158,7 +162,7 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                arguments "APP_PLATFORM=android-16", "-j$njobs"
+                arguments "APP_PLATFORM=$override_ndkBuildAppPlatform", "-j$njobs"
             }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
