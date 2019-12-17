@@ -370,6 +370,9 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
     guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
+
+    guy.mod_num_dodges_bonus( get_value_add( mod::BONUS_DODGE ) );
+    guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 }
 
 void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const

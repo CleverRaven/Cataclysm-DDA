@@ -149,6 +149,21 @@
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
   },
   {
+    "id": "light_manipulation_spellbook",
+    "type": "GENERIC",
+    "name": "Of Light and Falsehoods",
+    "description": "A small white book, it subtly amplifies the ambient light around it.",
+    "weight": "430 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "dark_sight", "blinding_flash", "obfuscated_body", "create_atomic_light", "mirror_image", "invisibility" ]
+    }
+  },
+  {
     "id": "biomancer_spellbook",
     "type": "GENERIC",
     "name": "The Tome of Flesh",

@@ -64,7 +64,7 @@
     "type": "BOOK",
     "name": "Hacking Robots for Fun & Profit",
     "name_plural": "Hacking Robots for Fun & Profit",
-    "description": "A book on illegally obtaining, reprogramming, and modifying robots. It has lots of helpful step-by-step guides and example blueprints.",
+    "description": "A book on illegally obtaining, reprogramming, and modifying robots.  It has lots of helpful step-by-step guides and example blueprints.",
     "weight": 2063,
     "volume": 8,
     "price": 1000,
@@ -377,7 +377,7 @@
     "type": "TOOL",
     "copy-from": "bot_eyebot_base",
     "name": "inactive floating heater",
-    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
     "color": "pink",
     "use_action": {
       "type": "place_monster",
@@ -393,7 +393,7 @@
     "type": "TOOL",
     "copy-from": "bot_eyebot_base",
     "name": "inactive floating furnace",
-    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of dangerously hot air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
+    "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of dangerously hot air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
     "color": "red",
     "use_action": {
       "type": "place_monster",
@@ -473,7 +473,7 @@
     "type": "TOOL",
     "copy-from": "bot_utilibot_base",
     "name": "inactive digestron",
-    "description": "A salvaged utility robot converted into an automated vacuum cleaner. It will suck stray items off the ground and dissolve them with its internal acid reserves.  It is non aggressive and has no weapon systems.  Activate this item to deploy the robot.",
+    "description": "A salvaged utility robot converted into an automated vacuum cleaner.  It will suck stray items off the ground and dissolve them with its internal acid reserves.  It is non aggressive and has no weapon systems.  Activate this item to deploy the robot.",
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
@@ -521,7 +521,7 @@
     "type": "TOOL",
     "copy-from": "bot_medibot_base",
     "name": "inactive assassin robot",
-    "description": "A salvaged medical robot repurposed into a murder machine. It will attack hostile targets with a set of blades and a toxic needle.  Activate this item to deploy the robot.",
+    "description": "A salvaged medical robot repurposed into a murder machine.  It will attack hostile targets with a set of blades and a toxic needle.  Activate this item to deploy the robot.",
     "color": "red",
     "use_action": {
       "type": "place_monster",
@@ -586,7 +586,7 @@
     "type": "TOOL",
     "copy-from": "bot_skitterbot_base",
     "name": "inactive rat snatcher",
-    "description": "A salvaged skitterbot repurposed for hunting small game. It attacks targets with pincers and an integrated tazer.  Activate this item to deploy the robot.",
+    "description": "A salvaged skitterbot repurposed for hunting small game.  It attacks targets with pincers and an integrated tazer.  Activate this item to deploy the robot.",
     "color": "dark_gray",
     "use_action": {
       "type": "place_monster",
@@ -649,7 +649,7 @@
     "type": "TOOL",
     "copy-from": "bot_cyborg_base",
     "name": "inactive necrotic cyborg",
-    "description": "A salvaged cyborg refitted with the head of a zombie necromancer.  The animate head retains some of its ability to revive zombies. Activate this item to deploy the robot.",
+    "description": "A salvaged cyborg refitted with the head of a zombie necromancer.  The animate head retains some of its ability to revive zombies.  Activate this item to deploy the robot.",
     "color": "dark_gray",
     "use_action": {
       "type": "place_monster",
@@ -713,7 +713,7 @@
     "type": "TOOL",
     "copy-from": "bot_defbot_base",
     "name": "inactive slapdash paladin",
-    "description": "A salvaged defense robot refitted with a homemade flamethrower and two searing hot blades.  Activate this item, with gasoline in your inventory, to load and deploy the robot... preferably far from anything flammable",
+    "description": "A salvaged defense robot refitted with a homemade flamethrower and two searing hot blades.  Activate this item, with gasoline in your inventory, to load and deploy the robot...  preferably far from anything flammable",
     "color": "red",
     "use_action": {
       "type": "place_monster",

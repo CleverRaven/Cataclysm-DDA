@@ -14,7 +14,7 @@
     "id": "TALK_CAPTIVE_FREE",
     "dynamic_line": "So are you busting us out of here or what?",
     "responses": [
-      { "text": "Hold tight, <sass>. I've got to clear a path.", "topic": "TALK_DONE" },
+      { "text": "Hold tight, <sass>.  I've got to clear a path.", "topic": "TALK_DONE" },
       {
         "text": "Pack your bags, <sass>.  We're going on a trip.",
         "success": {
