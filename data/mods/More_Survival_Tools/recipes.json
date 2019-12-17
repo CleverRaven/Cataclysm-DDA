@@ -171,7 +171,6 @@
   {
     "type": "recipe",
     "result": "plant_fibre",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -182,7 +181,6 @@
   },
   {
     "type": "recipe",
-    "override": true,
     "result": "bearing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
