@@ -238,7 +238,7 @@
   },
   {
     "id": "zombie_leather",
-    "//": "any zombie that might drop leather. mostly animals.",
+    "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
@@ -251,7 +251,7 @@
   },
   {
     "id": "zombie_fur",
-    "//": "any zombie that might drop leather. mostly animals.",
+    "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
@@ -313,7 +313,7 @@
   },
   {
     "id": "lemure",
-    "//": "nothing much aside from big pile of meat and maybe demon blood in future. But for now, tainted will do.",
+    "//": "nothing much aside from big pile of meat and maybe demon blood in future.  But for now, tainted will do.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
