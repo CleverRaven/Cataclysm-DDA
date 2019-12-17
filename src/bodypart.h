@@ -59,6 +59,16 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
+/**
+ * Contains all valid @ref body_part values that have hp in the order they are
+ * defined in. Use this to iterate over them.
+ */
+constexpr std::array<body_part, 6> all_hp_parts = { {
+        bp_torso, bp_head, bp_arm_l, bp_arm_r,
+        bp_leg_l, bp_leg_r
+    }
+};
+
 struct body_part_struct;
 
 using bodypart_ids = string_id<body_part_struct>;
