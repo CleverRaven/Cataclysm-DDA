@@ -505,7 +505,7 @@
     "luminance": 0,
     "hp": 120,
     "death_function": [ "NORMAL" ],
-    "special_attack": [ [ "BOOMER", 20 ] ], 
+    "special_attack": [ [ "BOOMER", 20 ] ],
     "description": "A medium dinosaur with a sticky green bile dripping from its teeth.",
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "BLEED", "WARM" ],
     "harvest": "mammal_leather",
