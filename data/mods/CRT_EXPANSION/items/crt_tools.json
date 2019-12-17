@@ -87,7 +87,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "Dragon Slayer",
-    "description": "C.R.I.T R&D's masterpiece weapon.  Alien runes adorn the ridiculously oversized carbon steel blade and a hum of energy thrums from within.  Merely brushing your fingers over the weapon brings a feeling of invincibility.  It looks more like a raw heap of iron than a sword.  The thing is...  can you wield it?",
+    "description": "C.R.I.T R&D's masterpiece weapon.  Alien runes adorn the ridiculously oversized carbon steel blade and a hum of energy thrums from within.  Merely brushing your fingers over the weapon brings a feeling of invincibility.  It looks more like a raw heap of iron than a sword.  The thing is… can you wield it?",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
     "artifact_data": {
