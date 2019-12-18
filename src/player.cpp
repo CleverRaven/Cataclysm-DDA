@@ -964,9 +964,16 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_opposite_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->cancels ) {
+    for( const trait_id &i : flag->cancels ) {
         if( has_trait( i ) ) {
             return true;
+        }
+    }
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+        for( const trait_id &canceled_trait : mut.first->cancels ) {
+            if( canceled_trait == flag ) {
+                return true;
+            }
         }
     }
     return false;
