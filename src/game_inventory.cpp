@@ -201,7 +201,7 @@ void game_menus::inv::common( avatar &you )
         }
 
         g->refresh_all();
-        res = g->inventory_item_menu( you.get_item_position( location.get_item() ) );
+        res = g->inventory_item_menu( location );
         g->refresh_all();
 
     } while( loop_options.count( res ) != 0 );
