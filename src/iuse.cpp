@@ -4356,6 +4356,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
+        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
         as_m.query();
 
         switch( as_m.ret ) {
@@ -4374,6 +4375,9 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
+            case 6:
+                loaded_software = "null";
+                break;
             default:
                 //Cancel
                 return 0;
@@ -4383,8 +4387,12 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( loaded_software == "null" ) {
+            p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                                p->get_item_position( it ), "gaming" );
+            return it->type->charges_to_use();
+        }
         p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
-
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
