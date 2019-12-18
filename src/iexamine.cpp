@@ -745,9 +745,14 @@ void iexamine::elevator( player &p, const tripoint &examp )
     int movez = ( examp.z < 0 ? 2 : -2 );
     g->vertical_move( movez, false );
 
+    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint new_floor_omt = ms_to_omt_copy( g->m.getabs( p.pos() ) );
+
     for( Creature &critter : g->all_creatures() ) {
         if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
-            if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) ) {
+            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+
+            if( critter_omt == original_floor_omt ) {
                 // they're on the elevator and come along
                 for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
@@ -756,8 +761,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
                         break;
                     }
                 }
-            } else if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs(
-                           p.pos() ) ) ) {
+            } else if( critter_omt == new_floor_omt ) {
                 // they're in the way and get pushed out of the elevator
                 for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
                     if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
@@ -767,6 +771,8 @@ void iexamine::elevator( player &p, const tripoint &examp )
                         break;
                     }
                 }
+            } else {
+                // they're in *an* elevator, but not in the same map tile; do nothing
             }
         }
     }
