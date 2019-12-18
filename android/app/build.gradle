@@ -42,10 +42,15 @@ def abi64 = getProperty("abi64").toBoolean()
 def deps = getProperty("deps")
 def override_version = getProperty("override_version")
 def version_header_path = getProperty("version_header_path")
-def override_compileSdkVersion = getProperty("override_compileSdkVersion")
-def override_minSdkVersion = getProperty("override_minSdkVersion")
-def override_targetSdkVersion = getProperty("override_targetSdkVersion")
+def override_compileSdkVersion = getProperty("override_compileSdkVersion").toInteger()
+def override_minSdkVersion = getProperty("override_minSdkVersion").toInteger()
+def override_targetSdkVersion = getProperty("override_targetSdkVersion").toInteger()
 def override_ndkBuildAppPlatform = getProperty("override_ndkBuildAppPlatform")
+
+println("Using compileSdkVersion: $override_compileSdkVersion")
+println("Using minSdkVersion: $override_minSdkVersion")
+println("Using targetSdkVersion: $override_targetSdkVersion")
+println("Using ndkBuildAppPlatform: $override_ndkBuildAppPlatform")
 
 if (!abi32 && !abi64) {
     throw new GradleException("Both `abi32` and `abi64` properties are set to false")
