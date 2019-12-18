@@ -1732,7 +1732,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
     const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),

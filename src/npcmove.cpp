@@ -1847,7 +1847,7 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( one_in( 2 ) && find_corpse_to_pulp() ) {
+    if( one_in( 3 ) && find_corpse_to_pulp() ) {
         if( !do_pulp() ) {
             move_to_next();
         }
@@ -3177,11 +3177,10 @@ bool npc::do_pulp()
     if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
         return false;
     }
-
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = *pulp_location;
+    activity.placement = g->m.getabs( *pulp_location );
     activity.do_turn( *this );
     return moves != old_moves;
 }
