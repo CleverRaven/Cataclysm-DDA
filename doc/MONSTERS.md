@@ -55,7 +55,7 @@ In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WO
 ```JSON
 "volume": "40 L"
 ```
-The numeric part of the string must be an integer.
+The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
 
 ## "weight"
 (string)
@@ -63,7 +63,7 @@ The numeric part of the string must be an integer.
 ```JSON
 "weight": "3 kg"
 ```
-The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g.
+The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
 
 ## "scent_tracked"
 (array of strings, optional)
