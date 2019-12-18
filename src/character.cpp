@@ -7281,3 +7281,46 @@ void Character::use_fire( const int quantity )
         return;
     }
 }
+
+int Character::heartrate_bpm() const
+{
+    //This function returns heartrate in BPM basing of health, physical state, tiredness, moral effects, stimulators and anything that should fit here. 
+    //Some values are picked to make sense from math point of view and seem correct but effects may vary in real life
+    //This needs more attention from experienced contributors to work more smooth
+    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution. There's probably a better way to do that. Possibly this value should be generated with player creation.
+    const int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 );
+    const float stamina_level = float(get_stamina()) / float( get_stamina_max() );
+    float stamina_effect = 0;
+    if( stamina_level >= 0.9 ) {
+        stamina_effect = 0;
+    } else if( stamina_level >= 0.8 ) {
+        stamina_effect = 0.2;
+    } else if( stamina_level >= 0.6 ) {
+        stamina_effect = 0.5;
+    } else if( stamina_level >= 0.4 ) {
+        stamina_effect = 1;
+    } else if( stamina_level >= 0.2 ) {
+        stamina_effect = 1.5;
+    } else {
+        stamina_effect = 2;
+    }
+    int heartbeat = average_heartbeat * ( 1 + stamina_effect );//can triple heartrate
+    const int stim_level = get_stim();
+    int stim_modifer = 0;
+    if ( stim_level > 0 )
+    {
+        //that's asymptotical function that is equal to 1 at around 30 stim level and slows down all the time almost reaching 2. Tweaking x*x multiplier will accordingly change effect accumulation
+        stim_modifer = 2.1 - 2/( 1 + 0.001 * stim_level * stim_level ); 
+    }
+    heartbeat *= 1 + stim_modifer;
+    //add morale effects, mutations, fear(?), medication effects
+    //health effect that can make things better or worse is applied in the end. Based on get_max_healthy that already has bmi factored
+    const int healthy = get_max_healthy();
+    float healthy_modifier = 0;
+	//a bit arbitary formula that can use some love
+    healthy_modifier = -0.05 * round( healthy / 20 );
+    heartbeat *= 1 + healthy_modifier;
+	//A single clamp in the end should be enough  
+    heartbeat = clamp( heartbeat, average_heartbeat, 250 );
+    return heartbeat;
+}
