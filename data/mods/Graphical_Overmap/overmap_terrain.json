@@ -21462,13 +21462,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_base",
-    "copy-from": "house_base",
-    "sym": "à",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "duplex",
     "copy-from": "duplex",
     "sym": "ä",

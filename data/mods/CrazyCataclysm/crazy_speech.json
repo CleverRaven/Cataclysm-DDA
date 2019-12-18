@@ -242,7 +242,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "I'm checking some blueprints, and I think...  Yes, right here.  You're definitely going the wrong way.",
+    "sound": "I'm checking some blueprints, and I think…  Yes, right here.  You're definitely going the wrong way.",
     "volume": 10
   },
   {
@@ -1014,7 +1014,7 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Something's wrong...\"",
+    "sound": "\"Something's wrong…\"",
     "volume": 30
   },
   {
@@ -1062,19 +1062,19 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"I'm different...\"",
+    "sound": "\"I'm different…\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Thanks anyway...\"",
+    "sound": "\"Thanks anyway…\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Take me with you...\"",
+    "sound": "\"Take me with you…\"",
     "volume": 30
   },
   {
@@ -1194,7 +1194,7 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Second time's a charm...\"",
+    "sound": "\"Second time's a charm…\"",
     "volume": 30
   },
   {

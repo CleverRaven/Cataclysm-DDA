@@ -1,22 +1,5 @@
 [
   {
-    "id": "resin_cord",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "category": "spare_parts",
-    "name": "resinous cord",
-    "description": "Primitive binding material made of cords and natural glue.  Use it to repair items made of wood, paper, bone, or chitin.",
-    "weight": 140,
-    "volume": 1,
-    "price": 100,
-    "material": "cotton",
-    "symbol": ";",
-    "color": "green",
-    "charges": 2,
-    "stack_size": 9,
-    "use_action": "MISC_REPAIR"
-  },
-  {
     "id": "atlatl",
     "type": "GUN",
     "name": "atlatl",

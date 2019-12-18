@@ -670,7 +670,7 @@
     "revert_to": "spiral_matrix",
     "use_action": {
       "target": "spiral_matrix",
-      "msg": "Your senses dull as you gaze into the depths of this gemstone's center...",
+      "msg": "Your senses dull as you gaze into the depths of this gemstone's center…",
       "moves": 60000,
       "type": "transform"
     }

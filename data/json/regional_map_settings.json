@@ -6,8 +6,8 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 10, "t_grass_long": 2, "t_grass_dead": 2, "t_dirt": 1 },
-        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
         "t_region_shrub": {
@@ -143,15 +143,16 @@
     },
     "river_scale": 1.0,
     "field_coverage": {
-      "percent_coverage": 0.93,
+      "percent_coverage": 0.2,
       "default_ter": "t_shrub",
       "other": {
-        "t_region_tree": 1.2,
-        "t_region_shrub": 17,
-        "f_region_flower": 73,
-        "f_boulder_small": 1,
-        "f_boulder_medium": 0.6666,
-        "f_boulder_large": 0.3333
+        "t_region_tree": 1,
+        "t_region_shrub": 3,
+        "f_region_weed": 49,
+        "f_region_flower": 37,
+        "f_boulder_small": 5,
+        "f_boulder_medium": 4,
+        "f_boulder_large": 1
       },
       "boost_chance": 0.833,
       "boosted_percent_coverage": 2.5,
@@ -368,6 +369,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 20,
+          "mx_fallen_shed": 30,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -392,6 +395,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 10,
+          "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
           "mx_jabberwock": 1,
@@ -418,6 +423,8 @@
           "mx_portal": 3,
           "mx_crater": 10,
           "mx_portal_in": 3,
+          "mx_grass": 20,
+          "mx_fallen_shed": 60,
           "mx_spider": 200,
           "mx_grove": 500,
           "mx_shrubbery": 500,
@@ -431,21 +438,25 @@
         }
       },
       "field": {
-        "chance": 90,
+        "chance": 3,
         "extras": {
-          "mx_helicopter": 8,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
-          "mx_portal": 3,
-          "mx_crater": 10,
-          "mx_portal_in": 3,
-          "mx_point_dead_vegetation": 50,
-          "mx_point_burned_ground": 50,
-          "mx_casings": 50,
-          "mx_corpses": 30
+          "mx_helicopter": 6,
+          "mx_military": 2,
+          "mx_science": 1,
+          "mx_collegekids": 3,
+          "mx_drugdeal": 3,
+          "mx_supplydrop": 4,
+          "mx_portal": 1,
+          "mx_crater": 15,
+          "mx_portal_in": 1,
+          "mx_point_dead_vegetation": 100,
+          "mx_grass": 600,
+          "mx_trees": 200,
+          "mx_fallen_shed": 150,
+          "mx_pond": 120,
+          "mx_point_burned_ground": 100,
+          "mx_casings": 20,
+          "mx_corpses": 3
         }
       },
       "road": {
