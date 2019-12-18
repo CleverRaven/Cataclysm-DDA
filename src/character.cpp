@@ -254,7 +254,7 @@ Character::Character() :
 
     name.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
+    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false };
 
     move_mode = CMM_WALK;
 
