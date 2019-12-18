@@ -132,7 +132,7 @@ android {
 
     defaultConfig {
         minSdkVersion override_minSdkVersion
-        targetSdkVersion overrid_targetSdkVersion
+        targetSdkVersion override_targetSdkVersion
         versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
         versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
