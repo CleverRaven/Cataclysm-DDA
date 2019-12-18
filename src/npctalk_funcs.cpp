@@ -920,8 +920,8 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( std::max( 7200, std::min( 21600,
-                                                g->u.magic.time_to_learn_spell( g->u, sp_id ) / 50 ) ) );
+            time = time_duration::from_seconds( clamp( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 50, 7200,
+                                                21600 ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
