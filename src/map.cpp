@@ -8194,7 +8194,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
 }
 
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
-        std::string flag,
+        const std::string &flag,
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
