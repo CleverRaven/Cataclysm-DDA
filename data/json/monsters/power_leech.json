@@ -110,7 +110,7 @@
     "type": "MONSTER",
     "name": "root runner",
     "description": "This clump of woody vegetation hastily clambers around in a lizard-like fashion.  Three translucent scale-leaves stand tall on the backside of the creature, and the thin ridges within them periodically glow through some unknown mean.  Its seemingly a symbiote of the nearby alien ferns, and looks ready to defend them with its life.",
-    "default_faction": "nether",1
+    "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
     "volume": "4000 ml",
     "weight": "6 kg",
