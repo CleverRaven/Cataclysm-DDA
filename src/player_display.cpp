@@ -127,7 +127,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d", e.armor_encumbrance );
+        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+                   e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
