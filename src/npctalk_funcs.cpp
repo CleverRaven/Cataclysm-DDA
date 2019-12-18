@@ -918,7 +918,8 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
+            time = time_duration::from_seconds( std::max( 7200, std::min( 21600,
+                                                g->u.magic.time_to_learn_spell( g->u, sp_id ) / 50 ) ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -931,10 +932,11 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ) * 100,
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
+
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 
