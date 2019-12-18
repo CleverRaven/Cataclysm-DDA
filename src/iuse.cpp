@@ -4410,6 +4410,22 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You're don't know what you're looking at." ) );//illiterate wouldn't know what he looks at too even if that's just numbers
+        return 0;
+    } else {//What else should block using f-band?
+
+        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
+		//Add heartrate, exerscise level outputs here
+		int average_heartbeat = 70; //between 60 and 80, might as well randomize in this range
+        //Heartrate should be based on stamina level, weight, mutations, what else? How to get these values?
+		//Exerscise is best be based on existing value. Should add check if band is worn long enough if possible? How to get player's exercise level?
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
