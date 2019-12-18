@@ -1433,8 +1433,8 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
             bool in_boat = false;
             if( vp && in_road_vehicle ) {
-                vehicle *const veh = &vp->vehicle();
-                in_boat = veh->can_float() && veh->is_watercraft() && veh->is_watercraft();
+                vehicle &veh = vp->vehicle();
+                in_boat = veh.can_float() && veh.is_watercraft() && veh.is_watercraft();
                 if( in_boat ) {
                     in_road_vehicle = false;
                 }
