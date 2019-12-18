@@ -46,7 +46,7 @@
       { "item": "hoodie" },
       { "item": "mbag" },
       { "item": "hat_ball" },
-      { "item": "sunglasses", "chance": 50 },
+      { "item": "sunglasses", "prob": 50 },
       { "item": "holy_symbol_wood" }
     ]
   },
@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "GODCO_food_guard_carried",
     "subtype": "collection",
-    "entries": [ { "group": "snacks", "chance": 75, "repeat": [ 1, 2 ] }, { "group": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ]
+    "entries": [ { "group": "snacks", "prob": 75, "count": [ 1, 2 ] }, { "group": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
