@@ -5513,7 +5513,7 @@ static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && food->item_tags.count( "HOT" );
+        return food && !food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
