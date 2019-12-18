@@ -86,11 +86,6 @@
   },
   {
     "type": "item_action",
-    "id": "MISC_REPAIR",
-    "name": "Repair wood/paper/bone/chitin"
-  },
-  {
-    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": "Attach as toolmod"
   },

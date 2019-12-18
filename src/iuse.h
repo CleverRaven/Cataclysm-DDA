@@ -174,7 +174,6 @@ class iuse
         int gun_repair( player *, item *, bool, const tripoint & );
         int gunmod_attach( player *, item *, bool, const tripoint & );
         int toolmod_attach( player *, item *, bool, const tripoint & );
-        int misc_repair( player *, item *, bool, const tripoint & );
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
