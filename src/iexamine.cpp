@@ -749,14 +749,20 @@ void iexamine::elevator( player &p, const tripoint &examp )
     tripoint new_floor_omt = ms_to_omt_copy( g->m.getabs( p.pos() ) );
 
     for( Creature &critter : g->all_creatures() ) {
-        if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        if( critter.is_player() ) {
+            continue;
+        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+
+            critter_omt == original_floor_omt;
+            critter_omt == new_floor_omt;
 
             if( critter_omt == original_floor_omt ) {
                 // they're on the elevator and come along
                 for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
-                        !g->critter_at( candidate ) ) {
+                            candidate != p.pos() &&
+                            !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
