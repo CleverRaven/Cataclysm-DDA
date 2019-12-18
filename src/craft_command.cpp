@@ -2,7 +2,6 @@
 
 #include <limits.h>
 #include <cstdlib>
-#include <sstream>
 #include <algorithm>
 #include <limits>
 #include <list>
@@ -22,6 +21,8 @@
 #include "uistate.h"
 #include "type_id.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
 {
@@ -30,7 +31,8 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
+        case use_from_player:
+        // Is the same as the default return;
         case use_from_none:
         case cancel:
         case num_usages:
@@ -176,10 +178,9 @@ void craft_command::execute( const tripoint &new_loc )
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
 template<typename T>
-static void component_list_string( std::stringstream &str,
-                                   const std::vector<comp_selection<T>> &components )
+static std::string component_list_string( const std::vector<comp_selection<T>> &components )
 {
-    str << enumerate_as_string( components.begin(), components.end(),
+    return enumerate_as_string( components.begin(), components.end(),
     []( const comp_selection<T> &comp ) {
         return comp.nname();
     } );
@@ -188,20 +189,21 @@ static void component_list_string( std::stringstream &str,
 bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
                                     const std::vector<comp_selection<tool_comp>> &missing_tools )
 {
-    std::stringstream ss;
-    ss << _( "Some components used previously are missing.  Continue?" );
+    std::string ss = _( "Some components used previously are missing.  Continue?" );
 
     if( !missing_items.empty() ) {
-        ss << std::endl << _( "Item(s): " );
-        component_list_string( ss, missing_items );
+        ss += "\n";
+        ss += _( "Item(s): " );
+        ss += component_list_string( missing_items );
     }
 
     if( !missing_tools.empty() ) {
-        ss << std::endl << _( "Tool(s): " );
-        component_list_string( ss, missing_tools );
+        ss += "\n";
+        ss += _( "Tool(s): " );
+        ss += component_list_string( missing_tools );
     }
 
-    return query_yn( ss.str() );
+    return query_yn( ss );
 }
 
 item craft_command::create_in_progress_craft()
@@ -209,7 +211,7 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     std::list<item> used;
     std::vector<item_comp> comps_used;
-    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
     }
 

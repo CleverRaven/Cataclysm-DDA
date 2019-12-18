@@ -17,7 +17,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "int_id.h"
-#include "io.h"
+#include "cata_io.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -90,6 +90,7 @@ void game::serialize( std::ostream &fout )
     json.member( "om_y", pos_om.y );
 
     json.member( "grscent", scent.serialize() );
+    json.member( "typescent", scent.serialize( true ) );
 
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
@@ -105,26 +106,31 @@ void game::serialize( std::ostream &fout )
     json.end_object();
 }
 
-std::string scent_map::serialize() const
+std::string scent_map::serialize( bool is_type ) const
 {
     std::stringstream rle_out;
-    int rle_lastval = -1;
-    int rle_count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( val == rle_lastval ) {
-                rle_count++;
-            } else {
-                if( rle_count ) {
-                    rle_out << rle_count << " ";
+    if( is_type ) {
+        rle_out << typescent.str();
+    } else {
+        int rle_lastval = -1;
+        int rle_count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( val == rle_lastval ) {
+                    rle_count++;
+                } else {
+                    if( rle_count ) {
+                        rle_out << rle_count << " ";
+                    }
+                    rle_out << val << " ";
+                    rle_lastval = val;
+                    rle_count = 1;
                 }
-                rle_out << val << " ";
-                rle_lastval = val;
-                rle_count = 1;
             }
         }
+        rle_out << rle_count;
     }
-    rle_out << rle_count;
+
     return rle_out.str();
 }
 
@@ -185,20 +191,20 @@ void game::unserialize( std::istream &fin )
             safe_mode = SAFE_MODE_ON;
         }
 
+        std::string linebuff;
         std::string linebuf;
-        if( data.read( "grscent", linebuf ) ) {
+        if( data.read( "grscent", linebuf ) && data.read( "typescent", linebuff ) ) {
             scent.deserialize( linebuf );
+            scent.deserialize( linebuff, true );
         } else {
             scent.reset();
         }
-
         data.read( "active_monsters", *critter_tracker );
 
-        JsonArray vdata = data.get_array( "stair_monsters" );
         coming_to_stairs.clear();
-        while( vdata.has_more() ) {
+        for( auto elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
-            vdata.read_next( stairtmp );
+            elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
 
@@ -208,16 +214,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            JsonObject odata = data.get_object( "kills" );
-            std::set<std::string> members = odata.get_member_names();
-            for( const auto &member : members ) {
-                kills[mtype_id( member )] = odata.get_int( member );
+            for( const JsonMember &member : data.get_object( "kills" ) ) {
+                kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            vdata = data.get_array( "npc_kills" );
-            while( vdata.has_more() ) {
-                std::string npc_name;
-                vdata.read_next( npc_name );
+            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -234,18 +235,24 @@ void game::unserialize( std::istream &fin )
     }
 }
 
-void scent_map::deserialize( const std::string &data )
+void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
-    int stmp = 0;
-    int count = 0;
-    for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
-            if( count == 0 ) {
-                buffer >> stmp >> count;
+    if( is_type ) {
+        std::string str;
+        buffer >> str;
+        typescent = scenttype_id( str );
+    } else {
+        int stmp = 0;
+        int count = 0;
+        for( auto &elem : grscent ) {
+            for( auto &val : elem ) {
+                if( count == 0 ) {
+                    buffer >> stmp >> count;
+                }
+                count--;
+                val = stmp;
             }
-            count--;
-            val = stmp;
         }
     }
 }
@@ -259,16 +266,11 @@ void game::load_shortcuts( std::istream &fin )
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
-            JsonObject qs = data.get_object( "quick_shortcuts" );
-            std::set<std::string> qsl_members = qs.get_member_names();
             quick_shortcuts_map.clear();
-            for( std::set<std::string>::iterator it = qsl_members.begin();
-                 it != qsl_members.end(); ++it ) {
-                JsonArray ja = qs.get_array( *it );
-                std::list<input_event> &qslist = quick_shortcuts_map[ *it ];
-                qslist.clear();
-                while( ja.has_more() ) {
-                    qslist.push_back( input_event( ja.next_int(), CATA_INPUT_KEYBOARD ) );
+            for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
+                std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
+                for( const int i : member.get_array() ) {
+                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
                 }
             }
         }
@@ -303,11 +305,10 @@ void game::save_shortcuts( std::ostream &fout )
 
 std::unordered_set<std::string> obsolete_terrains;
 
-void overmap::load_obsolete_terrains( JsonObject &jo )
+void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    JsonArray ja = jo.get_array( "terrains" );
-    while( ja.has_more() ) {
-        obsolete_terrains.emplace( ja.next_string() );
+    for( const std::string &line : jo.get_array( "terrains" ) ) {
+        obsolete_terrains.emplace( line );
     }
 }
 
@@ -785,6 +786,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else {
                 debugmsg( "Malformed Megastore" );
             }
+        } else if( old == "house_base_north" ) {
+            ter_set( pos, oter_id( "house_north" ) );
+        } else if( old == "house_base_south" ) {
+            ter_set( pos, oter_id( "house_south" ) );
+        } else if( old == "house_base_east" ) {
+            ter_set( pos, oter_id( "house_east" ) );
+        } else if( old == "house_base_west" ) {
+            ter_set( pos, oter_id( "house_west" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -884,7 +893,8 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // TODO: optimize
+                    // TODO: optimize
+                    settings = rit->second;
                 }
             }
         } else if( name == "mongroups" ) {
@@ -1011,7 +1021,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
+                shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
@@ -1667,7 +1677,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
-        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
     }

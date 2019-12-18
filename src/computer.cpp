@@ -45,6 +45,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "int_id.h"
 #include "item.h"
 #include "omdata.h"
@@ -54,16 +55,16 @@
 #include "colony.h"
 #include "point.h"
 
-const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
-const skill_id skill_computer( "computer" );
+static const skill_id skill_computer( "computer" );
 
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+static const species_id HUMAN( "HUMAN" );
 
-const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_amigara( "amigara" );
 
 static int alerts = 0;
 
@@ -366,9 +367,13 @@ void computer::load_data( const std::string &data )
 
 static item *pick_usb()
 {
-    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
-    if( pos != INT_MIN ) {
-        return &g->u.i_at( pos );
+    auto filter = []( const item & it ) {
+        return it.typeId() == "usb_drive";
+    };
+
+    item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
+    if( loc ) {
+        return &*loc;
     }
     return nullptr;
 }
@@ -391,8 +396,10 @@ void computer::activate_function( computer_action action )
     g->u.moves -= 30;
     switch( action ) {
 
-        case COMPACT_NULL: // Unknown action.
-        case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
+        case COMPACT_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_ACTIONS:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         // OPEN_DISARM falls through to just OPEN
@@ -687,7 +694,8 @@ void computer::activate_function( computer_action action )
         }
         break;
 
-        case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        case COMPACT_MISS_DISARM:
+            // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
                 g->events().send<event_type::disarms_nuke>();
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
@@ -704,11 +712,11 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( const tripoint &p : g->m.points_on_zlevel() ) {
+            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 3 ) ) {
                 for( item &elem : g->m.i_at( p ) ) {
                     if( elem.is_bionic() ) {
                         if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                            names.push_back( elem.tname() );
+                            names.push_back( elem.type_name() );
                         } else {
                             more++;
                         }
@@ -927,7 +935,7 @@ void computer::activate_function( computer_action action )
                         if( items.only_item().typeId() == "black_box" ) {
                             print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
-                            g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
+                            g->m.add_item_or_charges( g->u.pos(), transcript );
                         } else {
                             print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                         }
@@ -1318,8 +1326,10 @@ void computer::activate_failure( computer_failure_type fail )
     bool found_tile = false;
     switch( fail ) {
 
-        case COMPFAIL_NULL: // Unknown action.
-        case NUM_COMPUTER_FAILURES: // Suppress compiler warning [-Wswitch]
+        case COMPFAIL_NULL:
+        // Unknown action.
+        case NUM_COMPUTER_FAILURES:
+            // Suppress compiler warning [-Wswitch]
             break;
 
         case COMPFAIL_SHUTDOWN:
@@ -1649,7 +1659,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( JsonObject &jo )
+computer_option computer_option::from_json( const JsonObject &jo )
 {
     std::string name = jo.get_string( "name" );
     computer_action action = computer_action_from_string( jo.get_string( "action" ) );
@@ -1657,7 +1667,7 @@ computer_option computer_option::from_json( JsonObject &jo )
     return computer_option( name, action, sec );
 }
 
-computer_failure computer_failure::from_json( JsonObject &jo )
+computer_failure computer_failure::from_json( const JsonObject &jo )
 {
     computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
     return computer_failure( type );

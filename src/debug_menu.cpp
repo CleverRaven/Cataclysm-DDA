@@ -27,6 +27,7 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
@@ -83,6 +84,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "weather_gen.h"
+#include "monstergenerator.h"
 
 class vehicle;
 
@@ -91,8 +93,7 @@ class vehicle;
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_flu( "flu" );
+static const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -142,6 +143,7 @@ enum debug_menu_index {
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
+    DEBUG_DISPLAY_SCENTS_TYPE_LOCAL,
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VEHICLE_AI,
     DEBUG_DISPLAY_VISIBILITY,
@@ -202,6 +204,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
@@ -516,8 +519,11 @@ void character_edit_menu()
             p.weapon = item();
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( _( "Make target equip" ) );
-            item &to_wear = g->u.i_at( item_pos );
+            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            if( !loc ) {
+                break;
+            }
+            item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
@@ -1070,7 +1076,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_NPC: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
+            shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
@@ -1094,6 +1100,21 @@ void debug()
             break;
 
         case DEBUG_GAME_STATE: {
+            std::string mfus;
+            std::vector<std::pair<m_flag, int>> sorted(
+                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
+                return a.second != b.second ? a.second > b.second : a.first < b.first;
+            } );
+            for( auto &m_flag_stat : sorted ) {
+                mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
+                                       m_flag_stat.second );
+            }
+            DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
+            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
+
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
@@ -1166,12 +1187,13 @@ void debug()
                 }
                 veh_menu.query();
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't cancel
+                    // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
+                    // TODO: Allow picking this when add_vehicle has 3d argument
+                    tripoint dest = u.pos();
+                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( u.pos(), &u );
+                        m.board_vehicle( dest, &u );
                     }
                 }
             }
@@ -1290,7 +1312,9 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                critter.die( nullptr );
+                if( critter.type->id != mtype_id( "mon_generator" ) ) {
+                    critter.die( nullptr );
+                }
             }
             g->cleanup_dead();
         }
@@ -1374,6 +1398,9 @@ void debug()
             break;
         case DEBUG_DISPLAY_SCENTS_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
+            break;
+        case DEBUG_DISPLAY_SCENTS_TYPE_LOCAL:
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
             break;
         case DEBUG_DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );

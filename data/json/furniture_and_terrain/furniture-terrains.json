@@ -9,7 +9,6 @@
     "move_cost_mod": 0,
     "comfort": 2,
     "floor_bedding_warmth": -1500,
-    "max_volume": 4000,
     "required_str": 7,
     "bash": {
       "str_min": 8,
@@ -37,7 +36,6 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
-    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",
@@ -77,7 +75,6 @@
         { "item": "pillow", "count": 4 }
       ]
     },
-    "max_volume": 4000,
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_ASH",

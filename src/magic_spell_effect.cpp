@@ -56,7 +56,7 @@ struct line_iterable {
     line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
         : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
 
-    const point get() const {
+    point get() const {
         return cur_origin + delta_line[index];
     }
     // Move forward along point set, wrap around and move origin forward if necessary
@@ -337,7 +337,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
 static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
-        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, const int, const bool )>
+        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
         aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
@@ -348,9 +348,11 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     const int aoe_radius = sp.aoe();
     targets = aoe_func( sp, caster.pos(), target, aoe_radius, ignore_walls );
 
-    for( const tripoint &p : targets ) {
-        if( !sp.is_valid_target( caster, p ) ) {
-            targets.erase( p );
+    for( std::set<tripoint>::iterator it = targets.begin(); it != targets.end(); ) {
+        if( !sp.is_valid_target( caster, *it ) ) {
+            it = targets.erase( it );
+        } else {
+            ++it;
         }
     }
 

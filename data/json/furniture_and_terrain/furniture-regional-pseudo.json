@@ -8,6 +8,39 @@
     "color": "black",
     "move_cost_mod": 0,
     "required_str": 0,
-    "flags": [ "TRANSPARENT", "NOITEM" ]
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_weed",
+    "name": "this should never actually show up, it's a pseudo furniture",
+    "description": "this should never actually show up, it's a pseudo furniture",
+    "symbol": " ",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_water_plant",
+    "name": "this should never actually show up, it's a pseudo furniture",
+    "description": "this should never actually show up, it's a pseudo furniture",
+    "symbol": " ",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_region_flower_decorative",
+    "name": "this should never actually show up, it's a pseudo furniture",
+    "description": "this should never actually show up, it's a pseudo furniture",
+    "symbol": " ",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": 0,
+    "flags": [ "TRANSPARENT" ]
   }
 ]

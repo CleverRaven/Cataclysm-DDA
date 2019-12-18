@@ -38,7 +38,7 @@
     "name_plural": "decks of cards",
     "description": "A collection of 52 cards made to play poker.",
     "weight": 96,
-    "volume": 0.5,
+    "volume": "125 ml",
     "price": 599,
     "material": [ "paper" ],
     "symbol": "?",

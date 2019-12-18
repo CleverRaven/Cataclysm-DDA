@@ -69,13 +69,13 @@
       "items": {
         "h": { "item": "oa_discarded_news", "chance": 15 },
         "t": { "item": "oa_ig_ts_tables", "chance": 15 },
-        "r": { "item": "oa_ig_ts_tires", "chance": 40 },
+        "r": { "item": "oa_ig_ts_tires", "chance": 70 },
         "L": { "item": "oa_ig_ts_lockers", "chance": 50 },
         "C": { "item": "oa_ig_ts_crates", "chance": 50 }
       },
       "place_items": [
-        { "item": "vending_food_items", "chance": 60, "repeat": [ 3, 6 ], "x": 13, "y": 18 },
-        { "item": "vending_drink_items", "chance": 60, "repeat": [ 3, 6 ], "x": 14, "y": 18 }
+        { "item": "vending_food_items", "chance": 60, "repeat": [ 3, 12 ], "x": 13, "y": 18 },
+        { "item": "vending_drink_items", "chance": 60, "repeat": [ 3, 12 ], "x": 14, "y": 18 }
       ],
       "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
       "toilets": { "T": {  } },

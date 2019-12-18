@@ -65,12 +65,12 @@
       },
       "toilets": { "B": {  } },
       "items": {
-        "A": { "item": "petstore_shelves", "chance": 30, "repeat": [ 1, 4 ] },
-        "L": { "item": "petstore_shelves", "chance": 30, "repeat": [ 1, 4 ] },
-        "G": { "item": "cleaning", "chance": 30, "repeat": [ 1, 4 ] },
-        "C": { "item": "petstore_misc", "chance": 30, "repeat": [ 1, 4 ] },
-        "K": { "item": "petstore_misc", "chance": 30, "repeat": [ 1, 4 ] },
-        "d": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
+        "A": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
+        "L": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
+        "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
+        "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
+        "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
+        "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
         "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
@@ -283,21 +283,21 @@
         "K": "f_birdbath"
       },
       "place_items": [
-        { "chance": 35, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
-        { "chance": 30, "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
+        { "chance": 55, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
+        { "chance": 70, "repeat": [ 1, 2 ], "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
         { "chance": 55, "item": "trash", "x": 6, "y": 14 },
         { "chance": 55, "item": "trash", "x": 12, "y": 5 },
         { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
-        { "chance": 45, "item": "vet_utility", "x": 14, "y": 14 },
-        { "chance": 45, "item": "vet_utility", "x": 14, "y": 12 },
-        { "chance": 45, "item": "vet_utility", "x": 11, "y": [ 11, 12 ] },
-        { "chance": 40, "item": "magazines", "x": 7, "y": 11 }
+        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 14 },
+        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 12 },
+        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 11, "y": [ 11, 12 ] },
+        { "chance": 70, "repeat": [ 1, 6 ], "item": "magazines", "x": 7, "y": 11 }
       ],
       "items": {
-        "{": { "item": "petstore_shelves", "chance": 30, "repeat": [ 1, 4 ] },
-        "G": { "item": "cleaning", "chance": 30, "repeat": [ 1, 4 ] },
-        "l": { "item": "petstore_misc", "chance": 30, "repeat": [ 1, 4 ] },
-        "#": { "item": "office", "chance": 20, "repeat": [ 2, 4 ] },
+        "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 1, 4 ] },
+        "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
+        "l": { "item": "petstore_misc", "chance": 70, "repeat": [ 1, 4 ] },
+        "#": { "item": "office", "chance": 80, "repeat": [ 2, 4 ] },
         "Y": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
       },
       "place_monster": [

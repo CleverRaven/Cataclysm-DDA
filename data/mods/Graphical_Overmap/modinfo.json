@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Graphical_Overmap",
+    "name": "Graphical Overmap",
+    "authors": [ "Larwick" ],
+    "maintainers": [ "Larwick" ],
+    "description": "Gives the overmap a graphical overhaul.  Please refer to readme for installation.",
+    "category": "graphical",
+    "dependencies": [ "dda" ]
+  }
+]

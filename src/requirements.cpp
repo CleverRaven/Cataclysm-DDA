@@ -62,21 +62,19 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src )
 {
     quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
-    JsonArray arr = jo.get_array( "usages" );
-    while( arr.has_more() ) {
-        auto lvl = arr.next_array();
-        auto funcs = lvl.get_array( 1 );
-        while( funcs.has_more() ) {
-            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+    for( JsonArray levels : jo.get_array( "usages" ) ) {
+        const int level = levels.get_int( 0 );
+        for( const std::string &line : levels.get_array( 1 ) ) {
+            usages.emplace_back( level, line );
         }
     }
 }
@@ -266,7 +264,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
-void requirement_data::load_requirement( JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
 

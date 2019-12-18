@@ -36,10 +36,10 @@ class overmap_special;
 
 using overmap_special_id = string_id<overmap_special>;
 
-const overmap_land_use_code_id land_use_code_forest( "forest" );
-const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+static const overmap_land_use_code_id land_use_code_forest( "forest" );
+static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -114,7 +114,7 @@ class overmap_land_use_code
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 };
@@ -225,7 +225,7 @@ struct oter_type_t {
             flags[flag] = value;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
@@ -410,7 +410,8 @@ struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
     om_direction::type initial_dir = om_direction::type::invalid;
-    string_id<oter_type_t> terrain; // TODO: Remove it.
+    // TODO: Remove it.
+    string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 
@@ -449,9 +450,11 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+        // Minimum size of the box that can contain whole overmap special
+        box dimensions;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
         std::set<string_id<overmap_location>> default_locations;
@@ -460,7 +463,7 @@ class overmap_special
 namespace overmap_terrains
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 void finalize();
 void reset();
@@ -472,7 +475,7 @@ const std::vector<oter_t> &get_all();
 namespace overmap_land_use_codes
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
@@ -484,7 +487,7 @@ const std::vector<overmap_land_use_code> &get_all();
 namespace overmap_specials
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
@@ -502,7 +505,7 @@ overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 namespace city_buildings
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 
 } // namespace city_buildings
 

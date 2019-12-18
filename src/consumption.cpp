@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <limits>
-#include <sstream>
 #include <tuple>
 #include <cmath>
 
@@ -36,31 +35,29 @@
 #include "enums.h"
 #include "flat_set.h"
 
-namespace
-{
-const skill_id skill_survival( "survival" );
-const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_cooking( "cooking" );
 
-const efftype_id effect_foodpoison( "foodpoison" );
-const efftype_id effect_poison( "poison" );
-const efftype_id effect_tapeworm( "tapeworm" );
-const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
-const efftype_id effect_paincysts( "paincysts" );
-const efftype_id effect_nausea( "nausea" );
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_common_cold( "common_cold" );
-const efftype_id effect_flu( "flu" );
-const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_fungus( "fungus" );
 
-const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_player_blob( "mon_player_blob" );
 
-const bionic_id bio_advreactor( "bio_advreactor" );
-const bionic_id bio_digestion( "bio_digestion" );
-const bionic_id bio_furnace( "bio_furnace" );
-const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
@@ -81,8 +78,6 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
-} // namespace
-
 int player::stomach_capacity() const
 {
     if( has_trait( trait_id( "GIZZARD" ) ) ) {
@@ -101,38 +96,28 @@ int player::stomach_capacity() const
 }
 
 // TODO: Move pizza scraping here.
-// Same for other kinds of nutrition alterations
-// This is used by item display, making actual nutrition available to player.
-int player::kcal_for( const item &comest ) const
+static int compute_default_effective_kcal( const item &comest, const player &p )
 {
     static const trait_id trait_CARNIVORE( "CARNIVORE" );
     static const trait_id trait_GIZZARD( "GIZZARD" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
     static const std::string flag_CARNIVORE_OK( "CARNIVORE_OK" );
-    if( !comest.is_comestible() ) {
-        return 0;
-    }
+
+    assert( comest.get_comestible() );
 
     // As float to avoid rounding too many times
-    float kcal = 0;
+    float kcal = comest.get_comestible()->default_nutrition.kcal;
 
-    // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
-        int byproduct_multiplier;
-        for( const item &component : comest.components ) {
-            component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
-            kcal += this->kcal_for( component ) * component.charges * byproduct_multiplier;
-        }
-        kcal /= comest.recipe_charges;
-    } else {
-        kcal = comest.get_comestible()->get_calories();
+    // Many raw foods give less calories, as your body has expends more energy digesting them.
+    if( comest.has_flag( "RAW" ) && !comest.has_flag( "COOKED" ) ) {
+        kcal *= 0.75f;
     }
 
-    if( has_trait( trait_GIZZARD ) ) {
+    if( p.has_trait( trait_GIZZARD ) ) {
         kcal *= 0.6f;
     }
 
-    if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
+    if( p.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
@@ -140,7 +125,7 @@ int player::kcal_for( const item &comest ) const
 
     const float relative_rot = comest.get_relative_rot();
     // Saprophages get full nutrition from rotting food
-    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) ) {
+    if( relative_rot > 1.0f && !p.has_trait( trait_SAPROPHAGE ) ) {
         // everyone else only gets a portion of the nutrition
         // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
@@ -148,16 +133,83 @@ int player::kcal_for( const item &comest ) const
     }
 
     // Bionic digestion gives extra nutrition
-    if( has_bionic( bio_digestion ) ) {
+    if( p.has_bionic( bio_digestion ) ) {
         kcal *= 1.5f;
     }
 
     return static_cast<int>( kcal );
 }
 
+// Compute default effective vitamins for an item, taking into account player
+// traits, but not components of the item.
+static std::map<vitamin_id, int> compute_default_effective_vitamins(
+    const item &it, const player &p )
+{
+    assert( it.get_comestible() );
+
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
+
+    for( const trait_id &trait : p.get_mutations() ) {
+        const auto &mut = trait.obj();
+        // make sure to iterate over every material defined for vitamin absorption
+        // TODO: put this loop into a function and utilize it again for bionics
+        for( const auto &mat : mut.vitamin_absorb_multi ) {
+            // this is where we are able to check if the food actually is changed by the trait
+            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
+                const std::map<vitamin_id, double> &mat_vit_map = mat.second;
+                for( auto &vit : res ) {
+                    auto vit_factor = mat_vit_map.find( vit.first );
+                    if( vit_factor != mat_vit_map.end() ) {
+                        vit.second *= vit_factor->second;
+                    }
+                }
+            }
+        }
+    }
+
+    return res;
+}
+
+// Calculate the effective nutrients for a given item, taking
+// into account player traits but not item components.
+static nutrients compute_default_effective_nutrients( const item &comest,
+        const player &p )
+{
+    return { compute_default_effective_kcal( comest, p ),
+             compute_default_effective_vitamins( comest, p ) };
+}
+
+// Calculate the nutrients that the given player would receive from consuming
+// the given item, taking into account the item components and the player's
+// traits.
+// This is used by item display, making actual nutrition available to player.
+nutrients player::compute_effective_nutrients( const item &comest ) const
+{
+    if( !comest.is_comestible() ) {
+        return {};
+    }
+
+    // if item has components, will derive calories from that instead.
+    if( !comest.components.empty() && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        nutrients tally{};
+        for( const item &component : comest.components ) {
+            nutrients component_value =
+                compute_effective_nutrients( component ) * component.charges;
+            if( component.has_flag( "BYPRODUCT" ) ) {
+                tally -= component_value;
+            } else {
+                tally += component_value;
+            }
+        }
+        return tally / comest.recipe_charges;
+    } else {
+        return compute_default_effective_nutrients( comest, *this );
+    }
+}
+
 int player::nutrition_for( const item &comest ) const
 {
-    return kcal_for( comest ) / islot_comestible::kcal_per_nutr;
+    return compute_effective_nutrients( comest ).kcal / islot_comestible::kcal_per_nutr;
 }
 
 std::pair<int, int> Character::fun_for( const item &comest ) const
@@ -170,23 +222,15 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
     static const std::string flag_FROZEN( "FROZEN" );
-    static const std::string flag_MUSHY( "MUSHY" );
     static const std::string flag_MELTS( "MELTS" );
     static const std::string flag_LUPINE( "LUPINE" );
     static const std::string flag_FELINE( "FELINE" );
-    static const std::string flag_BAD_TASTE( "BAD_TASTE" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
 
     // As float to avoid rounding too many times
-    float fun = comest.get_comestible()->fun;
-    if( comest.has_flag( flag_BAD_TASTE ) ) {
-        fun -= 5; // BAD_TASTE is just a morale debuff that persists through crafting
-    }
-    if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
-        fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
-    }
+    float fun = comest.get_comestible_fun();
     if( ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) && fun > 0 ) {
         fun /= 3; // food doesn't taste as good when you're sick
     }
@@ -203,6 +247,21 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
             fun *= ( 1.0f - rottedness );
         } else {
             fun *= ( 1.0f + rottedness );
+        }
+    }
+
+    // Food is less enjoyable when eaten too often.
+    if( fun > 0 || comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+        for( const consumption_event &event : consumption_history ) {
+            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                event.component_hash == comest.make_component_hash() ) {
+                fun -= comest.get_comestible()->monotony_penalty;
+                // This effect can't drop fun below 0, unless the food has the right flag.
+                if( fun <= 0 && !comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+                    fun = 0;
+                    break; // 0 is the lowest we'll go, no need to keep looping.
+                }
+            }
         }
     }
 
@@ -244,91 +303,12 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        get_power_level() > units::from_kilojoule( abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
         fun = 0;
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
-}
-
-std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
-{
-    return vitamins_from( item( id ) );
-}
-
-// list of traits the player has that modifies vitamin absorption
-static std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
-{
-    std::list<trait_id> traits;
-    for( auto &m : p.get_mutations() ) {
-        const auto &mut = m.obj();
-        if( !mut.vitamin_absorb_multi.empty() ) {
-            traits.push_back( m );
-        }
-    }
-    return traits;
-}
-
-// is the material associated with this item?
-static bool material_exists( const material_id &material, const item &item )
-{
-    for( const material_id &mat : item.type->materials ) {
-        if( mat == material ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
-{
-    std::map<vitamin_id, int> res;
-
-    if( !it.get_comestible() ) {
-        return res;
-    }
-
-    if( !it.components.empty() && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
-        // if an item is a byproduct, it should subtract the calories and vitamins instead of add
-        int byproduct_multiplier = 1;
-        for( const auto &comp : it.components ) {
-            comp.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
-            std::map<vitamin_id, int> component_map = this->vitamins_from( comp );
-            for( const auto &vit : component_map ) {
-                res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>( vit.second )
-                                    * comp.charges / it.recipe_charges );
-            }
-        }
-    } else {
-        // if we're here, whatever is returned is going to be based on the item's defined stats
-        res = it.get_comestible()->vitamins;
-        std::list<trait_id> traits = mut_vitamin_absorb_modify( *this );
-        // traits modify the absorption of vitamins here
-        if( !traits.empty() ) {
-            // make sure to iterate over every trait that has an effect on vitamin absorption
-            for( const trait_id &trait : traits ) {
-                const auto &mut = trait.obj();
-                // make sure to iterate over every material defined for vitamin absorption
-                // TODO: put this loop into a function and utilize it again for bionics
-                for( const auto &mat : mut.vitamin_absorb_multi ) {
-                    // this is where we are able to check if the food actually is changed by the trait
-                    if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
-                        std::map<vitamin_id, double> mat_vit_map = mat.second;
-                        // finally iterate over every vitamin in each material
-                        for( const auto &vit : res ) {
-                            // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
-                            mat_vit_map.emplace( vit.first, 1 );
-                            // finally edit the vitamin value that will be returned
-                            res[ vit.first ] *= mat_vit_map[ vit.first ];
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return res;
 }
 
 time_duration player::vitamin_rate( const vitamin_id &vit ) const
@@ -376,7 +356,7 @@ void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool cappe
 
 int Character::vitamin_get( const vitamin_id &vit ) const
 {
-    if( get_option<bool>( "NO_VITAMINS" ) ) {
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
         return 0;
     }
 
@@ -608,23 +588,23 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         if( !interactive ) {
             return consequences.front();
         }
-        std::ostringstream req;
+        std::string req;
         for( const auto &elem : consequences ) {
-            req << elem.str() << std::endl;
+            req += elem.str() + "\n";
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
         std::string food_tame = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
-        if( !query_yn( req.str() ) ) {
+        if( !query_yn( req ) ) {
             return consequences.front();
         }
     }
@@ -813,7 +793,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
+        mod_power_level( units::from_kilojoule( -abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -863,7 +843,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad,
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
     }
-    if( food.type->comestible->fun > 0 ) {
+    if( food.get_comestible_fun() > 0 ) {
         if( has_effect( effect_common_cold ) ) {
             add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
         }
@@ -943,9 +923,24 @@ bool player::eat( item &food, bool force )
         }
     }
 
+    // chance to get food poisoning from bacterial contamination
+    if( !will_vomit && !has_bionic( bio_digestion ) ) {
+        const int contamination = food.get_comestible()->contamination;
+        if( rng( 1, 100 ) <= contamination ) {
+            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
+        }
+    }
+
     if( will_vomit ) {
         vomit();
     }
+
+    consumption_history.emplace_back( food );
+    // Clean out consumption_history so it doesn't get bigger than needed.
+    while( consumption_history.front().time < calendar::turn - 2_days ) {
+        consumption_history.pop_front();
+    }
+
     return true;
 }
 
@@ -1044,7 +1039,7 @@ bool player::consume_effects( item &food )
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.get_nutr();
+        int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
@@ -1133,16 +1128,18 @@ bool player::consume_effects( item &food )
     }
 
     // Set up food for ingestion
-    nutrients ingested;
     const item &contained_food = food.is_container() ? food.get_contained() : food;
-    // maybe move tapeworm to digestion
-    for( const std::pair<vitamin_id, int> &v : vitamins_from( contained_food ) ) {
-        ingested.vitamins[v.first] += has_effect( efftype_id( "tapeworm" ) ) ? v.second / 2 : v.second;
-    }
     // @TODO: Move quench values to mL and remove the magic number here
-    ingested.water = contained_food.type->comestible->quench * 5_ml;
-    ingested.solids = contained_food.base_volume() - std::max( ingested.water, 0_ml );
-    ingested.kcal = kcal_for( contained_food );
+    units::volume water = contained_food.type->comestible->quench * 5_ml;
+    food_summary ingested{
+        water,
+        contained_food.base_volume() - std::max( water, 0_ml ),
+        compute_effective_nutrients( contained_food )
+    };
+    // maybe move tapeworm to digestion
+    if( has_effect( efftype_id( "tapeworm" ) ) ) {
+        ingested.nutr /= 2;
+    }
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1205,7 +1202,8 @@ bool player::feed_reactor_with( item &it )
                            _( "<npcname> pours %s into their reactor's tank." ),
                            it.tname() );
 
-    tank_plut += amount; // TODO: Encapsulate
+    // TODO: Encapsulate
+    tank_plut += amount;
     it.charges -= 1;
     mod_moves( -250 );
     return true;
@@ -1370,11 +1368,10 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             return amount;
         }
         case rechargeable_cbm::other:
-            const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
-            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
+            const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
+            const int to_consume = std::min( it.charges, bid->fuel_capacity );
+            const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
             return to_charge;
-            break;
     }
 
     return 0;

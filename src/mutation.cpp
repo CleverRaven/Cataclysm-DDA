@@ -25,7 +25,7 @@
 #include "string_id.h"
 #include "enums.h"
 
-const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );

@@ -100,6 +100,14 @@
     "based_on": "neither"
   },
   {
+    "id": "ACT_GENERIC_GAME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "playing",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -771,19 +779,10 @@
     "no_resume": true
   },
   {
-    "id": "ACT_HACK_DOOR",
+    "id": "ACT_HACKING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
-    "suspendable": false,
-    "based_on": "time",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HACK_SAFE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
+    "verb": "hacking",
     "suspendable": false,
     "based_on": "time",
     "no_resume": true

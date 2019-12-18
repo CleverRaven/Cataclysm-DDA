@@ -26,7 +26,7 @@
 #include "vpart_range.h"
 
 static const itype_id fuel_type_battery( "battery" );
-const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_on_roof( "on_roof" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -202,7 +202,8 @@ bool turret_data::can_reload() const
         return false;
     }
     if( !part->base.magazine_integral() ) {
-        return true; // always allow changing of magazines
+        // always allow changing of magazines
+        return true;
     }
     return part->base.ammo_remaining() < part->base.ammo_capacity();
 }

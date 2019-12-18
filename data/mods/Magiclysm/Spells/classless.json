@@ -11,8 +11,10 @@
     "min_range": 1,
     "max_range": 1,
     "base_casting_time": 100,
-    "base_energy_cost": 400,
+    "base_energy_cost": 500,
     "energy_source": "MANA",
+    "difficulty": 6,
+    "max_level": 20,
     "min_duration": 100000,
     "max_duration": 1000000,
     "duration_increment": 2000
@@ -123,6 +125,25 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "damage_type": "bash"
+  },
+  {
+    "id": "obfuscated_body",
+    "type": "SPELL",
+    "name": "Obfuscated Body",
+    "description": "A magical aura distorts light around your body, increasing the amount of attacks you might dodge in a given turn.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "obfuscating_aura",
+    "energy_source": "MANA",
+    "spell_class": "NONE",
+    "flags": [ "CONCENTRATE", "NO_LEGS" ],
+    "difficulty": 4,
+    "max_level": 15,
+    "base_casting_time": 200,
+    "base_energy_cost": 400,
+    "min_duration": 21000,
+    "max_duration": 90000,
+    "duration_increment": 4500
   },
   {
     "id": "protection_aura",

@@ -8,7 +8,6 @@
 #include <iterator>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <unordered_map>
 #include <utility>
 
@@ -164,9 +163,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             }
         }
         if( curtab < 0 ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             return nullptr;
         }
     }
@@ -432,8 +429,6 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
 
-    std::ostringstream sTemp;
-
     while( true ) {
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -452,9 +447,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
-            sTemp.str( "" );
-            sTemp << i + 1;
-            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, sTemp.str() );
+            mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
             std::string world_name = ( world_pages[selpage] )[i];
@@ -473,7 +466,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         wmove( w_worlds_header, point( 7, 0 ) );
 
         for( size_t i = 0; i < num_pages; ++i ) {
-            if( !world_pages[i].empty() ) { //skip empty pages
+            //skip empty pages
+            if( !world_pages[i].empty() ) {
                 nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 ) ;
@@ -492,9 +486,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
@@ -509,7 +501,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
-            do { //skip empty pages
+
+            do {
+                //skip empty pages
                 selpage++;
                 if( selpage >= world_pages.size() ) {
                     selpage = 0;
@@ -517,7 +511,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             } while( world_pages[selpage].empty() );
         } else if( action == "PREV_TAB" ) {
             sel = 0;
-            do { //skip empty pages
+            do {
+                //skip empty pages
                 if( selpage != 0 ) {
                     selpage--;
                 } else {
@@ -708,7 +703,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         }
     }
 
-    if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
+    // Ensure that the scrollbar starts at zero position
+    if( first_line_is_category && iActive == 1 ) {
         draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point_zero );
     } else {
         draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
@@ -761,9 +757,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
             }
 
         } else if( action == "QUIT" || action == "CONFIRM" ) {
-#if defined(TILES) || defined(_WIN32)
-            handle_redraw();
-#endif
+            catacurses::refresh();
             break;
         }
     }
@@ -1170,9 +1164,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
-#if defined(TILES) || defined(_WIN32)
-                    handle_redraw();
-#endif
+                    catacurses::refresh();
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -1183,9 +1175,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
-#if defined(TILES) || defined(_WIN32)
-                    handle_redraw();
-#endif
+                    catacurses::refresh();
                     return 1;
                 } else {
                     continue;
@@ -1411,19 +1401,19 @@ bool WORLD::load_options()
     return false;
 }
 
-void load_world_option( JsonObject &jo )
+void load_world_option( const JsonObject &jo )
 {
     auto arr = jo.get_array( "options" );
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }
-    while( arr.has_more() ) {
-        get_options().get_option( arr.next_string() ).setValue( "true" );
+    for( const std::string &line : arr ) {
+        get_options().get_option( line ).setValue( "true" );
     }
 }
 
 //load external option from json
-void load_external_option( JsonObject &jo )
+void load_external_option( const JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );

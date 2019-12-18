@@ -202,7 +202,7 @@
     "category": "spare_parts",
     "name": "silver",
     "name_plural": "silver",
-    "description": "A soft shiny metal.  Before the cataclysm it was worth quite a bit but its value is now greatly diminished.",
+    "description": "A soft shiny metal.  Before the Cataclysm it was worth quite a bit but its value is now greatly diminished.",
     "weight": "3 g",
     "//": "Density 10.40g/cm³ ~ 2.6kg/250ml @ stack 1000 = 3g/unit",
     "volume": "50ml",
