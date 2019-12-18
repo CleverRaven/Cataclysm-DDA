@@ -7317,10 +7317,10 @@ int Character::heartrate_bpm() const
     //health effect that can make things better or worse is applied in the end. Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     float healthy_modifier = 0;
-	//a bit arbitary formula that can use some love
+    //a bit arbitary formula that can use some love
     healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
-	//A single clamp in the end should be enough  
+    //A single clamp in the end should be enough  
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
     return heartbeat;
 }
