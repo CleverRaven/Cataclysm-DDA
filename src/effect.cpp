@@ -548,33 +548,33 @@ std::string effect::disp_desc( bool reduced ) const
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Strength +%d;  " ), tmp );
+        ret << string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Strength %d;  " ), tmp );
+        ret << string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Dexterity +%d;  " ), tmp );
+        ret << string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Dexterity %d;  " ), tmp );
+        ret << string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Perception +%d;  " ), tmp );
+        ret << string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Perception %d;  " ), tmp );
+        ret << string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Intelligence +%d;  " ), tmp );
+        ret << string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Intelligence %d;  " ), tmp );
+        ret << string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Speed +%d;  " ), tmp );
+        ret << string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Speed %d;  " ), tmp );
+        ret << string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
     }
     // Newline if necessary
     if( !ret.str().empty() && ret.str().back() != '\n' ) {
