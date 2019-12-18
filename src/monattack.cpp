@@ -4739,7 +4739,7 @@ bool mattack::evolve_kill_strike( monster *z )
     }
 
     z->moves -= 100;
-    bool uncanny = target->uncanny_dodge();
+    const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check( z, target ) ) {
         auto msg_type = target == &g->u ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
@@ -4770,7 +4770,7 @@ bool mattack::evolve_kill_strike( monster *z )
     } else {
         target->add_msg_player_or_npc(
             _( "The %1$s attempts to burrow itself into you, but is stopped by your armor!" ),
-            _( "The %1$s slashes at <npcname>'s %2$s, but is stopped by its glances off armor!" ),
+            _( "The %1$s slashes at <npcname>'s %2$s, but is stopped by their armor!" ),
             z->name() );
         return true;
     }
@@ -4788,7 +4788,7 @@ bool mattack::evolve_kill_strike( monster *z )
         } else if( could_see_z ) {
             add_msg( m_warning, _( "The %1$s burrows within %2$s corpse!" ), old_name, target_name );
         } else if( can_see_z_upgrade ) {
-            add_msg( m_warning, _( "A %1$s emerges from %2$s corpse!" ), target->disp_name(), target_name );
+            add_msg( m_warning, _( "A %1$s emerges from %2$s corpse!" ), upgrade_name, target_name );
         }
     }
     return true;
@@ -4799,14 +4799,14 @@ bool mattack::leech_spawner( monster *z )
     const bool u_see = g->u.sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( LEECH_PLANT ) && !candidate.type->has_flag( MF_IMMOBILE ) ) {
+        if( candidate.in_species( LEECH_PLANT ) && !candidate.has_flag( MF_IMMOBILE ) ) {
             allies.push_back( &candidate );
         }
     }
     if( allies.size() > 35 ) {
         return true;
     }
-    int monsters_spawned = rng( 1, 4 );
+    const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
     for( int i = 0; i < monsters_spawned; i++ ) {
         if( monster *const new_mon = g->place_critter_around( monster_type, z->pos(), 1 ) ) {
@@ -4820,7 +4820,7 @@ bool mattack::leech_spawner( monster *z )
         z->poly( mon_leech_stalk );
         if( u_see ) {
             add_msg( m_warning,
-                     _( "Resplendent fronds emerge from the still intact pods! " ) );
+                     _( "Resplendent fronds emerge from the still intact pods!" ) );
         }
     }
     return true;
@@ -4829,10 +4829,10 @@ bool mattack::leech_spawner( monster *z )
 bool mattack::mon_leech_evolution( monster *z )
 {
     const bool u_see = g->u.sees( *z );
-    const bool is_queen = z->type->has_flag( MF_QUEEN );
+    const bool is_queen = z->has_flag( MF_QUEEN );
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( LEECH_PLANT ) && candidate.type->has_flag( MF_QUEEN ) &&
+        if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
             rl_dist( z->pos(), candidate.pos() ) ) {
             queens.push_back( &candidate );
         }
@@ -4846,7 +4846,6 @@ bool mattack::mon_leech_evolution( monster *z )
                          _( "The %s blooms into flowers!" ), z->name() );
             }
         }
-
     } else {
         if( !queens.empty() ) {
             if( u_see ) {
@@ -4855,12 +4854,10 @@ bool mattack::mon_leech_evolution( monster *z )
             }
             z->poly( mon_leech_stalk );
             g->m.spawn_item( z->pos(), "leech_flower", 5, 0, calendar::turn );
-
         }
     }
     return true;
 }
-
 
 bool mattack::tindalos_teleport( monster *z )
 {

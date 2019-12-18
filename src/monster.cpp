@@ -318,7 +318,7 @@ int monster::get_upgrade_time() const
 }
 
 // Sets time to upgrade to 0.
-void monster:: allow_upgrade()
+void monster::allow_upgrade()
 {
     upgrade_time = 0;
 }

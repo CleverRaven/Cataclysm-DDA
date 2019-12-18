@@ -976,7 +976,7 @@
     "type": "COMESTIBLE",
     "name": "leech bark",
     "name_plural": "scraps of leech bark",
-    "description": "Dry and though bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
+    "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
   }
 ]
