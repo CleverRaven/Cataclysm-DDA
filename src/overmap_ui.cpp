@@ -1435,7 +1435,9 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             if( vp && in_road_vehicle ) {
                 vehicle *const veh = &vp->vehicle();
                 in_boat = veh->can_float() && veh->is_watercraft() && veh->is_watercraft();
-                in_road_vehicle = false;
+                if( in_boat ) {
+                    in_road_vehicle = false;
+                }
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
