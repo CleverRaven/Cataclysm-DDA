@@ -143,6 +143,22 @@ body_part get_body_part_token( const std::string &id )
     return legacy_id_to_enum( id );
 }
 
+bool is_parent_bp_in_set( const body_part bp, const std::set<body_part> bp_set )
+{
+    if( ( bp == bp_eyes || bp == bp_mouth ) && bp_set.count( bp_head ) > 0 ) {
+        return true;
+    } else if( bp == bp_hand_l && bp_set.count( bp_arm_l ) > 0 ) {
+        return true;
+    } else if( bp == bp_hand_r && bp_set.count( bp_arm_r ) > 0 ) {
+        return true;
+    } else if( bp == bp_foot_l && bp_set.count( bp_leg_l ) > 0 ) {
+        return true;
+    } else if( bp == bp_foot_r && bp_set.count( bp_leg_r ) > 0 ) {
+        return true;
+    }
+    return false;
+}
+
 const bodypart_ids &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_ids> body_parts = {

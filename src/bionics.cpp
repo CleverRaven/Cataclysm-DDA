@@ -1324,6 +1324,7 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1334,8 +1335,12 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
 
         case 2:
         case 3:
-            for( const body_part &bp : all_hp_parts ) {
+            for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( is_parent_bp_in_set( bp, bp_hurt ) ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( bp );
                     apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1345,8 +1350,12 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
 
         case 4:
         case 5:
-            for( const body_part &bp : all_hp_parts ) {
+            for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( is_parent_bp_in_set( bp, bp_hurt ) ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( bp );
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -2015,6 +2024,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
+        std::set<body_part> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2027,8 +2037,12 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
 
             case 2:
             case 3:
-                for( const body_part &bp : all_hp_parts ) {
+                for( const body_part &bp : all_body_parts ) {
                     if( has_effect( effect_under_op, bp ) ) {
+                        if( is_parent_bp_in_set( bp, bp_hurt ) ) {
+                            continue;
+                        }
+                        bp_hurt.emplace( bp );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );

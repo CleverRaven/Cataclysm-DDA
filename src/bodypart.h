@@ -59,16 +59,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
-/**
- * Contains all valid @ref body_part values that have hp in the order they are
- * defined in. Use this to iterate over them.
- */
-constexpr std::array<body_part, 6> all_hp_parts = { {
-        bp_torso, bp_head, bp_arm_l, bp_arm_r,
-        bp_leg_l, bp_leg_r
-    }
-};
-
 struct body_part_struct;
 
 using bodypart_ids = string_id<body_part_struct>;
@@ -236,5 +226,8 @@ std::string get_body_part_id( body_part bp );
 
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
+
+/**true if the parent of bp is in bp_set*/
+bool is_parent_bp_in_set( const body_part bp, const std::set<body_part> bp_set );
 
 #endif
