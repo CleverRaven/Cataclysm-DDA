@@ -1212,7 +1212,11 @@ void player::complete_craft( item &craft, const tripoint &loc )
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
-            wield_craft( *this, newit );
+            if( newit.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+                set_item_map_or_vehicle( *this, pos(), newit );
+            } else {
+                wield_craft( *this, newit );
+            }
         } else {
             set_item_map_or_vehicle( *this, loc, newit );
         }
