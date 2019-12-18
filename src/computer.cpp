@@ -712,7 +712,7 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 3 ) ) {
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
                 for( item &elem : g->m.i_at( p ) ) {
                     if( elem.is_bionic() ) {
                         if( static_cast<int>( names.size() ) < TERMY - 8 ) {
