@@ -914,7 +914,9 @@ void talk_function::start_training( npc &p )
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesnt know this spell, then the NPC will teach all of it
-        // which takes as long as it takes.
+        // which takes max 6 hours, min 3 hours.
+        // TODO: a system for NPCs to train new stuff in bits and pieces
+        // and remember the progress.
         if( knows ) {
             time = 1_hours;
         } else {
