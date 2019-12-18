@@ -550,10 +550,7 @@ void Character::set_stashed_activity( player_activity act, player_activity act_b
 
 bool Character::has_stashed_activity() const
 {
-    if( stashed_outbounds_activity ) {
-        return true;
-    }
-    return false;
+    return static_cast<bool>( stashed_outbounds_activity );
 }
 
 void Character::assign_stashed_activity()

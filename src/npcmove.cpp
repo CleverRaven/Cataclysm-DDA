@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <memory>
 #include <numeric>
-#include <sstream>
 #include <iterator>
 #include <tuple>
 #include <cmath>
@@ -805,12 +804,10 @@ void npc::move()
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
-                action = npc_player_activity;
             } else {
                 // wait a turn, because next turn, the object of our activity
                 // may have been loaded in.
                 set_moves( 0 );
-                action = npc_pause;
             }
             return;
         }
@@ -1850,7 +1847,7 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( one_in( 2 ) && find_corpse_to_pulp() ) {
+    if( one_in( 3 ) && find_corpse_to_pulp() ) {
         if( !do_pulp() ) {
             move_to_next();
         }
@@ -3033,7 +3030,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
         }
     }
 
-    std::stringstream item_name; // For description below
+    std::string item_name; // For description below
     int num_items_dropped = 0; // For description below
     // Now, drop items, starting from the top of each list
     while( weight_dropped < drop_weight || volume_dropped < drop_volume ) {
@@ -3073,9 +3070,9 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
         item dropped = i_rem( index );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {
-            item_name << dropped.tname();
+            item_name += dropped.tname();
         } else if( num_items_dropped == 2 ) {
-            item_name << _( " and " ) << dropped.tname();
+            item_name += _( " and " ) + dropped.tname();
         }
         if( !is_hallucination() ) { // hallucinations can't drop real items
             g->m.add_item_or_charges( pos(), dropped );
@@ -3087,7 +3084,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
             add_msg( ngettext( "%s drops %d item.", "%s drops %d items.", num_items_dropped ), name,
                      num_items_dropped );
         } else {
-            add_msg( _( "%1$s drops a %2$s." ), name, item_name.str() );
+            add_msg( _( "%1$s drops a %2$s." ), name, item_name );
         }
     }
     update_worst_item_value();
@@ -3180,11 +3177,10 @@ bool npc::do_pulp()
     if( rl_dist( *pulp_location, pos() ) > 1 || pulp_location->z != posz() ) {
         return false;
     }
-
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = *pulp_location;
+    activity.placement = g->m.getabs( *pulp_location );
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -3710,13 +3706,13 @@ bool npc::consume_food()
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        const item &food_item = it.is_food_container() ?
-                                it.contents.front() : it;
-        float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: will_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && will_eat( food_item ).success() ) {
-            best_weight = cur_weight;
-            index = i;
+        if( const item *food_item = it.get_food() ) {
+            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // Note: will_eat is expensive, avoid calling it if possible
+            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                best_weight = cur_weight;
+                index = i;
+            }
         }
     }
 

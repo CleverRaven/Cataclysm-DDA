@@ -2086,7 +2086,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     wield( locThisItem );
                     break;
                 case 't':
-                    avatar_action::plthrow( u, pos );
+                    avatar_action::plthrow( u, locThisItem );
                     break;
                 case 'c':
                     change_side( pos );
@@ -2098,7 +2098,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.drop( pos, u.pos() );
                     break;
                 case 'U':
-                    unload( pos );
+                    unload( oThisItem );
                     break;
                 case 'r':
                     reload( locThisItem );
@@ -2107,7 +2107,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     reload( locThisItem, true );
                     break;
                 case 'm':
-                    mend( pos );
+                    avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
                     u.read( oThisItem );
@@ -5334,13 +5334,13 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
+        item_location loc = game_menus::inv::titled_filter_menu( will_accept, u, _( "Use which item?" ) );
 
-        if( pos == INT_MIN ) {
+        if( !loc ) {
             add_msg( _( "Never mind" ) );
             return false;
         }
-        item &used = u.i_at( pos );
+        item &used = *loc;
         bool did_use = u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -5671,7 +5671,8 @@ void game::peek( const tripoint &p )
     u.setpos( prev );
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        avatar_action::plthrow( u, INT_MIN, p );
+        item_location loc;
+        avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
 
@@ -6553,7 +6554,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels();
+    const bool allow_zlev_move = m.has_zlevels() && get_option<bool>( "FOV_3D" );
 
     temp_exit_fullscreen();
 
@@ -8339,9 +8340,11 @@ void game::butcher()
 void game::change_side( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv_for_filter( _( "Change side for item" ), [&]( const item & it ) {
+        auto filter = [&]( const item & it ) {
             return u.is_worn( it ) && it.is_sided();
-        }, _( "You don't have sided items worn." ) );
+        };
+        pos = u.get_item_position( game_menus::inv::titled_filter_menu( filter, u,
+                                   _( "Change side for item" ), _( "You don't have sided items worn." ) ).get_item() );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -8426,7 +8429,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+        int moves = opt.moves();
+        if( it->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+            moves += 2500;
+        }
+
+        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
         if( use_loc ) {
             u.activity.targets.emplace_back( loc );
         } else {
@@ -8515,55 +8524,6 @@ void game::reload_weapon( bool try_everything )
     }
 
     reload_item();
-}
-
-// Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
-void game::unload( int pos )
-{
-    item *it = nullptr;
-    item_location item_loc;
-
-    if( pos == INT_MIN ) {
-        item_loc = inv_map_splice( [&]( const item & it ) {
-            return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
-        it = item_loc.get_item();
-
-        if( it == nullptr ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-    } else {
-        it = &u.i_at( pos );
-        if( it->is_null() ) {
-            debugmsg( "Tried to unload non-existent item" );
-            return;
-        }
-        item_loc = item_location( u, it );
-    }
-
-    if( u.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            item_loc.remove_item();
-        }
-    }
-}
-
-void game::mend( int pos )
-{
-    if( pos == INT_MIN ) {
-        if( u.is_armed() ) {
-            pos = -1;
-        } else {
-            add_msg( m_info, _( "You're not wielding anything." ) );
-        }
-    }
-
-    item &obj = g->u.i_at( pos );
-    if( g->u.has_item( obj ) ) {
-        g->u.mend_item( item_location( g->u, &obj ) );
-    }
 }
 
 bool game::unload( item &it )
@@ -9365,7 +9325,7 @@ point game::place_player( const tripoint &dest_loc )
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = pos;
+                        u.activity.placement = g->m.getabs( pos );
                         u.activity.auto_resume = true;
                         u.activity.str_values.push_back( "auto_pulp_no_acid" );
                         return;
@@ -10268,6 +10228,11 @@ void game::vertical_move( int movez, bool force )
     } else {
         u.moves -= move_cost;
     }
+    for( const auto &np : npcs_to_bring ) {
+        if( np->in_vehicle ) {
+            g->m.unboard_vehicle( np->pos() );
+        }
+    }
     const tripoint old_pos = g->u.pos();
     point submap_shift;
     vertical_shift( z_after );
@@ -10298,7 +10263,6 @@ void game::vertical_move( int movez, bool force )
             [this, np]( const tripoint & c ) {
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
-
             if( found != candidates.end() ) {
                 // TODO: De-uglify
                 np->setpos( *found );
@@ -10607,6 +10571,10 @@ point game::update_map( int &x, int &y )
     if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
+        // Update what parts of the world map we can see
+        // We need this call because even if the map hasn't shifted we may have changed z-level and can now see farther
+        // TODO: only make this call if we changed z-level
+        update_overmap_seen();
         // Not actually shifting the submaps, all the stuff below would do nothing
         return point_zero;
     }

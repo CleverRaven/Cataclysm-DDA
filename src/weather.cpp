@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cmath>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -586,26 +585,26 @@ static std::string print_time_just_hour( const time_point &p )
  */
 std::string weather_forecast( const point &abs_sm_pos )
 {
-    std::ostringstream weather_report;
+    std::string weather_report;
     // Local conditions
     const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
-    weather_report << string_format(
-                       //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
-                       _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
-                       to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
-                       city_name,
-                       weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
-                   );
+    weather_report += string_format(
+                          //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
+                          _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
+                          to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
+                          city_name,
+                          weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
+                      );
 
-    //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
-    //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
-    //weather_report << "The pressure was ??? in/mm and steady/rising/falling.";
+    //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
+    //weather_report += "The wind was <direction> at ? mi/km an hour.  ";
+    //weather_report += "The pressure was ??? in/mm and steady/rising/falling.";
 
     // Regional conditions (simulated by choosing a random range containing the current conditions).
     // Adjusted for weather volatility based on how many weather changes are coming up.
-    //weather_report << "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
+    //weather_report += "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
 
     // TODO: weather forecast
@@ -643,13 +642,13 @@ std::string weather_forecast( const point &abs_sm_pos )
         } else {
             day = to_string( day_of_week( c ) );
         }
-        weather_report << string_format(
-                           _( "%s… %s. Highs of %s. Lows of %s. " ),
-                           day, weather::name( forecast ),
-                           print_temperature( high ), print_temperature( low )
-                       );
+        weather_report += string_format(
+                              _( "%s… %s. Highs of %s. Lows of %s. " ),
+                              day, weather::name( forecast ),
+                              print_temperature( high ), print_temperature( low )
+                          );
     }
-    return weather_report.str();
+    return weather_report;
 }
 
 /**
@@ -657,19 +656,18 @@ std::string weather_forecast( const point &abs_sm_pos )
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
+    const auto text = [&]( const double value ) {
+        return string_format( "%.*f", decimals, value );
+    };
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-        ret << temp_to_celsius( fahrenheit );
-        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str() );
+        return string_format( pgettext( "temperature in Celsius", "%sC" ),
+                              text( temp_to_celsius( fahrenheit ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-        ret << temp_to_kelvin( fahrenheit );
-        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str() );
+        return string_format( pgettext( "temperature in Kelvin", "%sK" ),
+                              text( temp_to_kelvin( fahrenheit ) ) );
     } else {
-        ret << fahrenheit;
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str() );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
     }
 }
 
@@ -678,12 +676,8 @@ std::string print_temperature( double fahrenheit, int decimals )
  */
 std::string print_humidity( double humidity, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
-
-    ret << humidity;
-    return string_format( pgettext( "humidity in percent", "%s%%" ), ret.str() );
+    const std::string ret = string_format( "%.*f", decimals, humidity );
+    return string_format( pgettext( "humidity in percent", "%s%%" ), ret );
 }
 
 /**
@@ -691,12 +685,8 @@ std::string print_humidity( double humidity, int decimals )
  */
 std::string print_pressure( double pressure, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
-
-    ret << pressure / 10;
-    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str() );
+    const std::string ret = string_format( "%.*f", decimals, pressure / 10 );
+    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
 int get_local_windchill( double temperature, double humidity, double windpower )

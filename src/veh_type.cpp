@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <memory>
 #include <numeric>
-#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
@@ -673,16 +672,16 @@ std::string vpart_info::name() const
     }
 }
 
-int vpart_info::format_description( std::ostringstream &msg, const nc_color &format_color,
+int vpart_info::format_description( std::string &msg, const nc_color &format_color,
                                     int width ) const
 {
     int lines = 1;
-    msg << _( "<color_white>Description</color>\n" );
-    msg << "> " << "<color_" << string_from_color( format_color ) << ">";
+    msg += _( "<color_white>Description</color>\n" );
+    msg += "> <color_" + string_from_color( format_color ) + ">";
 
-    std::ostringstream long_descrip;
+    std::string long_descrip;
     if( !description.empty() ) {
-        long_descrip << description;
+        long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -690,34 +689,34 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
         }
         json_flag flag = json_flag::get( flagid );
         if( !flag.info().empty() ) {
-            if( !long_descrip.str().empty() ) {
-                long_descrip << "  ";
+            if( !long_descrip.empty() ) {
+                long_descrip += "  ";
             }
-            long_descrip << _( flag.info() );
+            long_descrip += _( flag.info() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << _( nobelt.info() );
+        long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << _( nobelt.info() );
+        long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
-        long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
+        long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
     }
 
-    if( !long_descrip.str().empty() ) {
-        const auto wrap_descrip = foldstring( long_descrip.str(), width );
-        msg << wrap_descrip[0];
+    if( !long_descrip.empty() ) {
+        const auto wrap_descrip = foldstring( long_descrip, width );
+        msg += wrap_descrip[0];
         for( size_t i = 1; i < wrap_descrip.size(); i++ ) {
-            msg << "\n  " << wrap_descrip[i];
+            msg += "\n  " + wrap_descrip[i];
         }
-        msg << "</color>\n";
+        msg += "</color>\n";
         lines += wrap_descrip.size();
     }
 
@@ -725,14 +724,14 @@ int vpart_info::format_description( std::ostringstream &msg, const nc_color &for
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg << "> " << "<color_" << string_from_color( format_color ) << ">" << string_format(
-                _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
+        msg += "> <color_" + string_from_color( format_color ) + ">" + string_format(
+                   _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg << string_format( _( " and is rated at %1$d %2$s" ),
+            msg += string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
-        msg << ".</color>\n";
+        msg += ".</color>\n";
         lines += 1;
     }
     return lines;

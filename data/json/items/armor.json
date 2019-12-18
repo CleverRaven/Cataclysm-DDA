@@ -2652,7 +2652,7 @@
     "color": "light_gray",
     "coverage": 1,
     "material_thickness": 1,
-    "flags": [ "DEAF", "OVERSIZE" ]
+    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "eboshi",
@@ -6893,7 +6893,7 @@
     "covers": [ "MOUTH" ],
     "coverage": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "nanoskirt",

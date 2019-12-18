@@ -127,7 +127,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d", e.armor_encumbrance );
+        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+                   e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
@@ -345,7 +346,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your weight is a general indicator of how much fat your body has stored up,"
                                              " which in turn shows how prepared you are to survive for a time without food."
-                                             " Having too much, or too little, can be unhealthy." ) );
+                                             "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         you.get_weight_description() );
     }
@@ -1125,26 +1126,29 @@ void player::disp_info()
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
-        std::stringstream starvation_text;
+        std::string starvation_text;
 
         if( bmi < character_weight_category::emaciated ) {
             starvation_name = _( "Severely Malnourished" );
-            starvation_text <<
-                            _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
+            starvation_text =
+                _( "Your body is severely weakened by starvation.  You might die if you don't start eating regular meals!\n\n" );
         } else {
             starvation_name = _( "Malnourished" );
-            starvation_text <<
-                            _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
+            starvation_text =
+                _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {
             const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
-            starvation_text << _( "Strength" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 100.0f );
-            starvation_text << _( "Dexterity" ) << " -" << string_format( "%2.0f%%\n", str_penalty * 50.0f );
-            starvation_text << _( "Intelligence" ) << " -" << string_format( "%2.0f%%", str_penalty * 50.0f );
+            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 100.0f );
+            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%2.0f%%\n",
+                               str_penalty * 50.0f );
+            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%2.0f%%",
+                               str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text.str() } );
+        effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&

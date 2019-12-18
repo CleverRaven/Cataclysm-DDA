@@ -388,11 +388,6 @@ void Item_factory::register_cached_uses( const itype &obj )
         if( e.first == "GUN_REPAIR" ) {
             gun_tools.insert( obj.id );
         }
-
-        // can this item be used to repair wood/paper/bone/chitin items?
-        if( e.first == "MISC_REPAIR" ) {
-            misc_tools.insert( obj.id );
-        }
     }
 }
 
@@ -401,16 +396,6 @@ void Item_factory::finalize_post( itype &obj )
     // handle complex firearms as a special case
     if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
-        return;
-    }
-
-    // handle wood/paper/bone/chitin items as a special case
-    if( !obj.gun && !obj.count_by_charges() && std::any_of( obj.materials.begin(), obj.materials.end(),
-    []( const material_id & m ) {
-    return m == material_id( "wood" ) || m == material_id( "paper" ) ||
-               m == material_id( "bone" ) || m == material_id( "chitin" ) || m == material_id( "acidchitin" );
-    } ) ) {
-        std::copy( misc_tools.begin(), misc_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
 
@@ -703,7 +688,6 @@ void Item_factory::init()
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
-    add_iuse( "MISC_REPAIR", &iuse::misc_repair );
     add_iuse( "MOLOTOV_LIT", &iuse::molotov_lit );
     add_iuse( "MOP", &iuse::mop );
     add_iuse( "MP3", &iuse::mp3 );
@@ -1691,12 +1675,13 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
+    bool is_junkfood = false;
     if( jo.has_member( "primary_material" ) ) {
-        slot.specific_heat_solid = material_id(
-                                       jo.get_string( "primary_material" ) )->specific_heat_solid();
-        slot.specific_heat_liquid = material_id(
-                                        jo.get_string( "primary_material" ) )->specific_heat_liquid();
-        slot.latent_heat = material_id( jo.get_string( "primary_material" ) )->latent_heat();
+        std::string mat = jo.get_string( "primary_material" );
+        slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
+        slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
+        slot.latent_heat = material_id( mat )->latent_heat();
+        is_junkfood = is_junkfood || mat == "junk";
     } else if( jo.has_member( "material" ) ) {
         float specific_heat_solid = 0;
         float specific_heat_liquid = 0;
@@ -1706,12 +1691,18 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
+            is_junkfood = is_junkfood || m == "junk";
         }
         // Average based on number of materials.
         slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
         slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
     }
+
+    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
+        slot.monotony_penalty = 0;
+    }
+    assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
@@ -2364,7 +2355,6 @@ void Item_factory::clear()
 
     repair_tools.clear();
     gun_tools.clear();
-    misc_tools.clear();
     repair_actions.clear();
 
     frozen = false;

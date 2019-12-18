@@ -708,7 +708,7 @@
     "skill_used": "cooking",
     "time": 40000,
     "autolearn": true,
-    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the sweetbreads",
+    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the sweetbreads",
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "frying_oil", 7, "LIST" ] ] ],

@@ -55,20 +55,6 @@
     "entries": [ { "group": "formal_set_mens" } ]
   },
   {
-    "id": "SUS_tailoring_bookcase",
-    "type": "item_group",
-    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a set of tailoring manuals and references.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "mag_tailor", "count": [ 1, 10 ], "prob": 80 },
-      { "item": "manual_tailor", "count": [ 1, 4 ], "prob": 80 },
-      { "item": "tailor_portfolio", "prob": 20 },
-      { "item": "tailor_japanese", "prob": 10 },
-      { "item": "textbook_tailor", "count": [ 1, 4 ], "prob": 80 }
-    ]
-  },
-  {
     "id": "SUS_tailoring_tool_drawer",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",

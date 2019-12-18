@@ -389,6 +389,23 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+void consumption_event::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "time", time );
+    json.member( "type_id", type_id );
+    json.member( "component_hash", component_hash );
+    json.end_object();
+}
+
+void consumption_event::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "time", time );
+    jo.read( "type_id", type_id );
+    jo.read( "component_hash", component_hash );
+}
+
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
@@ -452,6 +469,7 @@ void Character::load( const JsonObject &data )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
     }
+    data.read( "consumption_history", consumption_history );
     data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
@@ -691,6 +709,7 @@ void Character::store( JsonOut &json ) const
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
+    json.member( "consumption_history", consumption_history );
 
     // crafting etc
     json.member( "destination_activity", destination_activity );
@@ -2134,6 +2153,10 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
     }
+
+    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
+    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
+    item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
         snippet_id = SNIPPET.migrate_hash_to_id( note );

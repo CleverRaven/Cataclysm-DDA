@@ -1622,13 +1622,13 @@ void vehicle::use_dishwasher( int p )
         return i.has_flag( filthy );
     } );
 
-    std::ostringstream buffer;
-    buffer << _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them:" );
+    std::string buffer;
+    buffer += _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them:" );
     bool soft_items = false;
     for( const item &it : items ) {
         if( it.is_soft() ) {
             soft_items = true;
-            buffer << " " << it.tname();
+            buffer += " " + it.tname();
         }
     }
 
@@ -1648,7 +1648,7 @@ void vehicle::use_dishwasher( int p )
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the dishwasher to start the washing program." ) );
     } else if( soft_items ) {
-        add_msg( m_bad, buffer.str() );
+        add_msg( m_bad, buffer );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {

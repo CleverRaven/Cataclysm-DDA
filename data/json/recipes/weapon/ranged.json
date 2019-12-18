@@ -22,10 +22,10 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ "throw", 1 ],
-    "time": "1 h",
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ], [ [ "nail", 1 ] ] ]
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "sling", 1 ] ] ]
   },
   {
     "result": "nailrifle",

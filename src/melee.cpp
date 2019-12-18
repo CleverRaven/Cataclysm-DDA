@@ -3,7 +3,6 @@
 #include <climits>
 #include <algorithm>
 #include <cstdlib>
-#include <sstream>
 #include <array>
 #include <limits>
 #include <list>
@@ -1270,14 +1269,14 @@ static void print_damage_info( const damage_instance &di )
     }
 
     int total = 0;
-    std::ostringstream ss;
+    std::string ss;
     for( auto &du : di.damage_units ) {
         int amount = di.type_damage( du.type );
         total += amount;
-        ss << name_by_dt( du.type ) << ':' << amount << ',';
+        ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";
     }
 
-    add_msg( m_debug, "%stotal: %d", ss.str(), total );
+    add_msg( m_debug, "%stotal: %d", ss, total );
 }
 
 void player::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
@@ -1706,7 +1705,7 @@ void player::perform_special_attacks( Creature &t )
 
 std::string player::melee_special_effects( Creature &t, damage_instance &d, item &weap )
 {
-    std::stringstream dump;
+    std::string dump;
 
     std::string target = t.disp_name();
 
@@ -1716,7 +1715,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
-            dump << string_format( _( "You shock %s." ), target ) << std::endl;
+            dump += string_format( _( "You shock %s." ), target ) + "\n";
         } else {
             add_msg_if_npc( _( "<npcname> shocks %s." ), target );
         }
@@ -1726,7 +1725,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         mod_power_level( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
-            dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
+            dump += string_format( _( "You drain %s's body heat." ), target ) + "\n";
         } else {
             add_msg_if_npc( _( "<npcname> drains %s's body heat!" ), target );
         }
@@ -1736,7 +1735,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         d.add_damage( DT_HEAT, rng( 1, 8 ) );
 
         if( is_player() ) {
-            dump << string_format( _( "You burn %s." ), target ) << std::endl;
+            dump += string_format( _( "You burn %s." ), target ) + "\n";
         } else {
             add_msg_player_or_npc( _( "<npcname> burns %s." ), target );
         }
@@ -1757,7 +1756,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {
-            dump << string_format( _( "Your %s shatters!" ), weap.tname() ) << std::endl;
+            dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
         } else {
             add_msg_player_or_npc( m_bad, _( "Your %s shatters!" ),
                                    _( "<npcname>'s %s shatters!" ),
@@ -1787,7 +1786,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     // on-hit effects for martial arts
     martial_arts_data.ma_onhit_effects( *this );
 
-    return dump.str();
+    return dump;
 }
 
 static damage_instance hardcoded_mutation_attack( const player &u, const trait_id &id )

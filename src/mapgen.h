@@ -279,6 +279,7 @@ class mapgen_function_json_base
     public:
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
+        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 
     private:
         std::string jdata;

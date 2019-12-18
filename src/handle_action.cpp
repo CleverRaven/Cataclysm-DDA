@@ -574,7 +574,7 @@ static void grab()
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-        if( m.furn( grabp ).obj().move_str_req < 0 ) {
+        if( !m.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
@@ -966,14 +966,19 @@ static void sleep()
     }
 
     time_duration try_sleep_dur = 24_hours;
+    std::string deaf_text;
+    if( g->u.is_deaf() ) {
+        deaf_text = _( "<color_c_red> (DEAF!)</color>" );
+    }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate
-                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
-                    : _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate ?
+                    _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" +
+                       deaf_text ) :
+                    _( "You have an alarm clock.  Set an alarm?" + deaf_text );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -981,7 +986,7 @@ static void sleep()
 
         for( int i = 3; i <= 9; ++i ) {
             as_m.entries.emplace_back( i, true, '0' + i,
-                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) );
+                                       string_format( _( "Set alarm to wake up in %i hours." ), i ) + deaf_text );
         }
 
         as_m.query();
@@ -1917,16 +1922,18 @@ bool game::handle_action()
                 break;
 
             case ACTION_UNLOAD:
-                unload();
+                avatar_action::unload( u );
                 break;
 
             case ACTION_MEND:
-                mend();
+                avatar_action::mend( g->u, item_location() );
                 break;
 
-            case ACTION_THROW:
-                avatar_action::plthrow( g->u );
+            case ACTION_THROW: {
+                item_location loc;
+                avatar_action::plthrow( g->u, loc );
                 break;
+            }
 
             case ACTION_FIRE:
                 fire();

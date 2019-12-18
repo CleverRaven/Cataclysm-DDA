@@ -555,7 +555,8 @@ void talk_function::start_camp( npc &p )
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
-        popup( _( "%s failed to start the %s basecamp." ), p.disp_name(), making.get_blueprint() );
+        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
+               p.disp_name(), making.get_blueprint() );
         return;
     }
     get_basecamp( p, camp_type.str() );
@@ -2383,7 +2384,8 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
         return false;
     }
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
-        popup( _( "%s failed to build the %s upgrade." ), comp->disp_name(),
+        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                making.get_blueprint() );
         return false;
     }
@@ -2720,7 +2722,8 @@ bool basecamp::survey_return()
                                      _( "Select an expansion:" ) );
 
     if( !run_mapgen_update_func( expansion_type.str(), where ) ) {
-        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(),
+        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
+               comp->disp_name(),
                expansion_type->blueprint_name() );
         return false;
     }

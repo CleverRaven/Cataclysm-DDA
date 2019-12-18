@@ -125,7 +125,7 @@ jobs:
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants

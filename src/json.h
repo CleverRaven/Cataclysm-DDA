@@ -72,6 +72,14 @@ struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
     }
 };
 
+struct number_sci_notation {
+    bool negative = false;
+    // AKA the significand
+    uint64_t number = 0;
+    // AKA the order of magnitude
+    int64_t exp = 0;
+};
+
 /* JsonIn
  * ======
  *
@@ -198,7 +206,9 @@ class JsonIn
         // data parsing
         std::string get_string(); // get the next value as a string
         int get_int(); // get the next value as an int
-        std::int64_t get_int64(); // get the next value as an int64
+        unsigned int get_uint(); // get the next value as an unsigned int
+        int64_t get_int64(); // get the next value as an int64
+        uint64_t get_uint64(); // get the next value as a uint64
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
@@ -248,7 +258,8 @@ class JsonIn
         bool read( short unsigned int &s, bool throw_on_error = false );
         bool read( short int &s, bool throw_on_error = false );
         bool read( int &i, bool throw_on_error = false );
-        bool read( std::int64_t &i, bool throw_on_error = false );
+        bool read( int64_t &i, bool throw_on_error = false );
+        bool read( uint64_t &i, bool throw_on_error = false );
         bool read( unsigned int &u, bool throw_on_error = false );
         bool read( float &f, bool throw_on_error = false );
         bool read( double &d, bool throw_on_error = false );
@@ -496,6 +507,11 @@ class JsonIn
         bool error_or_false( bool throw_, const std::string &message, int offset = 0 );
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
+    private:
+        // This should be used to get any and all numerical data types.
+        number_sci_notation get_any_number();
+        // Calls get_any_number() then applies operations common to all integer types.
+        number_sci_notation get_any_int();
 };
 
 /* JsonOut

@@ -258,6 +258,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
@@ -478,6 +479,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_INGEST``` Administered by some means other than oral intake.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.

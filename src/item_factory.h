@@ -363,9 +363,6 @@ class Item_factory
         // tools that can be used to repair complex firearms
         std::set<itype_id> gun_tools;
 
-        // tools that can be used to repair wood/paper/bone/chitin items
-        std::set<itype_id> misc_tools;
-
         std::set<std::string> repair_actions;
 };
 

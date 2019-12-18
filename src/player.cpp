@@ -7,7 +7,6 @@
 #include <iterator>
 #include <map>
 #include <string>
-#include <sstream>
 #include <limits>
 #include <bitset>
 #include <exception>
@@ -965,9 +964,16 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_opposite_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->cancels ) {
+    for( const trait_id &i : flag->cancels ) {
         if( has_trait( i ) ) {
             return true;
+        }
+    }
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
+        for( const trait_id &canceled_trait : mut.first->cancels ) {
+            if( canceled_trait == flag ) {
+                return true;
+            }
         }
     }
     return false;
@@ -4043,7 +4049,8 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+                !elem.has_flag( "POWERARMOR_COMPATIBLE" ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -4072,8 +4079,8 @@ ret_val<bool> player::can_wear( const item &it ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( is_wearing_power_armor( &has_helmet ) &&
-            ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+        if( !it.has_flag( "POWERARMOR_COMPATIBLE" ) && ( ( is_wearing_power_armor( &has_helmet ) &&
+                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
             return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
         }
     }
@@ -4504,21 +4511,21 @@ void player::mend_item( item_location &&obj, bool interactive )
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::ostringstream descr;
+            std::string descr;
             if( method.turns_into ) {
-                descr << string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
+                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
             }
             if( method.also_mends ) {
-                descr << string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
+                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
                                         method.also_mends->obj().name() );
             }
-            descr << string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+            descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
                                     to_string_approx( method.time ) );
             if( method.skills.empty() ) {
-                descr << string_format( _( "Skills: <color_cyan>none</color>\n" ) );
+                descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr << string_format( _( "Skills: %s\n" ),
+                descr += string_format( _( "Skills: %s\n" ),
                                         enumerate_as_string( method.skills.begin(), method.skills.end(),
                 [this]( const std::pair<skill_id, int> &sk ) -> std::string {
                     if( get_skill_level( sk.first ) >= sk.second )
@@ -4537,10 +4544,14 @@ void player::mend_item( item_location &&obj, bool interactive )
                 } ) );
             }
 
-            std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
-            std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+            for( const std::string &line : tools ) {
+                descr += line + "\n";
+            }
+            for( const std::string &line : comps ) {
+                descr += line + "\n";
+            }
 
-            const std::string desc = method.description + "\n\n" + colorize( descr.str(), col );
+            const std::string desc = method.description + "\n\n" + colorize( descr, col );
             menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
         }
         menu.query();

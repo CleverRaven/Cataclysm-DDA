@@ -725,6 +725,9 @@ class jmapgen_alternativly : public jmapgen_piece
                 chosen->get().apply( dat, x, y );
             }
         }
+        bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
+        }
 };
 
 /**
@@ -1739,6 +1742,30 @@ class jmapgen_nested : public jmapgen_piece
 
             ptr->nest( dat, point( x.get(), y.get() ) );
         }
+        bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
+            const weighted_int_list<std::string> &selected_entries = neighbors.test(
+                        dat ) ? entries : else_entries;
+            if( selected_entries.empty() ) {
+                return false;
+            }
+
+            for( auto &entry : selected_entries ) {
+                if( entry.obj == "null" ) {
+                    continue;
+                }
+                const auto iter = nested_mapgen.find( entry.obj );
+                if( iter == nested_mapgen.end() ) {
+                    return false;
+                }
+                for( auto &nest : iter->second ) {
+                    if( nest->has_vehicle_collision( dat, {x, y} ) ) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 };
 
 jmapgen_objects::jmapgen_objects( const point &offset, const point &mapsize )
@@ -2550,6 +2577,31 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, const p
             }
         }
     }
+}
+
+bool mapgen_function_json_base::has_vehicle_collision( mapgendata &dat, const point &offset ) const
+{
+    if( do_format ) {
+        for( int y = 0; y < mapgensize.y; y++ ) {
+            for( int x = 0; x < mapgensize.x; x++ ) {
+                const point p( x, y );
+                const ter_furn_id &tdata = format[calc_index( p )];
+                const point map_pos = p + offset;
+                if( ( tdata.furn != f_null || tdata.ter != t_null ) &&
+                    dat.m.veh_at( tripoint( map_pos.x, map_pos.y, dat.zlevel() ) ).has_value() ) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    for( auto &elem : setmap_points ) {
+        if( elem.has_vehicle_collision( dat, offset ) ) {
+            return true;
+        }
+    }
+
+    return objects.has_vehicle_collision( dat, offset );
 }
 
 /*
@@ -7702,7 +7754,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
 {
     tinymap update_tmap;
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
-    update_tmap.load( sm_pos, false );
+    update_tmap.load( sm_pos, true );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
 

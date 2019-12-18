@@ -568,7 +568,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    auto critters = you.get_hostile_creatures( reach );
+    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
@@ -854,6 +854,22 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
+void avatar_action::mend( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        if( you.is_armed() ) {
+            loc = item_location( you, &you.weapon );
+        } else {
+            add_msg( m_info, _( "You're not wielding anything." ) );
+            return;
+        }
+    }
+
+    if( you.has_item( *loc ) ) {
+        you.mend_item( item_location( loc ) );
+    }
+}
+
 bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
@@ -935,7 +951,7 @@ void avatar_action::eat( avatar &you, item_location loc )
     }
 }
 
-void avatar_action::plthrow( avatar &you, int pos,
+void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
     if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -943,7 +959,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
     if( you.is_mounted() ) {
-        auto mons = g->u.mounted_creature.get();
+        monster *mons = g->u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -953,17 +969,18 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
 
-    if( pos == INT_MIN ) {
-        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+    if( !loc ) {
+        loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                            _( "You don't have any items to throw." ) );
         g->refresh_all();
     }
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    item thrown = you.i_at( pos );
+    item &thrown = *loc;
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
@@ -973,7 +990,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
 
-    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
+    if( you.is_wielding( thrown ) && thrown.has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -989,24 +1006,16 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( pos < -1 ) {
-        auto ret = you.can_takeoff( you.i_at( pos ) );
+    if( you.is_wearing( thrown.typeId() ) ) {
+        ret_val<bool> ret = you.can_takeoff( thrown );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
     }
     // you must wield the item to throw it
-    if( pos != -1 ) {
-        you.i_rem( pos );
-        if( !you.wield( thrown ) ) {
-            // We have to remove the item before checking for wield because it
-            // can invalidate our pos index.  Which means we have to add it
-            // back if the player changed their mind about unwielding their
-            // current item
-            you.i_add( thrown );
-            return;
-        }
+    if( !you.is_wielding( thrown ) ) {
+        you.wield( thrown );
     }
 
     // Shift our position to our "peeking" position, so that the UI
@@ -1037,7 +1046,7 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
 
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        you.i_at( -1 ).charges--;
+        you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.i_rem( -1 );
@@ -1120,4 +1129,26 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     }
 
     you.invalidate_crafting_inventory();
+}
+
+// Opens up a menu to Unload a container, gun, or tool
+// If it's a gun, some gunmods can also be loaded
+void avatar_action::unload( avatar &you )
+{
+    item_location loc;
+
+    loc = g->inv_map_splice( [&you]( const item & it ) {
+        return you.rate_action_unload( it ) == HINT_GOOD;
+    }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    if( you.unload( *loc ) ) {
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
+        }
+    }
 }
