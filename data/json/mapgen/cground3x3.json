@@ -201,7 +201,7 @@
       "place_nested": [ { "chunks": [ [ "roof_4x4_utility", 10 ], [ "roof_4x4_utility_1", 10 ] ], "x": 31, "y": 65 } ],
       "place_npcs": [ { "class": "godco_food_guard", "x": 47, "y": 8 } ],
       "place_loot": [
-        { "group": "novels", "x": [ 46, 47 ], "y": 9, "amount": [ 3, 6 ], "repeat": [ 2, 3 ], "chance": 100 },
+        { "group": "novels", "x": [ 46, 47 ], "y": 9, "repeat": [ 6, 10 ], "chance": 100 },
         { "item": "oil_lamp_on", "x": [ 46, 47 ], "y": 9 }
       ]
     }
