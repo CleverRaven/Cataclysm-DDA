@@ -150,6 +150,7 @@
     "id": "ruby_dental_grill",
     "type": "ARMOR",
     "name": "ruby dental grill",
+    "copy-from": "garnet_dental_grill",
     "description": "Fake teeth inlaid with rubys, worn over the teeth.  It looks very shiny."
   },
   {
