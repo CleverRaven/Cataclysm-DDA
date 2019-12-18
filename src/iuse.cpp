@@ -395,10 +395,10 @@ static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 34_minutes, 68_minutes,
-                                           90_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
     if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 9_minutes, 18_minutes, 25_minutes ) - ( alc_strength( strength,
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
@@ -406,9 +406,9 @@ static int alcohol( player &p, const item &it, const int strength )
         // Metabolizing it cancels out the depressant
         p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
