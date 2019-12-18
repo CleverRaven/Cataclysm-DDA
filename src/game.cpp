@@ -1174,12 +1174,12 @@ bool game::cleanup_at_end()
 
             if( get_option<std::string>( "WORLD_END" ) == "query" ) {
                 bool decided = false;
-                std::string buffer = _( "Warning, Cataclysm: Dark Days Ahead is not really made "
-                        "for multiple runs in a single world.  "
-                        "You will experience some bugs if you have already played extensively in "
-                        "this world.\n\n"
-                        "Are you sure you wish to keep this world?"
-                        );
+                std::string buffer = _( "Warning: NPC interactions and some other global flags "
+                                        "will not all reset when starting a new character in an "
+                                        "already-played world. This can lead to some strange "
+                                        "behavior.\n\n"
+                                        "Are you sure you wish to keep this world?"
+                                      );
 
                 while( !decided ) {
                     uilist smenu;
