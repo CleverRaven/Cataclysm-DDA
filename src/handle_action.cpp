@@ -675,7 +675,7 @@ static void smash()
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = smashp;
+            u.activity.placement = g->m.getabs( smashp );
             return; // don't smash terrain if we've smashed a corpse
         }
     }
