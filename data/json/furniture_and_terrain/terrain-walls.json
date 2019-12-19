@@ -1357,7 +1357,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
     "connects_to": "WALL",
     "bash": {
-      "str_min": 40,
+      "str_min": 30,
       "str_max": 120,
       "sound": "crash!",
       "sound_fail": "whump!",
