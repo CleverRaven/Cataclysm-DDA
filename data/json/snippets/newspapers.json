@@ -1,78 +1,19 @@
 [
-
-  {
-    "type": "snippet",
-    "category": "newest_news",
-    "text": [
-      {
-        "id": "newest_news_1",
-        "text": "GOVERNMENT FACILITIES BOMBED: In an apparent foreign attack (contradicting earlier Department of Defense denials of the disaster being caused by Chinese aggression) a coordinated bombing strike hit a wide number of US governmental facilities simultaneously yesterday, as well as numerous locations in isolate parts of the coastal United States.  A statement from the Pentagon has been issued, stating the strikes were the result of Chinese opportunism during the national crisis, and assured that action would be taken in kind against the aggressors."
-      },
-      {
-        "id": "newest_news_2",
-        "text": "RIOTS GROWING?: Communications were muddled by a large influx of aggressive armed individuals.  \"We have this under control,\" says a local police chief.  \"We are authorizing our forces to use lethal force on combative humans.  In the meantime, people are advised to stay in their homes and avoid any contact with peacekeeping forces.\""
-      },
-      {
-        "id": "newest_news_3",
-        "text": "EVACUATION ALERT.  The Federal government has announced a formal evacuation of all major centers, to pre-designated FEMA emergency shelters. Spokesperson Linda Garrison stated, \"This is not expected to be a permanent issue.  By evacuating to the shelters and camps FEMA set up for just such a situation, we can clamp down on riots without hurting uninvolved people.\"  Garrison declined to comment on widespread allegations that the rioters are under the influence of psychosis-inducing biological agents."
-      },
-      {
-        "id": "newest_news_4",
-        "text": "GENETIC MODIFICATIONS?  Eyewitnesses from the New England Disaster Area have claimed that the allegedly psychotic rioters are displaying inhuman qualities.  \"I swear to God, one of them was the size of a tree!\", said one panicked survivor.  There are also reports of afflicted individuals with acidic or electric properties.  CDC officials could not be reached for comment."
-      },
-      {
-        "id": "newest_news_5",
-        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
-      },
-      {
-        "id": "newest_news_6",
-        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"Aid Delayed\".  Fighting by the military at the edge of the New England Disaster Area is expected to delay civilian extraction.  Civilians will be forced to supply themselves over the next weeks.  Sources indicate this problem is widespread in other major population centers, but aggravated locally by the very high number of bombing targets over the last two days."
-      },
-      {
-        "id": "newest_news_7",
-        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"New England Cut Off\".  New England has been quarantined for the safety of the rest of the USA.  No rescue attempts will be funded; it is assumed there are no survivors in the area.  This follows on the heels of the quarantining of large sections of the midwest last night.  Cellular and land-based communication grids have been blocked by large numbers of people attempting to contact loved ones.  It is recommended that civilians avoid use of these tools for all but the most urgent messages."
-      },
-      {
-        "id": "newest_news_8",
-        "text": "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with people acting violent or unusual yourself.  If you see someone dangerous, report to the nearest military or police blockade for assistance!  Even guns are to be avoided: loud gunfire may attract more hostile attention than you have ammo!\""
-      },
-      {
-        "id": "newest_news_9",
-        "text": "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: hostiles use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\""
-      },
-      {
-        "id": "newest_news_10",
-        "text": "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable dead left lying in the street may be dangerous!  If you kill a hostile, smash or butcher with a knife until unrecognizable!  The Geneva Conventions don't apply to civilians!"
-      },
-      {
-        "id": "newest_news_11",
-        "text": "THEY'RE NOT RIOTS!: According to head officials at the Centers for Disease Control, autopsies of rioters in New England have shown massive pathological infection, possibly causing hyper-aggression, disregard for personal harm, and a severely-impaired ability for higher reasoning."
-      },
-      {
-        "id": "newest_news_12",
-        "text": "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."
-      },
-      {
-        "id": "newest_news_13",
-        "text": "A BRIDGE TOO FAR: In a Monday statement, the Department of Defense detailed its plans to deploy strategic minefields on key bridge crossings, in order to quarantine infected regions.  \"Military personnel will be on-site to assist any refugees fleeing the infected zones.  We urge citizens to comply with all military directives and avoid quarantined areas whenever possible until order can be restored.\""
-      }
-    ]
-  },
   {
     "type": "snippet",
     "category": "many_years_old_news",
     "text": [
       {
         "id": "many_years_old_news_1",
-        "text": "QUANTUM LEAP: An undisclosed DARPA project has yielded results in the form of theoretical teleportation.  \"This is just the tip of the iceberg,\" said an anonymous source.  \"I can't disclose, but this development is the LEAST in this exciting vein!\""
+        "text": "ATOMIC DEREGULATION!  President Toffer announced to a mixed crowd today that he had signed an executive order to deregulate public use of radioactive compounds, allowing more widespread use of low-grade radioactive compounds in home appliances.  \"Plutonium is the greenest energy we have,\" he told an assembled press.  \"It's time we got over our fear and moved into the light.\""
       },
       {
         "id": "many_years_old_news_2",
-        "text": "SECURIBOTS: Keeping your home safe, ready the second the alarm goes off…  Who needs people?"
+        "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumoured to be in the field of teleportation."
       },
       {
         "id": "many_years_old_news_3",
-        "text": "ROBOCOP BEATS CRIME: Due to the common usage of Securibots and their ability to respond more rapidly than people, crime is down 54% and dropping.  Police chief says \"Don't trip an alarm and you have nothing to worry about\""
+        "text": "FACIAL RECOGNITION ROLLS OUT.  Commissioner McConnaugh of the NYPD announced at a press conference today that a new wave of facial recognition drones would be employed by police services.  \"These new guys, we're calling them 'eyebots', they can move where stationary cameras can't, and can identify known troublemakers.  They lead to a much lower rate of false alarms, and a much higher rate of successful convictions without an increase in wrongful arrest.  I know there have been concerns, but overall these little guys make us all safer, not just from criminals but from human error as well.\""
       },
       {
         "id": "many_years_old_news_4",
@@ -88,7 +29,7 @@
       },
       {
         "id": "many_years_old_news_7",
-        "text": "The Future… powered by COFFEE!  Rivtech brings you the greatest revolution since espresso.  Why wait for milk to boil?  Have your coffee ready instantly with \"THE POWER OF THE ATOM\"!"
+        "text": "The Future… powered by COFFEE!  Cuppatech brings you the greatest revolution since espresso with our new Curie-G.  Why wait for milk to boil?  Have your coffee ready instantly with THE POWER OF THE ATOM!"
       },
       {
         "id": "many_years_old_news_8",
@@ -104,7 +45,7 @@
       },
       {
         "id": "many_years_old_news_11",
-        "text": "UNDERGROUND BUNKER?  Sources in the government suggest that underground bunkers are being built in a secret location in case of enemy attack.  We were unable to get the exact location as our sources mysteriously disappeared shortly after revealing this information."
+        "text": ""
       },
       {
         "id": "many_years_old_news_12",
@@ -116,7 +57,7 @@
       },
       {
         "id": "many_years_old_news_14",
-        "text": "RUMORS DENIED: Allegations that DARPA had been conducting teleportation experiments in secret just outside Wayland were put to rest during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference, \"teleportation only exists in sci-fi films.\""
+        "text": "RUMORS DENIED: Allegations from search parties hunting for Brett Xiang, that a civilian research facility just outside Wayland is a front for a government facility researching dangerous technologies, were addressed during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference. \"These allegations are absurd.  Teleportation and aliens only exist in sci-fi films, and the US certainly doesn't have the funds to build these extensive underground networks people are talking about.  I can't believe I even have to tell you this.  I don't know what those kids saw that put these ideas in their heads, but they're going through an awful lot with the loss of their friend.\""
       }
     ]
   },
@@ -301,6 +242,68 @@
       {
         "id": "weeks_old_news_10",
         "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those Blues away at GREENS Supermarket"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "newest_news",
+    "text": [
+      {
+        "id": "newest_news_1",
+        "text": "GOVERNMENT FACILITIES BOMBED: In an apparent foreign attack (contradicting earlier Department of Defense denials of the disaster being caused by Chinese aggression) a coordinated bombing strike hit a wide number of US governmental facilities simultaneously yesterday, as well as numerous locations in isolate parts of the coastal United States.  A statement from the Pentagon has been issued, stating the strikes were the result of Chinese opportunism during the national crisis, and assured that action would be taken in kind against the aggressors.  Allegations that these sites contained top-secret government research facilities related to the disaster have been vehemently denied."
+      },
+      {
+        "id": "newest_news_2",
+        "text": "RIOTS GROWING?: Communications were muddled by a large influx of aggressive armed individuals.  \"We have this under control,\" says a local police chief.  \"We are authorizing our forces to use lethal force on combative humans.  In the meantime, people are advised to stay in their homes and avoid any contact with peacekeeping forces.\""
+      },
+      {
+        "id": "newest_news_3",
+        "text": "EVACUATION ALERT.  The Federal government has announced a formal evacuation of all major centers, to pre-designated FEMA emergency shelters. Spokesperson Linda Garrison stated, \"This is not expected to be a permanent issue.  By evacuating to the shelters and camps FEMA set up for just such a situation, we can clamp down on riots without hurting uninvolved people.\"  Garrison declined to comment on widespread allegations that the rioters are under the influence of psychosis-inducing biological agents."
+      },
+      {
+        "id": "newest_news_4",
+        "text": "RIOTERS MUTATING?  Eyewitnesses from the New England Disaster Area have claimed that the allegedly psychotic rioters are displaying inhuman qualities.  \"I swear to God, one of them was the size of a tree!\", said one panicked survivor.  There are also reports of afflicted individuals with acidic or electric properties.  CDC officials could not be reached for comment."
+      },
+      {
+        "id": "newest_news_5",
+        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
+      },
+      {
+        "id": "newest_news_6",
+        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"Aid Delayed\".  Fighting by the military at the edge of the New England Disaster Area is expected to delay civilian extraction.  Civilians will be forced to supply themselves over the next weeks.  Sources indicate this problem is widespread in other major population centers, but aggravated locally by the very high number of bombing targets over the last two days."
+      },
+      {
+        "id": "newest_news_7",
+        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"New England Cut Off\".  New England has been quarantined for the safety of the rest of the USA.  No rescue attempts will be funded; it is assumed there are no survivors in the area.  This follows on the heels of the quarantining of large sections of the midwest last night.  Cellular and land-based communication grids have been blocked by large numbers of people attempting to contact loved ones.  It is recommended that civilians avoid use of these tools for all but the most urgent messages."
+      },
+      {
+        "id": "newest_news_8",
+        "text": "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with people acting violent or unusual yourself.  If you see someone dangerous, report to the nearest military or police blockade for assistance!  Even guns are to be avoided: loud gunfire may attract more hostile attention than you have ammo!\""
+      },
+      {
+        "id": "newest_news_9",
+        "text": "EVACUATION ALERT: FEMA officials said today \"Do not try to defend your property in towns.  Please retreat to your nearest evacuation center outside town and await extraction to a safe facility.  Military officials require non-hostile civilians to be removed from potential hot sites for ongoing violence.  When the evacuation order is over, you will be able to return to your homes.\""
+      },
+      {
+        "id": "newest_news_10",
+        "text": "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable dead left lying in the street may be dangerous!  If you kill a hostile, smash or butcher with a knife until unrecognizable!  These aren't rioters, they're *undead*.  The government has been lying to us all along.  This will be our last issue."
+      },
+      {
+        "id": "newest_news_11",
+        "text": "THEY'RE NOT RIOTS!  According to head officials at the Centers for Disease Control, functional MRI studies of rioters have fit autopsy data that suggests these people are under the influence of some sort of mind-altering agent causing erratic, violent behaviour.  A source inside the CDC, who did not wish to be named, informed our reporter \"It's not just the rioters.  They're the heaviest affected, but we scanned our own brains when we found out.  It's everyone.  It's in me, and you.  It's in the government.  The military.  God help us all.\""
+      },
+      {
+        "id": "newest_news_12",
+        "text": "THE DEAD WALK.  Amidst the violence of the riots, we can no longer disregard reports of fatally wounded rioters and police forces alike rising and joining the ranks of hostiles.  Government sources could not be reached to confirm or deny these reports, but our own reporters confirm it with photographic evidence shown below."
+      },
+      {
+        "id": "newest_news_13",
+        "text": "A BRIDGE TOO FAR: In a Monday statement, the Department of Defense detailed its plans to deploy strategic minefields on key bridge crossings, in order to quarantine high-hostility regions.  \"Military personnel will be on-site to assist any refugees fleeing the blackout zones.  We urge citizens to comply with all military directives and avoid quarantined areas whenever possible until order can be restored.\""
+      },
+      {
+        "id": "newest_news_14",
+        "text": "PORTALS?  Reports of shimmering gateways opening around the US have been corroborated by our own reporting staff.  One reporter witnessed a creature the size of an apartment building taking a direct hit from an Apache helicopter's weaponry and continuing to fight.  Government officials could not be reached for comment, but a local pastor spoke to our reporter in the field.  \"There can no longer be any doubt,\" she was quoted as saying.  \"These are the end times.\""
       }
     ]
   }
