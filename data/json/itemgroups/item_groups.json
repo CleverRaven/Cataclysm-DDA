@@ -4010,6 +4010,11 @@
     "type": "item_group",
     "id": "jewelry_front",
     "items": [
+      { "group": "earrings_silver", "prob": 30 },
+      { "group": "earrings_gold", "prob": 10 },
+      { "group": "earrings_platinum", "prob": 5 },
+      { "group": "dental_grills", "prob": 10 },
+      { "group": "gemstones", "prob": 30 },
       [ "gold_ring", 30 ],
       [ "gold_ear", 30 ],
       [ "gold_bracelet", 30 ],
@@ -4117,7 +4122,34 @@
   {
     "type": "item_group",
     "id": "jewelry_safe",
-    "items": [ [ "platinum_small", 80 ], [ "gold_small", 80 ], [ "silver_small", 85 ], [ "diamond", 75 ] ]
+    "items": [
+      [ "platinum_small", 80 ],
+      [ "gold_small", 80 ],
+      [ "silver_small", 85 ],
+      [ "diamond", 75 ],
+      [ "diamond", 75 ],
+      { "group": "gemstones", "prob": 75 }
+    ]
+  },
+  {
+    "id": "gemstones",
+    "type": "item_group",
+    "items": [
+      [ "citrine", 50 ],
+      [ "diamond", 50 ],
+      [ "emerald", 50 ],
+      [ "peridot", 50 ],
+      [ "amethyst", 50 ],
+      [ "sapphire", 50 ],
+      [ "aquamarine", 50 ],
+      [ "blue_topaz", 50 ],
+      [ "tourmaline", 50 ],
+      [ "alexandrite", 50 ],
+      [ "pearl", 50 ],
+      [ "opal", 50 ],
+      [ "ruby", 50 ],
+      [ "garnet", 50 ]
+    ]
   },
   {
     "type": "item_group",
