@@ -47,11 +47,6 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Rabbit_Raiser_shoes",
-    "items": [ [ "boots", 20 ], [ "boots_bunker", 10 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_Rabbit_Raiser_masks",
     "items": [ [ "null", 80 ], [ "mask_dust", 10 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
   },
@@ -124,16 +119,9 @@
     "items": [
       [ "trenchcoat", 25 ],
       [ "gloves_fingerless", 30 ],
-      [ "mask_hockey", 20 ],
-      [ "pipebomb", 40 ],
-      [ "molotov", 100 ],
       [ "ref_lighter", 30 ],
       [ "lighter", 30 ],
       [ "matches", 30 ],
-      [ "firecracker_pack", 50 ],
-      [ "firecracker", 30 ],
-      [ "dynamite", 50 ],
-      [ "rebar", 100 ]
     ]
   }
 ]
