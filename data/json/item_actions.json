@@ -747,7 +747,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name":  "Check health metrics"
+    "name": "Check health metrics"
   },
   {
     "type": "item_action",
