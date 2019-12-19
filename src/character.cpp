@@ -95,6 +95,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_contacts( "contacts" );
@@ -139,7 +140,6 @@ static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
-static const efftype_id effect_cig( "cig" );
 
 static const species_id ROBOT( "ROBOT" );
 
@@ -7330,10 +7330,10 @@ int Character::heartrate_bpm() const
         stim_modifer = 2.1 - 2/( 1 + 0.001 * stim_level * stim_level ); 
     }
     heartbeat *= 1 + stim_modifer;
-    if ( p->get_effect_dur( effect_cig ) > 0 )
+    if ( get_effect_dur( effect_cig ) > 0 )
     {
         //Nicotine-induced tachycardia
-        if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
             heartbeat *= 1.4;
         } else {
             heartbeat *= 1.1;
