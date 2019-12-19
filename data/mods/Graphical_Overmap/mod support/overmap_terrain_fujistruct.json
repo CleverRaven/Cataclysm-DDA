@@ -1,0 +1,298 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore",
+    "name": "electronics store",
+    "sym": "ç",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store",
+    "copy-from": "s_electronicstore"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore",
+    "name": "gun store",
+    "sym": "ç",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_2ndfloor",
+    "name": "gun store",
+    "copy-from": "s_gunstore"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_roof",
+    "name": "gun store",
+    "copy-from": "s_gunstore"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner",
+    "name": "diner",
+    "sym": "ç",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_2ndfloor",
+    "name": "diner",
+    "copy-from": "s_diner"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_roof",
+    "name": "diner",
+    "copy-from": "s_diner"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt",
+    "name": "apartment",
+    "sym": "Ç",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_roof",
+    "name": "apartment",
+    "copy-from": "s_apt"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2",
+    "name": "apartment",
+    "sym": "Ç",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_roof",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_cardealer",
+    "name": "dealership",
+    "sym": "ç",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_cardealer_roof",
+    "name": "dealership",
+    "copy-from": "s_cardealer"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping",
+    "name": "outdoorsman's store",
+    "sym": "ç",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping_roof",
+    "name": "outdoorsman's store",
+    "copy-from": "s_camping"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games",
+    "name": "gaming store",
+    "sym": "ç",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store",
+    "copy-from": "s_games"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term",
+    "name": "airport",
+    "sym": "ô",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_parking",
+    "name": "airport",
+    "sym": "ô",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_atc",
+    "name": "airport",
+    "sym": "ô",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_atc_2",
+    "name": "airport",
+    "sym": "ô",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_atc_3",
+    "name": "airport",
+    "sym": "ô",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_hangars",
+    "name": "airport",
+    "sym": "ý",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_runway",
+    "name": "runway",
+    "sym": "ô",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_runway_hangars",
+    "name": "runway",
+    "sym": "ô",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_runway_l",
+    "name": "runway",
+    "sym": "ô",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_runway_r",
+    "name": "runway",
+    "sym": "ô",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_runway_term",
+    "name": "runway",
+    "sym": "ô",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_road_0",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_road_1",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_00",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_01",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_10",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_lightindustry_11",
+    "name": "light industry",
+    "sym": "Ö",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_g1",
+    "name": "gas station",
+    "sym": "ú",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_g0",
+    "name": "gas station",
+    "sym": "ú",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b11",
+    "name": "reception",
+    "sym": "ú",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b20",
+    "name": "bunker",
+    "sym": "Õ",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b21",
+    "name": "bunker",
+    "sym": "Õ",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bunker_shop_g",
+    "name": "derelict property",
+    "sym": "à",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bunker_shop_b",
+    "name": "scavenger bunker",
+    "sym": "Õ",
+    "color": "light_green"
+  }
+]
