@@ -1348,7 +1348,7 @@
   {
     "type": "terrain",
     "id": "t_drystone_wall_half",
-    "name": "half-built field stone wall",
+    "name": "field stone half-wall",
     "description": "A half height sturdy dry stone wall.  Just rocks fitted together without mortar.  Complete as is or with extensive work it could be doubled in height.",
     "symbol": "#",
     "color": "light_gray",
