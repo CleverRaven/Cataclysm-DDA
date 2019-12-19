@@ -4413,7 +4413,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
 int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
 {
     if( p->has_trait( trait_ILLITERATE ) ) {
-        p->add_msg_if_player( m_info, _( "You're don't know what you're looking at." ) );
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
         return 0;
     } else {
         //What else should block using f-band?
