@@ -1344,9 +1344,7 @@ void load_construction( const JsonObject &jo )
 
     con.description = jo.get_string( "description" );
     if( jo.has_member( "required_skills" ) ) {
-        auto sk = jo.get_array( "required_skills" );
-        while( sk.has_more() ) {
-            auto arr = sk.next_array();
+        for( JsonArray arr : jo.get_array( "required_skills" ) ) {
             con.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     } else {
@@ -1371,10 +1369,7 @@ void load_construction( const JsonObject &jo )
     if( jo.has_string( "using" ) ) {
         con.reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
     } else if( jo.has_array( "using" ) ) {
-        auto arr = jo.get_array( "using" );
-
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
+        for( JsonArray cur : jo.get_array( "using" ) ) {
             con.reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -1403,8 +1398,8 @@ void load_construction( const JsonObject &jo )
     con.post_flags = jo.get_tags( "post_flags" );
 
     if( jo.has_member( "byproducts" ) ) {
-        JsonIn &stream = *jo.get_raw( "byproducts" );
-        con.byproduct_item_group = item_group::load_item_group( stream, "collection" );
+        con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
+                                   "collection" );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{

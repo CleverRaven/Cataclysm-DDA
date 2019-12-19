@@ -1015,7 +1015,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    item_location &target = act->targets.back();
+    item_location target = act->targets.back();
 
     // Corpses can disappear (rezzing!), so check for that
     if( !target || !target->is_corpse() ) {
@@ -1130,7 +1130,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
     // all action types - yields
     butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
-
+    // after this point, if there was a liquid handling from the harvest,
+    // and the liquid handling was interrupted, then the activity was cancelled,
+    // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
         for( auto &content : contents ) {
@@ -1156,14 +1158,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case BUTCHER_FULL:
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case F_DRESS:
             // partial failure
@@ -1220,7 +1226,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 }
 
             }
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case SKIN:
             switch( rng( 1, 4 ) ) {
@@ -1242,7 +1250,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case DISMEMBER:
             switch( rng( 1, 3 ) ) {
@@ -1258,14 +1268,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
         case DISSECT:
             p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
 
             // Remove the target from the map
             target.remove_item();
-            act->targets.pop_back();
+            if( !act->targets.empty() ) {
+                act->targets.pop_back();
+            }
             break;
     }
 

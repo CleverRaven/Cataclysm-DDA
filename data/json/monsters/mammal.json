@@ -1697,10 +1697,11 @@
     "morale": -7,
     "melee_cut": 0,
     "dodge": 6,
+    "reproduction": { "baby_monster": "mon_rabbit", "baby_count": 3, "baby_timer": 55 },
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM" ]
   },
   {
     "id": "mon_raccoon",

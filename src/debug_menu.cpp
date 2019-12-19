@@ -150,7 +150,8 @@ enum debug_menu_index {
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
-    DEBUG_LEVEL_SPELLS
+    DEBUG_LEVEL_SPELLS,
+    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION
 };
 
 class mission_debug
@@ -219,6 +220,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -1699,6 +1701,9 @@ void debug()
             add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
             break;
         }
+        case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
+            MapExtras::debug_spawn_test();
+            break;
     }
     catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );

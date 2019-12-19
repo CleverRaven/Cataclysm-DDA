@@ -2676,13 +2676,12 @@ void talk_effect_t::load_effect( const JsonObject &jo )
         JsonObject sub_effect = jo.get_object( member_name );
         parse_sub_effect( sub_effect );
     } else if( jo.has_array( member_name ) ) {
-        JsonArray ja = jo.get_array( member_name );
-        while( ja.has_more() ) {
-            if( ja.test_string() ) {
-                const std::string type = ja.next_string();
+        for( const JsonValue &entry : jo.get_array( member_name ) ) {
+            if( entry.test_string() ) {
+                const std::string type = entry.get_string();
                 parse_string_effect( type, jo );
-            } else if( ja.test_object() ) {
-                JsonObject sub_effect = ja.next_object();
+            } else if( entry.test_object() ) {
+                JsonObject sub_effect = entry.get_object();
                 parse_sub_effect( sub_effect );
             } else {
                 jo.throw_error( "invalid effect array syntax", member_name );
@@ -2869,16 +2868,15 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {
         std::vector<dynamic_line_t> lines;
-        JsonArray ja = jo.get_array( "and" );
-        while( ja.has_more() ) {
-            if( ja.test_string() ) {
-                lines.emplace_back( ja.next_string() );
-            } else if( ja.test_array() ) {
-                lines.emplace_back( ja.next_array() );
-            } else if( ja.test_object() ) {
-                lines.emplace_back( ja.next_object() );
+        for( const JsonValue &entry : jo.get_array( "and" ) ) {
+            if( entry.test_string() ) {
+                lines.emplace_back( entry.get_string() );
+            } else if( entry.test_array() ) {
+                lines.emplace_back( entry.get_array() );
+            } else if( entry.test_object() ) {
+                lines.emplace_back( entry.get_object() );
             } else {
-                ja.throw_error( "invalid format: must be string, array or object" );
+                entry.throw_error( "invalid format: must be string, array or object" );
             }
         }
         function = [lines]( const dialogue & d ) {
@@ -2950,15 +2948,15 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 dynamic_line_t::dynamic_line_t( JsonArray ja )
 {
     std::vector<dynamic_line_t> lines;
-    while( ja.has_more() ) {
-        if( ja.test_string() ) {
-            lines.emplace_back( ja.next_string() );
-        } else if( ja.test_array() ) {
-            lines.emplace_back( ja.next_array() );
-        } else if( ja.test_object() ) {
-            lines.emplace_back( ja.next_object() );
+    for( const JsonValue &entry : ja ) {
+        if( entry.test_string() ) {
+            lines.emplace_back( entry.get_string() );
+        } else if( entry.test_array() ) {
+            lines.emplace_back( entry.get_array() );
+        } else if( entry.test_object() ) {
+            lines.emplace_back( entry.get_object() );
         } else {
-            ja.throw_error( "invalid format: must be string, array or object" );
+            entry.throw_error( "invalid format: must be string, array or object" );
         }
     }
     function = [lines]( const dialogue & d ) {

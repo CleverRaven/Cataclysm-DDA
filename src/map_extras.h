@@ -66,6 +66,8 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 
+void debug_spawn_test();
+
 /// This function provides access to all loaded map extras.
 const generic_factory<map_extra> &mapExtraFactory();
 

@@ -229,7 +229,7 @@ struct trap {
          */
         /**
          * Loads the trap and adds it to the trapmap, and the traplist.
-         * @throw std::string if the json is invalid as usual.
+         * @throw JsonError if the json is invalid as usual.
          */
         static void load_trap( const JsonObject &jo, const std::string &src );
         /**

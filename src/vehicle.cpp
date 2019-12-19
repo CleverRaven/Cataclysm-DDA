@@ -735,6 +735,9 @@ std::set<point> vehicle::immediate_path( int rotate )
 
 void vehicle::stop_autodriving()
 {
+    if( !is_autodriving && !is_patrolling && !is_following ){
+        return;
+    }
     if( velocity > 0 ) {
         if( is_patrolling || is_following ) {
             autodrive( 0, 10 );

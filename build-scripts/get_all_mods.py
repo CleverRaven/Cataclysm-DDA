@@ -14,6 +14,6 @@ for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info))
     mods.extend(e["ident"] for e in mod_info if e["type"] == "MOD_INFO")
 
-mods_to_keep = [mod for mod in mods if mod not in blacklist]
+mods_to_keep = [mod for mod in mods if mod not in blacklist and mod != "dda"]
 
 print(','.join(mods_to_keep))
