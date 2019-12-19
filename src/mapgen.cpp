@@ -1040,14 +1040,11 @@ class jmapgen_liquid_item : public jmapgen_piece
 class jmapgen_item_group : public jmapgen_piece
 {
     public:
-        std::string group_id;
+        Group_tag group_id;
         jmapgen_int chance;
-        jmapgen_item_group( const JsonObject &jsi ) :
-            group_id( jsi.get_string( "item" ) )
-            , chance( jsi, "chance", 1, 1 ) {
-            if( !item_group::group_is_defined( group_id ) ) {
-                set_mapgen_defer( jsi, "item", "no such item group '" + group_id + "'" );
-            }
+        jmapgen_item_group( const JsonObject &jsi ) : chance( jsi, "chance", 1, 1 ) {
+            JsonValue group = jsi.get_member( "item" );
+            group_id = item_group::load_item_group( group, "collection" );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
