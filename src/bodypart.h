@@ -7,7 +7,6 @@
 #include <bitset>
 #include <initializer_list>
 #include <string>
-#include <set>
 
 #include "int_id.h"
 #include "string_id.h"
@@ -227,7 +226,5 @@ std::string get_body_part_id( body_part bp );
 
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
-
-bool is_parent_bp_in_set( const body_part &bp, const std::set<body_part> &bp_set );
 
 #endif
