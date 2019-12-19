@@ -4419,9 +4419,25 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
         //What else should block using f-band?
         const int bpm = p->heartrate_bpm();
         p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
-		//Maybe should pick better words
-        p->add_msg_if_player( _( "Your heart's BPM is %i." ), bpm );
-        //TODO add exercise level and whatever else makes sense (sleep quality, health level approximation?)
+        //Maybe should pick better words
+        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname() ,  bpm );
+        if ( bpm > 179 ) {
+            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  Your pulse is getting too high, champion!'" ), it->tname() );
+        }
+        const std::string exercise = p->activity_level_str();
+        if ( exercise == "NO_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are not really active today.  Try going for a walk!'." ), it->tname() );
+        } else if ( exercise == "LIGHT_EXERCISE" ){
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Good start!  Keep it up and move more.'" ), it->tname() );
+        } else if ( exercise == "MODERATE_EXERCISE" ){
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+        } else if ( exercise == "ACTIVE_EXERCISE" ){
+			//Ad will most likely need to go
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+        } else {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are too active!  Avoid overextertion for your safety and health.'" ), it->tname() );
+        }
+        //TODO add whatever else makes sense (sleep quality, health level approximation?)
     }
     return it->type->charges_to_use();
 }
