@@ -544,9 +544,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Hit nothing or we aren't actually hitting
         return ret;
     }
-    if( is_autodriving || is_patrolling || is_following ) {
-        stop_autodriving();
-    }
+    stop_autodriving();
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = to_kilogram( total_mass() );
