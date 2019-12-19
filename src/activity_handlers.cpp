@@ -3129,7 +3129,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const bionic_id bid( act->str_values[cbm_id] );
     const bionic_id upbid( act->str_values[upgraded_cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
-    const bool u_see = g->u.sees( p->pos() ) && !g->u.has_effect( effect_narcosis );
+    const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
+                       g->u.has_bionic( bionic_id( "bio_painkiller" ) ) || g->u.has_trait( trait_id( "NOPAIN" ) ) );
 
     const int difficulty = act->values.front();
 
