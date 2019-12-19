@@ -438,5 +438,22 @@
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_Rabbit_Raiser",
+    "name": "Mr Lapin",
+    "job_description": "I raise rabbits.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "survival", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
+    ]
   }
 ]
