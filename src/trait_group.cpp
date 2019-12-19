@@ -50,7 +50,8 @@ static Trait_group_tag get_unique_trait_group_id()
     }
 }
 
-Trait_group_tag trait_group::load_trait_group( const JsonValue &value, const std::string &default_subtype )
+Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
+        const std::string &default_subtype )
 {
     if( value.test_string() ) {
         return Trait_group_tag( value.get_string() );

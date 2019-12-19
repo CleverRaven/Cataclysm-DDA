@@ -1886,10 +1886,11 @@ JsonIn &JsonValue::seek() const
     return jsin_;
 }
 
-JsonValue JsonObject::get_member( const std::string &name ) const {
-    const auto iter = positions.find(name);
-    if(!jsin || iter == positions.end()) {
-        throw_error("requested non-existing member \"" + name + "\"");
+JsonValue JsonObject::get_member( const std::string &name ) const
+{
+    const auto iter = positions.find( name );
+    if( !jsin || iter == positions.end() ) {
+        throw_error( "requested non-existing member \"" + name + "\"" );
     }
     visited_members.insert( name );
     return JsonValue( *jsin, iter->second );

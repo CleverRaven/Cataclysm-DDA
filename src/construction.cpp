@@ -1398,7 +1398,8 @@ void load_construction( const JsonObject &jo )
     con.post_flags = jo.get_tags( "post_flags" );
 
     if( jo.has_member( "byproducts" ) ) {
-        con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ), "collection" );
+        con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
+                                   "collection" );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
