@@ -4753,8 +4753,6 @@ bool mattack::evolve_kill_strike( monster *z )
         }
         return true;
     }
-    const std::string old_name = z->name();
-    const bool could_see_z = g->u.sees( *z );
     tripoint const target_pos = target->pos();
     const std::string target_name = target->disp_name();
     damage_instance damage( z->type->melee_damage );
@@ -4770,12 +4768,14 @@ bool mattack::evolve_kill_strike( monster *z )
     } else {
         target->add_msg_player_or_npc(
             _( "The %1$s attempts to burrow itself into you, but is stopped by your armor!" ),
-            _( "The %1$s slashes at <npcname>'s %2$s, but is stopped by their armor!" ),
+            _( "The %1$s slashes at <npcname>'s torso, but is stopped by their armor!" ),
             z->name() );
         return true;
     }
     if( target->is_dead_state() && g->is_empty( target_pos ) &&
         target->made_of_any( Creature::cmat_flesh ) ) {
+        const std::string old_name = z->name();
+        const bool could_see_z = g->u.sees( *z );
         z->allow_upgrade();
         z->try_upgrade( false );
         z->setpos( target_pos );
@@ -4803,7 +4803,7 @@ bool mattack::leech_spawner( monster *z )
             allies.push_back( &candidate );
         }
     }
-    if( allies.size() > 35 ) {
+    if( allies.size() > 45 ) {
         return true;
     }
     const int monsters_spawned = rng( 1, 4 );
@@ -4833,7 +4833,7 @@ bool mattack::mon_leech_evolution( monster *z )
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
-            rl_dist( z->pos(), candidate.pos() ) ) {
+            rl_dist( z->pos(), candidate.pos() ) > 35 ) {
             queens.push_back( &candidate );
         }
     }
