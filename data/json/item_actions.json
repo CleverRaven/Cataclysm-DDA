@@ -11,7 +11,7 @@
   },
   {
     "type": "item_action",
-    "id": "SEW_ADVANCED",
+    "id": "sew_advanced",
     "name": "Modify Clothing"
   },
   {
@@ -56,6 +56,11 @@
   },
   {
     "type": "item_action",
+    "id": "PACK_CBM",
+    "name": "Pack CBM in pouch"
+  },
+  {
+    "type": "item_action",
     "id": "BURROW",
     "name": "Burrow through rock"
   },
@@ -78,11 +83,6 @@
     "type": "item_action",
     "id": "HOTPLATE",
     "name": "Heat up food (with it)"
-  },
-  {
-    "type": "item_action",
-    "id": "MISC_REPAIR",
-    "name": "Repair wood/paper/bone/chitin"
   },
   {
     "type": "item_action",
@@ -281,6 +281,11 @@
   },
   {
     "type": "item_action",
+    "id": "AUTOCLAVE",
+    "name": "Sterilize"
+  },
+  {
+    "type": "item_action",
     "id": "BELL",
     "name": "Ring"
   },
@@ -431,6 +436,11 @@
   },
   {
     "type": "item_action",
+    "id": "CALL_OF_TINDALOS",
+    "name": "Blow"
+  },
+  {
+    "type": "item_action",
     "id": "DOLLCHAT",
     "name": "Make it talk"
   },
@@ -516,6 +526,11 @@
   },
   {
     "type": "item_action",
+    "id": "FOODPERSON",
+    "name": "Activate"
+  },
+  {
+    "type": "item_action",
     "id": "FUNGICIDE",
     "name": "Take"
   },
@@ -583,6 +598,11 @@
     "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": "Ask"
+  },
+  {
+    "type": "item_action",
+    "id": "PLAY_GAME",
+    "name": "Play"
   },
   {
     "type": "item_action",
@@ -762,7 +782,7 @@
   {
     "type": "item_action",
     "id": "RADIOCAR",
-    "name": "..."
+    "name": "…"
   },
   {
     "type": "item_action",
@@ -921,8 +941,18 @@
   },
   {
     "type": "item_action",
-    "id": "WASHCLOTHES",
-    "name": "Wash clothes"
+    "id": "WASH_SOFT_ITEMS",
+    "name": "Wash soft items"
+  },
+  {
+    "type": "item_action",
+    "id": "WASH_HARD_ITEMS",
+    "name": "Wash hard items"
+  },
+  {
+    "type": "item_action",
+    "id": "WASH_ALL_ITEMS",
+    "name": "Wash items"
   },
   {
     "type": "item_action",
@@ -1061,7 +1091,22 @@
   },
   {
     "type": "item_action",
+    "id": "weigh_self",
+    "name": "Use Scale"
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_NORMAL",
+    "name": "Get contents"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_PERSONAL",
+    "name": "Get contents"
   }
 ]

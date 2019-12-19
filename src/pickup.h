@@ -2,9 +2,10 @@
 #ifndef PICKUP_H
 #define PICKUP_H
 
-#include <list>
+#include <vector>
 
 class item;
+class item_location;
 class Character;
 class map;
 struct tripoint;
@@ -15,14 +16,16 @@ namespace Pickup
  * Returns `false` if the player was presented a prompt and decided to cancel the pickup.
  * `true` in other cases.
  */
-bool do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
-                std::list<int> &indices, std::list<int> &quantities, bool autopickup );
+bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
+                bool autopickup );
+bool query_thief();
 
 enum from_where : int {
     from_cargo = 0,
     from_ground,
     prompt
 };
+
 /** Pick up items; 'g' or ',' or via examine() */
 void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
 /** Determines the cost of moving an item by a character. */
@@ -39,6 +42,6 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param m map they are on
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
-}
+} // namespace Pickup
 
 #endif

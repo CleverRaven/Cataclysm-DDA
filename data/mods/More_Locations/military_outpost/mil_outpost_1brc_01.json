@@ -40,7 +40,7 @@
         "X": [ { "item": "human_flesh", "amount": 12 }, { "item": "knife_butcher", "chance": 1 } ],
         "x": { "item": "human_flesh", "amount": [ 10, 20 ] }
       },
-      "place_fields": [ { "x": [ 7, 19 ], "y": [ 12, 19 ], "field": "fd_blood", "age": 2, "density": 2, "repeat": 60 } ]
+      "place_fields": [ { "x": [ 7, 19 ], "y": [ 12, 19 ], "field": "fd_blood", "age": 2, "intensity": 2, "repeat": 60 } ]
     }
   }
 ]

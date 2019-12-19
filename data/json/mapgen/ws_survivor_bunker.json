@@ -151,7 +151,7 @@
         "w": "t_dirt"
       },
       "furniture": {  },
-      "traps": { "p": { "trap": "tr_spike_pit", "chance": 40 } }
+      "traps": { "p": { "trap": "tr_spike_pit" } }
     }
   },
   {
@@ -231,7 +231,7 @@
         { "item": "charcoal", "chance": 3, "x": 12, "y": 13 },
         { "item": "survnote", "chance": 2, "x": 12, "y": 11 }
       ],
-      "traps": { "1": { "trap": "tr_beartrap", "chance": 90 }, "2": { "trap": "tr_tripwire", "chance": 90 } },
+      "traps": { "1": { "trap": "tr_beartrap" }, "2": { "trap": "tr_tripwire" } },
       "place_items": [
         { "item": "oa_ig_sb_food", "x": 10, "y": 14, "chance": 50, "repeat": 3 },
         { "item": "oa_ig_sb_food", "x": 10, "y": 15, "chance": 50, "repeat": 3 },

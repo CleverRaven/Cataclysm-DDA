@@ -41,6 +41,6 @@ void sort_by_rating( Iterator begin, Iterator end, RatingFunction rating_func )
     } );
 }
 
-}
+} // namespace algo
 
 #endif // CATA_ALGO_H

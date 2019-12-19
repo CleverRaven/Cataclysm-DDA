@@ -18,7 +18,7 @@
       [ "cig_butt", 10 ],
       [ "string_36", 5 ],
       [ "scrap", 10 ],
-      [ "glass_shard", 10 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],
@@ -29,25 +29,17 @@
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [
-      [ "chocolate", 50 ],
-      [ "cookies", 50 ],
-      [ "candy", 60 ],
-      [ "candy2", 60 ],
-      [ "candy3", 60 ],
-      [ "maple_candy", 25 ],
-      [ "powder_candy", 40 ],
-      [ "neccowafers", 60 ],
-      [ "candycigarette", 45 ],
-      [ "mintpatties", 60 ]
-    ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ] ]
   },
   {
     "id": "tux_shop",
     "type": "item_group",
     "items": [
       [ "blazer", 75 ],
-      [ "skinny_tie", 65 ],
+      [ "tie_skinny", 40 ],
+      [ "tie_necktie", 40 ],
+      [ "tie_bow", 30 ],
+      [ "tie_clipon", 20 ],
       [ "tieclip", 25 ],
       [ "polo_shirt", 35 ],
       [ "dress_shirt", 70 ],
@@ -68,6 +60,8 @@
   {
     "id": "music_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
   },
   {
@@ -83,14 +77,17 @@
       [ "pills_sleep", 45 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 85 ],
+      [ "protein_powder", 40 ],
       [ "caff_gum", 30 ],
-      [ "nic_gum", 25 ]
+      [ "nic_gum", 25 ],
+      [ "bathroom_scale", 20 ]
     ]
   },
   {
     "id": "toy_store",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "portable_game", 60 ],
       [ "bat", 60 ],
@@ -197,6 +194,7 @@
     "id": "leather_shop_repair",
     "type": "item_group",
     "items": [
+      [ "awl_steel", 40 ],
       [ "sewing_kit", 5 ],
       [ "tailors_kit", 50 ],
       [ "thread", 10 ],
@@ -210,6 +208,8 @@
   {
     "id": "key_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "screwdriver", 40 ],
       [ "hammer", 35 ],
@@ -240,11 +240,6 @@
       [ "seed_tobacco", 5 ],
       [ "rolling_paper", 45 ],
       [ "pipe_glass", 20 ],
-      [ "coke", 5 ],
-      [ "meth", 2 ],
-      [ "heroin", 1 ],
-      [ "crack", 4 ],
-      [ "crackpipe", 7 ],
       [ "cig", 60 ],
       [ "chaw", 60 ]
     ]
@@ -252,6 +247,8 @@
   {
     "id": "cell_shop",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "portable_game", 20 ],
       [ "antenna", 25 ],
@@ -269,6 +266,8 @@
   {
     "id": "beauty",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "mag_glam", 40 ],
       [ "mag_beauty", 30 ],
@@ -303,6 +302,8 @@
       [ "postman_shirt", 50 ],
       [ "postman_shorts", 30 ],
       [ "robe", 45 ],
+      [ "leotard", 5 ],
+      [ "zentai", 5 ],
       [ "kimono", 25 ],
       [ "yukata", 20 ],
       [ "coat_lab", 20 ],
@@ -347,6 +348,7 @@
       [ "naginata_fake", 5 ],
       [ "naginata_inferior", 3 ],
       [ "estoc", 2 ],
+      [ "estoc_inferior", 4 ],
       [ "estoc_fake", 6 ],
       [ "qiang", 3 ],
       [ "halberd", 2 ],

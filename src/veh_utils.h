@@ -25,7 +25,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg,
  * Repairs a given part on a given vehicle by given character.
  * Awards xp and consumes components.
  */
-bool repair_part( vehicle &veh, vehicle_part &part, Character &who );
-}
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who );
+} // namespace veh_utils
 
 #endif

@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "player.h"
 #include "player_activity.h"
+#include "string_formatter.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -44,21 +45,21 @@ static const std::map<std::string, float> activity_levels = {
     { "EXTRA_EXERCISE", EXTRA_EXERCISE }
 };
 
-void activity_type::load( JsonObject &jo )
+void activity_type::load( const JsonObject &jo )
 {
     activity_type result;
 
     result.id_ = activity_id( jo.get_string( "id" ) );
     assign( jo, "rooted", result.rooted_, true );
-    result.stop_phrase_ = string_format( _( "Stop %s?" ), jo.get_string( "verb" ) );
-    result.verb_ = _( jo.get_string( "verb" ) );
+    assign( jo, "verb", result.verb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
+    assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
 
     std::string activity_level = jo.get_string( "activity_level", "" );
     if( activity_level.empty() ) {
-        debugmsg( "Warning. %s has undefined activity level. defaulting to LIGHT_EXERCISE",
+        debugmsg( "Warning.  %s has undefined activity level.  defaulting to LIGHT_EXERCISE",
                   result.id().c_str() );
         activity_level = "LIGHT_EXERCISE";
     }
@@ -76,8 +77,8 @@ void activity_type::load( JsonObject &jo )
 void activity_type::check_consistency()
 {
     for( const auto &pair : activity_type_all ) {
-        if( pair.second.stop_phrase_.empty() ) {
-            debugmsg( "%s doesn't have a stop phrase", pair.first.c_str() );
+        if( pair.second.verb_.empty() ) {
+            debugmsg( "%s doesn't have a verb", pair.first.c_str() );
         }
         if( pair.second.based_on_ == based_on_type::NEITHER &&
             activity_handlers::do_turn_functions.find( pair.second.id_ ) ==
@@ -116,7 +117,8 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
-        sfx::end_activity_sounds(); // kill activity sounds at finish
+        // kill activity sounds at finish
+        sfx::end_activity_sounds();
         return true;
     }
     return false;
@@ -125,4 +127,9 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
 void activity_type::reset()
 {
     activity_type_all.clear();
+}
+
+std::string activity_type::stop_phrase() const
+{
+    return string_format( _( "Stop %s?" ), verb_ );
 }

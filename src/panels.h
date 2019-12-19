@@ -12,6 +12,8 @@ class avatar;
 class JsonIn;
 class JsonOut;
 
+struct tripoint;
+
 namespace catacurses
 {
 class window;
@@ -24,14 +26,21 @@ enum face_type : int {
     num_face_types
 };
 
+namespace overmap_ui
+{
+void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
+                         const tripoint &global_omt, int start_y, int start_x, int width,
+                         int height );
+} // namespace overmap_ui
+
 bool default_render();
 
 class window_panel
 {
     public:
         window_panel( std::function<void( avatar &, const catacurses::window & )> draw_func,
-                      const std::string &nm, int ht, int wd, bool default_toggle,
-                      std::function<bool( void )> render_func = default_render, bool force_draw = false );
+                      const std::string &nm, int ht, int wd, bool default_toggle_,
+                      std::function<bool()> render_func = default_render, bool force_draw = false );
 
         std::function<void( avatar &, const catacurses::window & )> draw;
         std::function<bool()> render;
@@ -65,7 +74,7 @@ class panel_manager
         }
 
         std::vector<window_panel> &get_current_layout();
-        const std::string get_current_layout_id() const;
+        std::string get_current_layout_id() const;
         int get_width_right();
         int get_width_left();
 

@@ -7,13 +7,12 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
-#include "player.h"
 #include "calendar.h"
 #include "weather.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "mapdata.h"
 #include "type_id.h"
+#include "point.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -21,7 +20,7 @@ static const itype_id fuel_type_plut_cell( "plut_cell" );
 TEST_CASE( "vehicle_power" )
 {
     GIVEN( "Reactor and solar panels" ) {
-        for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
+        for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
                 tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
             g->m.furn_set( p, furn_id( "f_null" ) );
             g->m.ter_set( p, ter_id( "t_pavement" ) );
@@ -64,21 +63,28 @@ TEST_CASE( "vehicle_power" )
         veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
-        calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
-        const time_point start_time = calendar::turn.sunrise() + 3_hours;
+        calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
+        const time_point start_time = sunrise( calendar::turn ) + 3_hours;
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
         g->weather.weather_override = WEATHER_SUNNY;
         veh_ptr->update_time( start_time + 30_minutes );
         int approx_battery1 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-        const int exp_min = 12;
-        const int exp_max = 14;
+        const int exp_min = 10;
+        const int exp_max = 15;
         CHECK( approx_battery1 >= exp_min );
         CHECK( approx_battery1 <= exp_max );
         veh_ptr->update_time( start_time + 2 * 30_minutes );
         int approx_battery2 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
         CHECK( approx_battery2 >= approx_battery1 + exp_min );
         CHECK( approx_battery2 <= approx_battery1 + exp_max );
+        const time_point at_night = sunset( calendar::turn ) + 3_hours;
+        g->weather.weather_override = WEATHER_CLEAR;
+        veh_ptr->update_time( at_night );
+        veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( at_night + 30_minutes );
+        CHECK( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
     }
 }

@@ -18,7 +18,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path );
 namespace cata_files
 {
 const char *eol();
-}
+} // namespace cata_files
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -48,7 +48,7 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
         const std::string &root_path = "", bool recursive_search = false );
 
 std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path = "", const bool recursive_search = false );
+        const std::string &root_path = "", bool recursive_search = false );
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 

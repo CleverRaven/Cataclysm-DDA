@@ -3,7 +3,6 @@
 #define MATERIAL_H
 
 #include <cstddef>
-#include <array>
 #include <map>
 #include <set>
 #include <string>
@@ -11,7 +10,6 @@
 #include <utility>
 
 #include "fire.h"
-#include "game_constants.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -59,7 +57,7 @@ class material_type
 
         std::map<vitamin_id, double> _vitamins;
 
-        std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+        std::vector<mat_burn_data> _burn_data;
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
@@ -70,10 +68,8 @@ class material_type
     public:
         material_type();
 
-        void load( JsonObject &jsobj, const std::string &src );
+        void load( const JsonObject &jsobj, const std::string &src );
         void check() const;
-
-        int dam_resist( damage_type damtype ) const;
 
         material_id ident() const;
         std::string name() const;
@@ -119,7 +115,7 @@ class material_type
 namespace materials
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
@@ -127,6 +123,6 @@ material_list get_all();
 material_list get_compactable();
 std::set<material_id> get_rotting();
 
-}
+} // namespace materials
 
 #endif

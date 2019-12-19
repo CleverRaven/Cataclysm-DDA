@@ -141,9 +141,16 @@ bool damage_instance::operator==( const damage_instance &other ) const
 
 void damage_instance::deserialize( JsonIn &jsin )
 {
-    JsonObject jo( jsin );
     // TODO: Clean up
-    damage_units = load_damage_instance( jo ).damage_units;
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        damage_units = load_damage_instance( jo ).damage_units;
+    } else if( jsin.test_array() ) {
+        JsonArray ja = jsin.get_array();
+        damage_units = load_damage_instance( ja ).damage_units;
+    } else {
+        jsin.error( "Expected object or array for damage_instance" );
+    }
 }
 
 dealt_damage_instance::dealt_damage_instance()
@@ -230,6 +237,11 @@ static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
 };
 
+const std::map<std::string, damage_type> &get_dt_map()
+{
+    return dt_map;
+}
+
 damage_type dt_by_name( const std::string &name )
 {
     const auto &iter = dt_map.find( name );
@@ -240,7 +252,7 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-const std::string name_by_dt( const damage_type &dt )
+std::string name_by_dt( const damage_type &dt )
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {
@@ -274,7 +286,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-static damage_unit load_damage_unit( JsonObject &curr )
+static damage_unit load_damage_unit( const JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {
@@ -288,7 +300,7 @@ static damage_unit load_damage_unit( JsonObject &curr )
     return damage_unit( dt, amount, arpen, armor_mul, damage_mul );
 }
 
-damage_instance load_damage_instance( JsonObject &jo )
+damage_instance load_damage_instance( const JsonObject &jo )
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
@@ -315,7 +327,7 @@ damage_instance load_damage_instance( JsonArray &jarr )
     return di;
 }
 
-std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
+std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
 {
     std::array<float, NUM_DT> ret;
     float init_val = jo.get_float( "all", 0.0f );
@@ -337,7 +349,7 @@ std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
     return ret;
 }
 
-resistances load_resistances_instance( JsonObject &jo )
+resistances load_resistances_instance( const JsonObject &jo )
 {
     resistances ret;
     ret.resist_vals = load_damage_array( jo );

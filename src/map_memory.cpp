@@ -13,12 +13,12 @@ void map_memory::memorize_tile( int limit, const tripoint &pos, const std::strin
     tile_cache.insert( limit, pos, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
-long map_memory::get_symbol( const tripoint &pos ) const
+int map_memory::get_symbol( const tripoint &pos ) const
 {
     return symbol_cache.get( pos, 0 );
 }
 
-void map_memory::memorize_symbol( int limit, const tripoint &pos, const long symbol )
+void map_memory::memorize_symbol( int limit, const tripoint &pos, const int symbol )
 {
     symbol_cache.insert( limit, pos, symbol );
 }

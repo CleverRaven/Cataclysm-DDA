@@ -1,10 +1,16 @@
 #include "behavior.h"
 
+#include <assert.h>
 #include <list>
+#include <set>
+#include <unordered_map>
+#include <utility>
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
 #include "generic_factory.h"
+#include "debug.h"
+#include "json.h"
 
 using namespace behavior;
 
@@ -75,7 +81,7 @@ namespace
 {
 generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
-}
+} // namespace
 
 template<>
 const node_t &string_id<node_t>::obj() const
@@ -83,7 +89,7 @@ const node_t &string_id<node_t>::obj() const
     return behavior_factory.obj( *this );
 }
 
-void behavior::load_behavior( JsonObject &jo, const std::string &src )
+void behavior::load_behavior( const JsonObject &jo, const std::string &src )
 {
     behavior_factory.load( jo, src );
 }
@@ -93,7 +99,7 @@ node_t::node_t()
     predicate = &oracle_t::return_running;
 }
 
-void node_t::load( JsonObject &jo, const std::string & )
+void node_t::load( const JsonObject &jo, const std::string & )
 {
     // We don't initialize the node unless it has no children (opportunistic optimization).
     // Instead we initialize a parallel struct that holds the labels until finalization.

@@ -3,17 +3,18 @@
     "type": "palette",
     "id": "subway",
     "terrain": {
-      " ": [ "t_dirt", "t_dirt", "t_grass" ],
-      "|": "t_wall",
+      ".": [ "t_dirt", "t_dirt", "t_grass" ],
+      "|": "t_brick_wall",
       "-": "t_wall_glass",
       ";": "t_door_glass_c",
-      ".": "t_floor",
       "S": "t_sidewalk",
       "*": "t_shrub",
       ">": "t_stairs_down",
-      "<": "t_stairs_up"
+      "<": "t_stairs_up",
+      "4": "t_gutter_downspout"
     },
-    "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" }
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" },
+    "signs": { "M": { "signage": "Subway Map: <city> stop" } }
   },
   {
     "type": "palette",
@@ -42,8 +43,21 @@
       "h": "t_railroad_track_h_on_tie",
       "v": "t_railroad_track_v_on_tie",
       "d": "t_railroad_track_d_on_tie",
-      "S": "t_buffer_stop"
+      "S": "t_buffer_stop",
+      "I": "t_brick_wall",
+      "+": "t_door_metal_c",
+      "~": "t_laminated_glass",
+      "z": "t_fence_metal",
+      "Z": "t_gate_metal_c",
+      "A": "t_atm",
+      "T": "t_ticket_vendor",
+      "s": "t_ticket_machine"
     },
-    "furniture": { "&": "f_trashcan", "b": "f_bench" }
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "Q": "f_desk", "c": "f_chair", "N": "f_rack" },
+    "signs": { "M": { "signage": "Subway Map: <city> stop" } },
+    "items": {
+      "N": { "item": "tools_construction", "chance": 90, "repeat": 3 },
+      "Q": { "item": "office_paper", "chance": 90, "repeat": 5 }
+    }
   }
 ]

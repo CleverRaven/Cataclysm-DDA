@@ -5,8 +5,8 @@
     "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 3 days, but the actual time taken is probabilistic.",
-    "max_duration": 43200,
-    "int_dur_factor": 14400,
+    "max_duration": "3 d",
+    "int_dur_factor": "1 h",
     "max_intensity": 3,
     "rating": "good"
   },
@@ -17,10 +17,10 @@
     "desc": [ "Your wounds are bandaged." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 75,
+    "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 4,
-    "max_duration": 1200,
+    "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 50 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 16 ] }
   },
@@ -31,10 +31,10 @@
     "desc": [ "Your wounds are disinfected." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 75,
+    "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 4,
-    "max_duration": 1200,
+    "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 50 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 16 ] }
   }

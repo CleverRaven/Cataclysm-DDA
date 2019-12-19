@@ -1,0 +1,59 @@
+[
+  {
+    "type": "palette",
+    "id": "electro_palette",
+    "terrain": {
+      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 1 ] ],
+      ",": "t_floor",
+      "_": "t_thconc_floor",
+      "^": "t_carpet_yellow",
+      "C": "t_carpet_yellow",
+      "!": "t_pavement",
+      "+": "t_door_c",
+      "-": "t_brick_wall",
+      "=": "t_door_metal_c",
+      "D": "t_door_locked_interior",
+      "G": "t_door_glass_c",
+      "W": "t_wall_glass",
+      "w": "t_window",
+      "s": "t_sidewalk",
+      "x": "t_console_broken",
+      "f": "t_chainfence_v",
+      "g": "t_chaingate_c",
+      "<": "t_stairs_up",
+      "|": "t_ladder_up",
+      "O": "t_thconc_floor",
+      "(": "t_pavement"
+    },
+    "furniture": {
+      "n": "f_displaycase",
+      "1": "f_rack",
+      "2": "f_rack",
+      "3": "f_rack",
+      "4": "f_rack",
+      "m": "f_rack",
+      "C": "f_counter",
+      "t": "f_counter",
+      "d": "f_desk",
+      "S": "f_sink",
+      "f": "f_filing_cabinet",
+      "c": "f_chair",
+      "o": "f_crate_c",
+      "O": "f_crate_c",
+      "(": "f_dumpster"
+    },
+    "toilets": { "T": {  } },
+    "items": {
+      "1": { "item": "elecsto_books", "chance": 10 },
+      "2": { "item": "elecsto_homapl", "chance": 50 },
+      "3": { "item": "elecsto_lights", "chance": 20 },
+      "4": { "item": "elecsto_diy", "chance": 35 },
+      "C": { "item": "elecsto_displ", "chance": 20 },
+      "n": { "item": "elecsto_persele", "chance": 50 },
+      "o": { "item": "supplies_electronics", "chance": 50, "repeat": [ 2, 5 ] },
+      "O": { "item": "supplies_electronics", "chance": 50, "repeat": [ 3, 5 ] },
+      "d": { "item": "office_mess", "chance": 20, "repeat": [ 1, 2 ] },
+      "f": { "item": "file_room", "chance": 50, "repeat": [ 1, 5 ] }
+    }
+  }
+]

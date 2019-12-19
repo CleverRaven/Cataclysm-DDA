@@ -5,7 +5,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
   },
   {
     "result": "9mmP",
@@ -13,7 +13,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 4 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
   },
   {
     "result": "9mmP2",
@@ -21,7 +21,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 5 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
   },
   {
     "result": "9mmfmj",
@@ -29,6 +29,6 @@
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
   }
 ]

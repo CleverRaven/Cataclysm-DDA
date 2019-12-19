@@ -2,7 +2,6 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include <cstdint>
 #include <array>
 #include <functional>
 #include <random>
@@ -11,6 +10,8 @@
 #include <type_traits>
 
 #include "optional.h"
+
+class time_duration;
 
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
@@ -22,9 +23,10 @@ using cata_default_random_engine = std::minstd_rand0;
 cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
-int rng( int val1, int val2 );
-double rng_float( double val1, double val2 );
+int rng( int lo, int hi );
+double rng_float( double lo, double hi );
 bool one_in( int chance );
+bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );
 int dice( int number, int sides );
 
@@ -78,8 +80,9 @@ inline V random_entry( const C &container, D default_value )
  * This function handles empty containers without requiring an instance of the
  * contained type when container is empty.
  */
-template<typename C, typename V = const typename C::value_type>
-inline cata::optional<std::reference_wrapper<V>> random_entry_opt( const C &container )
+template<typename C>
+inline auto random_entry_opt( C &container ) ->
+cata::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
         return cata::nullopt;

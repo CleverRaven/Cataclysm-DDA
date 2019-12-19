@@ -20,9 +20,20 @@
       ":": "t_window_bars",
       "c": "t_woodchips",
       "W": "t_water_pump",
-      "T": "t_floor"
+      "T": "t_floor",
+      "7": [ "t_region_tree", "t_region_shrub" ],
+      "f": "t_dirt"
     },
-    "furniture": { "b": "f_boulder_small", "s": "f_sign", "B": "f_bench", "=": "f_bench", "w": "f_woodstove" },
+    "furniture": {
+      "b": "f_boulder_small",
+      "s": "f_sign",
+      "B": "f_bench",
+      "=": "f_bench",
+      "w": "f_woodstove",
+      ",": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      ";": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ],
+      ".": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ]
+    },
     "toilets": { "T": {  } }
   },
   {
@@ -54,8 +65,8 @@
         ";;;..              ;;;;;",
         ";;;;.              ;;;;;",
         ";;;;;              ;;;;;",
-        ";;;;;tttt      tttt;;;;;",
-        ";;;;;b..b  ss  b..b;;;;;"
+        ";77;;tttt      tttt;;;;;",
+        "7777;b..b  ss  b..b;;;;;"
       ],
       "palettes": [ "trailhead" ],
       "place_vehicles": [
@@ -91,11 +102,11 @@
         ";;;...             ...;;",
         ";;...              |-|;;",
         ";;...  .     .   . +T|;;",
-        ";;;.. .            |-|;;",
-        ";;;;.   .      . . +T|;;",
+        ";;;.. .            |-|;7",
+        ";;;;.   .      . . +T|;7",
         ";;;;;             ;|-|;;",
-        ";;;;;====      sss;;;;;;",
-        ";;;;;;;;;      ;;;;;;;;;"
+        ";;;;;====      sss;;;;;7",
+        ";;;;77;77      ;;;;;;;7;"
       ],
       "palettes": [ "trailhead" ],
       "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "campground_vehicles", "x": 17, "y": 9 } ],
@@ -136,7 +147,7 @@
         ";;;;.   .      . . ;;;;;",
         ";;;;;              ;;;;;",
         ";;;;;tttt      tttt;;;;;",
-        ";;;;;b..b s  s b..b;;;;;"
+        ";;7;;b..b s  s b..b;;7;;"
       ],
       "palettes": [ "trailhead" ],
       "place_vehicles": [
@@ -175,8 +186,8 @@
         ";;;c|B###+    ..;;;;;;;b",
         ";;;c|BB#w|s   ..;;;;;;;;",
         ";;;c|--:-|     ;;;;;;;;;",
-        ";;;ccccccc     ;;;;;;b;;",
-        ";;;b;b;b;      ;;b;;;;;;"
+        ";7;ccccccc     ;;;;;;b;;",
+        ";;;b;b;b;      ;;b;;;;7;"
       ],
       "palettes": [ "trailhead" ],
       "place_items": [ { "item": "camping", "x": [ 5, 5 ], "y": [ 18, 20 ], "chance": 70 } ],

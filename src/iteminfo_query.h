@@ -51,6 +51,7 @@ enum class iteminfo_parts : size_t {
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
     AMMO_FX_INDENDIARY,
 
@@ -64,6 +65,7 @@ enum class iteminfo_parts : size_t {
     AMMO_REMAINING,
     AMMO_UPSCOST,
 
+    GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
     GUN_AIMING_STATS,
     GUN_DAMAGE,

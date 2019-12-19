@@ -80,17 +80,17 @@
     "responses": [
       {
         "text": "Thanks!  What was it you were saying before?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
+        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_buy_item": "survivormap" } ],
         "topic": "TALK_NONE"
       },
       {
         "text": "Thanks!  <done_conversation_section>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
+        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_buy_item": "survivormap" } ],
         "topic": "TALK_FRIEND"
       },
       {
         "text": "Thanks!  <end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
+        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_buy_item": "survivormap" } ],
         "topic": "TALK_DONE"
       }
     ]

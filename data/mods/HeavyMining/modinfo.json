@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Heavy miners",
+    "name": "Roadheader and other mining vehicles",
+    "authors": [ "Ckpyt" ],
+    "maintainers": [ "Ckpyt in the forest" ],
+    "description": "Adds a few mining vehicles, requires Vehicle Additions Pack.",
+    "category": "vehicles",
+    "dependencies": [ "dda", "blazemod" ]
+  }
+]

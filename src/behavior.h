@@ -6,8 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "json.h"
 #include "string_id.h"
+
+class JsonObject;
 
 namespace behavior
 {
@@ -66,7 +67,7 @@ class node_t
         void add_child( const node_t *new_child );
 
         // Loading interface.
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         string_id<node_t> id;
         bool was_loaded = false;
@@ -79,7 +80,7 @@ class node_t
 };
 
 // Deserialization support.
-void load_behavior( JsonObject &jo, const std::string &src );
+void load_behavior( const JsonObject &jo, const std::string &src );
 
 void reset();
 
@@ -87,6 +88,6 @@ void finalize();
 
 void check_consistency();
 
-}
+} // namespace behavior
 
 #endif

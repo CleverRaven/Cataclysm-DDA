@@ -34,7 +34,7 @@
         "....2|......||,,,,,,,F,,"
       ],
       "palettes": [ "factory" ],
-      "monster": { "t": { "monster": "mon_turret" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } }
+      "monster": { "t": { "monster": "mon_turret_rifle" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } }
     }
   }
 ]

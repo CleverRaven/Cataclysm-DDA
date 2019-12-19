@@ -1,0 +1,300 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_indoor_plant",
+    "name": "indoor plant",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 2,
+    "description": "A variety of plant, used for decoration.",
+    "required_str": 5,
+    "max_volume": 40,
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "withered" },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
+        { "group": "flower_pots" }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 18,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "withered", "prob": 50 },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
+        { "group": "flower_pots_broken" }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_indoor_plant_y",
+    "name": "yellow indoor plant",
+    "description": "A variety of plant for decoration.  It's yellow.",
+    "symbol": "^",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": 5,
+    "max_volume": 40,
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "withered" },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
+        { "group": "flower_pots" }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 18,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "withered", "prob": 50 },
+        { "item": "wrapper", "prob": 5 },
+        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "bag_plastic", "prob": 5 },
+        { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
+        { "group": "flower_pots_broken" }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plant_harvest",
+    "name": "harvestable plant",
+    "description": "This plant is ready for harvest.  Examine it more closely to identify how to harvest the plant appropriately.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_null", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plant_mature",
+    "name": "mature plant",
+    "description": "This plant has matured.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plant_seed",
+    "name": "seed",
+    "description": "A humble planted seed.  Actions are the seed of fate deeds grow into destiny.",
+    "symbol": "^",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plant_seedling",
+    "name": "seedling",
+    "description": "This plant is just getting started.",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter",
+    "name": "planter",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": 10,
+    "looks_like": "t_dirtmound",
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_planter_seed" },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_harvest",
+    "name": "planter with harvestable plant",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
+    "symbol": "#",
+    "color": "light_green",
+    "looks_like": "f_plant_harvest",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_planter", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_mature",
+    "name": "planter with mature plant",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_plant_mature",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_seed",
+    "name": "planter with seed",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seed",
+    "symbol": "^",
+    "color": "brown",
+    "looks_like": "f_plant_seed",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_seedling",
+    "name": "planter with seedling",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.  This one contains a planted seedling",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "f_plant_seedling",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
+  }
+]

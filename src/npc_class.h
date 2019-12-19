@@ -8,7 +8,7 @@
 #include <string>
 
 #include "string_id.h"
-#include "int_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -23,7 +23,7 @@ namespace trait_group
 
 using Trait_group_tag = string_id<Trait_group>;
 
-}
+} // namespace trait_group
 
 // TODO: Move to better suited file (rng.h/.cpp?)
 class distribution
@@ -51,8 +51,8 @@ class distribution
 class npc_class
 {
     private:
-        std::string name;
-        std::string job_description;
+        translation name;
+        translation job_description;
 
         bool common = true;
 
@@ -77,11 +77,13 @@ class npc_class
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
+        // the int is what level the spell starts at
+        std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
         npc_class();
 
-        const std::string &get_name() const;
-        const std::string &get_job_description() const;
+        std::string get_name() const;
+        std::string get_job_description() const;
 
         int roll_strength() const;
         int roll_dexterity() const;
@@ -92,13 +94,13 @@ class npc_class
 
         const Group_tag &get_shopkeeper_items() const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         static const npc_class_id &from_legacy_int( int i );
 
         static const npc_class_id &random_common();
 
-        static void load_npc_class( JsonObject &jo, const std::string &src );
+        static void load_npc_class( const JsonObject &jo, const std::string &src );
 
         static const std::vector<npc_class> &get_all();
 

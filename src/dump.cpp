@@ -8,14 +8,12 @@
 #include <set>
 #include <utility>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
 #include "loading_ui.h"
 #include "npc.h"
-#include "player.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "veh_type.h"
@@ -29,8 +27,9 @@
 #include "translations.h"
 #include "units.h"
 #include "material.h"
-#include "string_id.h"
 #include "output.h"
+#include "flat_set.h"
+#include "item.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -142,10 +141,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.get_comestible()->get_calories() ) );
+            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal ) );
             r.push_back( to_string( obj.get_comestible()->quench ) );
             r.push_back( to_string( obj.get_comestible()->healthy ) );
-            auto vits = g->u.vitamins_from( obj );
+            auto vits = obj.get_comestible()->default_nutrition.vitamins;
             for( const auto &v : vitamin::all() ) {
                 r.push_back( to_string( vits[ v.first ] ) );
             }
@@ -185,9 +184,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            const std::set<ammotype> atypes = obj.ammo_types();
-            r.push_back( !atypes.empty() ? enumerate_as_string( atypes.begin(),
-            atypes.end(), []( const ammotype & at ) {
+            r.push_back( !obj.ammo_types().empty() ? enumerate_as_string( obj.ammo_types().begin(),
+            obj.ammo_types().end(), []( const ammotype & at ) {
                 return at.str();
             }, enumeration_conjunction::none ) : "" );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
@@ -339,6 +337,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         case dump_mode::TSV:
             rows.insert( rows.begin(), header );
             for( const auto &r : rows ) {
+                // NOLINTNEXTLINE(cata-text-style): using tab to align the output
                 std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
                 std::cout << r.back() << "\n";
             }

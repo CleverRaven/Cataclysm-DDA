@@ -18,7 +18,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -33,8 +32,9 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
-const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_bounced( "bounced" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
@@ -83,9 +83,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
     // We can only embed in monsters
-    bool embed = mon != nullptr && !mon->is_dead_state();
+    bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
-    embed = embed && effects.count( "NO_EMBED" ) == 0;
+    bool embed = mon_there && effects.count( "NO_EMBED" ) == 0 && effects.count( "TANGLE" ) == 0;
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
@@ -108,6 +108,14 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
     } else {
         bool do_drop = true;
+        // monsters that are able to be tied up will store the item another way
+        // see monexamine.cpp tie_or_untie()
+        // if they arent friendly they will try and break out of the net/bolas/lassoo
+        // players and NPCs just get the downed effect, and item is dropped.
+        // TODO: storing the item on player until they recover from downed
+        if( effects.count( "TANGLE" ) && mon_there ) {
+            do_drop = false;
+        }
         if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.process( nullptr, attack.end_point, true );
@@ -125,7 +133,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr );
+                tr.trigger( pt, nullptr, &dropped_item );
             }
         }
     }
@@ -190,7 +198,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
     };
 
-    if( source == target_arg ) { // No suicidal shots
+    // No suicidal shots
+    if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
         return attack;
     }
@@ -268,9 +277,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
-    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
+    // Add the first point to the trajectory
+    trajectory.insert( trajectory.begin(), source );
 
-    static emit_id muzzle_smoke( "emit_smoke_plume" );
+    static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
         g->m.emit_field( trajectory.front(), muzzle_smoke );
     }
@@ -325,7 +335,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( in_veh != nullptr ) {
             const optional_vpart_position other = g->m.veh_at( tp );
             if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
-                continue; // Turret is on the roof and can't hit anything inside
+                // Turret is on the roof and can't hit anything inside
+                continue;
             }
         }
 
@@ -396,8 +407,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             traj_len = i;
             break;
         }
-    } // Done with the trajectory!
-
+    }
+    // Done with the trajectory!
     if( do_animation && do_draw_line && traj_len > 2 ) {
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );

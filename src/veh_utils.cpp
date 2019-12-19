@@ -11,7 +11,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -24,6 +23,8 @@
 #include "item.h"
 #include "requirements.h"
 #include "translations.h"
+#include "color.h"
+#include "point.h"
 
 namespace veh_utils
 {
@@ -121,9 +122,13 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage_level( 4 );
 
+    const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
+    // allow NPCs to use welding rigs they cant see ( on the other side of a vehicle )
+    // as they have the handicap of not being able to use the veh interaction menu
+    // or able to drag a welding cart etc.
+    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
         return false;
@@ -152,8 +157,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     // If part is broken, it will be destroyed and references invalidated
     std::string partname = pt.name( false );
-    const std::string startdurability = "<color_" + string_from_color( pt.get_base().damage_color() ) +
-                                        ">" + pt.get_base(). damage_symbol() + " </color>";
+    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
+                                        pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const int dir = pt.direction;
@@ -176,4 +181,4 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     return true;
 }
 
-}
+} // namespace veh_utils

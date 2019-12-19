@@ -36,7 +36,7 @@
         ".": "t_grass",
         ",": "t_dirt",
         " ": "t_floor",
-        "'": "t_concrete",
+        "'": "t_thconc_floor",
         "=": "t_sidewalk",
         "b": "t_shrub",
         "o": "t_wall_p",

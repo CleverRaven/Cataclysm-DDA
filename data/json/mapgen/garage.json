@@ -5,7 +5,7 @@
     "om_terrain": [ "s_garage" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
@@ -39,7 +39,7 @@
         "$": "t_door_glass_c",
         "+": "t_door_c",
         "-": "t_brick_wall",
-        ".": "t_concrete",
+        ".": "t_thconc_floor",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
@@ -69,10 +69,10 @@
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
       "items": {
-        "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 30 },
-        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
-        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
+        "L": { "item": "clothing_work_set", "chance": 55 },
+        "c": { "item": "mechanics", "chance": 60 },
+        "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+        "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 3 ] }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -188,10 +188,10 @@
         "z": [ "f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
       },
       "items": {
-        "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 45 },
-        "S": { "item": "mechanics", "chance": 25, "repeat": 4 },
-        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
+        "L": { "item": "clothing_work_set", "chance": 55 },
+        "c": { "item": "mechanics", "chance": 60 },
+        "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+        "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 3 ] }
       },
       "place_vehicles": [
         { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
@@ -241,7 +241,7 @@
     "om_terrain": [ "s_garage_2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "    EEEEEE      XXX     ",
         "    EEEEEE      XXX     ",
@@ -277,7 +277,7 @@
         "+": "t_door_c",
         "O": "t_door_locked",
         "-": "t_wall_b",
-        ".": "t_concrete",
+        ".": "t_thconc_floor",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
@@ -312,13 +312,13 @@
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "items": {
-        "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 30 },
-        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
-        "x": { "item": "mechanics", "chance": 50, "repeat": 4 },
-        "f": { "item": "office", "chance": 50, "repeat": 2 },
-        "d": { "item": "office", "chance": 70, "repeat": 2 },
-        "T": { "item": "cleaning", "chance": 70, "repeat": 4 }
+        "L": { "item": "clothing_work_set", "chance": 55 },
+        "c": { "item": "mechanics", "chance": 60 },
+        "S": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+        "x": { "item": "mechanics", "chance": 80, "repeat": [ 1, 6 ] },
+        "f": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
+        "d": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
+        "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }
       },
       "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
     }
@@ -328,7 +328,7 @@
     "method": "json",
     "om_terrain": "s_garage_roof_2",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "                        ",
@@ -360,7 +360,7 @@
         "%": "t_wall_b",
         "+": "t_door_locked",
         ">": "t_stairs_down",
-        "'": "t_concrete",
+        "'": "t_thconc_floor",
         "W": "t_window_domestic",
         "*": "t_chainfence",
         "8": "t_chaingate_c",

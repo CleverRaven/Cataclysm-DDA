@@ -1,0 +1,33 @@
+[
+  {
+    "id": "barb_launcher",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": "barb launching organ",
+    "description": "A mutated organ capable of launching bony barbs at great speed.",
+    "material": [ "hflesh" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "RELOAD_AND_SHOOT"
+    ],
+    "skill": "pistol",
+    "ammo": "barb",
+    "clip_size": 1,
+    "weight": "540 g",
+    "volume": "750ml",
+    "bashing": 2,
+    "to_hit": 1,
+    "reload_noise_volume": 2,
+    "loudness": 2,
+    "range": 12,
+    "dispersion": 100,
+    "durability": 8
+  }
+]

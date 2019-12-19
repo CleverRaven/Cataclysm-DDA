@@ -24,7 +24,7 @@
  * DebugLog always returns a stream that starts on a new line. Don't add a
  * newline at the end of your debug message.
  * If the specific debug level or class have been disabled, the message is
- * actually discarded, otherwise it is written to a log file (FILENAMES["debug"]).
+ * actually discarded, otherwise it is written to a log file.
  * If a single source file contains mostly messages for the same debug class
  * (e.g. mapgen.cpp), create and use the macro dbg.
  *
@@ -50,6 +50,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <type_traits>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -105,7 +106,7 @@ std::string mods_loaded();
 /** Generate a game report, including the information returned by all of the other functions.
  */
 std::string game_report();
-}
+} // namespace game_info
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

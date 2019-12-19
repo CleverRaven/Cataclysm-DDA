@@ -1,349 +1,170 @@
 #include "event.h"
 
-#include <array>
-#include <memory>
-
-#include "avatar.h"
-#include "avatar_action.h"
-#include "debug.h"
-#include "game.h"
-#include "line.h"
-#include "map.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "morale_types.h"
-#include "options.h"
-#include "rng.h"
-#include "sounds.h"
-#include "translations.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "player.h"
-#include "type_id.h"
-
-const mtype_id mon_amigara_horror( "mon_amigara_horror" );
-const mtype_id mon_copbot( "mon_copbot" );
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_dermatik( "mon_dermatik" );
-const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_riotbot( "mon_riotbot" );
-const mtype_id mon_sewer_snake( "mon_sewer_snake" );
-const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-
-event::event( event_type e_t, const time_point &w, int f_id, tripoint p )
-    : type( e_t )
-    , when( w )
-    , faction_id( f_id )
-    , map_point( p )
+namespace io
 {
+
+template<>
+std::string enum_to_string<event_type>( event_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case event_type::activates_artifact: return "activates_artifact";
+        case event_type::activates_mininuke: return "activates_mininuke";
+        case event_type::administers_mutagen: return "administers_mutagen";
+        case event_type::angers_amigara_horrors: return "angers_amigara_horrors";
+        case event_type::avatar_moves: return "avatar_moves";
+        case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
+        case event_type::becomes_wanted: return "becomes_wanted";
+        case event_type::broken_bone_mends: return "broken_bone_mends";
+        case event_type::buries_corpse: return "buries_corpse";
+        case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
+        case event_type::character_gains_effect: return "character_gains_effect";
+        case event_type::character_gets_headshot: return "character_gets_headshot";
+        case event_type::character_heals_damage: return "character_heals_damage";
+        case event_type::character_kills_character: return "character_kills_character";
+        case event_type::character_kills_monster: return "character_kills_monster";
+        case event_type::character_loses_effect: return "character_loses_effect";
+        case event_type::character_takes_damage: return "character_takes_damage";
+        case event_type::character_triggers_trap: return "character_triggers_trap";
+        case event_type::consumes_marloss_item: return "consumes_marloss_item";
+        case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
+        case event_type::crosses_mutation_threshold: return "crosses_mutation_threshold";
+        case event_type::crosses_mycus_threshold: return "crosses_mycus_threshold";
+        case event_type::dermatik_eggs_hatch: return "dermatik_eggs_hatch";
+        case event_type::dermatik_eggs_injected: return "dermatik_eggs_injected";
+        case event_type::destroys_triffid_grove: return "destroys_triffid_grove";
+        case event_type::dies_from_asthma_attack: return "dies_from_asthma_attack";
+        case event_type::dies_from_drug_overdose: return "dies_from_drug_overdose";
+        case event_type::dies_of_infection: return "dies_of_infection";
+        case event_type::dies_of_starvation: return "dies_of_starvation";
+        case event_type::dies_of_thirst: return "dies_of_thirst";
+        case event_type::digs_into_lava: return "digs_into_lava";
+        case event_type::disarms_nuke: return "disarms_nuke";
+        case event_type::eats_sewage: return "eats_sewage";
+        case event_type::evolves_mutation: return "evolves_mutation";
+        case event_type::exhumes_grave: return "exhumes_grave";
+        case event_type::fails_to_install_cbm: return "fails_to_install_cbm";
+        case event_type::fails_to_remove_cbm: return "fails_to_remove_cbm";
+        case event_type::falls_asleep_from_exhaustion: return "falls_asleep_from_exhaustion";
+        case event_type::fuel_tank_explodes: return "fuel_tank_explodes";
+        case event_type::gains_addiction: return "gains_addiction";
+        case event_type::gains_mutation: return "gains_mutation";
+        case event_type::gains_skill_level: return "gains_skill_level";
+        case event_type::game_over: return "game_over";
+        case event_type::game_start: return "game_start";
+        case event_type::installs_cbm: return "installs_cbm";
+        case event_type::installs_faulty_cbm: return "installs_faulty_cbm";
+        case event_type::launches_nuke: return "launches_nuke";
+        case event_type::learns_martial_art: return "learns_martial_art";
+        case event_type::loses_addiction: return "loses_addiction";
+        case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
+        case event_type::opens_portal: return "opens_portal";
+        case event_type::opens_temple: return "opens_temple";
+        case event_type::player_levels_spell: return "player_levels_spell";
+        case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
+        case event_type::removes_cbm: return "removes_cbm";
+        case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
+        case event_type::telefrags_creature: return "telefrags_creature";
+        case event_type::teleglow_teleports: return "teleglow_teleports";
+        case event_type::teleports_into_wall: return "teleports_into_wall";
+        case event_type::terminates_subspace_specimens: return "terminates_subspace_specimens";
+        case event_type::throws_up: return "throws_up";
+        case event_type::triggers_alarm: return "triggers_alarm";
+        // *INDENT-ON*
+        case event_type::num_event_types:
+            break;
+    }
+    debugmsg( "Invalid event_type" );
+    abort();
 }
 
-void event::actualize()
+} // namespace io
+
+namespace cata
 {
-    switch( type ) {
-        case EVENT_HELP:
-            debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
-            break;
 
-        case EVENT_ROBOT_ATTACK: {
-            const auto u_pos = g->u.global_sm_location();
-            if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
+namespace event_detail
+{
 
-                g->u.add_memorial_log( pgettext( "memorial_male", "Became wanted by the police!" ),
-                                       pgettext( "memorial_female", "Became wanted by the police!" ) );
-                int robx = ( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4 );
-                int roby = ( u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
-                g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
-            }
-        }
-        break;
+constexpr std::array<std::pair<const char *, cata_variant_type>,
+          event_spec_empty::fields.size()> event_spec_empty::fields;
 
-        case EVENT_SPAWN_WYRMS: {
-            if( g->get_levz() >= 0 ) {
-                return;
-            }
-            g->u.add_memorial_log( pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
-                                   pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
-            int num_wyrms = rng( 1, 4 );
-            for( int i = 0; i < num_wyrms; i++ ) {
-                int tries = 0;
-                tripoint monp = g->u.pos();
-                do {
-                    monp.x = rng( 0, MAPSIZE_X );
-                    monp.y = rng( 0, MAPSIZE_Y );
-                    tries++;
-                } while( tries < 10 && !g->is_empty( monp ) &&
-                         rl_dist( g->u.pos(), monp ) <= 2 );
-                if( tries < 10 ) {
-                    g->m.ter_set( monp, t_rock_floor );
-                    g->summon_mon( mon_dark_wyrm, monp );
-                }
-            }
-            // You could drop the flag, you know.
-            if( g->u.has_amount( "petrified_eye", 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
-                               "scream_tortured" );
-                if( !g->u.is_deaf() ) {
-                    add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
-                }
-            }
-            if( !one_in( 25 ) ) { // They just keep coming!
-                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 1_minutes, 3_minutes ) );
-            }
-        }
-        break;
+constexpr std::array<std::pair<const char *, cata_variant_type>,
+          event_spec_character::fields.size()> event_spec_character::fields;
 
-        case EVENT_AMIGARA: {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
-                                   pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
-            int num_horrors = rng( 3, 5 );
-            int faultx = -1;
-            int faulty = -1;
-            bool horizontal = false;
-            for( int x = 0; x < MAPSIZE_X && faultx == -1; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y && faulty == -1; y++ ) {
-                    if( g->m.ter( x, y ) == t_fault ) {
-                        faultx = x;
-                        faulty = y;
-                        horizontal = ( g->m.ter( x - 1, y ) == t_fault || g->m.ter( x + 1, y ) == t_fault );
-                    }
-                }
-            }
-            for( int i = 0; i < num_horrors; i++ ) {
-                int tries = 0;
-                int monx = -1;
-                int mony = -1;
-                do {
-                    if( horizontal ) {
-                        monx = rng( faultx, faultx + 2 * SEEX - 8 );
-                        for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( monx, faulty + n ) == t_rock_floor ) {
-                                mony = faulty + n;
-                            }
-                        }
-                    } else { // Vertical fault
-                        mony = rng( faulty, faulty + 2 * SEEY - 8 );
-                        for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( faultx + n, mony ) == t_rock_floor ) {
-                                monx = faultx + n;
-                            }
-                        }
-                    }
-                    tries++;
-                } while( ( monx == -1 || mony == -1 || !g->is_empty( {monx, mony, g->u.posz()} ) ) &&
-                         tries < 10 );
-                if( tries < 10 ) {
-                    g->summon_mon( mon_amigara_horror, tripoint( monx, mony, g->u.posz() ) );
-                }
-            }
-        }
-        break;
+static_assert( static_cast<int>( event_type::num_event_types ) == 62,
+               "This static_assert is a reminder to add a definition below when you add a new "
+               "event_type.  If your event_spec specialization inherits from another struct for "
+               "its fields definition then you probably don't need a definition here." );
 
-        case EVENT_ROOTS_DIE:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Destroyed a triffid grove." ),
-                                   pgettext( "memorial_female", "Destroyed a triffid grove." ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_root_wall && one_in( 3 ) ) {
-                        g->m.ter_set( x, y, t_underbrush );
-                    }
-                }
-            }
-            break;
+#define DEFINE_EVENT_FIELDS(type) \
+    constexpr std::array<std::pair<const char *, cata_variant_type>, \
+    event_spec<event_type::type>::fields.size()> \
+    event_spec<event_type::type>::fields;
 
-        case EVENT_TEMPLE_OPEN: {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Opened a strange temple." ),
-                                   pgettext( "memorial_female", "Opened a strange temple." ) );
-            bool saw_grate = false;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_grate ) {
-                        g->m.ter_set( x, y, t_stairs_down );
-                        if( !saw_grate && g->u.sees( tripoint( x, y, g->get_levz() ) ) ) {
-                            saw_grate = true;
-                        }
-                    }
-                }
-            }
-            if( saw_grate ) {
-                add_msg( _( "The nearby grates open to reveal a staircase!" ) );
-            }
-        }
-        break;
+DEFINE_EVENT_FIELDS( player_levels_spell )
+DEFINE_EVENT_FIELDS( activates_artifact )
+DEFINE_EVENT_FIELDS( administers_mutagen )
+DEFINE_EVENT_FIELDS( avatar_moves )
+DEFINE_EVENT_FIELDS( broken_bone_mends )
+DEFINE_EVENT_FIELDS( buries_corpse )
+DEFINE_EVENT_FIELDS( character_gains_effect )
+DEFINE_EVENT_FIELDS( character_heals_damage )
+DEFINE_EVENT_FIELDS( character_kills_character )
+DEFINE_EVENT_FIELDS( character_kills_monster )
+DEFINE_EVENT_FIELDS( character_loses_effect )
+DEFINE_EVENT_FIELDS( character_takes_damage )
+DEFINE_EVENT_FIELDS( character_triggers_trap )
+DEFINE_EVENT_FIELDS( consumes_marloss_item )
+DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
+DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
+DEFINE_EVENT_FIELDS( evolves_mutation )
+DEFINE_EVENT_FIELDS( fails_to_install_cbm )
+DEFINE_EVENT_FIELDS( fails_to_remove_cbm )
+DEFINE_EVENT_FIELDS( fuel_tank_explodes )
+DEFINE_EVENT_FIELDS( gains_addiction )
+DEFINE_EVENT_FIELDS( gains_mutation )
+DEFINE_EVENT_FIELDS( gains_skill_level )
+DEFINE_EVENT_FIELDS( game_over )
+DEFINE_EVENT_FIELDS( game_start )
+DEFINE_EVENT_FIELDS( installs_cbm )
+DEFINE_EVENT_FIELDS( installs_faulty_cbm )
+DEFINE_EVENT_FIELDS( launches_nuke )
+DEFINE_EVENT_FIELDS( learns_martial_art )
+DEFINE_EVENT_FIELDS( loses_addiction )
+DEFINE_EVENT_FIELDS( npc_becomes_hostile )
+DEFINE_EVENT_FIELDS( removes_cbm )
+DEFINE_EVENT_FIELDS( telefrags_creature )
+DEFINE_EVENT_FIELDS( teleports_into_wall )
 
-        case EVENT_TEMPLE_FLOOD: {
-            bool flooded = false;
+} // namespace event_detail
 
-            ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    flood_buf[x][y] = g->m.ter( x, y );
-                }
-            }
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( x, y ) == t_water_sh ) {
-                        bool deepen = false;
-                        for( int wx = x - 1;  wx <= x + 1 && !deepen; wx++ ) {
-                            for( int wy = y - 1;  wy <= y + 1 && !deepen; wy++ ) {
-                                if( g->m.ter( wx, wy ) == t_water_dp ) {
-                                    deepen = true;
-                                }
-                            }
-                        }
-                        if( deepen ) {
-                            flood_buf[x][y] = t_water_dp;
-                            flooded = true;
-                        }
-                    } else if( g->m.ter( x, y ) == t_rock_floor ) {
-                        bool flood = false;
-                        for( int wx = x - 1;  wx <= x + 1 && !flood; wx++ ) {
-                            for( int wy = y - 1;  wy <= y + 1 && !flood; wy++ ) {
-                                if( g->m.ter( wx, wy ) == t_water_dp || g->m.ter( wx, wy ) == t_water_sh ) {
-                                    flood = true;
-                                }
-                            }
-                        }
-                        if( flood ) {
-                            flood_buf[x][y] = t_water_sh;
-                            flooded = true;
-                        }
-                    }
-                }
-            }
-            if( !flooded ) {
-                return;    // We finished flooding the entire chamber!
-            }
-            // Check if we should print a message
-            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.posx(), g->u.posy() ) ) {
-                if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
-                    add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached knees." ),
-                                           pgettext( "memorial_female", "Water level reached knees." ) );
-                } else { // Must be deep water!
-                    add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached the ceiling." ),
-                                           pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( g->m, g->u, g->u.pos() );
-                }
-            }
-            // flood_buf is filled with correct tiles; now copy them back to g->m
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    g->m.ter_set( x, y, flood_buf[x][y] );
-                }
-            }
-            g->events.add( EVENT_TEMPLE_FLOOD, calendar::turn + rng( 2_turns, 3_turns ) );
-        }
-        break;
-
-        case EVENT_TEMPLE_SPAWN: {
-            static const std::array<mtype_id, 4> temple_monsters = { {
-                    mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
-                }
-            };
-            const mtype_id &montype = random_entry( temple_monsters );
-            int tries = 0;
-            int x = 0;
-            int y = 0;
-            do {
-                x = rng( g->u.posx() - 5, g->u.posx() + 5 );
-                y = rng( g->u.posy() - 5, g->u.posy() + 5 );
-                tries++;
-            } while( tries < 20 && !g->is_empty( {x, y, g->u.posz()} ) &&
-                     rl_dist( x, y, g->u.posx(), g->u.posy() ) <= 2 );
-            if( tries < 20 ) {
-                g->summon_mon( montype, tripoint( x, y, g->u.posz() ) );
-            }
-        }
-        break;
-
-        default:
-            break; // Nothing happens for other events
+template<event_type Type>
+static void get_fields_if_match( event_type type, std::map<std::string, cata_variant_type> &out )
+{
+    if( Type == type ) {
+        out = { event_detail::event_spec<Type>::fields.begin(),
+                event_detail::event_spec<Type>::fields.end()
+              };
     }
 }
 
-void event::per_turn()
+template<int... I>
+static std::map<std::string, cata_variant_type>
+get_fields_helper( event_type type, std::integer_sequence<int, I...> )
 {
-    switch( type ) {
-        case EVENT_WANTED: {
-            // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
-                point place = g->m.random_outdoor_tile();
-                if( place.x == -1 && place.y == -1 ) {
-                    return; // We're safely indoors!
-                }
-                g->summon_mon( mon_eyebot, tripoint( place.x, place.y, g->u.posz() ) );
-                if( g->u.sees( tripoint( place.x, place.y, g->u.posz() ) ) ) {
-                    add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
-                }
-                // One eyebot per trigger is enough, really
-                when = calendar::turn;
-            }
-        }
-        break;
-
-        case EVENT_SPAWN_WYRMS:
-            if( g->get_levz() >= 0 ) {
-                when -= 1_turns;
-                return;
-            }
-            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
-                add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
-            }
-            break;
-
-        case EVENT_AMIGARA:
-            add_msg( m_warning, _( "The entire cavern shakes!" ) );
-            break;
-
-        case EVENT_TEMPLE_OPEN:
-            add_msg( m_warning, _( "The earth rumbles." ) );
-            break;
-
-        default:
-            break; // Nothing happens for other events
-    }
+    std::map<std::string, cata_variant_type> result;
+    bool discard[] = {
+        ( get_fields_if_match<static_cast<event_type>( I )>( type, result ), true )...
+    };
+    ( void ) discard;
+    return result;
 }
 
-void event_manager::process()
+std::map<std::string, cata_variant_type> event::get_fields( event_type type )
 {
-    for( auto it = events.begin(); it != events.end(); ) {
-        it->per_turn();
-        if( it->when <= calendar::turn ) {
-            it->actualize();
-            it = events.erase( it );
-        } else {
-            it++;
-        }
-    }
+    return get_fields_helper(
+               type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );
 }
 
-void event_manager::add( const event_type type, const time_point &when, const int faction_id )
-{
-    add( type, when, faction_id, g->u.global_sm_location() );
-}
-
-void event_manager::add( const event_type type, const time_point &when, const int faction_id,
-                         const tripoint &where )
-{
-    events.emplace_back( type, when, faction_id, where );
-}
-
-bool event_manager::queued( const event_type type ) const
-{
-    return const_cast<event_manager &>( *this ).get( type ) != nullptr;
-}
-
-event *event_manager::get( const event_type type )
-{
-    for( auto &e : events ) {
-        if( e.type == type ) {
-            return &e;
-        }
-    }
-    return nullptr;
-}
+} // namespace cata

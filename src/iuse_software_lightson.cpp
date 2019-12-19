@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <sstream>
 
 #include "cursesdef.h"
 #include "input.h"
@@ -12,8 +11,8 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
+#include "point.h"
 
 void lightson_game::new_level()
 {
@@ -52,11 +51,11 @@ void lightson_game::draw_level()
 {
     for( int i = 0; i < level_size.first; i++ ) {
         for( int j = 0; j < level_size.second; j++ ) {
-            bool selected = ( position.first == i && position.second == j );
+            bool selected = position.first == i && position.second == j;
             bool on = level[i * level_size.second + j];
             const nc_color fg = on ? c_white : c_dark_gray;
             const char symbol = on ? '#' : '-';
-            mvwputch( w, i + 1, j + 1, selected ? hilite( c_white ) : fg, symbol );
+            mvwputch( w, point( j + 1, i + 1 ), selected ? hilite( c_white ) : fg, symbol );
         }
     }
     wrefresh( w );
@@ -115,10 +114,10 @@ void lightson_game::toggle_lights()
 int lightson_game::start_game()
 {
     const int w_height = 15;
-    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX );
-    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffsetY + 1, iOffsetX + 1 );
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, point( iOffsetX, iOffsetY ) );
+    w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, point( iOffsetX + 1, iOffsetY + 1 ) );
     draw_border( w_border );
 
     input_context ctxt( "LIGHTSON" );
@@ -143,16 +142,15 @@ int lightson_game::start_game()
 
     int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
-        shortcut_print( w_border, 0, iPos, c_white, c_light_green, shortcut );
+        shortcut_print( w_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
         iPos += utf8_width( shortcut ) + 1;
     }
 
-    mvwputch( w_border, 0, 2, hilite( c_white ), _( "Lights on!" ) );
-    std::ostringstream str;
-    str << _( "<color_white>Game goal:</color> Switch all the lights on." ) << '\n' <<
-        _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ) << '\n' <<
-        _( "Toggle lights switches selected light and 4 its neighbors." );
-    fold_and_print( w_border, w_height - 5, 2, FULL_SCREEN_WIDTH - 4, c_light_gray, str.str() );
+    mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );
+    fold_and_print( w_border, point( 2, w_height - 5 ), FULL_SCREEN_WIDTH - 4, c_light_gray,
+                    "%s\n%s\n%s", _( "<color_white>Game goal:</color> Switch all the lights on." ),
+                    _( "<color_white>Legend: #</color> on, <color_dark_gray>-</color> off." ),
+                    _( "Toggle lights switches selected light and 4 its neighbors." ) );
 
     wrefresh( w_border );
 

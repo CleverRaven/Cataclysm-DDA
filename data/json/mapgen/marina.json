@@ -58,12 +58,12 @@
         "!!!```````````````````````````````````````````````````````````````````````````````````!!!````````````````````````````!!!",
         "!!!```````````````````````````````````````````````````````````````````````````````````!!!````````````````````````````!!!",
         "!!!```````````````````````````````````````````````````````````````````````````````````!!!````````````````````````````!!!",
+        "!!!```````````````````````````````````````````````````````````````````````````````````!!!````````````````````````````!!!",
         "!!!`````!!!`````!!!`````!!!`````!!!```````````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!````!!!",
         "!!!`````!!!`````!!!`````!!!`````!!!```````````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!````!!!",
         "!!!`````B!!`````B!!`````B!!`````B!!```````````!!B`````!!B`````!!B`````!!B`````!!B`````!!B`````!!B`````!!B`````!!B````!!!",
         "!!!`````!!!`````!!!`````!!!`````!!!```````````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!````!!!",
-        "!!!`````!!!`````!!!`````!!!`````!!!##```````##!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!````!!!",
-        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#.......#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!!!`````!!!`````!!!`````!!!`````!!!##.......##!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!`````!!!````!!!",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#.......#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#.......#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#.......#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
@@ -179,7 +179,37 @@
         "Q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] }
       },
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],
-      "place_loot": [ { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] } ]
+      "place_loot": [ { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] } ],
+      "place_vehicles": [
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 5, "y": 10, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 10, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 21, "y": 10, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 29, "y": 10, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 7, "y": 14, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 15, "y": 14, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 23, "y": 14, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 31, "y": 14, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 5, "y": 33, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 33, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 21, "y": 33, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 29, "y": 33, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 5, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 21, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 29, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 49, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 57, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 65, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 73, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 81, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 89, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 97, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 105, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 113, "y": 52, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 61, "y": 9, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 69, "y": 9, "rotation": 90 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 75, "y": 9, "rotation": 90 }
+      ]
     }
   }
 ]

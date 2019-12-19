@@ -10,8 +10,8 @@
 #include "map_helpers.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "enums.h"
 #include "item.h"
+#include "point.h"
 
 static void wield_check_internal( player &dummy, item &the_item, const char *section_text,
                                   const std::string &var_name, const int expected_cost )
@@ -35,7 +35,7 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
 // As macro, so that we can generate the test cases for easy copypasting
 #define wield_check(section_text, dummy, the_item, expected_cost) \
     SECTION( section_text) { \
-        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : expected_cost); \
+        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : (expected_cost)); \
     }
 
 

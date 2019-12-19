@@ -3,15 +3,15 @@
 #define ITEM_STACK_H
 
 #include <cstddef>
-#include <list>
 
+#include "colony.h"
+#include "item.h" // IWYU pragma: keep
 #include "units.h"
-#include "item.h"
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
 // Note this does not expose the container itself,
-// which means you cannot call e.g. vector::erase() directly.
+// which means you cannot call e.g. cata::colony::erase() directly.
 
 // Pure virtual base class for a collection of items with origin information.
 // Only a subset of the functionality is callable without casting to the specific
@@ -19,28 +19,38 @@
 class item_stack
 {
     protected:
-        std::list<item> *mystack;
+        cata::colony<item> *items;
 
     public:
-        item_stack( std::list<item> *mystack ) : mystack( mystack ) { }
+        using iterator = cata::colony<item>::iterator;
+        using const_iterator = cata::colony<item>::const_iterator;
+        using reverse_iterator = cata::colony<item>::reverse_iterator;
+        using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
+
+        item_stack( cata::colony<item> *items ) : items( items ) { }
 
         size_t size() const;
         bool empty() const;
-        virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
-        virtual void push_back( const item &newitem ) = 0;
-        virtual void insert_at( std::list<item>::iterator, const item &newitem ) = 0;
+        virtual void insert( const item &newitem ) = 0;
+        virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
-        item &front();
-        item &operator[]( size_t index );
+        // Will cause a debugmsg if there is not exactly one item at the location
+        item &only_item();
 
-        std::list<item>::iterator begin();
-        std::list<item>::iterator end();
-        std::list<item>::const_iterator begin() const;
-        std::list<item>::const_iterator end() const;
-        std::list<item>::reverse_iterator rbegin();
-        std::list<item>::reverse_iterator rend();
-        std::list<item>::const_reverse_iterator rbegin() const;
-        std::list<item>::const_reverse_iterator rend() const;
+        // While iterators to colonies are stable, indexes are not.
+        // These functions should only be used for serialization/deserialization
+        iterator get_iterator_from_pointer( item *it );
+        iterator get_iterator_from_index( size_t idx );
+        size_t get_index_from_iterator( const const_iterator &it );
+
+        iterator begin();
+        iterator end();
+        const_iterator begin() const;
+        const_iterator end() const;
+        reverse_iterator rbegin();
+        reverse_iterator rend();
+        const_reverse_iterator rbegin() const;
+        const_reverse_iterator rend() const;
 
         /** Maximum number of items allowed here */
         virtual int count_limit() const = 0;

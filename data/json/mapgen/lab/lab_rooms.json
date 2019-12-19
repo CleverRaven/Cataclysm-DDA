@@ -59,7 +59,7 @@
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_furniture": [ { "furn": "f_fridge", "x": 8, "y": 0 } ],
+      "place_furniture": [ { "furn": "f_locker", "x": 8, "y": 0 } ],
       "place_items": [ { "item": "goo", "x": 8, "y": 0, "chance": 70 } ],
       "place_traps": [ { "trap": "tr_goo", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 30, "//": "9x9=81 spaces" } ]
     }
@@ -71,7 +71,7 @@
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
       "mapgensize": [ 9, 9 ],
-      "place_furniture": [ { "furn": "f_fridge", "x": 8, "y": 0 } ],
+      "place_furniture": [ { "furn": "f_locker", "x": 8, "y": 0 } ],
       "place_items": [ { "item": "goo", "x": 8, "y": 0, "chance": 70 } ],
       "place_monsters": [ { "monster": "GROUP_GOO", "x": [ 0, 8 ], "y": [ 0, 8 ], "density": 0.12 } ]
     }
@@ -131,7 +131,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret", "x": [ 2, 3 ], "y": [ 3, 3 ] } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 3 ], "y": [ 3, 3 ] } ]
     }
   },
   {
@@ -154,7 +154,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret", "x": [ 4, 4 ], "y": [ 1, 4 ] } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 4, 4 ], "y": [ 1, 4 ] } ]
     }
   },
   {

@@ -7,6 +7,7 @@
 #include <string>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class profession;
@@ -18,19 +19,19 @@ class generic_factory;
 
 class scenario
 {
-
     private:
         friend class string_id<scenario>;
         friend class generic_factory<scenario>;
         string_id<scenario> id;
         bool was_loaded = false;
-        std::string _name_male;
-        std::string _name_female;
-        std::string _description_male;
-        std::string _description_female;
-        std::string _start_name;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
+        translation _start_name;
 
         bool blacklist = false; // If true, professions is a blacklist.
+        bool extra_professions = false; // If true, professions add to default professions.
         std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
 
         /**
@@ -45,15 +46,15 @@ class scenario
         std::vector<start_location_id> _allowed_locs;
         int _point_cost;
         std::set<std::string> flags; // flags for some special properties of the scenario
-        std::string _map_special;
+        std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         scenario();
-        static void load_scenario( JsonObject &jo, const std::string &src );
+        static void load_scenario( const JsonObject &jo, const std::string &src );
 
         // these should be the only ways used to get at scenario
         static const scenario *generic(); // points to the generic, default profession
@@ -85,8 +86,8 @@ class scenario
 
         bool allowed_start( const start_location_id &loc ) const;
         signed int point_cost() const;
-        bool has_map_special() const;
-        const std::string &get_map_special() const;
+        bool has_map_extra() const;
+        const std::string &get_map_extra() const;
 
         /**
          * Returns "All", "Limited", or "Almost all" (translated)

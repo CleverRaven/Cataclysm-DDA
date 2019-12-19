@@ -125,7 +125,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( const WORLDPTR world );
+        static std::string get_mods_list_file( WORLDPTR world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.
@@ -144,7 +144,7 @@ class mod_manager
          * @throws std::string on all kind of errors. The string
          * contains the error message.
          */
-        void load_modfile( JsonObject &jo, const std::string &path );
+        void load_modfile( const JsonObject &jo, const std::string &path );
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
@@ -169,7 +169,7 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager &modman );
+        mod_ui( mod_manager &mman );
 
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;
@@ -180,8 +180,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, const std::vector<mod_id> &active_list );
-        bool can_shift_down( long selection, const std::vector<mod_id> &active_list );
+        bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
+        bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
 #endif

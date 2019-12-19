@@ -1,5 +1,6 @@
 #include "projectile.h"
 
+#include <memory>
 #include <utility>
 
 #include "explosion.h"
@@ -9,7 +10,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
-#include "game_constants.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -51,7 +51,7 @@ void projectile::set_drop( const item &it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop.reset( new item( it ) );
+        drop = std::make_unique<item>( it );
     }
 }
 
@@ -60,7 +60,7 @@ void projectile::set_drop( item &&it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop.reset( new item( std::move( it ) ) );
+        drop = std::make_unique<item>( std::move( it ) );
     }
 }
 
@@ -81,7 +81,7 @@ const explosion_data &projectile::get_custom_explosion() const
 
 void projectile::set_custom_explosion( const explosion_data &ex )
 {
-    custom_explosion.reset( new explosion_data( ex ) );
+    custom_explosion = std::make_unique<explosion_data>( ex );
 }
 
 void projectile::unset_custom_explosion()
@@ -91,6 +91,11 @@ void projectile::unset_custom_explosion()
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
+    if( effects.count( "EXPLOSIVE_RAUFOSS" ) > 0 ) {
+        // TODO: Make this actually fill a ~4m radius circle with fire and 20 shrapnel bits.  Or better, a 30 deg, 15m long arc.
+        explosion_handler::explosion( p, 2.4, 0.6, true, 28, 1.4 );
+    }
+
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
         // TODO: double-check if this is sensible.
         explosion_handler::explosion( p, 360, 0.4 );
@@ -119,6 +124,14 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1 );
+        }
+    }
+
+    if( effects.count( "PYROPHORIC" ) > 0 ) {
+        explosion_handler::explosion( p, 360, 0.8, true );
+        // Extreme heat near the center of the explosion
+        for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 2 );
         }
     }
 
@@ -158,14 +171,19 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             g->m.add_field( pt, fd_fungicidal_gas, 3 );
         }
     }
+    if( effects.count( "GAS_INSECTICIDAL" ) > 0 ) {
+        for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_insecticidal_gas, 3 );
+        }
+    }
     if( effects.count( "SMOKE" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, 3 );
         }
     }
     if( effects.count( "SMOKE_BIG" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 6, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, 3 );
         }
     }
 

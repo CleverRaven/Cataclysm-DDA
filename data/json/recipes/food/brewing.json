@@ -1,6 +1,20 @@
 [
   {
     "type": "recipe",
+    "result": "brew_mycus_wine",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREWING",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 40000,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "mycus_fruit", 1 ] ], [ [ "yeast", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "brew_milk_curdled",
     "result_mult": 18,
     "category": "CC_FOOD",
@@ -12,8 +26,8 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ] ],
+    "using": [ [ "milk_standard", 15 ] ],
     "components": [
-      [ [ "milk", 15 ] ],
       [ [ "vinegar", 3 ] ],
       [ [ "wild_herbs", 40 ], [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "stomach", 2 ], [ "hstomach", 2 ] ]
     ]

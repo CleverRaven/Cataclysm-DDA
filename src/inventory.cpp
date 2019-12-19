@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <set>
 
 #include "avatar.h"
 #include "debug.h"
@@ -22,7 +21,6 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -32,13 +30,16 @@
 #include "rng.h"
 #include "material.h"
 #include "type_id.h"
+#include "colony.h"
+#include "flat_set.h"
+#include "point.h"
 
 struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
 
-bool invlet_wrapper::valid( const long invlet ) const
+bool invlet_wrapper::valid( const int invlet ) const
 {
     if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
         return false;
@@ -177,6 +178,16 @@ inventory &inventory::operator+= ( const std::vector<item> &rhs )
 inventory &inventory::operator+= ( const item &rhs )
 {
     add_item( rhs );
+    return *this;
+}
+
+inventory &inventory::operator+= ( const item_stack &rhs )
+{
+    for( const auto &p : rhs ) {
+        if( !p.made_of( LIQUID ) ) {
+            add_item( p, true );
+        }
+    }
     return *this;
 }
 
@@ -380,13 +391,25 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet,
+void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
+                               bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( g->m, origin, range, assign_invlet, clear_path );
+    form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
+void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
+                                bool assign_invlet )
+{
+    std::vector<tripoint> pts;
+    for( const tripoint &elem : zone_pts ) {
+        pts.push_back( m.getlocal( elem ) );
+    }
+    form_from_map( m, pts, pl, assign_invlet );
+}
+
+void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
+                               bool assign_invlet,
                                bool clear_path )
 {
     // populate a grid of spots that can be reached
@@ -401,9 +424,14 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             reachable_pts.emplace_back( p );
         }
     }
+    form_from_map( m, reachable_pts, pl, assign_invlet );
+}
 
+void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+                               bool assign_invlet )
+{
     items.clear();
-    for( const tripoint &p : reachable_pts ) {
+    for( const tripoint &p : pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -417,6 +445,11 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
         }
         if( m.accessible_items( p ) ) {
             for( auto &i : m.i_at( p ) ) {
+                // if its *the* player requesting this from from map inventory
+                // then dont allow items owned by another faction to be factored into recipe components etc.
+                if( pl && !i.is_owned_by( *pl, true ) ) {
+                    continue;
+                }
                 if( !i.made_of( LIQUID ) ) {
                     add_item( i, false, assign_invlet );
                 }
@@ -565,7 +598,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             add_item( chemistry_set );
         }
     }
-    reachable_pts.clear();
+    pts.clear();
 }
 
 std::list<item> inventory::reduce_stack( const int position, const int quantity )
@@ -664,7 +697,7 @@ void inventory::dump( std::vector<item *> &dest )
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            dest.push_back( &( elem_stack_iter ) );
+            dest.push_back( &elem_stack_iter );
         }
     }
 }
@@ -832,48 +865,7 @@ item *inventory::most_appropriate_painkiller( int pain )
 
         if( diff < difference ) {
             difference = diff;
-            ret = &( elem.front() );
-        }
-    }
-    return ret;
-}
-
-item *inventory::best_for_melee( player &p, double &best )
-{
-    item *ret = &null_item_reference();
-    for( auto &elem : items ) {
-        auto score = p.melee_value( elem.front() );
-        if( score > best ) {
-            best = score;
-            ret = &( elem.front() );
-        }
-    }
-
-    return ret;
-}
-
-item *inventory::most_loaded_gun()
-{
-    item *ret = &null_item_reference();
-    int max = 0;
-    for( auto &elem : items ) {
-        item &gun = elem.front();
-        if( !gun.is_gun() ) {
-            continue;
-        }
-
-        const auto required = gun.ammo_required();
-        int cur = 0;
-        if( required <= 0 ) {
-            // Arbitrary
-            cur = 5;
-        } else {
-            cur = gun.ammo_remaining() / required;
-        }
-
-        if( cur > max ) {
-            ret = &gun;
-            max = cur;
+            ret = &elem.front();
         }
     }
     return ret;
@@ -892,7 +884,7 @@ void inventory::rust_iron_items()
                 //Scale with volume, bigger = slower (see #24204)
                 one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
                                           static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
-                //                       ^season length   ^14/5*0.75/3.14 (from volume of sphere)
+                //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
@@ -997,17 +989,29 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
-                elem_stack_iter.active ||
-                ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents.front().active ) ) {
+    for( std::list<item> &elem : items ) {
+        for( item &elem_stack_iter : elem ) {
+            if( elem_stack_iter.needs_processing() ) {
                 ret.push_back( &elem_stack_iter );
             }
         }
     }
     return ret;
+}
+
+enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+{
+    enchantment temp_cache;
+    for( const std::list<item> &elem : items ) {
+        for( const item &check_item : elem ) {
+            for( const enchantment &ench : check_item.get_enchantments() ) {
+                if( ench.is_active( owner, check_item ) ) {
+                    temp_cache.force_add( ench );
+                }
+            }
+        }
+    }
+    return temp_cache;
 }
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )

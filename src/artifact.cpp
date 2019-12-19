@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <array>
-#include <sstream>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -10,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "item_factory.h"
 #include "json.h"
@@ -23,6 +23,7 @@
 #include "optional.h"
 #include "units.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -160,14 +161,17 @@ struct artifact_property_datum {
     std::array<art_effect_active, 4> active_bad;
 };
 
-struct artifact_dream_datum {     //Used only when generating - stored as individual members of each artifact
+//Used only when generating - stored as individual members of each artifact
+struct artifact_dream_datum {
     std::vector<std::string> msg_unmet;
     std::vector<std::string> msg_met;
     // Once per hour while sleeping, makes a list of each artifact that passes a (freq) in 100 check
     // One item is picked from artifacts that passed that chance, and the appropriate msg is shown
     // If multiple met/unmet messages are specified for the item, one is picked at random
-    int freq_unmet; // 100 if no reqs, since should never be unmet in that case
-    int freq_met;   //   0 if no reqs
+    // 100 if no reqs, since should never be unmet in that case
+    //   0 if no reqs
+    int freq_unmet;
+    int freq_met;
 };
 
 enum artifact_weapon_type {
@@ -203,7 +207,8 @@ enum artifact_tool_form {
 struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
-    units::mass weight; // Only applicable if this is an *extra* weapon
+    // Only applicable if this is an *extra* weapon
+    units::mass weight;
     int bash_min;
     int bash_max;
     int cut_min;
@@ -234,6 +239,7 @@ struct artifact_armor_form_datum {
     units::volume volume;
     units::mass weight;
     int encumb;
+    int max_encumb;
     int coverage;
     int thickness;
     int env_resist;
@@ -259,16 +265,16 @@ enum artifact_armor_form {
 };
 
 static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
-        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1_liter, 1_gram, 1150_gram},
         {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
         {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
-        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
-        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
-        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1_liter, 225_ml, 1_gram, 350_gram},
+        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2_liter, 1_gram, 950_gram},
+        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1_liter, 1500_ml, 200_gram, 400_gram},
         {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
         {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
         {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
-        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2_liter, 200_gram, 450_gram},
         {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
         {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
         {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
@@ -411,22 +417,22 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
 };
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
         {
-            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+            translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5_liter, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
             {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+            translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3_liter, 450_gram, 1150_gram, ARTWEAP_CLUB,
             {{ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}}
         },
 
         {
-            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+            translate_marker( "Sword" ), '/', def_c_light_blue, material_id( "steel" ), 2_liter, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
             {{ARTWEAP_BULK, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
         {
-            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+            translate_marker( "Dagger" ), ';', def_c_light_blue, material_id( "steel" ), 250_ml, 1_liter, 100_gram, 700_gram, ARTWEAP_KNIFE,
             {{NUM_ARTWEAPS, NUM_ARTWEAPS, NUM_ARTWEAPS}}
         },
 
@@ -446,9 +452,9 @@ static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_dat
     }
 };
 static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
-        // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+        // Name    color  Material         Vol Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+            translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
             { { bp_torso, bp_leg_l, bp_leg_r } }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -458,7 +464,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
             { bp_torso }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -468,7 +474,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1_liter, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             { { bp_eyes, bp_mouth } }, false,
             {{
                     ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -477,9 +483,9 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
             }
         },
 
-        // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+        // Name    color  Materials             Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+            translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
             { bp_head }, false,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -489,7 +495,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+            translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
             { { bp_hand_l, bp_hand_r } }, true,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -498,9 +504,9 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
             }
         },
 
-        // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+        // Name    color  Materials            Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+            translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
             { { bp_foot_l, bp_foot_r } }, true,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -510,7 +516,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         },
 
         {
-            translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            translate_marker( "Ring" ), def_c_light_green, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         }
@@ -523,45 +529,45 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
  */
 static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
         {
-            "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, {}, false,
+            "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
         // Description; "It is ..." or "They are ..."
         {
             translate_marker( "very thin and light." ), def_c_white, material_id( "null" ),
-            // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
+            // Vol   Wgt Enc MaxEnc Cov Thk Env Wrm Sto
+            -1_liter, -950_gram, -2, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "extremely bulky." ), def_c_white, material_id( "null" ),
-            2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
+            2_liter, 1150_gram,  2,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "covered in pockets." ), def_c_white, material_id( "null" ),
-            250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, {},  false,
+            250_ml, 150_gram,  1,  1,  0,  0,  0,  0, 4_liter, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "disgustingly furry." ), def_c_white, material_id( "wool" ),
-            // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
+            // Vol  Wgt Enc MaxEnc Dmg Cut Env Wrm Sto
+            1_liter, 250_gram,  1,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "leather-padded." ), def_c_white, material_id( "leather" ),
-            1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
+            1_liter, 450_gram,  1,  1,  1,  1,  0,  1, -750_ml, 0, 0, 0, {},  false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
 
         {
             translate_marker( "plated in iron." ), def_c_white, material_id( "iron" ),
-            1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, {}, false,
+            1_liter, 1400_gram,  3,  3,  2,  2,  0,  1, -1_liter, 0, 0, 0, {}, false,
             {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
         },
     }
@@ -583,8 +589,8 @@ static const std::array<std::string, 20> artifact_noun = { {
 std::string artifact_name( const std::string &type );
 //Dreams for each charge req
 static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { {
-        {   {translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything. Seeing this is a bug!" )},
-            {translate_marker( "The %s is satisfied, as it should be because it has no standards. Seeing this is a bug!" )},
+        {   {translate_marker( "The %s is somehow vaguely dissatisfied even though it doesn't want anything.  Seeing this is a bug!" )},
+            {translate_marker( "The %s is satisfied, as it should be because it has no standards.  Seeing this is a bug!" )},
             100,  0
         }, { {translate_marker( "Your %s feels needy, like it wants to be held." )},
             {translate_marker( "You snuggle your %s closer." )},
@@ -592,7 +598,7 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
         }, { {translate_marker( "Your %s feels needy, like it wants to be touched." )},
             {translate_marker( "You press your %s against your skin." )},
             50,  35
-        }, { {translate_marker( "The %s is confused to find you dreaming while awake. Seeing this is a bug!" )},
+        }, { {translate_marker( "The %s is confused to find you dreaming while awake.  Seeing this is a bug!" )},
             {translate_marker( "Your %s sleeps soundly." )},
             100, 33
         }, { {translate_marker( "Your %s longs for the glow." )},
@@ -609,12 +615,12 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 };
 
 // Constructors for artifact itypes.
-it_artifact_tool::it_artifact_tool() : itype()
+it_artifact_tool::it_artifact_tool()
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
-    price = 0;
+    price = 0_cent;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
     artifact->charge_req = ACR_NULL;
@@ -625,52 +631,50 @@ it_artifact_tool::it_artifact_tool() : itype()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
+it_artifact_tool::it_artifact_tool( const JsonObject &jo )
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
-it_artifact_armor::it_artifact_armor() : itype()
+it_artifact_armor::it_artifact_armor()
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
-    price = 0;
+    price = 0_cent;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
+it_artifact_armor::it_artifact_armor( const JsonObject &jo )
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     deserialize( jo );
 }
 
 void it_artifact_tool::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 void it_artifact_tool::create_name( const std::string &property_name,
                                     const std::string &shape_name )
 {
-    name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
-                          property_name, shape_name );
-    name_plural = name;
+    name = no_translation( string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
+                                          property_name, shape_name ) );
 }
 
 void it_artifact_armor::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 std::string new_artifact()
 {
-    if( one_in( 2 ) ) { // Generate a "tool" artifact
+    if( one_in( 2 ) ) {
+        // Generate a "tool" artifact
 
         it_artifact_tool def;
 
@@ -704,14 +708,13 @@ std::string new_artifact()
                 if( !weapon.tag.empty() ) {
                     def.item_tags.insert( weapon.tag );
                 }
-                std::ostringstream newname;
-                newname << _( weapon.adjective ) << " " << _( info.name );
-                def.create_name( newname.str() );
+                def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }
         }
-        def.description = string_format(
-                              _( "This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them." ),
-                              def.nname( 1 ) );
+        def.description = no_translation(
+                              string_format(
+                                  _( "This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them." ),
+                                  def.nname( 1 ) ) );
 
         // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
@@ -727,10 +730,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || num_bad < 1 || one_in( num_good + 1 ) ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good
+            if( value < 1 && one_in( 2 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else if( !bad_effects.empty() ) { // Bad effect
+            } else if( !bad_effects.empty() ) {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -747,10 +752,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
                  one_in( num_bad + 1 ) || value > 1 ) ) {
-            if( value < 1 && one_in( 3 ) ) { // Good
+            if( value < 1 && one_in( 3 ) ) {
+                // Good
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -767,11 +774,13 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( value > 3 || ( num_bad > 0 && num_good == 0 ) ||
                  !one_in( 3 - num_good ) || !one_in( 3 - num_bad ) ) ) {
-            if( !one_in( 3 ) && value <= 1 ) { // Good effect
+            if( !one_in( 3 ) && value <= 1 ) {
+                // Good effect
                 active_tmp = random_entry_removed( good_a_effects );
                 num_good++;
                 value += active_effect_cost[active_tmp];
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 active_tmp = random_entry_removed( bad_a_effects );
                 num_bad++;
                 value += active_effect_cost[active_tmp];
@@ -782,14 +791,15 @@ std::string new_artifact()
         def.tool->def_charges = def.tool->max_charges;
         // If we have charges, pick a recharge mechanism
         if( def.tool->max_charges > 0 ) {
-            def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+            def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         }
+        // 1 in 8 chance that it can't recharge!
         if( one_in( 8 ) && num_bad + num_good >= 4 ) {
-            def.artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+            def.artifact->charge_type = ARTC_NULL;
         }
         // Maybe pick an extra recharge requirement
         if( one_in( std::max( 1, 6 - num_good ) ) && def.artifact->charge_type != ARTC_NULL ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
         // Assign dream data (stored individually so they can be overridden in json)
         def.artifact->dream_msg_unmet  = artifact_dream_data[static_cast<int>
@@ -806,14 +816,15 @@ std::string new_artifact()
 
         item_controller->add_item_type( static_cast<itype &>( def ) );
         return def.get_id();
-    } else { // Generate an armor artifact
-
+    } else {
+        // Generate an armor artifact
         it_artifact_armor def;
 
         const artifact_armor_form_datum &info = random_entry_ref( artifact_armor_form_data );
 
         def.create_name( _( info.name ) );
-        def.sym = "["; // Armor is always [
+        // Armor is always [
+        def.sym = "[";
         def.color = info.color;
         def.materials.push_back( info.material );
         def.volume = info.volume;
@@ -823,16 +834,15 @@ std::string new_artifact()
         def.m_to_hit = info.melee_hit;
         def.armor->covers = info.covers;
         def.armor->encumber = info.encumb;
+        def.armor->max_encumber = info.max_encumb;
         def.armor->coverage = info.coverage;
         def.armor->thickness = info.thickness;
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
         def.armor->storage = info.storage;
-        std::ostringstream description;
-        description << string_format( info.plural ?
-                                      _( "This is the %s.\nThey are the only ones of their kind." ) :
-                                      _( "This is the %s.\nIt is the only one of its kind." ),
-                                      def.nname( 1 ) );
+        std::string description = string_format( info.plural ?
+                                  _( "This is the %s.\nThey are the only ones of their kind." ) :
+                                  _( "This is the %s.\nIt is the only one of its kind." ), def.nname( 1 ) );
 
         // Modify the armor further
         if( !one_in( 4 ) ) {
@@ -878,14 +888,14 @@ std::string new_artifact()
                     def.armor->storage = 0_ml;
                 }
 
-                description << string_format( info.plural ?
+                description += string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
                                               _( modinfo.name ) );
             }
         }
 
-        def.description = description.str();
+        def.description = no_translation( description );
 
         // Finally, pick some effects
         int num_good = 0;
@@ -899,10 +909,12 @@ std::string new_artifact()
                num_good < 3 && num_bad < 3 &&
                ( num_good < 1 || one_in( num_good * 2 ) || value > 1 ||
                  ( num_bad < 3 && !one_in( 3 - num_bad ) ) ) ) {
-            if( value < 1 && one_in( 2 ) ) { // Good effect
+            if( value < 1 && one_in( 2 ) ) {
+                // Good effect
                 passive_tmp = random_entry_removed( good_effects );
                 num_good++;
-            } else { // Bad effect
+            } else {
+                // Bad effect
                 passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
@@ -923,8 +935,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
     const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
     const artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
-            artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                            ARTPROP_MAX - 1 ) ) );
+            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
+                    ARTPROP_MAX - 1 ) ) );
     const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
@@ -937,8 +949,9 @@ std::string new_natural_artifact( artifact_natural_property prop )
     def.m_to_hit = 0;
 
     def.create_name( _( property_data.name ), _( shape_data.name ) );
-    def.description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                     _( shape_data.desc ), _( property_data.desc ) );
+    def.description = no_translation(
+                          string_format( pgettext( "artifact description", "This %1$s %2$s." ),
+                                         _( shape_data.desc ), _( property_data.desc ) ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -959,7 +972,8 @@ std::string new_natural_artifact( artifact_natural_property prop )
             break;
     }
 
-    int value_to_reach = 0; // This is slowly incremented, allowing for better arts
+    // This is slowly incremented, allowing for better arts
+    int value_to_reach = 0;
     int value = 0;
     art_effect_passive aep_good = AEP_NULL, aep_bad = AEP_NULL;
     art_effect_active  aea_good = AEA_NULL, aea_bad = AEA_NULL;
@@ -968,31 +982,32 @@ std::string new_natural_artifact( artifact_natural_property prop )
         if( good_passive ) {
             aep_good = random_entry_ref( property_data.passive_good );
             if( aep_good == AEP_NULL || one_in( 4 ) ) {
-                aep_good = art_effect_passive( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
+                aep_good = static_cast<art_effect_passive>( rng( AEP_NULL + 1, AEP_SPLIT - 1 ) );
             }
         }
         if( bad_passive ) {
             aep_bad = random_entry_ref( property_data.passive_bad );
             if( aep_bad == AEP_NULL || one_in( 4 ) ) {
-                aep_bad = art_effect_passive( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
+                aep_bad = static_cast<art_effect_passive>( rng( AEP_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
         if( good_active ) {
             aea_good = random_entry_ref( property_data.active_good );
             if( aea_good == AEA_NULL || one_in( 4 ) ) {
-                aea_good = art_effect_active( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
+                aea_good = static_cast<art_effect_active>( rng( AEA_NULL + 1, AEA_SPLIT - 1 ) );
             }
         }
         if( bad_active ) {
             aea_bad = random_entry_ref( property_data.active_bad );
             if( aea_bad == AEA_NULL || one_in( 4 ) ) {
-                aea_bad = art_effect_active( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
+                aea_bad = static_cast<art_effect_active>( rng( AEA_SPLIT + 1, NUM_AEAS - 1 ) );
             }
         }
 
         value = passive_effect_cost[aep_good] + passive_effect_cost[aep_bad] +
                 active_effect_cost[aea_good] +  active_effect_cost[aea_bad];
-        value_to_reach++; // Yes, it is intentional that this is 1 the first check
+        // Yes, it is intentional that this is 1 the first check
+        value_to_reach++;
     } while( value > value_to_reach );
 
     if( aep_good != AEP_NULL ) {
@@ -1012,10 +1027,10 @@ std::string new_natural_artifact( artifact_natural_property prop )
     // (When "implanting" them in a mundane item, this ability may be lost
     if( !def.artifact->effects_activated.empty() ) {
         def.tool->def_charges = def.tool->max_charges = rng( 1, 4 );
-        def.artifact->charge_type = art_charge( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
+        def.artifact->charge_type = static_cast<art_charge>( rng( ARTC_NULL + 1, NUM_ARTCS - 1 ) );
         //Maybe pick an extra recharge requirement
         if( one_in( 6 ) ) {
-            def.artifact->charge_req = art_charge_req( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
+            def.artifact->charge_req = static_cast<art_charge_req>( rng( ACR_NULL + 1, NUM_ACRS - 1 ) );
         }
     }
     // Assign dream data (stored individually so they can be overridden in json)
@@ -1052,7 +1067,9 @@ std::string architects_cube()
         def.item_tags.insert( weapon.tag );
     }
     // Add an extra weapon perhaps?
-    def.description = _( "The architect's cube." );
+    // Most artifact descriptions are generated and stored using `no_translation`,
+    // also do it here for consistency
+    def.description = no_translation( _( "The architect's cube." ) );
     def.artifact->effects_carried.push_back( AEP_SUPER_CLAIRVOYANCE );
     item_controller->add_item_type( static_cast<itype &>( def ) );
     return def.get_id();
@@ -1062,7 +1079,7 @@ std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_NULL + 1; i < AEP_SPLIT; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1071,7 +1088,7 @@ std::vector<art_effect_passive> fill_bad_passive()
 {
     std::vector<art_effect_passive> ret;
     for( int i = AEP_SPLIT + 1; i < NUM_AEPS; i++ ) {
-        ret.push_back( art_effect_passive( i ) );
+        ret.push_back( static_cast<art_effect_passive>( i ) );
     }
     return ret;
 }
@@ -1080,7 +1097,7 @@ std::vector<art_effect_active> fill_good_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_NULL + 1; i < AEA_SPLIT; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1089,7 +1106,7 @@ std::vector<art_effect_active> fill_bad_active()
 {
     std::vector<art_effect_active> ret;
     for( int i = AEA_SPLIT + 1; i < NUM_AEAS; i++ ) {
-        ret.push_back( art_effect_active( i ) );
+        ret.push_back( static_cast<art_effect_active>( i ) );
     }
     return ret;
 }
@@ -1123,18 +1140,18 @@ void load_artifacts( const std::string &path )
     } );
 }
 
-void it_artifact_tool::deserialize( JsonObject &jo )
+void it_artifact_tool::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
-    description = jo.get_string( "description" );
+    name = no_translation( jo.get_string( "name" ) );
+    description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
     } else {
         sym = jo.get_string( "sym" );
     }
     jo.read( "color", color );
-    price = jo.get_int( "price" );
+    assign( jo, "price", price, false, 0_cent );
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
     // quite some time. Loading and saving once will write things out as a JSON
@@ -1154,21 +1171,28 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
-    weight = units::from_gram( jo.get_int( "weight" ) );
+    weight = units::from_gram<std::int64_t>( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    tool->max_charges = jo.get_long( "max_charges" );
-    tool->def_charges = jo.get_long( "def_charges" );
+    tool->max_charges = jo.get_int( "max_charges" );
+    tool->def_charges = jo.get_int( "def_charges" );
 
     tool->charges_per_use = jo.get_int( "charges_per_use" );
     tool->turns_per_charge = jo.get_int( "turns_per_charge" );
 
-    JsonArray atypes = jo.get_array( "ammo" );
-    for( size_t i = 0; i < atypes.size(); ++i ) {
-        tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+    // Artifacts in older saves store ammo as string.
+    if( jo.has_array( "ammo" ) ) {
+        JsonArray atypes = jo.get_array( "ammo" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        }
+    } else if( jo.has_string( "ammo" ) ) {
+        tool->ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
+    } else {
+        jo.throw_error( "\"ammo\" node is neither array, not string" );
     }
 
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
@@ -1231,18 +1255,18 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
 }
 
-void it_artifact_armor::deserialize( JsonObject &jo )
+void it_artifact_armor::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
-    description = jo.get_string( "description" );
+    name = no_translation( jo.get_string( "name" ) );
+    description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
     } else {
         sym = jo.get_string( "sym" );
     }
     jo.read( "color", color );
-    price = jo.get_int( "price" );
+    assign( jo, "price", price, false, 0_cent );
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
     // quite some time. Loading and saving once will write things out as a JSON
@@ -1262,7 +1286,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
-    weight = units::from_gram( jo.get_int( "weight" ) );
+    weight = units::from_gram<std::int64_t>( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
@@ -1270,6 +1294,8 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
     jo.read( "covers", armor->covers );
     armor->encumber = jo.get_int( "encumber" );
+    // Old saves don't have max_encumber, so set it to base encumbrance value
+    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
     armor->coverage = jo.get_int( "coverage" );
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
@@ -1285,7 +1311,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
 bool save_artifacts( const std::string &path )
 {
-    return write_to_file_exclusive( path, [&]( std::ostream & fout ) {
+    return write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );
         json.start_array();
         // We only want runtime types, otherwise static artifacts are loaded twice (on init and then on game load)
@@ -1325,11 +1351,13 @@ void it_artifact_tool::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    json.member( "description", description );
+    // Artifact names and descriptions are always constructed using `no_translation`,
+    // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
+    json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
-    json.member( "price", price );
+    json.member( "price", units::to_cent( price ) );
     json.member( "materials" );
     json.start_array();
     for( const material_id &mat : materials ) {
@@ -1379,11 +1407,13 @@ void it_artifact_armor::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    json.member( "description", description );
+    // Artifact names and descriptions are always constructed using `no_translation`,
+    // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
+    json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
-    json.member( "price", price );
+    json.member( "price", units::to_cent( price ) );
     json.member( "materials" );
     json.start_array();
     for( const material_id &mat : materials ) {
@@ -1405,6 +1435,7 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     // armor data
     json.member( "covers", armor->covers );
     json.member( "encumber", armor->encumber );
+    json.member( "max_encumber", armor->max_encumber );
     json.member( "coverage", armor->coverage );
     json.member( "material_thickness", armor->thickness );
     json.member( "env_resist", armor->env_resist );
@@ -1420,129 +1451,144 @@ void it_artifact_armor::serialize( JsonOut &json ) const
 
 namespace io
 {
-#define PAIR(x) { #x, x }
-static const std::unordered_map<std::string, art_effect_passive> art_effect_passive_values = { {
-        //PAIR( AEP_NULL ), // not really used
-        PAIR( AEP_STR_UP ),
-        PAIR( AEP_DEX_UP ),
-        PAIR( AEP_PER_UP ),
-        PAIR( AEP_INT_UP ),
-        PAIR( AEP_ALL_UP ),
-        PAIR( AEP_SPEED_UP ),
-        PAIR( AEP_PBLUE ),
-        PAIR( AEP_SNAKES ),
-        PAIR( AEP_INVISIBLE ),
-        PAIR( AEP_CLAIRVOYANCE ),
-        PAIR( AEP_CLAIRVOYANCE_PLUS ),
-        PAIR( AEP_SUPER_CLAIRVOYANCE ),
-        PAIR( AEP_STEALTH ),
-        PAIR( AEP_EXTINGUISH ),
-        PAIR( AEP_GLOW ),
-        PAIR( AEP_PSYSHIELD ),
-        PAIR( AEP_RESIST_ELECTRICITY ),
-        PAIR( AEP_CARRY_MORE ),
-        PAIR( AEP_SAP_LIFE ),
-        PAIR( AEP_FUN ),
-        //PAIR( AEP_SPLIT, // not really used
-        PAIR( AEP_HUNGER ),
-        PAIR( AEP_THIRST ),
-        PAIR( AEP_SMOKE ),
-        PAIR( AEP_EVIL ),
-        PAIR( AEP_SCHIZO ),
-        PAIR( AEP_RADIOACTIVE ),
-        PAIR( AEP_MUTAGENIC ),
-        PAIR( AEP_ATTENTION ),
-        PAIR( AEP_STR_DOWN ),
-        PAIR( AEP_DEX_DOWN ),
-        PAIR( AEP_PER_DOWN ),
-        PAIR( AEP_INT_DOWN ),
-        PAIR( AEP_ALL_DOWN ),
-        PAIR( AEP_SPEED_DOWN ),
-        PAIR( AEP_FORCE_TELEPORT ),
-        PAIR( AEP_MOVEMENT_NOISE ),
-        PAIR( AEP_BAD_WEATHER ),
-        PAIR( AEP_SICK ),
+#define PAIR(x) case x: return #x;
+template<>
+std::string enum_to_string<art_effect_passive>( art_effect_passive data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( AEP_NULL )
+        PAIR( AEP_STR_UP )
+        PAIR( AEP_DEX_UP )
+        PAIR( AEP_PER_UP )
+        PAIR( AEP_INT_UP )
+        PAIR( AEP_ALL_UP )
+        PAIR( AEP_SPEED_UP )
+        PAIR( AEP_PBLUE )
+        PAIR( AEP_SNAKES )
+        PAIR( AEP_INVISIBLE )
+        PAIR( AEP_CLAIRVOYANCE )
+        PAIR( AEP_CLAIRVOYANCE_PLUS )
+        PAIR( AEP_SUPER_CLAIRVOYANCE )
+        PAIR( AEP_STEALTH )
+        PAIR( AEP_EXTINGUISH )
+        PAIR( AEP_GLOW )
+        PAIR( AEP_PSYSHIELD )
+        PAIR( AEP_RESIST_ELECTRICITY )
+        PAIR( AEP_CARRY_MORE )
+        PAIR( AEP_SAP_LIFE )
+        PAIR( AEP_FUN )
+        PAIR( AEP_SPLIT )
+        PAIR( AEP_HUNGER )
+        PAIR( AEP_THIRST )
+        PAIR( AEP_SMOKE )
+        PAIR( AEP_EVIL )
+        PAIR( AEP_SCHIZO )
+        PAIR( AEP_RADIOACTIVE )
+        PAIR( AEP_MUTAGENIC )
+        PAIR( AEP_ATTENTION )
+        PAIR( AEP_STR_DOWN )
+        PAIR( AEP_DEX_DOWN )
+        PAIR( AEP_PER_DOWN )
+        PAIR( AEP_INT_DOWN )
+        PAIR( AEP_ALL_DOWN )
+        PAIR( AEP_SPEED_DOWN )
+        PAIR( AEP_FORCE_TELEPORT )
+        PAIR( AEP_MOVEMENT_NOISE )
+        PAIR( AEP_BAD_WEATHER )
+        PAIR( AEP_SICK )
+        // *INDENT-ON*
+        case NUM_AEPS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_effect_active> art_effect_active_values = { {
-        //PAIR( AEA_NULL ), // not really used
-        PAIR( AEA_STORM ),
-        PAIR( AEA_FIREBALL ),
-        PAIR( AEA_ADRENALINE ),
-        PAIR( AEA_MAP ),
-        PAIR( AEA_BLOOD ),
-        PAIR( AEA_FATIGUE ),
-        PAIR( AEA_ACIDBALL ),
-        PAIR( AEA_PULSE ),
-        PAIR( AEA_HEAL ),
-        PAIR( AEA_CONFUSED ),
-        PAIR( AEA_ENTRANCE ),
-        PAIR( AEA_BUGS ),
-        PAIR( AEA_TELEPORT ),
-        PAIR( AEA_LIGHT ),
-        PAIR( AEA_GROWTH ),
-        PAIR( AEA_HURTALL ),
-        PAIR( AEA_FUN ),
-        //PAIR( AEA_SPLIT ), // not really used
-        PAIR( AEA_RADIATION ),
-        PAIR( AEA_PAIN ),
-        PAIR( AEA_MUTATE ),
-        PAIR( AEA_PARALYZE ),
-        PAIR( AEA_FIRESTORM ),
-        PAIR( AEA_ATTENTION ),
-        PAIR( AEA_TELEGLOW ),
-        PAIR( AEA_NOISE ),
-        PAIR( AEA_SCREAM ),
-        PAIR( AEA_DIM ),
-        PAIR( AEA_FLASH ),
-        PAIR( AEA_VOMIT ),
-        PAIR( AEA_SHADOWS ),
-        PAIR( AEA_STAMINA_EMPTY ),
+    debugmsg( "Invalid AEP" );
+    abort();
+}
+template<>
+std::string enum_to_string<art_effect_active>( art_effect_active data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( AEA_NULL )
+        PAIR( AEA_STORM )
+        PAIR( AEA_FIREBALL )
+        PAIR( AEA_ADRENALINE )
+        PAIR( AEA_MAP )
+        PAIR( AEA_BLOOD )
+        PAIR( AEA_FATIGUE )
+        PAIR( AEA_ACIDBALL )
+        PAIR( AEA_PULSE )
+        PAIR( AEA_HEAL )
+        PAIR( AEA_CONFUSED )
+        PAIR( AEA_ENTRANCE )
+        PAIR( AEA_BUGS )
+        PAIR( AEA_TELEPORT )
+        PAIR( AEA_LIGHT )
+        PAIR( AEA_GROWTH )
+        PAIR( AEA_HURTALL )
+        PAIR( AEA_FUN )
+        PAIR( AEA_SPLIT )
+        PAIR( AEA_RADIATION )
+        PAIR( AEA_PAIN )
+        PAIR( AEA_MUTATE )
+        PAIR( AEA_PARALYZE )
+        PAIR( AEA_FIRESTORM )
+        PAIR( AEA_ATTENTION )
+        PAIR( AEA_TELEGLOW )
+        PAIR( AEA_NOISE )
+        PAIR( AEA_SCREAM )
+        PAIR( AEA_DIM )
+        PAIR( AEA_FLASH )
+        PAIR( AEA_VOMIT )
+        PAIR( AEA_SHADOWS )
+        PAIR( AEA_STAMINA_EMPTY )
+        // *INDENT-ON*
+        case NUM_AEAS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_charge> art_charge_values = { {
-        PAIR( ARTC_NULL ),
-        PAIR( ARTC_TIME ),
-        PAIR( ARTC_SOLAR ),
-        PAIR( ARTC_PAIN ),
-        PAIR( ARTC_HP ),
-        PAIR( ARTC_FATIGUE ),
-        PAIR( ARTC_PORTAL ),
+    debugmsg( "Invalid AEA" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<art_charge>( art_charge data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( ARTC_NULL )
+        PAIR( ARTC_TIME )
+        PAIR( ARTC_SOLAR )
+        PAIR( ARTC_PAIN )
+        PAIR( ARTC_HP )
+        PAIR( ARTC_FATIGUE )
+        PAIR( ARTC_PORTAL )
+        // *INDENT-ON*
+        case NUM_ARTCS:
+            break;
     }
-};
-static const std::unordered_map<std::string, art_charge_req> art_charge_req_values = { {
-        PAIR( ACR_NULL ),
-        PAIR( ACR_EQUIP ),
-        PAIR( ACR_SKIN ),
-        PAIR( ACR_SLEEP ),
-        PAIR( ACR_RAD ),
-        PAIR( ACR_WET ),
-        PAIR( ACR_SKY ),
+    debugmsg( "Invalid ARTC" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<art_charge_req>( art_charge_req data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        PAIR( ACR_NULL )
+        PAIR( ACR_EQUIP )
+        PAIR( ACR_SKIN )
+        PAIR( ACR_SLEEP )
+        PAIR( ACR_RAD )
+        PAIR( ACR_WET )
+        PAIR( ACR_SKY )
+        // *INDENT-ON*
+        case NUM_ACRS:
+            break;
     }
-};
+    debugmsg( "Invalid ACR" );
+    abort();
+}
 #undef PAIR
 
-template<>
-art_effect_passive string_to_enum<art_effect_passive>( const std::string &data )
-{
-    return string_to_enum_look_up( art_effect_passive_values, data );
-}
-
-template<>
-art_effect_active string_to_enum<art_effect_active>( const std::string &data )
-{
-    return string_to_enum_look_up( art_effect_active_values, data );
-}
-
-template<>
-art_charge string_to_enum<art_charge>( const std::string &data )
-{
-    return string_to_enum_look_up( art_charge_values, data );
-}
-
-template<>
-art_charge_req string_to_enum<art_charge_req>( const std::string &data )
-{
-    return string_to_enum_look_up( art_charge_req_values, data );
-}
 } // namespace io

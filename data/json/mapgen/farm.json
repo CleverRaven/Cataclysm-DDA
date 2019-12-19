@@ -5,7 +5,7 @@
     "om_terrain": [ [ "farm_3", "farm_2", "farm_1" ], [ "farm_6", "farm_5", "farm_4" ], [ "farm_9", "farm_8", "farm_7" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_floor",
       "rows": [
         "                                                 FFFFFFFFFFFFFFFFFFFFFF ",
         "                                            P    F                    F ",
@@ -19,9 +19,9 @@
         "  #333__________ 233W                            F                    F ",
         "  #__2__________ 2__#             $$$       $$$  F  DDDDDDDDDDDDDDDD  F ",
         "  #__2__________ 2__#   ###++### --w---+-----w-- F          Q         F ",
-        "  W__g__________ g__W   #EE____# -uSeuu...Y....- F  DDDDDDDDDDDDDDDD  F ",
+        "  W__g__________ g__W   #EE____# -u5e4u...Y....- F  DDDDDDDDDDDDDDDD  F ",
         "  W__g__________ g__W   #E_____# -o............- F                    F ",
-        "  #__2__________ 2__#   #_1__1_# -u..........H.- F  DDDDDDDDDDDDDDDD  F ",
+        "  #__2__________ 2__#   #_1__1_# -6..........H.- F  DDDDDDDDDDDDDDDD  F ",
         "  #__2__________ 2__#   #______# -u...----+----- F                    F ",
         "  #332__________ 233#   #______# --+---kh......- F  DDDDDDDDDDDDDDDD  F ",
         "  #_____________1___#   #_1__1_# -...-.........w F                    F ",
@@ -80,39 +80,6 @@
         "F                                                                     F ",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF "
       ],
-      "terrain": {
-        "Q": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "#": "t_wall_wood",
-        "+": "t_door_c",
-        "5": "t_palisade_pulley",
-        "H": "t_floor",
-        "g": "t_fencegate_c"
-      },
-      "toilets": { "T": {  } },
-      "items": {
-        "B": { "item": "bed", "chance": 60 },
-        "D": { "item": "hydro", "chance": 5 },
-        "H": { "item": "livingroom", "chance": 65 },
-        "b": { "item": "softdrugs", "chance": 70 },
-        "d": [ { "item": "dresser", "chance": 80 }, { "item": "homeguns", "chance": 20 } ],
-        "e": { "item": "fridge", "chance": 65 },
-        "h": { "item": "bedroom", "chance": 65 },
-        "k": { "item": "bedroom", "chance": 65 },
-        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-        "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
-        "l": [
-          { "item": "tools_earthworking", "chance": 65 },
-          { "item": "mechanics", "chance": 40 },
-          { "item": "home_hw", "chance": 50 },
-          { "item": "tools_common", "chance": 50 }
-        ],
-        "u": [
-          { "item": "kitchen", "chance": 70 },
-          { "item": "cannedfood", "chance": 65 },
-          { "item": "moonshine_brew", "chance": 65 }
-        ],
-        "Q": { "item": "farming_tools", "chance": 15 }
-      },
       "place_items": [  ],
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
@@ -135,7 +102,7 @@
     "om_terrain": [ [ "farm_2" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         "P                       ",
@@ -149,9 +116,9 @@
         "                        ",
         "          $$$       $$$ ",
         "###++### --w---+-----w--",
-        "#EE____# -uSeuu.mm.....-",
+        "#EE____# -u5e4u.mm.....-",
         "#E_____# -o...........m-",
-        "#_1__1_# -u...........m-",
+        "#_1__1_# -6...........m-",
         "#__Q___# -u...----+-----",
         "#______# --+---mm....mm-",
         "#_1__1_# -...-.........w",
@@ -163,8 +130,6 @@
         "FFFFFFFFFFFFFFFFFFFFFFFF",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { "#": "t_wall_wood", "+": "t_door_c", "5": "t_palisade_pulley", "H": "t_floor", "g": "t_fencegate_c" },
-      "toilets": { "T": {  } },
       "items": {
         ".": { "item": "trash", "chance": 20 },
         "B": [
@@ -208,7 +173,7 @@
     "//": "Grain silo copy of silo in ranch_camp_57",
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
         "   |--|  ####W###W###   ",
@@ -217,9 +182,9 @@
         "|________A_________s#   ",
         "||______||H________s#   ",
         " |-|__|-|#__________W   ",
-        "   |--|  #_______5__#   ",
-        "         ####====####   ",
-        "                 5      ",
+        "   |--|  #_______O__#   ",
+        "         ####MMMM####   ",
+        "                 O      ",
         "                        ",
         "                        ",
         "                        ",
@@ -235,7 +200,6 @@
         " F  DDDDDDDDDDDDDDDD  F ",
         "FF                    F "
       ],
-      "terrain": { "#": "t_wall_wood" },
       "items": { "D": { "item": "hydro", "chance": 5 }, "r": { "item": "farming_tools", "chance": 25 } },
       "place_item": [
         { "item": "wheat", "x": [ 4, 5 ], "y": 2, "chance": 40 },
@@ -254,21 +218,21 @@
     "//": "Chicken Coop",
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
         "                        ",
-        "  ;;;;;;;;;###########  ",
-        "  ;        #_#_#_#_#_#  ",
-        "  ;        #_______7_#  ",
-        "  g        +_______8_#  ",
-        "  g        c__7______#  ",
-        "  ;        #_#_#_#_#_#  ",
-        "  ;        ###########  ",
-        "  ;                  ;  ",
-        "  ;                  ;  ",
-        "  ;                  ;  ",
-        "  ;;;;;;;;;;;;;;;;;;;;  ",
+        "  :::::::::###########  ",
+        "  :        #_#_#_#_#_#  ",
+        "  :        #_______7_#  ",
+        "  C        +_______8_#  ",
+        "  C        c__7______#  ",
+        "  :        #_#_#_#_#_#  ",
+        "  :        ###########  ",
+        "  :                  :  ",
+        "  :                  :  ",
+        "  :                  :  ",
+        "  ::::::::::::::::::::  ",
         "                        ",
         " FFFFFFFFFFFFFFFFFFFFFF ",
         " F                    F ",
@@ -281,8 +245,6 @@
         " F  DDDDDDDDDDDDDDDD  F ",
         "FF                    F "
       ],
-      "terrain": { "#": "t_wall_wood", "+": "t_door_c" },
-      "items": { "D": { "item": "hydro", "chance": 5 } },
       "monster": { "7": { "monster": "mon_chicken" }, "8": { "monster": "mon_chicken_chick" } },
       "place_item": [
         { "item": "straw_pile", "x": 12, "y": 3, "chance": 75 },
@@ -312,16 +274,16 @@
       "rows": [
         "                        ",
         "                        ",
-        "     ################## ",
-        "     #DDDDDDDDDDDDDDDD# ",
-        "     #D_______________# ",
-        "     #D__DDDDDDDDDD__r# ",
-        "     +_______________r# ",
-        "     +_______________r# ",
-        "     #D__DDDDDDDDDD__r# ",
-        "     #D_______________# ",
-        "     #DDDDDDDDDDDDDDDD# ",
-        "     ################## ",
+        "     GGGGGGGGGGGGGGGGGG ",
+        "     GDDDDDDDDDDDDDDDDG ",
+        "     GD_______________G ",
+        "     GD__DDDDDDDDDD__rG ",
+        "     ~_______________rG ",
+        "     ~_______________rG ",
+        "     GD__DDDDDDDDDD__rG ",
+        "     GD_______________G ",
+        "     GDDDDDDDDDDDDDDDDG ",
+        "     GGGGGGGGGGGGGGGGGG ",
         "                        ",
         "                        ",
         " FFFFFFFFFFFFFFFFFFFFFF ",
@@ -335,8 +297,46 @@
         " F  DDDDDDDDDDDDDDDD  F ",
         "FF                    F "
       ],
-      "items": { "D": { "item": "hydro", "chance": 5 }, "r": { "item": "tools_earthworking", "chance": 20 } },
+      "items": { "r": { "item": "tools_earthworking", "chance": 20 } },
       "palettes": [ "farm" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_3_roof", "farm_2_roof" ] ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "  ,,,,,,,,,,,,,,,,,,,                 ...       ",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, 22222...2222222",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ...............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ...............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ..&..........:.",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ...............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, .............X.",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ...............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, .=.............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ...............",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ---------------",
+        "  ,,,,,,,,,,,,,,,,,,,                           ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_metal_flat_roof" }
     }
   }
 ]

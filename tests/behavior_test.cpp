@@ -1,20 +1,25 @@
-#include "catch/catch.hpp"
+#include <memory>
+#include <string>
 
+#include "catch/catch.hpp"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
-
 #include "game.h"
 #include "npc.h"
+#include "item.h"
+#include "material.h"
+#include "string_id.h"
+#include "weather.h"
 
 namespace behavior
 {
 extern sequential_t default_sequential;
 extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
-}
+} // namespace behavior
 
-static behavior::node_t make_test_node( std::string goal, behavior::status_t *status )
+static behavior::node_t make_test_node( std::string goal, const behavior::status_t *status )
 {
     behavior::node_t node;
     if( !goal.empty() ) {
@@ -153,16 +158,18 @@ TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
         test_npc.set_stored_kcal( 1000 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
+        item_location loc = item_location( test_npc, &food );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( test_npc.get_item_position( &food ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
+        item_location loc = item_location( test_npc, &water );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( test_npc.get_item_position( &water ) );
+        test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }

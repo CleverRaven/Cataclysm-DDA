@@ -207,11 +207,10 @@ class query_popup
         bool fullscr;
 
         struct button {
-            button( const std::string &text, int x, int y );
+            button( const std::string &text, const point & );
 
             std::string text;
-            int x;
-            int y;
+            point pos;
         };
 
         // UI caches
@@ -229,7 +228,7 @@ class query_popup
         template <typename ...Args>
         static void assert_format( const std::string &, Args &&... ) {
             static_assert( sizeof...( Args ) > 0,
-                           "Format string should take at least one argument. "
+                           "Format string should take at least one argument.  "
                            "If your message is not a format string, "
                            "use `message( \"%s\", text )` instead." );
         }

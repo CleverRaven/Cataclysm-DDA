@@ -20,7 +20,7 @@
     "pierce": 20,
     "sight_dispersion": 150,
     "durability": 9,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "reload": 150,
     "magazine_well": 1,
     "magazines": [ [ "bolt", [ "bolt_hopper" ] ] ],
@@ -51,7 +51,7 @@
     "magazine_well": 1,
     "magazines": [ [ "h_projectile", [ "cannister_rack" ] ] ],
     "ammo_effects": [ "WIDE" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "cutter",
@@ -76,7 +76,7 @@
     "clip_size": 5,
     "reload": 1250,
     "valid_mod_locations": [  ],
-    "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "NON-FOULING" ]
   },
   {
     "id": "gattler",
@@ -98,7 +98,7 @@
     "ranged_damage": 60,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 12,
     "reload": 750,
     "valid_mod_locations": [  ],
@@ -149,7 +149,7 @@
     "pierce": 20,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ups_charges": 29,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "LASER", "WIDE" ],
@@ -178,7 +178,7 @@
     "ups_charges": 499,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "EXPLOSIVE", "LASER", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "nailer",
@@ -206,7 +206,7 @@
     "valid_mod_locations": [  ],
     "magazine_well": 1,
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "flags": [ "MOUNTED_GUN", "NEVER_JAMS" ]
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "NON-FOULING" ]
   },
   {
     "id": "needler",
@@ -229,7 +229,7 @@
     "pierce": 15,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "reload": 150,
     "valid_mod_locations": [  ],
     "magazine_well": 1,
@@ -284,12 +284,12 @@
     "pierce": 5,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "clip_size": 15,
     "reload": 750,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "rslauncher",
@@ -311,12 +311,12 @@
     "ranged_damage": 40,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 12,
     "reload": 2500,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "scorpion",
@@ -342,7 +342,7 @@
     "reload": 750,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "shardgun",
@@ -365,13 +365,13 @@
     "dispersion": 1300,
     "sight_dispersion": 150,
     "durability": 5,
-    "burst": 25,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 25 ] ],
     "ups_charges": 1,
     "reload": 150,
     "valid_mod_locations": [  ],
     "magazine_well": 1,
     "magazines": [ [ "BB", [ "bb_hopper" ] ] ],
-    "flags": [ "BURST_ONLY", "MOUNTED_GUN", "NEVER_JAMS" ]
+    "flags": [ "BURST_ONLY", "MOUNTED_GUN", "NEVER_JAMS", "NON-FOULING" ]
   },
   {
     "id": "slauncher",
@@ -394,12 +394,12 @@
     "pierce": 15,
     "sight_dispersion": 150,
     "durability": 8,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 12,
     "reload": 750,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "WIDE" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   },
   {
     "id": "teslagun",
@@ -423,7 +423,7 @@
     "ups_charges": 249,
     "valid_mod_locations": [  ],
     "ammo_effects": [ "BOUNCE", "LIGHTNING", "MOUNTED_GUN" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
   },
   {
     "id": "tiharturret",
@@ -445,10 +445,10 @@
     "ranged_damage": 25,
     "sight_dispersion": 150,
     "durability": 9,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "magazine_well": 1,
     "magazines": [ [ "pebble", [ "pebble_hopper" ] ] ],
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NON-FOULING" ]
   }
 ]

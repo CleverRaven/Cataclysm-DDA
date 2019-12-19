@@ -14,11 +14,11 @@
     "count": 1,
     "ammo_type": "fire_lance",
     "range": 3,
-    "damage": 50,
+    "damage": 15,
     "pierce": 0,
     "dispersion": 0,
     "recoil": 3000,
-    "effects": [ "COOKOFF", "RECYCLED" ]
+    "effects": [ "COOKOFF", "RECYCLED", "BLINDS_EYES" ]
   },
   {
     "id": "lance_charge_shot",
@@ -35,7 +35,7 @@
     "count": 1,
     "ammo_type": "fire_lance",
     "range": 4,
-    "damage": 75,
+    "damage": 30,
     "pierce": 1,
     "dispersion": 0,
     "recoil": 3000,

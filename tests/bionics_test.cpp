@@ -7,7 +7,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "ammo.h"
 #include "bionics.h"
 #include "game.h"
 #include "item.h"
@@ -20,8 +19,8 @@
 static void clear_bionics( player &p )
 {
     p.my_bionics->clear();
-    p.power_level = 0;
-    p.max_power_level = 0;
+    p.set_power_level( 0_kJ );
+    p.set_max_power_level( 0_kJ );
 }
 
 static void give_and_activate( player &p, bionic_id const &bioid )
@@ -48,9 +47,16 @@ static void give_and_activate( player &p, bionic_id const &bioid )
 
     // turn on if possible
     if( bio.id->toggled && !bio.powered ) {
+        const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
+        if( !fuel_opts.empty() ) {
+            p.set_value( fuel_opts.front(), "2" );
+        }
         p.activate_bionic( bioindex );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
+        if( !fuel_opts.empty() ) {
+            p.remove_value( fuel_opts.front() );
+        }
     }
 }
 
@@ -94,13 +100,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
     // Could be a SECTION, but prerequisite for many tests.
     INFO( "no power capacity at first" );
-    CHECK( dummy.max_power_level == 0 );
+    CHECK( !dummy.has_max_power() );
 
     dummy.add_bionic( bionic_id( "bio_power_storage" ) );
 
     INFO( "adding Power Storage CBM only increases capacity" );
-    CHECK( dummy.power_level == 0 );
-    REQUIRE( dummy.max_power_level > 0 );
+    CHECK( !dummy.has_power() );
+    REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_advreactor" ) {
         give_and_activate( dummy, bionic_id( "bio_advreactor" ) );

@@ -3,10 +3,8 @@
 #include <cstddef>
 #include <algorithm>
 #include <cassert>
-#include <sstream>
 #include <map>
 #include <utility>
-#include <type_traits>
 
 #include "debug.h"
 #include "json.h"
@@ -28,7 +26,7 @@ bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_
     return mutation_branch::get_group( gid )->has_trait( tid );
 }
 
-void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+void trait_group::load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
                                     const std::string &subtype )
 {
     mutation_branch::load_trait_group( jsobj, gid, subtype );
@@ -112,9 +110,8 @@ void trait_group::debug_spawn()
         uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : traitnames2 ) {
-            std::ostringstream buffer;
-            buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
+                                        string_format( _( "%d x %s" ), e.first, e.second ) );
         }
         menu2.query();
     }
@@ -208,14 +205,12 @@ bool Trait_group_creator::has_trait( const trait_id &tid ) const
 
 void Trait_group::add_trait_entry( const trait_id &tid, int probability )
 {
-    std::unique_ptr<Trait_creation_data> ptr( new Single_trait_creator( tid, probability ) );
-    add_entry( ptr );
+    add_entry( std::make_unique<Single_trait_creator>( tid, probability ) );
 }
 
 void Trait_group::add_group_entry( const Trait_group_tag &gid, int probability )
 {
-    std::unique_ptr<Trait_creation_data> ptr( new Trait_group_creator( gid, probability ) );
-    add_entry( ptr );
+    add_entry( std::make_unique<Trait_group_creator>( gid, probability ) );
 }
 
 void Trait_group::check_consistency() const
@@ -269,7 +264,7 @@ Trait_list Trait_group_collection::create( RecursionList &rec ) const
     return result;
 }
 
-void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &ptr )
+void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
     assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
@@ -282,7 +277,7 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &pt
     ptr.release();
 }
 
-void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> &ptr )
+void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
     assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {

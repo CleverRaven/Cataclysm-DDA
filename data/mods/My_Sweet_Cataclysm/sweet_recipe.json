@@ -1,0 +1,16 @@
+[
+  {
+    "type": "recipe",
+    "result": "caramel_ointement",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "3 m",
+    "autolearn": true,
+    "book_learn": [ [ "sugarkin_flyer", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "sugar", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  }
+]

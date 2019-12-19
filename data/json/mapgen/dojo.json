@@ -103,8 +103,8 @@
       "terrain": {
         ">": "t_stairs_down",
         "#": "t_wall_b",
-        "*": "t_concrete",
-        "S": "t_concrete",
+        "*": "t_thconc_floor",
+        "S": "t_thconc_floor",
         "+": "t_door_c",
         "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
       },

@@ -321,13 +321,13 @@
         "g": { "item": "decontamination", "chance": 15 }
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 34, "y": 26, "prob": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
-        { "group": "ammo_pistol_common", "x": 39, "y": 26, "prob": 100, "repeat": [ 1, 5 ] },
-        { "group": "prison_armor", "x": 39, "y": 26, "prob": 50, "repeat": [ 1, 2 ] }
+        { "group": "guns_pistol_common", "x": 34, "y": 26, "chance": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
+        { "group": "ammo_pistol_common", "x": 39, "y": 26, "chance": 100, "repeat": [ 1, 5 ] },
+        { "group": "prison_armor", "x": 39, "y": 26, "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
-      "fields": { "U": { "field": "fd_nuke_gas", "density": 3, "age": 990, "chance": 100 }, "/": { "field": "fd_shock_vent" } },
-      "monster": { "(": { "monster": "mon_turret" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
+      "fields": { "U": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 }, "/": { "field": "fd_shock_vent" } },
+      "monster": { "(": { "monster": "mon_turret_rifle" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
       "monsters": {
         "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
         "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },

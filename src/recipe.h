@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "requirements.h"
+#include "translations.h"
 #include "type_id.h"
 
 class item;
@@ -43,7 +44,7 @@ class recipe
         std::string category;
         std::string subcategory;
 
-        std::string description;
+        translation description;
 
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
@@ -61,7 +62,7 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
-        const std::function<bool( const item & )> get_component_filter() const;
+        std::function<bool( const item & )> get_component_filter() const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
@@ -82,6 +83,7 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -114,7 +116,7 @@ class recipe
             return reversible;
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
@@ -122,7 +124,7 @@ class recipe
 
         bool is_blueprint() const;
         const std::string &get_blueprint() const;
-        const std::string &blueprint_name() const;
+        const translation &blueprint_name() const;
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
@@ -168,7 +170,7 @@ class recipe
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
-        int charges = -1;
+        cata::optional<int> charges;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
@@ -176,7 +178,7 @@ class recipe
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
         std::string blueprint;
-        std::string bp_name;
+        translation bp_name;
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;

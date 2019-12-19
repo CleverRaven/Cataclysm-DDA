@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <array>
-#include <iosfwd>
 
 #include "options.h"
+#include "output.h"
 #include "wcwidth.h"
 
 #if defined(_WIN32)
@@ -141,25 +141,16 @@ std::string utf32_to_utf8( uint32_t ch )
 //CJK characters have a width of 2, etc
 int utf8_width( const char *s, const bool ignore_tags )
 {
+    if( ignore_tags ) {
+        return utf8_width( remove_color_tags( s ) );
+    }
     int len = strlen( s );
     const char *ptr = s;
     int w = 0;
-    bool inside_tag = false;
     while( len > 0 ) {
         uint32_t ch = UTF8_getch( &ptr, &len );
         if( ch == UNKNOWN_UNICODE ) {
             continue;
-        }
-        if( ignore_tags ) {
-            if( ch == '<' ) {
-                inside_tag = true;
-            } else if( ch == '>' ) {
-                inside_tag = false;
-                continue;
-            }
-            if( inside_tag ) {
-                continue;
-            }
         }
         w += mk_wcwidth( ch );
     }
@@ -174,6 +165,35 @@ int utf8_width( const std::string &str, const bool ignore_tags )
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
 {
     return utf8_width( str.c_str(), ignore_tags );
+}
+
+std::string left_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    int str_width = utf8_width( str, ignore_tags );
+    if( str_width >= width ) {
+        return str;
+    } else {
+        return str + std::string( width - str_width, ' ' );
+    }
+}
+
+std::string right_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    int str_width = utf8_width( str, ignore_tags );
+    if( str_width >= width ) {
+        return str;
+    } else {
+        return std::string( width - str_width, ' ' ) + str;
+    }
+}
+
+std::string utf8_justify( const std::string &str, const int width, const bool ignore_tags )
+{
+    if( width < 0 ) {
+        return left_justify( str, -width, ignore_tags );
+    } else {
+        return right_justify( str, width, ignore_tags );
+    }
 }
 
 //Convert cursor position to byte offset
@@ -256,7 +276,7 @@ static void build_base64_decoding_table()
 std::string base64_encode( const std::string &str )
 {
     //assume it is already encoded
-    if( str.length() > 0 && str[0] == '#' ) {
+    if( !str.empty() && str[0] == '#' ) {
         return str;
     }
 
@@ -290,7 +310,7 @@ std::string base64_encode( const std::string &str )
 std::string base64_decode( const std::string &str )
 {
     // do not decode if it is not base64
-    if( str.length() == 0 || str[0] != '#' ) {
+    if( str.empty() || str[0] != '#' ) {
         return str;
     }
 
@@ -369,7 +389,7 @@ std::wstring utf8_to_wstr( const std::string &str )
     strip_trailing_nulls( wstr );
     return wstr;
 #else
-    std::size_t sz = std::mbstowcs( NULL, str.c_str(), 0 ) + 1;
+    std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     std::mbstowcs( &wstr[0], str.c_str(), sz );
     strip_trailing_nulls( wstr );
@@ -380,13 +400,13 @@ std::wstring utf8_to_wstr( const std::string &str )
 std::string wstr_to_utf8( const std::wstring &wstr )
 {
 #if defined(_WIN32)
-    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
+    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr );
     std::string str( sz, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, nullptr, nullptr );
     strip_trailing_nulls( str );
     return str;
 #else
-    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), 0 ) + 1;
+    std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 ) + 1;
     std::string str( sz, '\0' );
     std::wcstombs( &str[0], wstr.c_str(), sz );
     strip_trailing_nulls( str );
@@ -401,12 +421,13 @@ std::string native_to_utf8( const std::string &str )
     }
 #if defined(_WIN32)
     // native encoded string --> Unicode sequence --> UTF-8 string
-    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, nullptr, 0, nullptr,
+                                         nullptr ) + 1;
     std::string result( utf8_size, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, nullptr, nullptr );
     strip_trailing_nulls( result );
     return result;
 #else
@@ -421,17 +442,41 @@ std::string utf8_to_native( const std::string &str )
     }
 #if defined(_WIN32)
     // UTF-8 string --> Unicode sequence --> native encoded string
-    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, nullptr, 0, nullptr,
+                                           nullptr ) + 1;
     std::string result( native_size, '\0' );
-    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, nullptr, nullptr );
     strip_trailing_nulls( result );
     return result;
 #else
     return str;
 #endif
+}
+
+std::string utf32_to_utf8( const std::u32string &str )
+{
+    std::string ret;
+    ret.reserve( str.length() );
+    for( auto it = str.begin(); it < str.end(); ++it ) {
+        ret += utf32_to_utf8( *it );
+    }
+    return ret;
+}
+
+std::u32string utf8_to_utf32( const std::string &str )
+{
+    int len = str.length();
+    const char *dat = str.data();
+    std::u32string ret;
+    ret.reserve( len );
+    while( len > 0 ) {
+        ret.push_back( UTF8_getch( &dat, &len ) );
+    }
+    ret.shrink_to_fit();
+    return ret;
 }
 
 int center_text_pos( const char *text, int start_pos, int end_pos )
@@ -573,7 +618,7 @@ utf8_wrapper utf8_wrapper::substr_byte( size_t bytestart, size_t length,
     return utf8_wrapper( _data.substr( bytestart, bend - bytestart ) );
 }
 
-long utf8_wrapper::at( size_t start ) const
+uint32_t utf8_wrapper::at( size_t start ) const
 {
     const size_t bstart = byte_start( 0, start );
     const char *utf8str = _data.c_str() + bstart;
@@ -620,5 +665,6 @@ std::string utf8_wrapper::shorten( size_t maxlength ) const
     if( display_width() <= maxlength ) {
         return str();
     }
-    return substr_display( 0, maxlength - 1 ).str() + "\u2026"; // 2026 is the utf8 for …
+    // 2026 is the utf8 for …
+    return substr_display( 0, maxlength - 1 ).str() + "\u2026";
 }

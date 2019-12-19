@@ -1,23 +1,27 @@
 [
   {
-    "id": "retool_410",
-    "type": "GUNMOD",
-    "name": ".410 bore conversion kit",
-    "description": "This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 rifle to the lightweight .410 shotgun bore.  The conversion results in a slight reduction to accuracy.",
-    "weight": 114,
-    "volume": 2,
-    "integral_volume": 0,
-    "price": 52000,
-    "material": "steel",
-    "symbol": ":",
-    "color": "green",
-    "location": "bore",
-    "mod_targets": [ "rifle", "shotgun" ],
-    "acceptable_ammo": [ "762", "223", "308", "shot" ],
-    "install_time": 60000,
-    "dispersion_modifier": 30,
-    "ammo_modifier": "410",
-    "min_skills": [ [ "weapon", 3 ], [ "mechanics", 2 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "type": "recipe",
+    "result": "reloaded_357",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410_birdshot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_410_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "410_scrap",
+    "obsolete": true
   }
 ]

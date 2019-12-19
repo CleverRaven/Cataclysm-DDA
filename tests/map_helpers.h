@@ -4,9 +4,8 @@
 
 #include <string>
 
-#include "enums.h"
-
 class monster;
+struct tripoint;
 
 void wipe_map_terrain();
 void clear_creatures();

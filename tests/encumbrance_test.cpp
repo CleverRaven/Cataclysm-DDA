@@ -15,6 +15,7 @@
 #include "item.h"
 #include "material.h"
 #include "type_id.h"
+#include "debug.h"
 
 static void test_encumbrance_on(
     player &p,

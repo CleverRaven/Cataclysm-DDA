@@ -38,13 +38,15 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "player.h"
 #include "worldfactory.h"
 #include "color.h"
 #include "options.h"
+#include "output.h"
 #include "pldata.h"
 #include "rng.h"
 #include "type_id.h"
+#include "cata_utility.h"
+#include "calendar.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -67,26 +69,15 @@ static std::string extract_argument( std::vector<const char *> &arg_vec, const s
 
 static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
-    std::vector<mod_id> ret;
     std::string mod_string = extract_argument( arg_vec, "--mods=" );
 
-    const char delim = ',';
-    size_t i = 0;
-    size_t pos = mod_string.find( delim );
-    if( pos == std::string::npos && !mod_string.empty() ) {
-        ret.emplace_back( mod_string );
-    }
-
-    while( pos != std::string::npos ) {
-        ret.emplace_back( mod_string.substr( i, pos - i ) );
-        i = ++pos;
-        pos = mod_string.find( delim, pos );
-
-        if( pos == std::string::npos ) {
-            ret.emplace_back( mod_string.substr( i, mod_string.length() ) );
+    std::vector<std::string> mod_names = string_split( mod_string, ',' );
+    std::vector<mod_id> ret;
+    for( const std::string mod_name : mod_names ) {
+        if( !mod_name.empty() ) {
+            ret.emplace_back( mod_name );
         }
     }
-
     return ret;
 }
 
@@ -95,23 +86,23 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory. Check permissions." );
+        assert( !"Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        assert( !"Unable to make config directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
+        assert( !"Unable to make config directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
-        assert( !"Unable to make save directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
+        assert( !"Unable to make save directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
-        assert( !"Unable to make templates directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
+        assert( !"Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -119,8 +110,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     // Apply command-line option overrides for test suite execution.
     if( !option_overrides.empty() ) {
-        for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
-            name_value_pair_t option = *iter;
+        for( const name_value_pair_t &option : option_overrides ) {
             if( get_options().has_option( option.first ) ) {
                 options_manager::cOpt &opt = get_options().get_option( option.first );
                 opt.setValue( option.second );
@@ -129,16 +119,19 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g.reset( new game );
+    g = std::make_unique<game>( );
     g->new_game = true;
     g->load_static_data();
 
-    world_generator->set_active_world( NULL );
+    world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != NULL );
+    assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != NULL );
+    assert( world_generator->active_world != nullptr );
+
+    calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
 
     loading_ui ui( false );
     g->load_core_data( ui );
@@ -149,10 +142,10 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
-    overmap_special_batch empty_specials( { 0, 0 } );
-    overmap_buffer.create_custom_overmap( 0, 0, empty_specials );
+    overmap_special_batch empty_specials( point_zero );
+    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
-    g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
+    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -227,7 +220,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+    void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
@@ -272,10 +265,10 @@ int main( int argc, const char *argv[] )
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
         printf( "CataclysmDDA specific options:\n" );
-        printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
+        printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
+        printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
         return result;
     }

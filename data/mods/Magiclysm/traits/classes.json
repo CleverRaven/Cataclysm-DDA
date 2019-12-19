@@ -4,11 +4,12 @@
     "id": "MAGUS",
     "name": "Magus",
     "points": 0,
-    "description": "A tradition as old as magic, the magus focuses on binding and shaping the energy of the universe to their will.",
+    "description": "A tradition as old as magic, the Magus focuses on binding and shaping the energy of the universe to their will.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "ANIMIST" ]
+    "cancels": [ "ANIMIST" ],
+    "spells_learned": [ [ "create_rune_magus", 1 ] ]
   },
   {
     "type": "mutation",
@@ -19,7 +20,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "MAGUS" ]
+    "cancels": [ "MAGUS" ],
+    "spells_learned": [ [ "create_rune_animist", 1 ] ]
   },
   {
     "type": "mutation",
@@ -30,7 +32,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "STORMSHAPER" ]
+    "cancels": [ "STORMSHAPER" ],
+    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
   },
   {
     "type": "mutation",
@@ -41,7 +44,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "KELVINIST" ]
+    "cancels": [ "KELVINIST" ],
+    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
   },
   {
     "type": "mutation",
@@ -52,7 +56,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "EARTHSHAPER" ]
+    "cancels": [ "EARTHSHAPER" ],
+    "spells_learned": [ [ "create_rune_technomancer", 1 ] ]
   },
   {
     "type": "mutation",
@@ -63,7 +68,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "TECHNOMANCER" ]
+    "cancels": [ "TECHNOMANCER" ],
+    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ]
   },
   {
     "type": "mutation",
@@ -74,17 +80,19 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "DRUID" ]
+    "cancels": [ "DRUID" ],
+    "spells_learned": [ [ "create_rune_biomancer", 1 ] ]
   },
   {
     "type": "mutation",
     "id": "DRUID",
     "name": "Druid",
     "points": 0,
-    "description": "Druids follow a wild tradition of allegiance and rebirth within the world of nature, especially the cycle of death and rebirth that is the plant world.  A powerful druid is as much a part of that world as the human one.",
+    "description": "Druids follow a wild tradition of allegiance and rebirth within the world of nature, especially the cycle of death and rebirth that is the plant world.  A powerful Druid is as much a part of that world as the human one.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "BIOMANCER" ]
+    "cancels": [ "BIOMANCER" ],
+    "spells_learned": [ [ "create_rune_druid", 1 ] ]
   }
 ]

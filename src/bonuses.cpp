@@ -1,6 +1,5 @@
 #include "bonuses.h"
 
-#include <sstream>
 #include <string>
 #include <utility>
 #include <algorithm>
@@ -67,7 +66,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
         std::make_pair( AFFECTED_MOVE_COST, translate_marker( "Move cost" ) ),
         std::make_pair( AFFECTED_DAMAGE, translate_marker( "damage" ) ),
         std::make_pair( AFFECTED_ARMOR, translate_marker( "Armor" ) ),
-        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor pen" ) ),
+        std::make_pair( AFFECTED_ARMOR_PENETRATION, translate_marker( "Armor penetration" ) ),
         std::make_pair( AFFECTED_TARGET_ARMOR_MULTIPLIER, translate_marker( "Target armor multiplier" ) ),
     }
 };
@@ -105,7 +104,7 @@ void effect_scaling::load( JsonArray &jarr )
     scale = jarr.next_float();
 }
 
-void bonus_container::load( JsonObject &jo )
+void bonus_container::load( const JsonObject &jo )
 {
     if( jo.has_array( "flat_bonuses" ) ) {
         JsonArray jarr = jo.get_array( "flat_bonuses" );
@@ -216,23 +215,27 @@ float bonus_container::get_mult( const Character &u, affected_stat stat ) const
 
 std::string bonus_container::get_description() const
 {
-    std::stringstream dump;
+    std::string dump;
     for( const auto &boni : bonuses_mult ) {
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
-            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+            //~ %1$s: damage type, %2$s: damage-related bonus name
+            type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
+                                  name_by_dt( boni.first.get_damage_type() ), type );
         }
 
         for( const auto &sf : boni.second ) {
-            dump << string_format( "%s: <stat>%d%%</stat>", type, static_cast<int>( sf.scale * 100 ) );
-
             if( sf.stat ) {
-                //~ bash damage +80% of strength
-                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
+                //~ %1$s: bonus name, %2$d: bonus percentage, %3$s: stat name
+                dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$d%%</stat> of %3$s" ),
+                                       type, static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
+            } else {
+                //~ %1$s: bonus name, %2$d: bonus percentage
+                dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$d%%</stat>" ),
+                                       type, static_cast<int>( sf.scale * 100 ) );
             }
-
-            dump << "  ";
+            dump += "\n";
         }
     }
 
@@ -240,25 +243,26 @@ std::string bonus_container::get_description() const
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
-            type = name_by_dt( boni.first.get_damage_type() ) + " " + type;
+            //~ %1$s: damage type, %2$s: damage-related bonus name
+            type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
+                                  name_by_dt( boni.first.get_damage_type() ), type );
         }
 
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
-                                       static_cast<int>( sf.scale * 100 ) );
-                //~ bash damage +80% of strength
-                dump << _( " of " ) << string_from_scaling_stat( sf.stat );
+                //~ %1$s: bonus name, %2$+d: bonus percentage, %3$s: stat name
+                dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$+d%%</stat> of %3$s" ),
+                                       type, static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
             } else {
-                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
-                                       static_cast<int>( sf.scale ) );
+                //~ %1$s: bonus name, %2$+d: bonus value
+                dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$+d</stat>" ),
+                                       type, static_cast<int>( sf.scale ) );
             }
-
-            dump << "  ";
+            dump += "\n";
         }
     }
 
-    return dump.str();
+    return dump;
 }
 
 float effect_scaling::get( const Character &u ) const

@@ -6,19 +6,16 @@
 #include <vector>
 
 #include "avatar.h"
-#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
 #include "monster.h"
 #include "npc.h"
-#include "player.h"
 #include "field.h"
-#include "enums.h"
 #include "game_constants.h"
-#include "overmapbuffer.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "point.h"
 
 void wipe_map_terrain()
 {
@@ -60,11 +57,11 @@ void clear_fields( const int zlevel )
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
             const tripoint p( x, y, zlevel );
-            std::vector<field_id> fields;
+            std::vector<field_type_id> fields;
             for( auto &pr : g->m.field_at( p ) ) {
-                fields.push_back( pr.second.getFieldType() );
+                fields.push_back( pr.second.get_field_type() );
             }
-            for( field_id f : fields ) {
+            for( field_type_id f : fields ) {
                 g->m.remove_field( p, f );
             }
         }
@@ -93,9 +90,8 @@ void clear_map_and_put_player_underground()
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
-    monster temp_monster( mtype_id( monster_type ), start );
-    // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
-    g->critter_tracker->add( temp_monster );
-    return *g->critter_tracker->find( temp_monster.pos() );
+    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
+    assert( added );
+    return *added;
 }
 

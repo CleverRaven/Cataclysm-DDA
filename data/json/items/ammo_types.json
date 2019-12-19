@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "barb",
+    "name": "barb",
+    "default": "barb_paralysis"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -55,6 +61,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "rock",
+    "name": "rocks",
+    "default": "rock"
+  },
+  {
+    "type": "ammunition_type",
     "id": "shotcanister",
     "name": "shotcanisters",
     "default": "shotcanister_scrap"
@@ -64,6 +76,18 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "shotpaper",
+    "name": "20ga percussion",
+    "default": "shot_paper_00"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "410shot",
+    "name": ".410 shot",
+    "default": "410shot_000"
   },
   {
     "type": "ammunition_type",
@@ -115,9 +139,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "38super",
+    "name": ".38 Super",
+    "default": "38super_fmj"
+  },
+  {
+    "type": "ammunition_type",
     "id": "40",
     "name": ".40",
     "default": "40sw"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "10mm",
+    "name": "10mm Auto",
+    "default": "10mm_fmj"
   },
   {
     "type": "ammunition_type",
@@ -142,6 +178,12 @@
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "45colt",
+    "name": ".45 Colt",
+    "default": "45colt_jhp"
   },
   {
     "type": "ammunition_type",
@@ -183,7 +225,13 @@
     "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
-    "default": "270"
+    "default": "3006"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "270win",
+    "name": ".270 Winchester",
+    "default": "270win_jsp"
   },
   {
     "type": "ammunition_type",
@@ -193,9 +241,15 @@
   },
   {
     "type": "ammunition_type",
-    "id": "40mm",
-    "name": "40mm grenade",
-    "default": "40mm_frag"
+    "id": "40x46mm",
+    "name": "40x46mm grenade",
+    "default": "40x46mm_m433"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "40x53mm",
+    "name": "40x53mm grenade",
+    "default": "40x53mm_m430a1"
   },
   {
     "type": "ammunition_type",
@@ -238,6 +292,12 @@
     "id": "lamp_oil",
     "name": "lamp oil",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "motor_oil",
+    "name": "motor oil",
+    "default": "motor_oil"
   },
   {
     "type": "ammunition_type",
@@ -286,12 +346,6 @@
     "id": "reactor_slurry",
     "name": "plutonium slurry",
     "default": "plut_slurry"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "fusion",
-    "name": "fusion cell",
-    "default": "laser_pack"
   },
   {
     "type": "ammunition_type",
@@ -361,6 +415,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "cac2powder",
+    "name": "powdered calcium carbide premix",
+    "default": "cac2powder"
+  },
+  {
+    "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
     "default": "rebar_rail"
@@ -398,7 +458,7 @@
   {
     "type": "ammunition_type",
     "id": "RPG-7",
-    "name": "93mm RPG-7",
+    "name": "RPG-7 rocket",
     "default": "RPG-7_ammo"
   },
   {
@@ -451,6 +511,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "papershot",
+    "name": "20ga percussion",
+    "default": "nail"
+  },
+  {
+    "type": "ammunition_type",
     "id": "36paper",
     "name": ".36 cap & ball",
     "default": "36navy"
@@ -487,9 +553,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "atgm",
+    "name": "152mm anti-tank guided missile",
+    "default": "atgm_heat"
+  },
+  {
+    "type": "ammunition_type",
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "unfinished_cac2",
+    "name": "partially burned calcium carbide",
+    "default": "unfinished_cac2"
   },
   {
     "type": "ammunition_type",
@@ -502,6 +580,12 @@
     "id": "milk",
     "name": "milk",
     "default": "milk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "milk_raw",
+    "name": "raw milk",
+    "default": "milk_raw"
   },
   {
     "type": "ammunition_type",
@@ -526,5 +610,17 @@
     "name": "hexamine",
     "default": "chem_hexamine",
     "type": "ammunition_type"
+  },
+  {
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen",
+    "type": "ammunition_type"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "300blk",
+    "name": ".300 AAC Blackout",
+    "default": "300blk"
   }
 ]

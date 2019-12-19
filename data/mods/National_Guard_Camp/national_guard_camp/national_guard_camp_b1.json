@@ -55,8 +55,8 @@
       ],
       "palettes": [ "national_guard_camp_b" ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 20, 22 ], "y": [ 24, 26 ], "age": 0, "density": 1, "repeat": 8 },
-        { "field": "fd_blood", "x": [ 88, 90 ], "y": [ 24, 26 ], "age": 0, "density": 1, "repeat": 8 }
+        { "field": "fd_blood", "x": [ 20, 22 ], "y": [ 24, 26 ], "age": 0, "intensity": 1, "repeat": 8 },
+        { "field": "fd_blood", "x": [ 88, 90 ], "y": [ 24, 26 ], "age": 0, "intensity": 1, "repeat": 8 }
       ],
       "place_monsters": [
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.075 },
@@ -111,8 +111,8 @@
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 73, 94 ], "y": [ 25, 46 ], "density": 0.075 }
       ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 44, 46 ], "y": [ 24, 26 ], "age": 0, "density": 1, "repeat": 8 },
-        { "field": "fd_blood", "x": [ 88, 90 ], "y": [ 24, 26 ], "age": 0, "density": 1, "repeat": 8 }
+        { "field": "fd_blood", "x": [ 44, 46 ], "y": [ 24, 26 ], "age": 0, "intensity": 1, "repeat": 8 },
+        { "field": "fd_blood", "x": [ 88, 90 ], "y": [ 24, 26 ], "age": 0, "intensity": 1, "repeat": 8 }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 42, "y": 10, "chance": 25, "rotation": 270 },
@@ -257,7 +257,7 @@
         "r": { "item": "chem_school", "chance": 45 }
       },
       "toilets": { "t": {  } },
-      "fields": { "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
+      "fields": { "!": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 } },
       "place_monsters": [
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -556,7 +556,7 @@
         { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.075 },
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.075 }
       ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 56, 58 ], "y": [ 43, 45 ], "age": 0, "density": 1, "repeat": 8 } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 56, 58 ], "y": [ 43, 45 ], "age": 0, "intensity": 1, "repeat": 8 } ]
     },
     "om_terrain": [
       [ "national_guard_camp_b1_48", "national_guard_camp_b1_49", "national_guard_camp_b1_50" ],
@@ -717,7 +717,7 @@
         { "vehicle": "golf_cart", "x": 42, "y": 8, "chance": 25, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 42, "y": [ 30, 43 ], "chance": 25, "rotation": 90 }
       ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 26, 28 ], "y": [ 21, 23 ], "age": 0, "density": 1, "repeat": 8 } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 26, 28 ], "y": [ 21, 23 ], "age": 0, "intensity": 1, "repeat": 8 } ]
     },
     "om_terrain": [
       [ "national_guard_camp_b1_54", "national_guard_camp_b1_55", "national_guard_camp_b1_56" ],
@@ -782,7 +782,7 @@
       ],
       "palettes": [ "national_guard_camp_b" ],
       "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "fields": { "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
+      "fields": { "!": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 } },
       "items": { "r": { "item": "electronics", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
       "place_monsters": [
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 },
@@ -853,7 +853,7 @@
         " 884  e~~~~~~~~~~~~~~~~~~~~~~~~~e7777777777e  Y                    Y  e~"
       ],
       "palettes": [ "national_guard_camp_b" ],
-      "fields": { "!": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
+      "fields": { "!": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 } },
       "items": { "L": { "item": "reactor_equipment", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
       "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "place_monsters": [
@@ -1299,7 +1299,7 @@
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.075 },
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.075 }
       ],
-      "place_fields": [ { "field": "fd_blood", "x": [ 65, 67 ], "y": [ 19, 21 ], "age": 0, "density": 1, "repeat": 8 } ]
+      "place_fields": [ { "field": "fd_blood", "x": [ 65, 67 ], "y": [ 19, 21 ], "age": 0, "intensity": 1, "repeat": 8 } ]
     },
     "om_terrain": [
       [ "national_guard_camp_b1_98", "national_guard_camp_b1_99", "national_guard_camp_b1_100" ],
@@ -1366,8 +1366,8 @@
       "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "items": { "d": { "item": "office", "chance": 40 }, "o": { "item": "radio", "chance": 40 } },
       "place_fields": [
-        { "field": "fd_blood", "x": [ 8, 11 ], "y": [ 2, 4 ], "age": 0, "density": 1, "repeat": 8 },
-        { "field": "fd_blood", "x": [ 68, 70 ], "y": [ 18, 20 ], "age": 0, "density": 1, "repeat": 8 }
+        { "field": "fd_blood", "x": [ 8, 11 ], "y": [ 2, 4 ], "age": 0, "intensity": 1, "repeat": 8 },
+        { "field": "fd_blood", "x": [ 68, 70 ], "y": [ 18, 20 ], "age": 0, "intensity": 1, "repeat": 8 }
       ],
       "place_monsters": [
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 },
@@ -1443,8 +1443,8 @@
       "items": { "r": { "item": "electronics", "chance": 40 }, "c": { "item": "robots", "chance": 25 } },
       "toilets": { "t": {  } },
       "place_fields": [
-        { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 12, 14 ], "age": 0, "density": 1, "repeat": 8 },
-        { "field": "fd_blood", "x": [ 67, 69 ], "y": [ 33, 35 ], "age": 0, "density": 1, "repeat": 8 }
+        { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 12, 14 ], "age": 0, "intensity": 1, "repeat": 8 },
+        { "field": "fd_blood", "x": [ 67, 69 ], "y": [ 33, 35 ], "age": 0, "intensity": 1, "repeat": 8 }
       ],
       "place_monsters": [
         { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 },
@@ -2111,9 +2111,9 @@
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 4, 19 ], "y": 27, "chance": 25, "rotation": 0 } ],
       "place_fields": [
-        { "field": "fd_blood", "x": [ 43, 45 ], "y": [ 38, 40 ], "age": 0, "density": 1, "repeat": 8 },
-        { "field": "fd_blood", "x": [ 31, 33 ], "y": [ 24, 25 ], "age": 0, "density": 1, "repeat": 6 },
-        { "field": "fd_blood", "x": [ 50, 52 ], "y": [ 27, 29 ], "age": 0, "density": 1, "repeat": 8 }
+        { "field": "fd_blood", "x": [ 43, 45 ], "y": [ 38, 40 ], "age": 0, "intensity": 1, "repeat": 8 },
+        { "field": "fd_blood", "x": [ 31, 33 ], "y": [ 24, 25 ], "age": 0, "intensity": 1, "repeat": 6 },
+        { "field": "fd_blood", "x": [ 50, 52 ], "y": [ 27, 29 ], "age": 0, "intensity": 1, "repeat": 8 }
       ]
     },
     "om_terrain": [

@@ -78,7 +78,7 @@
           "waterskin"
         ],
         "entries": [
-          { "item": "sword_forged", "container-item": "baldric" },
+          { "item": "sword_xiphos", "container-item": "baldric" },
           { "item": "knife_hunting", "container-item": "sheath" },
           { "item": "javelin_iron", "count": 2 }
         ]
