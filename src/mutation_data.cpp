@@ -637,7 +637,8 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     return *found->second;
 }
 
-void mutation_branch::load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection )
+void mutation_branch::load_trait_group( const JsonArray &entries,
+                                        const trait_group::Trait_group_tag &gid, const bool is_collection )
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
@@ -699,7 +700,8 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                 tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
             } else if( entry.test_array() ) {
                 JsonArray subtrait = entry.get_array();
-                tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
+                tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ),
+                                    subtrait.get_int( 1 ) );
             } else {
                 JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );

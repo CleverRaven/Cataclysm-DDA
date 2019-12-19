@@ -1534,14 +1534,16 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.", "rand_charges" );
+            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
+                            "rand_charges" );
         }
         for( const int charge : jo.get_array( "rand_charges" ) ) {
             slot.rand_charges.push_back( charge );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
-            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!", "rand_charges" );
+            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!",
+                            "rand_charges" );
         }
     }
 }
@@ -2513,7 +2515,8 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
     load_item_group( jsobj, group_id, subtype );
 }
 
-void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id, const bool is_collection, const int ammo_chance, const int magazine_chance )
+void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id,
+                                    const bool is_collection, const int ammo_chance, const int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];

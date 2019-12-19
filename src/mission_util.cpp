@@ -423,7 +423,8 @@ void mission_util::set_reveal( const std::string &terrain,
     funcs.emplace_back( mission_func );
 }
 
-void mission_util::set_reveal_any( const JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs )
+void mission_util::set_reveal_any( const JsonArray &ja,
+                                   std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
     for( const std::string &terrain : ja ) {
