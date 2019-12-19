@@ -1134,10 +1134,10 @@
     "description": "Build Dry Stone Wall",
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 1 ] ],
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ] ],
+    "components": [ [ [ "rock", 16 ] ] ],
     "pre_terrain": "t_drystone_wall_half",
     "post_terrain": "t_drystone_wall"
   },
