@@ -1337,19 +1337,19 @@
     "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
-      "str_min": 80,
-      "str_max": 300,
+      "str_min": 50,
+      "str_max": 200,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+      "items": [ { "item": "rock", "count": [ 8, 18 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_drystone_wall_half",
     "name": "half-built field stone wall",
-    "description": "Half of a sturdy dry stone wall.  Just rocks fitted together without mortar.  Some work still needs to be done before this stone wall is complete.",
+    "description": "A half height sturdy dry stone wall.  Just rocks fitted together without mortar.  Complete as is or with extensive work it could be doubled in height.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 4,
@@ -1358,11 +1358,11 @@
     "connects_to": "WALL",
     "bash": {
       "str_min": 40,
-      "str_max": 200,
+      "str_max": 120,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 3, 8 ] } ]
+      "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
     }
   }
 ]
