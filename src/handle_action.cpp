@@ -692,7 +692,7 @@ static void smash()
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-            u.mod_stat( "stamina", mod_sta );
+            u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }

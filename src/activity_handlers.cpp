@@ -1794,7 +1794,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
-            p->mod_stat( "stamina", -pulp_effort );
+            p->mod_stamina( -pulp_effort );
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -2935,7 +2935,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 {
-    p->mod_stat( "stamina", -20 );
+    p->mod_stamina( -20 );
 }
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
@@ -4474,7 +4474,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->magic.mod_mana( *p, -cost );
                 break;
             case stamina_energy:
-                p->mod_stat( "stamina", -cost );
+                p->mod_stamina( -cost );
                 break;
             case bionic_energy:
                 p->mod_power_level( -units::from_kilojoule( cost ) );

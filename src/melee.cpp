@@ -567,7 +567,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
-    mod_stat( "stamina", std::min( -50, mod_sta ) );
+    mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
     // trigger martial arts on-attack effects

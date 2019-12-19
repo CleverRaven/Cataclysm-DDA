@@ -2871,6 +2871,11 @@ void npc::process_turn()
 {
     player::process_turn();
 
+    // NPCs shouldn't be using stamina, but if they have, set it back to max
+    if( calendar::once_every( 1_minutes ) && get_stamina() < get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
+
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more

@@ -5222,7 +5222,15 @@ void Character::set_stamina( int new_stamina )
 
 void Character::mod_stamina( int mod )
 {
+    // TODO: Make NPCs smart enough to use stamina
+    if( is_npc() ) {
+        return;
+    }
     stamina += mod;
+    if( stamina < 0 ) {
+        add_effect( effect_winded, 10_turns );
+    }
+    stamina = clamp( 0, stamina, get_stamina_max() );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -5245,7 +5253,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -5491,7 +5499,7 @@ void Character::cough( bool harmful, int loudness )
     if( harmful ) {
         const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
-        mod_stat( "stamina", -malus );
+        mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }

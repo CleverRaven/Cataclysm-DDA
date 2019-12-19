@@ -595,7 +595,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         }
     }
     if( !throw_assist ) {
-        mod_stat( "stamina", stamina_cost );
+        mod_stamina( stamina_cost );
     }
 
     const skill_id &skill_used = skill_throw;
