@@ -63,6 +63,8 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
+# Turn off all optimizations, even debug-friendly optimizations
+#  make NOOPT=1
 # Astyle all source files.
 #  make astyle
 # Check if source files are styled properly.
@@ -303,10 +305,18 @@ ifdef RELEASE
 endif
 
 ifndef RELEASE
-  ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
-    OPTLEVEL = -Og
-  else
+  ifdef NOOPT
+    # While gcc claims to include all information required for
+    # debugging at -Og, at least with gcc 8.3, control flow
+    # doesn't move line-by-line at -Og.  Provide a command-line
+    # way to turn off optimization (make NOOPT=1) entirely.
     OPTLEVEL = -O0
+  else
+    ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+      OPTLEVEL = -Og
+    else
+      OPTLEVEL = -O0
+    endif
   endif
   CXXFLAGS += $(OPTLEVEL)
 endif
