@@ -1000,13 +1000,15 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
 
 int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
 {
-    if( it->made_of( LIQUID ) ) {
-        if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
-            return 0;
-        }
-    } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
-        if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
-            return 0;
+    if( !p->is_npc() ) {
+        if( it->made_of( LIQUID ) ) {
+            if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
+                return 0;
+            }
+        } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+            if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
+                return 0;
+            }
         }
     }
     return it->type->charges_to_use();
