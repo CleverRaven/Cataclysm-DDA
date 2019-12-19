@@ -939,7 +939,7 @@
     "type": "COMESTIBLE",
     "name": "alien fronds",
     "use_action": "POISON",
-    "description": "The fleshy fronds harvested from an alien plant. The tiny membranous leaves attached and rigid and gut-like stem are certainly poisonous, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
+    "description": "The fleshy fronds harvested from an alien plant.  Eating these membranous leaves and gut-like stems is likely a terrible idea, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
     "fun": 15,
     "stim": 3,
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 8 ] ]
