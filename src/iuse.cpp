@@ -4427,11 +4427,11 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
         const std::string exercise = p->activity_level_str();
         if ( exercise == "NO_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are not really active today.  Try going for a walk!'." ), it->tname() );
-        } else if ( exercise == "LIGHT_EXERCISE" ){
+        } else if ( exercise == "LIGHT_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Good start!  Keep it up and move more.'" ), it->tname() );
-        } else if ( exercise == "MODERATE_EXERCISE" ){
+        } else if ( exercise == "MODERATE_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Doing good!  Don't stop, push the limit!'" ), it->tname() );
-        } else if ( exercise == "ACTIVE_EXERCISE" ){
+        } else if ( exercise == "ACTIVE_EXERCISE" ) {
 			//Ad will most likely need to go
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
         } else {
