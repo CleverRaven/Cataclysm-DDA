@@ -162,8 +162,8 @@ Allow extend to work for mutation_branch::category.
 Basecamp storage zone : to populate camp inventory.
 JSONize loot zones.
 Added an ability to geiger-scan NPCs.
-Dynamic NPC spawn anywhere on overmap - not just near player
-Spawn some chemicals with random charges
+Dynamic NPC spawn anywhere on overmap - not just near player.
+Spawn some chemicals with random charges.
 Increase wind strength at higher z-levels.
 Added auto-picklock on examine.
 Vehicles: allow multiple vehicles on a bike rack.
@@ -365,7 +365,7 @@ Add run and crouch colors for the player's symbol in ASCII.
 Display status for all long activities.
 Add option to increase search radius in map view.
 Enable autosave by default.
-CBM Auto Start thershold options.
+CBM Auto Start threshold options.
 Include placeholder text on job categories.
 Add 'n:' prefix for item filtering, to search through an items note.
 Make AIM window width customizable.
@@ -446,14 +446,13 @@ Apply item spawn scaling factor to monster drops.
 Balance bionic power use for realistic values.
 Allow large and huge creatures to move through underbrush.
 Mouse view was truncating last row of information.
-Draw debug vehicle autopilot AI and restore previous behaviour
-Fix accidental IR vision
-Revert #35148 from ifreund/player-to-character
-Can create camps in buildings that don't face North
-Fixes martial arts initiate message when equipping an item
-Fix error caused by missing array in More Survival Tools mod
-Fixes crashes involving bayonet type items
-Terranian sonar allow to see digging monsters behind walls
+Draw debug vehicle autopilot AI and restore previous behaviour.
+Fix accidental IR vision.
+Can create camps in buildings that don't face North.
+Fixes martial arts initiate message when equipping an item.
+Fix error caused by missing array in More Survival Tools mod.
+Fixes crashes involving bayonet type items.
+Terranian sonar allow to see digging monsters behind walls.
 Stops large critters from using tight passages.
 
 ## Bugfixes:
