@@ -1162,6 +1162,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
         case BUTCHER_FULL:
             p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
+
             // Remove the target from the map
             target.remove_item();
             if( !act->targets.empty() ) {
