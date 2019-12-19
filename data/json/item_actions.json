@@ -747,7 +747,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name": { "ctxt": "FITNESS_CHECK", "str": "Check health metrics" }//is this correct format in my case?
+    "name":  "Check health metrics"
   },
   {
     "type": "item_action",

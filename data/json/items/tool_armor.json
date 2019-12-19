@@ -185,8 +185,8 @@
     "name_plural": "fitness bands",
     "category": "clothing",
     "volume": "100 ml",
-    "description": "A fitness band that can track your heartbeat, exercise level and also has a clocks.  Activate to see your metrics.",//use another word instead of "metrics"?
-    "weight": "30 g",//they are really that lightweight
+    "description": "A fitness band that can track your heartbeat, exercise level and also has a clocks.  Activate to see your metrics.",
+    "weight": "30 g",
     "to_hit": -1,
     "color": "light_gray",
     "covers": [ "HAND_EITHER" ],
