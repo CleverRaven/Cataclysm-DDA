@@ -2,7 +2,7 @@
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "410shot", 6 ], [ "m6_asw", 1 ] ]
+    "items": [ [ "410shot_000", 6 ], [ "m6_asw", 1 ] ]
   },
   {
     "id": "helicopter",
