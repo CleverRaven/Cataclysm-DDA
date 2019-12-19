@@ -74,7 +74,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                 }
             }
         } else {
-            if( ip.charges > 0 ){
+            if( ip.charges > 0 ) {
                 ip.loc.get_item()->set_var( "trade_charges", charges );
             } else {
                 ip.loc.get_item()->set_var( "trade_amount", 1 );
@@ -616,21 +616,21 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
-            if( !loc_ptr ){
+            if( !loc_ptr ) {
                 continue;
             }
             item *it = loc_ptr->get_item();
-            if( !it ){
+            if( !it ) {
                 continue;
             }
-            if( it->has_var( "trade_charges" ) && it->count_by_charges() ){
+            if( it->has_var( "trade_charges" ) && it->count_by_charges() ) {
                 it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
-                if( it->charges <= 0 ){
+                if( it->charges <= 0 ) {
                     loc_ptr->remove_item();
                 } else {
                     it->erase_var( "trade_charges" );
                 }
-            } else if( it->has_var( "trade_amount" ) ){
+            } else if( it->has_var( "trade_amount" ) ) {
                 loc_ptr->remove_item();
             }
         }
