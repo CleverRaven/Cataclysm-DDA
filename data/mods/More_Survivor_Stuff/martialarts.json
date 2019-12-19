@@ -1,0 +1,98 @@
+[
+  {
+    "type": "martial_art",
+    "id": "mss_style_sledge",
+    "name": "Survivor Sledge-Fu",
+    "description": "You have started to become truly proficient in handling heavy weaponry. Sledge-Fu allows you to bully an opponent using your strength until the right moment presents itself to swing your weapon properly for a killing blow.",
+    "initiate": [ "You roll your neck and get ready to shatter your enemies.", "%s rolls their neck menacingly." ],
+    "autolearn": [ [ "bashing", "5" ] ],
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "mss_buff_sledge_stonewall",
+        "name": "Intimidating Figure",
+        "description": "No man, machine or monstrosity can get through you and your strength. \n\n+2 Block attempts, -3.0 Dodge skill, blocked damage reduced by 70%% of Strength.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "block", "str", 0.7 ], [ "dodge", -3.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mss_buff_sledge_onmove",
+        "name": "Moving Bulk",
+        "description": "Moving your weight around makes it hard to take hits strategically, but it does prove useful for extra swing speed. \n\n-2 Block attempts, blocked damage increased by 70%% of Strength.\n+10%% bonus to bashing damage.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 1,
+        "bonus_blocks": -2,
+        "flat_bonuses": [ [ "block", "str", -0.4 ] ],
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "mss_buff_sledge_onmiss",
+        "name": "Swinging Big",
+        "description": "That's it! Now direct it towards them! \n\n+20%% bonus to bashing damage.\nEnables \"Flying Blow\" technique.\nEnables \"Violent Shove\" technique.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 4,
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.20 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "mss_buff_sledge_onhit",
+        "name": "Tiring Out",
+        "description": "Every attack tires you out. Take a breather.\n\n+15%% movecost.\nLasts 1 turn. Stacks 3 times.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 1,
+        "max_stacks": 3,
+		"mult_bonuses": [ [ "movecost", 1.15 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "mss_buff_sledge_onblock",
+        "name": "Riled Up",
+        "description": "Like a little fly, buzzing around harmlessly... \n\n+10%% bonus to bashing damage.\n-10%% movecost.\nEnables \"Violent Shove\" technique.\nLasts 1 turn.  Stacks 3 times.",
+        "melee_allowed": true,
+        "min_melee": 1,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.10 ], [ "movecost", 0.9 ] ]
+      }
+    ],
+    "techniques": [ "mss_tec_sledge_counter",
+	"mss_tec_sledge_shove",
+	"mss_tec_sledge_feint",
+	"mss_tec_sledge_deathblow",
+	"mss_tec_sledge_deathblowstun",
+	"mss_tec_sledge_break",
+	"mss_tec_sledge_jab",
+	"mss_tec_sledge_gutbuster",
+	"mss_tec_sledge_shoveonmiss"
+	],
+    "weapons": [
+      "ax",
+      "battleaxe",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "copper_ax",
+      "fire_ax",
+      "halberd",
+      "halberd_fake",
+      "hammer_sledge",
+      "lobotomizer",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "makeshift_halberd",
+      "pickaxe",
+	  "mss_survivor_sledge"
+    ]
+  }
+
+]
