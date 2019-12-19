@@ -3135,6 +3135,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     const int difficulty = act->values.front();
 
     const time_duration half_op_duration = difficulty * 10_minutes;
+    const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_turns( act->moves_left / 100 ) ;
 
     if( autodoc && g->m.inbounds( p->pos() ) ) {
@@ -3177,7 +3178,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     if( time_left > half_op_duration ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
@@ -3185,7 +3186,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             }
         } else {
-            if( calendar::once_every( 5_minutes ) && u_see ) {
+            if( calendar::once_every( message_freq ) && u_see ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is meticulously cutting you open." ),
                                           _( "The Autodoc is meticulously cutting <npcname> open." ) );
@@ -3229,7 +3230,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     } else if( act->values[1] > 0 ) {
         if( act->values.size() > 4 ) {
             for( size_t i = 4; i < act->values.size(); i++ ) {
-                if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+                if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
@@ -3237,14 +3238,14 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                 }
             }
         } else {
-            if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+            if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                 p->add_msg_player_or_npc( m_info,
                                           _( "The Autodoc is stitching you back up." ),
                                           _( "The Autodoc is stitching <npcname> back up." ) );
             }
         }
     } else {
-        if( calendar::once_every( 5_minutes ) && u_see && autodoc ) {
+        if( calendar::once_every( message_freq ) && u_see && autodoc ) {
             p->add_msg_player_or_npc( m_bad,
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching your wounds." ),
                                       _( "The Autodoc is moving erratically through the rest of its program, not actually stitching <npcname>'s wounds." ) );
