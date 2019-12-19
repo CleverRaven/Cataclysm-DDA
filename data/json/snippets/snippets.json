@@ -284,7 +284,7 @@
       },
       {
         "id": "note_15",
-        "text": "\"If only I had had more time with that Autodoc I could have saved them!  But with that damn chip in their brain those poor cyborg wil never be human again…\""
+        "text": "\"The damn autodoc overrides wouldn't work and I didn't have my hospital ID.  I couldn't save them alone.\""
       },
       {
         "id": "note_16",
@@ -347,7 +347,7 @@
         "id": "note_37",
         "text": "\"Boyfriend stole my pistol while I was asleep.  I locked him in the bathroom and set the house on fire.  At least he attracted their attention.\""
       },
-      { "id": "note_38", "text": "\"I get air conditioners, but… this whole laboratory is frozen to ice!\"" },
+      { "id": "note_38", "text": "\"I get air conditioners, but… this whole place is frozen to ice!\"" },
       {
         "id": "note_39",
         "text": "\"A wood ax works pretty well against them.  So does a machete, but you can't cut down a tree.\""
@@ -372,11 +372,11 @@
       { "id": "note_45", "text": "\"Gas mask is nice and all, but I can hardly run with it on.\"" },
       {
         "id": "note_46",
-        "text": "\"One of those robot tanks was blocking the way out.  Got some sort of sweetspot, though, where it can't decide what to shoot with, maybe 30 yards or so?  Made it to the truck and just drove.\""
+        "text": "\"They set up the roadblock guns to run automatically.  TV said those fuckin things needed a human to keep em safe, they ain't safe now.\""
       },
       {
         "id": "note_47",
-        "text": "\"Those evac shelters have basements.  Remember when they were full of food?  Every single one is fucking empty now…\""
+        "text": "\"The evac shelters are a death trap.  They took everyone else away but something in the driver's eyes told me not to go.  Now it's just me.\""
       },
       {
         "id": "note_48",
@@ -441,7 +441,7 @@
         "text": "\"Why would you ever hide in a damn gun store?  The owner… he was a moron alright.\""
       },
       { "id": "note_77", "text": "\"THEY DON'T feel ANYTHING\"" },
-      { "id": "note_78", "text": "\"What was XEDRA doing, anyway?\"" },
+      { "id": "note_78", "text": "\"What was the government doing, anyway?\"" },
       {
         "id": "note_79",
         "text": "\"Is that one pharmaceutical company gonna come out with a, like, cure for this anytime soon?\""
@@ -472,11 +472,15 @@
         "text": "\"Your backpack's gonna weigh you down in the water.  Hell, feel free to get naked.  Nobody's going to judge your modesty.\""
       },
       { "id": "note_93", "text": "\"Guns too loud.  Crossbow too long.  Running is best.\"" },
-      { "id": "note_94", "text": "\"99% dead?  I'd like to see a million zombies on Wall Street.\"" },
+      { "id": "note_94", "text": "\"99.9% dead?  I'd like to see a million zombies on Wall Street.\"" },
       { "id": "note_95", "text": "\"Crawled in through the vents.  Whole office building is infested.\"" },
       {
         "id": "note_96",
         "text": "\"Don't shoot the people who get bit!  It's OK!  Death is the only thing that makes you turn!\""
+      },
+      {
+        "id": "note_96a",
+        "text": "\"Check your freinds for bites, don't let them hide it and turn on you.  Only way out is to shoot em in the head.\""
       },
       {
         "id": "note_97",
@@ -540,7 +544,7 @@
         "id": "note_119",
         "text": "\"There's nothing wrong with eating people if you HAVE to.  I mean, I only did it because I didn't want to waste my potato chips!\""
       },
-      { "id": "note_120", "text": "\"all these robotic police really take the piss out of kops\"" },
+      { "id": "note_120", "text": "\"all these fuckin eyebots really take the piss out of kops\"" },
       { "id": "note_121", "text": "\"CHINA DID THIS\"" },
       { "id": "note_122", "text": "\"RUSSIA DID THIS\"" },
       {
@@ -814,310 +818,6 @@
       {
         "id": "note_223",
         "text": "\"followed what toby wrote down.  shells looked like theyd hold more, I put in some more.  traded most to h raiders for crank.  shot my 38 today and it fuckn exploded.  low on crank, good as dead, no gun, no toby.  headed to montreal real sorry bout the bullets\""
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "newest_news",
-    "text": [
-      {
-        "id": "newest_news_1",
-        "text": "LABS BOMBED: In an apparent foreign attack (contradicting earlier Department of Defense denials of the disaster being caused by Chinese aggression) most of New England's scientific labs were bombed simultaneously yesterday.  A statement from the Pentagon has been issued, stating the strikes were the result of Chinese opportunism during the national crisis, and assured that action would be taken in kind against the aggressors."
-      },
-      {
-        "id": "newest_news_2",
-        "text": "RIOTS GROWING?: Communications were muddled by a large influx of aggressive armed individuals.  \"We have this under control,\" says a local police chief.  \"We are authorizing our robotic security drones to use lethal force on combative humans.\""
-      },
-      {
-        "id": "newest_news_3",
-        "text": "RIOTERS NOT HUMAN?: An earlier command by regional police has backfired.  \"The hooligans don't register as human.\" says a local police chief.  \"The securibots turned on us when we tried to fight them.  We don't have enough people left to reprogram them.\""
-      },
-      {
-        "id": "newest_news_4",
-        "text": "GENETIC MODIFICATIONS?: Eyewitnesses from the New England Disaster Area have claimed that the infected are displaying inhuman qualities.  \"I swear to God, one of them was the size of a tree!\", said one panicked survivor.  There are also reports of infected with acidic and/or electric properties."
-      },
-      {
-        "id": "newest_news_5",
-        "text": "SUPER-SOLDIERS DEPLOYED: General Westinghouse released a statement today that elite troops equipped with top-of-the-line experimental combat bionics have been deployed via helicopter into the New England Disaster Area.  \"Through the strength of American technology and American soldiers, we will fix this disaster!\""
-      },
-      {
-        "id": "newest_news_6",
-        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"Aid Delayed\".  Fighting by the military at the edge of the New England Disaster Area is expected to delay civilian extraction.  Civilians will be forced to supply themselves over the next weeks."
-      },
-      {
-        "id": "newest_news_7",
-        "text": "PUBLIC SERVICE ANNOUNCEMENT: \"New England Cut Off\".  New England has been quarantined for the safety of the rest of the USA.  No rescue attempts will be funded; it is assumed there are no survivors in the area."
-      },
-      {
-        "id": "newest_news_8",
-        "text": "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with infected yourself, our troops have the technology and the training for military action.  Loud gunfire may attract more hostile attention than you have ammo!\""
-      },
-      {
-        "id": "newest_news_9",
-        "text": "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: hostiles use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\""
-      },
-      {
-        "id": "newest_news_10",
-        "text": "EDITOR SAYS \"DESTROY THE DEAD\".  Recognizable dead left lying in the street may be dangerous!  If you kill a hostile, smash or butcher with a knife until unrecognizable!  The Geneva Conventions don't apply to civilians!"
-      },
-      {
-        "id": "newest_news_11",
-        "text": "THEY'RE NOT RIOTS!: According to head officials at the Centers for Disease Control, autopsies of rioters in New England have shown massive pathological infection, possibly causing hyper-aggression, disregard for personal harm, and a severely-impaired ability for higher reasoning."
-      },
-      {
-        "id": "newest_news_12",
-        "text": "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."
-      },
-      {
-        "id": "newest_news_13",
-        "text": "A BRIDGE TOO FAR: In a Monday statement, the Department of Defense detailed its plans to deploy strategic minefields on key bridge crossings, in order to quarantine infected regions.  \"Military personnel will be on-site to assist any refugees fleeing the infected zones.  We urge citizens to comply with all military directives and avoid quarantined areas whenever possible until order can be restored.\""
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "many_years_old_news",
-    "text": [
-      {
-        "id": "many_years_old_news_1",
-        "text": "QUANTUM LEAP: An undisclosed DARPA project has yielded results in the form of theoretical teleportation.  \"This is just the tip of the iceberg,\" said an anonymous source.  \"I can't disclose, but this development is the LEAST in this exciting vein!\""
-      },
-      {
-        "id": "many_years_old_news_2",
-        "text": "SECURIBOTS: Keeping your home safe, ready the second the alarm goes off…  Who needs people?"
-      },
-      {
-        "id": "many_years_old_news_3",
-        "text": "ROBOCOP BEATS CRIME: Due to the common usage of Securibots and their ability to respond more rapidly than people, crime is down 54% and dropping.  Police chief says \"Don't trip an alarm and you have nothing to worry about\""
-      },
-      {
-        "id": "many_years_old_news_4",
-        "text": "ROBOT RAMPAGE: Three Protesters injured when surrounding a Military base, protesting automated turrets which put guards out of jobs.  \"We warned them, turrets will open fire on anyone without a military ID,\" a general said."
-      },
-      {
-        "id": "many_years_old_news_5",
-        "text": "US IGNORES UN DEMANDS: The US ambassador to the UN today turned down UN requests to begin mutual nuclear disarmament of China, the US and North Korea.  \"We have a right to defend ourselves,\" insisted the ambassador.  \"We'll back down when they do\"."
-      },
-      {
-        "id": "many_years_old_news_6",
-        "text": "A WHOLE NEW YOU!  Augment your world with CBMs!  This ad features a man covered in glowing tattoos with a miniature flashlight in the middle of his head.  He's waving at the reader; all of his fingertips are Allen wrenches."
-      },
-      {
-        "id": "many_years_old_news_7",
-        "text": "The Future… powered by COFFEE!  Rivtech brings you the greatest revolution since espresso.  Why wait for milk to boil?  Have your coffee ready instantly with \"THE POWER OF THE ATOM\"!"
-      },
-      {
-        "id": "many_years_old_news_8",
-        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
-      },
-      {
-        "id": "many_years_old_news_9",
-        "text": "POPULAR MECHANICS: People say mechanics is boring.  We say, prove them wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
-      },
-      {
-        "id": "many_years_old_news_10",
-        "text": "CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore!  Learn how to make jewelery and art from it as well!  We also discuss the correct way to use superglue without gluing your hands together!"
-      },
-      {
-        "id": "many_years_old_news_11",
-        "text": "UNDERGROUND BUNKER?  Sources in the government suggest that underground bunkers are being built in a secret location in case of enemy attack.  We were unable to get the exact location as our sources mysteriously disappeared shortly after revealing this information."
-      },
-      {
-        "id": "many_years_old_news_12",
-        "text": "STUDENT MISSING: A high school student vanished yesterday evening in the forest near Wayland.  The 17-year-old international student from China (who adopted the anglicized nickname \"Brett\" due to his classmates' difficulty pronouncing his given name) was last seen with his friends in the camp.  \"Brett said that he was gonna get some firewood but he never came back,\" said his classmate, Jianxiang Wang.  The search is underway."
-      },
-      {
-        "id": "many_years_old_news_13",
-        "text": "STILL SEARCHING: The search for Brett, the high school student who went missing three days ago, is still ongoing.  \"He could have played in the soccer game against Weston High School yesterday,\" Brett's sorrowful teammate said, \"[..] we've never stopped praying.\"  Despite the best efforts of the County Search & Rescue, Brett had still not been located at the time of this report."
-      },
-      {
-        "id": "many_years_old_news_14",
-        "text": "RUMORS DENIED: Allegations that DARPA had been conducting teleportation experiments in secret just outside Wayland were put to rest during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference, \"teleportation only exists in sci-fi films.\""
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "years_old_news",
-    "text": [
-      {
-        "id": "years_old_news_1",
-        "text": "GOVERNMENT SCIENCE BOOST: The government has drastically increased defense R&D after UN disarmament demands.  \"This not only keeps money in our country, but maintains our lead on China and keeps us defended\", the President said."
-      },
-      {
-        "id": "years_old_news_2",
-        "text": "HOME GROWN SCIENCE: Several governors & legislators from the New England region discussed a new regional initiative today, which relaxed laws that limit the distance a hazardous-material laboratory or factory can be from a city.  \"This should keep our economy going strong for years to come, with all the military R&D facilities being established,\", one mayor remarked."
-      },
-      {
-        "id": "years_old_news_3",
-        "text": "DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible to create a new car from scrap parts using almost nothing but duct tape.  When asked why he had done it, his answer was \"Well, I didn't have a welder.\""
-      },
-      {
-        "id": "years_old_news_4",
-        "text": "NEVER BE LEFT IN THE DARK!  Rivtech Atomic-nightlight uses \"inexhaustible\" plutonium fuel cell, provides light, feeds power back into your grid!"
-      },
-      {
-        "id": "years_old_news_5",
-        "text": "Sick of FUEL PRICES?  Bus stop too far?  Get your driving fix from THE SUN!  Solar powered electric cars: Silent, Cheap, Powerful."
-      },
-      {
-        "id": "years_old_news_6",
-        "text": "Coffee of The Future… RIGHT NOW!  No one has really has the time to make great coffee, but now you don't have to!  Rivtech gives you inexhaustible ATOMIC power!  To make boiling hot coffee the MINUTE you want it!  Atomic Coffeemaker."
-      },
-      {
-        "id": "years_old_news_7",
-        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
-      },
-      {
-        "id": "years_old_news_8",
-        "text": "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
-      },
-      {
-        "id": "years_old_news_9",
-        "text": "BIRDHOUSE MONTHLY…  This month we look at some Dutch innovations in birdhouse design, and compare with the often confused Scandinavian Birdhouse design.  Our article on sheet metal birdhouses will have you riveted!"
-      },
-      {
-        "id": "years_old_news_10",
-        "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  Uncanny plans to bring their expertise to the field of androids.  Unconfirmed rumors suggest that Uncanny has already recieved large orders from the government."
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "one_year_old_news",
-    "text": [
-      {
-        "id": "one_year_old_news_1",
-        "text": "READY FOR THE WORST: The government has proven it is ready to deal with China's threats.  In the event of an actual attack, we have established evacuation centers, within a short distance of most towns."
-      },
-      {
-        "id": "one_year_old_news_2",
-        "text": "MUTANT COLD: A new cold virus has emerged in the New England area.  \"There don't appear to be complications, but many sufferers are dealing with sudden muscle weakness and a greater-than-normal amount of lethargy from this virus,\" said a doctor.  \"In addition, it's been documented to last up to ten days.\""
-      },
-      {
-        "id": "one_year_old_news_3",
-        "text": "GRAVE BUSINESS: Recent reports show a large spike in thefts from and assaults on funeral homes in the last few weeks.  Described as highly strange but not especially dangerous, Homeland Security is \"looking at the connections now.\""
-      },
-      {
-        "id": "one_year_old_news_4",
-        "text": "SPACE TELEPORTATION - TRUTH OR FICTION?  Scientists addressed a growing conspiracy theory today \"The plutonium consumed is massive.  We could never use teleportation to reach aliens, unless they live on some kind of parallel world.\""
-      },
-      {
-        "id": "one_year_old_news_5",
-        "text": "LASERS - NEXT BIG THING?: Top defense researchers remarked during demonstration of a prototype today: \"We are still working on it, the laser weapon lacks power, but has a technically almost unlimited range,\" one said"
-      },
-      {
-        "id": "one_year_old_news_6",
-        "text": "DRUG USE ON THE RISE: Recent statistic suggest drug use in New England has climbed more than 20% in the last two years.  \"People are scared for their jobs, their country, even their life… of course some will turn to drugs,\" said an expert."
-      },
-      {
-        "id": "one_year_old_news_7",
-        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those blues away at GREENS Supermarket"
-      },
-      {
-        "id": "one_year_old_news_8",
-        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
-      },
-      {
-        "id": "one_year_old_news_9",
-        "text": "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
-      },
-      {
-        "id": "one_year_old_news_10",
-        "text": "BIRDHOUSE MONTHLY…  Which wood would a woodpecker prefer?  This month we discuss hardwood versus soft woods, whether to lacquer, oil or paint, and which type of nails you should use!"
-      },
-      {
-        "id": "one_year_old_news_11",
-        "text": "TECHWORLD NEWS: Uncanny unveils its new product - the Grocery Bot!  Thousands of else-if statements, pre-recorded voice from professional actors, what more does this adorable android hides under its smiling face?  Our expert got the answer for you!"
-      },
-      {
-        "id": "one_year_old_news_12",
-        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  This week, a CROSSBOW TRAP!"
-      },
-      {
-        "id": "one_year_old_news_13",
-        "text": "NEW LAB OPENS: The H.R. Bennett Research Facility has been officially opened by the Department of Energy.  According to Deputy Secretary of Energy Randall Balakrishnan, \"This facility is one of the most state-of-the-art in the world.  With the opening of the H.R. Bennett research complex, New England's future is looking brighter than ever.\""
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "months_old_news",
-    "text": [
-      {
-        "id": "months_old_news_1",
-        "text": "SUPPORT THE COUNTRIES THAT SUPPORT YOURS - PRESIDENT: Unexpectedly and unpopularly, the president today suggested the possible institution of a peacetime draft in response to increasing Chinese aggression towards Taiwan and the Philippines.  \"We must pray for the best while preparing for the worst.  We cannot abandon key allies in the face of Chinese bullying.\""
-      },
-      {
-        "id": "months_old_news_2",
-        "text": "EVACS UNSTOCKED: TRUTH OR FICTION?  An unidentified government source has suggested that the evacuation centers are unstocked, having \"already accomplished the goal of calming the people\".  He later retracted the comment and is unable to be contacted."
-      },
-      {
-        "id": "months_old_news_3",
-        "text": "NEW WEAPON UNVEILED: Defense today lifted the lid on a long held secret project.  \"We can't discuss the specifics, but it generates a burst of plasma which accurately follows a path of laser-heated air,\" according to a Pentagon official."
-      },
-      {
-        "id": "months_old_news_4",
-        "text": "UFO CRASH: TRUTH OR FICTION?  One civilian account claims a shining disk appeared in his field.  \"It kind of glowed, and I could see a strange gray world through it.  Then a shambling hazy purple mushroom came through, man.\""
-      },
-      {
-        "id": "months_old_news_5",
-        "text": "TIME TRAVEL: TRUTH OR FICTION?  Leaked federal documents describe the formation of a new federal agency called XEDRA, to oversee \"4th Axis technology\" already in use.  Our expert's opinion suggests time-travel or parallel worlds.  The meaning of the acronym is currently unknown."
-      },
-      {
-        "id": "months_old_news_6",
-        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  Classic BEAR TRAP returns in this issue!"
-      },
-      {
-        "id": "months_old_news_7",
-        "text": "HUNTING GOODS!  Food prices getting you down?  Why not get a crossbow or compound bow and Hunt Your Own!?  Our arrows and bolts are completely reusable, so why not hunt animals like Mother Nature intended?"
-      }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "weeks_old_news",
-    "text": [
-      {
-        "id": "weeks_old_news_1",
-        "text": "MYTH DEBUNKED: DEAD ARE STAYING DEAD: Stories about the dead rising \"are completely unfounded.\", a general said today.  \"It's an obvious hoax by people just looking for five minutes of fame, or to scare people in these uncertain times.  After all, remember the clown thing a few years ago?\""
-      },
-      {
-        "id": "weeks_old_news_2",
-        "text": "GENERAL SAYS AVOID BUNKERS: Do not attempt to flee to your nearest military bunker!  Understaffed bunkers are defended by turrets, which will shoot those without proper registration.  Please seek military personnel if you need access."
-      },
-      {
-        "id": "weeks_old_news_3",
-        "text": "VIOLENCE OUTBREAKS CAUSED BY \"NEW DRUG\": Rumors of riots were quelled today.  \"These are isolated incidents\" said a local police chief.  \"The violence is random and senseless, our current theory is contamination in a new street drug.\""
-      },
-      {
-        "id": "weeks_old_news_4",
-        "text": "ZOMBIE DRUG?  A controversial blogger suggested the recent riots are a chemical attack by China in her latest podcast.  \"They're jealous of our cybernetic superiority, so they teamed up with Haiti to put hoodoo drugs in the water making people zombies!\""
-      },
-      {
-        "id": "weeks_old_news_5",
-        "text": "PICKLED MEAT IN A JAR!  Just like your grandma used to make!  It will last for months or longer, and when you've eaten it, you can refill and seal the jar!  Stock your emergency supply TODAY!"
-      },
-      {
-        "id": "weeks_old_news_6",
-        "text": "BAGS, BAGS, BAGS!  They're very useful things!  If we didn't have BAGS, what-would-we-use… to PUT a lot of things in!?  (Ad by the \"Play SchoolClothing Co.\")"
-      },
-      {
-        "id": "weeks_old_news_7",
-        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
-      },
-      {
-        "id": "weeks_old_news_8",
-        "text": "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
-      },
-      {
-        "id": "weeks_old_news_9",
-        "text": "BIRDHOUSE MONTHLY…  Which wood would a woodpecker prefer?  This month we discuss hardwood versus soft woods, whether to lacquer, oil or paint, and which type of nails you should use!"
-      },
-      {
-        "id": "weeks_old_news_10",
-        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those Blues away at GREENS Supermarket"
       }
     ]
   },
