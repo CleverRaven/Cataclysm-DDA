@@ -4750,7 +4750,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
-        if( kpart ) { // we have a faucet, now to see what to drain
+        if( kpart && !check_only ) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
             // Special case hotplates which draw battery power
@@ -4773,7 +4773,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( weldpart ) { // we have a weldrig, now to see what to drain
+        if( weldpart && !check_only ) { // we have a weldrig, now to see what to drain
             itype_id ftype = "null";
 
             if( type == "welder" ) {
@@ -4792,7 +4792,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( craftpart ) { // we have a craftrig, now to see what to drain
+        if( craftpart && !check_only ) { // we have a craftrig, now to see what to drain
             itype_id ftype = "null";
 
             if( type == "press" ) {
@@ -4816,7 +4816,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( forgepart ) { // we have a veh_forge, now to see what to drain
+        if( forgepart && !check_only ) { // we have a veh_forge, now to see what to drain
             itype_id ftype = "null";
 
             if( type == "forge" ) {
@@ -4834,7 +4834,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( kilnpart ) { // we have a veh_kiln, now to see what to drain
+        if( kilnpart && !check_only ) { // we have a veh_kiln, now to see what to drain
             itype_id ftype = "null";
 
             if( type == "kiln" ) {
@@ -4852,7 +4852,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( chempart ) { // we have a chem_lab, now to see what to drain
+        if( chempart && !check_only ) { // we have a chem_lab, now to see what to drain
             itype_id ftype = "null";
 
             if( type == "chemistry_set" ) {
