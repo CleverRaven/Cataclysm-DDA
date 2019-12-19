@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <map>
+#include <sstream>
 #include <string>
 #include <utility>
 
@@ -760,10 +761,24 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
     }
 
     if( wtotal > 1000000 ) {
-        debugmsg( "plant coverage total exceeds 100%%" );
+        std::stringstream ss;
+        for( auto it = percent_str.begin(); it != percent_str.end(); ++it ) {
+            if( it != percent_str.begin() ) {
+                ss << '+';
+            }
+            ss << it->second;
+        }
+        debugmsg( "plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), wtotal );
     }
     if( btotal > 1000000 ) {
-        debugmsg( "boosted plant coverage total exceeds 100%%" );
+        std::stringstream ss;
+        for( auto it = boosted_percent_str.begin(); it != boosted_percent_str.end(); ++it ) {
+            if( it != boosted_percent_str.begin() ) {
+                ss << '+';
+            }
+            ss << it->second;
+        }
+        debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
     tf_id.furn = f_null;
