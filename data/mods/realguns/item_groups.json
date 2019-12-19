@@ -12,7 +12,7 @@
   {
     "id": "guns_pistol_obscure",
     "type": "item_group",
-    "items": [ [ "m1991a1_38super", 150 ] ]
+    "items": [ [ "m1911a1_38super", 150 ] ]
   },
   {
     "id": "guns_rifle_rare",
@@ -38,6 +38,6 @@
   {
     "id": "mags_obscure",
     "type": "item_group",
-    "items": [ [ "m1991_38smag", 10 ] ]
+    "items": [ [ "m1911mag_10rd_38super", 10 ] ]
   }
 ]
