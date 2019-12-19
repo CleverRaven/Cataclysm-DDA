@@ -33,8 +33,8 @@
       [ "sauce_pesto", 12 ],
       [ "zucchini", 13 ],
       [ "tomato", 10 ],
-      [ "mushroom_magic", 2 ],
-      [ "mushroom_poison", 1 ],
+      { "item": "mushroom", "prob": 2, "custom-flags": [ "HIDDEN_HALLU" ] },
+      { "item": "mushroom", "prob": 1, "custom-flags": [ "HIDDEN_POISON" ] },
       [ "mushroom", 27 ],
       [ "sausage", 25 ],
       [ "pineapple", 20 ]
