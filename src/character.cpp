@@ -139,6 +139,7 @@ static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
+static const efftype_id effect_cig( "cig" );
 
 static const species_id ROBOT( "ROBOT" );
 
@@ -7287,8 +7288,20 @@ int Character::heartrate_bpm() const
     //This function returns heartrate in BPM basing of health, physical state, tiredness, moral effects, stimulators and anything that should fit here. 
     //Some values are picked to make sense from math point of view and seem correct but effects may vary in real life
     //This needs more attention from experienced contributors to work more smooth
-    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution. There's probably a better way to do that. Possibly this value should be generated with player creation.
-    const int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 );
+    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution. There's probably a better way to do that. Possibly this value should be generated with player creation. 
+    int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 ); 
+    //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
+    if( has_trait( trait_CHEMIMBALANCE ) ) {
+        average_heartbeat += rng( -15, 15 );
+    }
+    //Quick also raises basic BPM
+    if( has_trait( trait_QUICK ) ) {
+        average_heartbeat *= 1.1;
+    }
+    //Badtemper makes youк BPM raise from anger
+    if( has_trait( trait_BADTEMPER ) ) {
+        average_heartbeat *= 1.1;
+    }
     const float stamina_level = float(get_stamina()) / float( get_stamina_max() );
     float stamina_effect = 0;
     if( stamina_level >= 0.9 ) {
@@ -7313,6 +7326,15 @@ int Character::heartrate_bpm() const
         stim_modifer = 2.1 - 2/( 1 + 0.001 * stim_level * stim_level ); 
     }
     heartbeat *= 1 + stim_modifer;
+    if ( p->get_effect_dur( effect_cig ) > 0 )
+    {
+        //Nicotine-induced tachycardia
+        if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+            heartbeat *= 1.4;
+        } else {
+            heartbeat *= 1.1;
+        }
+    }
     //add morale effects, mutations, fear(?), medication effects
     //health effect that can make things better or worse is applied in the end. Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
@@ -7320,7 +7342,19 @@ int Character::heartrate_bpm() const
     //a bit arbitary formula that can use some love
     healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
-    //A single clamp in the end should be enough  
+    //if something raised BPM at least by 20% for a player with ADRENALINE, it adds 20% of avg more to result
+    if ( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 )
+    {
+        heartbeat += average_heartbeat * 0.2;
+    }
+    //Add dependencies for COLDBLOOD?
+    //Add effects from addictions
+    //A single clamp in the end should be enough 
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
+    //No heartbeat in omnicell
+    if ( has_trait( trait_SLIMESPAWNER ) )
+    {
+        heartbeat = 0;
+    }
     return heartbeat;
 }
