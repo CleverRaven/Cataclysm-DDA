@@ -191,7 +191,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id &fake_id, int &quantity );
+        std::list<item> use_charges( const itype_id &fake_id, int &quantity, bool check_only = false );
         void consume_components( const recipe &making, int batch_size = false );
         void consume_components( map &target_map, const recipe &making, int batch_size );
         std::string get_gatherlist() const;

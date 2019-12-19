@@ -9,10 +9,13 @@
 #include <utility>
 
 #include "debug.h"
+#include "game.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
+#include "messages.h"
+#include "map.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
@@ -94,12 +97,56 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
+bool craft_command::check_use_rotten_components() const
+{
+    add_msg( "check use rotten ran" );
+    std::list<item> avail;
+    const auto filter = rec->get_component_filter();
+    const inventory inv = crafter->crafting_inventory();
+    for( const comp_selection<item_comp> &selection : item_selections ) {
+        item_comp selected_comp = selection.comp;
+        const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
+        // Count given to use_amount/use_charges, changed by those functions!
+        int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch_size : abs(
+                             selected_comp.count );
+        if( selection.use_from & use_from_map ) {
+            if( by_charges ) {
+                std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count, filter,
+                                                        nullptr, true );
+                avail.splice( avail.end(), tmp );
+            } else {
+                std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type, real_count, filter,
+                                                       true );
+                avail.splice( avail.end(), tmp );
+            }
+        }
+        if( selection.use_from & use_from_player ) {
+            if( by_charges ) {
+                std::list<item> tmp = crafter->use_charges( selected_comp.type, real_count, filter, true );
+                avail.splice( avail.end(), tmp );
+            } else {
+                std::list<item> tmp = crafter->use_amount( selected_comp.type, real_count, filter, true );
+                avail.splice( avail.end(), tmp );
+            }
+        }
+    }
+    for( const item &item_elem : avail ) {
+        add_msg( "item elem = %s", item_elem.tname() );
+        if( item_elem.rotten() &&
+            !query_yn( _( "The %s is rotten, continue using it as a crafting component?" ),
+                       item_elem.tname() ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void craft_command::execute( const tripoint &new_loc )
 {
     if( empty() ) {
         return;
     }
-
+    add_msg( "craft command execute " );
     if( new_loc != tripoint_zero ) {
         loc = new_loc;
     }
@@ -158,7 +205,10 @@ void craft_command::execute( const tripoint &new_loc )
             tool_selections.push_back( ts );
         }
     }
-
+    add_msg( "check rotten components - before" );
+    if( !check_use_rotten_components() ) {
+        return;
+    }
     crafter->start_craft( *this, loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();

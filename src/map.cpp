@@ -4565,11 +4565,11 @@ bool map::has_items( const tripoint &p ) const
 
 template <typename Stack>
 std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter )
+                                  const std::function<bool( const item & )> &filter, bool check_only = false )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_amount( type, quantity, ret, filter ) ) {
+        if( a->use_amount( type, quantity, ret, filter, check_only ) && !check_only ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4579,7 +4579,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quanti
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
-                                        int &quantity, const std::function<bool( const item & )> &filter )
+                                        int &quantity, const std::function<bool( const item & )> &filter, bool check_only )
 {
     std::list<item> ret;
     // Handle infinite map sources.
@@ -4592,22 +4592,22 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
 
     if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
         std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type,
-                                                quantity, filter );
+                                                quantity, filter, check_only );
         ret.splice( ret.end(), tmp );
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter );
+    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter, check_only );
     ret.splice( ret.end(), tmp );
     return ret;
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id &type,
-                                 int &quantity, const std::function<bool( const item & )> &filter )
+                                 int &quantity, const std::function<bool( const item & )> &filter, bool check_only )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
         for( const tripoint &p : points_in_radius( origin, radius ) ) {
             if( rl_dist( origin, p ) >= radius ) {
-                std::list<item> tmp = use_amount_square( p, type, quantity, filter );
+                std::list<item> tmp = use_amount_square( p, type, quantity, filter, check_only );
                 ret.splice( ret.end(), tmp );
             }
         }
@@ -4617,11 +4617,12 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 
 template <typename Stack>
 std::list<item> use_charges_from_stack( Stack stack, const itype_id type, int &quantity,
-                                        const tripoint &pos, const std::function<bool( const item & )> &filter )
+                                        const tripoint &pos, const std::function<bool( const item & )> &filter, bool check_only = false )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter, check_only ) &&
+            !check_only ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4631,7 +4632,8 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, int &q
 }
 
 static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
-                                   map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
+                                   map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter,
+                                   bool check_only = false )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
         auto item_list = m->i_at( p );
@@ -4644,7 +4646,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                     // Update the returned liquid amount to match the requested amount
                     ret.back().charges = quantity;
                     // Update the liquid item in the world to contain the leftover liquid
-                    current_item->charges -= quantity;
+                    if( !check_only ) {
+                        current_item->charges -= quantity;
+                    }
                     // All the liquid needed was found, no other sources will be needed
                     quantity = 0;
                 } else {
@@ -4652,7 +4656,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                     // The leftover quantity returned will check other sources
                     quantity -= current_item->charges;
                     // Remove liquid item from the world
-                    item_list.erase( current_item );
+                    if( !check_only ) {
+                        item_list.erase( current_item );
+                    }
                 }
                 return;
             }
@@ -4687,7 +4693,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
                                   const itype_id type, int &quantity,
-                                  const std::function<bool( const item & )> &filter, basecamp *bcp )
+                                  const std::function<bool( const item & )> &filter, basecamp *bcp, bool check_only )
 {
     std::list<item> ret;
 
@@ -4709,7 +4715,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     if( bcp ) {
-        ret = bcp->use_charges( type, quantity );
+        ret = bcp->use_charges( type, quantity, check_only );
         if( quantity <= 0 ) {
             return ret;
         }
@@ -4717,14 +4723,14 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
     for( const tripoint &p : reachable_pts ) {
         if( has_furn( p ) ) {
-            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter, check_only );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
         if( accessible_items( p ) ) {
-            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p, filter );
+            std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p, filter, check_only );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -4756,6 +4762,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
             // TODO: add a sane birthday arg
             item tmp( type, 0 );
+
             tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
@@ -4868,7 +4875,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         if( cargo ) {
             std::list<item> tmp =
                 use_charges_from_stack( cargo->vehicle().get_items( cargo->part_index() ), type, quantity, p,
-                                        filter );
+                                        filter, check_only );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;

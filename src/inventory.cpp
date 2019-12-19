@@ -758,7 +758,7 @@ int inventory::position_by_type( const itype_id &type ) const
 }
 
 std::list<item> inventory::use_amount( itype_id it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+                                       const std::function<bool( const item & )> &filter, bool check_only )
 {
     items.sort( stack_compare );
     std::list<item> ret;
@@ -766,13 +766,13 @@ std::list<item> inventory::use_amount( itype_id it, int quantity,
         for( std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */ ) {
-            if( stack_iter->use_amount( it, quantity, ret, filter ) ) {
+            if( stack_iter->use_amount( it, quantity, ret, filter, check_only ) && !check_only ) {
                 stack_iter = iter->erase( stack_iter );
             } else {
                 ++stack_iter;
             }
         }
-        if( iter->empty() ) {
+        if( iter->empty() && !check_only ) {
             binned = false;
             iter = items.erase( iter );
         } else if( iter != items.end() ) {

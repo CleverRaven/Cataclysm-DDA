@@ -525,14 +525,16 @@ item &item::set_damage( int qty )
     return *this;
 }
 
-item item::split( int qty )
+item item::split( int qty, bool check_only )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
     }
     item res = *this;
     res.charges = qty;
-    charges -= qty;
+    if( !check_only ) {
+        charges -= qty;
+    }
     return res;
 }
 
@@ -7573,20 +7575,20 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
 }
 
 bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
-                       const std::function<bool( const item & )> &filter )
+                       const std::function<bool( const item & )> &filter, bool check_only )
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, used ) ) {
+        if( a->use_amount( it, quantity, used, return_true<item>, check_only ) && !check_only ) {
             a = contents.erase( a );
         } else {
             ++a;
         }
     }
 
-    if( quantity != old_quantity ) {
+    if( quantity != old_quantity && !check_only ) {
         on_contents_changed();
     }
 
@@ -7819,11 +7821,11 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter, bool check_only )
 {
     std::vector<item *> del;
 
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter, &check_only]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -7839,7 +7841,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                 qty -= n;
 
                 used.push_back( item( *e ).ammo_set( e->ammo_current(), n ) );
-                e->ammo_consume( n, pos );
+                if( !check_only ) {
+                    e->ammo_consume( n, pos );
+                }
             }
             return VisitResponse::SKIP;
 
@@ -7847,8 +7851,8 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
 
                 // if can supply excess charges split required off leaving remainder in-situ
-                item obj = e->split( qty );
-                if( parent ) {
+                item obj = e->split( qty, check_only );
+                if( parent && !check_only ) {
                     parent->on_contents_changed();
                 }
                 if( !obj.is_null() ) {
@@ -7873,7 +7877,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     for( item *e : del ) {
         if( e == this ) {
             destroy = true; // cannot remove ourselves...
-        } else {
+        } else if( !check_only ) {
             remove_item( *e );
         }
     }

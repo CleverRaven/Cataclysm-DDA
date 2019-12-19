@@ -1065,12 +1065,14 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
+                                           bool check_only = false );
         std::list<item> use_amount( const tripoint &origin, int range, const itype_id &type,
-                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+                                    int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
+                                    bool check_only = false );
         std::list<item> use_charges( const tripoint &origin, int range, itype_id type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
-                                     basecamp *bcp = nullptr );
+                                     basecamp *bcp = nullptr, bool check_only = false );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 

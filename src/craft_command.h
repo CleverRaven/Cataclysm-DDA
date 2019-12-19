@@ -65,7 +65,7 @@ class craft_command
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
         void execute( const tripoint &new_loc = tripoint_zero );
-
+        bool check_use_rotten_components() const;
         /**
          * Consumes the selected components and returns the resulting in progress craft item.
          * Must be called after execute().

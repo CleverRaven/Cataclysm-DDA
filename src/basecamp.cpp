@@ -557,7 +557,7 @@ void basecamp::set_name( const std::string &new_name )
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
  */
-std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
+std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity, bool check_only )
 {
     std::list<item> ret;
     if( quantity <= 0 ) {
@@ -568,8 +568,10 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
             item camp_item( bcp_r.fake_id, 0 );
             camp_item.charges = std::min( bcp_r.available, quantity );
             quantity -= camp_item.charges;
-            bcp_r.available -= camp_item.charges;
-            bcp_r.consumed += camp_item.charges;
+            if( !check_only ) {
+                bcp_r.available -= camp_item.charges;
+                bcp_r.consumed += camp_item.charges;
+            }
             ret.push_back( camp_item );
             if( quantity <= 0 ) {
                 break;

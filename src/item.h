@@ -256,7 +256,7 @@ class item : public visitable<item>
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
-        item split( int qty );
+        item split( int qty, bool check_only = false );
 
         /**
          * Make a corpse of the given monster type.
@@ -585,7 +585,7 @@ class item : public visitable<item>
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item> );
+                          const std::function<bool( const item & )> &filter = return_true<item>, bool check_only = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -614,7 +614,7 @@ class item : public visitable<item>
          * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = return_true<item> );
+                         const std::function<bool( const item & )> &filter = return_true<item>, bool check_only = false );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;

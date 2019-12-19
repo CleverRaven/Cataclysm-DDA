@@ -7093,14 +7093,14 @@ bool Character::has_charges( const itype_id &it, int quantity,
 }
 
 std::list<item> Character::use_amount( itype_id it, int quantity,
-                                       const std::function<bool( const item & )> &filter )
+                                       const std::function<bool( const item & )> &filter, bool check_only )
 {
     std::list<item> ret;
-    if( weapon.use_amount( it, quantity, ret ) ) {
+    if( weapon.use_amount( it, quantity, ret, return_true<item>, check_only ) && !check_only ) {
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, ret, filter ) ) {
+        if( a->use_amount( it, quantity, ret, filter, check_only ) && !check_only ) {
             a->on_takeoff( *this );
             a = worn.erase( a );
         } else {
@@ -7110,7 +7110,7 @@ std::list<item> Character::use_amount( itype_id it, int quantity,
     if( quantity <= 0 ) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount( it, quantity, filter );
+    std::list<item> tmp = inv.use_amount( it, quantity, filter, check_only );
     ret.splice( ret.end(), tmp );
     return ret;
 }
@@ -7125,7 +7125,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 }
 
 std::list<item> Character::use_charges( const itype_id &what, int qty,
-                                        const std::function<bool( const item & )> &filter )
+                                        const std::function<bool( const item & )> &filter, bool check_only )
 {
     std::list<item> res;
 
@@ -7133,11 +7133,15 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == "toolset" ) {
-        mod_power_level( units::from_kilojoule( -qty ) );
+        if( !check_only ) {
+            mod_power_level( units::from_kilojoule( -qty ) );
+        }
         return res;
 
     } else if( what == "fire" ) {
-        use_fire( qty );
+        if( !check_only ) {
+            use_fire( qty );
+        }
         return res;
 
     } else if( what == "UPS" ) {
@@ -7145,26 +7149,30 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             mounted_creature.get()->battery_item ) {
             auto mons = mounted_creature.get();
             int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
-            mons->use_mech_power( -power_drain );
+            if( !check_only ) {
+                mons->use_mech_power( -power_drain );
+            }
             qty -= std::min( qty, power_drain );
             return res;
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
             int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            mod_power_level( units::from_kilojoule( -bio ) );
+            if( !check_only ) {
+                mod_power_level( units::from_kilojoule( -bio ) );
+            }
             qty -= std::min( qty, bio );
         }
 
         int adv = charges_of( "adv_UPS_off", static_cast<int>( ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            std::list<item> found = use_charges( "adv_UPS_off", adv );
+            std::list<item> found = use_charges( "adv_UPS_off", adv, return_true<item>, check_only );
             res.splice( res.end(), found );
             qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
         int ups = charges_of( "UPS_off", qty );
         if( ups > 0 ) {
-            std::list<item> found = use_charges( "UPS_off", ups );
+            std::list<item> found = use_charges( "UPS_off", ups, return_true<item>, check_only );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
@@ -7174,8 +7182,9 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( e->use_charges( what, qty, res, pos(), filter ) ) {
+    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter,
+          &check_only ]( item * e ) {
+        if( e->use_charges( what, qty, res, pos(), filter, check_only ) ) {
             del.push_back( e );
         }
         if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
@@ -7183,12 +7192,13 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
-
-    for( auto e : del ) {
-        remove_item( *e );
+    if( !check_only ) {
+        for( auto e : del ) {
+            remove_item( *e );
+        }
     }
 
-    if( has_tool_with_UPS ) {
+    if( has_tool_with_UPS && !check_only ) {
         use_charges( "UPS", qty );
     }
 
