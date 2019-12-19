@@ -627,6 +627,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
                 it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
                 if( it->charges <= 0 ){
                     loc_ptr->remove_item();
+                } else {
+                    it->erase_var( "trade_charges" );
                 }
             } else if( it->has_var( "trade_amount" ) ){
                 loc_ptr->remove_item();
