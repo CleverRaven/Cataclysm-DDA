@@ -125,6 +125,10 @@ struct mutation_branch {
         float hp_adjustment = 0.0f;
         // Modify strength stat without changing HP
         float str_modifier = 0.0f;
+        //melee bonuses
+        int cut_dmg_bonus = 0;
+        std::pair<int, int> rand_cut_bonus;
+        int bash_dmg_bonus = 0;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;

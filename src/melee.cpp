@@ -899,26 +899,22 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait( trait_CLAWS ) || ( has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
-                per_hand += 3;
-            }
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
-            if( has_trait( trait_TALONS ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with TALONS */
-                per_hand += 3 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
-            }
-            // Stainless Steel Claws do stabbing damage, too.
-            if( has_trait( trait_CLAWS_RAT ) || has_trait( trait_CLAWS_ST ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST */
-                per_hand += 1 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
+            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
+                    continue;
+                }
+                float unarmed_bonus = 0.0f;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 ) {
+                    unarmed_bonus += std::min( unarmed_skill / 2, 4 );
+                }
+                per_hand += mut.first->cut_dmg_bonus + unarmed_bonus;
+                per_hand += average ? ( mut.first->rand_cut_bonus.first + mut.first->rand_cut_bonus.second ) /
+                            2.0f : rng( mut.first->rand_cut_bonus.first, mut.first->rand_cut_bonus.second );
             }
             // TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if( has_trait( trait_SLIME_HANDS ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with SLIME_HANDS */
-                per_hand += average ? 2.5f : rng( 2, 3 );
-            }
 
             cut_dam += per_hand; // First hand
             if( left_empty && right_empty ) {

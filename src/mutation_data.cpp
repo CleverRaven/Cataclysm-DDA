@@ -328,6 +328,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
     optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
+    optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
     optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
@@ -366,6 +368,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
+    if( jo.has_object( "rand_cut_bonus" ) ) {
+        JsonObject sm = jo.get_object( "rand_cut_bonus" );
+        rand_cut_bonus.first = sm.get_int( "min" );
+        rand_cut_bonus.second = sm.get_int( "max" );
+    }
+
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
