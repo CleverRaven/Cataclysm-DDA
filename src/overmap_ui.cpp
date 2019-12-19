@@ -1434,7 +1434,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             bool in_boat = false;
             if( vp && in_road_vehicle ) {
                 vehicle &veh = vp->vehicle();
-                in_boat = veh.can_float() && veh.is_watercraft() && veh.is_watercraft();
+                in_boat = veh.can_float() && veh.is_watercraft() && veh.is_in_water();
                 if( in_boat ) {
                     in_road_vehicle = false;
                 }
