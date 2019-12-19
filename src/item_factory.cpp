@@ -77,9 +77,7 @@ static void assign( const JsonObject &jo, const std::string &name,
         return;
     }
     mods.clear();
-    JsonArray jarr = jo.get_array( name );
-    while( jarr.has_more() ) {
-        JsonArray curr = jarr.next_array();
+    for( JsonArray curr : jo.get_array( name ) ) {
         mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( curr.get_string( 1 ),
                       curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
     }
@@ -109,9 +107,8 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     };
 
     if( jo.has_array( key ) ) {
-        JsonArray arr = jo.get_array( key );
-        while( arr.has_more() ) {
-            parse( arr.next_string() );
+        for( const std::string &line : jo.get_array( key ) ) {
+            parse( line );
         }
         return true;
 
@@ -1409,9 +1406,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "skill", slot.skill_used, strict );
     if( jo.has_array( "ammo" ) ) {
         slot.ammo.clear();
-        JsonArray atypes = jo.get_array( "ammo" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo" ) ) {
+            slot.ammo.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo.clear();
@@ -1446,9 +1442,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
-        JsonArray jarr = jo.get_array( "valid_mod_locations" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
+        for( JsonArray curr : jo.get_array( "valid_mod_locations" ) ) {
             slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
         }
     }
@@ -1522,9 +1516,8 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo" ) ) {
-        JsonArray atypes = jo.get_array( "ammo" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo" ) ) {
+            slot.ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
         slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
@@ -1540,16 +1533,15 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "sub", slot.subtype, strict );
 
     if( jo.has_array( "rand_charges" ) ) {
-        JsonArray jarr = jo.get_array( "rand_charges" );
         if( jo.has_member( "initial_charges" ) ) {
-            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both." );
+            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.", "rand_charges" );
         }
-        while( jarr.has_more() ) {
-            slot.rand_charges.push_back( jarr.next_int() );
+        for( const int charge : jo.get_array( "rand_charges" ) ) {
+            slot.rand_charges.push_back( charge );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
-            jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
+            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!", "rand_charges" );
         }
     }
 }
@@ -1573,9 +1565,8 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
     bool strict = src == "dda";
 
     if( jo.has_array( "ammo_modifier" ) ) {
-        JsonArray atypes = jo.get_array( "ammo_modifier" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo_modifier" ) ) {
+            slot.ammo_modifier.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_modifier" ) ) {
         slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
@@ -1593,14 +1584,11 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
     if( !mags.empty() ) {
         slot.magazine_adaptor.clear();
     }
-    while( mags.has_more() ) {
-        JsonArray arr = mags.next_array();
-
+    for( JsonArray arr : mags ) {
         ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
-
-        while( compat.has_more() ) {
-            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        // compatible magazines for this ammo type
+        for( const std::string &line : arr.get_array( 1 ) ) {
+            slot.magazine_adaptor[ ammo ].insert( line );
         }
     }
 }
@@ -1734,9 +1722,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
     if( jo.has_array( "vitamins" ) ) {
-        auto vits = jo.get_array( "vitamins" );
-        while( vits.has_more() ) {
-            auto pair = vits.next_array();
+        for( JsonArray pair : jo.get_array( "vitamins" ) ) {
             vitamin_id vit( pair.get_string( 0 ) );
             slot.default_nutrition.vitamins[ vit ] = pair.get_int( 1 );
         }
@@ -1748,9 +1734,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
                 slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
-            auto vits = relative.get_array( "vitamins" );
-            while( vits.has_more() ) {
-                auto pair = vits.next_array();
+            for( JsonArray pair : relative.get_array( "vitamins" ) ) {
                 vitamin_id vit( pair.get_string( 0 ) );
                 slot.default_nutrition.vitamins[ vit ] += pair.get_int( 1 );
             }
@@ -1847,9 +1831,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
     if( jo.has_array( "add_mod" ) ) {
         slot.add_mod.clear();
-        JsonArray jarr = jo.get_array( "add_mod" );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
+        for( JsonArray curr : jo.get_array( "add_mod" ) ) {
             slot.add_mod.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
         }
     }
@@ -1870,9 +1852,8 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
 {
     bool strict = src == "dda";
     if( jo.has_array( "ammo_type" ) ) {
-        JsonArray atypes = jo.get_array( "ammo_type" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            slot.type.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string &id : jo.get_array( "ammo_type" ) ) {
+            slot.type.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo_type" ) ) {
         slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
@@ -2054,8 +2035,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
 
     if( jo.has_member( "thrown_damage" ) ) {
-        JsonArray jarr = jo.get_array( "thrown_damage" );
-        def.thrown_damage = load_damage_instance( jarr );
+        def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
@@ -2106,10 +2086,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.magazine_default.clear();
         def.magazines.clear();
 
-        JsonArray mags = jo.get_array( "magazines" );
-        while( mags.has_more() ) {
-            JsonArray arr = mags.next_array();
-
+        for( JsonArray arr : jo.get_array( "magazines" ) ) {
             ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
             JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
@@ -2126,8 +2103,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( !jarr.empty() ) {
         def.min_skills.clear();
     }
-    while( jarr.has_more() ) {
-        JsonArray cur = jarr.next_array();
+    for( JsonArray cur : jarr ) {
         const auto sk = skill_id( cur.get_string( 0 ) );
         if( !sk.is_valid() ) {
             jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
@@ -2182,9 +2158,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "conditional_names" ) ) {
         def.conditional_names.clear();
-        JsonArray jarr = jo.get_array( "conditional_names" );
-        while( jarr.has_more() ) {
-            JsonObject curr = jarr.next_object();
+        for( const JsonObject &curr : jo.get_array( "conditional_names" ) ) {
             conditional_name cname;
             cname.type = curr.get_enum_value<condition_type>( "type" );
             cname.condition = curr.get_string( "condition" );
@@ -2229,8 +2203,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // auto-create a category that is unlikely to already be used and put the
         // snippets in it.
         def.snippet_category = std::string( "auto:" ) + def.id;
-        JsonArray jarr = jo.get_array( "snippet_category" );
-        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
+        SNIPPET.add_snippets_from_json( def.snippet_category, jo.get_array( "snippet_category" ) );
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
@@ -2254,9 +2227,8 @@ void Item_factory::load_migration( const JsonObject &jo )
         m.id = jo.get_string( "id" );
         migrations[ m.id ] = m;
     } else if( jo.has_array( "id" ) ) {
-        JsonArray ja = jo.get_array( "id" );
-        while( ja.has_more() ) {
-            m.id = ja.next_string();
+        for( const std::string &line : jo.get_array( "id" ) ) {
+            m.id = line;
             migrations[ m.id ] = m;
         }
     } else {
@@ -2301,9 +2273,7 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         itype &def )
 {
     if( jo.has_array( member ) ) {
-        JsonArray jarr = jo.get_array( member );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
+        for( JsonArray curr : jo.get_array( member ) ) {
             const auto quali = std::pair<quality_id, int>( quality_id( curr.get_string( 0 ) ),
                                curr.get_int( 1 ) );
             if( def.qualities.count( quali.first ) > 0 ) {
@@ -2320,9 +2290,7 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         itype &def )
 {
     if( jo.has_array( member ) ) {
-        JsonArray jarr = jo.get_array( member );
-        while( jarr.has_more() ) {
-            JsonArray curr = jarr.next_array();
+        for( JsonArray curr : jo.get_array( member ) ) {
             const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
             if( def.properties.count( prop.first ) > 0 ) {
                 curr.throw_error( "Duplicated property", 0 );
@@ -2420,9 +2388,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         } else if( name != "contents" ) {
             obj.throw_error( string_format( "You can't use an array for '%s'", arr_name ) );
         }
-        JsonArray arr = obj.get_array( arr_name );
-        while( arr.has_more() ) {
-            entries.push_back( std::make_pair( arr.next_string(), isgroup ) );
+        for( const std::string &line : obj.get_array( arr_name ) ) {
+            entries.emplace_back( line, isgroup );
         }
     };
     get_array( iname, false );
@@ -2474,10 +2441,9 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     std::string temp;
 
     if( obj.has_array( name ) ) {
-        JsonArray arr = obj.get_array( name );
-        while( arr.has_more() ) {
-            result |= arr.read_next( temp );
-            vec.push_back( temp );
+        for( const std::string &line : obj.get_array( name ) ) {
+            result |= true;
+            vec.push_back( line );
         }
     } else if( obj.has_member( name ) ) {
         result |= obj.read( name, temp );
@@ -2502,8 +2468,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
         jarr = obj.get_array( "distribution" );
     }
     if( gptr ) {
-        while( jarr.has_more() ) {
-            JsonObject job2 = jarr.next_object();
+        for( const JsonObject &job2 : jarr ) {
             add_entry( *gptr, job2 );
         }
         ig.add_entry( std::move( gptr ) );
@@ -2548,16 +2513,13 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
     load_item_group( jsobj, group_id, subtype );
 }
 
-void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
-                                    const bool is_collection, int ammo_chance,
-                                    int magazine_chance )
+void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id, const bool is_collection, const int ammo_chance, const int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
-    while( entries.has_more() ) {
-        JsonObject subobj = entries.next_object();
+    for( const JsonObject &subobj : entries ) {
         add_entry( *ig, subobj );
     }
 }
@@ -2577,13 +2539,12 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
                                           jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
-        JsonArray items = jsobj.get_array( "items" );
-        while( items.has_more() ) {
-            if( items.test_object() ) {
-                JsonObject subobj = items.next_object();
+        for( const JsonValue &entry : jsobj.get_array( "items" ) ) {
+            if( entry.test_object() ) {
+                JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
             } else {
-                JsonArray pair = items.next_array();
+                JsonArray pair = entry.get_array();
                 ig->add_item_entry( pair.get_string( 0 ), pair.get_int( 1 ) );
             }
         }
@@ -2591,36 +2552,32 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     }
 
     if( jsobj.has_member( "entries" ) ) {
-        JsonArray items = jsobj.get_array( "entries" );
-        while( items.has_more() ) {
-            JsonObject subobj = items.next_object();
+        for( const JsonObject &subobj : jsobj.get_array( "entries" ) ) {
             add_entry( *ig, subobj );
         }
     }
     if( jsobj.has_member( "items" ) ) {
-        JsonArray items = jsobj.get_array( "items" );
-        while( items.has_more() ) {
-            if( items.test_string() ) {
-                ig->add_item_entry( items.next_string(), 100 );
-            } else if( items.test_array() ) {
-                JsonArray subitem = items.next_array();
+        for( const JsonValue &entry : jsobj.get_array( "items" ) ) {
+            if( entry.test_string() ) {
+                ig->add_item_entry( entry.get_string(), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subitem = entry.get_array();
                 ig->add_item_entry( subitem.get_string( 0 ), subitem.get_int( 1 ) );
             } else {
-                JsonObject subobj = items.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
             }
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        JsonArray items = jsobj.get_array( "groups" );
-        while( items.has_more() ) {
-            if( items.test_string() ) {
-                ig->add_group_entry( items.next_string(), 100 );
-            } else if( items.test_array() ) {
-                JsonArray subitem = items.next_array();
+        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+            if( entry.test_string() ) {
+                ig->add_group_entry( entry.get_string(), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subitem = entry.get_array();
                 ig->add_group_entry( subitem.get_string( 0 ), subitem.get_int( 1 ) );
             } else {
-                JsonObject subobj = items.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( *ig, subobj );
             }
         }
@@ -2636,16 +2593,15 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
 
     use_methods.clear();
     if( jo.has_array( member ) ) {
-        JsonArray jarr = jo.get_array( member );
-        while( jarr.has_more() ) {
-            if( jarr.test_string() ) {
-                std::string type = jarr.next_string();
+        for( const JsonValue &entry : jo.get_array( member ) ) {
+            if( entry.test_string() ) {
+                std::string type = entry.get_string();
                 use_methods.emplace( type, usage_from_string( type ) );
-            } else if( jarr.test_object() ) {
-                auto obj = jarr.next_object();
+            } else if( entry.test_object() ) {
+                auto obj = entry.get_object();
                 use_methods.insert( usage_from_object( obj ) );
             } else {
-                jarr.throw_error( "array element is neither string nor object." );
+                entry.throw_error( "array element is neither string nor object." );
             }
 
         }

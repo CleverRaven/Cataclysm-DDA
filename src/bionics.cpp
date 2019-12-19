@@ -2308,30 +2308,22 @@ void load_bionic( const JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsr = jsobj.get_array( "stat_bonus" );
-    while( jsr.has_more() ) {
-        JsonArray ja = jsr.next_array();
+    for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
         new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    while( jsar.has_more() ) {
-        JsonArray ja = jsar.next_array();
+    for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
         new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
     }
 
-    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    while( jsarr.has_more() ) {
-        JsonArray ja = jsarr.next_array();
+    for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
         new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                                ja.get_int( 1 ) );
     }
 
-    JsonArray json_arr = jsobj.get_array( "env_protec" );
-    while( json_arr.has_more() ) {
-        JsonArray ja = json_arr.next_array();
+    for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
@@ -2529,9 +2521,8 @@ void bionic::deserialize( JsonIn &jsin )
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
-        JsonArray jsar = jo.get_array( "bionic_tags" );
-        while( jsar.has_more() ) {
-            bionic_tags.insert( jsar.next_string() );
+        for( const std::string &line : jo.get_array( "bionic_tags" ) ) {
+            bionic_tags.insert( line );
         }
     }
 

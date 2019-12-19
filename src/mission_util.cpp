@@ -423,12 +423,10 @@ void mission_util::set_reveal( const std::string &terrain,
     funcs.emplace_back( mission_func );
 }
 
-void mission_util::set_reveal_any( JsonArray &ja,
-                                   std::vector<std::function<void( mission *miss )>> &funcs )
+void mission_util::set_reveal_any( const JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
-    while( ja.has_more() ) {
-        std::string terrain = ja.next_string();
+    for( const std::string &terrain : ja ) {
         terrains.push_back( terrain );
     }
     const auto mission_func = [ terrains ]( mission * miss ) {
@@ -486,8 +484,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
         set_reveal( target_terrain, funcs );
     } else if( jo.has_array( "reveal_om_ter" ) ) {
-        JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain, funcs );
+        set_reveal_any( jo.get_array( "reveal_om_ter" ), funcs );
     } else if( jo.has_object( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );

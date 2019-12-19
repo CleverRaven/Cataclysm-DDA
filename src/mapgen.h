@@ -290,7 +290,7 @@ class mapgen_function_json_base
 
         void setup_common();
         bool setup_common( const JsonObject &jo );
-        void setup_setmap( JsonArray &parray );
+        void setup_setmap( const JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }

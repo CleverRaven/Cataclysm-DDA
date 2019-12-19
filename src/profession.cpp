@@ -196,19 +196,19 @@ void profession::load( const JsonObject &jo, const std::string & )
             optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader {} );
         }
         if( items_obj.has_object( "both" ) ) {
-            _starting_items = item_group::load_item_group( *items_obj.get_raw( "both" ), "collection" );
+            _starting_items = item_group::load_item_group( items_obj.get_member( "both" ), "collection" );
         }
         if( items_obj.has_array( "male" ) ) {
             optional( items_obj, was_loaded, "male", legacy_starting_items_male, item_reader {} );
         }
         if( items_obj.has_object( "male" ) ) {
-            _starting_items_male = item_group::load_item_group( *items_obj.get_raw( "male" ), "collection" );
+            _starting_items_male = item_group::load_item_group( items_obj.get_member( "male" ), "collection" );
         }
         if( items_obj.has_array( "female" ) ) {
             optional( items_obj, was_loaded, "female",  legacy_starting_items_female, item_reader {} );
         }
         if( items_obj.has_object( "female" ) ) {
-            _starting_items_female = item_group::load_item_group( *items_obj.get_raw( "female" ),
+            _starting_items_female = item_group::load_item_group( items_obj.get_member( "female" ),
                                      "collection" );
         }
     }

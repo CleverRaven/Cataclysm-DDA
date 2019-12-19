@@ -137,9 +137,8 @@ void iuse_transform::load( const JsonObject &obj )
     }
     obj.read( "target_charges", ammo_qty );
     if( obj.has_array( "rand_target_charges" ) ) {
-        JsonArray jarr = obj.get_array( "rand_target_charges" );
-        while( jarr.has_more() ) {
-            random_ammo_qty.push_back( jarr.next_int() );
+        for( const int charge : obj.get_array( "rand_target_charges" ) ) {
+            random_ammo_qty.push_back( charge );
         }
         if( random_ammo_qty.size() < 2 ) {
             obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
@@ -616,9 +615,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 
     if( obj.has_array( "effects" ) ) {
-        JsonArray jsarr = obj.get_array( "effects" );
-        while( jsarr.has_more() ) {
-            JsonObject e = jsarr.next_object();
+        for( const JsonObject &e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -626,9 +623,7 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves );
 
-    auto arr = obj.get_array( "vitamins" );
-    while( arr.has_more() ) {
-        auto vit = arr.next_array();
+    for( JsonArray vit : obj.get_array( "vitamins" ) ) {
         auto lo = vit.get_int( 1 );
         auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
@@ -1152,15 +1147,14 @@ void reveal_map_actor::load( const JsonObject &obj )
 {
     radius = obj.get_int( "radius" );
     message = obj.get_string( "message" );
-    JsonArray jarr = obj.get_array( "terrain" );
     std::string ter;
     ot_match_type ter_match_type;
-    while( jarr.has_more() ) {
-        if( jarr.test_string() ) {
-            ter = jarr.next_string();
+    for( const JsonValue &entry : obj.get_array( "terrain" ) ) {
+        if( entry.test_string() ) {
+            ter = entry.get_string();
             ter_match_type = ot_match_type::contains;
         } else {
-            JsonObject jo = jarr.next_object();
+            JsonObject jo = entry.get_object();
             ter = jo.get_string( "om_terrain" );
             ter_match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
                              "CONTAINS" ), ot_match_type::contains );
@@ -2835,9 +2829,8 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
 void repair_item_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    JsonArray jarr = obj.get_array( "materials" );
-    while( jarr.has_more() ) {
-        materials.emplace( jarr.next_string() );
+    for( const std::string &line : obj.get_array( "materials" ) ) {
+        materials.emplace( line );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -3419,9 +3412,7 @@ void heal_actor::load( const JsonObject &obj )
     long_action = obj.get_bool( "long_action", false );
 
     if( obj.has_array( "effects" ) ) {
-        JsonArray jsarr = obj.get_array( "effects" );
-        while( jsarr.has_more() ) {
-            JsonObject e = jsarr.next_object();
+        for( const JsonObject &e : obj.get_array( "effects" ) ) {
             effects.push_back( load_effect_data( e ) );
         }
     }
@@ -4475,13 +4466,11 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void sew_advanced_actor::load( const JsonObject &obj )
 {
     // Mandatory:
-    JsonArray jarr = obj.get_array( "materials" );
-    while( jarr.has_more() ) {
-        materials.emplace( jarr.next_string() );
+    for( const std::string &line : obj.get_array( "materials" ) ) {
+        materials.emplace( line );
     }
-    jarr = obj.get_array( "clothing_mods" );
-    while( jarr.has_more() ) {
-        clothing_mods.push_back( clothing_mod_id( jarr.next_string() ) );
+    for( const std::string &line : obj.get_array( "clothing_mods" ) ) {
+        clothing_mods.push_back( clothing_mod_id( line ) );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill

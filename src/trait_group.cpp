@@ -50,31 +50,30 @@ static Trait_group_tag get_unique_trait_group_id()
     }
 }
 
-Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string &default_subtype )
+Trait_group_tag trait_group::load_trait_group( const JsonValue &value, const std::string &default_subtype )
 {
-    if( stream.test_string() ) {
-        return Trait_group_tag( stream.get_string() );
-    } else if( stream.test_object() ) {
+    if( value.test_string() ) {
+        return Trait_group_tag( value.get_string() );
+    } else if( value.test_object() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonObject jo = stream.get_object();
+        JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
 
         mutation_branch::load_trait_group( jo, group, subtype );
 
         return group;
-    } else if( stream.test_array() ) {
+    } else if( value.test_array() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonArray jarr = stream.get_array();
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
-            jarr.throw_error( "invalid subtype for trait group" );
+            value.throw_error( "invalid subtype for trait group" );
         }
 
-        mutation_branch::load_trait_group( jarr, group, default_subtype == "collection" );
+        mutation_branch::load_trait_group( value.get_array(), group, default_subtype == "collection" );
         return group;
     } else {
-        stream.error( "invalid trait group, must be string (group id) or object/array (the group data)" );
+        value.throw_error( "invalid trait group, must be string (group id) or object/array (the group data)" );
         return Trait_group_tag{};
     }
 }

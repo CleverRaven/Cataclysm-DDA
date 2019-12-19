@@ -86,7 +86,7 @@ class Item_factory
         /**
          * Callback for the init system (@ref DynamicDataLoader), loads an item group definitions.
          * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj );
         /**
@@ -99,7 +99,7 @@ class Item_factory
          * @param group_id The ident of the item that is to be loaded.
          * @param subtype The type of the item group, either "collection", "distribution" or "old"
          * ("old" is a distribution, too).
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
                               const std::string &subtype );
@@ -121,8 +121,7 @@ class Item_factory
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( JsonArray &entries, const Group_tag &group_id, bool is_collection,
-                              int ammo_chance, int magazine_chance );
+        void load_item_group( const JsonArray &entries, const Group_tag &group_id, bool is_collection, int ammo_chance, int magazine_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
@@ -148,7 +147,7 @@ class Item_factory
          * These function load different instances of itype objects from json.
          * The loaded item types are stored and can be accessed through @ref find_template.
          * @param jo The json object to load data from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
         /*@{*/
         void load_ammo( const JsonObject &jo, const std::string &src );

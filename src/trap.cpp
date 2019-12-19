@@ -120,18 +120,17 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     assign( jo, "trigger_weight", trigger_weight );
-    JsonArray ja = jo.get_array( "drops" );
-    while( ja.has_more() ) {
+    for( const JsonValue &entry : jo.get_array( "drops" ) ) {
         std::string item_type;
         int quantity = 0;
         int charges = 0;
-        if( ja.test_object() ) {
-            JsonObject jc = ja.next_object();
+        if( entry.test_object() ) {
+            JsonObject jc = entry.get_object();
             item_type = jc.get_string( "item" );
             quantity = jc.get_int( "quantity", 1 );
             charges = jc.get_int( "charges", 1 );
         } else {
-            item_type = ja.next_string();
+            item_type = entry.get_string();
             quantity = 1;
             charges = 1;
         }
@@ -153,13 +152,12 @@ void trap::load( const JsonObject &jo, const std::string & )
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
         vehicle_data.spawn_items.clear();
         if( jv.has_array( "spawn_items" ) ) {
-            JsonArray ja = jv.get_array( "spawn_items" );
-            while( ja.has_more() ) {
-                if( ja.test_object() ) {
-                    JsonObject joitm = ja.next_object();
+            for( const JsonValue &entry : jv.get_array( "spawn_items" ) ) {
+                if( entry.test_object() ) {
+                    JsonObject joitm = entry.get_object();
                     vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
                 } else {
-                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                    vehicle_data.spawn_items.emplace_back( entry.get_string(), 1.0 );
                 }
             }
         }

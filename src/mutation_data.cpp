@@ -215,16 +215,14 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
     jo.read( "chance", ret.chance );
 
     if( jo.has_array( "base_damage" ) ) {
-        JsonArray jo_dam = jo.get_array( "base_damage" );
-        ret.base_damage = load_damage_instance( jo_dam );
+        ret.base_damage = load_damage_instance( jo.get_array( "base_damage" ) );
     } else if( jo.has_object( "base_damage" ) ) {
         JsonObject jo_dam = jo.get_object( "base_damage" );
         ret.base_damage = load_damage_instance( jo_dam );
     }
 
     if( jo.has_array( "strength_damage" ) ) {
-        JsonArray jo_dam = jo.get_array( "strength_damage" );
-        ret.strength_damage = load_damage_instance( jo_dam );
+        ret.strength_damage = load_damage_instance( jo.get_array( "strength_damage" ) );
     } else if( jo.has_object( "strength_damage" ) ) {
         JsonObject jo_dam = jo.get_object( "strength_damage" );
         ret.strength_damage = load_damage_instance( jo_dam );
@@ -639,21 +637,20 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     return *found->second;
 }
 
-void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                        const bool is_collection )
+void mutation_branch::load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid, const bool is_collection )
 {
     Trait_group &tg = make_group_or_throw( gid, is_collection );
 
-    while( entries.has_more() ) {
+    for( const JsonValue &entry : entries ) {
         // Backwards-compatibility with old format ["TRAIT", 100]
-        if( entries.test_array() ) {
-            JsonArray subarr = entries.next_array();
+        if( entry.test_array() ) {
+            JsonArray subarr = entry.get_array();
 
             trait_id id( subarr.get_string( 0 ) );
             tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
-            JsonObject subobj = entries.next_object();
+            JsonObject subobj = entry.get_object();
             add_entry( tg, subobj );
         }
     }
@@ -684,29 +681,27 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
         }
     }
     if( jsobj.has_member( "traits" ) ) {
-        JsonArray traits = jsobj.get_array( "traits" );
-        while( traits.has_more() ) {
-            if( traits.test_string() ) {
-                tg.add_trait_entry( trait_id( traits.next_string() ), 100 );
-            } else if( traits.test_array() ) {
-                JsonArray subtrait = traits.next_array();
+        for( const JsonValue &entry : jsobj.get_array( "traits" ) ) {
+            if( entry.test_string() ) {
+                tg.add_trait_entry( trait_id( entry.get_string() ), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subtrait = entry.get_array();
                 tg.add_trait_entry( trait_id( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = traits.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
     }
     if( jsobj.has_member( "groups" ) ) {
-        JsonArray traits = jsobj.get_array( "groups" );
-        while( traits.has_more() ) {
-            if( traits.test_string() ) {
-                tg.add_group_entry( trait_group::Trait_group_tag( traits.next_string() ), 100 );
-            } else if( traits.test_array() ) {
-                JsonArray subtrait = traits.next_array();
-                tg.add_group_entry( trait_group::Trait_group_tag( traits.get_string( 0 ) ), subtrait.get_int( 1 ) );
+        for( const JsonValue &entry : jsobj.get_array( "groups" ) ) {
+            if( entry.test_string() ) {
+                tg.add_group_entry( trait_group::Trait_group_tag( entry.get_string() ), 100 );
+            } else if( entry.test_array() ) {
+                JsonArray subtrait = entry.get_array();
+                tg.add_group_entry( trait_group::Trait_group_tag( subtrait.get_string( 0 ) ), subtrait.get_int( 1 ) );
             } else {
-                JsonObject subobj = traits.next_object();
+                JsonObject subobj = entry.get_object();
                 add_entry( tg, subobj );
             }
         }
@@ -729,8 +724,7 @@ void mutation_branch::add_entry( Trait_group &tg, const JsonObject &obj )
 
     if( ptr ) {
         Trait_group &tg2 = dynamic_cast<Trait_group &>( *ptr );
-        while( jarr.has_more() ) {
-            JsonObject job2 = jarr.next_object();
+        for( const JsonObject &job2 : jarr ) {
             add_entry( tg2, job2 );
         }
         tg.add_entry( std::move( ptr ) );
