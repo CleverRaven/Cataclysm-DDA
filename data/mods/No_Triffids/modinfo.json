@@ -19,7 +19,6 @@
   },
   {
     "type": "region_overlay",
-    "id": "No_Triffids_region_overlay",
     "regions": [ "all" ],
     "overmap_feature_flag_settings": { "blacklist": [ "TRIFFID" ] }
   }
