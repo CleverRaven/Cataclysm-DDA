@@ -7324,14 +7324,12 @@ int Character::heartrate_bpm() const
     int heartbeat = average_heartbeat * ( 1 + stamina_effect );//can triple heartrate
     const int stim_level = get_stim();
     int stim_modifer = 0;
-    if ( stim_level > 0 )
-    {
+    if ( stim_level > 0 ) {
         //that's asymptotical function that is equal to 1 at around 30 stim level and slows down all the time almost reaching 2. Tweaking x*x multiplier will accordingly change effect accumulation
         stim_modifer = 2.1 - 2/( 1 + 0.001 * stim_level * stim_level ); 
     }
     heartbeat *= 1 + stim_modifer;
-    if ( to_turns<int>( get_effect_dur( effect_cig ) ) > 0 )
-    {
+    if ( to_turns<int>( get_effect_dur( effect_cig ) ) > 0 ){
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
             heartbeat *= 1.4;
@@ -7347,8 +7345,7 @@ int Character::heartrate_bpm() const
     healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
     //if something raised BPM at least by 20% for a player with ADRENALINE, it adds 20% of avg more to result
-    if ( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 )
-    {
+    if ( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
     }
     //Add dependencies for COLDBLOOD?
@@ -7356,8 +7353,7 @@ int Character::heartrate_bpm() const
     //A single clamp in the end should be enough 
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
     //No heartbeat in omnicell
-    if ( has_trait( trait_SLIMESPAWNER ) )
-    {
+    if ( has_trait( trait_SLIMESPAWNER ) ) {
         heartbeat = 0;
     }
     return heartbeat;
