@@ -7,7 +7,6 @@
 #include <bitset>
 #include <initializer_list>
 #include <string>
-#include <set>
 
 #include "int_id.h"
 #include "string_id.h"
