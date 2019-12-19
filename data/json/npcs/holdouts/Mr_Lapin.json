@@ -8,7 +8,7 @@
     "gender": "male",
     "class": "NC_Rabbit_Raiser",
     "attitude": 0,
-    "mission": 3,
+    "mission": 0,
     "chat": "TALK_WARRENER",
     "traits": [ [ "FLEET", 100 ],  [ "GOODHEARING", 100 ], [ "DEFT", 100 ], [ "ANIMALEMPATH2", 100 ], [ "LIGHTFUR", 100 ], [ "HOOVES", 100 ] ],
     "faction": "no_faction"
