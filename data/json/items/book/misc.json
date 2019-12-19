@@ -117,7 +117,84 @@
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
-    "fun": 3
+    "fun": 3,
+    "//": "The ids below represent the Aarne-Thompson System of folklore classification.  Do not change.",
+    "snippet_category": [
+      {
+        "id": "fairyat_41",
+        "text": "This fairy tale is about a wolf who eats so much salted meat she becomes trapped in the butcher's cellar."
+      },
+      {
+        "id": "fairyat_50",
+        "text": "In this traditional story of beastly intrigue a clever fox convinces an elderly lion to kill a derogatory wolf."
+      },
+      {
+        "id": "fairyat_111",
+        "text": "This is an illustrated fairy tale book about a conversation between a mouse and a cat."
+      },
+      {
+        "id": "fairyat_171",
+        "text": "An amusing collection of stories featuring \"Goldilocks and The Three Bears\" on the cover."
+      },
+      {
+        "id": "fairyat_222",
+        "text": "This is a well illustrated fairy tale about a war between the birds and the beasts, with particulars on the wartime conduct and eventual fate of the bat."
+      },
+      {
+        "id": "fairyat_285",
+        "text": "This book, titled \"The Rattlesnake's Vengeance\" is a collection of Cherokee myths and legends.  \"285D\" is hand-written in pencil on the title page."
+      },
+      { "id": "fairyat_328", "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\"" },
+      {
+        "id": "fairyat_333",
+        "text": "This fairy tale book is entitled \"Little Red Cap\".  It details a red-cloaked child's various encounters with talking wolves."
+      },
+      {
+        "id": "fairyat_366",
+        "text": "A collection of ghost stories warning about the dangers of stealing from the dead."
+      },
+      {
+        "id": "fairyat_408",
+        "text": "A book of Italian fairy tales translated in English.  The cover features an orange fairy juggling a lemon, a lime, and a tangerine."
+      },
+      { "id": "fairyat_451", "text": "A book of fables about people who change into birds." },
+      {
+        "id": "fairyat_475",
+        "text": "This compendium of amusing folk tales about the devil is titled \"Hell's Kettle: Legends of the Devil.\""
+      },
+      {
+        "id": "fairyat_530",
+        "text": "This charming book of Swedish fables is titled, \"The Glass Mountain and the Princess.\""
+      },
+      {
+        "id": "fairyat_555",
+        "text": "This is a collection of fairy tale stories warning against the consequences of extreme greed."
+      },
+      { "id": "fairyat_591", "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\"" },
+      { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
+      { "id": "fairyat_758", "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\"" },
+      { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
+      {
+        "id": "fairyat_1060",
+        "text": "In this fairy tale a strong man frightens an ogre by squeezing water out of a stone."
+      },
+      {
+        "id": "fairyat_1084",
+        "text": "This book of rustic folk tales bears the title: \"How to Shout Down the Devil.\""
+      },
+      {
+        "id": "fairyat_1287",
+        "text": "The title of this book is \"Village Folk-tales of Ceylon.\"  It includes fables about logical errors and foolish misjudgements of the Kadambawa men."
+      },
+      {
+        "id": "fairyat_1461",
+        "text": "This book of folk tales is titled, \"The Girl with the Ugly Name, and Other Stories.\""
+      },
+      {
+        "id": "fairyat_2025",
+        "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
+      }
+    ]
   },
   {
     "id": "guidebook",
