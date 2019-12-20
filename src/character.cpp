@@ -7289,6 +7289,14 @@ void Character::use_fire( const int quantity )
 
 int Character::heartrate_bpm() const
 {
+    //Dead have no heartbeat usually
+    if( is_dead_state() ) {
+        heartbeat = 0;
+    }
+    //No heartbeat in omnicell
+    if( has_trait( trait_SLIMESPAWNER ) ) {
+        heartbeat = 0;
+    }
     //This function returns heartrate in BPM basing of health, physical state, tiredness,
     //moral effects, stimulators and anything that should fit here.
     //Some values are picked to make sense from math point of view
@@ -7359,9 +7367,5 @@ int Character::heartrate_bpm() const
     //add morale effects, fear(?), medication effects
     //A single clamp in the end should be enough
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
-    //No heartbeat in omnicell
-    if( has_trait( trait_SLIMESPAWNER ) ) {
-        heartbeat = 0;
-    }
     return heartbeat;
 }
