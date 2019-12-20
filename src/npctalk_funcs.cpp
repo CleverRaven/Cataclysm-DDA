@@ -914,11 +914,14 @@ void talk_function::start_training( npc &p )
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesnt know this spell, then the NPC will teach all of it
-        // which takes as long as it takes.
+        // which takes max 6 hours, min 3 hours.
+        // TODO: a system for NPCs to train new stuff in bits and pieces
+        // and remember the progress.
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
+            time = time_duration::from_seconds( clamp( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 50, 7200,
+                                                21600 ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -931,10 +934,11 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ) * 100,
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
+
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 

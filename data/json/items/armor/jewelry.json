@@ -27,7 +27,7 @@
     "price_postapoc": 100,
     "material": [ "wood" ],
     "symbol": "[",
-    "looks_like": "earrings",
+    "looks_like": "gold_ear",
     "color": "brown"
   },
   {
@@ -94,6 +94,104 @@
     "covers": [ "MOUTH" ],
     "encumbrance": 10,
     "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+  },
+  {
+    "id": "garnet_dental_grill",
+    "type": "ARMOR",
+    "name": "garnet dental grill",
+    "description": "Fake teeth inlaid with garnets, worn over the teeth.  It looks very shiny.",
+    "weight": "10 g",
+    "volume": 0,
+    "price": 30000,
+    "price_postapoc": 500,
+    "bashing": 3,
+    "cutting": 3,
+    "material": [ "gold", "gemstone" ],
+    "symbol": "[",
+    "looks_like": "gold_dental_grill",
+    "color": "red",
+    "covers": [ "MOUTH" ],
+    "encumbrance": 10,
+    "flags": [ "FANCY", "SKINTIGHT" ]
+  },
+  {
+    "id": "amethyst_dental_grill",
+    "type": "ARMOR",
+    "name": "amethyst dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with amethysts, worn over the teeth.  It looks very shiny.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_dental_grill",
+    "type": "ARMOR",
+    "name": "aquamarine dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with aquamarines, worn over the teeth.  It looks very shiny.",
+    "color": "cyan"
+  },
+  {
+    "id": "emerald_dental_grill",
+    "type": "ARMOR",
+    "name": "emerald dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with emeralds, worn over the teeth.  It looks very shiny.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_dental_grill",
+    "type": "ARMOR",
+    "name": "alexandrite dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with alexandrites, worn over the teeth.  It looks very shiny.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_dental_grill",
+    "type": "ARMOR",
+    "name": "ruby dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with rubys, worn over the teeth.  It looks very shiny."
+  },
+  {
+    "id": "peridot_dental_grill",
+    "type": "ARMOR",
+    "name": "peridot dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with peridots, worn over the teeth.  It looks very shiny.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_dental_grill",
+    "type": "ARMOR",
+    "name": "sapphire dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with sapphires, worn over the teeth.  It looks very shiny.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_dental_grill",
+    "type": "ARMOR",
+    "name": "tourmaline dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with tourmaline, worn over the teeth.  It looks very shiny.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_dental_grill",
+    "type": "ARMOR",
+    "name": "citrine dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with citrines, worn over the teeth.  It looks very shiny.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_dental_grill",
+    "type": "ARMOR",
+    "name": "blue_topaz dental grill",
+    "copy-from": "garnet_dental_grill",
+    "description": "Fake teeth inlaid with blue topaz, worn over the teeth.  It looks very shiny.",
+    "color": "light_blue"
   },
   {
     "id": "diamond_ring",
@@ -171,7 +269,7 @@
     "price_postapoc": 50,
     "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "earrings",
+    "looks_like": "gold_ear",
     "color": "brown"
   },
   {
@@ -1012,5 +1110,410 @@
     "symbol": "s",
     "color": "dark_gray",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "diamond_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of diamond and gold earrings",
+    "name_plural": "pairs of diamond and gold earrings",
+    "description": "A pair of shiny diamond and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 13000,
+    "price_postapoc": 500,
+    "material": [ "gold", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of garnet and gold earrings",
+    "name_plural": "pairs of garnet and gold earrings",
+    "description": "A pair of shiny garnet and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 300,
+    "material": [ "gold", "gemstone" ],
+    "looks_like": "gold_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of amethyst and gold earrings",
+    "name_plural": "pairs of amethyst and gold earrings",
+    "description": "A pair of shiny amethyst and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of aquamarine and gold earrings",
+    "name_plural": "pairs of aquamarine and gold earrings",
+    "description": "A pair of shiny aquamarine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of emerald and gold earrings",
+    "name_plural": "pairs of emerald and gold earrings",
+    "description": "A pair of shiny emerald and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of alexandrite and gold earrings",
+    "name_plural": "pairs of alexandrite and gold earrings",
+    "description": "A pair of shiny alexandrite and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of ruby and gold earrings",
+    "name_plural": "pairs of ruby and gold earrings",
+    "description": "A pair of shiny ruby and gold earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of peridot and gold earrings",
+    "name_plural": "pairs of peridot and gold earrings",
+    "description": "A pair of shiny peridot and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of sapphire and gold earrings",
+    "name_plural": "pairs of sapphire and gold earrings",
+    "description": "A pair of shiny sapphire and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of tourmaline and gold earrings",
+    "name_plural": "pairs of tourmaline and gold earrings",
+    "description": "A pair of shiny tourmaline and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of citrine and gold earrings",
+    "name_plural": "pairs of citrine and gold earrings",
+    "description": "A pair of shiny citrine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of blue topaz and gold earrings",
+    "name_plural": "pairs of blue topaz and gold earrings",
+    "description": "A pair of shiny blue topaz and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of opal and gold earrings",
+    "name_plural": "pairs of opal and gold earrings",
+    "description": "A pair of shiny opal and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_gold_earring",
+    "copy-from": "garnet_gold_earring",
+    "type": "ARMOR",
+    "name": "pair of pearl and gold earrings",
+    "name_plural": "pairs of pearl and gold earrings",
+    "description": "A pair of shiny pearl and gold earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of diamond and silver earrings",
+    "name_plural": "pairs of diamond and silver earrings",
+    "description": "A pair of shiny diamond and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 8000,
+    "price_postapoc": 200,
+    "material": [ "silver", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of garnet and silver earrings",
+    "name_plural": "pairs of garnet and silver earrings",
+    "description": "A pair of shiny garnet and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 6000,
+    "price_postapoc": 100,
+    "material": [ "silver", "gemstone" ],
+    "looks_like": "silver_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of amethyst and silver earrings",
+    "name_plural": "pairs of amethyst and silver earrings",
+    "description": "A pair of shiny amethyst and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of aquamarine and silver earrings",
+    "name_plural": "pairs of aquamarine and silver earrings",
+    "description": "A pair of shiny aquamarine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of emerald and silver earrings",
+    "name_plural": "pairs of emerald and silver earrings",
+    "description": "A pair of shiny emerald and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of alexandrite and silver earrings",
+    "name_plural": "pairs of alexandrite and silver earrings",
+    "description": "A pair of shiny alexandrite and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of ruby and silver earrings",
+    "name_plural": "pairs of ruby and silver earrings",
+    "description": "A pair of shiny ruby and silver earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of peridot and silver earrings",
+    "name_plural": "pairs of peridot and silver earrings",
+    "description": "A pair of shiny peridot and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of sapphire and silver earrings",
+    "name_plural": "pairs of sapphire and silver earrings",
+    "description": "A pair of shiny sapphire and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of tourmaline and silver earrings",
+    "name_plural": "pairs of tourmaline and silver earrings",
+    "description": "A pair of shiny tourmaline and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of citrine and silver earrings",
+    "name_plural": "pairs of citrine and silver earrings",
+    "description": "A pair of shiny citrine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of blue topaz and silver earrings",
+    "name_plural": "pairs of blue topaz and silver earrings",
+    "description": "A pair of shiny blue topaz and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "pearl_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of pearl and silver earrings",
+    "name_plural": "pairs of pearl and silver earrings",
+    "description": "A pair of shiny pearl and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "opal_silver_earring",
+    "copy-from": "garnet_silver_earring",
+    "type": "ARMOR",
+    "name": "pair of opal and silver earrings",
+    "name_plural": "pairs of opal and silver earrings",
+    "description": "A pair of shiny opal and silver earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "diamond_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of diamond and platinum earrings",
+    "name_plural": "pairs of diamond and platinum earrings",
+    "description": "A pair of shiny diamond and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "price": 12000,
+    "price_postapoc": 2900,
+    "material": [ "platinum", "diamond" ],
+    "color": "white"
+  },
+  {
+    "id": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of garnet and platinum earrings",
+    "name_plural": "pairs of garnet and platinum earrings",
+    "description": "A pair of shiny garnet and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "2700 mg",
+    "volume": 0,
+    "price": 10000,
+    "price_postapoc": 1800,
+    "material": [ "platinum", "gemstone" ],
+    "looks_like": "platinum_ear",
+    "symbol": "[",
+    "color": "red",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "amethyst_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of amethyst and platinum earrings",
+    "name_plural": "pairs of amethyst and platinum earrings",
+    "description": "A pair of shiny amethyst and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "aquamarine_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of aquamarine and platinum earrings",
+    "name_plural": "pairs of aquamarine and platinum earrings",
+    "description": "A pair of shiny aquamarine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "emerald_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of emerald and platinum earrings",
+    "name_plural": "pairs of emerald and platinum earrings",
+    "description": "A pair of shiny emerald and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "alexandrite_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of alexandrite and platinum earrings",
+    "name_plural": "pairs of alexandrite and platinum earrings",
+    "description": "A pair of shiny alexandrite and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "green"
+  },
+  {
+    "id": "ruby_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of ruby and platinum earrings",
+    "name_plural": "pairs of ruby and platinum earrings",
+    "description": "A pair of shiny ruby and platinum earrings.  You can wear it if you like, but it won't provide any effects."
+  },
+  {
+    "id": "peridot_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of peridot and platinum earrings",
+    "name_plural": "pairs of peridot and platinum earrings",
+    "description": "A pair of shiny peridot and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_green"
+  },
+  {
+    "id": "sapphire_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of sapphire and platinum earrings",
+    "name_plural": "pairs of sapphire and platinum earrings",
+    "description": "A pair of shiny sapphire and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "blue"
+  },
+  {
+    "id": "tourmaline_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of tourmaline and platinum earrings",
+    "name_plural": "pairs of tourmaline and platinum earrings",
+    "description": "A pair of shiny tourmaline and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_red"
+  },
+  {
+    "id": "citrine_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of citrine and platinum earrings",
+    "name_plural": "pairs of citrine and platinum earrings",
+    "description": "A pair of shiny citrine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "yellow"
+  },
+  {
+    "id": "blue_topaz_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of blue topaz and platinum earrings",
+    "name_plural": "pairs of blue topaz and platinum earrings",
+    "description": "A pair of shiny blue topaz and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "light_blue"
+  },
+  {
+    "id": "opal_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of opal and platinum earrings",
+    "name_plural": "pairs of opal and platinum earrings",
+    "description": "A pair of shiny opal and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
+  },
+  {
+    "id": "pearl_platinum_earring",
+    "copy-from": "garnet_platinum_earring",
+    "type": "ARMOR",
+    "name": "pair of pearl and platinum earrings",
+    "name_plural": "pairs of pearl and platinum earrings",
+    "description": "A pair of shiny pearl and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
+    "color": "white"
   }
 ]

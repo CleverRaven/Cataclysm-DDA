@@ -1357,9 +1357,17 @@ npc_action npc::method_of_attack()
 
     // reach attacks are silent and consume no ammo so prefer these if available
     int reach_range = weapon.reach_range( *this );
-    if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
-        add_msg( m_debug, "%s is trying a reach attack", disp_name() );
-        return npc_reach_attack;
+    if( !trigdist ) {
+        if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
+            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            return npc_reach_attack;
+        }
+    } else {
+        if( reach_range > 1 && reach_range >= round( trig_dist( pos(), tar ) ) &&
+            clear_shot_reach( pos(), tar ) ) {
+            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            return npc_reach_attack;
+        }
     }
 
     // if the best mode is within the confident range try for a shot

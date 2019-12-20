@@ -542,9 +542,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         config.throw_error( "\"tile_info\" missing" );
     }
 
-    JsonArray info = config.get_array( "tile_info" );
-    while( info.has_more() ) {
-        JsonObject curr_info = info.next_object();
+    for( const JsonObject &curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
         tile_iso = curr_info.get_bool( "iso", false );
@@ -581,9 +579,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         int num_in_file = 1;
         if( mod_config_json.test_array() ) {
-            JsonArray mod_config_array = mod_config_json.get_array();
-            while( mod_config_array.has_more() ) {
-                JsonObject mod_config = mod_config_array.next_object();
+            for( const JsonObject &mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
                     if( num_in_file == mts.num_in_file() ) {
                         load_internal( mod_config, tileset_root, img_path );
@@ -628,9 +624,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
         // new system, several entries
         // When loading multiple tileset images this defines where
         // the tiles from the most recently loaded image start from.
-        JsonArray tiles_new = config.get_array( "tiles-new" );
-        while( tiles_new.has_more() ) {
-            JsonObject tile_part_def = tiles_new.next_object();
+        for( const JsonObject &tile_part_def : config.get_array( "tiles-new" ) ) {
             const std::string tileset_image_path = tileset_root + '/' + tile_part_def.get_string( "file" );
             R = -1;
             G = -1;
@@ -728,9 +722,7 @@ void tileset_loader::load_ascii( const JsonObject &config )
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
     }
-    JsonArray ascii = config.get_array( "ascii" );
-    while( ascii.has_more() ) {
-        JsonObject entry = ascii.next_object();
+    for( const JsonObject &entry : config.get_array( "ascii" ) ) {
         load_ascii_set( entry );
     }
 }
@@ -850,10 +842,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
         config.throw_error( "\"tiles\" section missing" );
     }
 
-    JsonArray tiles = config.get_array( "tiles" );
-    while( tiles.has_more() ) {
-        JsonObject entry = tiles.next_object();
-
+    for( const JsonObject &entry : config.get_array( "tiles" ) ) {
         std::vector<std::string> ids;
         if( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
@@ -868,9 +857,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             int t_h3d = entry.get_int( "height_3d", 0 );
             if( t_multi ) {
                 // fetch additional tiles
-                JsonArray subentries = entry.get_array( "additional_tiles" );
-                while( subentries.has_more() ) {
-                    JsonObject subentry = subentries.next_object();
+                for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
                     tile_type &curr_subtile = load_tile( subentry, m_id );
@@ -921,8 +908,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         // create one variation, populate sprite_ids with list of ints
         if( g_array.test_int() ) {
             std::vector<int> v;
-            while( g_array.has_more() ) {
-                const int sprite_id = g_array.next_int() + sprite_id_offset;
+            for( const int entry : g_array ) {
+                const int sprite_id = entry + sprite_id_offset;
                 if( sprite_id >= 0 ) {
                     v.push_back( sprite_id );
                 }
@@ -932,9 +919,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         // object elements of array indicates variations
         // create one variation per object
         else if( g_array.test_object() ) {
-            while( g_array.has_more() ) {
+            for( const JsonObject &vo : g_array ) {
                 std::vector<int> v;
-                JsonObject vo = g_array.next_object();
                 int weight = vo.get_int( "weight" );
                 // negative weight is invalid
                 if( weight < 0 ) {
@@ -949,9 +935,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
                 }
                 // array sprite means rotations
                 else if( vo.has_array( "sprite" ) ) {
-                    JsonArray sprites = vo.get_array( "sprite" );
-                    while( sprites.has_more() ) {
-                        const int sprite_id = sprites.next_int() + sprite_id_offset;
+                    for( const int entry : vo.get_array( "sprite" ) ) {
+                        const int sprite_id = entry + sprite_id_offset;
                         if( sprite_id >= 0 && sprite_id < size ) {
                             v.push_back( sprite_id );
                         } else {

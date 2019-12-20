@@ -14,6 +14,7 @@
 #include "type_id.h"
 
 class nc_color;
+class JsonValue;
 class JsonObject;
 class JsonArray;
 class JsonIn;
@@ -76,7 +77,7 @@ struct tool_comp : public component {
     tool_comp() = default;
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &ja );
+    void load( const JsonValue &value );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
@@ -92,7 +93,7 @@ struct item_comp : public component {
     item_comp() = default;
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &ja );
+    void load( const JsonValue &value );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
@@ -114,7 +115,7 @@ struct quality_requirement {
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
-    void load( JsonArray &jsarr );
+    void load( const JsonValue &value );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
@@ -142,8 +143,8 @@ struct quality_requirement {
  *
  * Requirements (item_comp, tool_comp, quality_requirement) must have those
  * functions:
- * Load from the next entry of the json array:
- *   void load(JsonArray &jarr);
+ * Load from an entry of a json array:
+ *   void load(const JsonValue &value);
  * Check whether the player has fulfills the requirement with this crafting
  * inventory (or by mutation):
  *   bool has(const inventory &crafting_inv) const;
@@ -326,7 +327,7 @@ struct requirement_data {
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
         template<typename T>
-        static void load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs );
+        static void load_obj_list( const JsonArray &jsarr, std::vector< std::vector<T> > &objs );
         template<typename T, typename ID>
         static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
 };
