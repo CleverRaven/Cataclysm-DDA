@@ -8,15 +8,8 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "mapgen": [
-      {
-        "method": "builtin",
-        "name": "highway"
-      }
-    ],
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "mapgen": [ { "method": "builtin", "name": "highway" } ],
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -27,15 +20,8 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "road",
-    "mapgen": [
-      {
-        "method": "builtin",
-        "name": "highway"
-      }
-    ],
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "mapgen": [ { "method": "builtin", "name": "highway" } ],
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -46,39 +32,12 @@
     "see_cost": 2,
     "extras": "road",
     "//": "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
-    "mapgen_straight": [
-      {
-        "method": "builtin",
-        "name": "road_straight"
-      }
-    ],
-    "mapgen_curved": [
-      {
-        "method": "builtin",
-        "name": "road_curved"
-      }
-    ],
-    "mapgen_end": [
-      {
-        "method": "builtin",
-        "name": "road_end"
-      }
-    ],
-    "mapgen_tee": [
-      {
-        "method": "builtin",
-        "name": "road_tee"
-      }
-    ],
-    "mapgen_four_way": [
-      {
-        "method": "builtin",
-        "name": "road_four_way"
-      }
-    ],
-    "flags": [
-      "LINEAR"
-    ]
+    "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -89,16 +48,8 @@
     "color": "yellow",
     "see_cost": 2,
     "extras": "road",
-    "mapgen": [
-      {
-        "method": "builtin",
-        "name": "road_four_way"
-      }
-    ],
-    "flags": [
-      "KNOWN_DOWN",
-      "NO_ROTATE"
-    ]
+    "mapgen": [ { "method": "builtin", "name": "road_four_way" } ],
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -107,9 +58,7 @@
     "name": "road",
     "sym": "┼",
     "color": "light_gray",
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -119,15 +68,8 @@
     "sym": "│",
     "color": "white",
     "see_cost": 2,
-    "mapgen": [
-      {
-        "method": "builtin",
-        "name": "bridge"
-      }
-    ],
-    "flags": [
-      "RIVER"
-    ]
+    "mapgen": [ { "method": "builtin", "name": "bridge" } ],
+    "flags": [ "RIVER" ]
   },
   {
     "type": "overmap_terrain",
@@ -136,9 +78,7 @@
     "sym": "^",
     "color": "light_blue",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -147,9 +87,7 @@
     "sym": "^",
     "color": "light_blue",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -158,9 +96,7 @@
     "sym": "^",
     "color": "light_blue",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -169,9 +105,7 @@
     "sym": "^",
     "color": "light_blue",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -180,9 +114,7 @@
     "sym": "^",
     "color": "magenta",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -191,9 +123,7 @@
     "sym": "^",
     "color": "magenta",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -209,39 +139,12 @@
     "name": "railroad",
     "color": "light_green",
     "see_cost": 2,
-    "mapgen_straight": [
-      {
-        "method": "builtin",
-        "name": "railroad_straight"
-      }
-    ],
-    "mapgen_curved": [
-      {
-        "method": "builtin",
-        "name": "railroad_curved"
-      }
-    ],
-    "mapgen_end": [
-      {
-        "method": "builtin",
-        "name": "railroad_end"
-      }
-    ],
-    "mapgen_tee": [
-      {
-        "method": "builtin",
-        "name": "railroad_tee"
-      }
-    ],
-    "mapgen_four_way": [
-      {
-        "method": "builtin",
-        "name": "railroad_four_way"
-      }
-    ],
-    "flags": [
-      "LINEAR"
-    ]
+    "mapgen_straight": [ { "method": "builtin", "name": "railroad_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "railroad_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "railroad_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "railroad_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "railroad_four_way" } ],
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -250,15 +153,8 @@
     "sym": "│",
     "color": "light_cyan",
     "see_cost": 2,
-    "mapgen": [
-      {
-        "method": "builtin",
-        "name": "railroad_bridge"
-      }
-    ],
-    "flags": [
-      "RIVER"
-    ]
+    "mapgen": [ { "method": "builtin", "name": "railroad_bridge" } ],
+    "flags": [ "RIVER" ]
   },
   {
     "type": "overmap_terrain",
@@ -391,39 +287,12 @@
     "name": "forest trail",
     "sym": "T",
     "color": "green",
-    "mapgen_straight": [
-      {
-        "method": "builtin",
-        "name": "forest_trail_straight"
-      }
-    ],
-    "mapgen_curved": [
-      {
-        "method": "builtin",
-        "name": "forest_trail_curved"
-      }
-    ],
-    "mapgen_end": [
-      {
-        "method": "builtin",
-        "name": "forest_trail_straight"
-      }
-    ],
-    "mapgen_tee": [
-      {
-        "method": "builtin",
-        "name": "forest_trail_tee"
-      }
-    ],
-    "mapgen_four_way": [
-      {
-        "method": "builtin",
-        "name": "forest_trail_four_way"
-      }
-    ],
-    "flags": [
-      "LINEAR"
-    ],
+    "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
+    "flags": [ "LINEAR" ],
     "land_use_code": "forest"
   },
   {
@@ -442,10 +311,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "KNOWN_DOWN",
-      "SIDEWALK"
-    ]
+    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -456,10 +322,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "KNOWN_DOWN",
-      "SIDEWALK"
-    ]
+    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -469,11 +332,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [
-      "KNOWN_UP",
-      "KNOWN_DOWN",
-      "NO_ROTATE"
-    ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -483,10 +342,7 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "subway",
-    "flags": [
-      "KNOWN_UP",
-      "NO_ROTATE"
-    ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -495,39 +351,12 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "subway",
-    "mapgen_straight": [
-      {
-        "method": "builtin",
-        "name": "subway_straight"
-      }
-    ],
-    "mapgen_curved": [
-      {
-        "method": "builtin",
-        "name": "subway_curved"
-      }
-    ],
-    "mapgen_end": [
-      {
-        "method": "builtin",
-        "name": "subway_end"
-      }
-    ],
-    "mapgen_tee": [
-      {
-        "method": "builtin",
-        "name": "subway_tee"
-      }
-    ],
-    "mapgen_four_way": [
-      {
-        "method": "builtin",
-        "name": "subway_four_way"
-      }
-    ],
-    "flags": [
-      "LINEAR"
-    ]
+    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
+    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
+    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
+    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
+    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -684,9 +513,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "extras": "road",
-    "flags": [
-      "SOURCE_FUEL"
-    ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -696,9 +523,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "extras": "road",
-    "flags": [
-      "SOURCE_FUEL"
-    ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -708,9 +533,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "flags": [
-      "SOURCE_FUEL"
-    ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -783,9 +606,7 @@
     "color": "i_light_cyan",
     "see_cost": 2,
     "extras": "build",
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -795,9 +616,7 @@
     "color": "i_light_cyan",
     "see_cost": 2,
     "extras": "build",
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -843,9 +662,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -855,9 +672,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",

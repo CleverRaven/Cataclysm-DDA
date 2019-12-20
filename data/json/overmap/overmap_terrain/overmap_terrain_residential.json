@@ -6,11 +6,7 @@
     "sym": "O",
     "color": "dark_gray",
     "copy-from": "generic_city_building_no_sidewalk",
-    "flags": [
-      "KNOWN_UP",
-      "NO_ROTATE",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -37,10 +33,7 @@
     "see_cost": 2,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -49,10 +42,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -61,10 +51,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -73,11 +60,7 @@
     "name": "rural house",
     "sym": "#",
     "color": "blue",
-    "flags": [
-      "GENERIC_LOOT",
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "GENERIC_LOOT", "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -87,10 +70,7 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -314,9 +294,7 @@
     "name": "trailer park",
     "sym": "#",
     "color": "i_white",
-    "flags": [
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -333,9 +311,7 @@
     "name": "trailer park",
     "sym": "#",
     "color": "i_white",
-    "flags": [
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -352,9 +328,7 @@
     "name": "trailer park",
     "sym": "#",
     "color": "i_white",
-    "flags": [
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -371,10 +345,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -391,10 +362,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -411,10 +379,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -431,10 +396,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -451,10 +413,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -463,10 +422,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -483,11 +439,7 @@
     "name": "empty residential lot",
     "sym": "O",
     "color": "i_green",
-    "extend": {
-      "flags": [
-        "GENERIC_LOOT"
-      ]
-    }
+    "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
   {
     "id": "derelict_property",
@@ -505,10 +457,7 @@
     "color": "light_green",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -526,10 +475,7 @@
     "copy-from": "generic_city_building",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [
-      "SIDEWALK",
-      "GENERIC_LOOT"
-    ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",

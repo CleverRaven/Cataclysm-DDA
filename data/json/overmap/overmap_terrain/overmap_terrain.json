@@ -5,9 +5,7 @@
     "name": "nothing",
     "sym": "%",
     "color": "white",
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -22,17 +20,13 @@
     "type": "overmap_terrain",
     "abstract": "generic_city_building",
     "copy-from": "generic_city_building_no_sidewalk",
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_building_no_rotate",
     "copy-from": "generic_city_building",
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -43,9 +37,7 @@
     "see_cost": 2,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -54,12 +46,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -76,12 +63,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -98,12 +80,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -130,10 +107,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 1,
-    "flags": [
-      "SOURCE_VEHICLES",
-      "SOURCE_FABRICATION"
-    ]
+    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -142,10 +116,7 @@
     "sym": "0",
     "color": "yellow",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -252,10 +223,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 1,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -264,10 +232,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -284,10 +249,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -304,10 +266,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -335,11 +294,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -359,11 +314,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -383,11 +334,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -407,11 +354,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -431,11 +374,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -455,11 +394,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -479,11 +414,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -503,11 +434,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -557,10 +484,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 4,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -569,10 +493,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 4,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -655,10 +576,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -668,10 +586,7 @@
     "color": "green",
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -680,10 +595,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -692,10 +604,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -704,10 +613,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -723,9 +629,7 @@
     "name": "ramp testing area",
     "sym": "%",
     "color": "white",
-    "flags": [
-      "NO_ROTATE"
-    ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -734,19 +638,8 @@
     "sym": "+",
     "color": "green",
     "see_cost": 5,
-    "spawns": {
-      "group": "GROUP_FOREST",
-      "population": [
-        0,
-        1
-      ],
-      "chance": 13
-    },
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -755,19 +648,8 @@
     "sym": "+",
     "color": "green",
     "see_cost": 5,
-    "spawns": {
-      "group": "GROUP_FOREST",
-      "population": [
-        0,
-        1
-      ],
-      "chance": 13
-    },
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -776,18 +658,8 @@
     "sym": "+",
     "color": "light_green",
     "see_cost": 5,
-    "spawns": {
-      "group": "GROUP_FOREST",
-      "population": [
-        0,
-        1
-      ],
-      "chance": 13
-    },
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY"
-    ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -796,19 +668,8 @@
     "sym": "+",
     "color": "light_green",
     "see_cost": 5,
-    "spawns": {
-      "group": "GROUP_FOREST",
-      "population": [
-        0,
-        1
-      ],
-      "chance": 13
-    },
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -817,19 +678,8 @@
     "sym": "+",
     "color": "light_green",
     "see_cost": 5,
-    "spawns": {
-      "group": "GROUP_FOREST",
-      "population": [
-        0,
-        1
-      ],
-      "chance": 13
-    },
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -865,10 +715,7 @@
     "sym": "F",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -885,10 +732,7 @@
     "sym": "F",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -906,11 +750,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -920,11 +760,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -934,11 +770,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -948,11 +780,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -971,11 +799,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -985,11 +809,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -999,11 +819,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1013,11 +829,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1035,12 +847,7 @@
     "name": "desolate barn",
     "sym": "B",
     "color": "brown",
-    "extend": {
-      "flags": [
-        "RISK_LOW",
-        "SOURCE_SAFETY"
-      ]
-    }
+    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1049,11 +856,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1062,11 +865,7 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1153,9 +952,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1164,9 +961,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1175,9 +970,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1186,9 +979,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1198,9 +989,7 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1209,9 +998,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1228,9 +1015,7 @@
     "sym": "I",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1247,9 +1032,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1258,9 +1041,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1269,9 +1050,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1280,9 +1059,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1292,9 +1069,7 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1303,9 +1078,7 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1322,9 +1095,7 @@
     "sym": "I",
     "color": "light_green",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -1528,11 +1299,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1541,11 +1308,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1554,11 +1317,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1567,11 +1326,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1580,11 +1335,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1593,11 +1344,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1606,11 +1353,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1619,11 +1362,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1632,11 +1371,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1645,11 +1380,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1658,11 +1389,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1671,11 +1398,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1684,11 +1407,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1697,11 +1416,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1710,11 +1425,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1723,11 +1434,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1736,11 +1443,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1749,11 +1452,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1762,11 +1461,7 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1775,10 +1470,6 @@
     "sym": "┼",
     "color": "green",
     "see_cost": 5,
-    "flags": [
-      "RISK_LOW",
-      "SOURCE_SAFETY",
-      "SOURCE_FOOD"
-    ]
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   }
 ]

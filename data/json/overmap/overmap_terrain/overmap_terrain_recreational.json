@@ -7,10 +7,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -20,10 +17,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,10 +27,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -46,9 +37,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -58,10 +47,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -71,9 +57,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -83,10 +67,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -96,9 +77,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -108,10 +87,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -121,9 +97,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -133,10 +107,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -146,10 +117,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_DRINK"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -448,9 +416,7 @@
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SOURCE_FARMING"
-    ]
+    "flags": [ "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -469,10 +435,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_FARMING"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -491,10 +454,7 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_FARMING"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -522,10 +482,7 @@
     "color": "red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SOURCE_GUN",
-      "SOURCE_AMMO"
-    ]
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -544,10 +501,7 @@
     "color": "red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SOURCE_GUN",
-      "SOURCE_AMMO"
-    ]
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -1388,11 +1342,7 @@
     "copy-from": "generic_city_building",
     "sym": "M",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1555,9 +1505,7 @@
     "sym": "d",
     "color": "white",
     "see_cost": 1,
-    "flags": [
-      "LAKE"
-    ]
+    "flags": [ "LAKE" ]
   },
   {
     "type": "overmap_terrain",
@@ -1567,9 +1515,7 @@
     "sym": "d",
     "color": "white",
     "see_cost": 1,
-    "flags": [
-      "LAKE_SHORE"
-    ]
+    "flags": [ "LAKE_SHORE" ]
   },
   {
     "type": "overmap_terrain",

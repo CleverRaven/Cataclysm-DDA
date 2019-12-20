@@ -5,12 +5,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "extend": {
-      "flags": [
-        "SOURCE_FUEL",
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -18,12 +13,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "extend": {
-      "flags": [
-        "SOURCE_FUEL",
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -38,11 +28,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -57,11 +43,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -76,11 +58,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -95,11 +73,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -114,11 +88,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -170,10 +140,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "NO_ROTATE"
-    ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -183,10 +150,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "NO_ROTATE"
-    ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -196,10 +160,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "NO_ROTATE"
-    ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -209,10 +170,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "NO_ROTATE"
-    ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -222,9 +180,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -234,9 +190,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -246,9 +200,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -258,9 +210,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -270,9 +220,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -282,9 +230,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -294,9 +240,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -306,9 +250,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -318,9 +260,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -330,9 +270,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -342,9 +280,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -354,9 +290,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -366,9 +300,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -378,9 +310,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -390,9 +320,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -402,9 +330,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -414,9 +340,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -426,9 +350,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -438,9 +360,7 @@
     "color": "i_light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -455,12 +375,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -475,12 +390,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -495,13 +405,7 @@
     "name": "hardware store",
     "copy-from": "generic_city_building",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CONSTRUCTION",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -516,13 +420,7 @@
     "name": "hardware store",
     "copy-from": "generic_city_building",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CONSTRUCTION",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -537,13 +435,7 @@
     "name": "hardware store",
     "copy-from": "generic_city_building",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CONSTRUCTION",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -558,13 +450,7 @@
     "name": "hardware store",
     "copy-from": "generic_city_building",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CONSTRUCTION",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -579,13 +465,7 @@
     "name": "electronics store",
     "copy-from": "generic_city_building",
     "color": "yellow",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS",
-        "SOURCE_FABRICATION",
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS", "SOURCE_FABRICATION", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -600,13 +480,7 @@
     "name": "electronics store",
     "copy-from": "generic_city_building",
     "color": "yellow",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS",
-        "SOURCE_FABRICATION",
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS", "SOURCE_FABRICATION", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -621,12 +495,7 @@
     "name": "sporting goods store",
     "copy-from": "generic_city_building",
     "color": "light_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -641,12 +510,7 @@
     "name": "liquor store",
     "copy-from": "generic_city_building",
     "color": "magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_DRINK",
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_DRINK", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -661,12 +525,7 @@
     "name": "gun store",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -681,12 +540,7 @@
     "name": "gun store",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -701,12 +555,7 @@
     "name": "gun store",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -714,12 +563,7 @@
     "name": "gun store",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -734,12 +578,7 @@
     "name": "gun store",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -754,12 +593,7 @@
     "name": "gun store roof",
     "copy-from": "generic_city_building",
     "color": "red",
-    "extend": {
-      "flags": [
-        "SOURCE_GUN",
-        "SOURCE_AMMO"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
   },
   {
     "type": "overmap_terrain",
@@ -767,13 +601,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -788,13 +616,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -809,13 +631,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -830,13 +646,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -851,13 +661,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -879,13 +683,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -900,13 +698,7 @@
     "name": "clothing store",
     "copy-from": "generic_city_building",
     "color": "blue",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING",
-        "SOURCE_LUXURY",
-        "SOURCE_TAILORING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING", "SOURCE_LUXURY", "SOURCE_TAILORING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -921,11 +713,7 @@
     "name": "bookstore",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "extend": {
-      "flags": [
-        "SOURCE_BOOKS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_BOOKS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -947,11 +735,7 @@
     "name": "bookstore",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "extend": {
-      "flags": [
-        "SOURCE_BOOKS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_BOOKS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -973,11 +757,7 @@
     "name": "bookstore",
     "copy-from": "generic_city_building",
     "color": "i_brown",
-    "extend": {
-      "flags": [
-        "SOURCE_BOOKS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_BOOKS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -992,13 +772,7 @@
     "name": "restaurant",
     "copy-from": "generic_city_building",
     "color": "pink",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1020,13 +794,7 @@
     "name": "restaurant",
     "copy-from": "generic_city_building",
     "color": "pink",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1041,13 +809,7 @@
     "name": "restaurant",
     "copy-from": "generic_city_building",
     "color": "pink",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1062,13 +824,7 @@
     "name": "restaurant",
     "copy-from": "generic_city_building",
     "color": "pink",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1083,13 +839,7 @@
     "name": "restaurant",
     "copy-from": "generic_city_building",
     "color": "pink",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1104,13 +854,7 @@
     "name": "fast food restaurant",
     "copy-from": "generic_city_building",
     "color": "yellow_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1125,13 +869,7 @@
     "name": "fast food restaurant",
     "copy-from": "generic_city_building",
     "color": "yellow_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1146,12 +884,7 @@
     "name": "coffee shop",
     "copy-from": "generic_city_building",
     "color": "white_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1166,12 +899,7 @@
     "name": "coffee shop",
     "copy-from": "generic_city_building",
     "color": "white_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1186,12 +914,7 @@
     "name": "coffee shop",
     "copy-from": "generic_city_building",
     "color": "white_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1206,12 +929,7 @@
     "name": "teashop",
     "copy-from": "generic_city_building",
     "color": "c_light_cyan_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1226,12 +944,7 @@
     "name": "teashop",
     "copy-from": "generic_city_building",
     "color": "c_light_cyan_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1253,13 +966,7 @@
     "name": "bar",
     "copy-from": "generic_city_building",
     "color": "i_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1274,13 +981,7 @@
     "name": "bar",
     "copy-from": "generic_city_building",
     "color": "i_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_DRINK",
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1295,12 +996,7 @@
     "name": "butcher shop",
     "copy-from": "generic_city_building",
     "color": "i_red",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1322,12 +1018,7 @@
     "name": "butcher shop",
     "copy-from": "generic_city_building",
     "color": "i_red",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1349,12 +1040,7 @@
     "name": "butcher shop",
     "copy-from": "generic_city_building",
     "color": "i_red",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1369,12 +1055,7 @@
     "name": "bike shop",
     "copy-from": "generic_city_building",
     "color": "i_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1389,12 +1070,7 @@
     "name": "bike shop",
     "copy-from": "generic_city_building",
     "color": "i_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES",
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1409,12 +1085,7 @@
     "name": "pizza parlor",
     "copy-from": "generic_city_building",
     "color": "pink_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1429,12 +1100,7 @@
     "name": "pizza parlor",
     "copy-from": "generic_city_building",
     "color": "pink_magenta",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_COOKING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1451,10 +1117,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_LUXURY"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_LUXURY" ]
   },
   {
     "type": "overmap_terrain",
@@ -1473,10 +1136,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_LUXURY"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_LUXURY" ]
   },
   {
     "type": "overmap_terrain",
@@ -1493,11 +1153,7 @@
     "name": "pawn shop",
     "copy-from": "generic_city_building",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1512,11 +1168,7 @@
     "name": "pawn shop",
     "copy-from": "generic_city_building",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1531,11 +1183,7 @@
     "name": "pawn shop",
     "copy-from": "generic_city_building",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1558,12 +1206,7 @@
     "sym": "M",
     "copy-from": "generic_city_building",
     "color": "i_light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1580,12 +1223,7 @@
     "sym": "M",
     "copy-from": "generic_city_building",
     "color": "i_light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1602,12 +1240,7 @@
     "sym": "M",
     "copy-from": "generic_city_building",
     "color": "i_light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_FOOD",
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1623,12 +1256,7 @@
     "name": "furniture store",
     "copy-from": "generic_city_building",
     "color": "brown",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION",
-        "SOURCE_CONSTRUCTION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1651,11 +1279,7 @@
     "name": "music store",
     "sym": "m",
     "color": "brown",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1674,14 +1298,7 @@
     "extras": "build",
     "see_cost": 5,
     "mondensity": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [
-        4,
-        12
-      ],
-      "chance": 100
-    }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -1692,14 +1309,7 @@
     "extras": "build",
     "see_cost": 2,
     "mondensity": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [
-        10,
-        20
-      ],
-      "chance": 100
-    }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -1740,14 +1350,7 @@
     "extras": "build",
     "see_cost": 5,
     "mondensity": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [
-        10,
-        20
-      ],
-      "chance": 100
-    },
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
       "RISK_HIGH",
@@ -1850,14 +1453,7 @@
     "id": "megastore_1_1_roof",
     "copy-from": "megastore_0_0_roof",
     "mondensity": 2,
-    "spawns": {
-      "group": "GROUP_VANILLA",
-      "population": [
-        8,
-        12
-      ],
-      "chance": 100
-    }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 8, 12 ], "chance": 100 }
   },
   {
     "type": "overmap_terrain",
@@ -2206,11 +1802,7 @@
     "name": "motel",
     "sym": "h",
     "color": "light_blue",
-    "extend": {
-      "flags": [
-        "SOURCE_SAFETY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_SAFETY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2235,11 +1827,7 @@
     "name": "motel",
     "sym": "h",
     "color": "light_blue",
-    "extend": {
-      "flags": [
-        "SOURCE_SAFETY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_SAFETY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2305,11 +1893,7 @@
     "color": "light_blue",
     "extras": "build",
     "mondensity": 2,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_FUEL",
-      "SOURCE_SAFETY"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_FUEL", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -2327,13 +1911,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_CONSTRUCTION",
-      "SOURCE_FABRICATION",
-      "SOURCE_WEAPON",
-      "RISK_HIGH"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION", "SOURCE_WEAPON", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -2342,9 +1920,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2353,9 +1929,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2364,9 +1938,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2375,9 +1947,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2386,9 +1956,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2397,9 +1965,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2408,9 +1974,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2419,9 +1983,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2430,9 +1992,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2441,9 +2001,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2452,9 +2010,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": 5,
-    "flags": [
-      "SIDEWALK"
-    ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -2510,12 +2066,7 @@
     "name": "garage - gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "extend": {
-      "flags": [
-        "SOURCE_FUEL",
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2531,12 +2082,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_FUEL",
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2553,12 +2099,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_FUEL",
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2575,11 +2116,7 @@
     "name": "dispensary",
     "sym": "D",
     "color": "i_green",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "id": "dispensary_roof",
@@ -2596,11 +2133,7 @@
     "name": "dispensary",
     "sym": "D",
     "color": "i_green",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "id": "dispensary_roof_1",
@@ -2617,11 +2150,7 @@
     "name": "dispensary",
     "sym": "D",
     "color": "i_green",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "id": "dispensary_roof_2",
@@ -2661,12 +2190,7 @@
     "name": "candy shop",
     "copy-from": "generic_city_building",
     "color": "c_red_white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY",
-        "SOURCE_FOOD"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2681,12 +2205,7 @@
     "name": "candy shop",
     "copy-from": "generic_city_building",
     "color": "c_red_white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY",
-        "SOURCE_FOOD"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2701,12 +2220,7 @@
     "name": "bakery",
     "copy-from": "generic_city_building",
     "color": "c_yellow_white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY",
-        "SOURCE_FOOD"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2728,12 +2242,7 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "c_blue_white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY",
-        "SOURCE_FOOD"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2781,11 +2290,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2802,11 +2307,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2823,12 +2324,7 @@
     "name": "landscaping supply co",
     "sym": "L",
     "color": "i_green",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION",
-        "SOURCE_CONSTRUCTION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -2868,11 +2364,7 @@
     "copy-from": "generic_city_building",
     "name": "thrift store",
     "color": "light_gray",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3039,11 +2531,7 @@
     "name": "veterinarian clinic",
     "copy-from": "generic_city_building",
     "color": "i_pink",
-    "extend": {
-      "flags": [
-        "SOURCE_MEDICINE"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3058,11 +2546,7 @@
     "name": "laundromat",
     "copy-from": "generic_city_building",
     "color": "white_white",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3077,11 +2561,7 @@
     "name": "laundromat",
     "copy-from": "generic_city_building",
     "color": "white_white",
-    "extend": {
-      "flags": [
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3097,11 +2577,7 @@
     "copy-from": "generic_city_building",
     "sym": "J",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3188,12 +2664,7 @@
     "name": "home improvement store",
     "copy-from": "generic_city_building",
     "color": "c_yellow_green",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION",
-        "SOURCE_CONSTRUCTION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3327,11 +2798,7 @@
     "copy-from": "generic_city_building",
     "sym": "A",
     "color": "brown",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3348,11 +2815,7 @@
     "copy-from": "generic_city_building",
     "sym": "A",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3369,11 +2832,7 @@
     "copy-from": "generic_city_building",
     "sym": "F",
     "color": "green",
-    "extend": {
-      "flags": [
-        "SOURCE_FARMING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FARMING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3390,11 +2849,7 @@
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3419,11 +2874,7 @@
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3440,11 +2891,7 @@
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_FABRICATION"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3477,11 +2924,7 @@
     "name": "sex shop",
     "sym": "x",
     "color": "i_pink",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3498,11 +2941,7 @@
     "name": "internet cafe",
     "sym": "i",
     "color": "light_green_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_ELECTRONICS"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3527,11 +2966,7 @@
     "name": "car showroom",
     "sym": "c",
     "color": "i_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3556,11 +2991,7 @@
     "name": "car dealership",
     "sym": "c",
     "color": "i_cyan",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3577,11 +3008,7 @@
     "name": "tire shop",
     "sym": "O",
     "color": "white",
-    "extend": {
-      "flags": [
-        "SOURCE_VEHICLES"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_VEHICLES" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3598,11 +3025,7 @@
     "name": "Head Shop",
     "sym": "0",
     "color": "i_white",
-    "extend": {
-      "flags": [
-        "SOURCE_LUXURY"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3701,11 +3124,7 @@
     "name": "gardening allotment",
     "sym": "a",
     "color": "brown_green",
-    "extend": {
-      "flags": [
-        "SOURCE_FARMING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_FARMING" ] }
   },
   {
     "type": "overmap_terrain",
@@ -3760,12 +3179,7 @@
     "name": "hunting supply store",
     "sym": "H",
     "color": "brown",
-    "extend": {
-      "flags": [
-        "SOURCE_WEAPON",
-        "SOURCE_CLOTHING"
-      ]
-    }
+    "extend": { "flags": [ "SOURCE_WEAPON", "SOURCE_CLOTHING" ] }
   },
   {
     "type": "overmap_terrain",
