@@ -745,7 +745,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
     int movez = ( examp.z < 0 ? 2 : -2 );
 
     tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
-    tripoint new_floor_omt = original_floor_omt + tripoint( 0, 0, movez );
+    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
