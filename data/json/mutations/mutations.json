@@ -5039,7 +5039,7 @@
     "points": -2,
     "visibility": 10,
     "ugliness": 10,
-    "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, and your leg-equivalents flow comfortably.",
+    "description": "Your flesh is a pleasing gel-like consistency.  Your bodily functions seem to be moving around, but your leg-equivalents flow slower.",
     "purifiable": false,
     "leads_to": [ "INT_SLIME", "PER_SLIME" ],
     "prereqs": [ "VISCOUS" ],
