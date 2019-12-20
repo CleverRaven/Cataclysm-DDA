@@ -115,7 +115,8 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
+                                  const avatar &u )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
@@ -129,8 +130,10 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                               ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    menu.text = string_format( _( "Select a style.  (press %s for more info)\n"
+                                  "STR: %d, DEX: %d, PER: %d, INT: %d" ),
+                               ctxt.get_desc( "SHOW_DESCRIPTION" ),
+                               u.get_str(), u.get_dex(), u.get_per(), u.get_int() );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
@@ -566,7 +569,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         if( !styles.empty() ) {
             werase( w );
             wrefresh( w );
-            const matype_id ma_type = choose_ma_style( type, styles );
+            const matype_id ma_type = choose_ma_style( type, styles, *this );
             martial_arts_data.add_martialart( ma_type );
             martial_arts_data.set_style( ma_type );
         }
