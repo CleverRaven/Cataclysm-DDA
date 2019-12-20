@@ -56,7 +56,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 5,
     "dodge": 8,
-    "armor_bash": 15,
+    "armor_bash": 10,
     "armor_cut": 20,
     "vision_day": 6,
     "vision_night": 6,

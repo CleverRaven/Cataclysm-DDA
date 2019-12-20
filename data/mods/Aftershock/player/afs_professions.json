@@ -237,6 +237,7 @@
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
     "traits": [ "FLIMSY3", "SLOWHEALER3" ],
     "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
+    "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
       "both": {
         "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
@@ -246,7 +247,6 @@
           { "item": "afs_wraitheon_smartphone" }
         ]
       },
-      "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
       "male": [ "briefs", "collarpin", "diamond_ring" ],
       "female": [ "panties", "hairpin", "pearl_collar" ]
     }
