@@ -523,7 +523,7 @@ class player : public Character
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
-        void perform_special_attacks( Creature &t );
+        void perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam );
 
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks( Creature &t ) const;

@@ -498,17 +498,29 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             perform_technique( technique, t, d, move_cost );
         }
 
-        if( allow_special && !t.is_dead_state() ) {
-            perform_special_attacks( t );
-        }
-
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
             // Handles speed penalties to monster & us, etc
             std::string specialmsg = melee_special_effects( t, d, cur_weapon );
 
-            dealt_damage_instance dealt_dam; // gets overwritten with the dealt damage values
+            // gets overwritten with the dealt damage values
+            dealt_damage_instance dealt_dam;
+            dealt_damage_instance dealt_special_dam;
+            if( allow_special ) {
+                perform_special_attacks( t, dealt_special_dam );
+            }
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            if( ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
+                                            dealt_dam.type_damage( DT_STAB ) > 0 ) ) || ( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
+                                                    dealt_special_dam.type_damage( DT_STAB ) > 0 ) ) {
+                if( has_trait( trait_POISONOUS ) ) {
+                    add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
+                    t.add_effect( effect_poison, 6_turns );
+                } else if( has_trait( trait_POISONOUS2 ) ) {
+                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                    t.add_effect( effect_badpoison, 6_turns );
+                }
+            }
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
@@ -1652,21 +1664,15 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     return true;
 }
 
-void player::perform_special_attacks( Creature &t )
+void player::perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam )
 {
-    bool can_poison = false;
-
     std::vector<special_attack> special_attacks = mutation_attacks( t );
-
-    std::string target = t.disp_name();
 
     bool practiced = false;
     for( const auto &att : special_attacks ) {
         if( t.is_dead_state() ) {
             break;
         }
-
-        dealt_damage_instance dealt_dam;
 
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
@@ -1681,20 +1687,6 @@ void player::perform_special_attacks( Creature &t )
         int dam = dealt_dam.total_damage();
         if( dam > 0 ) {
             player_hit_message( this, att.text, t, dam );
-        }
-
-        can_poison = can_poison ||
-                     dealt_dam.type_damage( DT_CUT ) > 0 ||
-                     dealt_dam.type_damage( DT_STAB ) > 0;
-    }
-
-    if( can_poison && ( has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 ) ) ) {
-        if( has_trait( trait_POISONOUS ) ) {
-            add_msg_if_player( m_good, _( "You poison %s!" ), target );
-            t.add_effect( effect_poison, 6_turns );
-        } else if( has_trait( trait_POISONOUS2 ) ) {
-            add_msg_if_player( m_good, _( "You inject your venom into %s!" ), target );
-            t.add_effect( effect_badpoison, 6_turns );
         }
     }
 }
