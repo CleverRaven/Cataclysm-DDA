@@ -1324,6 +1324,7 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1336,6 +1337,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1347,6 +1352,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -1399,6 +1408,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 break;
         }
     }
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1411,6 +1421,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
@@ -1424,6 +1438,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( 30, 80 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -2015,6 +2033,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
+        std::set<body_part> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2029,6 +2048,10 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
             case 3:
                 for( const body_part &bp : all_body_parts ) {
                     if( has_effect( effect_under_op, bp ) ) {
+                        if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                            continue;
+                        }
+                        bp_hurt.emplace( mutate_to_main_part( bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );
