@@ -17,7 +17,7 @@
       },
       {
         "id": "many_years_old_news_4",
-        "text": "ROBOT RAMPAGE: Three Protesters injured when surrounding a Military base, protesting automated turrets which put guards out of jobs.  \"We warned them, turrets will open fire on anyone without a military ID,\" a general said."
+        "text": "THE RIPLEY-9k!  Pilot your own cargo exoskeleton now!  Our exoskeletons allow the power of a forklift guided by the strength of your own muscles.  Carry heavy loads over rough terrain, even up stairs!"
       },
       {
         "id": "many_years_old_news_5",
@@ -25,11 +25,11 @@
       },
       {
         "id": "many_years_old_news_6",
-        "text": "A WHOLE NEW YOU!  Augment your world with CBMs!  This ad features a man covered in glowing tattoos with a miniature flashlight in the middle of his head.  He's waving at the reader; all of his fingertips are Allen wrenches."
+        "text": "DISASTER IN THE SARITANIA MINES!  A copper mine west of Saritania, a small town in Vermont, collapsed Wednesday, killing an estimated thirty miners in the disaster.  Local officials could not be reached for comment, despite the mine being Saritania's primary industry.  An anonymous but credible source did contact our offices, claiming that the Saritania Mine was in fact an underground military facility, and that the disaster was a cover-up for a failed experiment.  These allegations were not addressed by officials."
       },
       {
         "id": "many_years_old_news_7",
-        "text": "The Future… powered by COFFEE!  Cuppatech brings you the greatest revolution since espresso with our new Curie-G.  Why wait for milk to boil?  Have your coffee ready instantly with THE POWER OF THE ATOM!"
+        "text": "ALIENS AMONG US!  Janine Galfrizowich, of Martha's Vineyard, wrote in to our Paranormal Investigation Staff with this cryptic gem. \"They're always watching, always watching from the shadows.  Stealing my avocadoes and watching!  They took my neighbour and made him into one of them!\"  Our journalists are trying to track Mrs Galfrizowich down, but it is clear enough that this ties into the well known Avocado Conspiracy (see issue 24, volume 7)."
       },
       {
         "id": "many_years_old_news_8",
@@ -45,7 +45,7 @@
       },
       {
         "id": "many_years_old_news_11",
-        "text": ""
+        "text": "POPULAR 'ALIEN AUTOPSY' DEBUNKED.  A widely circulated video, making the rounds everywhere from FriendFace to television news, has been debunked as a fake.  This extremely realistic and graphic alien autopsy shows an insect-like creature being dismantled by Japanese researchers, who comment on its anatomy in Japanese throughout the video.  Early observations that the creature was suspiciously similar to those described in the popular works of horror author HP Lovecraft were not sufficient to dislodge the video's viral status.  Yesterday, on the popular social media website Eddit, a 'making of' video was posted, clearly exposing the work as the final film project of a small group of students at UCLA."
       },
       {
         "id": "many_years_old_news_12",
@@ -58,6 +58,18 @@
       {
         "id": "many_years_old_news_14",
         "text": "RUMORS DENIED: Allegations from search parties hunting for Brett Xiang, that a civilian research facility just outside Wayland is a front for a government facility researching dangerous technologies, were addressed during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference. \"These allegations are absurd.  Teleportation and aliens only exist in sci-fi films, and the US certainly doesn't have the funds to build these extensive underground networks people are talking about.  I can't believe I even have to tell you this.  I don't know what those kids saw that put these ideas in their heads, but they're going through an awful lot with the loss of their friend.\""
+      },
+      {
+        "id": "many_years_old_news_15",
+        "text": "TANK SUIT!  In a press conference on Tuesday, General Ariel Dabrowski was proud to unveil the new military \"tank suit\", a powered exoskeleton capable of resisting small arms fire and most heavy weapons.  \"Tank suits have been used in limited deployement in Afghanistan for several months now,\" General Partoski informed the gathered press.  \"We're proud to be at a point where we can formally introduce them to the public.  These suits are just the first stage in a new generation of mechanized infantry.\""
+      },
+      {
+        "id": "many_years_old_news_16",
+        "text": "EDISON AUTOMOTIVES UNVEILS NEW SOLAR CAR.  \"These miracles of technology wouldn't be possible without the deregulations pioneered by President Toffer,\" said billionaire tech mogul Elton Moosek about his company's newest innovation.  \"Access to radioactive compounds and military-grade fuel cells has made this possible.  At this rate, we'll be flying solar sail spacecraft within my lifetime.\""
+      },
+      {
+        "id": "many_years_old_news_17",
+        "text": "REAL AI IN THE PALM OF YOUR HAND.  [Photograph: Dania Tang holds a new-generation heuristic processor, weighing a mere seventy grams.]  Engineers at MIT, working in conjunction with a funding grant from entrepreneur Elton Moosek, have unveiled a next-generation deep learning heuristic processor.  \"I'm hesitant to call it an artificial intelligence,\" spokesperson Dania Tang said of the new device, \"but it's the closest we've yet achieved.  It's able to instantly analyze dozens of possible outcomes of a future action and choose the best one, much like a human uses deductive reasoning.\"  Under a new startup, MindStone, the processors are reputedly already being contracted for military use."
       }
     ]
   },
@@ -67,11 +79,11 @@
     "text": [
       {
         "id": "years_old_news_1",
-        "text": "GOVERNMENT SCIENCE BOOST: The government has drastically increased defense R&D after UN disarmament demands.  \"This not only keeps money in our country, but maintains our lead on China and keeps us defended\", the President said."
+        "text": "GOVERNMENT SCIENCE BOOST: The government has drastically increased research and development budgets after UN disarmament demands.  \"This not only keeps money in our country, but maintains our lead on China and keeps us defended\", President Oswald said.  \"This is a fight we can't afford to lose.  We're not deaf to the concerns of our population: this is a blanket increase, not just to military R&D spending but civilian as well.  We've authorized the construction of seventy nine new private civilian research facilities along the Eastern Seaboard alone!\""
       },
       {
         "id": "years_old_news_2",
-        "text": "HOME GROWN SCIENCE: Several governors & legislators from the New England region discussed a new regional initiative today, which relaxed laws that limit the distance a hazardous-material laboratory or factory can be from a city.  \"This should keep our economy going strong for years to come, with all the military R&D facilities being established,\", one mayor remarked."
+        "text": "HOME GROWN SCIENCE: Several governors & legislators from the New England region discussed a new regional initiative today, which relaxed laws that limit the distance a hazardous-material laboratory or factory can be from a city.  \"This should keep our economy going strong for years to come, with all the R&D facilities being established,\", one mayor remarked.  \"With all the new money coming in, we've seen a huge uptick in highly educated people moving into the area too.  It's been nice, our coffee shops in particular are doing very well.\""
       },
       {
         "id": "years_old_news_3",
@@ -79,15 +91,15 @@
       },
       {
         "id": "years_old_news_4",
-        "text": "NEVER BE LEFT IN THE DARK!  Rivtech Atomic-nightlight uses \"inexhaustible\" plutonium fuel cell, provides light, feeds power back into your grid!"
+        "text": "EYEBOTS SEE WIDESPREAD USE.  A recent survey of police departments in the Eastern US found that over 85% of police stations, even in small towns, now contain at least one flight of facial recognition drones.  \"They're awesome,\" Sherriff Mark Louis told a reporter from his office in Pontstown, Vermont.  \"We've got a flight of four eyebots on a solar dock on the roof.  They take hardly any maintenance, they respond to any suspicious business downtown, and they don't hurt anyone.  If it's just a minor scuffle they grab some photos and help keep things from escalating.  If it's a bigger deal, or if it's someone they know is trouble, they call us in right away.  They save us a lot of false alarms: if we get an eyebot call-in we know it's a big deal.\""
       },
       {
         "id": "years_old_news_5",
-        "text": "Sick of FUEL PRICES?  Bus stop too far?  Get your driving fix from THE SUN!  Solar powered electric cars: Silent, Cheap, Powerful."
+        "text": "COMPACT BIONIC MODULES PASS PHASE 3 CLINICAL TRIALS.  Uncanny, a former toy company now rebranded into a biomedical and military parts manufacturer, has unveiled its groundbreaking line of implantable medical devices, called \"compact bionic modules\", or CBMs.  \"The cost is still high, and we're aware of that,\" said spokesperson Danny Veil, \"but we believe the product is worth it.\"  Although a joint-assist servo CBM, for use in people with partial or complete motor nerve damage, currently costs between ten and fifteen thousand dollars, that doesn't include the cost of installation, rehabilitation, and power and recharging modules.  All told, the average medical CBM will put you - or your high end insurance - out by upwards of anywhere from one to three hundred thousand dollars."
       },
       {
         "id": "years_old_news_6",
-        "text": "Coffee of The Future… RIGHT NOW!  No one has really has the time to make great coffee, but now you don't have to!  Rivtech gives you inexhaustible ATOMIC power!  To make boiling hot coffee the MINUTE you want it!  Atomic Coffeemaker."
+        "text": "MEET THE SOLDIER OF THE FUTURE.  [Photograph: Colonel Andrea Sylver poses in her powered combat exoskeleton.]  The new wave of military exoskeleton, or 'power armor', has been unveiled to the public after extensive testing on battlefields in Afghanistan and in police actions in South America and Indonesia.  \"These suits are like being a real-life super hero,\" Colonel Sylver announced to a gathered press.  \"I'm immune to all but the heaviest weapons, but just as mobile and light as any infantry soldier.  With an attached hauling rig, I can carry as much as a civilian cargo exoskeleton.  I'm basically a bulletproof forklift in a human-sized package.\"  We attempted to inquire about rumours of bionic-enhanced supersoldiers deploying alongside the new power armour, but Colonel Sylver declined to answer those questions."
       },
       {
         "id": "years_old_news_7",
@@ -103,7 +115,15 @@
       },
       {
         "id": "years_old_news_10",
-        "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  Uncanny plans to bring their expertise to the field of androids.  Unconfirmed rumors suggest that Uncanny has already recieved large orders from the government."
+        "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  A spokesperson from the newly formed Uncanny told the press, \"We think we can do more than just entertain.  We have new plans, big plans, plans that will shape the very fabric of reality!\"  Unconfirmed rumors suggest that Uncanny has already recieved large orders from the government."
+      },
+      {
+        "id": "years_old_news_11",
+        "text": "CHOP SHOP CRACKDOWN.  [Photograph: Captain Soula Anagnos poses with seized contraband bionics.]  Boston PD has seized over ten million dollars in illegally obtained bionic modules in a co-ordinated crackdown on more than ten illegal installation suites.  \"These people are criminals,\" said Captain Anagnos in a press conference.  \"Don't believe what the internet is saying: they're not Robin Hoods.  They're stealing these devices from people who need them, and they're installing them unethically, often causing severe damage in their 'patients'.\"\n\nWe spoke online to Dr. Jose García, known for his medical blog \"The Artificial Truth\", about the seizure.  \"The party line doesn't make sense on this,\" Dr. García writes.  \"If these are illegally obtained bionics, why are they weapons?  And not military weapons either.  Finger blades, sharpened teeth?  They aren't making these in dirty basements, these are coming out of factories.  I see these here in Mexico, used by gangs.  There is a market, and the manufacturers of CBMs are cashing in.\"  Representatives from Uncanny, the largest manufacturer of CBMs in North America, could not be reached for comment."
+      },
+      {
+        "id": "years_old_news_12",
+        "text": "CHINESE SUPER SOLDIERS.  At a global press conference, the People's Republic of China unveiled their new bionic-powered supersoldiers.  These soldiers are equipped with an analogous compact module technology, known as 'XFS' in press release documents, believed to be similar to CBM technology favoured by NATO forces.  \"We're not concerned by these announcements,\" DARPA spokesperson Linda Iridani told our reporters.  \"We've been keeping an eye on Chinese developments in bionics for some time, and XFS technology is many years behind our own military-grade CBMs.\""
       }
     ]
   },
@@ -113,11 +133,11 @@
     "text": [
       {
         "id": "one_year_old_news_1",
-        "text": "READY FOR THE WORST: The government has proven it is ready to deal with China's threats.  In the event of an actual attack, we have established evacuation centers, within a short distance of most towns."
+        "text": "READY FOR THE WORST.  In response to growing public concern about a potential attack from China, President Oswald announced a major funding initiative for the construction of FEMA-supported evacuation shelters near major population sites.  \"These shelters will provide a much-needed near safety points in an emergency,\" said a spokesperson for FEMA.  \"They're to be equipped with a secure basement that can resist heavy bombardment, able to fit hundreds of people, and equipped to survive gas and biological attacks.  They have self-contained water and power, protective gear, and communications equipment.  In short, they are public survivalist bunkers.  We've very excited about this initiative.\""
       },
       {
         "id": "one_year_old_news_2",
-        "text": "MUTANT COLD: A new cold virus has emerged in the New England area.  \"There don't appear to be complications, but many sufferers are dealing with sudden muscle weakness and a greater-than-normal amount of lethargy from this virus,\" said a doctor.  \"In addition, it's been documented to last up to ten days.\""
+        "text": "SPIKE IN MENTAL HEALTH CONCERNS HAS EPIDEMIOLOGISTS WORRIED.  \"There's no doubt about it,\" said a spokesperson from Mount Sinai Hospital.  \"Hospitals over the US are overwhelmed with an increase in psychiatrically-related violent behaviour such as explosivity and aggressive paranoia.  The most likely cause is a new street drug; we have yet to identify any commonality between the affected people.\"\n\nDr. Andrew Morton, a Harvard epidemiologist, has a different opinion.  \"These people aren't drug users.  They're coming from all walks of life.  Sure, there's a predilection for people who already have some mental illness, but we're seeing perfectly normal people suddenly presenting with violent explosive behaviour.  I think the most likely cause is infectious: no other pattern would fit this widespread an outbreak.\""
       },
       {
         "id": "one_year_old_news_3",
