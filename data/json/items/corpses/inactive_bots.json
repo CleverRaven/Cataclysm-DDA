@@ -697,6 +697,33 @@
     }
   },
   {
+    "id": "broken_chickenbot",
+    "looks_like": "broken_tripod",
+    "type": "TOOL",
+    "name": "inactive chicken walker",
+    "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the tank drone will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
+    "weight": "190000 g",
+    "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
+    "volume": "250 L",
+    "price": 100000000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_chickenbot",
+      "friendly_msg": "The chicken bot rolls out and begins acquiring targets.",
+      "hostile_msg": "The chicken bot swivels its turret and aims directly at you.  Don your brown pants!",
+      "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
+      "difficulty": 10,
+      "moves": 500,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_tripod",
     "looks_like": "broken_tripod",
     "type": "TOOL",

@@ -1142,6 +1142,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_chickenbot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken chickenbot",
+    "category": "other",
+    "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "1023850 g",
+    "volume": "1100 L",
+    "bashing": 20,
+    "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_mech_recon",
     "name": "broken recon mech",
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
