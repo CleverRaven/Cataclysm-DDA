@@ -716,7 +716,7 @@
       "monster_id": "mon_chickenbot",
       "friendly_msg": "The chicken bot rolls out and begins acquiring targets.",
       "hostile_msg": "The chicken bot swivels its turret and aims directly at you.  Don your brown pants!",
-      "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a chicken walker?",
+      "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
       "skill1": "electronics",
