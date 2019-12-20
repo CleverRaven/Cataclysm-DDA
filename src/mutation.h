@@ -129,6 +129,7 @@ struct mutation_branch {
         int cut_dmg_bonus = 0;
         std::pair<int, int> rand_cut_bonus;
         int bash_dmg_bonus = 0;
+        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;

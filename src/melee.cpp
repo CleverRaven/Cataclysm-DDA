@@ -852,6 +852,34 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
     }
 
+    if( unarmed ) {
+        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
+        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+                                 weap.is_null();
+        if( left_empty || right_empty ) {
+            float per_hand = 0.0f;
+            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
+                    continue;
+                }
+                float unarmed_bonus = 0.0f;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 ) {
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                per_hand += mut.first->bash_dmg_bonus + unarmed_bonus;
+                const std::pair<int, int> rand_bash = mut.first->rand_bash_bonus;
+                per_hand += average ? ( rand_bash.first + rand_bash.second ) / 2.0f : rng( rand_bash.first,
+                            rand_bash.second );
+            }
+            bash_dam += per_hand; // First hand
+            if( left_empty && right_empty ) {
+                // Second hand
+                bash_dam += per_hand;
+            }
+        }
+
+    }
+
     /** @EFFECT_STR increases bashing damage */
     float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
@@ -898,7 +926,6 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     float cut_mul = 1.0f;
 
     int cutting_skill = get_skill_level( skill_cutting );
-    int unarmed_skill = get_skill_level( skill_unarmed );
 
     if( has_active_bionic( bio_cqb ) ) {
         cutting_skill = BIO_CQB_LEVEL;
@@ -920,11 +947,12 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                 }
                 float unarmed_bonus = 0.0f;
                 if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 ) {
-                    unarmed_bonus += std::min( unarmed_skill / 2, 4 );
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += mut.first->cut_dmg_bonus + unarmed_bonus;
-                per_hand += average ? ( mut.first->rand_cut_bonus.first + mut.first->rand_cut_bonus.second ) /
-                            2.0f : rng( mut.first->rand_cut_bonus.first, mut.first->rand_cut_bonus.second );
+                const std::pair<int, int> rand_cut = mut.first->rand_cut_bonus;
+                per_hand += average ? ( rand_cut.first + rand_cut.second ) / 2.0f : rng( rand_cut.first,
+                            rand_cut.second );
             }
             // TODO: add acidproof check back to slime hands (probably move it elsewhere)
 
