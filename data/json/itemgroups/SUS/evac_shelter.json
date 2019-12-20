@@ -13,7 +13,7 @@
       { "item": "flashlight", "prob": 48 },
       { "item": "light_disposable_cell", "prob": 10 },
       { "item": "lighter", "prob": 20 },
-      { "item": "whistle", "prob": 12 },
+      { "item": "whistle", "prob": 70 },
       { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
       { "item": "protein_bar_evac", "count": [ 2, 3 ] },
       {
