@@ -4435,7 +4435,7 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
 			//Ad will most likely need to go
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
         } else {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are too active!  Avoid overextertion for your safety and health.'" ), it->tname() );
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
         }
         //TODO add whatever else makes sense (sleep quality, health level approximation?)
     }
