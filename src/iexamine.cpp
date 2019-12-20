@@ -743,7 +743,51 @@ void iexamine::elevator( player &p, const tripoint &examp )
         return;
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
+
+    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
+
+    // first find critters in the destination elevator and move them out of the way
+    for( Creature &critter : g->all_creatures() ) {
+        if( critter.is_player() ) {
+            continue;
+        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+            if( critter_omt == new_floor_omt ) {
+                for( const tripoint &candidate : closest_tripoints_first( 10, critter.pos() ) ) {
+                    if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
+                        g->m.passable( candidate ) &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // move the player
     g->vertical_move( movez, false );
+
+    // finally, bring along everyone who was in the elevator with the player
+    for( Creature &critter : g->all_creatures() ) {
+        if( critter.is_player() ) {
+            continue;
+        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+
+            if( critter_omt == original_floor_omt ) {
+                for( const tripoint &candidate : closest_tripoints_first( 10, p.pos() ) ) {
+                    if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
+                        candidate != p.pos() &&
+                        !g->critter_at( candidate ) ) {
+                        critter.setpos( candidate );
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
