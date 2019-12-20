@@ -863,10 +863,11 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
-                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 ) {
+                const int bash_bonus = mut.first->bash_dmg_bonus;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
-                per_hand += mut.first->bash_dmg_bonus + unarmed_bonus;
+                per_hand += bash_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_bash = mut.first->rand_bash_bonus;
                 per_hand += average ? ( rand_bash.first + rand_bash.second ) / 2.0f : rng( rand_bash.first,
                             rand_bash.second );
@@ -946,10 +947,11 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
-                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 ) {
+                const int cut_bonus = mut.first->cut_dmg_bonus;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
-                per_hand += mut.first->cut_dmg_bonus + unarmed_bonus;
+                per_hand += cut_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_cut = mut.first->rand_cut_bonus;
                 per_hand += average ? ( rand_cut.first + rand_cut.second ) / 2.0f : rng( rand_cut.first,
                             rand_cut.second );
