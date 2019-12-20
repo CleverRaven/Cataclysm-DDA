@@ -10,17 +10,20 @@
     "attitude": 0,
     "mission": 0,
     "chat": "TALK_WARRENER",
-    "traits": [ [ "FLEET", 100 ],  [ "GOODHEARING", 100 ], [ "DEFT", 100 ], [ "ANIMALEMPATH2", 100 ], [ "LIGHTFUR", 100 ], [ "HOOVES", 100 ] ],
+    "traits": [
+      [ "FLEET", 100 ],
+      [ "GOODHEARING", 100 ],
+      [ "DEFT", 100 ],
+      [ "ANIMALEMPATH2", 100 ],
+      [ "LIGHTFUR", 100 ],
+      [ "HOOVES", 100 ]
+    ],
     "faction": "no_faction"
   },
   {
     "type": "talk_topic",
     "id": "TALK_WARRENER",
-    "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "Are you here to protect us?",
-      "no": "Pleased to meet you."
-    },
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Are you here to protect us?", "no": "Pleased to meet you." },
     "responses": [
       { "text": "I'm just trying to get by.", "topic": "TALK_WARRENER_TRYING" },
       { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
@@ -133,5 +136,5 @@
       "failure": "It's not a big deal, it isn't that urgent."
     },
     "end": { "effect": [ { "u_buy_item": "petpack", "count": 1 } ] }
-  },
+  }
 ]

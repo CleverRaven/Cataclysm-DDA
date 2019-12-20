@@ -116,12 +116,6 @@
   {
     "type": "item_group",
     "id": "NC_Rabbit_Raiser_misc",
-    "items": [
-      [ "trenchcoat", 25 ],
-      [ "gloves_fingerless", 30 ],
-      [ "ref_lighter", 30 ],
-      [ "lighter", 30 ],
-      [ "matches", 30 ],
-    ]
+    "items": [ [ "trenchcoat", 25 ], [ "gloves_fingerless", 30 ], [ "ref_lighter", 30 ], [ "lighter", 30 ] ]
   }
 ]
