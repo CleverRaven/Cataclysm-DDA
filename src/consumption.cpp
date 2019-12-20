@@ -98,7 +98,8 @@ int player::stomach_capacity() const
 }
 
 // TODO: Move pizza scraping here.
-static int compute_default_effective_kcal( const item &comest, const player &p )
+static int compute_default_effective_kcal( const item &comest, const player &p,
+        const cata::flat_set<std::string> &extra_flags = {} )
 {
     static const trait_id trait_CARNIVORE( "CARNIVORE" );
     static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -113,7 +114,8 @@ static int compute_default_effective_kcal( const item &comest, const player &p )
     float kcal = comest.get_comestible()->default_nutrition.kcal;
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
-    if( comest.has_flag( "RAW" ) && !comest.has_flag( "COOKED" ) ) {
+    bool cooked = comest.has_flag( "COOKED" ) || extra_flags.count( "COOKED" );
+    if( comest.has_flag( "RAW" ) && !cooked ) {
         kcal *= 0.75f;
     }
 
@@ -179,9 +181,9 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 // Calculate the effective nutrients for a given item, taking
 // into account player traits but not item components.
 static nutrients compute_default_effective_nutrients( const item &comest,
-        const player &p )
+        const player &p, const cata::flat_set<std::string> &extra_flags = {} )
 {
-    return { compute_default_effective_kcal( comest, p ),
+    return { compute_default_effective_kcal( comest, p, extra_flags ),
              compute_default_effective_vitamins( comest, p ) };
 }
 
@@ -215,8 +217,9 @@ nutrients player::compute_effective_nutrients( const item &comest ) const
 
 // Calculate range of nutrients obtainable for a given item when crafted via
 // the given recipe
-std::pair<nutrients, nutrients> player::compute_nutrient_range( const item &comest,
-        const recipe_id &recipe_i ) const
+std::pair<nutrients, nutrients> player::compute_nutrient_range(
+    const item &comest, const recipe_id &recipe_i,
+    const cata::flat_set<std::string> &extra_flags ) const
 {
     if( !comest.is_comestible() ) {
         return {};
@@ -233,6 +236,12 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const item &come
 
     const recipe &rec = *recipe_i;
 
+    cata::flat_set<std::string> our_extra_flags = extra_flags;
+
+    if( rec.hot_result() ) {
+        our_extra_flags.insert( "COOKED" );
+    }
+
     const requirement_data requirements = rec.requirements();
     const requirement_data::alter_item_comp_vector &component_requirements =
         requirements.get_components();
@@ -243,7 +252,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const item &come
         bool first = true;
         for( const item_comp &component_option : component_options ) {
             std::pair<nutrients, nutrients> component_option_range =
-                compute_nutrient_range( component_option.type );
+                compute_nutrient_range( component_option.type, our_extra_flags );
             component_option_range.first *= component_option.count;
             component_option_range.second *= component_option.count;
 
@@ -272,7 +281,8 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const item &come
 
 // Calculate the range of nturients possible for a given item across all
 // possible recipes
-std::pair<nutrients, nutrients> player::compute_nutrient_range( const itype_id &comest_id ) const
+std::pair<nutrients, nutrients> player::compute_nutrient_range(
+    const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const
 {
     const itype *comest = item::find_type( comest_id );
     if( !comest->comestible ) {
@@ -281,7 +291,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const itype_id &
 
     item comest_it( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
-    nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this );
+    nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
     if( comest->item_tags.count( "NUTRIENT_OVERRIDE" ) ||
         recipe_dict.is_item_on_loop( comest->get_id() ) ) {
@@ -305,7 +315,7 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const itype_id &
             debugmsg( "When creating recipe result expected %s, got %s\n",
                       comest_it.typeId(), result_it.typeId() );
         }
-        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec );
+        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
         max_nutr.max_in_place( this_max );
     }
