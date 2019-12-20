@@ -7289,10 +7289,13 @@ void Character::use_fire( const int quantity )
 
 int Character::heartrate_bpm() const
 {
-    //This function returns heartrate in BPM basing of health, physical state, tiredness, moral effects, stimulators and anything that should fit here. 
-    //Some values are picked to make sense from math point of view and seem correct but effects may vary in real life
-    //This needs more attention from experienced contributors to work more smooth
-    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution. There's probably a better way to do that. Possibly this value should be generated with player creation. 
+    //This function returns heartrate in BPM basing of health, physical state, tiredness, 
+    //moral effects, stimulators and anything that should fit here. 
+    //Some values are picked to make sense from math point of view 
+    //and seem correct but effects may vary in real life.
+    //This needs more attention from experienced contributors to work more smooth.
+    //Average healthy bpm is 60-80. That's a simple imitation of mormal distribution. 
+    //Must a better way to do that. Possibly this value should be generated with player creation. 
     int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 ); 
     //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -7321,11 +7324,14 @@ int Character::heartrate_bpm() const
     } else {
         stamina_effect = 2;
     }
-    int heartbeat = average_heartbeat * ( 1 + stamina_effect );//can triple heartrate
+    //can triple heartrate
+    int heartbeat = average_heartbeat * ( 1 + stamina_effect );
     const int stim_level = get_stim();
     int stim_modifer = 0;
     if ( stim_level > 0 ) {
-        //that's asymptotical function that is equal to 1 at around 30 stim level and slows down all the time almost reaching 2. Tweaking x*x multiplier will accordingly change effect accumulation
+        //that's asymptotical function that is equal to 1 at around 30 stim level 
+        //and slows down all the time almost reaching 2. 
+        //Tweaking x*x multiplier will accordingly change effect accumulation
         stim_modifer = 2.1 - 2/( 1 + 0.001 * stim_level * stim_level ); 
     }
     heartbeat *= 1 + stim_modifer;
@@ -7337,19 +7343,20 @@ int Character::heartrate_bpm() const
             heartbeat *= 1.1;
         }
     }
-    //add morale effects, mutations, fear(?), medication effects
-    //health effect that can make things better or worse is applied in the end. Based on get_max_healthy that already has bmi factored
+    //health effect that can make things better or worse is applied in the end.
+    //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     float healthy_modifier = 0;
     //a bit arbitary formula that can use some love
     healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
-    //if something raised BPM at least by 20% for a player with ADRENALINE, it adds 20% of avg more to result
+    //if BPM raised at least by 20% for a player with ADRENALINE, it adds 20% of avg to result
     if ( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
     }
     //Add dependencies for COLDBLOOD?
     //Add effects from addictions
+    //add morale effects, fear(?), medication effects
     //A single clamp in the end should be enough 
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
     //No heartbeat in omnicell
