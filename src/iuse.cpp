@@ -4432,7 +4432,7 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
         } else if ( exercise == "MODERATE_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Doing good!  Don't stop, push the limit!'" ), it->tname() );
         } else if ( exercise == "ACTIVE_EXERCISE" ) {
-			//Ad will most likely need to go
+            //Ad will most likely need to go
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
         } else {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
