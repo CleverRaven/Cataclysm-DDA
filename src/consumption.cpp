@@ -226,48 +226,48 @@ std::pair<nutrients, nutrients> player::compute_nutrient_range( const item &come
     if( comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         nutrients result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
-    } else {
-        nutrients tally_min;
-        nutrients tally_max;
-
-        const recipe &rec = *recipe_i;
-
-        const requirement_data requirements = rec.requirements();
-        const requirement_data::alter_item_comp_vector &component_requirements =
-            requirements.get_components();
-
-        for( const std::vector<item_comp> &component_options : component_requirements ) {
-            nutrients this_min;
-            nutrients this_max;
-            bool first = true;
-            for( const item_comp &component_option : component_options ) {
-                std::pair<nutrients, nutrients> component_option_range =
-                    compute_nutrient_range( component_option.type );
-                component_option_range.first *= component_option.count;
-                component_option_range.second *= component_option.count;
-
-                if( first ) {
-                    std::tie( this_min, this_max ) = component_option_range;
-                    first = false;
-                } else {
-                    this_min.min_in_place( component_option_range.first );
-                    this_max.max_in_place( component_option_range.second );
-                }
-            }
-            tally_min += this_min;
-            tally_max += this_max;
-        }
-
-        for( const std::pair<itype_id, int> &byproduct : rec.byproducts ) {
-            item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
-            nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
-            tally_min -= byproduct_nutr;
-            tally_max -= byproduct_nutr;
-        }
-
-        int charges = comest.count();
-        return { tally_min / charges, tally_max / charges };
     }
+
+    nutrients tally_min;
+    nutrients tally_max;
+
+    const recipe &rec = *recipe_i;
+
+    const requirement_data requirements = rec.requirements();
+    const requirement_data::alter_item_comp_vector &component_requirements =
+        requirements.get_components();
+
+    for( const std::vector<item_comp> &component_options : component_requirements ) {
+        nutrients this_min;
+        nutrients this_max;
+        bool first = true;
+        for( const item_comp &component_option : component_options ) {
+            std::pair<nutrients, nutrients> component_option_range =
+                compute_nutrient_range( component_option.type );
+            component_option_range.first *= component_option.count;
+            component_option_range.second *= component_option.count;
+
+            if( first ) {
+                std::tie( this_min, this_max ) = component_option_range;
+                first = false;
+            } else {
+                this_min.min_in_place( component_option_range.first );
+                this_max.max_in_place( component_option_range.second );
+            }
+        }
+        tally_min += this_min;
+        tally_max += this_max;
+    }
+
+    for( const std::pair<itype_id, int> &byproduct : rec.byproducts ) {
+        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
+        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+        tally_min -= byproduct_nutr;
+        tally_max -= byproduct_nutr;
+    }
+
+    int charges = comest.count();
+    return { tally_min / charges, tally_max / charges };
 }
 
 // Calculate the range of nturients possible for a given item across all
