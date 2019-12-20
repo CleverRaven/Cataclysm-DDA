@@ -988,6 +988,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         thrown = *orig;
     } else {
         debugmsg( "item location not valid for thrown item" );
+        return;
     }
     int range = you.throw_range( thrown );
     if( range < 0 ) {
