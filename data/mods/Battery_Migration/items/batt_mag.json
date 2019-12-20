@@ -14,7 +14,6 @@
     "volume": 1,
     "weight": 1,
     "ammo_type": "battery",
-    "reload_time": 1,
     "count": 100,
     "//": "1 battery is 1 kJ of energy.  40 batteries is an alkaline C-cell.",
     "fuel": { "energy": 1 }

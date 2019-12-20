@@ -41,7 +41,7 @@
   {
     "id": "honey",
     "type": "COMESTIBLE",
-    "comment": "uncontained so it can bleed to the ground.",
+    "//": "uncontained so it can bleed to the ground.",
     "symbol": "~",
     "color": "yellow",
     "name": "honey",
