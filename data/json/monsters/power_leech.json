@@ -10,6 +10,7 @@
     "weight": "40 kg",
     "hp": 100,
     "speed": 100,
+    "diff": 30,
     "material": [ "flesh" ],
     "symbol": "K",
     "color": "light_cyan",
@@ -26,7 +27,8 @@
         "gun_type": "emp_frond",
         "fake_skills": [ [ "gun", 3 ], [ "pistol", 3 ] ],
         "ranges": [ [ 0, 12, "DEFAULT" ] ],
-        "description": "Lightning arcs towards you!"
+        "targeting_sound": "a faint buzz",
+        "description": "Lightning arcs from the leech blossom!"
       },
       [ "LEECH_SPAWNER", 25 ],
       [ "MON_LEECH_EVOLUTION", 40 ],
@@ -48,6 +50,7 @@
     "weight": "40 kg",
     "hp": 40,
     "speed": 100,
+    "diff": 20,
     "material": [ "flesh" ],
     "symbol": "y",
     "color": "light_blue",
@@ -64,7 +67,8 @@
         "gun_type": "emp_frond",
         "fake_skills": [ [ "gun", 2 ], [ "pistol", 2 ] ],
         "ranges": [ [ 0, 12, "DEFAULT" ] ],
-        "description": "Lightning arcs towards you!"
+        "targeting_sound": "a faint buzz",
+        "description": "Lightning arcs from the leech stalk!"
       },
       [ "MON_LEECH_EVOLUTION", 30 ]
     ],
@@ -84,6 +88,7 @@
     "weight": "60 kg",
     "hp": 40,
     "speed": 100,
+    "diff": 20,
     "material": [ "flesh" ],
     "symbol": "g",
     "color": "white",
@@ -97,7 +102,8 @@
         "cooldown": 15,
         "gun_type": "emp_frond",
         "ranges": [ [ 0, 1, "DEFAULT" ] ],
-        "description": "Lightning arcs towards you!"
+        "targeting_sound": "a faint buzz",
+        "description": "Lightning arcs from the pod cluster!"
       },
       [ "LEECH_SPAWNER", 35 ]
     ],
@@ -116,6 +122,7 @@
     "weight": "6 kg",
     "hp": 40,
     "speed": 120,
+    "diff": 20,
     "material": [ "flesh" ],
     "symbol": "m",
     "color": "blue",
@@ -137,7 +144,8 @@
         "gun_type": "emp_frond",
         "fake_skills": [ [ "gun", 1 ], [ "pistol", 1 ] ],
         "ranges": [ [ 0, 2, "DEFAULT" ] ],
-        "description": "Lightning arcs towards you!"
+        "targeting_sound": "a faint buzz",
+        "description": "Sparks fly from the root runner!"
       },
       [ "EVOLVE_KILL_STRIKE", 3 ]
     ],
@@ -178,7 +186,8 @@
         "gun_type": "emp_frond",
         "fake_skills": [ [ "gun", 1 ], [ "pistol", 1 ] ],
         "ranges": [ [ 0, 2, "DEFAULT" ] ],
-        "description": "Lightning arcs towards you!"
+        "targeting_sound": "a faint buzz",
+        "description": "Lightning arcs from the root pod!"
       },
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],

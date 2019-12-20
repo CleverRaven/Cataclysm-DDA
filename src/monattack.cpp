@@ -4814,13 +4814,13 @@ bool mattack::leech_spawner( monster *z )
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
             }
-        }
-    }
-    if( one_in( 25 ) ) {
-        z->poly( mon_leech_stalk );
-        if( u_see ) {
-            add_msg( m_warning,
-                     _( "Resplendent fronds emerge from the still intact pods!" ) );
+            if( one_in( 25 ) ) {
+                z->poly( mon_leech_stalk );
+                if( u_see ) {
+                    add_msg( m_warning,
+                             _( "Resplendent fronds emerge from the still intact pods!" ) );
+                }
+            }
         }
     }
     return true;
@@ -4845,15 +4845,6 @@ bool mattack::mon_leech_evolution( monster *z )
                 add_msg( m_warning,
                          _( "The %s blooms into flowers!" ), z->name() );
             }
-        }
-    } else {
-        if( !queens.empty() ) {
-            if( u_see ) {
-                add_msg( m_warning,
-                         _( "The %s flowers whiter and fall!" ), z->name() );
-            }
-            z->poly( mon_leech_stalk );
-            g->m.spawn_item( z->pos(), "leech_flower", 5, 0, calendar::turn );
         }
     }
     return true;
