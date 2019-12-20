@@ -6,7 +6,13 @@
     "name": "sugar house",
     "sym": "S",
     "color": "i_brown",
-    "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW" ] }
+    "extend": {
+      "flags": [
+        "SOURCE_FOOD",
+        "SOURCE_SAFETY",
+        "RISK_LOW"
+      ]
+    }
   },
   {
     "type": "overmap_terrain",
@@ -23,7 +29,6 @@
     "sym": "│",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -33,7 +38,6 @@
     "sym": "┬",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -43,7 +47,6 @@
     "sym": "┐",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -53,7 +56,6 @@
     "sym": "┌",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -63,7 +65,6 @@
     "sym": "│",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -73,7 +74,6 @@
     "sym": "┐",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -83,7 +83,6 @@
     "sym": "┌",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -93,7 +92,6 @@
     "sym": "┬",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -103,7 +101,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -115,7 +112,12 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY",
+      "RISK_LOW",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -134,7 +136,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -144,7 +145,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -154,7 +154,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -164,7 +163,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -174,7 +172,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -184,7 +181,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -194,7 +190,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -204,7 +199,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -214,7 +208,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -224,7 +217,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -234,7 +226,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -244,7 +235,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -254,7 +244,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -264,7 +253,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -274,7 +262,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -284,7 +271,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -294,7 +280,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -304,7 +289,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -314,7 +298,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -324,7 +307,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -334,9 +316,13 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY",
+      "RISK_LOW",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -345,7 +331,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -355,7 +340,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -365,7 +349,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -375,7 +358,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -385,7 +367,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -395,7 +376,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -405,7 +385,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -415,7 +394,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -425,7 +403,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -435,9 +412,13 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY",
+      "RISK_LOW",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -446,7 +427,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -456,7 +436,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -466,7 +445,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -476,7 +454,6 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -486,7 +463,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -496,7 +472,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -506,7 +481,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -516,7 +490,6 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -526,7 +499,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -536,7 +508,6 @@
     "sym": "T",
     "color": "light_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 3
   },
   {
@@ -546,7 +517,6 @@
     "sym": "T",
     "color": "i_light_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 3
   },
   {
@@ -556,7 +526,6 @@
     "sym": "T",
     "color": "i_light_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 3
   },
   {
@@ -566,7 +535,15 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_SAFETY", "SOURCE_ANIMALS", "RISK_LOW", "SOURCE_FARMING" ]
+    "flags": [
+      "SIDEWALK",
+      "SOURCE_FOOD",
+      "SOURCE_DRINK",
+      "SOURCE_SAFETY",
+      "SOURCE_ANIMALS",
+      "RISK_LOW",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "id": "dairy_farm_NE",
@@ -575,7 +552,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_SE",
@@ -584,7 +563,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_SE_roof",
@@ -593,7 +574,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_SW",
@@ -602,7 +585,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_SW_roof",
@@ -611,7 +596,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_W",
@@ -620,7 +607,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_E",
@@ -629,7 +618,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_SE",
@@ -638,7 +629,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_SE_roof",
@@ -647,7 +640,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_SW",
@@ -656,7 +651,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "dairy_farm_isherwood_SW_roof",
@@ -665,7 +662,9 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK" ]
+    "flags": [
+      "SIDEWALK"
+    ]
   },
   {
     "id": "smokehouse",
@@ -706,7 +705,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -746,7 +744,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -756,7 +753,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -766,7 +762,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -776,7 +771,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -786,7 +780,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -796,7 +789,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -806,7 +798,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -816,7 +807,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -826,7 +816,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -836,7 +825,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -856,7 +844,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -866,7 +853,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -876,7 +862,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -886,7 +871,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -896,7 +880,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -906,7 +889,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -916,7 +898,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -926,7 +907,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -936,7 +916,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -946,7 +925,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -956,7 +934,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -966,7 +943,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -976,7 +952,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -986,7 +961,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -996,7 +970,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1006,7 +979,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1016,7 +988,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1026,7 +997,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1036,7 +1006,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1046,7 +1015,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1056,7 +1024,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1074,7 +1041,11 @@
     "name": "orchard",
     "sym": "#",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_FOOD" ] }
+    "extend": {
+      "flags": [
+        "SOURCE_FOOD"
+      ]
+    }
   },
   {
     "type": "overmap_terrain",
@@ -1131,7 +1102,6 @@
     "sym": "T",
     "color": "i_green",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1141,7 +1111,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1161,7 +1130,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1171,7 +1139,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1181,7 +1148,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1191,7 +1157,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1201,7 +1166,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1211,7 +1175,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1221,7 +1184,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1231,7 +1193,6 @@
     "sym": "&",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1241,7 +1202,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1251,7 +1211,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1261,7 +1220,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1271,7 +1229,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1281,7 +1238,6 @@
     "sym": "o",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1291,7 +1247,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1301,7 +1256,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1311,9 +1265,14 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_ANIMALS", "SOURCE_FARMING" ]
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY",
+      "RISK_LOW",
+      "SOURCE_ANIMALS",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -1322,7 +1281,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1332,7 +1290,6 @@
     "sym": "^",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1342,7 +1299,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1352,7 +1308,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1362,7 +1317,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1372,7 +1326,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1382,7 +1335,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1392,7 +1344,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1402,7 +1353,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1412,7 +1362,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1422,7 +1371,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1432,7 +1380,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1442,7 +1389,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1452,7 +1398,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1462,7 +1407,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1472,7 +1416,6 @@
     "sym": "#",
     "color": "i_brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1482,7 +1425,6 @@
     "sym": "│",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1492,7 +1434,6 @@
     "sym": "┬",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1502,7 +1443,6 @@
     "sym": "┐",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1512,7 +1452,6 @@
     "sym": "┌",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1522,7 +1461,6 @@
     "sym": "│",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1532,7 +1470,6 @@
     "sym": "┐",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1542,7 +1479,6 @@
     "sym": "┌",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1552,7 +1488,6 @@
     "sym": "┬",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1602,7 +1537,6 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1612,7 +1546,6 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "extras": "field",
     "mondensity": 2
   },
   {
@@ -1624,7 +1557,12 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
+    "flags": [
+      "SOURCE_FOOD",
+      "SOURCE_SAFETY",
+      "RISK_LOW",
+      "SOURCE_FARMING"
+    ]
   },
   {
     "type": "overmap_terrain",
