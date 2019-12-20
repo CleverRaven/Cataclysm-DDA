@@ -4833,7 +4833,7 @@ bool mattack::mon_leech_evolution( monster *z )
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
-            rl_dist( z->pos(), candidate.pos() ) > 35 ) {
+            rl_dist( z->pos(), candidate.pos() ) < 35 ) {
             queens.push_back( &candidate );
         }
     }
