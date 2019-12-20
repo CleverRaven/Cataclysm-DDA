@@ -53,6 +53,8 @@ bool nutrients::operator==( const nutrients &r ) const
     if( kcal != r.kcal ) {
         return false;
     }
+    // Can't just use vitamins == r.vitamins, because there might be zero
+    // entries in the map, which need to compare equal to missing entries.
     for( const std::pair<const vitamin_id, vitamin> &vit_pair : vitamin::all() ) {
         const vitamin_id &vit = vit_pair.first;
         if( get_vitamin( vit ) != r.get_vitamin( vit ) ) {
