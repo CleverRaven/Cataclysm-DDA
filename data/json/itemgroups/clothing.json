@@ -2918,114 +2918,142 @@
     "items": [ { "item": "heels", "prob": 100 } ]
   },
   {
+    "id": "accessory_ring",
+    "type": "item_group",
+    "//": "decorative finger rings worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "ring_wedding", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "diamond_ring", "prob": 10 },
+      { "item": "platinum_ring", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_earring",
+    "type": "item_group",
+    "//": "decorative earrings and miscellaneous ear accessories worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "group": "earrings_silver", "prob": 70 },
+      { "group": "earrings_gold", "prob": 25 },
+      { "group": "earrings_platinum", "prob": 5 } ,
+    ]
+  },
+  {
+    "id": "accessory_bracelet",
+    "type": "item_group",
+    "//": "decorative bracelets worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bead_bracelet", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "bracelet_friendship", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "copper_bracelet", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "platinum_bracelet", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_teeth",
+    "type": "item_group",
+    "//": "decorative or functional teeth miscellany that may be present in people's mouths.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
+      { "item": "diamond_dental_grill", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_necklace",
+    "type": "item_group",
+    "//": "decorative necklaces or neck accessories worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bead_necklace", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "copper_necklace", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "silver_necklace", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_necklace", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "platinum_necklace", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "copper_locket", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "silver_locket", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "gold_locket", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "platinum_locket", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "collarpin", "prob": 10 },
+      { "item": "bronze_medal", "prob": 6 },
+      { "item": "silver_medal", "prob": 4 },
+      { "item": "gold_medal", "prob": 2 },
+      { "item": "small_relic", "prob": 10 },
+      { "item": "holy_symbol", "prob": 10 },
+      { "item": "holy_symbol_wood", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_cat",
+    "type": "item_group",
+    "//": "accessories that some say were the cause of the cataclysm.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "faux_fur_cat_ears", "prob": 80 },
+      { "item": "leather_cat_ears", "prob": 50 },
+      { "item": "fur_cat_ears", "prob": 10 },
+      { "item": "faux_fur_cat_tail", "prob": 80 },
+      { "item": "leather_cat_tail", "prob": 50 },
+      { "item": "fur_cat_tail", "prob": 10 },
+      { "item": "faux_fur_collar", "prob": 80 },
+      { "item": "leather_collar", "prob": 50 },
+      { "item": "fur_collar", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_weaponcarry",
+    "type": "item_group",
+    "//": "clothing designed to hold a small weapon worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "bootstrap", "prob": 20 },
+      { "item": "bootsheath", "prob": 50 },
+      { "item": "sheath", "prob": 80 },
+      { "item": "back_holster", "prob": 10 },
+      { "item": "holster", "prob": 30 },
+      { "item": "sholster", "prob": 10 },
+      { "item": "bholster", "prob": 10 }
+    ]
+  },
+  {
+    "id": "accessory_sportsgear",
+    "type": "item_group",
+    "//": "assorted sportsgear worn by people.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "elbow_pads", "prob": 50 },
+      { "item": "knee_pads", "prob": 50 },
+      { "item": "iggaak", "prob": 5 },
+      { "item": "goggles_swim", "prob": 10 },
+      { "item": "glasses_bal", "prob": 10 },
+      { "item": "eclipse_glasses", "prob": 5 },
+      { "item": "goggles_ski", "prob": 10 }
+    ]
+  },
+  {
     "id": "accesories_personal_unisex",
     "type": "item_group",
     "//": "unisex personal accessories",
     "subtype": "collection",
     "items": [
-      { "group": "clothing_glasses", "prob": 10 },
-      { "group": "clothing_watch", "prob": 10 },
-      {
-        "distribution": [
-          { "item": "ring_wedding", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "copper_ring", "prob": 80, "count": [ 1, 3 ] },
-          { "item": "silver_ring", "prob": 50, "count": [ 1, 3 ] },
-          { "item": "gold_ring", "prob": 40, "count": [ 1, 3 ] },
-          { "item": "diamond_ring", "prob": 10 },
-          { "item": "platinum_ring", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "ear_spool", "prob": 20, "count": [ 1, 2 ] },
-          { "item": "bead_ear", "prob": 70, "count": [ 1, 2 ] },
-          { "item": "copper_ear", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "silver_ear", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "gold_ear", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "platinum_ear", "prob": 10 },
-          { "item": "ear_plugs", "prob": 40 },
-          { "item": "attached_ear_plugs_off", "prob": 30 }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "bead_bracelet", "prob": 80, "count": [ 1, 2 ] },
-          { "item": "bracelet_friendship", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "copper_bracelet", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "silver_bracelet", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "gold_bracelet", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "platinum_bracelet", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "gold_dental_grill", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "platinum_dental_grill", "prob": 30, "count": [ 1, 2 ] },
-          { "item": "diamond_dental_grill", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "bead_necklace", "prob": 80, "count": [ 1, 2 ] },
-          { "item": "copper_necklace", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "silver_necklace", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "gold_necklace", "prob": 20, "count": [ 1, 2 ] },
-          { "item": "platinum_necklace", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "copper_locket", "prob": 60, "count": [ 1, 2 ] },
-          { "item": "silver_locket", "prob": 40, "count": [ 1, 2 ] },
-          { "item": "gold_locket", "prob": 20, "count": [ 1, 2 ] },
-          { "item": "platinum_locket", "prob": 10, "count": [ 1, 2 ] },
-          { "item": "collarpin", "prob": 10 },
-          { "item": "bronze_medal", "prob": 6 },
-          { "item": "silver_medal", "prob": 4 },
-          { "item": "gold_medal", "prob": 2 },
-          { "item": "small_relic", "prob": 10 },
-          { "item": "holy_symbol", "prob": 10 },
-          { "item": "holy_symbol_wood", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "faux_fur_cat_ears", "prob": 80 },
-          { "item": "leather_cat_ears", "prob": 50 },
-          { "item": "fur_cat_ears", "prob": 10 },
-          { "item": "faux_fur_cat_tail", "prob": 80 },
-          { "item": "leather_cat_tail", "prob": 50 },
-          { "item": "fur_cat_tail", "prob": 10 },
-          { "item": "faux_fur_collar", "prob": 80 },
-          { "item": "leather_collar", "prob": 50 },
-          { "item": "fur_collar", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "bootstrap", "prob": 20 },
-          { "item": "bootsheath", "prob": 50 },
-          { "item": "sheath", "prob": 80 },
-          { "item": "back_holster", "prob": 10 },
-          { "item": "holster", "prob": 30 },
-          { "item": "sholster", "prob": 10 },
-          { "item": "bholster", "prob": 10 }
-        ],
-        "prob": 15
-      },
-      {
-        "distribution": [
-          { "item": "elbow_pads", "prob": 50 },
-          { "item": "knee_pads", "prob": 50 },
-          { "item": "iggaak", "prob": 5 },
-          { "item": "goggles_swim", "prob": 10 },
-          { "item": "glasses_bal", "prob": 10 },
-          { "item": "eclipse_glasses", "prob": 5 },
-          { "item": "goggles_ski", "prob": 10 }
-        ],
-        "prob": 15
-      },
+      { "group": "accessory_glasses", "prob": 10 },
+      { "group": "accessory_watch", "prob": 10 },
+      { "group": "accessory_ring", "prob": 15 } ,
+      { "group": "accessory_earring" },
+      { "group": "accessory_bracelet", "prob": 15 },
+      { "group": "accessory_teeth", "prob": 15 },
+      { "group": "accessory_necklace", "prob": 15 },
+      { "group": "accessory_cat", "prob": 15 },
+      { "group": "accessory_weaponcarry", "prob": 15 },
+      { "group": "accessory_sportsgear", "prob": 15 },
       { "item": "folding_poncho", "prob": 10 },
       { "item": "american_flag", "prob": 2 },
       { "item": "tool_belt", "prob": 10 },
