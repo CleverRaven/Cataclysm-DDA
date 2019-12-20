@@ -444,7 +444,7 @@ void Item_factory::finalize()
     // for each item register all (non-obsolete) potential recipes
     for( const std::pair<const recipe_id, recipe> &p : recipe_dict ) {
         const recipe &rec = p.second;
-        if( rec.obsolete ) {
+        if( rec.obsolete || rec.will_be_blacklisted() ) {
             continue;
         }
         const itype_id &result = rec.result();
