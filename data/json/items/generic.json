@@ -2388,6 +2388,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "teddy_bear",
+    "symbol": "o",
+    "color": "brown",
+    "name": "teddy bear",
+    "description": "A mass produced plush teddy bear.  It is wearing a little red tshirt but no pants.",
+    "price": 200,
+    "material": [ "cotton" ],
+    "weight": "444 g",
+    "volume": "850 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "money_bundle",
     "name": "money bundle",
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
