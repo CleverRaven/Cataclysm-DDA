@@ -3789,17 +3789,17 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 1 );
         } else if( temp_cur[bp] > BODYTEMP_SCORCHING ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
-            if( bp == bp_torso || bp == bp_head ) {
+            if( mutate_to_main_part( bp ) == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
             }
         } else if( temp_cur[bp] > BODYTEMP_VERY_HOT ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
-            if( bp == bp_torso || bp == bp_head ) {
+            if( mutate_to_main_part( bp ) == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
         } else if( temp_cur[bp] > BODYTEMP_HOT ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
-            if( bp == bp_torso || bp == bp_head ) {
+            if( mutate_to_main_part( bp ) == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
             }
         } else {
