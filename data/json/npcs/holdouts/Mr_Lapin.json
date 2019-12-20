@@ -121,11 +121,11 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
-    "item": [ "sweet_fruit_like", "LIST" ],
+    "item": "blackberries",
     "count": 25,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "I need 25 fruits.",
+      "describe": "I need 25 blackberries.",
       "offer": "Fruits would let me break the monotony of grains and meats.",
       "accepted": "Thanks for accepting this task.  Otherwise I might kill a stranger for some oranges. Just kidding.",
       "rejected": "Just let me know if you change your mind.",
