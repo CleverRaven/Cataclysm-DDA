@@ -425,6 +425,13 @@ int construction_menu( bool blueprint )
                         std::vector<std::string> current_buffer;
                         std::string current_line;
 
+                        const auto add_folded = [&]( const std::vector<std::string> &folded ) {
+                            current_buffer.insert( current_buffer.end(), folded.begin(), folded.end() );
+                        };
+                        const auto add_line = [&]( const std::string & line ) {
+                            add_folded( foldstring( line, available_window_width ) );
+                        };
+
                         // display final product name only if more than one step.
                         // Assume single stage constructions should be clear
                         // in their title what their result is.
@@ -440,9 +447,7 @@ int construction_menu( bool blueprint )
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
                             current_line += colorize( result_string, color_title );
-                            std::vector<std::string> folded_result_string = foldstring( current_line, available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
 
                             // display description of the result for multi-stages
                             current_line = _( "Result: " );
@@ -457,9 +462,7 @@ int construction_menu( bool blueprint )
                                                     color_data
                                                 );
                             }
-                            folded_result_string = foldstring( current_line, available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
 
                             // display description of the result for single stages
                         } else if( !current_con->post_terrain.empty() ) {
@@ -475,9 +478,7 @@ int construction_menu( bool blueprint )
                                                     color_data
                                                 );
                             }
-                            std::vector<std::string> folded_result_string = foldstring( current_line, available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
                         }
 
                         current_line.clear();
@@ -503,7 +504,7 @@ int construction_menu( bool blueprint )
                             }, enumeration_conjunction::none );
                         }
 
-                        current_buffer.push_back( current_line );
+                        add_line( current_line );
                         // TODO: Textify pre_flags to provide a bit more information.
                         // Example: First step of dig pit could say something about
                         // requiring diggable ground.
@@ -516,30 +517,22 @@ int construction_menu( bool blueprint )
                             }
                             nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
                             current_line = _( "Requires: " ) + colorize( require_string, pre_color );
-                            std::vector<std::string> folded_result_string = foldstring( current_line, available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
                         }
                         if( !current_con->pre_note.empty() ) {
                             current_line = _( "Annotation: " ) + colorize( _( current_con->pre_note ), color_data );
-                            std::vector<std::string> folded_result_string = foldstring( current_line, available_window_width );
-                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
-                                                   folded_result_string.end() );
+                            add_line( current_line );
                         }
                         // get pre-folded versions of the rest of the construction project to be displayed later
 
                         // get time needed
-                        std::vector<std::string> folded_time = current_con->get_folded_time_string(
-                                available_window_width );
-                        current_buffer.insert( current_buffer.end(), folded_time.begin(), folded_time.end() );
+                        add_folded( current_con->get_folded_time_string( available_window_width ) );
 
-                        std::vector<std::string> folded_tools = current_con->requirements->get_folded_tools_list(
-                                available_window_width, color_stage, total_inv );
-                        current_buffer.insert( current_buffer.end(), folded_tools.begin(), folded_tools.end() );
+                        add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
+                                    total_inv ) );
 
-                        std::vector<std::string> folded_components = current_con->requirements->get_folded_components_list(
-                                    available_window_width, color_stage, total_inv, is_crafting_component );
-                        current_buffer.insert( current_buffer.end(), folded_components.begin(), folded_components.end() );
+                        add_folded( current_con->requirements->get_folded_components_list( available_window_width,
+                                    color_stage, total_inv, is_crafting_component ) );
 
                         construct_buffers.push_back( current_buffer );
                     }
