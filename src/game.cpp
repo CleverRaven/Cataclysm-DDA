@@ -5791,9 +5791,9 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
-    tile = "Place  : " + area_name + "\nTile   : " + tile;
+    tile = _( "Place  : " ) + area_name + "\nTile   : " + tile;
     if( m.has_furn( lp ) ) {
-        tile += "\nDecor  : " + m.furnname( lp );
+        tile += "\n" + _( "Decor  : " ) + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
@@ -5837,7 +5837,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
     }
     fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray,
-                    "Type   : " + m.features( lp ) );
+                    _( "Type   : " ) + m.features( lp ) );
     fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Surface: %d%% \n" ),
                     m.coverage( lp ) );
     if( line < lines ) {
