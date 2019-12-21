@@ -605,7 +605,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     nc_color color = c_white;
     std::string sText;
     get_HP_Bar( color, sText );
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Health : " );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Health : " ) );
     mvwprintz( w, point( column + 9, vStart ), color, sText );
 
     // display sense
