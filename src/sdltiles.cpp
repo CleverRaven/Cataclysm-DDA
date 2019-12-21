@@ -3464,7 +3464,9 @@ void catacurses::init_interface()
     load_soundset();
 
     // Reset the font pointer
-    font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
+    assert( !fl.typeface.empty() );
+    font = Font::load_font( fl.typeface.front(), fl.fontsize, fl.fontwidth, fl.fontheight,
+                            fl.fontblending );
     if( !font ) {
         throw std::runtime_error( "loading font data failed" );
     }
