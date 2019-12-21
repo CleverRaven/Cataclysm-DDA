@@ -888,7 +888,7 @@
         "_": [ "t_dirt", [ "t_grass", 6 ] ]
       },
       "place_monster": [ { "monster": "mon_rabbit", "x": 8, "y": 21, "repeat": [ 3, 6 ] } ],
-      "place_npcs": [ { "class": "NC_Rabbit_Raiser", "x": 9, "y": 17 } ]
+      "place_npcs": [ { "class": "warrener", "x": 9, "y": 17 } ]
     }
   },
   {
