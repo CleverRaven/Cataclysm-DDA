@@ -1816,7 +1816,7 @@ item_count_tuple vehicle::select_comestible_liquid( const std::vector<item_count
         if( choice >= 0 && choice < idx ) {
             try {
                 return liquids[static_cast<size_t>( choice )];
-            } catch( const std::out_of_range& ) {
+            } catch( const std::out_of_range & ) {
                 debugmsg( "Warning! Invalid comestible liquid index" );
             }
         }
