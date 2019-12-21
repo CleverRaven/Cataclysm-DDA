@@ -613,7 +613,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     if( sees( g->u ) ) {
         senses_str = _( "It is aware of your presence" );
     } else {
-        senses_str = "He hasn't noticed you";
+        senses_str = _( "It hasn't noticed you" );
     }
 
     mvwprintz( w, point( column, ++vStart ), c_light_gray, "Senses : " );
