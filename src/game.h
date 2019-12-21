@@ -788,6 +788,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
@@ -1004,6 +1005,13 @@ class game
         std::string list_item_downvote;
 
         std::vector<shared_ptr_fast<monster>> new_seen_mon;
+        // 7 0 1    unique_types uses these indices;
+        // 6 8 2    0-7 are provide by direction_from()
+        // 5 4 3    8 is used for local monsters (for when we explain them below)
+        std::vector<npc *> unique_types[9];
+        std::vector<const mtype *> unique_mons[9];
+        bool dangerous[8];
+
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;

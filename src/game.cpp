@@ -1540,6 +1540,7 @@ bool game::do_turn()
         }
     }
     update_stair_monsters();
+    mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
@@ -3810,19 +3811,142 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 
     const int startrow = 0;
 
+    // Print the direction headings
+    // Reminder:
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+
+    const std::array<std::string, 8> dir_labels = {{
+            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
+            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
+        }
+    };
+    std::array<int, 8> widths;
+    for( int i = 0; i < 8; i++ ) {
+        widths[i] = utf8_width( dir_labels[i] );
+    }
+    std::array<int, 8> xcoords;
+    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
+    xcoords[0] = xcoords[4] = width / 3;
+    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
+    xcoords[5] = xcoords[6] = xcoords[7] = 0;
+    //for the alignment of the 1,2,3 rows on the right edge
+    xcoords[2] -= utf8_width( _( "East:" ) ) - utf8_width( _( "NE:" ) );
+    for( int i = 0; i < 8; i++ ) {
+        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
+                     : ( dangerous[i] ? c_light_red : c_light_gray );
+        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
+    }
+
+    // Print the symbols of all monsters in all directions.
+    for( int i = 0; i < 8; i++ ) {
+        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
+
+        // The list of symbols needs a space on each end.
+        int symroom = ( width / 3 ) - widths[i] - 2;
+        const int typeshere_npc = unique_types[i].size();
+        const int typeshere_mon = unique_mons[i].size();
+        const int typeshere = typeshere_mon + typeshere_npc;
+        for( int j = 0; j < typeshere && j < symroom; j++ ) {
+            nc_color c;
+            std::string sym;
+            if( symroom < typeshere && j == symroom - 1 ) {
+                // We've run out of room!
+                c = c_white;
+                sym = "+";
+            } else if( j < typeshere_npc ) {
+                switch( unique_types[i][j]->get_attitude() ) {
+                    case NPCATT_KILL:
+                        c = c_red;
+                        break;
+                    case NPCATT_FOLLOW:
+                        c = c_light_green;
+                        break;
+                    default:
+                        c = c_pink;
+                        break;
+                }
+                sym = "@";
+            } else {
+                const mtype &mt = *unique_mons[i][j - typeshere_npc];
+                c = mt.color;
+                sym = mt.sym;
+            }
+            mvwprintz( w, pr, c, sym );
+
+            pr.x++;
+        }
+    }
+
+    // Now we print their full names!
+
+    std::set<const mtype *> listed_mons;
+
+    // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
+    // is blank.
+    point pr( hor_padding, 4 + startrow );
+
+    // Print monster names, starting with those at location 8 (nearby).
+    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
+        // Separate names by some number of spaces (more for local monsters).
+        int namesep = ( j == 8 ? 2 : 1 );
+        for( const mtype *type : unique_mons[j] ) {
+            if( pr.y >= maxheight ) {
+                // no space to print to anyway
+                break;
+            }
+            if( listed_mons.count( type ) > 0 ) {
+                // this type is already printed.
+                continue;
+            }
+            listed_mons.insert( type );
+
+            const mtype &mt = *type;
+            const std::string name = mt.nname();
+
+            // Move to the next row if necessary. (The +2 is for the "Z ").
+            if( pr.x + 2 + utf8_width( name ) >= width ) {
+                pr.y++;
+                pr.x = hor_padding;
+            }
+
+            if( pr.y < maxheight ) { // Don't print if we've overflowed
+                mvwprintz( w, pr, mt.color, mt.sym );
+                pr.x += 2; // symbol and space
+                nc_color danger = c_dark_gray;
+                if( mt.difficulty >= 30 ) {
+                    danger = c_red;
+                } else if( mt.difficulty >= 16 ) {
+                    danger = c_light_red;
+                } else if( mt.difficulty >= 8 ) {
+                    danger = c_white;
+                } else if( mt.agro > 0 ) {
+                    danger = c_light_gray;
+                }
+                mvwprintz( w, pr, danger, name );
+                pr.x += utf8_width( name ) + namesep;
+            }
+        }
+    }
+}
+
+void game::mon_info_update( )
+{
     int newseen = 0;
     const int iProxyDist = ( get_option<int>( "SAFEMODEPROXIMITY" ) <= 0 ) ? MAX_VIEW_DISTANCE :
                            get_option<int>( "SAFEMODEPROXIMITY" );
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<const mtype *> unique_mons[9];
-    // dangerous_types tracks whether we should print in red to warn the player
-    bool dangerous[8];
-    for( auto &dangerou : dangerous ) {
-        dangerou = false;
+
+    for( auto &t : unique_types ) {
+        t.clear();
     }
+    for( auto &m : unique_mons ) {
+        m.clear();
+    }
+    std::fill( dangerous, dangerous + sizeof( dangerous ), false );
 
     tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -3993,126 +4117,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 
     previous_turn = current_turn;
     mostseen = newseen;
-
-    // Print the direction headings
-    // Reminder:
-    // 7 0 1    unique_types uses these indices;
-    // 6 8 2    0-7 are provide by direction_from()
-    // 5 4 3    8 is used for local monsters (for when we explain them below)
-
-    const std::array<std::string, 8> dir_labels = {{
-            _( "North:" ), _( "NE:" ), _( "East:" ), _( "SE:" ),
-            _( "South:" ), _( "SW:" ), _( "West:" ), _( "NW:" )
-        }
-    };
-    std::array<int, 8> widths;
-    for( int i = 0; i < 8; i++ ) {
-        widths[i] = utf8_width( dir_labels[i] );
-    }
-    std::array<int, 8> xcoords;
-    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
-    xcoords[0] = xcoords[4] = width / 3;
-    xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
-    xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    //for the alignment of the 1,2,3 rows on the right edge
-    xcoords[2] -= utf8_width( _( "East:" ) ) - utf8_width( _( "NE:" ) );
-    for( int i = 0; i < 8; i++ ) {
-        nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
-                     : ( dangerous[i] ? c_light_red : c_light_gray );
-        mvwprintz( w, point( xcoords[i] + hor_padding, ycoords[i] + startrow ), c, dir_labels[i] );
-    }
-
-    // Print the symbols of all monsters in all directions.
-    for( int i = 0; i < 8; i++ ) {
-        point pr( xcoords[i] + widths[i] + 1, ycoords[i] + startrow );
-
-        // The list of symbols needs a space on each end.
-        int symroom = ( width / 3 ) - widths[i] - 2;
-        const int typeshere_npc = unique_types[i].size();
-        const int typeshere_mon = unique_mons[i].size();
-        const int typeshere = typeshere_mon + typeshere_npc;
-        for( int j = 0; j < typeshere && j < symroom; j++ ) {
-            nc_color c;
-            std::string sym;
-            if( symroom < typeshere && j == symroom - 1 ) {
-                // We've run out of room!
-                c = c_white;
-                sym = "+";
-            } else if( j < typeshere_npc ) {
-                switch( unique_types[i][j]->get_attitude() ) {
-                    case NPCATT_KILL:
-                        c = c_red;
-                        break;
-                    case NPCATT_FOLLOW:
-                        c = c_light_green;
-                        break;
-                    default:
-                        c = c_pink;
-                        break;
-                }
-                sym = "@";
-            } else {
-                const mtype &mt = *unique_mons[i][j - typeshere_npc];
-                c = mt.color;
-                sym = mt.sym;
-            }
-            mvwprintz( w, pr, c, sym );
-
-            pr.x++;
-        }
-    }
-
-    // Now we print their full names!
-
-    std::set<const mtype *> listed_mons;
-
-    // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
-    // is blank.
-    point pr( hor_padding, 4 + startrow );
-
-    // Print monster names, starting with those at location 8 (nearby).
-    for( int j = 8; j >= 0 && pr.y < maxheight; j-- ) {
-        // Separate names by some number of spaces (more for local monsters).
-        int namesep = ( j == 8 ? 2 : 1 );
-        for( const mtype *type : unique_mons[j] ) {
-            if( pr.y >= maxheight ) {
-                // no space to print to anyway
-                break;
-            }
-            if( listed_mons.count( type ) > 0 ) {
-                // this type is already printed.
-                continue;
-            }
-            listed_mons.insert( type );
-
-            const mtype &mt = *type;
-            const std::string name = mt.nname();
-
-            // Move to the next row if necessary. (The +2 is for the "Z ").
-            if( pr.x + 2 + utf8_width( name ) >= width ) {
-                pr.y++;
-                pr.x = hor_padding;
-            }
-
-            if( pr.y < maxheight ) { // Don't print if we've overflowed
-                mvwprintz( w, pr, mt.color, mt.sym );
-                pr.x += 2; // symbol and space
-                nc_color danger = c_dark_gray;
-                if( mt.difficulty >= 30 ) {
-                    danger = c_red;
-                } else if( mt.difficulty >= 16 ) {
-                    danger = c_light_red;
-                } else if( mt.difficulty >= 8 ) {
-                    danger = c_white;
-                } else if( mt.agro > 0 ) {
-                    danger = c_light_gray;
-                }
-                mvwprintz( w, pr, danger, name );
-                pr.x += utf8_width( name ) + namesep;
-            }
-        }
-    }
 }
+
 
 void game::cleanup_dead()
 {
