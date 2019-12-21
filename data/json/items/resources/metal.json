@@ -148,7 +148,7 @@
     "name": "zinc",
     "name_plural": "zinc",
     "description": "A slightly brittle metal.  Apart from being an essential mineral that the body needs, it reacts readily with acids, alkalis and other non-metals.  It can be crushed to make zinc powder, used in the production of batteries, among other things.",
-    "weight": 7,
+    "weight": "7 g",
     "volume": "50ml",
     "price": 3000,
     "price_postapoc": 75,
