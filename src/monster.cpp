@@ -616,7 +616,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         senses_str = _( "It hasn't noticed you" );
     }
 
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Senses : " );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Senses : " ) );
     mvwprintz( w, point( column + 9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
     // display stance
