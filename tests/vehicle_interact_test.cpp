@@ -154,16 +154,16 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
     // clean water
     REQUIRE( item_water_clean.charges == 4 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_water_clean ),
-                                           item_water_clean.charges-- ), false, false );
+    veh_ptr->use_faucet( std::addressof( item_water_clean ), false, false );
+    item_water_clean.charges--;
 
     REQUIRE( parts[1]->ammo_remaining() == item_water_clean.charges );
     REQUIRE( battery_ptr->ammo_remaining() == battery_charge );
 
     REQUIRE( item_water_clean.charges == 3 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_water_clean ),
-                                           item_water_clean.charges-- ), true, true );
+    veh_ptr->use_faucet( std::addressof( item_water_clean ), true, true );
+    item_water_clean.charges--;
     battery_charge--;
 
     REQUIRE( parts[1]->ammo_remaining() == item_water_clean.charges );
@@ -171,16 +171,16 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
 
     REQUIRE( item_water_clean.charges == 2 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_water_clean ),
-                                           item_water_clean.charges-- ), true, false );
+    veh_ptr->use_faucet( std::addressof( item_water_clean ), true, false );
+    item_water_clean.charges--;
 
     REQUIRE( parts[1]->ammo_remaining() == item_water_clean.charges );
     REQUIRE( battery_ptr->ammo_remaining() == battery_charge );
 
     REQUIRE( item_water_clean.charges == 1 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_water_clean ),
-                                           item_water_clean.charges-- ), false, true );
+    veh_ptr->use_faucet( std::addressof( item_water_clean ), false, true );
+    item_water_clean.charges--;
     battery_charge--;
 
     REQUIRE( parts[1]->ammo_remaining() == item_water_clean.charges );
@@ -194,16 +194,16 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
     // pine needle tea
     REQUIRE( item_pine_tea.charges == 4 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_pine_tea ), item_pine_tea.charges-- ),
-                         false, false );
+    veh_ptr->use_faucet( std::addressof( item_pine_tea ), false, false );
+    item_pine_tea.charges--;
 
     REQUIRE( parts[2]->ammo_remaining() == item_pine_tea.charges );
     REQUIRE( battery_ptr->ammo_remaining() == battery_charge );
 
     REQUIRE( item_pine_tea.charges == 3 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_pine_tea ), item_pine_tea.charges-- ),
-                         true, true );
+    veh_ptr->use_faucet( std::addressof( item_pine_tea ), true, true );
+    item_pine_tea.charges--;
     battery_charge--;
 
     REQUIRE( parts[2]->ammo_remaining() == item_pine_tea.charges );
@@ -211,8 +211,8 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
 
     REQUIRE( item_pine_tea.charges == 2 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_pine_tea ), item_pine_tea.charges-- ),
-                         true, false );
+    veh_ptr->use_faucet( std::addressof( item_pine_tea ), true, false );
+    item_pine_tea.charges--;
     battery_charge--;
 
     REQUIRE( parts[2]->ammo_remaining() == item_pine_tea.charges );
@@ -220,8 +220,8 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
 
     REQUIRE( item_pine_tea.charges == 1 );
 
-    veh_ptr->use_faucet( item_count_tuple( std::addressof( item_pine_tea ), item_pine_tea.charges-- ),
-                         false, true );
+    veh_ptr->use_faucet( std::addressof( item_pine_tea ), false, true );
+    item_pine_tea.charges--;
 
     REQUIRE( parts[2]->ammo_remaining() == item_pine_tea.charges );
     REQUIRE( battery_ptr->ammo_remaining() == battery_charge );
