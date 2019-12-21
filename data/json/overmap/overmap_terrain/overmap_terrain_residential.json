@@ -447,8 +447,7 @@
     "copy-from": "generic_city_building",
     "name": "derelict property",
     "sym": "X",
-    "color": "i_brown",
-    "extras": "field"
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",

@@ -675,7 +675,7 @@ static void smash()
             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-            u.activity.placement = smashp;
+            u.activity.placement = g->m.getabs( smashp );
             return; // don't smash terrain if we've smashed a corpse
         }
     }
@@ -692,7 +692,7 @@ static void smash()
             u.handle_melee_wear( u.weapon );
             const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
-            u.mod_stat( "stamina", mod_sta );
+            u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
@@ -976,9 +976,10 @@ static void sleep()
 
         as_m.reset();
         as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" +
-                       deaf_text ) :
-                    _( "You have an alarm clock.  Set an alarm?" + deaf_text );
+                    _( "You're engorged to hibernate.  The alarm would only attract attention.  "
+                       "Set an alarm anyway?" ) :
+                    _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text += deaf_text;
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -1926,12 +1927,14 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                mend();
+                avatar_action::mend( g->u, item_location() );
                 break;
 
-            case ACTION_THROW:
-                avatar_action::plthrow( g->u );
+            case ACTION_THROW: {
+                item_location loc;
+                avatar_action::plthrow( g->u, loc );
                 break;
+            }
 
             case ACTION_FIRE:
                 fire();

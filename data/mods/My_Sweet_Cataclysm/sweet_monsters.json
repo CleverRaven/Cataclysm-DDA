@@ -3,7 +3,7 @@
     "id": "mon_necco",
     "type": "MONSTER",
     "name": "necco",
-    "copy_from": "mon_cat",
+    "copy-from": "mon_cat",
     "description": "A giant necco wafer happily jaunting around.",
     "default_faction": "cat",
     "bodytype": "dog",

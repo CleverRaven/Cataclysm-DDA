@@ -2796,6 +2796,55 @@ void check_consistency()
     extras.check();
 }
 
+void debug_spawn_test()
+{
+    uilist mx_menu;
+    std::vector<std::string> mx_names;
+    for( std::pair<const std::string, map_extras> &region_extra :
+         region_settings_map["default"].region_extras ) {
+        mx_menu.addentry( -1, true, -1, region_extra.first );
+        mx_names.push_back( region_extra.first );
+    }
+
+    mx_menu.text = _( "Test which map extra list?" );
+    while( true ) {
+        mx_menu.query();
+        const int index = mx_menu.ret;
+        if( index >= static_cast<int>( mx_names.size() ) || index < 0 ) {
+            break;
+        }
+
+        std::map<std::string, int> results;
+        for( size_t a = 0; a < 32400; a++ ) {
+            map_extras ex = region_settings_map["default"].region_extras[mx_names[index]];
+            if( ex.chance > 0 && one_in( ex.chance ) ) {
+                std::string *extra = ex.values.pick();
+                if( extra == nullptr ) {
+                    results[_( "none" )]++;
+                } else {
+                    results[*( ex.values.pick() )]++;
+                }
+            } else {
+                results[_( "none" )]++;
+            }
+        }
+
+        std::multimap<int, std::string> sorted_results;
+        for( std::pair<const std::string, int> &e : results ) {
+            sorted_results.insert( std::pair<int, std::string>( e.second, e.first ) );
+        }
+        uilist results_menu;
+        results_menu.text = _( "Result of 32400 selections:" );
+        for( std::pair<const int, std::string> &r : sorted_results ) {
+            std::ostringstream buffer;
+            buffer << r.first << " x " << r.second << "\n";
+            results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
+                                               buffer.str() );
+        }
+        results_menu.query();
+    }
+}
+
 } // namespace MapExtras
 
 void map_extra::load( const JsonObject &jo, const std::string & )

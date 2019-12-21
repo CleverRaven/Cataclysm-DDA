@@ -8,15 +8,14 @@
     "name_plural": "batteries",
     "symbol": "=",
     "color": "yellow",
-    "description": "Some free-floating battery charge. This can be reloaded into rechargable battery cells, but can never be unloaded.",
+    "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
     "flags": "TRADER_AVOID",
     "material": "iron",
     "volume": 1,
     "weight": 1,
     "ammo_type": "battery",
-    "reload_time": 1,
     "count": 100,
-    "//": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
+    "//": "1 battery is 1 kJ of energy.  40 batteries is an alkaline C-cell.",
     "fuel": { "energy": 1 }
   },
   {

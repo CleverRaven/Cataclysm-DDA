@@ -395,10 +395,10 @@ static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    time_duration duration = alc_strength( strength, 34_minutes, 68_minutes,
-                                           90_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
     if( p.has_trait( trait_ALCMET ) ) {
-        duration = alc_strength( strength, 9_minutes, 18_minutes, 25_minutes ) - ( alc_strength( strength,
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
@@ -406,9 +406,9 @@ static int alcohol( player &p, const item &it, const int strength )
         // Metabolizing it cancels out the depressant
         p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
-        duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
     return it.type->charges_to_use();
@@ -4356,6 +4356,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
         as_m.entries.emplace_back( 5, true, '5', _( "Lights on!" ) );
+        as_m.entries.emplace_back( 6, true, '6', _( "Play anything for a while" ) );
         as_m.query();
 
         switch( as_m.ret ) {
@@ -4374,6 +4375,9 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             case 5:
                 loaded_software = "lightson_game";
                 break;
+            case 6:
+                loaded_software = "null";
+                break;
             default:
                 //Cancel
                 return 0;
@@ -4383,8 +4387,12 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
+        if( loaded_software == "null" ) {
+            p->assign_activity( activity_id( "ACT_GENERIC_GAME" ), to_moves<int>( 1_hours ), -1,
+                                p->get_item_position( it ), "gaming" );
+            return it->type->charges_to_use();
+        }
         p->assign_activity( activity_id( "ACT_GAME" ), moves, -1, p->get_item_position( it ), "gaming" );
-
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -5513,7 +5521,7 @@ static bool heat_item( player &p )
 {
     auto loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && food->item_tags.count( "HOT" );
+        return food && !food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -6002,90 +6010,6 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
     p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
-}
-
-int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
-{
-    if( !it->ammo_sufficient() ) {
-        return 0;
-    }
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
-    }
-    if( p->fine_detail_vision_mod() > 4 ) {
-        p->add_msg_if_player( m_info, _( "You can't see to repair!" ) );
-        return 0;
-    }
-    /** @EFFECT_FABRICATION >0 allows use of repair kit */
-    if( p->get_skill_level( skill_fabrication ) < 1 ) {
-        p->add_msg_if_player( m_info, _( "You need a fabrication skill of 1 to use this repair kit." ) );
-        return 0;
-    }
-    static const std::set<material_id> repairable{
-        material_id( "wood" ),
-        material_id( "paper" ),
-        material_id( "bone" ),
-        material_id( "chitin" ),
-        material_id( "acidchitin" )
-    };
-
-    auto filter = []( const item & itm ) {
-        return !itm.is_firearm() && itm.made_of_any( repairable ) && !itm.count_by_charges();
-    };
-
-    item_location loc;
-    avatar *you = p->as_avatar();
-    if( you != nullptr ) {
-        loc = game_menus::inv::titled_filter_menu(
-                  filter, *you, _( "Select the item to repair" ) );
-    }
-
-    if( !loc ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
-    }
-    item &fix = *loc;
-
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                              fix.tname() );
-        return 0;
-    }
-    if( fix.damage() <= 0 && fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
-        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                              fix.tname() );
-        return 0;
-    }
-    const std::string startdurability = fix.durability_indicator( true );
-    std::string resultdurability;
-    if( fix.damage() <= 0 ) {
-        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -itype::damage_scale );
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
-
-    } else if( fix.damage() > itype::damage_scale ) {
-        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.mod_damage( -itype::damage_scale );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix.tname( 1, false ),
-                              startdurability, resultdurability );
-
-    } else {
-        p->moves -= to_moves<int>( 3_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_fabrication, 10 );
-        fix.set_damage( 0 );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
-                              fix.tname( 1, false ), startdurability, resultdurability );
-    }
-    return it->type->charges_to_use();
 }
 
 int iuse::bell( player *p, item *it, bool, const tripoint & )
@@ -9558,7 +9482,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 int iuse::break_stick( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stat( "stamina", static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

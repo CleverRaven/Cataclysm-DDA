@@ -772,8 +772,8 @@ bool avatar_action::fire( avatar &you, map &m )
             }
 
             // Burn 0.2% max base stamina x the strength required to fire.
-            you.mod_stat( "stamina", gun->get_min_str() * static_cast<int>( 0.002f *
-                          get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+            you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+                             get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -852,6 +852,22 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     };
     you.set_targeting_data( args );
     return avatar_action::fire( you, m );
+}
+
+void avatar_action::mend( avatar &you, item_location loc )
+{
+    if( !loc ) {
+        if( you.is_armed() ) {
+            loc = item_location( you, &you.weapon );
+        } else {
+            add_msg( m_info, _( "You're not wielding anything." ) );
+            return;
+        }
+    }
+
+    if( you.has_item( *loc ) ) {
+        you.mend_item( item_location( loc ) );
+    }
 }
 
 bool avatar_action::eat_here( avatar &you )
@@ -935,7 +951,7 @@ void avatar_action::eat( avatar &you, item_location loc )
     }
 }
 
-void avatar_action::plthrow( avatar &you, int pos,
+void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
     if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -943,7 +959,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
     if( you.is_mounted() ) {
-        auto mons = g->u.mounted_creature.get();
+        monster *mons = g->u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -953,18 +969,18 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
 
-    if( pos == INT_MIN ) {
-        pos = you.get_item_position( game_menus::inv::titled_menu( you,  _( "Throw item" ),
-                                     _( "You don't have any items to throw." ) ).get_item() );
+    if( !loc ) {
+        loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                            _( "You don't have any items to throw." ) );
         g->refresh_all();
     }
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
-    item thrown = you.i_at( pos );
+    item &thrown = *loc;
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
@@ -974,7 +990,7 @@ void avatar_action::plthrow( avatar &you, int pos,
         return;
     }
 
-    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
+    if( you.is_wielding( thrown ) && thrown.has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -990,24 +1006,16 @@ void avatar_action::plthrow( avatar &you, int pos,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( pos < -1 ) {
-        auto ret = you.can_takeoff( you.i_at( pos ) );
+    if( you.is_wearing( thrown.typeId() ) ) {
+        ret_val<bool> ret = you.can_takeoff( thrown );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
     }
     // you must wield the item to throw it
-    if( pos != -1 ) {
-        you.i_rem( pos );
-        if( !you.wield( thrown ) ) {
-            // We have to remove the item before checking for wield because it
-            // can invalidate our pos index.  Which means we have to add it
-            // back if the player changed their mind about unwielding their
-            // current item
-            you.i_add( thrown );
-            return;
-        }
+    if( !you.is_wielding( thrown ) ) {
+        you.wield( thrown );
     }
 
     // Shift our position to our "peeking" position, so that the UI
@@ -1038,7 +1046,7 @@ void avatar_action::plthrow( avatar &you, int pos,
     }
 
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        you.i_at( -1 ).charges--;
+        you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.i_rem( -1 );

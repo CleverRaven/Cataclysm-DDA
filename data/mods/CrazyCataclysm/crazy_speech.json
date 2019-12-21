@@ -14,13 +14,13 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "Unbelievable. You, [subject name here], must be the pride of [subject hometown here]!",
+    "sound": "Unbelievable.  You, [subject name here], must be the pride of [subject hometown here]!",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "That thing is probably some sort of raw sewage container. Go ahead and rub your face all over it.",
+    "sound": "That thing is probably some sort of raw sewage container.  Go ahead and rub your face all over it.",
     "volume": 10
   },
   {
@@ -32,7 +32,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "No one will blame you for giving up. In fact, quitting at this point is a perfectly reasonable response.",
+    "sound": "No one will blame you for giving up.  In fact, quitting at this point is a perfectly reasonable response.",
     "volume": 10
   },
   {
@@ -44,7 +44,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "Hello again. To reiterate our previous warning: [garbled]",
+    "sound": "Hello again.  To reiterate our previous warning: [garbled]",
     "volume": 10
   },
   {
@@ -146,7 +146,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "Uh oh. Somebody cut the cake.  I told them to wait for you, but they did it anyway.",
+    "sound": "Uh oh.  Somebody cut the cake.  I told them to wait for you, but they did it anyway.",
     "volume": 10
   },
   {
@@ -188,7 +188,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "I'd just like to point out that you were given every opportunity to succeed. ",
+    "sound": "I'd just like to point out that you were given every opportunity to succeed.  ",
     "volume": 10
   },
   {
@@ -242,7 +242,7 @@
   {
     "type": "speech",
     "speaker": "aperture_potato",
-    "sound": "I'm checking some blueprints, and I think...  Yes, right here.  You're definitely going the wrong way.",
+    "sound": "I'm checking some blueprints, and I think…  Yes, right here.  You're definitely going the wrong way.",
     "volume": 10
   },
   {
@@ -336,7 +336,7 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"E.T. phone home.\"",
+    "sound": "\"E.T.  phone home.\"",
     "volume": 20
   },
   {
@@ -426,7 +426,7 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"Fasten your seatbelts. It's going to be a bumpy night.\"",
+    "sound": "\"Fasten your seatbelts.  It's going to be a bumpy night.\"",
     "volume": 20
   },
   {
@@ -1014,7 +1014,7 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Something's wrong...\"",
+    "sound": "\"Something's wrong…\"",
     "volume": 30
   },
   {
@@ -1062,19 +1062,19 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"I'm different...\"",
+    "sound": "\"I'm different…\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Thanks anyway...\"",
+    "sound": "\"Thanks anyway…\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Take me with you...\"",
+    "sound": "\"Take me with you…\"",
     "volume": 30
   },
   {
@@ -1194,7 +1194,7 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Second time's a charm...\"",
+    "sound": "\"Second time's a charm…\"",
     "volume": 30
   },
   {
@@ -1302,7 +1302,7 @@
   {
     "type": "speech",
     "speaker": "mon_turret",
-    "sound": "\"Well, I tried. Best of luck!\"",
+    "sound": "\"Well, I tried.  Best of luck!\"",
     "volume": 30
   },
   {

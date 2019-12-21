@@ -101,6 +101,7 @@
       [ "spell_scroll_magus_mana_blast", 50 ],
       [ "lightning_storm_scroll", 50 ],
       [ "spell_scroll_invisibility", 10 ],
+      [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ]
     ]
   },
@@ -137,6 +138,7 @@
       [ "magus_spellbook", 15 ],
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],
+      [ "light_manipulation_spellbook", 5 ],
       [ "recovery_spellbook", 30 ]
     ]
   },

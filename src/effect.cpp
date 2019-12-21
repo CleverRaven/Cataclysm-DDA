@@ -452,9 +452,7 @@ bool effect_type::is_show_in_info() const
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
         }
         return true;
@@ -464,9 +462,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &membe
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             std::string msg = inner.get_string( 0 );
             std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
@@ -548,33 +544,33 @@ std::string effect::disp_desc( bool reduced ) const
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Strength +%d;  " ), tmp );
+        ret << string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Strength %d;  " ), tmp );
+        ret << string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Dexterity +%d;  " ), tmp );
+        ret << string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Dexterity %d;  " ), tmp );
+        ret << string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Perception +%d;  " ), tmp );
+        ret << string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Perception %d;  " ), tmp );
+        ret << string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Intelligence +%d;  " ), tmp );
+        ret << string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Intelligence %d;  " ), tmp );
+        ret << string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Speed +%d;  " ), tmp );
+        ret << string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Speed %d;  " ), tmp );
+        ret << string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
     }
     // Newline if necessary
     if( !ret.str().empty() && ret.str().back() != '\n' ) {
@@ -1213,11 +1209,10 @@ void load_effect_type( const JsonObject &jo )
     new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if( jo.has_member( "name" ) ) {
-        JsonArray jsarr = jo.get_array( "name" );
-        while( jsarr.has_more() ) {
+        for( const JsonValue &entry : jo.get_array( "name" ) ) {
             translation name;
-            if( !jsarr.read_next( name ) ) {
-                jsarr.throw_error( "Error reading effect names" );
+            if( !entry.read( name ) ) {
+                entry.throw_error( "Error reading effect names" );
             }
             new_etype.name.emplace_back( name );
         }
@@ -1227,17 +1222,15 @@ void load_effect_type( const JsonObject &jo )
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
     if( jo.has_member( "desc" ) ) {
-        JsonArray jsarr = jo.get_array( "desc" );
-        while( jsarr.has_more() ) {
-            new_etype.desc.push_back( jsarr.next_string() );
+        for( const std::string &line : jo.get_array( "desc" ) ) {
+            new_etype.desc.push_back( line );
         }
     } else {
         new_etype.desc.push_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        JsonArray jsarr = jo.get_array( "reduced_desc" );
-        while( jsarr.has_more() ) {
-            new_etype.reduced_desc.push_back( jsarr.next_string() );
+        for( const std::string &line : jo.get_array( "reduced_desc" ) ) {
+            new_etype.reduced_desc.push_back( line );
         }
     } else {
         new_etype.reduced_desc = new_etype.desc;

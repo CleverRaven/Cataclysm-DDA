@@ -35,24 +35,6 @@
     "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
   },
   {
-    "id": "afs_dough",
-    "type": "COMESTIBLE",
-    "name": "dough",
-    "weight": 226,
-    "color": "yellow",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 86,
-    "quench": -5,
-    "description": "Flour mixed with water, kneaded into a gooey paste.  This dough can be used to bake bread more efficiently than with just flour.",
-    "price": 100,
-    "volume": 2,
-    "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "looks_like": "flour",
-    "fun": -5
-  },
-  {
     "id": "afs_sundew",
     "type": "COMESTIBLE",
     "name": "sundew",

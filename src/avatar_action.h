@@ -43,6 +43,8 @@ void swim( map &m, avatar &you, const tripoint &p );
 
 void autoattack( avatar &you, map &m );
 
+void mend( avatar &you, item_location loc );
+
 /**
  * Returns true if the player is allowed to fire a given item, or false if otherwise.
  * reload_time is stored as a side effect of condition testing.
@@ -65,7 +67,7 @@ bool fire( avatar &you, map &m );
  */
 bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 // Throw an item  't'
-void plthrow( avatar &you, int pos = INT_MIN,
+void plthrow( avatar &you, item_location loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
 void unload( avatar &you );

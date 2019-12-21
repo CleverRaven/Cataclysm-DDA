@@ -39,9 +39,7 @@ void fault::load_fault( const JsonObject &jo )
     mandatory( jo, false, "name", f.name_ );
     mandatory( jo, false, "description", f.description_ );
 
-    JsonArray ja_methods = jo.get_array( "mending_methods" );
-    while( ja_methods.has_more() ) {
-        JsonObject jo_method = ja_methods.next_object();
+    for( const JsonObject &jo_method : jo.get_array( "mending_methods" ) ) {
         mending_method m;
 
         mandatory( jo_method, false, "id", m.id );
@@ -50,9 +48,7 @@ void fault::load_fault( const JsonObject &jo )
         mandatory( jo_method, false, "success_msg", m.success_msg );
         mandatory( jo_method, false, "time", m.time );
 
-        JsonArray jo_skills = jo_method.get_array( "skills" );
-        while( jo_skills.has_more() ) {
-            JsonObject jo_skill = jo_skills.next_object();
+        for( const JsonObject &jo_skill : jo_method.get_array( "skills" ) ) {
             skill_id sk_id;
             mandatory( jo_skill, false, "id", sk_id );
             m.skills.emplace( sk_id, jo_skill.get_int( "level" ) );

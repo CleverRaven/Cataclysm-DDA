@@ -738,6 +738,7 @@ bool mattack::pull_metal_weapon( monster *z )
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
+              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
               foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
@@ -753,6 +754,9 @@ bool mattack::pull_metal_weapon( monster *z )
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                                                _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
                 z->add_item( foe->remove_weapon() );
+                if( foe->has_activity( activity_id( "ACT_RELOAD" ) ) ) {
+                    foe->cancel_activity();
+                }
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),

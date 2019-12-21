@@ -24,7 +24,7 @@ class snippet_library
          * Entries in the array can be simple strings, or json objects (for the
          * later see add_snippet_from_json).
          */
-        void add_snippets_from_json( const std::string &category, JsonArray &jarr );
+        void add_snippets_from_json( const std::string &category, const JsonArray &jarr );
         /**
          * Load a single snippet text from the json object. The object should have
          * a "text" member with the text of the snippet.

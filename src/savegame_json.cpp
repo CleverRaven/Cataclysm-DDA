@@ -1826,20 +1826,18 @@ void monster::load( const JsonObject &data )
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
         JsonArray parray = data.get_array( "sp_timeout" );
-        if( !parray.empty() ) {
-            int index = 0;
-            int ptimeout = 0;
-            while( parray.has_more() && index < static_cast<int>( type->special_attacks_names.size() ) ) {
-                if( parray.read_next( ptimeout ) ) {
-                    // assume timeouts saved in same order as current monsters.json listing
-                    const std::string &aname = type->special_attacks_names[index++];
-                    auto &entry = special_attacks[aname];
-                    if( ptimeout >= 0 ) {
-                        entry.cooldown = ptimeout;
-                    } else { // -1 means disabled, unclear what <-1 values mean in old saves
-                        entry.cooldown = type->special_attacks.at( aname )->cooldown;
-                        entry.enabled = false;
-                    }
+        size_t index = 0;
+        int ptimeout = 0;
+        while( parray.has_more() && index < type->special_attacks_names.size() ) {
+            if( parray.read_next( ptimeout ) ) {
+                // assume timeouts saved in same order as current monsters.json listing
+                const std::string &aname = type->special_attacks_names[index++];
+                auto &entry = special_attacks[aname];
+                if( ptimeout >= 0 ) {
+                    entry.cooldown = ptimeout;
+                } else { // -1 means disabled, unclear what <-1 values mean in old saves
+                    entry.cooldown = type->special_attacks.at( aname )->cooldown;
+                    entry.enabled = false;
                 }
             }
         }
@@ -2084,8 +2082,8 @@ void item::io( Archive &archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
-    archive.io( "owner", owner );
-    archive.io( "old_owner", old_owner );
+    archive.io( "owner", owner, owner.NULL_ID() );
+    archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
