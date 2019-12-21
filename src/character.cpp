@@ -7291,11 +7291,11 @@ int Character::heartrate_bpm() const
 {
     //Dead have no heartbeat usually
     if( is_dead_state() ) {
-        heartbeat = 0;
+        return 0;
     }
     //No heartbeat in omnicell
     if( has_trait( trait_SLIMESPAWNER ) ) {
-        heartbeat = 0;
+        return 0;
     }
     //This function returns heartrate in BPM basing of health, physical state, tiredness,
     //moral effects, stimulators and anything that should fit here.
