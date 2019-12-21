@@ -7289,12 +7289,8 @@ void Character::use_fire( const int quantity )
 
 int Character::heartrate_bpm() const
 {
-    //Dead have no heartbeat usually
-    if( is_dead_state() ) {
-        return 0;
-    }
-    //No heartbeat in omnicell
-    if( has_trait( trait_SLIMESPAWNER ) ) {
+    //Dead have no heartbeat usually and no heartbeat in omnicell
+    if( is_dead_state() || has_trait( trait_SLIMESPAWNER ) ) {
         return 0;
     }
     //This function returns heartrate in BPM basing of health, physical state, tiredness,
