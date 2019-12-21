@@ -635,7 +635,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         threatlvl_color = c_blue;
     }
 
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Threat : " );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Threat : " ) );
     mvwprintz( w, point( column + 9, vStart ), threatlvl_color, to_string( threatlvl ) );
 
     // dipslay aspect
