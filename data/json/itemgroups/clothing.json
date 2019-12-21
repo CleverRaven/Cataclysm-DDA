@@ -2939,7 +2939,7 @@
     "items": [
       { "group": "earrings_silver", "prob": 70 },
       { "group": "earrings_gold", "prob": 25 },
-      { "group": "earrings_platinum", "prob": 5 } ,
+      { "group": "earrings_platinum", "prob": 5 } 
     ]
   },
   {
