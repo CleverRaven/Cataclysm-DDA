@@ -149,6 +149,8 @@ int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
 static constexpr float accel_g = 9.81f;
 
+using item_count_tuple = std::tuple<item*, uint32_t>;
+
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -1581,6 +1583,11 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
+
+        std::vector<item_count_tuple> get_comestible_liquids();
+        item_count_tuple select_comestible_liquid(const std::vector<item_count_tuple> &comestible_liquids, const std::string &message);
+        void use_fill_container(const item_count_tuple &comestible_liquid, bool has_hotplate, bool has_freezer);
+        void use_faucet(const item_count_tuple &comestible_liquid, bool has_hotplate, bool has_freezer);
 
         void interact_with( const tripoint &pos, int interact_part );
 
