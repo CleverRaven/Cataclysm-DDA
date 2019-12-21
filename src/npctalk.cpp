@@ -1778,7 +1778,7 @@ talk_trial::talk_trial( const JsonObject &jo )
 
     read_condition<dialogue>( jo, "condition", condition, false );
 
-    if( jo.has_array( "mod" ) ) {
+    if( jo.has_member( "mod" ) ) {
         for( JsonArray jmod : jo.get_array( "mod" ) ) {
             trial_mod this_modifier;
             this_modifier.first = jmod.next_string();
