@@ -5793,7 +5793,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string tile = m.tername( lp );
     tile = _( "Place  : " ) + area_name + "\nTile   : " + tile;
     if( m.has_furn( lp ) ) {
-        tile += "\n" + _( "Decor  : " ) + m.furnname( lp );
+        tile += "\n";
+        tile += _( "Decor  : " ) + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
