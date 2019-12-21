@@ -1744,91 +1744,80 @@ void vehicle::use_harness( int part, const tripoint &pos )
     }
 }
 
-std::vector<item_count_tuple> vehicle::get_comestible_liquids()
-{
+std::vector<item_count_tuple> vehicle::get_comestible_liquids() {
   std::vector<item_count_tuple> liquids;
   std::map<item*, uint32_t> liquids_map;
 
   liquids.clear();
   liquids_map.clear();
 
-  for ( auto &part : parts)
-  {
-    const auto remaining = part.ammo_remaining();
+  for ( auto &part : parts) {
+    const int remaining = part.ammo_remaining();
 
-    if (part.is_tank() && !part.base.contents_made_of( SOLID ) && remaining > 0)
-    {
-      const auto food = part.base.get_food();
+    if (!part.is_tank() || part.base.contents_made_of( SOLID ) || remaining <= 0) {
+      continue;
+    }
 
-      if (food != nullptr && food->is_comestible())
-      {
-        const auto comestible = food->get_comestible();
+    item *food_ptr = part.base.get_food();
 
-        if (comestible != nullptr && "DRINK" == comestible->comesttype)
-        {
-          const auto liquid_id = part.ammo_current();
+    if (food_ptr == nullptr || !food_ptr->is_comestible()) {
+      continue;
+    }
 
-          if (!liquid_id.empty() && liquid_id != "null" && liquid_id != "water")
-          {
-            if (liquids_map.find(food) == liquids_map.end())
-            {
-              liquids_map[food] = static_cast<uint32_t>(remaining);
-            }
-            else
-            {
-              liquids_map[food] += static_cast<uint32_t>(remaining);
-            }
-          }
-        }
-      }
+    const cata::value_ptr<islot_comestible> comestible = food_ptr->get_comestible();
+
+    if (comestible == nullptr || "DRINK" != comestible->comesttype) {
+      continue;
+    }
+
+    const itype_id liquid_id = part.ammo_current();
+
+    if (liquid_id.empty() || liquid_id == "null" || liquid_id == "water") {
+      continue;
+    }
+
+    if (liquids_map.find(food_ptr) == liquids_map.end()) {
+      liquids_map[food_ptr] = static_cast<uint32_t>(remaining);
+    } else {
+      liquids_map[food_ptr] += static_cast<uint32_t>(remaining);
     }
   }
 
-  for (auto &liquid : liquids_map)
-  {
+  for (auto &liquid : liquids_map) {
     liquids.push_back(item_count_tuple(liquid.first, liquid.second));
   }
 
   std::sort(liquids.begin(), liquids.end(),
-            [](const item_count_tuple &a, const item_count_tuple &b)
-  {
+            [](const item_count_tuple &a, const item_count_tuple &b) {
     return std::get<1>(a) > std::get<1>(b);
   });
 
   return liquids;
 }
 
-item_count_tuple vehicle::select_comestible_liquid(const std::vector<item_count_tuple> &liquids, const std::string &message)
-{
+item_count_tuple vehicle::select_comestible_liquid(const std::vector<item_count_tuple> &liquids, const std::string &message) {
   uilist selectmenu;
   int choice = std::numeric_limits<int>::min();
   int idx = 0;
 
-  if (!liquids.empty())
-  {
-    for (auto &liquid : liquids)
-    {
+  if (!liquids.empty()) {
+    for (auto &liquid : liquids) {
       const item* p_item = std::get<0>(liquid);
 
-      if (p_item != nullptr)
-      {
-          selectmenu.addentry( idx++, true, MENU_AUTOASSIGN, p_item->tname( std::get<1>(liquid)) );
+      if (p_item != nullptr) {
+        selectmenu.addentry( idx++, true, MENU_AUTOASSIGN, p_item->tname( std::get<1>(liquid)) );
       }
     }
 
-    if( selectmenu.entries.size() == 1 )
-    {
+    if( selectmenu.entries.size() == 1 ) {
       choice = selectmenu.entries.front().retval;
-    }
-    else
-    {
+    } else {
       selectmenu.text = message;
       selectmenu.query();
       choice = selectmenu.ret;
     }
 
-    if (choice >= 0 && choice < idx)
-    {
+    if (choice >= 0 && choice < idx) {
       return liquids.at(static_cast<size_t>(choice));
     }
   }
@@ -1836,54 +1825,44 @@ item_count_tuple vehicle::select_comestible_liquid(const std::vector<item_count_
   return item_count_tuple(nullptr, 0);
 }
 
-void vehicle::use_fill_container(const item_count_tuple &item_tuple, bool, bool)
-{
+void vehicle::use_fill_container(const item_count_tuple &item_tuple, bool, bool) {
   item *p_item = std::get<0>(item_tuple);
 
-  if (p_item && p_item->is_comestible())
-  {
+  if (p_item && p_item->is_comestible()) {
     itype_id liquid_id = p_item->typeId();
 
     g->u.siphon( *this, liquid_id );
   }
 }
 
-void vehicle::use_faucet(const item_count_tuple &item_tuple, bool has_hotplate, bool has_freezer)
-{
+void vehicle::use_faucet(const item_count_tuple &item_tuple, bool has_hotplate, bool has_freezer) {
   item *p_item = std::get<0>(item_tuple);
 
-  if (p_item && p_item->is_comestible())
-  {
+  if (p_item && p_item->is_comestible()) {
     itype_id liquid_id = p_item->typeId();
     item liquid(liquid_id, calendar::turn, 1);
 
     int battery_fuel = fuel_left( "battery", true );
 
     if (p_item->has_flag("EATEN_HOT") && !p_item->has_flag("HOT")
-        && has_hotplate && p_item->type)
-    {
+        && has_hotplate && p_item->type) {
       int required_charges = p_item->type->charges_to_use();
 
-      if (required_charges <= battery_fuel)
-      {
+      if (required_charges <= battery_fuel) {
         discharge_battery( required_charges );
         liquid.heat_up();
       }
-    }
-    else if (p_item->has_flag("EATEN_COLD") && !p_item->has_flag("COLD")
-        && has_freezer && p_item->type)
-    {
+    } else if (p_item->has_flag("EATEN_COLD") && !p_item->has_flag("COLD")
+        && has_freezer && p_item->type) {
       int required_charges = p_item->type->charges_to_use();
 
-      if (required_charges <= battery_fuel)
-      {
+      if (required_charges <= battery_fuel) {
         discharge_battery( required_charges );
         liquid.cold_up();
       }
     }
 
-    if( g->u.eat( liquid ) )
-    {
+    if( g->u.eat( liquid ) ) {
       drain( liquid_id, 1 );
       g->u.moves -= 250;
     }

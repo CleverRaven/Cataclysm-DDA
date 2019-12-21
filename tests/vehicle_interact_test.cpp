@@ -98,8 +98,7 @@ TEST_CASE( "repair_vehicle_part" )
     }
 }
 
-TEST_CASE("water faucet offers comestible liquids", "[water_faucet]")
-{
+TEST_CASE("water faucet offers comestible liquids", "[water_faucet]") {
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin + tripoint_north;
     int battery_charge = 10000;
@@ -124,14 +123,11 @@ TEST_CASE("water faucet offers comestible liquids", "[water_faucet]")
 
     vehicle_part* battery_ptr = nullptr;
 
-    for( auto &part : veh_ptr->parts )
-    {
-      if (part.is_tank())
-      {
+    for( auto &part : veh_ptr->parts ) {
+      if (part.is_tank()) {
         parts.push_back(std::addressof(part));
       }
-      if (part.is_battery())
-      {
+      if (part.is_battery()) {
         battery_ptr = std::addressof(part);
       }
     }
