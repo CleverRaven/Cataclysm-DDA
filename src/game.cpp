@@ -5780,8 +5780,7 @@ void game::print_visibility_info( const catacurses::window &w_look, int column, 
             visibility_message = _( "Unseen." );
             break;
     }
-
-    mvwprintw( w_look, point( line, column ), visibility_message );
+    mvwprintz( w_look, point( line, column ), c_light_gray, visibility_message );
     line += 2;
 }
 
@@ -5792,24 +5791,24 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
-    tile = "(" + area_name + ") " + tile;
+    tile = "Place  : " + area_name + "\nTile   : " + tile;
     if( m.has_furn( lp ) ) {
-        tile += "; " + m.furnname( lp );
+        tile += "\nDecor  : " + m.furnname( lp );
     }
 
     if( m.impassable( lp ) ) {
         lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
-                                _( "%s; Impassable" ),
+                                _( "%s, Impassable" ),
                                 tile );
     } else {
         lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
-                                _( "%s; Movement cost %d" ),
+                                _( "%s\nMove   : %d" ),
                                 tile, m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintw( w_look, point( column, ++lines ), _( "Lighting: " ) );
-        wprintz( w_look, ll.second, ll.first );
+        mvwprintz( w_look, point( column, ++lines ),c_light_gray, _( "Light  : " ) );
+        mvwprintz( w_look, point( column+9, lines ), ll.second, ll.first );
     }
 
     std::string signage = m.get_signage( lp );
@@ -5824,7 +5823,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
-            tile_below += "; " + m.furnname( below );
+            tile_below += "Property5: " + m.furnname( below );
         }
 
         if( !m.has_floor_or_support( lp ) ) {
@@ -5837,13 +5836,12 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
                             tile_below );
         }
     }
-
-    int map_features = fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
-                                       m.features( lp ) );
-    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Coverage: %d%%" ),
+    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray,
+                    "Type   : " + m.features( lp ) );
+    fold_and_print( w_look, point( column, ++lines ), max_width, c_light_gray, _( "Surface: %d%% \n" ),
                     m.coverage( lp ) );
     if( line < lines ) {
-        line = lines + map_features - 1;
+        line = lines + 1;
     }
 }
 
@@ -5863,6 +5861,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
         }
     }
+    mvwprintz( w_look, point( column, ++line ), c_white, "\n" );
 }
 
 void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,

@@ -597,17 +597,58 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
+    // mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
+    // display name
+    mvwprintz( w, point( column, vStart ), c_light_gray, "Entity : " );
+    mvwprintz( w, point( column+9, vStart ), c_white, name() );
 
+    // display health
+    nc_color color = c_white;
+    std::string sText;
+    get_HP_Bar( color, sText );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Health : " );
+    mvwprintz( w, point( column+9, vStart ), color, sText );
+
+    // display sense
+    std::string senses_str = "--";
+    if (sees(g->u))
+        senses_str="He is aware of your presence";
+    else
+        senses_str="He hasn't noticed you";
+
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Senses : ");
+    mvwprintz( w, point( column+9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+
+    // display stance
     const auto att = get_attitude();
-    wprintz( w, att.second, att.first );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Stance : " );
+    mvwprintz( w, point( column+9, vStart ), att.second, att.first );
 
-    if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
-    }
+    // display threat
+    int threatlvl = type->difficulty;
+    nc_color threatlvl_color = c_white;
+    if (threatlvl >= 8)
+        threatlvl_color = c_red;
+    else if (threatlvl >=4)
+        threatlvl_color= c_yellow;
+    else if (threatlvl >=0)
+        threatlvl_color = c_blue;
 
-    if( sees( g->u ) ) {
-        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Threat : ");
+    mvwprintz( w, point( column+9, vStart ), threatlvl_color, to_string(threatlvl));
+
+    // dipslay aspect
+    mvwprintz(w, point(column, ++vStart ), c_light_gray, "Aspect :" );
+
+    std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 11 - column );
+    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
+    int numlines = lines.size();
+    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
+        if (i==0)
+            mvwprintz( w, point( column+9, vStart ), c_white, line1[i] );
+        else
+            mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
+
     }
 
     std::string effects = get_effect_status();
@@ -615,20 +656,12 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
                     h_white, effects );
 
-    const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
         wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
-    }
-
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
-    int numlines = lines.size();
-    for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
     }
 
     return vStart;
