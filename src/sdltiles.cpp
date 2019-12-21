@@ -109,16 +109,14 @@ class Font
 {
     public:
         Font( int w, int h ) :
-#if defined(__ANDROID__)
-            opacity( 1.0f ),
-#endif
             fontwidth( w ), fontheight( h ) { }
         virtual ~Font() = default;
         /**
          * Draw character t at (x,y) on the screen,
          * using (curses) color.
          */
-        virtual void OutputChar( const std::string &ch, int x, int y, unsigned char color ) = 0;
+        virtual void OutputChar( const std::string &ch, int x, int y,
+                                 unsigned char color, float opacity = 1.0f ) = 0;
         virtual void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const;
         bool draw_window( const catacurses::window &w );
         bool draw_window( const catacurses::window &w, int offsetx, int offsety );
@@ -126,9 +124,6 @@ class Font
         static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
                                                 int fontheight, bool fontblending );
     public:
-#if defined(__ANDROID__)
-        float opacity; // 0-1
-#endif
         // the width of the font, background is always this size
         int fontwidth;
         // the height of the font, background is always this size
@@ -144,7 +139,8 @@ class CachedTTFFont : public Font
         CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
         ~CachedTTFFont() override = default;
 
-        void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f ) override;
     protected:
         SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
@@ -181,8 +177,10 @@ class BitmapFont : public Font
         BitmapFont( int w, int h, const std::string &typeface_path );
         ~BitmapFont() override = default;
 
-        void OutputChar( const std::string &ch, int x, int y, unsigned char color ) override;
-        void OutputChar( int t, int x, int y, unsigned char color );
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f ) override;
+        void OutputChar( int t, int x, int y,
+                         unsigned char color, float opacity = 1.0f );
         void draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
@@ -657,7 +655,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
 }
 
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
-                                const unsigned char color )
+                                const unsigned char color, const float opacity )
 {
     key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
 
@@ -676,26 +674,24 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
         return;
     }
     SDL_Rect rect {x, y, value.width, fontheight};
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
     }
-#endif
     RenderCopy( renderer, value.texture, nullptr, &rect );
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), 255 );
     }
-#endif
 }
 
-void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
+void BitmapFont::OutputChar( const std::string &ch, const int x, const int y,
+                             const unsigned char color, const float opacity )
 {
     const int t = UTF8_getch( ch );
-    BitmapFont::OutputChar( t, x, y, color );
+    BitmapFont::OutputChar( t, x, y, color, opacity );
 }
 
-void BitmapFont::OutputChar( int t, int x, int y, unsigned char color )
+void BitmapFont::OutputChar( const int t, const int x, const int y,
+                             const unsigned char color, const float opacity )
 {
     if( t > 256 ) {
         return;
@@ -710,17 +706,13 @@ void BitmapFont::OutputChar( int t, int x, int y, unsigned char color )
     rect.y = y;
     rect.w = fontwidth;
     rect.h = fontheight;
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
     }
-#endif
     RenderCopy( renderer, ascii[color], &src, &rect );
-#if defined(__ANDROID__)
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
     }
-#endif
 }
 
 #if defined(__ANDROID__)
@@ -2222,10 +2214,10 @@ void draw_quick_shortcuts()
                      text_scale;
         }
         text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
-        font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f;
-        font->OutputChar( text, text_x + 1, text_y + 1, 0 );
-        font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f;
-        font->OutputChar( text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
+        font->OutputChar( text, text_x + 1, text_y + 1, 0,
+                          get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
+        font->OutputChar( text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+                          get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
         if( hovered ) {
             // draw a second button hovering above the first one
             font->OutputChar( text, text_x, text_y - ( height * 1.2f / text_scale ),
@@ -2242,15 +2234,14 @@ void draw_quick_shortcuts()
                                   hint_length );    // scale to fit comfortably
                 }
                 SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
-                font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f;
                 text_x = ( WindowWidth - ( ( font->fontwidth  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
                 text_y = ( WindowHeight - font->fontheight * text_scale ) * 0.5f / text_scale;
-                font->OutputChar( hint_text, text_x + 1, text_y + 1, 0 );
-                font->opacity = get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f;
-                font->OutputChar( hint_text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
+                font->OutputChar( hint_text, text_x + 1, text_y + 1, 0,
+                                  get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
+                font->OutputChar( hint_text, text_x, text_y, get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
+                                  get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
             }
         }
-        font->opacity = 1.0f;
         SDL_RenderSetScale( renderer.get(), 1.0f, 1.0f );
         i++;
         if( ( i + 1 ) * width > WindowWidth ) {
