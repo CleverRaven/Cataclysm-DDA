@@ -22,7 +22,7 @@
     "price": 70000,
     "material": "flesh",
     "weight": 1000,
-    "volume": 1,
+    "volume": "250 ml",
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_blob",
@@ -46,7 +46,7 @@
     "price": 250000,
     "material": "flesh",
     "weight": 10000,
-    "volume": 800,
+    "volume": "200 L",
     "category": "tools",
     "use_action": {
       "type": "place_monster",
@@ -80,7 +80,7 @@
     "description": "A potent drug, necessary when performing a revival operation on larger animals (including humans).  It induces a violent allergic reactions in living organisms, so using it on yourself is a REALLY bad idea.",
     "price": 100000,
     "weight": 1,
-    "volume": 1,
+    "volume": "250 ml",
     "tool": "syringe",
     "category": "drugs"
   },
@@ -95,7 +95,7 @@
     "intelligence": 14,
     "symbol": "?",
     "material": [ "paper" ],
-    "volume": 5,
+    "volume": "1250 ml",
     "time": 120,
     "fun": -3,
     "skill": "firstaid",

@@ -5,7 +5,7 @@
     "name": "Underslung flare launcher",
     "description": "A small barrel which launches signal flares.  However, due to its awkward position, it has lower accuracy compared to an actual flaregun.",
     "weight": 500,
-    "volume": 1,
+    "volume": "250 ml",
     "price": 8000,
     "material": "steel",
     "symbol": ":",

@@ -6,7 +6,7 @@
     "name_plural": "original copies of Housefly",
     "description": "The only copy of Housefly in existence - a long book about three individuals drawn together by fate in the early 1800s to save their English town of Victoria from a mysterious threat.  You never got to publish it, but reading it lets you forget the horrors of the Cataclysm, if only for a moment.",
     "weight": 700,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 5000,
     "price_postapoc": 1000,
     "looks_like": "ZSG",
