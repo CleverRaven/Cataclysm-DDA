@@ -2070,7 +2070,7 @@
     "description": "A silver bracelet with pearls.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
-    {
+  {
     "id": "diamond_platinum_bracelet",
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
