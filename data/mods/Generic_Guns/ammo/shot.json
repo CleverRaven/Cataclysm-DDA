@@ -1,0 +1,85 @@
+[
+  {
+    "id": "shot_buck",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "shotshell, buckshot",
+    "name-plural": "shotshell, buckshot",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_bean",
+    "copy-from": "shot_beanbag",
+    "type": "AMMO",
+    "name": "shotshell, beanbag",
+    "name-plural": "shotshell, beanbag",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_fowl",
+    "copy-from": "shot_bird",
+    "type": "AMMO",
+    "name": "shotshell, birdshot",
+    "name-plural": "shotshell, birdshot",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_foster",
+    "copy-from": "shot_slug",
+    "type": "AMMO",
+    "name": "shotshell, slug",
+    "name-plural": "shotshell, slug",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_pyro",
+    "copy-from": "shot_dragon",
+    "type": "AMMO",
+    "name": "shotshell, pyrotechnical",
+    "name-plural": "shotshell, pyrotechnical",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "reloaded_shot_buck",
+    "copy-from": "reloaded_shot_00",
+    "name": "shotshell, buckshot (reloaded)",
+    "name-plural": "shotshell, buckshot (reloaded)",
+    "type": "AMMO",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "reloaded_shot_fowl",
+    "copy-from": "reloaded_shot_bird",
+    "name": "shotshell, birdshot (reloaded)",
+    "name-plural": "shotshell, birdshot (reloaded)",
+    "type": "AMMO",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "reloaded_shot_foster",
+    "copy-from": "reloaded_shot_slug",
+    "name": "shotshell, slug (reloaded)",
+    "name-plural": "shotshell, slug (reloaded)",
+    "type": "AMMO",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "reloaded_shot_pyro",
+    "copy-from": "reloaded_shot_dragon",
+    "name": "shotshell, pyrotechnical (reloaded)",
+    "name-plural": "shotshell, pyrotechnical (reloaded)",
+    "type": "AMMO",
+    "description": "A novelty shotgun shell filled with a simple pyrotechnical charge.  The payload is light and won't wound very well, but the flash and sparks will certainly be impressive, in adddition to being an extreme fire hazard.",
+    "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "reloaded_shot_dart",
+    "copy-from": "reloaded_shot_flechette",
+    "name": "shotshell, flechette (reloaded)",
+    "name-plural": "shotshell, flechette (reloaded)",
+    "//": "intentionally reload only",
+    "type": "AMMO",
+    "description": "A shotgun shell filled with tiny steel darts, definitely not a factory loading.  Flechettes won't pattern as well as normal shot, and they'll likely do less damage.  However, they may fare better against armor than other shotgun loads.",
+    "ammo_type": "ammo_shot"
+  }
+]

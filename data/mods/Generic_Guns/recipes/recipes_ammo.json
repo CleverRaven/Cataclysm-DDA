@@ -1,0 +1,108 @@
+[
+  {
+    "result": "reloaded_tiny_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_22_lr",
+    "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ] ]
+  },
+  {
+    "result": "reloaded_tiny_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_22_fmj",
+    "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_9mm",
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_9mmfmj",
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [
+      [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ],
+      [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_pistol_magnum_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_44magnum",
+    "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_magnum_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_44fmj",
+    "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [
+      [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ],
+      [ [ "copper", 2 ], [ "pistol_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_rifle_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_308",
+    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "gunpowder", 8 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_rifle_AP",
+    "type": "recipe",
+    "copy-from": "reloaded_762_51",
+    "using": [ [ "req_rifle", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "gunpowder", 8 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ],
+      [ [ "copper", 3 ], [ "pistol_magnum_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_rifle_huge_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_50bmg",
+    "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ] ]
+  },
+  {
+    "result": "reloaded_rifle_huge_AP",
+    "type": "recipe",
+    "copy-from": "reloaded_50ss",
+    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
+  },
+  {
+    "result": "reloaded_shot_buck",
+    "type": "recipe",
+    "copy-from": "reloaded_shot_00"
+  },
+  {
+    "result": "reloaded_shot_fowl",
+    "type": "recipe",
+    "copy-from": "reloaded_shot_bird"
+  },
+  {
+    "result": "reloaded_shot_foster",
+    "type": "recipe",
+    "copy-from": "reloaded_shot_slug"
+  },
+  {
+    "result": "reloaded_shot_pyro",
+    "type": "recipe",
+    "copy-from": "reloaded_shot_dragon"
+  },
+  {
+    "result": "reloaded_shot_dart",
+    "type": "recipe",
+    "copy-from  ": "reloaded_shot_flechette"
+  }
+]
