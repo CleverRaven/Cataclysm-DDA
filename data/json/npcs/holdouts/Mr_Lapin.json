@@ -117,7 +117,7 @@
     "id": "MISSION_Warrener_FOOD_2",
     "type": "mission_definition",
     "name": "Sweets",
-    "description": "Find 25 fruits.",
+    "description": "Find 25 blackberries.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
