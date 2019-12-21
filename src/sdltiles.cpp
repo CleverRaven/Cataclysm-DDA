@@ -111,6 +111,8 @@ class Font
         Font( int w, int h ) :
             fontwidth( w ), fontheight( h ) { }
         virtual ~Font() = default;
+
+        virtual bool isGlyphProvided( const std::string &ch ) const = 0;
         /**
          * Draw character t at (x,y) on the screen,
          * using (curses) color.
@@ -139,6 +141,7 @@ class CachedTTFFont : public Font
         CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
         ~CachedTTFFont() override = default;
 
+        bool isGlyphProvided( const std::string &ch ) const;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
@@ -177,6 +180,7 @@ class BitmapFont : public Font
         BitmapFont( int w, int h, const std::string &typeface_path );
         ~BitmapFont() override = default;
 
+        bool isGlyphProvided( const std::string &ch ) const;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( int t, int x, int y,
@@ -654,6 +658,11 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
     return CreateTextureFromSurface( renderer, sglyph );
 }
 
+bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
+{
+    return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
+}
+
 void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
                                 const unsigned char color, const float opacity )
 {
@@ -681,6 +690,12 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), 255 );
     }
+}
+
+bool BitmapFont::isGlyphProvided( const std::string &ch ) const
+{
+    uint32_t t = UTF8_getch( ch );
+    return t < 256;
 }
 
 void BitmapFont::OutputChar( const std::string &ch, const int x, const int y,
