@@ -2167,7 +2167,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                                           _( "Select a liquid" ) );
             const item *comestible_ptr = std::get<0>( item_tuple );
             if( comestible_ptr ) {
-                use_fill_container( std::get<0>( item_tuple ), ( has_chemlab || has_kitchen ), ( has_fridge ||
+                use_fill_container( std::get<0>( item_tuple ), has_chemlab || has_kitchen, has_fridge || has_freezer );
                                     has_freezer ) );
             }
             return;
