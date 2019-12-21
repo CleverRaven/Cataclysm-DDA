@@ -466,14 +466,14 @@
       }
     ],
     "worn_override": [
-      "NC_Rabbit_Raiser_pants_male",
-      "NC_Rabbit_Raiser_shirt_male",
-      "NC_Rabbit_Raiser_gloves",
-      "NC_Rabbit_Raiser_coat",
-      "NC_Rabbit_Raiser_masks",
-      "NC_Rabbit_Raiser_eyes",
-      "NC_Rabbit_Raiser_hat",
-      "NC_Rabbit_Raiser_extra"
+      [ "NC_Rabbit_Raiser_pants_male" ],
+      [ "NC_Rabbit_Raiser_shirt_male" ],
+      [ "NC_Rabbit_Raiser_gloves" ],
+      [ "NC_Rabbit_Raiser_coat" ],
+      [ "NC_Rabbit_Raiser_masks" ],
+      [ "NC_Rabbit_Raiser_eyes" ],
+      [ "NC_Rabbit_Raiser_hat" ],
+      [ "NC_Rabbit_Raiser_extra" ]
     ],
     "weapon_override": [ "NC_Rabbit_Raiser_cutting" ]
   }
