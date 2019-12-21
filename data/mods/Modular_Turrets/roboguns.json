@@ -9,7 +9,7 @@
     "symbol": "(",
     "color": "magenta",
     "weight": 5000,
-    "volume": 10,
+    "volume": "2500 ml",
     "price": 0,
     "durability": 10,
     "reload": 100,

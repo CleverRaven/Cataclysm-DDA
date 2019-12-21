@@ -5,7 +5,7 @@
     "name": "fire lance",
     "description": "An ancient Chinese spear, with a small tube attached for a charge of gunpowder.  While it has an extremely short range, it gives a powerful edge in close combat.",
     "weight": 1538,
-    "volume": 12,
+    "volume": "3 L",
     "price": 95000,
     "to_hit": 1,
     "bashing": 4,

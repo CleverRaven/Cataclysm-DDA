@@ -67,7 +67,7 @@
     "price": 0,
     "material": "demon_chitin",
     "weight": 89,
-    "volume": 1,
+    "volume": "250 ml",
     "bashing": 1,
     "flags": [ "TRADER_AVOID" ],
     "to_hit": -2
@@ -82,7 +82,7 @@
     "price": 15225,
     "material": "demon_chitin",
     "weight": 10000,
-    "volume": 16,
+    "volume": "4 L",
     "bashing": 12,
     "to_hit": -4,
     "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
@@ -97,7 +97,7 @@
     "color": "green",
     "symbol": ",",
     "material": [ "flesh" ],
-    "volume": 1,
+    "volume": "250 ml",
     "cutting": 8,
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": 1500

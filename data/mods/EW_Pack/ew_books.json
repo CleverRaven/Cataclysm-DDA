@@ -11,7 +11,7 @@
     "intelligence": 4,
     "symbol": "?",
     "material": [ "paper" ],
-    "volume": 2,
+    "volume": "500 ml",
     "bashing": 2,
     "time": 30,
     "fun": 0,

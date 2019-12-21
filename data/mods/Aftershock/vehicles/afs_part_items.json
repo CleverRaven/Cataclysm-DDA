@@ -10,7 +10,7 @@
     "symbol": "]",
     "looks_like": "cargo_aisle",
     "material": [ "steel" ],
-    "volume": 400,
+    "volume": "100 L",
     "bashing": 2,
     "category": "veh_parts",
     "price": 50000
@@ -27,7 +27,7 @@
     "material": [ "titanium" ],
     "looks_like": "xlframe",
     "techniques": [ "DEF_DISARM" ],
-    "volume": 30,
+    "volume": "7500 ml",
     "bashing": 15,
     "category": "veh_parts",
     "price": 4000
@@ -67,7 +67,7 @@
     "color": "red",
     "symbol": "$",
     "material": [ "plastic", "steel" ],
-    "volume": 24,
+    "volume": "6 L",
     "bashing": 2,
     "category": "veh_parts",
     "price": 60000

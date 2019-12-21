@@ -11,7 +11,7 @@
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
     "flags": "TRADER_AVOID",
     "material": "iron",
-    "volume": 1,
+    "volume": "250 ml",
     "weight": 1,
     "ammo_type": "battery",
     "count": 100,
