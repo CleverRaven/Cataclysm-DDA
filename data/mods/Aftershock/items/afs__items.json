@@ -166,7 +166,7 @@
     "volume": "11356 ml",
     "price": 5000,
     "price_postapoc": 45000,
-    "looks_like": [ "still" ],
+    "looks_like": "still",
     "symbol": "u",
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_atomic_butter_churn" },
