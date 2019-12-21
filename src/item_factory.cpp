@@ -2165,9 +2165,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.drop_action = usage_from_object( tmp ).second;
     }
 
-    if( jo.has_string( "looks_like" ) ) {
-        def.looks_like = jo.get_string( "looks_like" );
-    }
+    jo.read( "looks_like", def.looks_like );
 
     if( jo.has_member( "conditional_names" ) ) {
         def.conditional_names.clear();
