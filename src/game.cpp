@@ -5823,7 +5823,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         tripoint below( lp.xy(), lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
-            tile_below += "Property5: " + m.furnname( below );
+            tile_below += ", " + m.furnname( below );
         }
 
         if( !m.has_floor_or_support( lp ) ) {
