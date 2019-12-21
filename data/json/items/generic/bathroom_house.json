@@ -159,7 +159,7 @@
     "price": 89,
     "price_postapoc": 180,
     "weight": 227,
-    "volume": 1,
+    "volume": "250 ml",
     "material": "paper",
     "to_hit": -2,
     "snippet_category": [
@@ -189,7 +189,7 @@
     "price": 2100,
     "price_postapoc": 0,
     "weight": 680,
-    "volume": 2,
+    "volume": "500 ml",
     "material": [ "plastic", "steel" ],
     "bashing": 3,
     "to_hit": -1
@@ -204,7 +204,7 @@
     "price": 2500,
     "price_postapoc": 0,
     "weight": 590,
-    "volume": 1,
+    "volume": "250 ml",
     "material": [ "ceramic", "steel" ],
     "bashing": 3,
     "to_hit": 1
@@ -219,7 +219,7 @@
     "price": 1700,
     "price_postapoc": 0,
     "weight": 160,
-    "volume": 2,
+    "volume": "500 ml",
     "material": [ "steel", "plastic" ],
     "bashing": 3,
     "to_hit": 1

@@ -2352,7 +2352,7 @@
     "material_thickness": 1,
     "encumbrance": 2,
     "max_encumbrance": 18,
-    "storage": 96,
+    "storage": "24 L",
     "warmth": 5,
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ]
   },
@@ -7854,7 +7854,7 @@
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 95,
     "encumbrance": 22,
-    "storage": 8,
+    "storage": "2 L",
     "warmth": 80,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
