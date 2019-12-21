@@ -1765,7 +1765,7 @@ std::vector<item_count_tuple> vehicle::get_comestible_liquids()
             continue;
         }
 
-        const cata::value_ptr<islot_comestible> comestible = food_ptr->get_comestible();
+        const cata::value_ptr<islot_comestible> &comestible = food_ptr->get_comestible();
 
         if( comestible == nullptr || "DRINK" != comestible->comesttype ) {
             continue;
