@@ -621,7 +621,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // display stance
     const auto att = get_attitude();
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Stance : " );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Stance : " ) );
     mvwprintz( w, point( column + 9, vStart ), att.second, att.first );
 
     // display threat
