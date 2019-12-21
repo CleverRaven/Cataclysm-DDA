@@ -177,7 +177,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 18,
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "looks_like": "f_fridge",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
@@ -234,7 +234,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "bash": {
       "str_min": 35,
       "str_max": 80,
