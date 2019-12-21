@@ -983,13 +983,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // the copy is thrown and has its and the originals charges set appropiately
     // or deleted from inventory if its charges(1) or not stackable.
     item *orig = loc.get_item();
-    item thrown;
-    if( orig ) {
-        thrown = *orig;
-    } else {
-        debugmsg( "item location not valid for thrown item" );
-        return;
-    }
+    item thrown = *orig;
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
