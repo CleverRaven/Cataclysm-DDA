@@ -2886,11 +2886,11 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             }
             return all_lines;
         };
-    } else if( jo.has_member( "give_hint" ) ) {
+    } else if( jo.get_bool( "give_hint", false ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
         };
-    } else if( jo.has_member( "use_reason" ) ) {
+    } else if( jo.get_bool( "use_reason", false ) ) {
         function = [&]( const dialogue & d ) {
             std::string tmp = d.reason;
             d.reason.clear();

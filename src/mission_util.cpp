@@ -365,7 +365,7 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
     if( jo.has_string( "om_terrain_match_type" ) ) {
         p.overmap_terrain_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type" );
     }
-    if( jo.has_bool( "origin_npc" ) ) {
+    if( jo.get_bool( "origin_npc", false ) ) {
         p.origin_u = false;
     }
     if( jo.has_string( "om_terrain_replace" ) ) {
