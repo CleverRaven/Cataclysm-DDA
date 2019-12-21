@@ -598,7 +598,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int vEnd = vStart + vLines;
 
     // display name
-    mvwprintz( w, point( column, vStart ), c_light_gray, "Entity : " );
+    mvwprintz( w, point( column, vStart ), c_light_gray, _( "Entity : " ) );
     mvwprintz( w, point( column + 9, vStart ), c_white, name() );
 
     // display health
