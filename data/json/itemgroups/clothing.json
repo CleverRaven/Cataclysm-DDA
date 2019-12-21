@@ -543,6 +543,129 @@
     ]
   },
   {
+    "id": "tiaras_silver",
+    "type": "item_group",
+    "items": [
+      [ "citrine_silver_tiara", 50 ],
+      [ "diamond_silver_tiara", 50 ],
+      [ "emerald_silver_tiara", 50 ],
+      [ "peridot_silver_tiara", 50 ],
+      [ "amethyst_silver_tiara", 50 ],
+      [ "sapphire_silver_tiara", 50 ],
+      [ "aquamarine_silver_tiara", 50 ],
+      [ "blue_topaz_silver_tiara", 50 ],
+      [ "tourmaline_silver_tiara", 50 ],
+      [ "alexandrite_silver_tiara", 50 ],
+      [ "pearl_silver_tiara", 50 ],
+      [ "opal_silver_tiara", 50 ],
+      [ "ruby_silver_tiara", 50 ],
+      [ "garnet_silver_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "tiaras_gold",
+    "type": "item_group",
+    "items": [
+      [ "citrine_gold_tiara", 50 ],
+      [ "diamond_gold_tiara", 50 ],
+      [ "emerald_gold_tiara", 50 ],
+      [ "peridot_gold_tiara", 50 ],
+      [ "amethyst_gold_tiara", 50 ],
+      [ "sapphire_gold_tiara", 50 ],
+      [ "aquamarine_gold_tiara", 50 ],
+      [ "blue_topaz_gold_tiara", 50 ],
+      [ "tourmaline_gold_tiara", 50 ],
+      [ "alexandrite_gold_tiara", 50 ],
+      [ "pearl_gold_tiara", 50 ],
+      [ "opal_gold_tiara", 50 ],
+      [ "ruby_gold_tiara", 50 ],
+      [ "garnet_gold_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "tiaras_platinum",
+    "type": "item_group",
+    "items": [
+      [ "citrine_platinum_tiara", 50 ],
+      [ "diamond_platinum_tiara", 50 ],
+      [ "emerald_platinum_tiara", 50 ],
+      [ "peridot_platinum_tiara", 50 ],
+      [ "amethyst_platinum_tiara", 50 ],
+      [ "sapphire_platinum_tiara", 50 ],
+      [ "aquamarine_platinum_tiara", 50 ],
+      [ "blue_topaz_platinum_tiara", 50 ],
+      [ "tourmaline_platinum_tiara", 50 ],
+      [ "alexandrite_platinum_tiara", 50 ],
+      [ "pearl_platinum_tiara", 50 ],
+      [ "opal_platinum_tiara", 50 ],
+      [ "ruby_platinum_tiara", 50 ],
+      [ "garnet_platinum_tiara", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_necklace", 50 ],
+      [ "citrine_silver_pendant_necklace", 50 ],
+      [ "diamond_silver_pendant_necklace", 50 ],
+      [ "emerald_silver_pendant_necklace", 50 ],
+      [ "peridot_silver_pendant_necklace", 50 ],
+      [ "amethyst_silver_pendant_necklace", 50 ],
+      [ "sapphire_silver_pendant_necklace", 50 ],
+      [ "aquamarine_silver_pendant_necklace", 50 ],
+      [ "blue_topaz_silver_pendant_necklace", 50 ],
+      [ "tourmaline_silver_pendant_necklace", 50 ],
+      [ "alexandrite_silver_pendant_necklace", 50 ],
+      [ "pearl_silver_pendant_necklace", 50 ],
+      [ "opal_silver_pendant_necklace", 50 ],
+      [ "ruby_silver_pendant_necklace", 50 ],
+      [ "garnet_silver_pendant_necklace", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_necklace", 50 ],
+      [ "citrine_gold_pendant_necklace", 50 ],
+      [ "diamond_gold_pendant_necklace", 50 ],
+      [ "emerald_gold_pendant_necklace", 50 ],
+      [ "peridot_gold_pendant_necklace", 50 ],
+      [ "amethyst_gold_pendant_necklace", 50 ],
+      [ "sapphire_gold_pendant_necklace", 50 ],
+      [ "aquamarine_gold_pendant_necklace", 50 ],
+      [ "blue_topaz_gold_pendant_necklace", 50 ],
+      [ "tourmaline_gold_pendant_necklace", 50 ],
+      [ "alexandrite_gold_pendant_necklace", 50 ],
+      [ "pearl_gold_pendant_necklace", 50 ],
+      [ "opal_gold_pendant_necklace", 50 ],
+      [ "ruby_gold_pendant_necklace", 50 ],
+      [ "garnet_gold_pendant_necklace", 50 ]
+    ]
+  },
+  {
+    "id": "pendant_necklaces_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_necklace", 50 ],
+      [ "citrine_platinum_pendant_necklace", 50 ],
+      [ "diamond_platinum_pendant_necklace", 50 ],
+      [ "emerald_platinum_pendant_necklace", 50 ],
+      [ "peridot_platinum_pendant_necklace", 50 ],
+      [ "amethyst_platinum_pendant_necklace", 50 ],
+      [ "sapphire_platinum_pendant_necklace", 50 ],
+      [ "aquamarine_platinum_pendant_necklace", 50 ],
+      [ "blue_topaz_platinum_pendant_necklace", 50 ],
+      [ "tourmaline_platinum_pendant_necklace", 50 ],
+      [ "alexandrite_platinum_pendant_necklace", 50 ],
+      [ "pearl_platinum_pendant_necklace", 50 ],
+      [ "opal_platinum_pendant_necklace", 50 ],
+      [ "ruby_platinum_pendant_necklace", 50 ],
+      [ "garnet_platinum_pendant_necklace", 50 ]
+    ]
+  },
+  {
     "id": "earrings_silver",
     "type": "item_group",
     "items": [
