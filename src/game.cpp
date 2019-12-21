@@ -5807,8 +5807,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
-        mvwprintz( w_look, point( column, ++lines ),c_light_gray, _( "Light  : " ) );
-        mvwprintz( w_look, point( column+9, lines ), ll.second, ll.first );
+        mvwprintz( w_look, point( column, ++lines ), c_light_gray, _( "Light  : " ) );
+        mvwprintz( w_look, point( column + 9, lines ), ll.second, ll.first );
     }
 
     std::string signage = m.get_signage( lp );

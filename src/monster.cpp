@@ -597,57 +597,59 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    // mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
     // display name
     mvwprintz( w, point( column, vStart ), c_light_gray, "Entity : " );
-    mvwprintz( w, point( column+9, vStart ), c_white, name() );
+    mvwprintz( w, point( column + 9, vStart ), c_white, name() );
 
     // display health
     nc_color color = c_white;
     std::string sText;
     get_HP_Bar( color, sText );
     mvwprintz( w, point( column, ++vStart ), c_light_gray, "Health : " );
-    mvwprintz( w, point( column+9, vStart ), color, sText );
+    mvwprintz( w, point( column + 9, vStart ), color, sText );
 
     // display sense
     std::string senses_str = "--";
-    if (sees(g->u))
-        senses_str="He is aware of your presence";
-    else
-        senses_str="He hasn't noticed you";
+    if( sees( g->u ) ) {
+        senses_str = "He is aware of your presence";
+    } else {
+        senses_str = "He hasn't noticed you";
+    }
 
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Senses : ");
-    mvwprintz( w, point( column+9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Senses : " );
+    mvwprintz( w, point( column + 9, vStart ), sees( g->u ) ? c_red : c_green, senses_str );
 
     // display stance
     const auto att = get_attitude();
     mvwprintz( w, point( column, ++vStart ), c_light_gray, "Stance : " );
-    mvwprintz( w, point( column+9, vStart ), att.second, att.first );
+    mvwprintz( w, point( column + 9, vStart ), att.second, att.first );
 
     // display threat
     int threatlvl = type->difficulty;
     nc_color threatlvl_color = c_white;
-    if (threatlvl >= 8)
+    if( threatlvl >= 8 ) {
         threatlvl_color = c_red;
-    else if (threatlvl >=4)
-        threatlvl_color= c_yellow;
-    else if (threatlvl >=0)
+    } else if( threatlvl >= 4 ) {
+        threatlvl_color = c_yellow;
+    } else if( threatlvl >= 0 ) {
         threatlvl_color = c_blue;
+    }
 
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Threat : ");
-    mvwprintz( w, point( column+9, vStart ), threatlvl_color, to_string(threatlvl));
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Threat : " );
+    mvwprintz( w, point( column + 9, vStart ), threatlvl_color, to_string( threatlvl ) );
 
     // dipslay aspect
-    mvwprintz(w, point(column, ++vStart ), c_light_gray, "Aspect :" );
+    mvwprintz( w, point( column, ++vStart ), c_light_gray, "Aspect :" );
 
     std::vector<std::string> line1 = foldstring( type->get_description(), getmaxx( w ) - 11 - column );
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        if (i==0)
-            mvwprintz( w, point( column+9, vStart ), c_white, line1[i] );
-        else
+        if( i == 0 ) {
+            mvwprintz( w, point( column + 9, vStart ), c_white, line1[i] );
+        } else {
             mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
+        }
 
     }
 
