@@ -1785,7 +1785,7 @@ std::vector<item_count_tuple> vehicle::get_comestible_liquids()
     }
 
     for( auto &liquid : liquids_map ) {
-        liquids.push_back( item_count_tuple( liquid.first, liquid.second ) );
+        liquids.emplace_back( liquid.first, liquid.second );
     }
 
     std::sort( liquids.begin(), liquids.end(),
