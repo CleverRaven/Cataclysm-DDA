@@ -191,7 +191,22 @@ class BitmapFont : public Font
         int tilewidth;
 };
 
-static std::unique_ptr<Font> font;
+class FontFallbackList : public Font
+{
+    public:
+        FontFallbackList( int w, int h, const std::vector<std::string> &typefaces,
+                          int fontsize, bool fontblending );
+        ~FontFallbackList() override = default;
+
+        bool isGlyphProvided( const std::string &ch ) const;
+        void OutputChar( const std::string &ch, int x, int y,
+                         unsigned char color, float opacity = 1.0f );
+    protected:
+        std::vector<std::unique_ptr<Font>> fonts;
+        std::map<std::string, std::vector<std::unique_ptr<Font>>::iterator> glyph_font;
+};
+
+static std::unique_ptr<FontFallbackList> font;
 static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
@@ -3470,12 +3485,8 @@ void catacurses::init_interface()
     load_soundset();
 
     // Reset the font pointer
-    assert( !fl.typeface.empty() );
-    font = Font::load_font( fl.typeface.front(), fl.fontsize, fl.fontwidth, fl.fontheight,
-                            fl.fontblending );
-    if( !font ) {
-        throw std::runtime_error( "loading font data failed" );
-    }
+    font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
+            fl.typeface, fl.fontsize, fl.fontblending );
     map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight,
                                 fl.fontblending );
     overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
@@ -3832,12 +3843,48 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
+FontFallbackList::FontFallbackList( const int w, const int h,
+                                    const std::vector<std::string> &typefaces,
+                                    const int fontsize, const bool fontblending )
+    : Font( w, h )
+{
+    for( const std::string &typeface : typefaces ) {
+        std::unique_ptr<Font> font = Font::load_font( typeface, fontsize, w, h, fontblending );
+        if( !font ) {
+            throw std::runtime_error( "Cannot load font " + typeface );
+        }
+        fonts.emplace_back( std::move( font ) );
+    }
+    if( fonts.empty() ) {
+        throw std::runtime_error( "Typeface list is empty" );
+    }
+}
+
+bool FontFallbackList::isGlyphProvided( const std::string & ) const
+{
+    return true;
+}
+
+void FontFallbackList::OutputChar( const std::string &ch, const int x, const int y,
+                                   const unsigned char color, const float opacity )
+{
+    auto cached = glyph_font.find( ch );
+    if( cached == glyph_font.end() ) {
+        for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
+            if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
+                cached = glyph_font.emplace( ch, it ).first;
+            }
+        }
+    }
+    ( *cached->second )->OutputChar( ch, x, y, color, opacity );
+}
+
 static int map_font_width()
 {
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_width();
     }
-    return ( map_font ? map_font : font )->fontwidth;
+    return ( map_font ? map_font.get() : font.get() )->fontwidth;
 }
 
 static int map_font_height()
@@ -3845,17 +3892,17 @@ static int map_font_height()
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_height();
     }
-    return ( map_font ? map_font : font )->fontheight;
+    return ( map_font ? map_font.get() : font.get() )->fontheight;
 }
 
 static int overmap_font_width()
 {
-    return ( overmap_font ? overmap_font : font )->fontwidth;
+    return ( overmap_font ? overmap_font.get() : font.get() )->fontwidth;
 }
 
 static int overmap_font_height()
 {
-    return ( overmap_font ? overmap_font : font )->fontheight;
+    return ( overmap_font ? overmap_font.get() : font.get() )->fontheight;
 }
 
 void to_map_font_dim_width( int &w )
