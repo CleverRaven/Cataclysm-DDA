@@ -6,24 +6,7 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Rabbit_Raiser_pants_female",
-    "items": [
-      [ "jeans", 20 ],
-      [ "pants", 20 ],
-      [ "pants_leather", 20 ],
-      [ "pants_cargo", 20 ],
-      [ "skirt", 20 ],
-      [ "bunker_pants", 10 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_Rabbit_Raiser_shirt_male",
-    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_Rabbit_Raiser_shirt_female",
     "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
   },
   {

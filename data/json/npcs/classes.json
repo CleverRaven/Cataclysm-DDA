@@ -453,7 +453,28 @@
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
       { "skill": "survival", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
-    ]
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      {
+        "traits": [
+          [ "FLEET2", 100 ],
+          [ "GOODHEARING", 100 ],
+          [ "DEFT", 100 ],
+          [ "ANIMALEMPATH2", 100 ],
+          [ "LIGHTFUR", 100 ],
+          [ "HOOVES", 100 ]
+        ]
+      }
+    ],
+    "worn_override": [
+      "NC_Rabbit_Raiser_pants_male",
+      "NC_Rabbit_Raiser_shirt_male",
+      "NC_Rabbit_Raiser_gloves",
+      "NC_Rabbit_Raiser_coat",
+      "NC_Rabbit_Raiser_masks",
+      "NC_Rabbit_Raiser_eyes",
+      "NC_Rabbit_Raiser_hat",
+      "NC_Rabbit_Raiser_extra"
+    ],
+    "weapon_override": [ "NC_Rabbit_Raiser_cutting" ]
   }
 ]
