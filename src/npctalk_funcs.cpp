@@ -193,16 +193,12 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_construction( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_read( npc &p )
@@ -220,9 +216,7 @@ void talk_function::find_mount( npc &p )
     // first find one nearby
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
-            p.set_attitude( NPCATT_ACTIVITY );
             // keep the horse still for some time, so that NPC can catch up to it nad mount it.
-            p.set_mission( NPC_MISSION_ACTIVITY );
             p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
             p.chosen_mount = g->shared_from( critter );
             // we found one, thats all we need.
@@ -237,51 +231,37 @@ void talk_function::find_mount( npc &p )
 
 void talk_function::do_butcher( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_vehicle_repair( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_chop_trees( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_farming( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_fishing( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::revert_activity( npc &p )

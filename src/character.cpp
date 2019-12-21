@@ -6757,6 +6757,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         rooted_message();
     }
     if( is_npc() ) {
+        cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
         guy->set_attitude( NPCATT_ACTIVITY );
         guy->set_mission( NPC_MISSION_ACTIVITY );
