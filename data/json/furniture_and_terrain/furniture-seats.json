@@ -148,7 +148,7 @@
     "required_str": 3,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
-    "max_volume": 3500,
+    "max_volume": "875 L",
     "bash": {
       "str_min": 6,
       "str_max": 20,
@@ -173,7 +173,7 @@
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
-    "max_volume": 3500,
+    "max_volume": "875 L",
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
   },
   {
@@ -213,7 +213,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
-    "max_volume": 3000,
+    "max_volume": "750 L",
     "deconstruct": { "items": [ { "item": "log", "count": 1 } ] },
     "bash": {
       "str_min": 12,

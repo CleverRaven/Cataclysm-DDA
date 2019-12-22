@@ -1184,7 +1184,7 @@
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "description": "An aluminum box that used to contain a small survival kit.  Can hold 1 liter of liquid.",
-    "weight": 200,
+    "weight": "200 g",
     "volume": "1 L",
     "price": 0,
     "material": "aluminum",
