@@ -34,7 +34,7 @@
     "description": "A chunk of useful rubber, can be molded easily.",
     "material": "rubber",
     "volume": "250 ml",
-    "weight": 38,
+    "weight": "38 g",
     "ammo_type": "components",
     "flags": "NO_SALVAGE"
   }

@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": "hooded hat",
     "description": "A proper wide-brimmed hat, modified by the addition of a hood sewn to it, to better protect the neck from wind and rain.",
-    "weight": 126,
+    "weight": "126 g",
     "volume": "500 ml",
     "price": 1200,
     "material": [ "cotton" ],

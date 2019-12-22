@@ -2,7 +2,7 @@
   "id": "afs_dough",
   "type": "COMESTIBLE",
   "name": "dough",
-  "weight": 226,
+  "weight": "226 g",
   "color": "yellow",
   "comestible_type": "FOOD",
   "symbol": "%",

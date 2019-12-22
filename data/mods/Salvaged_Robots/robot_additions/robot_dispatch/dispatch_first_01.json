@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "robot_dispatch_first",
-    "weight": 250,
+    "weight": "250 g",
     "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",

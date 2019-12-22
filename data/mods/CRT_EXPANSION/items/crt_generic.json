@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "withered plant bundle",
     "description": "A bundle of plant matter",
-    "weight": 80,
+    "weight": "80 g",
     "volume": "500 ml",
     "material": [ "paper" ],
     "symbol": ";",
