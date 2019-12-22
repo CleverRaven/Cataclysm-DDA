@@ -156,6 +156,10 @@ static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
+static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
+static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
+static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
@@ -7309,10 +7313,23 @@ int Character::heartrate_bpm() const
     if( has_trait( trait_QUICK ) ) {
         average_heartbeat *= 1.1;
     }
-    //Badtemper makes youк BPM raise from anger
+    //Badtemper makes your BPM raise from anger
     if( has_trait( trait_BADTEMPER ) ) {
         average_heartbeat *= 1.1;
     }
+    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
+    const int player_local_temp = g->weather.get_temperature( pos() );
+    float temperature_modifier = 0;
+    if( has_trait( trait_id( "COLDBLOOD" ) ) ) {
+        temperature_modifier = 0.2;
+    }
+    if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
+        temperature_modifier = 0.333;
+    }
+    if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
+        temperature_modifier = 0.5;
+    }
+    average_heartbeat *= 1 + ( player_local_temp - 65 ) * temperature_modifier;
     const float stamina_level = float( get_stamina() ) / float( get_stamina_max() );
     float stamina_effect = 0;
     if( stamina_level >= 0.9 ) {
@@ -7336,7 +7353,7 @@ int Character::heartrate_bpm() const
         //that's asymptotical function that is equal to 1 at around 30 stim level
         //and slows down all the time almost reaching 2.
         //Tweaking x*x multiplier will accordingly change effect accumulation
-        stim_modifer = 2.1 - 2 / ( 1 + 0.001 * stim_level * stim_level );
+        stim_modifer = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
     }
     heartbeat *= 1 + stim_modifer;
     if( to_turns<int>( get_effect_dur( effect_cig ) ) > 0 ) {
@@ -7358,9 +7375,8 @@ int Character::heartrate_bpm() const
     if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
     }
-    //Add dependencies for COLDBLOOD?
     //Add effects from addictions
-    //add morale effects, fear(?), medication effects
+    //add morale effects, fear(?)
     //A single clamp in the end should be enough
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
     return heartbeat;
