@@ -7320,13 +7320,13 @@ int Character::heartrate_bpm() const
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
     const int player_local_temp = g->weather.get_temperature( pos() );
     float temperature_modifier = 0;
-    if( has_trait( trait_id( "COLDBLOOD" ) ) ) {
+    if( has_trait( trait_COLDBLOOD ) ) {
         temperature_modifier = 0.2;
     }
-    if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
+    if( has_trait( trait_COLDBLOOD2 ) ) {
         temperature_modifier = 0.333;
     }
-    if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
+    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
         temperature_modifier = 0.5;
     }
     average_heartbeat *= 1 + ( player_local_temp - 65 ) * temperature_modifier;
