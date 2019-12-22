@@ -3858,6 +3858,7 @@ void Character::update_bodytemp()
             }
             if( temp_cur[bp] <= BODYTEMP_HOT ) {
                 remove_effect( effect_hot, bp );
+                remove_effect( effect_hot_speed, bp );
             }
         }
         // FROSTBITE - only occurs to hands, feet, face
