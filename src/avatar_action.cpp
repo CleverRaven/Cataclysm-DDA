@@ -979,8 +979,11 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         add_msg( _( "Never mind." ) );
         return;
     }
-
-    item &thrown = *loc;
+    // make a copy and get the original.
+    // the copy is thrown and has its and the originals charges set appropiately
+    // or deleted from inventory if its charges(1) or not stackable.
+    item *orig = loc.get_item();
+    item thrown = *orig;
     int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
@@ -990,7 +993,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.is_wielding( thrown ) && thrown.has_flag( "NO_UNWIELD" ) ) {
+    if( you.is_wielding( *orig ) && orig->has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
@@ -1006,16 +1009,20 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( you.is_wearing( thrown.typeId() ) ) {
-        ret_val<bool> ret = you.can_takeoff( thrown );
+    if( you.is_wearing( orig->typeId() ) ) {
+        ret_val<bool> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
         }
     }
     // you must wield the item to throw it
-    if( !you.is_wielding( thrown ) ) {
-        you.wield( thrown );
+    if( !you.is_wielding( *orig ) ) {
+        if( you.wield( *orig ) ) {
+            orig = &you.weapon;
+        } else {
+            return;
+        }
     }
 
     // Shift our position to our "peeking" position, so that the UI
@@ -1033,7 +1040,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, &thrown,
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode,
+                                       &you.weapon,
                                        range );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1045,7 +1053,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( thrown.count_by_charges() && thrown.charges > 1 ) {
+    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
         you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
