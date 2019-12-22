@@ -1758,7 +1758,7 @@ void Character::drop( item_location loc, const tripoint &where )
     drop( { std::make_pair( loc, loc->count() ) }, where );
 }
 
-void Character::drop( const std::list<std::pair<item_location, int>> &what, const tripoint &target,
+void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
@@ -1776,7 +1776,7 @@ void Character::drop( const std::list<std::pair<item_location, int>> &what, cons
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( std::pair<item_location, int> item_pair : what ) {
+    for( drop_location item_pair : what ) {
         if( can_unwield( *item_pair.first ).success() ) {
             activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );

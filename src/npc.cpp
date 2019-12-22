@@ -1181,7 +1181,7 @@ bool npc::wield( item &it )
     return true;
 }
 
-void npc::drop( const std::list<std::pair<item_location, int>> &what, const tripoint &target,
+void npc::drop( const drop_locations &what, const tripoint &target,
                 bool stash )
 {
     Character::drop( what, target, stash );

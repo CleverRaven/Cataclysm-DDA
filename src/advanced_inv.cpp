@@ -882,9 +882,9 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        std::list<std::pair<item_location, int>> dropped;
+        drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
-        std::list<std::pair<item_location, int>> dropped_favorite;
+        drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {

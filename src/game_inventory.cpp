@@ -1324,7 +1324,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
                        );
 }
 
-std::list<std::pair<item_location, int>> game_menus::inv::multidrop( player &p )
+drop_locations game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( p );
 
@@ -1340,7 +1340,7 @@ std::list<std::pair<item_location, int>> game_menus::inv::multidrop( player &p )
 
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return std::list<std::pair<item_location, int> >();
+        return drop_locations();
     }
 
     return inv_s.execute();
