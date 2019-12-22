@@ -7329,11 +7329,10 @@ int Character::heartrate_bpm() const
     if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
         temperature_modifier = 0.005;
     }
-    //Not sure about type conversions here but it shouldn't be 0 after division by 100
     average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
     //Limit avg from below with 20, arbitary
     average_heartbeat = std::max( 20, average_heartbeat );
-    const float stamina_level = float( get_stamina() ) / float( get_stamina_max() );
+    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float stamina_effect = 0;
     if( stamina_level >= 0.9 ) {
         stamina_effect = 0;
@@ -7359,7 +7358,7 @@ int Character::heartrate_bpm() const
         stim_modifer = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
     }
     heartbeat *= 1 + stim_modifer;
-    if( to_turns<int>( get_effect_dur( effect_cig ) ) > 0 ) {
+    if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
         if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
             heartbeat *= 1.4;
@@ -7385,7 +7384,7 @@ int Character::heartrate_bpm() const
     if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
     }
-    //Happy get it bit fatser and miserable some more.
+    //Happy get it bit faster and miserable some more.
     //Morale effects might need more consideration
     const int morale_level = get_morale_level();
     if( morale_level >= 20 ) {
