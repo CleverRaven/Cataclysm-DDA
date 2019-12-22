@@ -1262,7 +1262,7 @@
     "melee_cut": 2,
     "dodge": 6,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
