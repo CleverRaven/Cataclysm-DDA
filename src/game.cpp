@@ -5791,7 +5791,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
     std::string tile = m.tername( lp );
-    tile = _( "Place  : " ) + area_name + "\nTile   : " + tile;
+    tile = _( "Place  : " ) + area_name + _( "\nTile   : " ) + tile;
     if( m.has_furn( lp ) ) {
         tile += "\n";
         tile += _( "Decor  : " ) + m.furnname( lp );
