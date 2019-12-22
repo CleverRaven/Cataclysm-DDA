@@ -22,7 +22,7 @@
     "type": "TOOL",
     "name": "companion potato",
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
-    "weight": 900,
+    "weight": "900 g",
     "volume": "500 ml",
     "price": 9000,
     "to_hit": -1,

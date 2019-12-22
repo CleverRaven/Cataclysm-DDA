@@ -8,7 +8,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
-    "weight": 5000,
+    "weight": "5 kg",
     "volume": "2500 ml",
     "price": 0,
     "durability": 10,
