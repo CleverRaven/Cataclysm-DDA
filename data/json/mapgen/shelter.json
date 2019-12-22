@@ -8,7 +8,7 @@
       [ "wrapper", 90 ],
       [ "evac_pamphlet", 80 ],
       [ "glass_shard", 80 ],
-      [ "emer_blanket", 50 ],
+      [ "emer_blanket", 40 ],
       [ "bottle_plastic", 30 ],
       [ "plastic_knife", 20 ],
       [ "plastic_spoon", 20 ],
