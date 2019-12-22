@@ -498,17 +498,29 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             perform_technique( technique, t, d, move_cost );
         }
 
-        if( allow_special && !t.is_dead_state() ) {
-            perform_special_attacks( t );
-        }
-
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
             // Handles speed penalties to monster & us, etc
             std::string specialmsg = melee_special_effects( t, d, cur_weapon );
 
-            dealt_damage_instance dealt_dam; // gets overwritten with the dealt damage values
+            // gets overwritten with the dealt damage values
+            dealt_damage_instance dealt_dam;
+            dealt_damage_instance dealt_special_dam;
+            if( allow_special ) {
+                perform_special_attacks( t, dealt_special_dam );
+            }
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            if( ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
+                                            dealt_dam.type_damage( DT_STAB ) > 0 ) ) || ( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
+                                                    dealt_special_dam.type_damage( DT_STAB ) > 0 ) ) {
+                if( has_trait( trait_POISONOUS ) ) {
+                    add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
+                    t.add_effect( effect_poison, 6_turns );
+                } else if( has_trait( trait_POISONOUS2 ) ) {
+                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                    t.add_effect( effect_badpoison, 6_turns );
+                }
+            }
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
@@ -840,6 +852,35 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
     }
 
+    if( unarmed ) {
+        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
+        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+                                 weap.is_null();
+        if( left_empty || right_empty ) {
+            float per_hand = 0.0f;
+            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
+                    continue;
+                }
+                float unarmed_bonus = 0.0f;
+                const int bash_bonus = mut.first->bash_dmg_bonus;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                per_hand += bash_bonus + unarmed_bonus;
+                const std::pair<int, int> rand_bash = mut.first->rand_bash_bonus;
+                per_hand += average ? ( rand_bash.first + rand_bash.second ) / 2.0f : rng( rand_bash.first,
+                            rand_bash.second );
+            }
+            bash_dam += per_hand; // First hand
+            if( left_empty && right_empty ) {
+                // Second hand
+                bash_dam += per_hand;
+            }
+        }
+
+    }
+
     /** @EFFECT_STR increases bashing damage */
     float weap_dam = weap.damage_melee( DT_BASH ) + stat_bonus;
     /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
@@ -886,7 +927,6 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     float cut_mul = 1.0f;
 
     int cutting_skill = get_skill_level( skill_cutting );
-    int unarmed_skill = get_skill_level( skill_unarmed );
 
     if( has_active_bionic( bio_cqb ) ) {
         cutting_skill = BIO_CQB_LEVEL;
@@ -899,26 +939,24 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait( trait_CLAWS ) || ( has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
-                per_hand += 3;
-            }
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
-            if( has_trait( trait_TALONS ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with TALONS */
-                per_hand += 3 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
-            }
-            // Stainless Steel Claws do stabbing damage, too.
-            if( has_trait( trait_CLAWS_RAT ) || has_trait( trait_CLAWS_ST ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST */
-                per_hand += 1 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
+            for( const std::pair< trait_id, trait_data > &mut : my_mutations ) {
+                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
+                    continue;
+                }
+                float unarmed_bonus = 0.0f;
+                const int cut_bonus = mut.first->cut_dmg_bonus;
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                }
+                per_hand += cut_bonus + unarmed_bonus;
+                const std::pair<int, int> rand_cut = mut.first->rand_cut_bonus;
+                per_hand += average ? ( rand_cut.first + rand_cut.second ) / 2.0f : rng( rand_cut.first,
+                            rand_cut.second );
             }
             // TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if( has_trait( trait_SLIME_HANDS ) ) {
-                /** @EFFECT_UNARMED increases cutting damage with SLIME_HANDS */
-                per_hand += average ? 2.5f : rng( 2, 3 );
-            }
 
             cut_dam += per_hand; // First hand
             if( left_empty && right_empty ) {
@@ -1656,21 +1694,15 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     return true;
 }
 
-void player::perform_special_attacks( Creature &t )
+void player::perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam )
 {
-    bool can_poison = false;
-
     std::vector<special_attack> special_attacks = mutation_attacks( t );
-
-    std::string target = t.disp_name();
 
     bool practiced = false;
     for( const auto &att : special_attacks ) {
         if( t.is_dead_state() ) {
             break;
         }
-
-        dealt_damage_instance dealt_dam;
 
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
@@ -1685,20 +1717,6 @@ void player::perform_special_attacks( Creature &t )
         int dam = dealt_dam.total_damage();
         if( dam > 0 ) {
             player_hit_message( this, att.text, t, dam );
-        }
-
-        can_poison = can_poison ||
-                     dealt_dam.type_damage( DT_CUT ) > 0 ||
-                     dealt_dam.type_damage( DT_STAB ) > 0;
-    }
-
-    if( can_poison && ( has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 ) ) ) {
-        if( has_trait( trait_POISONOUS ) ) {
-            add_msg_if_player( m_good, _( "You poison %s!" ), target );
-            t.add_effect( effect_poison, 6_turns );
-        } else if( has_trait( trait_POISONOUS2 ) ) {
-            add_msg_if_player( m_good, _( "You inject your venom into %s!" ), target );
-            t.add_effect( effect_badpoison, 6_turns );
         }
     }
 }
