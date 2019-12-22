@@ -1659,21 +1659,7 @@ void computer::print_newline()
     wprintz( w_terminal, c_green, "\n" );
 }
 
-computer_option computer_option::from_json( const JsonObject &jo )
-{
-    std::string name = jo.get_string( "name" );
-    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
-    int sec = jo.get_int( "security", 0 );
-    return computer_option( name, action, sec );
-}
-
-computer_failure computer_failure::from_json( const JsonObject &jo )
-{
-    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
-    return computer_failure( type );
-}
-
-computer_action computer_action_from_string( const std::string &str )
+static computer_action computer_action_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_action> actions = {{
             { "null", COMPACT_NULL },
@@ -1738,7 +1724,7 @@ computer_action computer_action_from_string( const std::string &str )
     return COMPACT_NULL;
 }
 
-computer_failure_type computer_failure_type_from_string( const std::string &str )
+static computer_failure_type computer_failure_type_from_string( const std::string &str )
 {
     static const std::map<std::string, computer_failure_type> fails = {{
             { "null", COMPFAIL_NULL },
@@ -1762,4 +1748,17 @@ computer_failure_type computer_failure_type_from_string( const std::string &str 
 
     debugmsg( "Invalid computer failure %s", str );
     return COMPFAIL_NULL;
+}
+computer_option computer_option::from_json( const JsonObject &jo )
+{
+    std::string name = jo.get_string( "name" );
+    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
+    int sec = jo.get_int( "security", 0 );
+    return computer_option( name, action, sec );
+}
+
+computer_failure computer_failure::from_json( const JsonObject &jo )
+{
+    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
+    return computer_failure( type );
 }
