@@ -59,7 +59,7 @@
         "prob": 90
       },
       {
-        "collection": [
+        "distribution": [
           { "item": "mask_dust", "prob": 70 },
           { "item": "whistle", "prob": 60 },
           { "item": "mirror", "prob": 20 },
