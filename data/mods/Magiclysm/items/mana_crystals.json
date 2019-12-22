@@ -29,7 +29,7 @@
     "name": "small mana crystal",
     "name_plural": "small mana crystals",
     "description": "This is a small mana crystal specifically designed to be attached to wand tips.",
-    "weight": 5,
+    "weight": "5 g",
     "volume": "250 ml",
     "price": 1500,
     "symbol": "=",
