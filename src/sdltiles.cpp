@@ -141,7 +141,7 @@ class CachedTTFFont : public Font
         CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
         ~CachedTTFFont() override = default;
 
-        bool isGlyphProvided( const std::string &ch ) const;
+        bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
@@ -180,7 +180,7 @@ class BitmapFont : public Font
         BitmapFont( int w, int h, const std::string &typeface_path );
         ~BitmapFont() override = default;
 
-        bool isGlyphProvided( const std::string &ch ) const;
+        bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const std::string &ch, int x, int y,
                          unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( int t, int x, int y,
@@ -198,9 +198,9 @@ class FontFallbackList : public Font
                           int fontsize, bool fontblending );
         ~FontFallbackList() override = default;
 
-        bool isGlyphProvided( const std::string &ch ) const;
+        bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const std::string &ch, int x, int y,
-                         unsigned char color, float opacity = 1.0f );
+                         unsigned char color, float opacity = 1.0f ) override;
     protected:
         std::vector<std::unique_ptr<Font>> fonts;
         std::map<std::string, std::vector<std::unique_ptr<Font>>::iterator> glyph_font;

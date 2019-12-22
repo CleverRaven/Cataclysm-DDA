@@ -37,9 +37,7 @@ class font_loader
                 JsonIn json( stream );
                 JsonObject config = json.get_object();
                 if( config.has_string( "typeface" ) ) {
-                    std::string tmp;
-                    config.read( "typeface", tmp );
-                    typeface.emplace_back( tmp );
+                    typeface.emplace_back( config.get_string( "typeface" ) );
                 } else {
                     config.read( "typeface", typeface );
                 }
