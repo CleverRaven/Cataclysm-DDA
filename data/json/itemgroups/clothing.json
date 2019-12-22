@@ -523,6 +523,68 @@
     ]
   },
   {
+    "id": "cufflinks_silver",
+    "type": "item_group",
+    "items": [
+      [ "cufflinks", 50 ],
+      [ "cufflinks_intricate", 50 ],
+      [ "citrine_silver_cufflinks", 50 ],
+      [ "diamond_silver_cufflinks", 50 ],
+      [ "emerald_silver_cufflinks", 50 ],
+      [ "peridot_silver_cufflinks", 50 ],
+      [ "amethyst_silver_cufflinks", 50 ],
+      [ "sapphire_silver_cufflinks", 50 ],
+      [ "aquamarine_silver_cufflinks", 50 ],
+      [ "blue_topaz_silver_cufflinks", 50 ],
+      [ "tourmaline_silver_cufflinks", 50 ],
+      [ "alexandrite_silver_cufflinks", 50 ],
+      [ "pearl_silver_cufflinks", 50 ],
+      [ "opal_silver_cufflinks", 50 ],
+      [ "ruby_silver_cufflinks", 50 ],
+      [ "garnet_silver_cufflinks", 50 ]
+    ]
+  },
+  {
+    "id": "cufflinks_gold",
+    "type": "item_group",
+    "items": [
+      [ "citrine_gold_cufflinks", 50 ],
+      [ "diamond_gold_cufflinks", 50 ],
+      [ "emerald_gold_cufflinks", 50 ],
+      [ "peridot_gold_cufflinks", 50 ],
+      [ "amethyst_gold_cufflinks", 50 ],
+      [ "sapphire_gold_cufflinks", 50 ],
+      [ "aquamarine_gold_cufflinks", 50 ],
+      [ "blue_topaz_gold_cufflinks", 50 ],
+      [ "tourmaline_gold_cufflinks", 50 ],
+      [ "alexandrite_gold_cufflinks", 50 ],
+      [ "pearl_gold_cufflinks", 50 ],
+      [ "opal_gold_cufflinks", 50 ],
+      [ "ruby_gold_cufflinks", 50 ],
+      [ "garnet_gold_cufflinks", 50 ]
+    ]
+  },
+  {
+    "id": "cufflinks_platinum",
+    "type": "item_group",
+    "items": [
+      [ "citrine_platinum_cufflinks", 50 ],
+      [ "diamond_platinum_cufflinks", 50 ],
+      [ "emerald_platinum_cufflinks", 50 ],
+      [ "peridot_platinum_cufflinks", 50 ],
+      [ "amethyst_platinum_cufflinks", 50 ],
+      [ "sapphire_platinum_cufflinks", 50 ],
+      [ "aquamarine_platinum_cufflinks", 50 ],
+      [ "blue_topaz_platinum_cufflinks", 50 ],
+      [ "tourmaline_platinum_cufflinks", 50 ],
+      [ "alexandrite_platinum_cufflinks", 50 ],
+      [ "pearl_platinum_cufflinks", 50 ],
+      [ "opal_platinum_cufflinks", 50 ],
+      [ "ruby_platinum_cufflinks", 50 ],
+      [ "garnet_platinum_cufflinks", 50 ]
+    ]
+  },
+  {
     "id": "dental_grills",
     "type": "item_group",
     "items": [
