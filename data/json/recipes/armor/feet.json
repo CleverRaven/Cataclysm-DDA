@@ -428,10 +428,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "8 m",
+    "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "rag", 2 ] ] ]
   },
   {
     "result": "stockings",
