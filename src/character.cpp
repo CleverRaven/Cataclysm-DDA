@@ -7371,12 +7371,27 @@ int Character::heartrate_bpm() const
     //a bit arbitary formula that can use some love
     healthy_modifier = -0.05 * round( healthy / 20 );
     heartbeat *= 1 + healthy_modifier;
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
+    const int cur_pain = get_perceived_pain();
+    float pain_modifier = 0;
+    if( cur_pain > 5 ) {
+        pain_modifier = 0.02 * ( cur_pain - 5 );
+    }
+    heartbeat *= 1 + pain_modifier;
     //if BPM raised at least by 20% for a player with ADRENALINE, it adds 20% of avg to result
     if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
         heartbeat += average_heartbeat * 0.2;
     }
-    //Add effects from addictions
-    //add morale effects, fear(?)
+    //Happy get it bit fatser and miserable some more.
+    //Morale effects might need more consideration
+    const int morale_level = get_morale_level();
+    if( morale_level >= 20 ) {
+        heartbeat *= 1.1;
+    }
+    if( morale_level <= -20 ) {
+        heartbeat *= 1.2;
+    }
+    //add fear?
     //A single clamp in the end should be enough
     heartbeat = clamp( heartbeat, average_heartbeat, 250 );
     return heartbeat;
