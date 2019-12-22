@@ -7321,18 +7321,18 @@ int Character::heartrate_bpm() const
     const int player_local_temp = g->weather.get_temperature( pos() );
     float temperature_modifier = 0;
     if( has_trait( trait_COLDBLOOD ) ) {
-        temperature_modifier = 0.2;
+        temperature_modifier = 0.002;
     }
     if( has_trait( trait_COLDBLOOD2 ) ) {
-        temperature_modifier = 0.333;
+        temperature_modifier = 0.00333;
     }
     if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
-        temperature_modifier = 0.5;
+        temperature_modifier = 0.005;
     }
     //Not sure about type conversions here but it shouldn't be 0 after division by 100
-    average_heartbeat *= 1 + ( ( float( player_local_temp ) - 65 ) * temperature_modifier ) / 100;
+    average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
     //Limit avg from below with 20, arbitary
-    average_heartbeat = std::min( 20, average_heartbeat );
+    average_heartbeat = std::max( 20, average_heartbeat );
     const float stamina_level = float( get_stamina() ) / float( get_stamina_max() );
     float stamina_effect = 0;
     if( stamina_level >= 0.9 ) {
