@@ -423,6 +423,17 @@
     "components": [ [ [ "yarn", 75 ] ] ]
   },
   {
+    "result": "socks_ankle",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": "8 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [ [ [ "rag", 1 ] ] ]
+  },
+  {
     "result": "stockings",
     "type": "recipe",
     "category": "CC_ARMOR",
