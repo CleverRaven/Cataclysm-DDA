@@ -794,42 +794,34 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
+    cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
+    if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
+        return *zone_check_first;
+    }
+
     if( cat.zone() ) {
         return *cat.zone();
     }
 
     if( cat.get_id() == "food" ) {
         const bool preserves = it.is_food_container() && it.type->container->preserves;
-        const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
         // skip food without comestible, like MREs
-        if( it_food.is_food() ) {
-            if( it_food.get_comestible()->comesttype == "DRINK" ) {
-                if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+        if( const item *it_food = it.get_food() ) {
+            if( it_food->get_comestible()->comesttype == "DRINK" ) {
+                if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+            if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }
 
         return zone_type_id( "LOOT_FOOD" );
-    }
-    if( cat.get_id() == "clothing" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FCLOTHING" ), where, range ) ) {
-            return zone_type_id( "LOOT_FCLOTHING" );
-        }
-        return zone_type_id( "LOOT_CLOTHING" );
-    }
-    if( cat.get_id() == "armor" ) {
-        if( it.is_filthy() && has_near( zone_type_id( "LOOT_FARMOR" ), where, range ) ) {
-            return zone_type_id( "LOOT_FARMOR" );
-        }
-        return zone_type_id( "LOOT_ARMOR" );
     }
 
     return zone_type_id();

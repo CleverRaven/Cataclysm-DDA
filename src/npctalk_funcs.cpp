@@ -193,16 +193,12 @@ void talk_function::start_trade( npc &p )
 
 void talk_function::sort_loot( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_construction( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_read( npc &p )
@@ -220,9 +216,7 @@ void talk_function::find_mount( npc &p )
     // first find one nearby
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
-            p.set_attitude( NPCATT_ACTIVITY );
             // keep the horse still for some time, so that NPC can catch up to it nad mount it.
-            p.set_mission( NPC_MISSION_ACTIVITY );
             p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
             p.chosen_mount = g->shared_from( critter );
             // we found one, thats all we need.
@@ -237,51 +231,37 @@ void talk_function::find_mount( npc &p )
 
 void talk_function::do_butcher( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_chop_plank( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_vehicle_deconstruct( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_vehicle_repair( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_chop_trees( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_farming( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::do_fishing( npc &p )
 {
-    p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
-    p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void talk_function::revert_activity( npc &p )
@@ -914,11 +894,14 @@ void talk_function::start_training( npc &p )
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesnt know this spell, then the NPC will teach all of it
-        // which takes as long as it takes.
+        // which takes max 6 hours, min 3 hours.
+        // TODO: a system for NPCs to train new stuff in bits and pieces
+        // and remember the progress.
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
+            time = time_duration::from_seconds( clamp( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 50, 7200,
+                                                21600 ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -931,10 +914,11 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ) * 100,
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
+
     p.add_effect( effect_asked_to_train, 6_hours );
 }
 

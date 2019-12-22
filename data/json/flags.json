@@ -503,6 +503,13 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
   },
   {
+    "id": "POWERARMOR_COMPATIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
+    "info": "This item can be worn simultaneously with power armor."
+  },
+  {
     "id": "furred",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -658,6 +665,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
+  },
+  {
+    "id": "PAIN_NORESIST",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
     "id": "NON_THRESH",

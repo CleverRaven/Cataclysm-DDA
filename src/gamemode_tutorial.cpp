@@ -1,15 +1,13 @@
-#include "tutorial.h"
+#include "gamemode_tutorial.h" // IWYU pragma: associated
 
 #include <array>
-#include <memory>
-#include <string>
 #include <vector>
 
 #include "action.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
-#include "gamemode.h"
+#include "gamemode_tutorial.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"

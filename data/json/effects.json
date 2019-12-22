@@ -926,11 +926,9 @@
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
-    "speed_name": "Hot",
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "speed_mod": [ -2 ],
       "thirst_tick": [ 2400 ],
       "thirst_chance": [ 2 ],
       "pain_min": [ 1 ],
@@ -940,14 +938,18 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": {
-      "speed_mod": [ -4 ],
-      "thirst_min": [ 1 ],
-      "thirst_tick": [ -600 ],
-      "pain_max_val": [ 10 ],
-      "hurt_chance": [ 200 ],
-      "stamina_min": [ -1 ]
-    }
+    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hot_speed",
+    "name": [ "Slowdown", "Hampered", "Crushed" ],
+    "desc": [ "The heat slows you down.", "You struggle to move in this heat.", "The heat is crushing you." ],
+    "speed_name": "Heat slowdown",
+    "max_intensity": 3,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ] },
+    "scaling_mods": { "speed_mod": [ -4 ] }
   },
   {
     "type": "effect_type",

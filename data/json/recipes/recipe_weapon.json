@@ -171,10 +171,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
+    "skills_required": [ "tailor", 1 ],
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "filament", 20, "LIST" ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {

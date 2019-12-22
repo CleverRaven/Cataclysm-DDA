@@ -389,6 +389,23 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+void consumption_event::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "time", time );
+    json.member( "type_id", type_id );
+    json.member( "component_hash", component_hash );
+    json.end_object();
+}
+
+void consumption_event::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "time", time );
+    jo.read( "type_id", type_id );
+    jo.read( "component_hash", component_hash );
+}
+
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
@@ -452,6 +469,7 @@ void Character::load( const JsonObject &data )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[v.first] = lvl;
     }
+    data.read( "consumption_history", consumption_history );
     data.read( "activity", activity );
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
@@ -691,6 +709,7 @@ void Character::store( JsonOut &json ) const
     json.member( "vitamin_levels", vitamin_levels );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
+    json.member( "consumption_history", consumption_history );
 
     // crafting etc
     json.member( "destination_activity", destination_activity );
@@ -1736,7 +1755,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
                 for( const int i : member.get_array() ) {
                     invlets.push_back( i );
                 }
-                map[member] = invlets;
+                map[member.name()] = invlets;
             }
         }
         invlet_cache = { map };
@@ -1807,20 +1826,18 @@ void monster::load( const JsonObject &data )
     // sp_timeout indicates an old save, prior to the special_attacks refactor
     if( data.has_array( "sp_timeout" ) ) {
         JsonArray parray = data.get_array( "sp_timeout" );
-        if( !parray.empty() ) {
-            int index = 0;
-            int ptimeout = 0;
-            while( parray.has_more() && index < static_cast<int>( type->special_attacks_names.size() ) ) {
-                if( parray.read_next( ptimeout ) ) {
-                    // assume timeouts saved in same order as current monsters.json listing
-                    const std::string &aname = type->special_attacks_names[index++];
-                    auto &entry = special_attacks[aname];
-                    if( ptimeout >= 0 ) {
-                        entry.cooldown = ptimeout;
-                    } else { // -1 means disabled, unclear what <-1 values mean in old saves
-                        entry.cooldown = type->special_attacks.at( aname )->cooldown;
-                        entry.enabled = false;
-                    }
+        size_t index = 0;
+        int ptimeout = 0;
+        while( parray.has_more() && index < type->special_attacks_names.size() ) {
+            if( parray.read_next( ptimeout ) ) {
+                // assume timeouts saved in same order as current monsters.json listing
+                const std::string &aname = type->special_attacks_names[index++];
+                auto &entry = special_attacks[aname];
+                if( ptimeout >= 0 ) {
+                    entry.cooldown = ptimeout;
+                } else { // -1 means disabled, unclear what <-1 values mean in old saves
+                    entry.cooldown = type->special_attacks.at( aname )->cooldown;
+                    entry.enabled = false;
                 }
             }
         }
@@ -2065,8 +2082,8 @@ void item::io( Archive &archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
-    archive.io( "owner", owner );
-    archive.io( "old_owner", old_owner );
+    archive.io( "owner", owner, owner.NULL_ID() );
+    archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
@@ -2134,6 +2151,10 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
         std::swap( irradiation, poison );
     }
+
+    // Items may have acquired the ENCUMBRANCE_UPDATE flag, but are not armor and will never be worn and will never loose it.
+    // This removes the flag unconditionally. It is a temporary flag, which is removed during the game nearly immediately after setting.
+    item_tags.erase( "ENCUMBRANCE_UPDATE" );
 
     if( note_read ) {
         snippet_id = SNIPPET.migrate_hash_to_id( note );

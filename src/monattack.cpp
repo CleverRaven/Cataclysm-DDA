@@ -738,6 +738,7 @@ bool mattack::pull_metal_weapon( monster *z )
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
+              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
               foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
@@ -753,6 +754,9 @@ bool mattack::pull_metal_weapon( monster *z )
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                                                _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
                 z->add_item( foe->remove_weapon() );
+                if( foe->has_activity( activity_id( "ACT_RELOAD" ) ) ) {
+                    foe->cancel_activity();
+                }
             } else {
                 target->add_msg_player_or_npc( m_type,
                                                _( "The %s unsuccessfully attempts to pull your weapon away." ),
@@ -3235,7 +3239,7 @@ void mattack::rifle( monster *z, Creature *target )
 
 void mattack::frag( monster *z, Creature *target ) // This is for the bots, not a standalone turret
 {
-    const std::string ammo_type( "40mm_frag" );
+    const std::string ammo_type( "40x46mm_m433" );
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],

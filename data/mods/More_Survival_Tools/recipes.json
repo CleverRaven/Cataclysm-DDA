@@ -44,34 +44,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "resin_cord",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 24000,
-    "autolearn": true,
-    "batch_time_factors": [ 50, 5 ],
-    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "bone", 10 ], [ "cured_hide", 2 ], [ "pine_bough", 2 ], [ "raw_dandelion", 10 ], [ "slime_scrap", 1 ] ],
-      [
-        [ "rag", 1 ],
-        [ "felt_patch", 1 ],
-        [ "cordage_short", 2, "LIST" ],
-        [ "plant_fibre", 50 ],
-        [ "sinew", 50 ],
-        [ "thread", 50 ],
-        [ "yarn", 50 ]
-      ]
-    ]
+    "components": [ [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ], [ "raw_hfur", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -171,7 +144,6 @@
   {
     "type": "recipe",
     "result": "plant_fibre",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -182,7 +154,6 @@
   },
   {
     "type": "recipe",
-    "override": true,
     "result": "bearing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -211,33 +182,6 @@
     "book_learn": [ [ "textbook_fabrication", 1 ] ],
     "tools": [ [ [ "press", -1 ], [ "material_sand", -1 ], [ "clay_lump", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "lead", 60 ], [ "gold_small", 60 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "bolt_bone",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "survival", 1 ] ],
-    "difficulty": 2,
-    "time": 12500,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "bone", 5 ], [ "bone_human", 5 ], [ "bone_tainted", 10 ] ],
-      [
-        [ "feather", 10 ],
-        [ "duct_tape", 40 ],
-        [ "paper", 40 ],
-        [ "bag_plastic", 1 ],
-        [ "bottle_plastic_small", 1 ],
-        [ "box_small", 1 ],
-        [ "plastic_chunk", 1 ],
-        [ "aluminum_foil", 40 ],
-        [ "cash_card", 2 ]
-      ]
-    ]
   },
   {
     "type": "recipe",

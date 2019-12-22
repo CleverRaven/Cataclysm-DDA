@@ -14,7 +14,7 @@
     "type": "npc_class",
     "id": "afs_prepnet_gardener",
     "name": "Gardener",
-    "job_description": "When the end came, we were ready. Now I grow food for my phyle.",
+    "job_description": "When the end came, we were ready.  Now I grow food for my phyle.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },

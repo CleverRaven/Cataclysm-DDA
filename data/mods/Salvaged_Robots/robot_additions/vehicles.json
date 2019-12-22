@@ -326,7 +326,7 @@
         "y": 1,
         "part": "mounted_mk19",
         "ammo": 60,
-        "ammo_types": [ "40mm_frag", "40mm_concussive", "40mm_emp" ],
+        "ammo_types": [ "40x46mm_m433", "40mm_emp" ],
         "ammo_qty": [ 1, 25 ]
       },
       { "x": -1, "y": 2, "part": "hdframe_horizontal_2" },

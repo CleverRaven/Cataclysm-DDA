@@ -4,7 +4,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm> //std::min
-#include <sstream>
 #include <array>
 #include <iterator>
 #include <list>
@@ -1325,6 +1324,7 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1337,6 +1337,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1348,6 +1352,10 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -1400,6 +1408,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 break;
         }
     }
+    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_id( "NOPAIN" ) ) ) {
@@ -1412,6 +1421,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 3:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
@@ -1425,6 +1438,10 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
         case 5:
             for( const body_part &bp : all_body_parts ) {
                 if( has_effect( effect_under_op, bp ) ) {
+                    if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                        continue;
+                    }
+                    bp_hurt.emplace( mutate_to_main_part( bp ) );
                     patient.apply_damage( this, bp, rng( 30, 80 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -1657,14 +1674,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
 
     int success = chance_of_success - rng( 1, 100 );
-
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -1905,14 +1915,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
-
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
@@ -2016,6 +2019,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
+        std::set<body_part> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2030,6 +2034,10 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
             case 3:
                 for( const body_part &bp : all_body_parts ) {
                     if( has_effect( effect_under_op, bp ) ) {
+                        if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
+                            continue;
+                        }
+                        bp_hurt.emplace( mutate_to_main_part( bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );
@@ -2086,16 +2094,15 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     if( bio_id->occupied_bodyparts.empty() ) {
         return "";
     }
-    std::ostringstream desc;
-    desc << intro;
+    std::string desc = intro;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
-        desc << ( each_bp_on_new_line ? "\n" : " " );
+        desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
-        desc << string_format( _( "%s (%i slots);" ),
+        desc += string_format( _( "%s (%i slots);" ),
                                body_part_name_as_heading( elem.first, 1 ),
                                elem.second );
     }
-    return desc.str();
+    return desc;
 }
 
 int player::get_used_bionics_slots( const body_part bp ) const
@@ -2310,30 +2317,22 @@ void load_bionic( const JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsr = jsobj.get_array( "stat_bonus" );
-    while( jsr.has_more() ) {
-        JsonArray ja = jsr.next_array();
+    for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
         new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    while( jsar.has_more() ) {
-        JsonArray ja = jsar.next_array();
+    for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
         new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
     }
 
-    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    while( jsarr.has_more() ) {
-        JsonArray ja = jsarr.next_array();
+    for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
         new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                                ja.get_int( 1 ) );
     }
 
-    JsonArray json_arr = jsobj.get_array( "env_protec" );
-    while( json_arr.has_more() ) {
-        JsonArray ja = json_arr.next_array();
+    for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
@@ -2531,9 +2530,8 @@ void bionic::deserialize( JsonIn &jsin )
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
-        JsonArray jsar = jo.get_array( "bionic_tags" );
-        while( jsar.has_more() ) {
-            bionic_tags.insert( jsar.next_string() );
+        for( const std::string &line : jo.get_array( "bionic_tags" ) ) {
+            bionic_tags.insert( line );
         }
     }
 
@@ -2564,10 +2562,10 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
-                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you." ) );
         }
     }
 

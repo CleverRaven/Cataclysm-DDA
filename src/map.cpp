@@ -1247,7 +1247,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     const furn_t &new_t = new_furniture.obj();
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
-    if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
+    if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
@@ -1960,7 +1960,7 @@ void map::drop_furniture( const tripoint &p )
     if( frn_obj.has_flag( "TINY" ) || frn_obj.has_flag( "NOCOLLIDE" ) ) {
         weight = 5;
     } else {
-        weight = frn_obj.move_str_req >= 0 ? frn_obj.move_str_req : 20;
+        weight = frn_obj.is_movable() ? frn_obj.move_str_req : 20;
     }
 
     if( frn_obj.has_flag( "ROUGH" ) || frn_obj.has_flag( "SHARP" ) ) {
@@ -4380,7 +4380,9 @@ void map::process_items( const bool active, map::map_process_func processor,
             process_items_in_vehicles( *current_submap, pos.z, processor, signal );
         }
     }
-    for( const tripoint &abs_pos : submaps_with_active_items ) {
+    // Making a copy, in case the original variable gets modified during `process_items_in_submap`
+    const std::set<tripoint> submaps_with_active_items_copy = submaps_with_active_items;
+    for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
         if( !active || !current_submap->active_items.empty() ) {
@@ -5728,7 +5730,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
 
-    if( !check_and_set_seen_cache( p ) ) {
+    if( check_and_set_seen_cache( p ) ) {
         g->u.memorize_symbol( getabs( p ), memory_sym );
     }
 

@@ -137,24 +137,6 @@ void material_type::check() const
     }
 }
 
-int material_type::dam_resist( damage_type damtype ) const
-{
-    switch( damtype ) {
-        case DT_BASH:
-            return _bash_resist;
-        case DT_CUT:
-            return _cut_resist;
-        case DT_ACID:
-            return _acid_resist;
-        case DT_ELECTRIC:
-            return _elec_resist;
-        case DT_HEAT:
-            return _fire_resist;
-        default:
-            return 0;
-    }
-}
-
 material_id material_type::ident() const
 {
     return id;

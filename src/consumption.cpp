@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <limits>
-#include <sstream>
 #include <tuple>
 #include <cmath>
 
@@ -248,6 +247,21 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
             fun *= ( 1.0f - rottedness );
         } else {
             fun *= ( 1.0f + rottedness );
+        }
+    }
+
+    // Food is less enjoyable when eaten too often.
+    if( fun > 0 || comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+        for( const consumption_event &event : consumption_history ) {
+            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                event.component_hash == comest.make_component_hash() ) {
+                fun -= comest.get_comestible()->monotony_penalty;
+                // This effect can't drop fun below 0, unless the food has the right flag.
+                if( fun <= 0 && !comest.has_flag( "NEGATIVE_MONOTONY_OK" ) ) {
+                    fun = 0;
+                    break; // 0 is the lowest we'll go, no need to keep looping.
+                }
+            }
         }
     }
 
@@ -574,23 +588,23 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         if( !interactive ) {
             return consequences.front();
         }
-        std::ostringstream req;
+        std::string req;
         for( const auto &elem : consequences ) {
-            req << elem.str() << std::endl;
+            req += elem.str() + "\n";
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
         std::string food_tame = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == "FOOD" ) {
-            req << string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
         } else if( !eat_verb && comest->comesttype == "DRINK" ) {
-            req << string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
         } else {
-            req << string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
         }
 
-        if( !query_yn( req.str() ) ) {
+        if( !query_yn( req ) ) {
             return consequences.front();
         }
     }
@@ -920,6 +934,13 @@ bool player::eat( item &food, bool force )
     if( will_vomit ) {
         vomit();
     }
+
+    consumption_history.emplace_back( food );
+    // Clean out consumption_history so it doesn't get bigger than needed.
+    while( consumption_history.front().time < calendar::turn - 2_days ) {
+        consumption_history.pop_front();
+    }
+
     return true;
 }
 

@@ -2086,10 +2086,10 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     wield( locThisItem );
                     break;
                 case 't':
-                    avatar_action::plthrow( u, pos );
+                    avatar_action::plthrow( u, locThisItem );
                     break;
                 case 'c':
-                    change_side( pos );
+                    u.change_side( locThisItem );
                     break;
                 case 'T':
                     u.takeoff( oThisItem );
@@ -2098,7 +2098,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     u.drop( pos, u.pos() );
                     break;
                 case 'U':
-                    unload( pos );
+                    unload( oThisItem );
                     break;
                 case 'r':
                     reload( locThisItem );
@@ -2107,7 +2107,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     reload( locThisItem, true );
                     break;
                 case 'm':
-                    mend( pos );
+                    avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
                     u.read( oThisItem );
@@ -5334,13 +5334,13 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
+        item_location loc = game_menus::inv::titled_filter_menu( will_accept, u, _( "Use which item?" ) );
 
-        if( pos == INT_MIN ) {
+        if( !loc ) {
             add_msg( _( "Never mind" ) );
             return false;
         }
-        item &used = u.i_at( pos );
+        item &used = *loc;
         bool did_use = u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -5396,11 +5396,12 @@ static std::string get_fire_fuel_string( const tripoint &examp )
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
-            std::stringstream ss;
-            ss << _( "There is a fire here." ) << " ";
+            std::string ss;
+            ss += _( "There is a fire here." );
+            ss += " ";
             if( fire->get_field_intensity() > 1 ) {
-                ss << _( "It's too big and unpredictable to evaluate how long it will last." );
-                return ss.str();
+                ss += _( "It's too big and unpredictable to evaluate how long it will last." );
+                return ss;
             }
             time_duration fire_age = fire->get_field_age();
             // half-life inclusion
@@ -5408,47 +5409,47 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             mod = std::max( mod, 0 );
             if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
-                    ss << _( "It's going to go out soon without extra fuel." );
-                    return ss.str();
+                    ss += _( "It's going to go out soon without extra fuel." );
+                    return ss;
                 } else {
                     fire_age = 30_minutes - fire_age;
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ),
-                               to_string_approx( fire_age + fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ),
+                                  to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             } else {
                 fire_age = fire_age * -1 + 30_minutes;
                 if( mod >= 4 ) { // = survival level 0-1
                     if( fire_age <= 1_hours ) {
-                        ss << _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
-                        return ss.str();
+                        ss += _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
+                        return ss;
                     } else if( fire_age <= 3_hours ) {
-                        ss << _( "It looks solid, and will burn for a few hours without extra fuel." );
-                        return ss.str();
+                        ss += _( "It looks solid, and will burn for a few hours without extra fuel." );
+                        return ss;
                     } else {
-                        ss << _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
-                        return ss.str();
+                        ss += _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
+                        return ss;
                     }
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ),
                                              to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             }
         }
@@ -5671,7 +5672,8 @@ void game::peek( const tripoint &p )
     u.setpos( prev );
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        avatar_action::plthrow( u, INT_MIN, p );
+        item_location loc;
+        avatar_action::plthrow( u, loc, p );
     }
     m.invalidate_map_cache( p.z );
 
@@ -6553,7 +6555,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels();
+    const bool allow_zlev_move = m.has_zlevels() && get_option<bool>( "FOV_3D" );
 
     temp_exit_fullscreen();
 
@@ -7443,13 +7445,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             active_pos = iter->vIG[iThisPage].pos;
                             activeItem = &( *iter );
                         }
-                        std::stringstream sText;
+                        std::string sText;
                         if( iter->vIG.size() > 1 ) {
-                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                            sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
                         }
-                        sText << iter->example->tname();
+                        sText += iter->example->tname();
                         if( iter->vIG[iThisPage].count > 1 ) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                            sText += string_format( "[%d]", iter->vIG[iThisPage].count );
                         }
 
                         nc_color col = c_light_green;
@@ -7462,7 +7464,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                 col = iter->example->color_in_inventory();
                             }
                         }
-                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText.str() );
+                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
@@ -8336,20 +8338,6 @@ void game::butcher()
     }
 }
 
-void game::change_side( int pos )
-{
-    if( pos == INT_MIN ) {
-        pos = inv_for_filter( _( "Change side for item" ), [&]( const item & it ) {
-            return u.is_worn( it ) && it.is_sided();
-        }, _( "You don't have sided items worn." ) );
-    }
-    if( pos == INT_MIN ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    u.change_side( pos );
-}
-
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
@@ -8426,7 +8414,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+        int moves = opt.moves();
+        if( it->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+            moves += 2500;
+        }
+
+        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
         if( use_loc ) {
             u.activity.targets.emplace_back( loc );
         } else {
@@ -8515,55 +8509,6 @@ void game::reload_weapon( bool try_everything )
     }
 
     reload_item();
-}
-
-// Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
-void game::unload( int pos )
-{
-    item *it = nullptr;
-    item_location item_loc;
-
-    if( pos == INT_MIN ) {
-        item_loc = inv_map_splice( [&]( const item & it ) {
-            return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
-        it = item_loc.get_item();
-
-        if( it == nullptr ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-    } else {
-        it = &u.i_at( pos );
-        if( it->is_null() ) {
-            debugmsg( "Tried to unload non-existent item" );
-            return;
-        }
-        item_loc = item_location( u, it );
-    }
-
-    if( u.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            item_loc.remove_item();
-        }
-    }
-}
-
-void game::mend( int pos )
-{
-    if( pos == INT_MIN ) {
-        if( u.is_armed() ) {
-            pos = -1;
-        } else {
-            add_msg( m_info, _( "You're not wielding anything." ) );
-        }
-    }
-
-    item &obj = g->u.i_at( pos );
-    if( g->u.has_item( obj ) ) {
-        g->u.mend_item( item_location( g->u, &obj ) );
-    }
 }
 
 bool game::unload( item &it )
@@ -9365,7 +9310,7 @@ point game::place_player( const tripoint &dest_loc )
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = pos;
+                        u.activity.placement = g->m.getabs( pos );
                         u.activity.auto_resume = true;
                         u.activity.str_values.push_back( "auto_pulp_no_acid" );
                         return;
@@ -10268,6 +10213,11 @@ void game::vertical_move( int movez, bool force )
     } else {
         u.moves -= move_cost;
     }
+    for( const auto &np : npcs_to_bring ) {
+        if( np->in_vehicle ) {
+            g->m.unboard_vehicle( np->pos() );
+        }
+    }
     const tripoint old_pos = g->u.pos();
     point submap_shift;
     vertical_shift( z_after );
@@ -10298,7 +10248,6 @@ void game::vertical_move( int movez, bool force )
             [this, np]( const tripoint & c ) {
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
-
             if( found != candidates.end() ) {
                 // TODO: De-uglify
                 np->setpos( *found );
@@ -10607,6 +10556,10 @@ point game::update_map( int &x, int &y )
     if( shift == point_zero ) {
         // adjust player position
         u.setpos( tripoint( x, y, get_levz() ) );
+        // Update what parts of the world map we can see
+        // We need this call because even if the map hasn't shifted we may have changed z-level and can now see farther
+        // TODO: only make this call if we changed z-level
+        update_overmap_seen();
         // Not actually shifting the submaps, all the stuff below would do nothing
         return point_zero;
     }
@@ -10781,12 +10734,12 @@ void game::update_stair_monsters()
         critter.staircount -= 4;
         // Let the player know zombies are trying to come.
         if( u.sees( dest ) ) {
-            std::stringstream dump;
+            std::string dump;
             if( critter.staircount > 4 ) {
-                dump << string_format( _( "You see a %s on the stairs" ), critter.name() );
+                dump += string_format( _( "You see a %s on the stairs" ), critter.name() );
             } else {
                 if( critter.staircount > 0 ) {
-                    dump << ( from_below ?
+                    dump += ( from_below ?
                               //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                               string_format( _( "The %1$s is almost at the top of the %2$s!" ),
                                              critter.name(),
@@ -10797,7 +10750,7 @@ void game::update_stair_monsters()
                 }
             }
 
-            add_msg( m_warning, dump.str() );
+            add_msg( m_warning, dump );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
                            _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
@@ -11311,7 +11264,7 @@ void game::process_artifact( item &it, player &p )
                         if( calendar::once_every( 1_minutes ) ) {
                             add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
                             u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stat( "stamina", -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
+                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
                             it.charges++;
                         }
                         break;
