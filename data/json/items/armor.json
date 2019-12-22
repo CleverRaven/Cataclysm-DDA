@@ -8306,7 +8306,6 @@
     "color": "light_gray",
     "covers": [ "FEET" ],
     "coverage": 80,
-    "warmth": 0,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
