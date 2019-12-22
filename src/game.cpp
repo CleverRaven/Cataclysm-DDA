@@ -5396,11 +5396,12 @@ static std::string get_fire_fuel_string( const tripoint &examp )
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
         if( fire ) {
-            std::stringstream ss;
-            ss << _( "There is a fire here." ) << " ";
+            std::string ss;
+            ss += _( "There is a fire here." );
+            ss += " ";
             if( fire->get_field_intensity() > 1 ) {
-                ss << _( "It's too big and unpredictable to evaluate how long it will last." );
-                return ss.str();
+                ss += _( "It's too big and unpredictable to evaluate how long it will last." );
+                return ss;
             }
             time_duration fire_age = fire->get_field_age();
             // half-life inclusion
@@ -5408,47 +5409,47 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             mod = std::max( mod, 0 );
             if( fire_age >= 0_turns ) {
                 if( mod >= 4 ) { // = survival level 0-1
-                    ss << _( "It's going to go out soon without extra fuel." );
-                    return ss.str();
+                    ss += _( "It's going to go out soon without extra fuel." );
+                    return ss;
                 } else {
                     fire_age = 30_minutes - fire_age;
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format(
-                               _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
-                               to_string_approx( fire_age - fire_age * mod / 5 ),
-                               to_string_approx( fire_age + fire_age * mod / 5 ) );
+                        ss += string_format(
+                                  _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                                  to_string_approx( fire_age - fire_age * mod / 5 ),
+                                  to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             } else {
                 fire_age = fire_age * -1 + 30_minutes;
                 if( mod >= 4 ) { // = survival level 0-1
                     if( fire_age <= 1_hours ) {
-                        ss << _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
-                        return ss.str();
+                        ss += _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
+                        return ss;
                     } else if( fire_age <= 3_hours ) {
-                        ss << _( "It looks solid, and will burn for a few hours without extra fuel." );
-                        return ss.str();
+                        ss += _( "It looks solid, and will burn for a few hours without extra fuel." );
+                        return ss;
                     } else {
-                        ss << _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
-                        return ss.str();
+                        ss += _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
+                        return ss;
                     }
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss << string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
-                        ss << string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ),
                                              to_string_approx( fire_age + fire_age * mod / 5 ) );
                     }
-                    return ss.str();
+                    return ss;
                 }
             }
         }
@@ -7444,13 +7445,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             active_pos = iter->vIG[iThisPage].pos;
                             activeItem = &( *iter );
                         }
-                        std::stringstream sText;
+                        std::string sText;
                         if( iter->vIG.size() > 1 ) {
-                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                            sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
                         }
-                        sText << iter->example->tname();
+                        sText += iter->example->tname();
                         if( iter->vIG[iThisPage].count > 1 ) {
-                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                            sText += string_format( "[%d]", iter->vIG[iThisPage].count );
                         }
 
                         nc_color col = c_light_green;
@@ -7463,7 +7464,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                 col = iter->example->color_in_inventory();
                             }
                         }
-                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText.str() );
+                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
                         const int numw = iItemNum > 9 ? 2 : 1;
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
@@ -10749,12 +10750,12 @@ void game::update_stair_monsters()
         critter.staircount -= 4;
         // Let the player know zombies are trying to come.
         if( u.sees( dest ) ) {
-            std::stringstream dump;
+            std::string dump;
             if( critter.staircount > 4 ) {
-                dump << string_format( _( "You see a %s on the stairs" ), critter.name() );
+                dump += string_format( _( "You see a %s on the stairs" ), critter.name() );
             } else {
                 if( critter.staircount > 0 ) {
-                    dump << ( from_below ?
+                    dump += ( from_below ?
                               //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                               string_format( _( "The %1$s is almost at the top of the %2$s!" ),
                                              critter.name(),
@@ -10765,7 +10766,7 @@ void game::update_stair_monsters()
                 }
             }
 
-            add_msg( m_warning, dump.str() );
+            add_msg( m_warning, dump );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
                            _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );

@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <limits>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -307,65 +306,65 @@ template<typename T>
 std::string requirement_data::print_all_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer += _( " or " );
             }
-            buffer << it->to_string();
+            buffer += it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_all() const
 {
-    std::ostringstream buffer;
-    buffer << print_all_objs( _( "These tools are required:" ), tools );
-    buffer << print_all_objs( _( "These tools are required:" ), qualities );
-    buffer << print_all_objs( _( "These components are required:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_all_objs( _( "These tools are required:" ), tools );
+    buffer += print_all_objs( _( "These tools are required:" ), qualities );
+    buffer += print_all_objs( _( "These components are required:" ), components );
+    return buffer;
 }
 
 template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
-    std::ostringstream buffer;
+    std::string buffer;
     for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
-        if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+        if( !buffer.empty() ) {
+            buffer += std::string( "\n" ) + _( "and " );
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer += _( " or " );
             }
-            buffer << it->to_string();
+            buffer += it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if( buffer.empty() ) {
         return std::string();
     }
-    return header + "\n" + buffer.str() + "\n";
+    return header + "\n" + buffer + "\n";
 }
 
 std::string requirement_data::list_missing() const
 {
-    std::ostringstream buffer;
-    buffer << print_missing_objs( _( "These tools are missing:" ), tools );
-    buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "These components are missing:" ), components );
-    return buffer.str();
+    std::string buffer;
+    buffer += print_missing_objs( _( "These tools are missing:" ), tools );
+    buffer += print_missing_objs( _( "These tools are missing:" ), qualities );
+    buffer += print_missing_objs( _( "These components are missing:" ), components );
+    return buffer;
 }
 
 void quality_requirement::check_consistency( const std::string &display_name ) const

@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
-#include <sstream>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -2251,80 +2250,80 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
 std::string npc::opinion_text() const
 {
-    std::stringstream ret;
+    std::string ret;
     if( op_of_u.trust <= -10 ) {
-        ret << _( "Completely untrusting" );
+        ret += _( "Completely untrusting" );
     } else if( op_of_u.trust <= -6 ) {
-        ret << _( "Very untrusting" );
+        ret += _( "Very untrusting" );
     } else if( op_of_u.trust <= -3 ) {
-        ret << _( "Untrusting" );
+        ret += _( "Untrusting" );
     } else if( op_of_u.trust <= 2 ) {
-        ret << _( "Uneasy" );
+        ret += _( "Uneasy" );
     } else if( op_of_u.trust <= 4 ) {
-        ret << _( "Trusting" );
+        ret += _( "Trusting" );
     } else if( op_of_u.trust < 10 ) {
-        ret << _( "Very trusting" );
+        ret += _( "Very trusting" );
     } else {
-        ret << _( "Completely trusting" );
+        ret += _( "Completely trusting" );
     }
 
-    ret << " (" << _( "Trust: " ) << op_of_u.trust << "); ";
+    ret += string_format( _( " (Trust: %d); " ), op_of_u.trust );
 
     if( op_of_u.fear <= -10 ) {
-        ret << _( "Thinks you're laughably harmless" );
+        ret += _( "Thinks you're laughably harmless" );
     } else if( op_of_u.fear <= -6 ) {
-        ret << _( "Thinks you're harmless" );
+        ret += _( "Thinks you're harmless" );
     } else if( op_of_u.fear <= -3 ) {
-        ret << _( "Unafraid" );
+        ret += _( "Unafraid" );
     } else if( op_of_u.fear <= 2 ) {
-        ret << _( "Wary" );
+        ret += _( "Wary" );
     } else if( op_of_u.fear <= 5 ) {
-        ret << _( "Afraid" );
+        ret += _( "Afraid" );
     } else if( op_of_u.fear < 10 ) {
-        ret << _( "Very afraid" );
+        ret += _( "Very afraid" );
     } else {
-        ret << _( "Terrified" );
+        ret += _( "Terrified" );
     }
 
-    ret << " (" << _( "Fear: " ) << op_of_u.fear << "); ";
+    ret += string_format( _( " (Fear: %d); " ), op_of_u.fear );
 
     if( op_of_u.value <= -10 ) {
-        ret << _( "Considers you a major liability" );
+        ret += _( "Considers you a major liability" );
     } else if( op_of_u.value <= -6 ) {
-        ret << _( "Considers you a burden" );
+        ret += _( "Considers you a burden" );
     } else if( op_of_u.value <= -3 ) {
-        ret << _( "Considers you an annoyance" );
+        ret += _( "Considers you an annoyance" );
     } else if( op_of_u.value <= 2 ) {
-        ret << _( "Doesn't care about you" );
+        ret += _( "Doesn't care about you" );
     } else if( op_of_u.value <= 5 ) {
-        ret << _( "Values your presence" );
+        ret += _( "Values your presence" );
     } else if( op_of_u.value < 10 ) {
-        ret << _( "Treasures you" );
+        ret += _( "Treasures you" );
     } else {
-        ret << _( "Best Friends Forever!" );
+        ret += _( "Best Friends Forever!" );
     }
 
-    ret << " (" << _( "Value: " ) << op_of_u.value << "); ";
+    ret += string_format( _( " (Value: %d); " ), op_of_u.value );
 
     if( op_of_u.anger <= -10 ) {
-        ret << _( "You can do no wrong!" );
+        ret += _( "You can do no wrong!" );
     } else if( op_of_u.anger <= -6 ) {
-        ret << _( "You're good people" );
+        ret += _( "You're good people" );
     } else if( op_of_u.anger <= -3 ) {
-        ret << _( "Thinks well of you" );
+        ret += _( "Thinks well of you" );
     } else if( op_of_u.anger <= 2 ) {
-        ret << _( "Ambivalent" );
+        ret += _( "Ambivalent" );
     } else if( op_of_u.anger <= 5 ) {
-        ret << _( "Pissed off" );
+        ret += _( "Pissed off" );
     } else if( op_of_u.anger < 10 ) {
-        ret << _( "Angry" );
+        ret += _( "Angry" );
     } else {
-        ret << _( "About to kill you" );
+        ret += _( "About to kill you" );
     }
 
-    ret << " (" << _( "Anger: " ) << op_of_u.anger << ")";
+    ret += string_format( _( " (Anger: %d)" ), op_of_u.anger );
 
-    return ret.str();
+    return ret;
 }
 
 static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
@@ -3047,34 +3046,34 @@ mfaction_id npc::get_monster_faction() const
 
 std::string npc::extended_description() const
 {
-    std::ostringstream ss;
+    std::string ss;
     // For some reason setting it using str or constructor doesn't work
-    ss << Character::extended_description();
+    ss += Character::extended_description();
 
-    ss << std::endl << "--" << std::endl;
+    ss += "\n--\n";
     if( attitude == NPCATT_KILL ) {
-        ss << _( "Is trying to kill you." );
+        ss += _( "Is trying to kill you." );
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
-        ss << _( "Is trying to flee from you." );
+        ss += _( "Is trying to flee from you." );
     } else if( is_player_ally() ) {
-        ss << _( "Is your friend." );
+        ss += _( "Is your friend." );
     } else if( is_following() ) {
-        ss << _( "Is following you." );
+        ss += _( "Is following you." );
     } else if( is_leader() ) {
-        ss << _( "Is guiding you." );
+        ss += _( "Is guiding you." );
     } else if( guaranteed_hostile() ) {
-        ss << _( "Will try to kill you or flee from you if you reveal yourself." );
+        ss += _( "Will try to kill you or flee from you if you reveal yourself." );
     } else {
-        ss << _( "Is neutral." );
+        ss += _( "Is neutral." );
     }
 
     if( hit_by_player ) {
-        ss << "--" << std::endl;
-        ss << _( "Is still innocent and killing them will be considered murder." );
+        ss += "--\n";
+        ss += _( "Is still innocent and killing them will be considered murder." );
         // TODO: "But you don't care because you're an edgy psycho"
     }
 
-    return replace_colors( ss.str() );
+    return replace_colors( ss );
 }
 
 void npc::set_companion_mission( npc &p, const std::string &mission_id )
