@@ -809,7 +809,7 @@
     "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",
-    "weight": 318,
+    "weight": "318 g",
     "symbol": ")",
     "price": 600,
     "price_postapoc": 5
@@ -820,7 +820,7 @@
     "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
     "type": "GENERIC",
     "volume": "500 ml",
-    "weight": 357,
+    "weight": "357 g",
     "symbol": ")",
     "price": 600,
     "price_postapoc": 5

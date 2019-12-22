@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "name": "donut holes",
     "name_plural": "donut holes",
-    "weight": 226,
+    "weight": "226 g",
     "color": "yellow",
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
