@@ -1587,9 +1587,9 @@ class vehicle
         std::vector<item_count_tuple> get_comestible_liquids();
         item_count_tuple select_comestible_liquid( const std::vector<item_count_tuple> &comestible_liquids,
                 const std::string &message );
-        void use_fill_container( const item *comestible_liquid, bool has_hotplate,
+        void use_fill_container( const item *comestible_ptr, bool has_hotplate,
                                  bool has_freezer );
-        void use_faucet( const item *comestible_liquid, bool has_hotplate, bool has_freezer );
+        void use_faucet( const item *comestible_ptr, bool has_hotplate, bool has_freezer );
 
         void interact_with( const tripoint &pos, int interact_part );
 

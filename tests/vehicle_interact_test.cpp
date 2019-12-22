@@ -229,5 +229,5 @@ TEST_CASE( "water faucet offers comestible liquids", "[water_faucet]" )
     REQUIRE( item_pine_tea.charges == 0 );
 
     liquids = veh_ptr->get_comestible_liquids();
-    REQUIRE( liquids.size() == 0 );
+    REQUIRE( liquids.empty() );
 }

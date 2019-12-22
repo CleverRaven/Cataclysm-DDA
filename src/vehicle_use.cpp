@@ -1821,10 +1821,10 @@ item_count_tuple vehicle::select_comestible_liquid( const std::vector<item_count
     return item_count_tuple( nullptr, 0 );
 }
 
-void vehicle::use_fill_container( const item *comestibale_ptr, bool, bool )
+void vehicle::use_fill_container( const item *comestible_ptr, bool, bool )
 {
-    if( comestibale_ptr && comestibale_ptr->is_comestible() ) {
-        itype_id liquid_id = comestibale_ptr->typeId();
+    if( comestible_ptr && comestible_ptr->is_comestible() ) {
+        itype_id liquid_id = comestible_ptr->typeId();
 
         g->u.siphon( *this, liquid_id );
     }
