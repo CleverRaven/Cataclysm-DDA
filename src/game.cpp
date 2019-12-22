@@ -5946,9 +5946,13 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                    _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
+
+        std::vector<nc_color> obj_color;
         std::map<std::string, int> item_names;
+        int counter = 0;
         for( auto &item : m.i_at( lp ) ) {
             ++item_names[item.tname()];
+            obj_color.push_back(item.color_in_inventory());
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
@@ -5963,8 +5967,9 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
                                 it.first.c_str(), it.second );
             } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, c_white, it.first );
+                trim_and_print( w_look, point( column, ++line ), max_width, obj_color[counter], it.first );
             }
+            counter++;
         }
     }
 }
