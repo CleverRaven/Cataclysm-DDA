@@ -1018,7 +1018,11 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     // you must wield the item to throw it
     if( !you.is_wielding( *orig ) ) {
-        you.wield( *orig );
+        if( you.wield( *orig ) ) {
+            orig = &you.weapon;
+        } else {
+            return;
+        }
     }
 
     // Shift our position to our "peeking" position, so that the UI
@@ -1036,7 +1040,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, orig,
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode,
+                                       &you.weapon,
                                        range );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1048,7 +1053,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( orig->count_by_charges() && orig->charges > 1 ) {
+    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
         you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
