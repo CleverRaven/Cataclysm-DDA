@@ -1674,14 +1674,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     }
 
     int success = chance_of_success - rng( 1, 100 );
-
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
@@ -1922,14 +1915,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( is_npc() ) {
-        static_cast<npc *>( this )->set_attitude( NPCATT_ACTIVITY );
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-        static_cast<npc *>( this )->set_mission( NPC_MISSION_ACTIVITY );
-    } else {
-        assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
-    }
-
+    assign_activity( activity_id( "ACT_OPERATION" ), to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
     activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );

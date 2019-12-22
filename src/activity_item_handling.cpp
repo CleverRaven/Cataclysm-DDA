@@ -2773,13 +2773,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
-
     // Nuke the current activity, leaving the backlog alone
     p.activity = player_activity();
     // now we setup the target spots based on whch activity is occuring
     // the set of target work spots - potentally after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
-
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
@@ -2866,13 +2864,6 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         // tidy up leftover moved parts and tools left lying near the work spots.
         if( player_activity( activity_to_restore ).is_multi_type() ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
-            if( p.is_npc() ) {
-                npc *guy = dynamic_cast<npc *>( &p );
-                if( guy ) {
-                    guy->set_attitude( NPCATT_ACTIVITY );
-                    guy->set_mission( NPC_MISSION_ACTIVITY );
-                }
-            }
         }
     }
     p.activity_vehicle_part_index = -1;

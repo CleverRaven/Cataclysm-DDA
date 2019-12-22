@@ -983,8 +983,6 @@ void npc::start_read( item &chosen, player *pl )
         act.str_values.emplace_back( "martial_art" );
     }
     assign_activity( act );
-    set_attitude( NPCATT_ACTIVITY );
-    set_mission( NPC_MISSION_ACTIVITY );
 }
 
 void npc::do_npc_read()
