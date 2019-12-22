@@ -882,7 +882,7 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
         } );
     } else {
         const std::string query = _( "Place npc where?" );
-        target_pos = choose_adjacent( query );
+        target_pos = choose_adjacent( _( "Place npc where?" ) );
         if( !target_pos ) {
             return 0;
         }
@@ -893,7 +893,7 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
     }
 
     g->m.place_npc( target_pos.value().xy(), npc_class_id );
-    p.moves -= moves;
+    p.mod_moves( -moves );
     p.add_msg_if_player( m_info, "%s", _( summon_msg ) );
     return 1;
 }

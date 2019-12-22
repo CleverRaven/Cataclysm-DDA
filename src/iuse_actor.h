@@ -15,7 +15,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
-#include "npc.h"
+class npc_template;
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
