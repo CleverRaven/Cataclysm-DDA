@@ -131,7 +131,7 @@
     "category": "veh_parts",
     "name": "Rubber Caterpillar Track",
     "description": "A short, interlocking set of hard rubber tracks reinforced by stiff wire held in place by a set of smaller wheels.  Similar with what you might see used on light construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is quite heavy.",
-    "weight": "32368.000000000004 g",
+    "weight": "32368 g",
     "volume": "50 L",
     "price": 25500,
     "to_hit": -3,
