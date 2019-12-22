@@ -1279,6 +1279,24 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "socks_ankle",
+    "type": "ARMOR",
+    "name": "pair of ankle socks",
+    "name_plural": "pairs of ankle socks",
+    "description": "Short socks, commonly used for sports.  These are designed to protect your feet from friction, not temperature",
+    "weight": "25 g",
+    "volume": "200 ml",
+    "price": 100,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "socks",
+    "color": "light_gray",
+    "covers": [ "FEET" ],
+    "coverage": 80,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
     "id": "socks_bag",
     "type": "ARMOR",
     "name": "pair of bag socks",
