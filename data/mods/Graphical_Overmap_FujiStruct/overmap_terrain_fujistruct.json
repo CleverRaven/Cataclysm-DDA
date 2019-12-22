@@ -2,297 +2,253 @@
   {
     "type": "overmap_terrain",
     "id": "s_electronicstore",
-    "name": "electronics store",
-    "sym": "ç",
-    "color": "yellow"
+    "copy-from": "s_electronicstore",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_electronicstore_2ndfloor",
-    "name": "electronics store",
     "copy-from": "s_electronicstore"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gunstore",
-    "name": "gun store",
-    "sym": "ç",
-    "color": "red"
+    "copy-from": "s_gunstore",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gunstore_2ndfloor",
-    "name": "gun store",
     "copy-from": "s_gunstore"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gunstore_roof",
-    "name": "gun store",
     "copy-from": "s_gunstore"
   },
   {
     "type": "overmap_terrain",
     "id": "s_diner",
-    "name": "diner",
-    "sym": "ç",
-    "color": "green"
+    "copy-from": "s_diner",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_diner_2ndfloor",
-    "name": "diner",
     "copy-from": "s_diner"
   },
   {
     "type": "overmap_terrain",
     "id": "s_diner_roof",
-    "name": "diner",
     "copy-from": "s_diner"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt",
-    "name": "apartment",
-    "sym": "Ç",
-    "color": "light_green"
+    "copy-from": "s_apt",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2ndfloor",
-    "name": "apartment",
     "copy-from": "s_apt"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_roof",
-    "name": "apartment",
     "copy-from": "s_apt"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2",
-    "name": "apartment",
-    "sym": "Ç",
-    "color": "light_green"
+    "copy-from": "s_apt_2",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2_2ndfloor",
-    "name": "apartment",
     "copy-from": "s_apt_2"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2_roof",
-    "name": "apartment",
     "copy-from": "s_apt_2"
   },
   {
     "type": "overmap_terrain",
     "id": "s_cardealer",
-    "name": "dealership",
-    "sym": "ç",
-    "color": "blue"
+    "copy-from": "s_cardealer",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_cardealer_roof",
-    "name": "dealership",
     "copy-from": "s_cardealer"
   },
   {
     "type": "overmap_terrain",
     "id": "s_camping",
-    "name": "outdoorsman's store",
-    "sym": "ç",
-    "color": "brown"
+    "copy-from": "s_camping",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_camping_roof",
-    "name": "outdoorsman's store",
     "copy-from": "s_camping"
   },
   {
     "type": "overmap_terrain",
     "id": "s_games",
-    "name": "gaming store",
-    "sym": "ç",
-    "color": "cyan"
+    "copy-from": "s_games",
+    "sym": "ç"
   },
   {
     "type": "overmap_terrain",
     "id": "s_games_roof",
-    "name": "gaming store",
     "copy-from": "s_games"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_term",
-    "name": "airport",
-    "sym": "ô",
-    "color": "i_cyan"
+    "copy-from": "s_air_term",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_parking",
-    "name": "airport",
-    "sym": "ô",
-    "color": "i_cyan"
+    "copy-from": "s_air_parking",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc",
-    "name": "airport",
-    "sym": "ô",
-    "color": "i_cyan"
+    "copy-from": "s_air_atc",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_2",
-    "name": "airport",
-    "sym": "ô",
-    "color": "i_cyan"
+    "copy-from": "s_air_atc_2",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_3",
-    "name": "airport",
-    "sym": "ô",
-    "color": "i_cyan"
+    "copy-from": "s_air_atc_3",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_hangars",
-    "name": "airport",
-    "sym": "ý",
-    "color": "i_cyan"
+    "copy-from": "s_air_hangars",
+    "sym": "ý"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway",
-    "name": "runway",
-    "sym": "ô",
-    "color": "blue"
+    "copy-from": "s_air_runway",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_hangars",
-    "name": "runway",
-    "sym": "ô",
-    "color": "blue"
+    "copy-from": "s_air_runway_hangars",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_l",
-    "name": "runway",
-    "sym": "ô",
-    "color": "blue"
+    "copy-from": "s_air_runway_l",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_r",
-    "name": "runway",
-    "sym": "ô",
-    "color": "blue"
+    "copy-from": "s_air_runway_r",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_term",
-    "name": "runway",
-    "sym": "ô",
-    "color": "blue"
+    "copy-from": "s_air_runway_term",
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_0",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "dark_gray"
+    "copy-from": "s_lightindustry_road_0",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_1",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "dark_gray"
+    "copy-from": "s_lightindustry_road_1",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_00",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "light_blue"
+    "copy-from": "s_lightindustry_00",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_01",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "light_blue"
+    "copy-from": "s_lightindustry_01",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_10",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "light_blue"
+    "copy-from": "s_lightindustry_10",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_11",
-    "name": "light industry",
-    "sym": "Ö",
-    "color": "light_blue"
+    "copy-from": "s_lightindustry_11",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g1",
-    "name": "gas station",
-    "sym": "ú",
-    "color": "light_blue"
+    "copy-from": "s_gas_g1",
+    "sym": "ú"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g0",
-    "name": "gas station",
-    "sym": "ú",
-    "color": "light_blue"
+    "copy-from": "s_gas_g0",
+    "sym": "ú"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b11",
-    "name": "reception",
-    "sym": "ú",
-    "color": "red"
+    "copy-from": "s_gas_b11",
+    "sym": "ú"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b20",
-    "name": "bunker",
-    "sym": "Õ",
-    "color": "red"
+    "copy-from": "s_gas_b20",
+    "sym": "Õ"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b21",
-    "name": "bunker",
-    "sym": "Õ",
-    "color": "red"
+    "copy-from": "s_gas_b21",
+    "sym": "Õ"
   },
   {
     "type": "overmap_terrain",
     "id": "s_bunker_shop_g",
-    "name": "derelict property",
-    "sym": "à",
-    "color": "white"
+    "copy-from": "s_bunker_shop_g",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "s_bunker_shop_b",
-    "name": "scavenger bunker",
-    "sym": "Õ",
-    "color": "light_green"
+    "copy-from": "s_bunker_shop_b",
+    "sym": "Õ"
   }
 ]

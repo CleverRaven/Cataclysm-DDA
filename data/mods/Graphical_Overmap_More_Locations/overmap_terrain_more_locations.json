@@ -2,1730 +2,1483 @@
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1gate",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "bandit_tower_1gate",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1ybe",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "bandit_tower_1ybe",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yle",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "bandit_tower_1yle",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yre",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "bandit_tower_1yre",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1yte",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "bandit_tower_1yte",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cyblc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1cyblc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cybrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1cybrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cytlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1cytlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1cytrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1cytrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_1trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_1trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_2blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_2brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_2tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_2trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_2trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_3blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_3brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_3tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_3trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_3trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_4blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_4brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_4tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_4trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_4trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_ublc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_ublc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_ubrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_ubrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_utlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_utlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "bandit_tower_utrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "bandit_tower_utrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_umid",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_umid",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ube",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_ube",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ule",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_ule",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ure",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_ure",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_ute",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_ute",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_mid",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_mid",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1be",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1be",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1bloc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1bloc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1broc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1broc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1by",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1by",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1ica",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1ica",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icb",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1icb",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1icc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1icd",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1icd",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1le",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1le",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1re",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1re",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1te",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1te",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1tloc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1tloc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1troc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1troc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_1ty",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_1ty",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2be",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2be",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2bloc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2bloc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2broc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2broc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2ica",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2ica",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icb",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2icb",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2icc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2icd",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2icd",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2le",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2le",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2re",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2re",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2te",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2te",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2tloc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2tloc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "estate_2troc",
-    "name": "mansion",
-    "sym": "Ð",
-    "color": "i_light_green"
+    "copy-from": "estate_2troc",
+    "sym": "Ð"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_tlc",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_tlc",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_te",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_te",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_trc",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_trc",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_le",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_le",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_mid",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_mid",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_re",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_re",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_blc",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_blc",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_be",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_be",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_be_gate",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_be_gate",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "factory_brc",
-    "name": "factory",
-    "sym": "Ö",
-    "color": "i_black"
+    "copy-from": "factory_brc",
+    "sym": "Ö"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ytlc",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_ytlc",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yte",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_yte",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ytrc",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_ytrc",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yle",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_yle",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yre",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_yre",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_yblc",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_yblc",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ybe",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_ybe",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ybe_gate",
-    "name": "gate",
-    "sym": ".",
-    "color": "white"
+    "copy-from": "mil_outpost_ybe_gate",
+    "sym": "."
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ybrc",
-    "name": "mine field",
-    "sym": "¨",
-    "color": "brown"
+    "copy-from": "mil_outpost_ybrc",
+    "sym": "¨"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1tlc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1tlc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1te",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1te",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1trc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1trc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1le",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1le",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1mid",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1mid",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1re",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1re",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1blc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1blc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1be",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1be",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_1brc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_1brc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2tlc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2tlc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2te",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2te",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2trc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2trc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2le",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2le",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2re",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2re",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2blc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2blc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2be",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2be",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_2brc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_2brc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_3c",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_3c",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utlc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_utlc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utea",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_utea",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_uteb",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_uteb",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_utrc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_utrc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ule",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ule",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_umid",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_umid",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_umid_finale",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "red_white"
+    "copy-from": "mil_outpost_umid_finale",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ure",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ure",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ublc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ublc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubea",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ubea",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubeb",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ubeb",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "mil_outpost_ubrc",
-    "name": "military outpost",
-    "sym": "Å",
-    "color": "i_red"
+    "copy-from": "mil_outpost_ubrc",
+    "sym": "Å"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyA_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyA_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyA_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyA_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyA_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyA_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyB_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyB_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyB_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyB_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyB_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyB_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyC_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyC_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyC_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyC_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyC_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyC_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyD_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyD_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyD_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyD_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyD_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyD_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyE_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyE_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyE_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyE_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyE_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyE_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyF_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyF_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_third",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "3storyF_third",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyF_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "3storyF_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "3storyF_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyA_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyA_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyA_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyA_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyA_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyB_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyB_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyB_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyB_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyB_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyC_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyC_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyC_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyC_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyC_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyD_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyD_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyD_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyD_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyD_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyE_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyE_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyE_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyE_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyE_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyF_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "2storyF_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyF_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "2storyF_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "2storyF_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseA_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseA_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseA_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseA_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseA_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageA_first",
-    "name": "attached garage",
-    "sym": "^",
-    "color": "light_green"
+    "copy-from": "combogarageA_first",
+    "sym": "^"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageA_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combogarageA_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageA_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "magenta_white"
+    "copy-from": "combogarageA_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseB_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseB_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseB_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseB_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseB_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageB_first",
-    "name": "attached garage",
-    "sym": "^",
-    "color": "light_green"
+    "copy-from": "combogarageB_first",
+    "sym": "^"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageB_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combogarageB_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageB_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "magenta_white"
+    "copy-from": "combogarageB_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_first",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseC_first",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combohouseC_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_basement",
-    "name": "house basement",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseC_basement",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combohouseC_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "dark_gray"
+    "copy-from": "combohouseC_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageC_first",
-    "name": "attached garage",
-    "sym": "^",
-    "color": "light_green"
+    "copy-from": "combogarageC_first",
+    "sym": "^"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageC_second",
-    "name": "house",
-    "sym": "à",
-    "color": "light_green"
+    "copy-from": "combogarageC_second",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "combogarageC_roof",
-    "name": "house roof",
-    "sym": "à",
-    "color": "magenta_white"
+    "copy-from": "combogarageC_roof",
+    "sym": "à"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1gate",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "refugee_tower_1gate",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1ybe",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "refugee_tower_1ybe",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yle",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "refugee_tower_1yle",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yre",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "refugee_tower_1yre",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1yte",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "refugee_tower_1yte",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cyblc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1cyblc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cybrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1cybrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cytlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1cytlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1cytrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1cytrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_1trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_1trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_2blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_2brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_2tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_2trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_2trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_3blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_3brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_3tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_3trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_3trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_4blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_4brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_4tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_4trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_4trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_5blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_5brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_5tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_5trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_5trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_ublc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_ublc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_ubrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_ubrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_utlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_utlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "refugee_tower_utrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "refugee_tower_utrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1gate",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "tri_tower_1gate",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1ybe",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "tri_tower_1ybe",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yle",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "tri_tower_1yle",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yre",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "tri_tower_1yre",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1yte",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "brown"
+    "copy-from": "tri_tower_1yte",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cyblc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1cyblc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cybrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1cybrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cytlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1cytlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1cytrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1cytrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_1trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_1trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_2blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_2brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_2tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_2trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_2trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_3blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_3brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_3tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_3trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_3trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4blc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_4blc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4brc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_4brc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4tlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_4tlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_4trc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_4trc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_ublc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_ublc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_ubrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_ubrc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_utlc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_utlc",
+    "sym": "Ç"
   },
   {
     "type": "overmap_terrain",
     "id": "tri_tower_utrc",
-    "name": "apartment towers",
-    "sym": "Ç",
-    "color": "i_light_green"
+    "copy-from": "tri_tower_utrc",
+    "sym": "Ç"
   }
 ]
