@@ -3806,6 +3806,11 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint>
 // Print monster info to the given window
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &unique_types = mon_visible.unique_types;
+    const auto &unique_mons = mon_visible.unique_mons;
+    const auto &dangerous = mon_visible.dangerous;
+
     const int width = getmaxx( w ) - 2 * hor_padding;
     const int maxheight = getmaxy( w );
 
@@ -3934,12 +3939,19 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
 void game::mon_info_update( )
 {
     int newseen = 0;
-    const int iProxyDist = ( get_option<int>( "SAFEMODEPROXIMITY" ) <= 0 ) ? MAX_VIEW_DISTANCE :
-                           get_option<int>( "SAFEMODEPROXIMITY" );
+    const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
+    const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
+                           safe_proxy_dist;
+
+    monster_visible_info &mon_visible = u.get_mon_visible();
+    auto &new_seen_mon = mon_visible.new_seen_mon;
+    auto &unique_types = mon_visible.unique_types;
+    auto &unique_mons = mon_visible.unique_mons;
+    auto &dangerous = mon_visible.dangerous;
+
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-
     for( auto &t : unique_types ) {
         t.clear();
     }
@@ -3948,7 +3960,7 @@ void game::mon_info_update( )
     }
     std::fill( dangerous, dangerous + sizeof( dangerous ), false );
 
-    tripoint view = u.pos() + u.view_offset;
+    const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
     static int previous_turn = 0;
@@ -3956,10 +3968,10 @@ void game::mon_info_update( )
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
-    for( auto &c : u.get_visible_creatures( MAPSIZE_X ) ) {
-        const auto m = dynamic_cast<monster *>( c );
-        const auto p = dynamic_cast<npc *>( c );
-        const auto dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
+    for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
+        monster *m = dynamic_cast<monster *>( c );
+        npc *p = dynamic_cast<npc *>( c );
+        const direction dir_to_mon = direction_from( view.xy(), point( c->posx(), c->posy() ) );
         const int mx = POSX + ( c->posx() - view.x );
         const int my = POSY + ( c->posy() - view.y );
         int index = 8;
@@ -4020,7 +4032,7 @@ void game::mon_info_update( )
 
         if( m != nullptr ) {
             //Safemode monster check
-            auto &critter = *m;
+            monster &critter = *m;
 
             const monster_attitude matt = critter.attitude( &u );
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
@@ -4052,7 +4064,7 @@ void game::mon_info_update( )
                 }
             }
 
-            auto &vec = unique_mons[index];
+            std::vector<const mtype *> &vec = unique_mons[index];
             if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
                 vec.push_back( critter.type );
             }
@@ -8670,6 +8682,9 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     }
     // Monsters around and we don't want to run
     std::string spotted_creature_name;
+    const monster_visible_info &mon_visible = u.get_mon_visible();
+    const auto &new_seen_mon = mon_visible.new_seen_mon;
+
     if( new_seen_mon.empty() ) {
         // naming consistent with code in game::mon_info
         spotted_creature_name = _( "a survivor" );
