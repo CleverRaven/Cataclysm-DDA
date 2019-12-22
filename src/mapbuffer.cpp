@@ -4,6 +4,7 @@
 #include <exception>
 #include <functional>
 #include <set>
+#include <sstream>
 #include <utility>
 #include <vector>
 

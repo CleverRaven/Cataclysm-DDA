@@ -7150,8 +7150,8 @@
         [ "onion", 12 ],
         [ "irradiated_onion", 12 ],
         [ "garlic_clove", 72 ],
-        [ "irradiated_carrot", 72 ],
-        [ "carrot", 72 ]
+        [ "irradiated_carrot", 24 ],
+        [ "carrot", 24 ]
       ],
       [ [ "vinegar", 1 ] ]
     ]

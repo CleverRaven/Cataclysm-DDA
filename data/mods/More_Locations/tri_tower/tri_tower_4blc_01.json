@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "tri_tower_4blc",
-    "comment": "bottom left corner, roof, fourth floor or even level",
+    "//": "bottom left corner, roof, fourth floor or even level",
     "weight": 250,
     "method": "json",
     "object": {

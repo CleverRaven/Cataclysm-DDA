@@ -296,6 +296,11 @@
   },
   {
     "type": "item_action",
+    "id": "BLECH_BECAUSE_UNCLEAN",
+    "name": "Drink"
+  },
+  {
+    "type": "item_action",
     "id": "C4",
     "name": "Activate"
   },

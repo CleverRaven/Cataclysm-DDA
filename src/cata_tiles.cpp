@@ -174,7 +174,7 @@ formatted_text::formatted_text( const std::string &text, const int color,
 
 cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
-    minimap( new pixel_minimap( renderer ) )
+    minimap( renderer )
 {
     assert( renderer );
 
@@ -2176,7 +2176,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
-        if( !g->m.check_and_set_seen_cache( p ) ) {
+        if( g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), tname, subtile, rotation );
         }
         // draw the actual terrain if there's no override
@@ -2340,7 +2340,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int rotation = 0;
         get_tile_values( f, neighborhood, subtile, rotation );
         const std::string &fname = f.id().str();
-        if( !g->m.check_and_set_seen_cache( p ) ) {
+        if( g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -2414,7 +2414,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         int rotation = 0;
         get_tile_values( tr, neighborhood, subtile, rotation );
         const std::string trname = tr.id().str();
-        if( !g->m.check_and_set_seen_cache( p ) ) {
+        if( g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
@@ -2580,7 +2580,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const int rotation = veh.face.dir();
         const std::string vpname = "vp_" + vp_id.str();
         if( !veh.forward_velocity() && !veh.player_in_control( g->u ) &&
-            !g->m.check_and_set_seen_cache( p ) ) {
+            g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {

@@ -2582,7 +2582,7 @@ bool mapgen_function_json_base::has_vehicle_collision( mapgendata &dat, const po
                 const ter_furn_id &tdata = format[calc_index( p )];
                 const point map_pos = p + offset;
                 if( ( tdata.furn != f_null || tdata.ter != t_null ) &&
-                    dat.m.veh_at( tripoint( map_pos.x, map_pos.y, dat.zlevel() ) ).has_value() ) {
+                    dat.m.veh_at( tripoint( map_pos, dat.zlevel() ) ).has_value() ) {
                     return true;
                 }
             }

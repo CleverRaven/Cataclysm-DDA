@@ -31,7 +31,6 @@
         "ammo_type": "762_51",
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
         "fake_dex": 8,
-        "range": 18,
         "ranges": [ [ 0, 5, "AUTO" ], [ 6, 20, "DEFAULT" ] ]
       }
     ],
@@ -55,7 +54,6 @@
         "ammo_type": "762_51",
         "fake_skills": [ [ "gun", 3 ], [ "rifle", 4 ] ],
         "fake_dex": 8,
-        "range": 18,
         "ranges": [ [ 0, 30, "DEFAULT" ] ]
       }
     ]
@@ -75,7 +73,6 @@
         "ammo_type": "napalm",
         "fake_skills": [ [ "gun", 1 ] ],
         "fake_dex": 8,
-        "range": 5,
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
     ]
@@ -95,7 +92,6 @@
         "ammo_type": "40mm_incendiary",
         "fake_skills": [ [ "gun", 1 ], [ "launcher", 1 ] ],
         "fake_dex": 8,
-        "range": 20,
         "ranges": [ [ 5, 20, "DEFAULT" ] ]
       }
     ]
@@ -122,7 +118,6 @@
         "ammo_type": "223",
         "fake_skills": [ [ "gun", 1 ], [ "rifle", 1 ] ],
         "fake_dex": 6,
-        "range": 20,
         "ranges": [ [ 0, 5, "AUTO" ], [ 6, 20, "DEFAULT" ] ]
       }
     ]

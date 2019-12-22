@@ -606,6 +606,132 @@
     ]
   },
   {
+    "id": "rings_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_ring", 50 ],
+      [ "citrine_silver_ring", 50 ],
+      [ "diamond_silver_ring", 50 ],
+      [ "emerald_silver_ring", 50 ],
+      [ "peridot_silver_ring", 50 ],
+      [ "amethyst_silver_ring", 50 ],
+      [ "sapphire_silver_ring", 50 ],
+      [ "aquamarine_silver_ring", 50 ],
+      [ "blue_topaz_silver_ring", 50 ],
+      [ "tourmaline_silver_ring", 50 ],
+      [ "alexandrite_silver_ring", 50 ],
+      [ "pearl_silver_ring", 50 ],
+      [ "opal_silver_ring", 50 ],
+      [ "ruby_silver_ring", 50 ],
+      [ "garnet_silver_ring", 50 ]
+    ]
+  },
+  {
+    "id": "rings_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_ring", 50 ],
+      [ "citrine_gold_ring", 50 ],
+      [ "diamond_ring", 50 ],
+      [ "emerald_gold_ring", 50 ],
+      [ "peridot_gold_ring", 50 ],
+      [ "amethyst_gold_ring", 50 ],
+      [ "sapphire_gold_ring", 50 ],
+      [ "aquamarine_gold_ring", 50 ],
+      [ "blue_topaz_gold_ring", 50 ],
+      [ "tourmaline_gold_ring", 50 ],
+      [ "alexandrite_gold_ring", 50 ],
+      [ "pearl_gold_ring", 50 ],
+      [ "opal_gold_ring", 50 ],
+      [ "ruby_gold_ring", 50 ],
+      [ "garnet_gold_ring", 50 ]
+    ]
+  },
+  {
+    "id": "rings_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_ring", 50 ],
+      [ "citrine_platinum_ring", 50 ],
+      [ "diamond_platinum_ring", 50 ],
+      [ "emerald_platinum_ring", 50 ],
+      [ "peridot_platinum_ring", 50 ],
+      [ "amethyst_platinum_ring", 50 ],
+      [ "sapphire_platinum_ring", 50 ],
+      [ "aquamarine_platinum_ring", 50 ],
+      [ "blue_topaz_platinum_ring", 50 ],
+      [ "tourmaline_platinum_ring", 50 ],
+      [ "alexandrite_platinum_ring", 50 ],
+      [ "pearl_platinum_ring", 50 ],
+      [ "opal_platinum_ring", 50 ],
+      [ "ruby_platinum_ring", 50 ],
+      [ "garnet_platinum_ring", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_silver",
+    "type": "item_group",
+    "items": [
+      [ "silver_bracelet", 50 ],
+      [ "citrine_silver_bracelet", 50 ],
+      [ "diamond_silver_bracelet", 50 ],
+      [ "emerald_silver_bracelet", 50 ],
+      [ "peridot_silver_bracelet", 50 ],
+      [ "amethyst_silver_bracelet", 50 ],
+      [ "sapphire_silver_bracelet", 50 ],
+      [ "aquamarine_silver_bracelet", 50 ],
+      [ "blue_topaz_silver_bracelet", 50 ],
+      [ "tourmaline_silver_bracelet", 50 ],
+      [ "alexandrite_silver_bracelet", 50 ],
+      [ "pearl_silver_bracelet", 50 ],
+      [ "opal_silver_bracelet", 50 ],
+      [ "ruby_silver_bracelet", 50 ],
+      [ "garnet_silver_bracelet", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_gold",
+    "type": "item_group",
+    "items": [
+      [ "gold_bracelet", 50 ],
+      [ "citrine_gold_bracelet", 50 ],
+      [ "diamond_gold_bracelet", 50 ],
+      [ "emerald_gold_bracelet", 50 ],
+      [ "peridot_gold_bracelet", 50 ],
+      [ "amethyst_gold_bracelet", 50 ],
+      [ "sapphire_gold_bracelet", 50 ],
+      [ "aquamarine_gold_bracelet", 50 ],
+      [ "blue_topaz_gold_bracelet", 50 ],
+      [ "tourmaline_gold_bracelet", 50 ],
+      [ "alexandrite_gold_bracelet", 50 ],
+      [ "pearl_gold_bracelet", 50 ],
+      [ "opal_gold_bracelet", 50 ],
+      [ "ruby_gold_bracelet", 50 ],
+      [ "garnet_gold_bracelet", 50 ]
+    ]
+  },
+  {
+    "id": "bracelets_platinum",
+    "type": "item_group",
+    "items": [
+      [ "platinum_bracelet", 50 ],
+      [ "citrine_platinum_bracelet", 50 ],
+      [ "diamond_platinum_bracelet", 50 ],
+      [ "emerald_platinum_bracelet", 50 ],
+      [ "peridot_platinum_bracelet", 50 ],
+      [ "amethyst_platinum_bracelet", 50 ],
+      [ "sapphire_platinum_bracelet", 50 ],
+      [ "aquamarine_platinum_bracelet", 50 ],
+      [ "blue_topaz_platinum_bracelet", 50 ],
+      [ "tourmaline_platinum_bracelet", 50 ],
+      [ "alexandrite_platinum_bracelet", 50 ],
+      [ "pearl_platinum_bracelet", 50 ],
+      [ "opal_platinum_bracelet", 50 ],
+      [ "ruby_platinum_bracelet", 50 ],
+      [ "garnet_platinum_bracelet", 50 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "shirts_summer_unisex",
     "subtype": "distribution",

@@ -2836,10 +2836,8 @@ void debug_spawn_test()
         uilist results_menu;
         results_menu.text = _( "Result of 32400 selections:" );
         for( std::pair<const int, std::string> &r : sorted_results ) {
-            std::ostringstream buffer;
-            buffer << r.first << " x " << r.second << "\n";
             results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
-                                               buffer.str() );
+                                               string_format( "%d x %s", r.first, r.second ) );
         }
         results_menu.query();
     }
