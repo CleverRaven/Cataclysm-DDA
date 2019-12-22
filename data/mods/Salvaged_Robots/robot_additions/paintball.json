@@ -8,7 +8,7 @@
     "color": "pink",
     "description": "A tube of small glowballs taken off the market due to hazardous chemicals.  They deal virtually no damage, but light up on impact.  Useful for illuminating an area without lighting up yourself in the process.",
     "material": "plastic",
-    "volume": 1,
+    "volume": "250 ml",
     "weight": 1,
     "ammo_type": "paintball",
     "damage": 2,

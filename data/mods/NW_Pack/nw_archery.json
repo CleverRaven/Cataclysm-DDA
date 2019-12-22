@@ -8,7 +8,7 @@
     "price": 160000,
     "material": [ "wood", "gold" ],
     "weight": 740,
-    "volume": 7,
+    "volume": "1750 ml",
     "bashing": 14,
     "ranged_damage": 18,
     "range": 19,

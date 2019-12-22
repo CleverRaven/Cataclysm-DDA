@@ -9,7 +9,7 @@
     "color": "light_gray",
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
-    "volume": 15,
+    "volume": "3750 ml",
     "bashing": 45,
     "price": 200000
   },
@@ -22,7 +22,7 @@
     "weight": 1854,
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
-    "volume": 13,
+    "volume": "3250 ml",
     "bashing": 10,
     "cutting": 35,
     "price": 200000
@@ -36,7 +36,7 @@
     "weight": 1132,
     "material": [ "orichalcum_metal", "steel", "leather" ],
     "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
-    "volume": 10,
+    "volume": "2500 ml",
     "cutting": 45,
     "price": 200000
   },

@@ -20,7 +20,7 @@
     "weight": 1854,
     "material": [ "steel", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
-    "volume": 13,
+    "volume": "3250 ml",
     "bashing": 10,
     "price": 120000
   },

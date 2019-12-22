@@ -431,7 +431,7 @@
     "reload_noise_volume": 10,
     "name": "homemade laser pistol",
     "description": "This laser pistol was based on the V29 laser pistol designed in the mid-21st century.  While little more than duct tape and electronics, it runs on a standard UPS.",
-    "weight": 540,
+    "weight": "540 g",
     "volume": "2 L",
     "price": 500000,
     "to_hit": -2,

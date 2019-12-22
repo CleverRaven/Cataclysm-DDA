@@ -14,7 +14,7 @@
     "description": "This egg laid by an owlbear seems almost indistinguishable from a large rock until you touch it and can feel the warm glow of potential life energy from within.  It's hard to believe that an owlbear could grow so quickly from something so small.  Perhaps you could carefully crack it open to get at the liquid golden goodness inside.",
     "price": 300000,
     "material": [ "egg", "stone" ],
-    "volume": 10,
+    "volume": "2500 ml",
     "stack_size": 1,
     "fun": -18,
     "flags": [ "FREEZERBURN" ],
