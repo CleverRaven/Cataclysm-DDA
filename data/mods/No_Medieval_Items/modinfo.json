@@ -12,7 +12,6 @@
   {
     "type": "ITEM_BLACKLIST",
     "items": [
-      "katana_fake",
       "broadsword",
       "broadsword_fake",
       "broadsword_inferior",
