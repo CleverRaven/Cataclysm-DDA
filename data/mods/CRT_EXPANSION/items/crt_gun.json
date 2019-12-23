@@ -2,8 +2,8 @@
   {
     "id": "crt_laser_pistol",
     "type": "GUN",
-    "name": "CRIT .5 LP",
-    "description": "Experimental low power sidearm under development in C.R.I.T R&D, the .5 LP is a relatively weak but accurate laser pistol. The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
+    "name": "CRIT 0.5 LP",
+    "description": "Experimental low power sidearm under development in C.R.I.T R&D, the 0.5 LP is a relatively weak but accurate laser pistol. The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
     "weight": 650,
     "volume": 3,
     "price": 1000000,
