@@ -4,13 +4,11 @@
     "id": "NC_Rabbit_Raiser_worn",
     "subtype": "collection",
     "entries": [
-      {
-        "item_group": "NC_Rabbit_Raiser_pants_male",
-        "item_group": "NC_Rabbit_Raiser_shirt_male",
-        "item_group": "NC_Rabbit_Raiser_hat",
-        "item_group": "NC_Rabbit_Raiser_gloves",
-        "item_group": "NC_Rabbit_Raiser_extra"
-      }
+      { "item_group": "NC_Rabbit_Raiser_pants_male" },
+      { "item_group": "NC_Rabbit_Raiser_shirt_male" },
+      { "item_group": "NC_Rabbit_Raiser_hat" },
+      { "item_group": "NC_Rabbit_Raiser_gloves" },
+      { "item_group": "NC_Rabbit_Raiser_extra" }
     ]
   },
   {
@@ -18,13 +16,11 @@
     "id": "NC_Rabbit_Raiser_wield",
     "subtype": "collection",
     "entries": [
-      {
-        "item_group": "NC_Rabbit_Raiser_bashing",
-        "item_group": "NC_Rabbit_Raiser_cutting",
-        "item_group": "NC_Rabbit_Raiser_pistols",
-        "item_group": "NC_Rabbit_Raiser_shotgun",
-        "item_group": "NC_Rabbit_Raiser_rifle"
-      }
+      { "item_group": "NC_Rabbit_Raiser_bashing" },
+      { "item_group": "NC_Rabbit_Raiser_cutting" },
+      { "item_group": "NC_Rabbit_Raiser_pistols" },
+      { "item_group": "NC_Rabbit_Raiser_shotgun" },
+      { "item_group": "NC_Rabbit_Raiser_rifle" }
     ]
   },
   {
