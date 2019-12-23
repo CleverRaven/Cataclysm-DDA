@@ -813,7 +813,7 @@ class player : public Character
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
-        bool wield_contents( item &container, int pos = 0, bool penalties = true,
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume
