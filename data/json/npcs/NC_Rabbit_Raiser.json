@@ -1,6 +1,34 @@
 [
   {
     "type": "item_group",
+    "id": "NC_Rabbit_Raiser_worn",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item_group": "NC_Rabbit_Raiser_pants_male",
+        "item_group": "NC_Rabbit_Raiser_shirt_male",
+        "item_group": "NC_Rabbit_Raiser_hat",
+        "item_group": "NC_Rabbit_Raiser_gloves",
+        "item_group": "NC_Rabbit_Raiser_extra"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_Rabbit_Raiser_wield",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item_group": "NC_Rabbit_Raiser_bashing",
+        "item_group": "NC_Rabbit_Raiser_cutting",
+        "item_group": "NC_Rabbit_Raiser_pistols",
+        "item_group": "NC_Rabbit_Raiser_shotgun",
+        "item_group": "NC_Rabbit_Raiser_rifle"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_Rabbit_Raiser_pants_male",
     "items": [ [ "jeans", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ], [ "bunker_pants", 10 ] ]
   },
