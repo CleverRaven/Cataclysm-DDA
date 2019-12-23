@@ -57,17 +57,6 @@
           { "item": "bowl_plastic", "prob": 50 }
         ],
         "prob": 90
-      },
-      {
-        "distribution": [
-          { "item": "mask_dust", "prob": 70 },
-          { "item": "whistle", "prob": 60 },
-          { "item": "mirror", "prob": 20 },
-          { "item": "pliers", "prob": 15 },
-          { "item": "candle", "prob": 15 },
-          { "item": "vitamins", "prob": 10 }
-        ],
-        "prob": 20
       }
     ]
   },
