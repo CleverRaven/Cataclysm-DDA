@@ -4094,6 +4094,12 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
     }
+	
+    if( type->gun ) {
+        for( const item *mod : gunmods() ) {
+            ret *= mod->type->gunmod->weight_multiplier;
+        }
+    }
 
     if( count_by_charges() ) {
         ret *= charges;
