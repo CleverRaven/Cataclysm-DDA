@@ -15,7 +15,7 @@
     "bashing": 10,
     "to_hit": -3,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
-    "material_thickness": 2,
+    "material_thickness": 10,
     "max_pet_vol": "1000000 ml",
     "min_pet_vol": "380000 ml",
     "pet_bodytype": "horse"
@@ -37,7 +37,8 @@
     "copy-from": "acidchitin_armor_horse",
     "name": "chitin horse body armor",
     "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly horse.",
-    "relative": { "price": -15000, "price_postapoc": -1500, "environmental_protection": -3 },
+    "proportional": { "price": 0.85, "price_postapoc": 0.85, "weight": 1.15 },
+    "relative": { "environmental_protection": -3 },
     "material": [ "chitin" ]
   },
   {
@@ -116,22 +117,11 @@
     "material": [ "neoprene", "plastic" ]
   },
   {
-    "type": "PET_ARMOR",
-    "id": "superalloy_armor_horse",
-    "copy-from": "kevlar_armor_horse",
-    "color": "light_cyan",
-    "name": "superalloy crafted horse barding",
-    "description": "The latest fashion statement and protection for polo equestrians and ahistorical reenactor steeds alike, designed and manufactured by Land Dwarf Industries.  You could put this on a friendly horse.",
-    "proportional": { "price": 100, "price_postapoc": 100, "min_pet_vol": 0.72, "weight": 0.72 },
-    "relative": { "environmental_protection": 10, "storage": 32 },
-    "material": [ "superalloy" ]
-  },
-  {
     "id": "saddlebag",
     "type": "ARMOR",
     "name": { "str": "pair of saddle bags", "str_pl": "pairs of saddle bags" },
     "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "7500 ml",
     "price": 15000,
     "material": [ "leather" ],
