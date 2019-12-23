@@ -2,7 +2,7 @@
   {
     "id": "SUS_evac_shelter_locker",
     "type": "item_group",
-    "//": "SUS item groups are collections (not distributions) that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a whistle, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
     "subtype": "collection",
     "entries": [
