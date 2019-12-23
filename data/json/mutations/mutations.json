@@ -5,9 +5,9 @@
     "name": "Brain-Dead",
     "points": -5,
     "description": "Your mind has devolved rapidly, undoing hundreds of generations of evolution. Intelligence - 5",
-    "changes_to": [ "INT_DOWN_3" ]
-    "requires": [ "INT_DOWN_2" ]
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_TROGLOBITE" ]
+    "changes_to": [ "INT_DOWN_3" ],
+    "requires": [ "INT_DOWN_2" ],
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_TROGLOBITE" ],
     "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
     "passive_mods": { "int_mod": -5 }
   },
@@ -17,8 +17,8 @@
     "name": "Unintelligent",
     "points": -2,
     "description": "Your mind is degrading. Intelligence - 2",
-    "changes_to": [ "INT_DOWN_3" ]
-    "requires": [ "INT_DOWN" ]
+    "changes_to": [ "INT_DOWN_3" ],
+    "requires": [ "INT_DOWN" ],
     "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
     "passive_mods": { "int_mod": -2 }
    },
@@ -28,7 +28,7 @@
     "name": "Less Smart",
     "points": -1,
     "description": "You feel your thoughts slowing down. Intelligence - 1",
-    "changes_to": [ "INT_DOWN_2" ]
+    "changes_to": [ "INT_DOWN_2" ],
     "category": [ "CHIMERA", "RAT", "TROGLOBITE" ],
     "passive_mods": { "int_mod": -1 }
   },
