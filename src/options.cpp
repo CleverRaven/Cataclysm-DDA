@@ -1175,13 +1175,13 @@ void options_manager::add_options_general()
     mOptionsSort["general"]++;
 
     add( "AUTOIGNOREMODE", "general", translate_marker( "Auto ignore sounds/hostiles mode" ),
-         translate_marker( "While auto ignore is active you will not be interrupted by sounds or spotted hostiles. Always: Auto ignore will always be active.  SafeOn: Auto ignore will be active while safe mode is on.  SafeOff: Auto ignore will be active while safe mode is off.  Never: Auto ignore will never be active." ),
+         translate_marker( "While auto ignore is active you will not be interrupted by sounds or spotted hostiles.  Always: Auto ignore will always be active.  SafeOn: Auto ignore will be active while safe mode is on.  SafeOff: Auto ignore will be active while safe mode is off.  Never: Auto ignore will never be active." ),
     { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NEVER", translate_marker( "Never" ) } },
     "NEVER"
        );
 
     add( "AUTOIGNOREDISTANCE", "general", translate_marker( "Auto ignore starting distance" ),
-         translate_marker( "Only sounds/hostiles this distance and further away will be auto ignored.  Each Z Level counts as 10 horizontal distance." ),
+         translate_marker( "Only sounds/hostiles this distance and further away will be auto ignored.  Each z-Level counts as 10 horizontal distance." ),
          0, 30, 5
        );
 
