@@ -1759,14 +1759,11 @@ std::string monster::get_effect_status() const
 
 int monster::get_worn_armor_val( damage_type dt ) const
 {
-    if( !has_effect( effect_monster_armor ) || inv.empty() ) {
+    if( !has_effect( effect_monster_armor ) ) {
         return 0;
     }
-    for( const item &armor : inv ) {
-        if( !armor.is_pet_armor( true ) ) {
-            continue;
-        }
-        return armor.damage_resist( dt );
+    if( armor_item ) {
+        return armor_item->damage_resist( dt );
     }
     return 0;
 }
