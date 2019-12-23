@@ -5,7 +5,9 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "game.h"
 #include "itype.h"
 #include "recipe_dictionary.h"
 #include "recipe.h"
@@ -108,7 +110,7 @@ static item food_or_food_container( const item &it )
     return it.is_food_container() ? it.contents.front() : it;
 }
 
-TEST_CASE( "recipe_permutations" )
+TEST_CASE( "recipe_permutations", "[recipe]" )
 {
     // Are these tests failing? Here's how to fix that:
     // If the average is over the upper bound, you need to increase the calories for the item
@@ -154,4 +156,21 @@ TEST_CASE( "recipe_permutations" )
             }
         }
     }
+}
+
+TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
+{
+    // This test verifies that predicted calorie ranges properly take into
+    // account the "RAW"/"COOKED" flags.
+    const item veggy_wild_cooked( "veggy_wild_cooked" );
+    const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
+
+    const avatar &u = g->u;
+
+    nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
+    std::pair<nutrients, nutrients> predicted_nutrition =
+        u.compute_nutrient_range( veggy_wild_cooked, veggy_wild_cooked_recipe );
+
+    CHECK( default_nutrition.kcal == predicted_nutrition.first.kcal );
+    CHECK( default_nutrition.kcal == predicted_nutrition.second.kcal );
 }

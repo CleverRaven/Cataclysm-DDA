@@ -440,6 +440,19 @@ void Item_factory::finalize()
         finalize_pre( *e.second );
         finalize_post( *e.second );
     }
+
+    // for each item register all (non-obsolete) potential recipes
+    for( const std::pair<const recipe_id, recipe> &p : recipe_dict ) {
+        const recipe &rec = p.second;
+        if( rec.obsolete || rec.will_be_blacklisted() ) {
+            continue;
+        }
+        const itype_id &result = rec.result();
+        auto it = m_templates.find( result );
+        if( it != m_templates.end() ) {
+            it->second.recipes.push_back( p.first );
+        }
+    }
 }
 
 void Item_factory::finalize_item_blacklist()
