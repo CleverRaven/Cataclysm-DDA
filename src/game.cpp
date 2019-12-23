@@ -5946,13 +5946,11 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                    _( "There's something there, but you can't see what it is." ) );
         return;
     } else {
-
-        std::vector<nc_color> obj_color;
-        std::map<std::string, int> item_names;
-        int counter = 0;
+        //loop through list of items, get their names and colored string
+        std::map<std::string, std::pair<int, nc_color>> item_names;
         for( auto &item : m.i_at( lp ) ) {
-            ++item_names[item.tname()];
-            obj_color.push_back(item.color_in_inventory());
+            ++item_names[item.tname()].first;
+            item_names[item.tname()].second = item.color_in_inventory();
         }
 
         const int max_width = getmaxx( w_look ) - column - 1;
@@ -5962,14 +5960,14 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                 break;
             }
 
-            if( it.second > 1 ) {
+            if( it.second.first > 1 ) {
                 trim_and_print( w_look, point( column, ++line ), max_width, c_white,
                                 pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
-                                it.first.c_str(), it.second );
+                                it.first.c_str(), it.second.first );
             } else {
-                trim_and_print( w_look, point( column, ++line ), max_width, obj_color[counter], it.first );
+                // display colored item list in look_around window
+                trim_and_print( w_look, point( column, ++line ), max_width, it.second.second, it.first );
             }
-            counter++;
         }
     }
 }
