@@ -299,7 +299,7 @@
     "copy-from": "remington_870",
     "type": "GUN",
     "name": "Remington 870 MCS",
-    "description": "This Remington 870 Modular Combat system shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
+    "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
     "weight": "2812 g",
     "volume": "1427 ml",
     "looks_like": "remington_870",
