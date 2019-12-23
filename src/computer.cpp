@@ -634,6 +634,8 @@ void computer::activate_function( computer_action action )
         }
         break;
 
+        case COMPACT_OBSOLETE:
+            break;
         case COMPACT_MISS_DISARM:
             // TODO: stop the nuke from creating radioactive clouds.
             if( query_yn( _( "Disarm missile." ) ) ) {
