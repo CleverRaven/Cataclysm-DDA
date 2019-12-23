@@ -1820,6 +1820,9 @@ void monster::load( const JsonObject &data )
         wander_pos.z = position.z;
     }
     data.read( "tied_item", tied_item );
+    data.read( "tack_item", tack_item );
+    data.read( "armor_item", armor_item );
+    data.read( "storage_item", storage_item );
     data.read( "hp", hp );
     data.read( "battery_item", battery_item );
 
@@ -1955,6 +1958,9 @@ void monster::store( JsonOut &json ) const
     json.member( "hallucination", hallucination );
     json.member( "stairscount", staircount );
     json.member( "tied_item", tied_item );
+    json.member( "tack_item", tack_item );
+    json.member( "armor_item", armor_item );
+    json.member( "storage_item", storage_item );
     json.member( "battery_item", battery_item );
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );

@@ -437,6 +437,9 @@ class monster : public Creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
+        cata::optional<item> tack_item; // item representing saddle and reins and such
+        cata::optional<item> armor_item; // item of armor the monster may be wearing
+        cata::optional<item> storage_item; // storage item for monster carrying items
         cata::optional<item> battery_item; // item to power mechs
         // DEFINING VALUES
         int friendly;

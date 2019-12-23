@@ -2166,12 +2166,22 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // We were tied up at the moment of death, add a short rope to inventory
-    if( has_effect( effect_tied ) ) {
-        if( tied_item ) {
-            add_item( *tied_item );
-            tied_item = cata::nullopt;
-        }
+    // Drop items stored in optionals
+    if( tack_item ) {
+        add_item( *tack_item );
+        tack_item = cata::nullopt;
+    }
+    if( armor_item ) {
+        add_item( *armor_item );
+        armor_item = cata::nullopt;
+    }
+    if( storage_item ) {
+        add_item( *storage_item );
+        storage_item = cata::nullopt;
+    }
+    if( tied_item ) {
+        add_item( *tied_item );
+        tied_item = cata::nullopt;
     }
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
