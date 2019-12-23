@@ -63,6 +63,6 @@
     "symbol": "0",
     "color": "green",
     "looks_like": "plate",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_winter_wreath" },
+    "use_action": { "type": "deploy_furn", "furn_type": "f_winter_wreath" }
   }
 ]
