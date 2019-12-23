@@ -441,6 +441,8 @@ class monster : public Creature
         cata::optional<item> armor_item; // item of armor the monster may be wearing
         cata::optional<item> storage_item; // storage item for monster carrying items
         cata::optional<item> battery_item; // item to power mechs
+        units::mass get_carried_weight();
+
         // DEFINING VALUES
         int friendly;
         int anger = 0;

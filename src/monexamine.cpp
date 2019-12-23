@@ -251,24 +251,6 @@ bool monexamine::pet_menu( monster &z )
     return true;
 }
 
-units::mass monexamine::get_weight_on_monster( monster &z )
-{
-    units::mass total_weight = 0_gram;
-    if( z.tack_item ) {
-        total_weight += z.tack_item->weight();
-    }
-    if( z.storage_item ) {
-        total_weight += z.storage_item->weight();
-    }
-    if( z.armor_item ) {
-        total_weight += z.armor_item->weight();
-    }
-    for( const item &it : z.inv ) {
-        total_weight += it.weight();
-    }
-    return total_weight;
-}
-
 int monexamine::pet_armor_pos( monster &z )
 {
     auto filter = [z]( const item & it ) {
@@ -603,7 +585,7 @@ bool monexamine::add_armor( monster &z )
     }
 
     item &armor = g->u.i_at( pos );
-    units::mass max_weight = z.weight_capacity() - get_weight_on_monster( z );
+    units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     if( max_weight <= armor.weight() ) {
         add_msg( _( "Your %1$s is too heavy for your %2$s." ), armor.tname( 1 ), pet_name );
         return true;

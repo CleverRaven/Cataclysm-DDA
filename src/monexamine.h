@@ -19,7 +19,6 @@ void rename_pet( monster &z );
 void attach_bag_to( monster &z );
 void dump_items( monster &z );
 bool give_items_to( monster &z );
-units::mass get_weight_on_monster( monster &z );
 int pet_armor_pos( monster &z );
 bool add_armor( monster &z );
 void remove_armor( monster &z );

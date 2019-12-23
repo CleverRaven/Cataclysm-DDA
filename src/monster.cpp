@@ -2646,6 +2646,23 @@ void monster::add_msg_player_or_npc( const game_message_type type,
     }
 }
 
+units::mass monster::get_carried_weight() {
+    units::mass total_weight = 0_gram;
+    if( tack_item ) {
+        total_weight += tack_item->weight();
+    }
+    if( storage_item ) {
+        total_weight += storage_item->weight();
+    }
+    if( armor_item ) {
+        total_weight += armor_item->weight();
+    }
+    for( const item &it : inv ) {
+        total_weight += it.weight();
+    }
+    return total_weight;
+}
+
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
