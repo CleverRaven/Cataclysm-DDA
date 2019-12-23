@@ -1272,7 +1272,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
     }
-    set_memory_seen_cache_dirty( p );
+    set_memory_seen_cache_dirty( p, map_memory_layer::furniture );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -1359,7 +1359,12 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     if( use_tiles ) {
         is_memorized =
         [&]( const tripoint & q ) {
-            return !g->u.get_memorized_tile( getabs( q ) ).tile.empty();
+            for( int i = 0; i < static_cast<int>( map_memory_layer::num_map_memory_layer ); i++ ) {
+                if( !g->u.get_memorized_tile( getabs( q ), static_cast<map_memory_layer>( i ) ).tile.empty() ) {
+                    return true;
+                }
+            }
+            return false;
         };
     } else {
 #endif
@@ -1519,7 +1524,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
-    set_memory_seen_cache_dirty( p );
+    set_memory_seen_cache_dirty( p, map_memory_layer::terrain );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
@@ -6362,7 +6367,10 @@ void map::shift( const point &sp )
         // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
-        shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sp );
+        for( int i = 0; i < static_cast<int>( map_memory_layer::num_map_memory_layer ); i++ ) {
+            shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache.at(
+                    static_cast<map_memory_layer>( i ) ), sp );
+        }
         shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sp );
         if( sp.x >= 0 ) {
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -8261,6 +8269,9 @@ level_cache::level_cache()
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
     max_populated_zlev = OVERMAP_HEIGHT;
+    for( int i = 0; i < static_cast<int>( map_memory_layer::num_map_memory_layer ); i++ ) {
+        init( static_cast<map_memory_layer>( i ) );
+    }
 }
 
 pathfinding_cache::pathfinding_cache()

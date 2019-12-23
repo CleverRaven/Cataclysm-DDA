@@ -31,6 +31,7 @@
 #include "faction.h"
 #include "point.h"
 #include "mapdata.h"
+#include "map_memory.h"
 #include "vehicle_group.h"
 #include "player.h"
 
@@ -174,7 +175,7 @@ struct level_cache {
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+    std::map<map_memory_layer, std::bitset<MAPSIZE_X *MAPSIZE_Y>> map_memory_seen_cache;
     std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
     bool veh_in_active_range;
@@ -184,6 +185,9 @@ struct level_cache {
     std::set<vehicle *> zone_vehicles;
 
     int max_populated_zlev;
+    void init( const map_memory_layer &layer ) {
+        map_memory_seen_cache[layer].reset();
+    }
 };
 
 /**
@@ -249,10 +253,10 @@ class map
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint &p ) {
+        void set_memory_seen_cache_dirty( const tripoint &p, const map_memory_layer &layer ) {
             const int offset = p.x + p.y * MAPSIZE_Y;
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
-                get_cache( p.z ).map_memory_seen_cache.reset( offset );
+                get_cache( p.z ).map_memory_seen_cache.at( layer ).reset( offset );
             }
         }
 
@@ -265,9 +269,16 @@ class map
             }
         }
 
-        bool check_and_set_seen_cache( const tripoint &p ) const {
+        bool check_and_set_seen_cache( const tripoint &p,
+                                       const map_memory_layer &layer = map_memory_layer::num_map_memory_layer ) const {
+            if( layer == map_memory_layer::num_map_memory_layer ) {
+                if( true ) {
+                    return true;
+                }
+                return false;
+            }
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
-                get_cache( p.z ).map_memory_seen_cache;
+                get_cache( p.z ).map_memory_seen_cache.at( layer );
             if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
                 memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
                 return true;

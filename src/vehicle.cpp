@@ -5969,7 +5969,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( is_autodriving ) {
         stop_autodriving();
     }
-    g->m.set_memory_seen_cache_dirty( global_part_pos3( p ) );
+    g->m.set_memory_seen_cache_dirty( global_part_pos3( p ), map_memory_layer::vpart );
     if( parts[p].is_broken() ) {
         return break_off( p, dmg );
     }

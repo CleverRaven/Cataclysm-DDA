@@ -60,16 +60,16 @@ class avatar : public player
         bool should_show_map_memory();
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
-                            int rotation );
+                            int rotation, const map_memory_layer &layer );
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
+        map_memory_tile get_memorized_tile( const tripoint &p, const map_memory_layer &layer ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
-        void clear_memorized_tile( const tripoint &pos );
+        void clear_memorized_tile( const tripoint &pos, const map_memory_layer &layer );
 
         /** Provides the window and detailed morale data */
         void disp_morale();

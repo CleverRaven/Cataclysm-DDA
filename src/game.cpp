@@ -5247,7 +5247,7 @@ void game::control_vehicle()
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
         for( const tripoint &target : veh->get_points() ) {
-            u.clear_memorized_tile( m.getabs( target ) );
+            u.clear_memorized_tile( m.getabs( target ), map_memory_layer::vpart );
         }
         veh->is_following = false;
         veh->is_patrolling = false;

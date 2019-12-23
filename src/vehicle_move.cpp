@@ -316,7 +316,7 @@ void vehicle::stop( bool update_cache )
         return;
     }
     for( const tripoint &p : get_points() ) {
-        g->m.set_memory_seen_cache_dirty( p );
+        g->m.set_memory_seen_cache_dirty( p, map_memory_layer::vpart );
     }
 }
 

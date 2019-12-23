@@ -106,6 +106,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = OBJECT_NONE;
+    player_map_memory.init();
 }
 
 void avatar::toggle_map_memory()
@@ -128,15 +129,16 @@ void avatar::deserialize_map_memory( JsonIn &jsin )
     player_map_memory.load( jsin );
 }
 
-memorized_terrain_tile avatar::get_memorized_tile( const tripoint &pos ) const
+map_memory_tile avatar::get_memorized_tile( const tripoint &pos,
+        const map_memory_layer &layer ) const
 {
-    return player_map_memory.get_tile( pos );
+    return player_map_memory.get_tile( pos, layer );
 }
 
 void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
+                            const int rotation, const map_memory_layer &layer )
 {
-    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation, layer );
 }
 
 void avatar::memorize_symbol( const tripoint &pos, const int symbol )
@@ -164,9 +166,9 @@ size_t avatar::max_memorized_tiles() const
     return current_map_memory_capacity;
 }
 
-void avatar::clear_memorized_tile( const tripoint &pos )
+void avatar::clear_memorized_tile( const tripoint &pos, const map_memory_layer &layer )
 {
-    player_map_memory.clear_memorized_tile( pos );
+    player_map_memory.clear_memorized_tile( pos, layer );
 }
 
 std::vector<mission *> avatar::get_active_missions() const

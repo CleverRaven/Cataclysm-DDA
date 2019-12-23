@@ -93,6 +93,7 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "generic_factory.h"
 
 struct oter_type_t;
 struct mutation_branch;
@@ -1176,10 +1177,6 @@ void avatar::load( const JsonObject &data )
         }
     }
 
-    //Load from legacy map_memory save location (now in its own file <playername>.mm)
-    if( data.has_member( "map_memory_tiles" ) || data.has_member( "map_memory_curses" ) ) {
-        player_map_memory.load( data );
-    }
     data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
@@ -3079,19 +3076,32 @@ void player_morale::load( const JsonObject &jsin )
 void map_memory::store( JsonOut &jsout ) const
 {
     jsout.start_array();
+    jsout.start_object();
+    jsout.member( "tile_cache" );
     jsout.start_array();
-    for( const auto &elem : tile_cache.list() ) {
+    for( int i = 0; i < static_cast<int>( map_memory_layer::num_map_memory_layer ); i++ ) {
+        jsout.start_object();
+        map_memory_layer mmtl = static_cast<map_memory_layer>( i );
+        const std::string mmtl_name = io::enum_to_string<map_memory_layer>( mmtl );
+        jsout.member( mmtl_name );
         jsout.start_array();
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
-        jsout.write( elem.second.tile );
-        jsout.write( elem.second.subtile );
-        jsout.write( elem.second.rotation );
+        for( const auto &elem : tile_cache.at( mmtl ).list() ) {
+            jsout.start_array();
+            jsout.write( elem.first.x );
+            jsout.write( elem.first.y );
+            jsout.write( elem.first.z );
+            jsout.write( elem.second.tile );
+            jsout.write( elem.second.subtile );
+            jsout.write( elem.second.rotation );
+            jsout.end_array();
+        }
         jsout.end_array();
+        jsout.end_object();
     }
     jsout.end_array();
-
+    jsout.end_object();
+    jsout.start_object();
+    jsout.member( "symbol_cache" );
     jsout.start_array();
     for( const auto &elem : symbol_cache.list() ) {
         jsout.start_array();
@@ -3102,21 +3112,18 @@ void map_memory::store( JsonOut &jsout ) const
         jsout.end_array();
     }
     jsout.end_array();
+    jsout.end_object();
     jsout.end_array();
 }
 
 void map_memory::load( JsonIn &jsin )
 {
-    // Legacy loading of object version.
-    if( jsin.test_object() ) {
-        JsonObject jsobj = jsin.get_object();
-        load( jsobj );
-    } else {
-        // This file is large enough that it's more than called for to minimize the
-        // amount of data written and read and make it a bit less "friendly",
-        // and use the streaming interface.
-        jsin.start_array();
-        tile_cache.clear();
+    jsin.start_array();
+
+    while( !jsin.end_array() ) {
+        jsin.start_object();
+        std::string member_name = jsin.get_member_name();
+
         jsin.start_array();
         while( !jsin.end_array() ) {
             jsin.start_array();
@@ -3124,44 +3131,21 @@ void map_memory::load( JsonIn &jsin )
             p.x = jsin.get_int();
             p.y = jsin.get_int();
             p.z = jsin.get_int();
-            const std::string tile = jsin.get_string();
-            const int subtile = jsin.get_int();
-            const int rotation = jsin.get_int();
-            memorize_tile( std::numeric_limits<int>::max(), p,
-                           tile, subtile, rotation );
+            if( member_name == "symbol_cache" ) {
+                const int symbol = jsin.get_int();
+                memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
+            } else if( member_name == "tile_cache" ) {
+                const std::string tile = jsin.get_string();
+                const int subtile = jsin.get_int();
+                const int rotation = jsin.get_int();
+                memorize_tile( std::numeric_limits<int>::max(), p, tile, subtile, rotation,
+                               io::string_to_enum<map_memory_layer>( member_name ) );
+            }
             jsin.end_array();
         }
-        symbol_cache.clear();
-        jsin.start_array();
-        while( !jsin.end_array() ) {
-            jsin.start_array();
-            tripoint p;
-            p.x = jsin.get_int();
-            p.y = jsin.get_int();
-            p.z = jsin.get_int();
-            const int symbol = jsin.get_int();
-            memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
-            jsin.end_array();
-        }
-        jsin.end_array();
+        jsin.end_object();
     }
-}
-
-// Deserializer for legacy object-based memory map.
-void map_memory::load( const JsonObject &jsin )
-{
-    tile_cache.clear();
-    for( JsonObject pmap : jsin.get_array( "map_memory_tiles" ) ) {
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_tile( std::numeric_limits<int>::max(), p, pmap.get_string( "tile" ),
-                       pmap.get_int( "subtile" ), pmap.get_int( "rotation" ) );
-    }
-
-    symbol_cache.clear();
-    for( JsonObject pmap : jsin.get_array( "map_memory_curses" ) ) {
-        const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
-    }
+    jsin.end_array();
 }
 
 void deserialize( point &p, JsonIn &jsin )

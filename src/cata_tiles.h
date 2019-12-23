@@ -323,15 +323,9 @@ class cata_tiles
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Map memory */
-        bool has_memory_at( const tripoint &p ) const;
-        bool has_terrain_memory_at( const tripoint &p ) const;
-        bool has_furniture_memory_at( const tripoint &p ) const;
-        bool has_trap_memory_at( const tripoint &p ) const;
-        bool has_vpart_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
-        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+        bool has_memory_at( const tripoint &p,
+                            const map_memory_layer &layer = map_memory_layer::num_map_memory_layer ) const;
+        map_memory_tile get_memory_at( const tripoint &p, const map_memory_layer &layer ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
