@@ -399,10 +399,11 @@ void monexamine::attach_or_remove_saddle( monster &z )
 {
     if( z.has_effect( effect_saddled ) ) {
         z.remove_effect( effect_saddled );
-        item riding_saddle( "riding_saddle", 0 );
-        g->u.i_add( riding_saddle );
+        z.tack_item = cata::nullopt;
+        g->u.i_add( item( "riding_saddle" ) );
     } else {
         z.add_effect( effect_saddled, 1_turns, num_bp, true );
+        z.tack_item = item( "riding_saddle" );
         g->u.use_amount( "riding_saddle", 1 );
     }
 }
