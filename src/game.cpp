@@ -1688,25 +1688,14 @@ static bool cancel_auto_move( player &p, const std::string &text )
 }
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text,
-        int distance /*=0*/, bool diffZLevel /*=false*/ )
+        int distance /*=0*/ )
 {
-    if( type == distraction_type::noise &&
-        ( distance >= get_option<int>( "AUTOIGNORESOUNDDISTANCE" ) ||
-          ( diffZLevel && get_option<bool>( "AUTOIGNORESOUNDZLEVEL" ) ) )
-        && (
-            get_option<std::string>( "AUTOIGNORESOUND" ) == "ALWAYS" ||
-            ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEON" && g->safe_mode ) ||
-            ( get_option<std::string>( "AUTOIGNORESOUND" ) == "SAFEOFF" && !g->safe_mode )
-        ) ) {
-        return false;
-    }
-    if( type == distraction_type::hostile_spotted &&
-        distance >= get_option<int>( "AUTOIGNOREHOSTILEDISTANCE" )
-        && (
-            get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "ALWAYS" ||
-            ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEON" && g->safe_mode ) ||
-            ( get_option<std::string>( "AUTOIGNOREHOSTILE" ) == "SAFEOFF" && !g->safe_mode )
-        ) ) {
+    if( ( type == distraction_type::noise || type == distraction_type::hostile_spotted ) &&
+        ( distance >= get_option<int>( "AUTOIGNOREDISTANCE" ) )
+        && ( get_option<std::string>( "AUTOIGNOREMODE" ) == "ALWAYS" ||
+             ( get_option<std::string>( "AUTOIGNOREMODE" ) == "SAFEON" && g->safe_mode ) ||
+             ( get_option<std::string>( "AUTOIGNOREMODE" ) == "SAFEOFF" && !g->safe_mode )
+           ) ) {
         return false;
     }
     if( u.has_distant_destination() ) {

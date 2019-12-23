@@ -1174,39 +1174,18 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
-    add( "AUTOIGNORESOUND", "general", translate_marker( "Auto ignore sound mode" ),
-         translate_marker( "Always: All sounds auto ignore distance away and further will be ignored.  SafeOn: All sounds auto ignore distance away and further will be ignored while safe mode is on.  SafeOff: All sounds auto ignore distance and further away will be ignored while safe mode is off.  None: No sounds will be auto ignored." ),
-    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
-    "NONE"
+    add( "AUTOIGNOREMODE", "general", translate_marker( "Auto ignore sounds/hostiles mode" ),
+         translate_marker( "While auto ignore is active you will not be interrupted by sounds or spotted hostiles. Always: Auto ignore will always be active.  SafeOn: Auto ignore will be active while safe mode is on.  SafeOff: Auto ignore will be active while safe mode is off.  Never: Auto ignore will never be active." ),
+    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NEVER", translate_marker( "Never" ) } },
+    "NEVER"
        );
 
-    add( "AUTOIGNORESOUNDDISTANCE", "general", translate_marker( "Auto ignore sound distance" ),
-         translate_marker( "Only sounds this distance and further away will be auto ignored.  Each Z Level counts as 10 horizontal distance." ),
-         0, 30, 0
+    add( "AUTOIGNOREDISTANCE", "general", translate_marker( "Auto ignore starting distance" ),
+         translate_marker( "Only sounds/hostiles this distance and further away will be auto ignored.  Each Z Level counts as 10 horizontal distance." ),
+         0, 30, 5
        );
 
-    get_option( "AUTOIGNORESOUNDDISTANCE" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
-
-    add( "AUTOIGNORESOUNDZLEVEL", "general",
-         translate_marker( "Auto ignore sounds on different z levels." ),
-         translate_marker( "If true, you will auto ignore sounds from different z levels regardless of distance." ),
-         false
-       );
-
-    get_option( "AUTOIGNORESOUNDZLEVEL" ).setPrerequisites( "AUTOIGNORESOUND", { "ALWAYS", "SAFEON", "SAFEOFF" } );
-
-    add( "AUTOIGNOREHOSTILE", "general", translate_marker( "Auto ignore hostile mode" ),
-         translate_marker( "No matter what is chosen dangerously close enemies will not be ignored. All: All hostiles auto ignore distance and further away will be ignored.  SafeOn: All hostiles auto ignore distance and further away will be ignored while safe mode is on.  SafeOff: All hostiles auto ignore distance and further away will be ignored while safe mode is off.  None: No hostiles will be auto ignored." ),
-    { { "ALWAYS", translate_marker( "Always" ) }, { "SAFEON", translate_marker( "SafeOn" ) }, { "SAFEOFF", translate_marker( "SafeOff" ) }, { "NONE", translate_marker( "None" ) } },
-    "NONE"
-       );
-
-    add( "AUTOIGNOREHOSTILEDISTANCE", "general", translate_marker( "Auto ignore hostile distance" ),
-         translate_marker( "Only hostiles this distance and further away will be auto ignored." ),
-         0, 30, 0
-       );
-
-    get_option( "AUTOIGNOREHOSTILEDISTANCE" ).setPrerequisites( "AUTOIGNOREHOSTILE", { "ALWAYS", "SAFEON", "SAFEOFF" } );
+    get_option( "AUTOIGNOREDISTANCE" ).setPrerequisites( "AUTOIGNOREMODE", { "ALWAYS", "SAFEON", "SAFEOFF" } );
 
     mOptionsSort["general"]++;
 
