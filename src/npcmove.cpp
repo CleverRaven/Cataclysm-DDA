@@ -680,7 +680,6 @@ void npc::move()
     }
     regen_ai_cache();
     adjust_power_cbms();
-
     if( activity.id() == "ACT_OPERATION" ) {
         execute_action( npc_player_activity );
         return;// NPCs under operation should just stay still
@@ -849,8 +848,6 @@ void npc::move()
                     const std::vector<activity_id> jobs_to_rotate = job_duties[job];
                     if( !jobs_to_rotate.empty() ) {
                         assign_activity( random_entry( jobs_to_rotate ) );
-                        set_mission( NPC_MISSION_ACTIVITY );
-                        set_attitude( NPCATT_ACTIVITY );
                         action = npc_player_activity;
                         found_job = true;
                     } else {

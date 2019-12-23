@@ -17,7 +17,7 @@
         { "item": "nail", "charges": [ 12, 16 ] }
       ]
     },
-    "max_volume": 8000,
+    "max_volume": "2000 L",
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -41,7 +41,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
     },
-    "max_volume": 8000,
+    "max_volume": "2000 L",
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -85,7 +85,7 @@
         { "item": "rag", "count": [ 15, 20 ] }
       ]
     },
-    "max_volume": 3500,
+    "max_volume": "875 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -118,7 +118,7 @@
         { "item": "rag", "count": [ 15, 20 ] }
       ]
     },
-    "max_volume": 3500,
+    "max_volume": "875 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -200,7 +200,7 @@
     "floor_bedding_warmth": 200,
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
-    "max_volume": 6000,
+    "max_volume": "1500 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
@@ -253,7 +253,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
-    "max_volume": 8000,
+    "max_volume": "2000 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -283,7 +283,7 @@
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": 1600,
+    "max_volume": "400 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -308,7 +308,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_ml",
     "bash": {
@@ -333,7 +333,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 40,
@@ -357,7 +357,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "gunsafe_el",
     "bash": {
@@ -391,7 +391,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 2000,
+    "max_volume": "500 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -417,7 +417,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
     },
-    "max_volume": 40,
+    "max_volume": "10 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -450,7 +450,7 @@
         { "item": "wheel_caster", "count": 1 }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -483,7 +483,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": 7000,
+    "max_volume": "1750 L",
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -516,7 +516,7 @@
         { "item": "nail", "charges": [ 32, 40 ] }
       ]
     },
-    "max_volume": 6000,
+    "max_volume": "1500 L",
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -537,7 +537,7 @@
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
-    "max_volume": 120,
+    "max_volume": "30 L",
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -556,7 +556,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 5,
-    "max_volume": 80,
+    "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -576,7 +576,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
     "examine_action": "open_safe",
@@ -602,7 +602,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "examine_action": "safe",
     "bash": {
@@ -627,7 +627,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
-    "max_volume": 1000,
+    "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "close": "f_safe_c",
     "bash": {
@@ -651,7 +651,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": 80,
+    "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -676,7 +676,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
     },
-    "max_volume": 2000,
+    "max_volume": "500 L",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -710,7 +710,7 @@
         { "item": "lock", "count": [ 0, 1 ] }
       ]
     },
-    "max_volume": 800,
+    "max_volume": "200 L",
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -738,7 +738,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 2000,
+    "max_volume": "500 L",
     "bash": {
       "str_min": 16,
       "str_max": 40,
