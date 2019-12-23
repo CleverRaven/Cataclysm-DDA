@@ -639,12 +639,11 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     mvwprintz( w, point( column + 9, vStart ), threatlvl_color, to_string( threatlvl ) );
 
     // dipslay aspect
-    mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect :" ) );
+    //mvwprintz( w, point( column, ++vStart ), c_light_gray, _( "Aspect :" ) );
+    vStart++;
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        if ( i == 0 )
-            ++vStart;
         mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
